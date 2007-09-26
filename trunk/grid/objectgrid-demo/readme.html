@@ -1,0 +1,77 @@
+<html>
+<body>
+<h1>Pre requisite</h1>
+<ul>
+	<li>use an IBM Java 5 JDK. Linux users can download it <a
+		href="http://www.ibm.com/developerworks/java/jdk/linux/download.html">here</a>,
+	Windows users can install it with Websphere 6.1 updateInstaller : <a
+		href="http://www-1.ibm.com/support/docview.wss?rs=180&uid=swg24012718">here</a>(
+	JRE is under ${UPDATE_INSTALLER_HOME}/java)</li>
+</ul>
+
+<h1>ObjectGrid useful links</h1>
+<ul>
+	<li><a
+		href="http://www-03.ibm.com/developerworks/wikis/objectgridprog/6.1/docs/api/">ObjectGrid
+	javadoc</a></li>
+	<li><a
+		href="http://www-03.ibm.com/developerworks/wikis/display/objectgrid/Getting+started">ObjectGrid
+	wiki</a></li>
+</ul>
+<h1>Labs</h1>
+<h2>Lab 1: ObjectGrid introduction</h2>
+<p>Discover ObjectGrid with <code>fr.xebia.demo.objectgrid.ObjectGridTest</code></p>
+
+<h2>Lab 2: EntityManager introduction</h2>
+<p>Discover EntityManager with <code>fr.xebia.demo.objectgrid.data.EmployeeDaoObjectGridImplTest</code></p>
+<p>Resources : <a
+	href="http://www-03.ibm.com/developerworks/wikis/display/objectgridprog/Introduction+to+the+EntityManager+API">ObjectGrid
+wiki - Introduction to the EntityManager API</a></p>
+
+<h2>Lab 2: EntityManager introduction</h2>
+<p>Discover EntityManager with <code>fr.xebia.demo.objectgrid.data.EmployeeDaoObjectGridImplTest</code></p>
+<p>Resources : <a
+	href="http://www-03.ibm.com/developerworks/wikis/display/objectgridprog/Introduction+to+the+EntityManager+API">ObjectGrid
+wiki - Introduction to the EntityManager API</a></p>
+
+<h2>Lab 3: Data Grid introduction : Map and Reduce agents</h2>
+<p>Discover Data Grid Agents with <code>fr.xebia.demo.objectgrid.data.EmployeeSalaryProcessorAgentTest</code></p>
+<p>Resources : <a
+	href="http://www-03.ibm.com/developerworks/wikis/display/objectgridprog/Example+using+the+DataGrid+API">ObjectGrid
+wiki - Example using the DataGrid API</a> on MapGridAgent and
+ReduceGridAgent</p>
+
+<h2>Lab 4: Distributed Grid introduction</h2>
+<ol>
+	<li>In <code>fr.xebia.demo.objectgrid.AbstractObjectGridTest</code>,
+	switch <code>useLocalGrid = true;</code> to <code>useLocalGrid =
+	false;</code></li>
+	<li>Launch <code>fr.xebia.demo.objectgrid.launcher.ObjectGridCatalogServerLauncher.main()</code>
+	to start a catalog service on your workstation</li>
+	<li>Launch <code>fr.xebia.demo.objectgrid.launcher.ObjectGridContainer1Launcher.main()</code>
+	and <code>fr.xebia.demo.objectgrid.launcher.ObjectGridContainer2Launcher.main()</code>
+	to start two containers on your workstation</li>
+	<li>A fully functional Object grid with one Catalog Service and
+	two containers is running on your workstation</li>
+	<li>Play with previous test cases (EmployeeDaoObjectGridImplTest
+	and EmployeeSalaryProcessorAgentTest)</li>
+</ol>
+<h2>Lab 4: Distributed Xebia Grid !</h2>
+<ol>
+
+	<li>Stop <code>ObjectGridContainer1Launcher.main()</code> and <code>ObjectGridContainer2Launcher.main()</code>,
+	replace <code>localhost</code> bye the actual ip in the launchers and
+	then start them</li>
+
+	<li>Your ObjectGrid containers are connected to the Xebia Grid !</li>
+
+	<li>In <code>fr.xebia.demo.objectgrid.AbstractObjectGridTest</code>,
+	switch <code>catalogServerAddresses = "localhost:2809"</code> to <code>catalogServerAddresses
+	= "${the-ip-of-the-shared-catalog-service}:2809"</code></li>
+
+	<li>Play with previous test cases (EmployeeDaoObjectGridImplTest
+	and EmployeeSalaryProcessorAgentTest)</li>
+</ol>
+
+</body>
+</html>

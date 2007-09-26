@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="http://ibm.com/ws/projector/config/emd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://ibm.com/ws/projector/config/emd ./emd.xsd">
+
+	<entity class-name="fr.xebia.demo.objectgrid.data.Employee" name="Employee" />
+	<entity class-name="fr.xebia.demo.objectgrid.data.Payroll" name="Payroll" />
+</entity-mappings>

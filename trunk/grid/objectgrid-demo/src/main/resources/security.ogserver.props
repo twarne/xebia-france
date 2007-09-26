@@ -1,0 +1,141 @@
+###############################################################################
+#
+#                  ObjectGrid Server Security Properties File
+#
+#  This file contains properties that are used by the WebSphere ObjectGrid server.
+#
+#  ** Encoding Passwords in this File **
+#
+#  The PropFilePasswordEncoder utility may be used to encode passwords in a
+#  properties file. To edit an encoded password, replace the whole password
+#  string (including the encoding tag {...}) with the new password and then
+#  encode the password with the PropFilePasswordEncoder utility. Refer to
+#  product documentation for additional information.
+#
+###############################################################################
+
+#------------------------------------------------------------------------------
+# Whether this server supports credential authentication or not. If the 
+# value is Never, the server will not support credential authentication.  
+# If the value is Supported, the server will support the credential authentication 
+# if and only if the client supports too. If the value is Required, the server
+# requires the credential authentication. 
+# The default value is Supported.
+#------------------------------------------------------------------------------
+credentialAuthentication=Supported
+
+#------------------------------------------------------------------------------
+# Transport Layer Security Configuration 
+#
+# This is also where you enable SSL client certificate authentication.  
+#
+# - transportType                   (TCP/IP, SSL-Supported*, SSL-Required. If the value is TCP/IP,
+#                                    the server will only support TCP IP connection..  
+#                                    If the value is SSL-Supported, the server will support 
+#                                    both TCP/IP and SSL connections.
+#                                    If the value is SSL-Required, the server will only support 
+#                                    SSL connections.)
+# - clientCertificateAuthentication (Never, Supported*, Required. 
+#                                    If the value is Never, the server will not support client 
+#                                    certificate authentication.  
+#                                    If the value is Supported, the server will support 
+#                                    client certificate authenticationthe credential authentication 
+#                                    if and only if the client supports too. 
+#                                    If the value is Required, the server requires the client 
+#                                    certification authentication.)
+
+#------------------------------------------------------------------------------
+
+# The transport protocol type this server supports
+# Possible values are TCP/IP, SSL-Supported, SSL-Required
+transportType =SSL-Supported
+
+# Does this server support/require SSL client authentication?  
+# Possible values are Never, Supported, Required
+clientCertificateAuthentication=Supported
+
+#------------------------------------------------------------------------------
+# SSL Configuration
+#
+# - alias                (alias name in the key store)
+# - contextProvider      (IBMJSSE2, IBMJSSE, IBMJSSEFIPS, etc.)
+# - protocol             (SSL, SSLv2, SSLv3, TLS, TLSv1, etc.)
+# - keyStoreType         (JKS, JCEK, PKCS12, etc.)
+# - trustStoreType       (JKS, JCEK, PKCS12, etc.)
+# - keyStore             (fully qualified path to key store file)
+# - trustStore           (fully qualified path to trust store file)
+# - alias                (string specifying ssl certificate alias to use from keyStore)
+# - keyStorePassword     (string specifying password to the key store - encoded or not)
+# - trustStorePassword   (string specifying password to the trust store - encoded or not)
+# - clientAuthentication (need client authentication)
+# 
+#------------------------------------------------------------------------------
+alias=serverprivate
+contextProvider=IBMJSSE
+protocol=SSL
+keyStoreType=JKS
+keyStore=etc/test/security/server.private
+keyStorePassword=serverpw
+trustStoreType=JKS
+trustStore=etc/test/security/client.public
+trustStorePassword=public
+clientAuthentication=true
+
+
+#------------------------------------------------------------------------------
+# ObjectGrid SecureTokenManager setting.
+#
+# ObjectGrid SecureTokenManager is used for protecting the secret string for server 
+# mutual authentications and for protecting the single sign on token.
+#
+# - secureTokenManagerType        (Indicate the SecureTokenManager type. 
+#                                  If the value is none, no secure token manager will be used. 
+#                                  If the value is default, the ObjectGrid out-of-box provided manager
+#                                  will be used. In this case, the SecureToken key store configuraion 
+#                                  should be provided. 
+#                                  If the value is custom, a user-provided secure token manager will be 
+#                                  used indicated by the SecureTokenManager implementation class)
+# - customSecureTokenManagerClass (The user-provided implementation class for the SecureTokenManager.
+#                                  Only rquired if the SecureTokenManagerType is custom.)
+# - customSecureTokenManagerProps (The properties for the customSecureTokenManagerClass implementation 
+#                                  class. It will be set to the SecureTokenManager Object via setProperties(String) method.
+#                                  customSecureTokenManagerProps will only be set if customSecureTokenManagerClass 
+#                                  is not null.)
+#------------------------------------------------------------------------------
+secureTokenManagerType=default
+
+customSecureTokenManagerClass=
+
+customSecureTokenManagerProps=
+
+#------------------------------------------------------------------------------
+# ObjectGrid Secure Token key store Configuration. Only required if the secureTokenManagerType
+# is default.
+#
+# - secureTokenKeyStore                (fully qualified path to the secure token key store file)
+# - secureTokenKeyStorePassword        (the password to protect the secure token key store)
+# - secureTokenKeyStoreType            (the key store type, for example JCKES)
+# - secureTokenKeyPairAlias            (the alias to the public private key pair)
+# - secureTokenKeyPairPassword         (the password to protect the public private key pair) 
+# - secureTokenSecretKeyAlias          (the alias to the secret key)
+# - secureTokenSecretKeyPassword       (the password to protect the secret key)
+#
+#------------------------------------------------------------------------------
+secureTokenKeyStore=etc/test/security/key1.jck
+secureTokenKeyStorePassword=key111
+secureTokenKeyStoreType=JCEKS
+secureTokenKeyPairAlias=keypair1
+secureTokenKeyPairPassword=keypair1
+secureTokenSecretKeyAlias=secretkey1
+secureTokenSecretKeyPassword=secretkey1
+secureTokenCipherAlgorithm=DES
+secureTokenSignAlgorithm=RSA
+
+#------------------------------------------------------------------------------
+# The secret string to challenge the server. When a server starts up, it needs 
+# to present this string to the president server. If the secret string matches 
+# what in the president server, this server will be allowed to join in.
+#
+# The secret string could be protected by either default or custom SecureTokenManager.
+#------------------------------------------------------------------------------
+authenticationSecret=ObjectGridDefaultSecret

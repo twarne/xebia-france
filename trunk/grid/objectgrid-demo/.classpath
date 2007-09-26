@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src/main/java"/>
+	<classpathentry excluding="**/*.java" kind="src" path="src/main/resources"/>
+	<classpathentry kind="var" path="M2_REPO/commons-lang/commons-lang/2.2/commons-lang-2.2.jar" sourcepath="M2_REPO/commons-lang/commons-lang/2.2/commons-lang-2.2-sources.jar"/>
+	<classpathentry kind="var" path="M2_REPO/com/ibm/ws/objectgrid/ogstreamquery/6.1.0-IFPK50998/ogstreamquery-6.1.0-IFPK50998.jar"/>
+	<classpathentry kind="var" path="M2_REPO/mx4j/mx4j-remote/3.0.1/mx4j-remote-3.0.1.jar" sourcepath="M2_REPO/mx4j/mx4j-remote/3.0.1/mx4j-remote-3.0.1-sources.jar"/>
+	<classpathentry kind="var" path="M2_REPO/cglib/cglib-nodep/2.1_3/cglib-nodep-2.1_3.jar" sourcepath="M2_REPO/cglib/cglib-nodep/2.1_3/cglib-nodep-2.1_3-sources.jar"/>
+	<classpathentry kind="var" path="M2_REPO/junit/junit/3.8.1/junit-3.8.1.jar" sourcepath="M2_REPO/junit/junit/3.8.1/junit-3.8.1-sources.jar"/>
+	<classpathentry kind="var" path="M2_REPO/mx4j/mx4j-jmx/3.0.1/mx4j-jmx-3.0.1.jar" sourcepath="M2_REPO/mx4j/mx4j-jmx/3.0.1/mx4j-jmx-3.0.1-sources.jar"/>
+	<classpathentry kind="var" path="M2_REPO/commons-io/commons-io/1.2/commons-io-1.2.jar" sourcepath="M2_REPO/commons-io/commons-io/1.2/commons-io-1.2-sources.jar"/>
+	<classpathentry kind="var" path="M2_REPO/mx4j/mx4j-tools/3.0.1/mx4j-tools-3.0.1.jar" sourcepath="M2_REPO/mx4j/mx4j-tools/3.0.1/mx4j-tools-3.0.1-sources.jar"/>
+	<classpathentry kind="var" path="M2_REPO/log4j/log4j/1.2.14/log4j-1.2.14.jar" sourcepath="M2_REPO/log4j/log4j/1.2.14/log4j-1.2.14-sources.jar"/>
+	<classpathentry kind="var" path="M2_REPO/com/ibm/ws/objectgrid/ogagent/6.1.0-IFPK50998/ogagent-6.1.0-IFPK50998.jar"/>
+	<classpathentry kind="var" path="M2_REPO/castor/castor/0.9.5.3/castor-0.9.5.3.jar"/>
+	<classpathentry kind="var" path="M2_REPO/com/ibm/ws/objectgrid/objectgrid/6.1.0-IFPK50998/objectgrid-6.1.0-IFPK50998.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/Websphere 6.1 JDK"/>
+	<classpathentry kind="output" path="target/classes"/>
+</classpath>
