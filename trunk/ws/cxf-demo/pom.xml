@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	/*
+	* Copyright 2007 Xebia and the original author or authors.
+	*
+	* Licensed under the Apache License, Version 2.0 (the "License");
+	* you may not use this file except in compliance with the License.
+	* You may obtain a copy of the License at
+	*
+	*      http://www.apache.org/licenses/LICENSE-2.0
+	*
+	* Unless required by applicable law or agreed to in writing, software
+	* distributed under the License is distributed on an "AS IS" BASIS,
+	* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	* See the License for the specific language governing permissions and
+	* limitations under the License.
+	*/
+-->
+<!-- 
+	WARNING : 
+	
+	Version 6+ JDKs bundle a version of JAXB that may not be compatible with the one used by cxf.
+	You may need to use bootstrap classloader. 
+	
+	java.lang.LinkageError: JAXB 2.0 API is being loaded from the bootstrap classloader, but this RI (from jar:file:/.../.m2/repository/com/sun/xml/bind/jaxb-impl/2.1.4/jaxb-impl-2.1.4.jar!/com/sun/xml/bind/v2/model/impl/ModelBuilder.class) needs 2.1 API. Use the endorsed directory mechanism to place jaxb-api.jar in the bootstrap classloader. (See http://java.sun.com/j2se/1.5.0/docs/guide/standards/)
+	..
+	at javax.xml.bind.JAXBContext.newInstance(JAXBContext.java:574)
+	at org.apache.cxf.jaxb.JAXBDataBinding.createJAXBContext(JAXBDataBinding.java:377)
+	..
+	at org.apache.cxf.jaxws.ServiceImpl.getPort(ServiceImpl.java:262)
+	at javax.xml.ws.Service.getPort(Service.java:94)
+	at com.amazon.webservices.awsecommerceservice._2007_07_16.AWSECommerceService.getAWSECommerceServicePort(AWSECommerceService.java:51)
+	at com.amazon.webservices.awsecommerceservice._2007_07_16.AWSECommerceServiceTest.testItemSearch(AWSECommerceServiceTest.java:32)
+	...
+	at junit.framework.TestSuite.run(TestSuite.java:203)
+	...
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:196)
+	
+	
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>fr.xebia</groupId>
+		<artifactId>parent</artifactId>
+		<version>0.1-SNAPSHOT</version>
+	</parent>
+
+	<name>cxf-demo</name>
+	<groupId>fr.xebia.ws</groupId>
+	<artifactId>cxf-demo</artifactId>
+	<packaging>war</packaging>
+	<version>0.1-SNAPSHOT</version>
+	<description>Apache CXF demo relying on Amazon E-Commerce Service's AWSECommerceService.wsdl</description>
+	<scm>
+		<connection>scm:svn:http://xebia-france.googlecode.com/svn/trunk/ws/cxf-demo/</connection>
+		<developerConnection>scm:svn:https://xebia-france.googlecode.com/svn/trunk/ws/cxf-demo/</developerConnection>
+		<url>http://code.google.com/p/xebia-france/</url>
+	</scm>
+	<dependencies>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-frontend-jaxws</artifactId>
+			<version>2.1-incubator-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-transports-http</artifactId>
+			<version>2.1-incubator-SNAPSHOT</version>
+		</dependency>
+		<!-- -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.1</version>
+		</dependency>
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.cxf</groupId>
+				<artifactId>cxf-codegen-plugin</artifactId>
+				<version>2.1-incubator-SNAPSHOT</version>
+				<executions>
+					<execution>
+						<id>generate-sources</id>
+						<phase>generate-sources</phase>
+						<configuration>
+							<sourceRoot>${basedir}/target/generated/src/main/java</sourceRoot>
+							<wsdlOptions>
+								<wsdlOption>
+									<wsdl>${basedir}/src/main/wsdl/AWSECommerceService.wsdl</wsdl>
+								</wsdlOption>
+							</wsdlOptions>
+						</configuration>
+						<goals>
+							<goal>wsdl2java</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+	<repositories>
+		<repository>
+			<id>apache-snapshots</id>
+			<name>Apache SNAPSHOT Repository</name>
+			<url>http://people.apache.org/repo/m2-snapshot-repository/</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>apache-incubating</id>
+			<name>Apache Incubating Repository</name>
+			<url>http://people.apache.org/repo/m2-incubating-repository/</url>
+		</repository>
+		<!-- for jaxb-impl -->
+		<repository>
+			<id>java.net</id>
+			<url>http://download.java.net/maven/1/</url>
+			<layout>legacy</layout>
+		</repository>
+	</repositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>apache-plugin-snapshots</id>
+			<name>Apache Maven Plugin Snapshots</name>
+			<url>http://people.apache.org/repo/m2-snapshot-repository</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
+</project>
