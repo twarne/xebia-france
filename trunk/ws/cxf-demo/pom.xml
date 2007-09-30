@@ -63,10 +63,16 @@
 			<groupId>org.apache.cxf</groupId>
 			<artifactId>cxf-rt-frontend-jaxws</artifactId>
 			<version>2.1-incubator-SNAPSHOT</version>
-		</dependency>
+		</dependency>	
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
 			<artifactId>cxf-rt-transports-http</artifactId>
+			<version>2.1-incubator-SNAPSHOT</version>
+		</dependency>
+		<!--  -->
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-codegen-plugin</artifactId>
 			<version>2.1-incubator-SNAPSHOT</version>
 		</dependency>
 		<!-- -->
@@ -91,6 +97,10 @@
 							<wsdlOptions>
 								<wsdlOption>
 									<wsdl>${basedir}/src/main/wsdl/AWSECommerceService.wsdl</wsdl>
+									<extraargs>
+										<extraarg>-b</extraarg>
+										<extraarg>${basedir}/src/main/wsdl/async_binding.xml</extraarg>
+									</extraargs>
 								</wsdlOption>
 							</wsdlOptions>
 						</configuration>
