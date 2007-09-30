@@ -2,24 +2,19 @@
 <web-app id="WebApp_ID" version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 
-
 	<listener>
-		<description>In charge of loading /WEB-INF/sun-jaxws.xml</description>
-		<listener-class>com.sun.xml.ws.transport.http.servlet.WSServletContextListener.class</listener-class>
-	</listener>
-
-
-	<listener>
-		<listener-class>org.jvnet.jax_ws_commons.beans_generator.servlet.jaxws.RequestClassLoaderSubstituter</listener-class>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 
 	<servlet>
-		<servlet-name>AWSECommerceService</servlet-name>
-		<servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
+		<display-name>CXF Servlet</display-name>
+		<servlet-name>CXFServlet</servlet-name>
+		<servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>
 	</servlet>
+
 	<servlet-mapping>
-		<servlet-name>AWSECommerceService</servlet-name>
-		<url-pattern>/services/AWSECommerceService</url-pattern>
+		<servlet-name>CXFServlet</servlet-name>
+		<url-pattern>/services/*</url-pattern>
 	</servlet-mapping>
 
 </web-app>
