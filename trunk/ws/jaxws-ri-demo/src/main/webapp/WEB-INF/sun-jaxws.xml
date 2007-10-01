@@ -2,6 +2,6 @@
 <endpoints xmlns="http://java.sun.com/xml/ns/jax-ws/ri/runtime" version="2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/jax-ws/ri/runtime http://java.sun.com/webservices/docs/2.0/jaxws/sun-jaxws.xsd">
 
-	<endpoint name="AWSECommerceService" implementation="hello.HelloImpl" url-pattern="/services/AWSECommerceService" />
+	<endpoint name="AWSECommerceService" implementation="com.amazon.webservices.awsecommerceservice._2007_07_16.AWSECommerceServiceImpl" url-pattern="/services/AWSECommerceService" />
 
 </endpoints>

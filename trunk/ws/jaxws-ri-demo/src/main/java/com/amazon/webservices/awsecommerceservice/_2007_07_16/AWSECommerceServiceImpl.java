@@ -18,12 +18,14 @@ package com.amazon.webservices.awsecommerceservice._2007_07_16;
 import java.util.List;
 
 import javax.jws.HandlerChain;
+import javax.jws.WebService;
 import javax.xml.ws.Holder;
 
 /**
  * @author <a href="mailto:cyrille.leclerc@pobox.com">Cyrille Le Clerc</a>
  */
 @HandlerChain(file = "AWSECommerceServiceImplCandlerChain.xml")
+@WebService(endpointInterface = "com.amazon.webservices.awsecommerceservice._2007_07_16.AWSECommerceServicePortType")
 public class AWSECommerceServiceImpl implements AWSECommerceServicePortType {
 
     public void browseNodeLookup(String marketplaceDomain, String awsAccessKeyId, String subscriptionId, String associateTag,
@@ -98,7 +100,12 @@ public class AWSECommerceServiceImpl implements AWSECommerceServicePortType {
     public void itemSearch(String marketplaceDomain, String awsAccessKeyId, String subscriptionId, String associateTag, String xmlEscaping,
             String validate, ItemSearchRequest shared, List<ItemSearchRequest> request, Holder<OperationRequest> operationRequest,
             Holder<List<Items>> items) {
-        // TODO Auto-generated method stub
+
+        Items items2 = new Items();
+        Item item = new Item();
+        item.setASIN("my ASIN");
+        items2.item.add(item);
+        items.value.add(items2);
 
     }
 

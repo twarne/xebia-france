@@ -18,6 +18,7 @@ package com.amazon.webservices.awsecommerceservice._2007_07_16;
 import java.util.Map;
 
 import javax.xml.ws.BindingProvider;
+import javax.xml.ws.Holder;
 
 import junit.framework.TestCase;
 
@@ -28,14 +29,35 @@ public class AWSECommerceServiceTest extends TestCase {
 
     public void testItemSearch() throws Exception {
 
-        String endPointUrl = "http://localhost:9080/jaxws-ri-demo/services/AWSECommerceService";
+        String endPointUrl = "http://localhost:8080/jaxws-ri-demo/services/AWSECommerceService";
         AWSECommerceServicePortType awseCommerceServicePortType = new AWSECommerceService().getAWSECommerceServicePort();
-
         Map<String, Object> requestContext = ((BindingProvider) awseCommerceServicePortType).getRequestContext();
 
         String previousEndPointUrl = (String) requestContext.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, endPointUrl);
 
         System.out.println("endPointUrl=" + endPointUrl + ", previousEndPointUrl=" + previousEndPointUrl);
+
+        ItemSearchRequest shared = new ItemSearchRequest();
+        shared.setSearchIndex("Books");
+        shared.setPower("title");
+        shared.setSort("salesrank");
+
+        ItemSearch itemSearch = new ItemSearch();
+        itemSearch.setSubscriptionId("0525E2PQ81DD7ZTWTK82");
+        itemSearch.setShared(shared);
+
+        String marketplaceDomain = "marketplaceDomain";
+        String awsAccessKeyId = "awsAccessKeyId";
+        String subscriptionId = "subscriptionId";
+        String associateTag = "associateTag";
+        String xmlEscaping = "xmlEscaping";
+        String validate = "validate";
+        java.util.List<ItemSearchRequest> itemsSearchRequests = null;
+        Holder<OperationRequest> operationRequest = null;
+        Holder<java.util.List<Items>> items = new Holder<java.util.List<Items>>();
+        awseCommerceServicePortType.itemSearch(marketplaceDomain, awsAccessKeyId, subscriptionId, associateTag, xmlEscaping, validate,
+                shared, itemsSearchRequests, operationRequest, items);
+        System.out.println("Response: " + items.value);
 
     }
 }
