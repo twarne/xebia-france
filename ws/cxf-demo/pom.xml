@@ -69,6 +69,16 @@
 			<artifactId>cxf-rt-transports-http</artifactId>
 			<version>2.1-incubator-SNAPSHOT</version>
 		</dependency>
+		<dependency>
+			<!-- 
+				used to workaround 
+				"org.apache.cxf.interceptor.Fault: No conduit initiator was found for the namespace http://schemas.xmlsoap.org/soap/http." 
+			-->
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-transports-http-jetty</artifactId>
+			<version>2.1-incubator-SNAPSHOT</version>
+		</dependency>
+
 
 		<dependency>
 			<groupId>log4j</groupId>
