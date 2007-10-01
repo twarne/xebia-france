@@ -15,12 +15,12 @@
 	* limitations under the License.
 	*/
 -->
-<handler-config>
+<handler-chains xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee">
 	<handler-chain>
-		<handler-chain-name>StandardHandlerChain</handler-chain-name>
 		<handler>
 			<handler-name>PerformancesLogicalHandler</handler-name>
 			<handler-class>fr.xebia.demo.jaxws.PerformancesLogicalHandler</handler-class>
 		</handler>
 	</handler-chain>
-</handler-config>
+</handler-chains>

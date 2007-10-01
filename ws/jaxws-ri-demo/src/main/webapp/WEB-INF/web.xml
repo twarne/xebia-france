@@ -5,12 +5,7 @@
 
 	<listener>
 		<description>In charge of loading /WEB-INF/sun-jaxws.xml</description>
-		<listener-class>com.sun.xml.ws.transport.http.servlet.WSServletContextListener.class</listener-class>
-	</listener>
-
-
-	<listener>
-		<listener-class>org.jvnet.jax_ws_commons.beans_generator.servlet.jaxws.RequestClassLoaderSubstituter</listener-class>
+		<listener-class>com.sun.xml.ws.transport.http.servlet.WSServletContextListener</listener-class>
 	</listener>
 
 	<servlet>
@@ -21,5 +16,4 @@
 		<servlet-name>AWSECommerceService</servlet-name>
 		<url-pattern>/services/AWSECommerceService</url-pattern>
 	</servlet-mapping>
-
 </web-app>

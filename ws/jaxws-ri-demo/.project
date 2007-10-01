@@ -1,6 +1,6 @@
 <projectDescription>
   <name>jaxws-ri-demo</name>
-  <comment>Xebia France&apos;s code : demos, samples etc.</comment>
+  <comment>JAXWS-RI demo relying on Amazon E-Commerce Service&apos;s AWSECommerceService.wsdl</comment>
   <projects/>
   <buildSpec>
     <buildCommand>
@@ -14,8 +14,8 @@
     </buildCommand>
   </buildSpec>
   <natures>
-    <nature>org.eclipse.jdt.core.javanature</nature>
     <nature>org.eclipse.wst.common.project.facet.core.nature</nature>
+    <nature>org.eclipse.jdt.core.javanature</nature>
     <nature>org.eclipse.wst.common.modulecore.ModuleCoreNature</nature>
     <nature>org.eclipse.jem.workbench.JavaEMFNature</nature>
   </natures>
