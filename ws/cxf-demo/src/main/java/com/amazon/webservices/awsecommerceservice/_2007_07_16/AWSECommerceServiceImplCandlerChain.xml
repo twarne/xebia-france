@@ -15,7 +15,9 @@
 	* limitations under the License.
 	*/
 -->
-<handler-config>
+<handler-chains xmlns="http://java.sun.com/xml/ns/javaee" xmlns:cfg="http://cxf.apache.org/configuration/cfg"
+	xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee">
 	<handler-chain>
 		<handler-chain-name>StandardHandlerChain</handler-chain-name>
 		<handler>
@@ -23,4 +25,4 @@
 			<handler-class>fr.xebia.demo.jaxws.PerformancesLogicalHandler</handler-class>
 		</handler>
 	</handler-chain>
-</handler-config>
+</handler-chains>
