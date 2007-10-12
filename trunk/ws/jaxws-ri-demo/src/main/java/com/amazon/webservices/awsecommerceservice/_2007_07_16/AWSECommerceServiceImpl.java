@@ -17,14 +17,12 @@ package com.amazon.webservices.awsecommerceservice._2007_07_16;
 
 import java.util.List;
 
-import javax.jws.HandlerChain;
 import javax.jws.WebService;
 import javax.xml.ws.Holder;
 
 /**
  * @author <a href="mailto:cyrille.leclerc@pobox.com">Cyrille Le Clerc</a>
  */
-@HandlerChain(file = "AWSECommerceServiceImplCandlerChain.xml")
 @WebService(endpointInterface = "com.amazon.webservices.awsecommerceservice._2007_07_16.AWSECommerceServicePortType")
 public class AWSECommerceServiceImpl implements AWSECommerceServicePortType {
 
