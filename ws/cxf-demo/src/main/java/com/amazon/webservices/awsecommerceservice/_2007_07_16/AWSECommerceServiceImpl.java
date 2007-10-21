@@ -74,7 +74,7 @@ public class AWSECommerceServiceImpl implements AWSECommerceServicePortType {
     }
 
     public ItemSearchResponse itemSearch(ItemSearch body) {
-        // TODO Auto-generated method stub
+        System.err.println("itemSearch(" + body + ")");
         return null;
     }
 
