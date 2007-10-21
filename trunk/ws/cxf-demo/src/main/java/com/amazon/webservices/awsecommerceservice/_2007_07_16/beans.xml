@@ -1,0 +1,36 @@
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:jaxws="http://cxf.apache.org/jaxws" xmlns:http-conf="http://cxf.apache.org/transports/http/configuration"
+   xsi:schemaLocation="
+                       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                       http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+                       http://cxf.apache.org/transports/http/configuration http://cxf.apache.org/schemas/configuration/http-conf.xsd
+                       ">
+
+   <jaxws:client name="AWSECommerceService"
+      address="http://localhost:8080/cxf-demo/services/AWSECommerceService"
+      serviceClass="com.amazon.webservices.awsecommerceservice._2007_07_16.AWSECommerceServicePortType">
+      <jaxws:inInterceptors>
+         <!--
+            TODO wrap  performancesHandler into a org.apache.cxf.interceptor.Interceptor
+            <ref bean="performancesHandler" />
+         -->
+         <bean class="org.apache.cxf.interceptor.LoggingInInterceptor" />
+      </jaxws:inInterceptors>
+
+      <jaxws:outInterceptors>
+         <!--
+            TODO wrap  performancesHandler into a org.apache.cxf.interceptor.Interceptor
+            <ref bean="performancesHandler" />
+         -->
+         <bean class="org.apache.cxf.interceptor.LoggingOutInterceptor" />
+      </jaxws:outInterceptors>
+
+   </jaxws:client>
+
+   <bean id="performancesHandler" class="fr.xebia.demo.jaxws.PerformancesLogicalHandler" />
+
+   <http-conf:conduit name="{http://webservices.amazon.com/AWSECommerceService/2007-07-16}AWSECommerceServicePortTypeService.http-conduit">
+      <http-conf:client Connection="Keep-Alive" MaxRetransmits="1" AllowChunking="false" />
+   </http-conf:conduit>
+
+</beans>
