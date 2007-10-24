@@ -61,6 +61,11 @@
    <dependencies>
       <dependency>
          <groupId>org.apache.cxf</groupId>
+         <artifactId>cxf-rt-management</artifactId>
+         <version>2.1-incubator-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+         <groupId>org.apache.cxf</groupId>
          <artifactId>cxf-rt-frontend-jaxws</artifactId>
          <version>2.1-incubator-SNAPSHOT</version>
       </dependency>
@@ -161,6 +166,21 @@
                   </goals>
                </execution>
             </executions>
+            <dependencies>
+               <dependency>
+                  <!-- 
+                     As we use Log4j as CXF logging implementation of our app (via /META-INF/cxf/org.apache.cxf.Logger), we need log4j in the plugin's classpath
+                     java.lang.NoClassDefFoundError
+                     at org.apache.cxf.BusFactory.<clinit>(BusFactory.java:39)
+                     at org.apache.cxf.maven_plugin.WSDL2JavaMojo.execute(WSDL2JavaMojo.java:140)
+                     at org.apache.maven.plugin.DefaultPluginManager.executeMojo(DefaultPluginManager.java:443)
+                     at org.apache.maven.lifecycle.DefaultLifecycleExecutor.executeGoals(DefaultLifecycleExecutor.java:539)
+                  -->
+                  <groupId>log4j</groupId>
+                  <artifactId>log4j</artifactId>
+                  <version>1.2.14</version>
+               </dependency>
+            </dependencies>
          </plugin>
       </plugins>
    </build>
