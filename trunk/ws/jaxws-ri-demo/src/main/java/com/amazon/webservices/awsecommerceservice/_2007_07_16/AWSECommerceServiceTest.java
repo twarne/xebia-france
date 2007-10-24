@@ -29,6 +29,8 @@ public class AWSECommerceServiceTest extends TestCase {
 
     public void testItemSearch() throws Exception {
 
+        System.setProperty("com.sun.xml.ws.transport.http.client.HttpTransportPipe.dump", "true");
+        
         String endPointUrl = "http://localhost:8080/jaxws-ri-demo/services/AWSECommerceService";
         AWSECommerceServicePortType awseCommerceServicePortType = new AWSECommerceService().getAWSECommerceServicePort();
         Map<String, Object> requestContext = ((BindingProvider) awseCommerceServicePortType).getRequestContext();
@@ -37,7 +39,7 @@ public class AWSECommerceServiceTest extends TestCase {
 
         System.out.println("endPointUrl=" + endPointUrl + ", previousEndPointUrl=" + previousEndPointUrl);
 
-        ItemSearchRequest shared = new ItemSearchRequest();
+       ItemSearchRequest shared = new ItemSearchRequest();
         shared.setSearchIndex("Books");
         shared.setPower("title");
         shared.setSort("salesrank");
