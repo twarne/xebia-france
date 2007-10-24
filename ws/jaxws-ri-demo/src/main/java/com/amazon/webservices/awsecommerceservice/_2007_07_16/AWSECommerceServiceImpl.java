@@ -15,6 +15,7 @@
  */
 package com.amazon.webservices.awsecommerceservice._2007_07_16;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.jws.WebService;
@@ -25,6 +26,10 @@ import javax.xml.ws.Holder;
  */
 @WebService(endpointInterface = "com.amazon.webservices.awsecommerceservice._2007_07_16.AWSECommerceServicePortType")
 public class AWSECommerceServiceImpl implements AWSECommerceServicePortType {
+
+    public AWSECommerceServiceImpl() {
+        System.err.println("Instantiate " + getClass());
+    }
 
     public void browseNodeLookup(String marketplaceDomain, String awsAccessKeyId, String subscriptionId, String associateTag,
             String validate, String xmlEscaping, BrowseNodeLookupRequest shared, List<BrowseNodeLookupRequest> request,
@@ -102,9 +107,14 @@ public class AWSECommerceServiceImpl implements AWSECommerceServicePortType {
         Items items2 = new Items();
         Item item = new Item();
         item.setASIN("my ASIN");
+        if (items2.item == null) {
+            items2.item = new ArrayList<Item>();
+        }
         items2.item.add(item);
+        if (items.value == null) {
+            items.value = new ArrayList<Items>();
+        }
         items.value.add(items2);
-
     }
 
     public void listLookup(String marketplaceDomain, String awsAccessKeyId, String subscriptionId, String associateTag, String validate,
