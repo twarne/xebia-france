@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<name>axis2-demo</name>
+	<groupId>fr.xebia.demo</groupId>
+	<artifactId>axis2-demo</artifactId>
+	<packaging>war</packaging>
+	<version>0.1-SNAPSHOT</version>
+
+	<scm>
+		<connection>scm:svn:http://localhost/svn/repos/cyrille/trunk/</connection>
+	</scm>
+	<licenses>
+		<license>
+			<name>Apache 2</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+	<dependencies>
+		<dependency>
+			<groupId>org.apache.axis2</groupId>
+			<artifactId>axis2-jaxws</artifactId>
+			<version>1.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.axis2</groupId>
+			<artifactId>axis2-wsdl2code-maven-plugin</artifactId>
+			<version>1.3</version>
+		</dependency>
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.axis2.maven2</groupId>
+				<artifactId>axis2-wsdl2code-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>wsdl2code</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<packageName>com.foo.myservice</packageName>
+					<!-- declare fake namespaceToPackages to workaround AXIS2-1727 -->
+					<namespaceToPackages>some.package=some.package</namespaceToPackages>
+					<!-- default wsdl location : src/main/axis2/service.wsdl -->
+					<wsdlFile>src/main/wsdl/AWSECommerceService.wsdl</wsdlFile>
+					<!-- 
+						http://issues.apache.org/jira/browse/AXIS2-593
+						java.lang.NullPointerException
+						at org.apache.axis2.schema.SchemaCompiler.processElement(SchemaCompiler.java:592)
+						..
+						at org.apache.axis2.schema.SchemaCompiler.compile(SchemaCompiler.java:248)
+						at org.apache.axis2.schema.ExtensionUtility.invoke(ExtensionUtility.java:72)
+						at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+						at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:64)
+						at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+						at java.lang.reflect.Method.invoke(Method.java:615)
+						at org.apache.axis2.wsdl.codegen.extension.SimpleDBExtension.engage(SimpleDBExtension.java:49)
+						at org.apache.axis2.wsdl.codegen.CodeGenerationEngine.generate(CodeGenerationEngine.java:177)
+					-->
+				</configuration>
+				<dependencies>
+					<dependency>
+						<!-- 
+							java.lang.NoClassDefFoundError: javax.wsdl.WSDLException
+							at java.lang.J9VMInternals.verifyImpl(Native Method)
+							at java.lang.J9VMInternals.verify(J9VMInternals.java:66)
+							at java.lang.J9VMInternals.initialize(J9VMInternals.java:127)
+							at org.apache.axis2.maven2.wsdl2code.WSDL2CodeMojo.execute(WSDL2CodeMojo.java:396)
+						-->
+						<groupId>wsdl4j</groupId>
+						<artifactId>wsdl4j</artifactId>
+						<version>1.6.2</version>
+					</dependency>
+					<dependency>
+						<!-- 
+							java.lang.NoClassDefFoundError: org.apache.neethi.Policy
+							at java.lang.J9VMInternals.verifyImpl(Native Method)
+							at java.lang.J9VMInternals.verify(J9VMInternals.java:66)
+							at java.lang.J9VMInternals.initialize(J9VMInternals.java:127)
+							at org.apache.axis2.wsdl.codegen.CodeGenerationEngine.<init>(CodeGenerationEngine.java:103)
+						-->
+						<groupId>org.apache.neethi</groupId>
+						<artifactId>neethi</artifactId>
+						<version>2.0.2</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-eclipse-plugin</artifactId>
+				<configuration>
+					<downloadSources>true</downloadSources>
+					<wtpversion>1.5</wtpversion>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-source</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.5</source>
+					<target>1.5</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<repositories>
+		<repository>
+			<id>Maven Repo</id>
+			<url>http://repo1.maven.org/maven2/</url>
+			<layout>default</layout>
+		</repository>
+		<repository>
+			<id>java.net</id>
+			<url>http://download.java.net/maven/1</url>
+			<layout>legacy</layout>
+		</repository>
+		<repository>
+			<id>maven2-repository.dev.java.net</id>
+			<name>Java.net Repository for Maven</name>
+			<url>http://download.java.net/maven/2/</url>
+			<layout>default</layout>
+		</repository>
+	</repositories>
+</project>
