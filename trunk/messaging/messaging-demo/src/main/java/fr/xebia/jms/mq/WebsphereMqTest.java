@@ -87,10 +87,14 @@ public class WebsphereMqTest extends TestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+        System.out.println("This test requires :");
+        System.out.println("- QueueManager listening on 'localhost:1414'");
+        System.out.println("- A channel called 'SYSTEM.DEF.SVRCONN'");
+        System.out.println("- A Queue called 'default'");
         QueueConnectionFactory connectionFactory = new MQQueueConnectionFactory();
         ((MQQueueConnectionFactory) connectionFactory).setHostName("localhost");
         ((MQQueueConnectionFactory) connectionFactory).setPort(1414);
-        ((MQQueueConnectionFactory) connectionFactory).setChannel("default");
+        ((MQQueueConnectionFactory) connectionFactory).setChannel("SYSTEM.DEF.SVRCONN");
         ((MQQueueConnectionFactory) connectionFactory).setTransportType(JMSC.MQJMS_TP_CLIENT_MQ_TCPIP);
 
         this.connection = connectionFactory.createConnection();
