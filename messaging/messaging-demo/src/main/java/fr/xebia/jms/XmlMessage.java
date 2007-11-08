@@ -20,7 +20,6 @@ import java.util.Properties;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageNotWriteableException;
-import javax.jms.QueueSender;
 import javax.xml.transform.Source;
 
 /**
@@ -68,9 +67,6 @@ public interface XmlMessage extends Message {
      * <p>
      * Get an output property that will be used during the serialization of the {@link Source}.
      * </p>
-     * <p>
-     * Serialization occurs during the {@link QueueSender#send(Message)} phase
-     * </p>
      * 
      * @param name
      *            A non-null String that specifies an output property name, which may be namespace
@@ -101,6 +97,8 @@ public interface XmlMessage extends Message {
 
     /**
      * Set an output property that will be in effect for the {@link Source} serialization.
+     * 
+     * Serialization occurs during the {@link javax.jms.MessageProducer#send(Message)} invocation.
      * 
      * @see javax.xml.transform.OutputKeys
      * @see javax.xml.transform.Transformer#setOutputProperty(String, String)
