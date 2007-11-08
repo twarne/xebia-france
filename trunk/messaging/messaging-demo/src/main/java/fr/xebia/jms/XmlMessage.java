@@ -22,7 +22,6 @@ import javax.jms.Message;
 import javax.jms.MessageNotWriteableException;
 import javax.jms.QueueSender;
 import javax.xml.transform.Source;
-import javax.xml.transform.Transformer;
 
 /**
  * JMS {@link Message} with support for XML {@link Source}.
@@ -35,7 +34,7 @@ public interface XmlMessage extends Message {
      * Sets the XML {@link Source} containing this message's data.
      * 
      * @throws JMSException
-     *             If the JMS provider fails to set the text due to some internal error.
+     *             If the JMS provider fails to set the xml source due to some internal error.
      * @exception MessageNotWriteableException
      *                If the message is in read-only mode.
      */
@@ -48,7 +47,7 @@ public interface XmlMessage extends Message {
      * @return The <code>source</code> containing the message's data
      * 
      * @exception JMSException
-     *                If the JMS provider fails to get the text due to some internal error.
+     *                If the JMS provider fails to get the xml source due to some internal error.
      */
     Source getSource() throws JMSException;
 
@@ -60,8 +59,8 @@ public interface XmlMessage extends Message {
      * @return A copy of the set of output properties in effect for {@link Source} serialization.
      * 
      * @see javax.xml.transform.OutputKeys
-     * @see <a href="http://www.w3.org/TR/xslt#output"> XSL Transformations (XSLT) Version 1.0</a>
-     * @see Transformer#getOutputProperties()
+     * @see <a href="http://www.w3.org/TR/xslt#output">XSL Transformations (XSLT) Version 1.0</a>
+     * @see javax.xml.transform.Transformer#getOutputProperties()
      */
     Properties getOutputProperties();
 
@@ -83,7 +82,7 @@ public interface XmlMessage extends Message {
      *             If the property is not supported.
      * 
      * @see javax.xml.transform.OutputKeys
-     * @see Transformer#getOutputProperty(String)
+     * @see javax.xml.transform.Transformer#getOutputProperty(String)
      */
     String getOutputProperty(String name) throws IllegalArgumentException;
 
@@ -96,7 +95,7 @@ public interface XmlMessage extends Message {
      * 
      * 
      * @see javax.xml.transform.OutputKeys
-     * @see Transformer#setOutputProperties(Properties)
+     * @see javax.xml.transform.Transformer#setOutputProperties(Properties)
      */
     void setOutputProperties(Properties oformat);
 
@@ -104,7 +103,7 @@ public interface XmlMessage extends Message {
      * Set an output property that will be in effect for the {@link Source} serialization.
      * 
      * @see javax.xml.transform.OutputKeys
-     * @see Transformer#setOutputProperty(String, String)
+     * @see javax.xml.transform.Transformer#setOutputProperty(String, String)
      */
     void setOutputProperty(String name, String value) throws IllegalArgumentException;
 }
