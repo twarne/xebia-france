@@ -20,10 +20,10 @@ import java.io.StringReader;
 import java.util.Date;
 
 import javax.jms.Connection;
+import javax.jms.ConnectionFactory;
+import javax.jms.Destination;
 import javax.jms.Message;
 import javax.jms.MessageProducer;
-import javax.jms.Queue;
-import javax.jms.QueueConnectionFactory;
 import javax.jms.Session;
 import javax.jms.TextMessage;
 import javax.xml.transform.OutputKeys;
@@ -36,8 +36,8 @@ import javax.xml.transform.stream.StreamSource;
 import junit.framework.TestCase;
 
 import com.ibm.mq.jms.JMSC;
-import com.ibm.mq.jms.MQQueue;
-import com.ibm.mq.jms.MQQueueConnectionFactory;
+import com.ibm.mq.jms.MQConnectionFactory;
+import com.ibm.mq.jms.MQDestination;
 
 /**
  * Tests messages formats ( MQSTR vs. RFH2/MQHRF2) and encoding (ccsid).
@@ -59,10 +59,10 @@ public class WebsphereMqTest extends TestCase {
      * @see JMSC#ENCODING_PROPERTY
      */
     private void sendXmlMessage(Source xmlSource, String encoding) throws Exception {
-        Queue queue = session.createQueue("default");
+        Destination destination = session.createQueue("default");
 
         // DEBUG INFO
-        int defaultCcsid = ((MQQueue) queue).getCCSID();
+        int defaultCcsid = ((MQDestination) destination).getCCSID();
         System.out.println("Queue default ccsid: " + defaultCcsid);
 
         // SERIALIZE XML WITH THE GIVEN ENCODING
@@ -77,7 +77,7 @@ public class WebsphereMqTest extends TestCase {
         int ccsid = IbmCharsetUtils.getIbmCharacterSetId(encoding);
         xmlMessage.setStringProperty(JMSC.CHARSET_PROPERTY, String.valueOf(ccsid));
 
-        MessageProducer messageProducer = session.createProducer(queue);
+        MessageProducer messageProducer = session.createProducer(destination);
         messageProducer.send(xmlMessage);
 
         System.out.println("Sent message");
@@ -91,11 +91,11 @@ public class WebsphereMqTest extends TestCase {
         System.out.println("- QueueManager listening on 'localhost:1414'");
         System.out.println("- A channel called 'SYSTEM.DEF.SVRCONN'");
         System.out.println("- A Queue called 'default'");
-        QueueConnectionFactory connectionFactory = new MQQueueConnectionFactory();
-        ((MQQueueConnectionFactory) connectionFactory).setHostName("localhost");
-        ((MQQueueConnectionFactory) connectionFactory).setPort(1414);
-        ((MQQueueConnectionFactory) connectionFactory).setChannel("SYSTEM.DEF.SVRCONN");
-        ((MQQueueConnectionFactory) connectionFactory).setTransportType(JMSC.MQJMS_TP_CLIENT_MQ_TCPIP);
+        ConnectionFactory connectionFactory = new MQConnectionFactory();
+        ((MQConnectionFactory) connectionFactory).setHostName("localhost");
+        ((MQConnectionFactory) connectionFactory).setPort(1414);
+        ((MQConnectionFactory) connectionFactory).setChannel("SYSTEM.DEF.SVRCONN");
+        ((MQConnectionFactory) connectionFactory).setTransportType(JMSC.MQJMS_TP_CLIENT_MQ_TCPIP);
 
         this.connection = connectionFactory.createConnection();
         connection.start();
@@ -112,8 +112,8 @@ public class WebsphereMqTest extends TestCase {
 
     public void testBasicSendTextMessage() throws Exception {
 
-        Queue queue = this.session.createQueue("default");
-        MessageProducer messageProducer = session.createProducer(queue);
+        Destination destination = this.session.createQueue("default");
+        MessageProducer messageProducer = session.createProducer(destination);
 
         TextMessage textMessage = session.createTextMessage("Hello world JMS Message " + new Date());
         messageProducer.send(textMessage);
@@ -123,19 +123,19 @@ public class WebsphereMqTest extends TestCase {
     }
 
     /**
-     * Send raw MQSTR message using {@link MQQueue#setTargetClient(int)}.
+     * Send raw MQSTR message using {@link MQDestination#setTargetClient(int)}.
      * 
-     * @see MQQueue#setTargetClient(int)
+     * @see MQDestination#setTargetClient(int)
      * @see JMSC#MQJMS_CLIENT_NONJMS_MQ
      */
     public void testMqstrViaApiTextMessage() throws Exception {
 
-        Queue queue = this.session.createQueue("default");
+        Destination destination = this.session.createQueue("default");
 
         // Force MQSTR format
-        ((MQQueue) queue).setTargetClient(JMSC.MQJMS_CLIENT_NONJMS_MQ);
+        ((MQDestination) destination).setTargetClient(JMSC.MQJMS_CLIENT_NONJMS_MQ);
 
-        MessageProducer messageProducer = session.createProducer(queue);
+        MessageProducer messageProducer = session.createProducer(destination);
 
         TextMessage textMessage = session.createTextMessage("Hello MQSTR world via MQQueue#setTargetClient(int) " + new Date());
 
@@ -151,9 +151,9 @@ public class WebsphereMqTest extends TestCase {
     public void testMqstrViaConfigurationTextMessage() throws Exception {
 
         // Force MQSTR format
-        Queue queue = session.createQueue("queue:///default?targetClient=1");
+        Destination destination = session.createQueue("queue:///default?targetClient=1");
 
-        MessageProducer messageProducer = session.createProducer(queue);
+        MessageProducer messageProducer = session.createProducer(destination);
 
         TextMessage textMessage = session.createTextMessage("Hello MQSTR world via createQueue(\"queue:///default?targetClient=1\" "
                 + new Date());
