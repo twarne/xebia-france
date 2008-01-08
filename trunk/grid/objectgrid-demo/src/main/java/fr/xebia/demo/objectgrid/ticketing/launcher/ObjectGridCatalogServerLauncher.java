@@ -13,10 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.xebia.demo.objectgrid.launcher;
+package fr.xebia.demo.objectgrid.ticketing.launcher;
 
 import java.io.File;
-import java.net.URL;
 
 import org.apache.log4j.Logger;
 
@@ -25,30 +24,23 @@ import com.ibm.ws.objectgrid.InitializationService;
 import fr.xebia.demo.objectgrid.ObjectGridUtils;
 
 /**
- * 
- * Starts an ObjectGrid container named "xebiaContainer1".
+ * Starts an ObjectGrid Catalog Server
  * 
  * @author <a href="mailto:cyrille.leclerc@pobox.com">Cyrille Le Clerc</a>
  */
-public class ObjectGridContainer1Launcher {
+public class ObjectGridCatalogServerLauncher {
 
-    private final static Logger logger = Logger.getLogger(ObjectGridContainer1Launcher.class);
+    private final static Logger logger = Logger.getLogger(ObjectGridCatalogServerLauncher.class);
 
     public static void main(String[] args) {
 
         ObjectGridUtils.checkJvmPreRequisitesForObjectGrid();
-
+        
         File file = new File(".");
         logger.info("use OBJECTGRID_HOME=" + file.getAbsolutePath());
         System.setProperty("OBJECTGRID_HOME", file.getAbsolutePath());
         try {
-            URL objectgridFileUrl = ObjectGridContainer1Launcher.class.getResource("objectgrid.xml");
-            URL deploymentPolicyFileUrl = ObjectGridContainer1Launcher.class.getResource("deploymentdescriptor.xml");
-            logger.info("objectgridFile: " + objectgridFileUrl);
-            logger.info("deploymentPolicyFile: " + deploymentPolicyFileUrl);
-
-            String[] startupArgs = new String[]{"xebiaContainer1", "-objectgridFile", objectgridFileUrl.getFile(), "-deploymentPolicyFile",
-                    deploymentPolicyFileUrl.getFile(), "-catalogServiceEndPoints", "localhost:2809", "-traceSpec",
+            String[] startupArgs = new String[]{"catalogServer", "-domain", "xebiaDomain", "-zone", "xebiaZone", "-traceSpec",
                     "ObjectGrid*=all=disabled"};
             InitializationService.main(startupArgs);
 

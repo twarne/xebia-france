@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.xebia.demo.objectgrid.launcher;
+package fr.xebia.demo.objectgrid.ticketing.launcher;
 
 import java.io.File;
 import java.net.URL;
@@ -25,14 +25,13 @@ import com.ibm.ws.objectgrid.InitializationService;
 import fr.xebia.demo.objectgrid.ObjectGridUtils;
 
 /**
- * 
- * Starts an ObjectGrid container named "xebiaContainer1".
+ * Starts an ObjectGrid container named "xebiaContainer2".
  * 
  * @author <a href="mailto:cyrille.leclerc@pobox.com">Cyrille Le Clerc</a>
  */
-public class ObjectGridContainer1Launcher {
+public class ObjectGridContainer2Launcher {
 
-    private final static Logger logger = Logger.getLogger(ObjectGridContainer1Launcher.class);
+    private final static Logger logger = Logger.getLogger(ObjectGridContainer2Launcher.class);
 
     public static void main(String[] args) {
 
@@ -42,12 +41,12 @@ public class ObjectGridContainer1Launcher {
         logger.info("use OBJECTGRID_HOME=" + file.getAbsolutePath());
         System.setProperty("OBJECTGRID_HOME", file.getAbsolutePath());
         try {
-            URL objectgridFileUrl = ObjectGridContainer1Launcher.class.getResource("objectgrid.xml");
-            URL deploymentPolicyFileUrl = ObjectGridContainer1Launcher.class.getResource("deploymentdescriptor.xml");
+            URL objectgridFileUrl = ObjectGridContainer2Launcher.class.getResource("objectgrid.xml");
+            URL deploymentPolicyFileUrl = ObjectGridContainer2Launcher.class.getResource("deploymentdescriptor.xml");
             logger.info("objectgridFile: " + objectgridFileUrl);
             logger.info("deploymentPolicyFile: " + deploymentPolicyFileUrl);
 
-            String[] startupArgs = new String[]{"xebiaContainer1", "-objectgridFile", objectgridFileUrl.getFile(), "-deploymentPolicyFile",
+            String[] startupArgs = new String[]{ObjectGridContainer2Launcher.class.getSimpleName(), "-objectgridFile", objectgridFileUrl.getFile(), "-deploymentPolicyFile",
                     deploymentPolicyFileUrl.getFile(), "-catalogServiceEndPoints", "localhost:2809", "-traceSpec",
                     "ObjectGrid*=all=disabled"};
             InitializationService.main(startupArgs);
