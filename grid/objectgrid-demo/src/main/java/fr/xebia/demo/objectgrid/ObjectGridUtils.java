@@ -15,6 +15,9 @@
  */
 package fr.xebia.demo.objectgrid;
 
+import org.apache.commons.lang.Validate;
+import org.springframework.util.Assert;
+
 import com.ibm.websphere.objectgrid.ObjectGrid;
 import com.ibm.websphere.objectgrid.ObjectGridException;
 import com.ibm.websphere.objectgrid.Session;
@@ -78,5 +81,13 @@ public class ObjectGridUtils {
      */
     public static RuntimeException convertException(ObjectGridException objectGridException) {
         return new RuntimeException(objectGridException);
+    }
+
+    public static void checkJvmPreRequisitesForObjectGrid() {
+        float javaVersion = Float.parseFloat(System.getProperty("java.specification.version").substring(0, 3));
+        String jvmVendor = System.getProperty("java.vm.vendor");
+
+        Validate.isTrue(jvmVendor.indexOf("IBM") > -1, "JVM must be an IBM 5+ JVM");
+        Validate.isTrue(javaVersion >= 1.5f, "JVM must be an IBM 5+ JVM");
     }
 }

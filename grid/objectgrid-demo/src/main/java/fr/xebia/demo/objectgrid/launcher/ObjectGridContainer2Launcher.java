@@ -22,6 +22,8 @@ import org.apache.log4j.Logger;
 
 import com.ibm.ws.objectgrid.InitializationService;
 
+import fr.xebia.demo.objectgrid.ObjectGridUtils;
+
 /**
  * Starts an ObjectGrid container named "xebiaContainer2".
  * 
@@ -33,15 +35,7 @@ public class ObjectGridContainer2Launcher {
 
     public static void main(String[] args) {
 
-        if (System.getProperty("java.vm.vendor").indexOf("IBM") == -1) {
-            System.err.println("Startup failure. JVM must be an IBM 5+ JVM. Exit");
-            return;
-        }
-        float javaVersion = Float.parseFloat(System.getProperty("java.specification.version").substring(0, 3));
-        if (javaVersion < 1.5f) {
-            System.err.println("Startup failure. JVM must be an IBM 5+ JVM. Exit");
-            return;
-        }
+        ObjectGridUtils.checkJvmPreRequisitesForObjectGrid();
 
         File file = new File(".");
         logger.info("use OBJECTGRID_HOME=" + file.getAbsolutePath());

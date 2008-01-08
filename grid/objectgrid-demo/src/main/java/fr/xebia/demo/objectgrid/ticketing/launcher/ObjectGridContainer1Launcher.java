@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.xebia.demo.objectgrid.launcher;
+package fr.xebia.demo.objectgrid.ticketing.launcher;
 
 import java.io.File;
 import java.net.URL;
@@ -47,7 +47,7 @@ public class ObjectGridContainer1Launcher {
             logger.info("objectgridFile: " + objectgridFileUrl);
             logger.info("deploymentPolicyFile: " + deploymentPolicyFileUrl);
 
-            String[] startupArgs = new String[]{"xebiaContainer1", "-objectgridFile", objectgridFileUrl.getFile(), "-deploymentPolicyFile",
+            String[] startupArgs = new String[]{ObjectGridContainer1Launcher.class.getSimpleName(), "-objectgridFile", objectgridFileUrl.getFile(), "-deploymentPolicyFile",
                     deploymentPolicyFileUrl.getFile(), "-catalogServiceEndPoints", "localhost:2809", "-traceSpec",
                     "ObjectGrid*=all=disabled"};
             InitializationService.main(startupArgs);

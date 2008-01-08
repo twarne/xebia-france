@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objectGridConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ibm.com/ws/objectgrid/config ../objectGrid.xsd"
+   xmlns="http://ibm.com/ws/objectgrid/config">
+
+   <objectGrids>
+      <objectGrid name="ticketingGrid" entityMetadataXMLFile="entity.xml">
+         <backingMap name="Seat" />
+         <backingMap name="Train" />
+         <backingMap name="TrainStop" />
+      </objectGrid>
+   </objectGrids>
+</objectGridConfig>
