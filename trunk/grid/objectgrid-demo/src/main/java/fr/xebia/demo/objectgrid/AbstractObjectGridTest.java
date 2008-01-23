@@ -57,23 +57,8 @@ public abstract class AbstractObjectGridTest extends TestCase {
         int employeeId = 1;
         List<Employee> employees = new ArrayList<Employee>();
 
-        employees.add(new Employee(employeeId++, "BACROT", "Mélanie", " melaniebacrot@gmail.com", "06 63 10 25 11", 0));
-        employees.add(new Employee(employeeId++, "BITARD", "Geoffrey", "", "06 21 81 80 94", 0));
-        employees.add(new Employee(employeeId++, "BODET", "Guillaume", "gbodet@gmail.com", "06 20 88 86 65", 0));
-        employees.add(new Employee(employeeId++, "BORGOLTZ", "Alexandre", "alexandre.borgoltz@gmail.com", "06 22 00 10 75", 0));
-        employees.add(new Employee(employeeId++, "BOUCHOT", "Christophe", "christophe.bouchot@gmail.com", "06 20 73 40 46", 0));
-        employees.add(new Employee(employeeId++, "CARRE", "Guillaume", "guillaume.carre@gmail.com", "06 62 57 56 38", 0));
-        employees.add(new Employee(employeeId++, "D'ANGELA", "Laurent", "", "06 84 15 56 07", 0));
-        employees.add(new Employee(employeeId++, "EVENO", "Manuel", "manuel.eveno@gmail.com", "06 13 43 59 92", 0));
-        employees.add(new Employee(employeeId++, "GRISO", "Nicolas", "nicolas.griso@gmail.com", "06 74 56 54 93", 0));
-        employees.add(new Employee(employeeId++, "HEUBES", "Christophe", "christophe.heubes@gmail.com", "06 60 10 94 46", 0));
-        employees.add(new Employee(employeeId++, "JOZWIAK", "Nicolas", "n.jozwiak@gmail.com", "06 84 56 80 59", 0));
-        employees.add(new Employee(employeeId++, "LE CLERC", "Cyrille", "cyrille.leclerc@gmail.com", "06 61 33 69 86", 0));
-        employees.add(new Employee(employeeId++, "LEGARDEUR", "Luc", "luc.legardeur@gmail.com", "06 20 701 702", 0));
-        employees.add(new Employee(employeeId++, "MOUSSAUD", "Benoit", "bmoussaud@gmail.com", "06 70 57 33 17", 0));
-        employees.add(new Employee(employeeId++, "SAGAKIAN", "David", "dsa.xebia@gmail.com", "06 75 05 44 30", 0));
-        employees.add(new Employee(employeeId++, "SIDHOUM", "Nadia", "", "06 61 90 46 47", 0));
-        employees.add(new Employee(employeeId++, "THIVENT", "Pascal", "pthivent@gmail.com", "06 18 01 07 20", 0));
+        employees.add(new Employee(employeeId++, "XXXXX", "Yyyyyy", " yxxxxx@gmail.com", "06 60 00 00 00", 0));
+        employees.add(new Employee(employeeId++, "AAAAA", "Bbbbbb", " baaaaa@gmail.com", "06 30 00 00 00", 0));
 
         int payrollId = 0;
         for (Employee employee : employees) {
