@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jdbc-data-source xmlns="http://www.bea.com/ns/weblogic/90"
+	xmlns:sec="http://www.bea.com/ns/weblogic/90/security"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:wls="http://www.bea.com/ns/weblogic/90/security/wls"
+	xsi:schemaLocation="http://www.bea.com/ns/weblogic/90/domain.xsd">
+	<name>MyDevDataBase</name>
+	
+	<jdbc-driver-params>
+		<url>jdbc:oracle:thin:@localhost:1521:xe</url>
+		<driver-name>oracle.jdbc.OracleDriver</driver-name>
+		<properties>
+			<property>
+				<name>user</name>
+				<value>weblogic</value>
+			</property>
+		</properties>
+		<password-encrypted>{3DES}QdEw5GGOy4GM/8QwBmTEbg==</password-encrypted>
+	</jdbc-driver-params>
+
+	<jdbc-connection-pool-params>
+		<initial-capacity>1</initial-capacity>
+		<max-capacity>5</max-capacity>
+		<capacity-increment>1</capacity-increment>
+		<shrink-frequency-seconds>900</shrink-frequency-seconds>
+		<test-connections-on-reserve>true</test-connections-on-reserve>
+		<test-table-name>SQL SELECT 1 FROM DUAL</test-table-name>
+	</jdbc-connection-pool-params>
+
+	<jdbc-data-source-params>
+		<jndi-name>MyDataSource</jndi-name>
+		<!-- Global vs Application -->
+		<scope>Global</scope>
+	</jdbc-data-source-params>
+</jdbc-data-source>
