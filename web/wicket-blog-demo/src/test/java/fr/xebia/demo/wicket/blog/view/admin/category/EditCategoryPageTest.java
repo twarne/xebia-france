@@ -29,9 +29,9 @@ public class EditCategoryPageTest extends ViewCategoryPageTest {
         tester.assertComponent("categoryForm:submitButton", Button.class);
 
         TextField nameField = (TextField) tester.getComponentFromLastRenderedPage("categoryForm:name");
-        assertTrue(nameField.getModelObjectAsString().equals("test"));
+        assertTrue("Field Form is not correctly filled", nameField.getModelObjectAsString().equals("test"));
         TextField nicenameField = (TextField) tester.getComponentFromLastRenderedPage("categoryForm:nicename");
-        assertTrue(nicenameField.getModelObjectAsString().equals("Test"));
+        assertTrue("Field Form is not correctly filled", nicenameField.getModelObjectAsString().equals("Test"));
 
         // create the form tester object, mapping to its wicket:id
         FormTester form = tester.newFormTester("categoryForm");

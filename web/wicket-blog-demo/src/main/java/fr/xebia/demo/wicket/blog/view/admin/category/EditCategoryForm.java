@@ -19,11 +19,10 @@ public class EditCategoryForm extends AddCategoryForm {
 
     public EditCategoryForm(String id, Category category) {
         super(id, category);
+        createComponents();
     }
     
-    @Override
-    protected void createComponents() {
-        super.createComponents();
+    private void createComponents() {
         add(new Label("idValue", new Model(category.getId())));
     }
 
@@ -40,9 +39,10 @@ public class EditCategoryForm extends AddCategoryForm {
     protected void updateCategory(Category category) {
         try {
             logger.debug("Updating category: " + category);
-            category = categoryService.update(category);
-            setResponsePage(CategoryListPage.class, PageParametersUtils.fromStringMessage("Updated category: " + category));
+            Category updatedCategory = categoryService.update(category);
+            setResponsePage(CategoryListPage.class, PageParametersUtils.fromStringMessage("Updated category: " + updatedCategory));
         } catch (Exception e) {
+            logger.error("Error while updating category", e);
         	throw new RestartResponseException(EditCategoryPage.class, PageParametersUtils.fromException(e));
         }
     }

@@ -30,7 +30,8 @@ public class ServiceException extends Exception {
         super(message);
     }
 
-    private static Throwable getCause(Throwable cause) {
+    private static Throwable getCause(Throwable causeException) {
+        Throwable cause = causeException;
         while (cause.getCause() != null) {
             cause = cause.getCause();
         }

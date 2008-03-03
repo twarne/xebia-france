@@ -14,7 +14,7 @@ import fr.xebia.demo.wicket.blog.view.BlogWebSession;
 public class AnnotationAuthorizationStrategy implements IAuthorizationStrategy {
 
 	private static final Logger logger = Logger.getLogger(AnnotationAuthorizationStrategy.class);
-    private Class<? extends WebPage> signInPageClass;
+    private final Class<? extends WebPage> signInPageClass;
 	
 	public AnnotationAuthorizationStrategy(Class<? extends WebPage> signInPageClass) {
         super();
@@ -23,6 +23,7 @@ public class AnnotationAuthorizationStrategy implements IAuthorizationStrategy {
 
     public boolean isActionAuthorized(Component component, Action action) {
 		if ((component instanceof WebPage) == false ) {
+		    // return fast
 			return true;
 		}
 		if (component instanceof BasePage) {

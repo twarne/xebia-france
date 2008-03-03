@@ -27,5 +27,4 @@ public abstract class CategoryPage extends BaseAdminPage {
     public CategoryPage(PageParameters pageParameters) {
         super(pageParameters);
     }
-
 }

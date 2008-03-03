@@ -34,7 +34,7 @@ public class AddCommentPage extends PublicPage {
         }
     }
 
-    protected void createComponents(Long postId) {
+    private void createComponents(Long postId) {
         add(new AddCommentForm("commentForm", postId));
         add(new PageLink("backToHome", Application.get().getHomePage()));
     }

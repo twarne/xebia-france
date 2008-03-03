@@ -27,7 +27,7 @@ public class AddCategoryPage extends CategoryPage {
         createComponents();
     }
 
-    protected void createComponents() {
+    private void createComponents() {
         add(new AddCategoryForm("categoryForm"));
         add(new PageLink("backToListLink", CategoryListPage.class));
     }

@@ -57,7 +57,7 @@ public class AddCommentForm extends Form {
         createComponents();
     }
 
-    protected void createComponents() {
+    private void createComponents() {
         TextField authorField = new TextField("author", new PropertyModel(comment, "author"));
         authorField.setRequired(true);
         add(authorField);
@@ -87,7 +87,7 @@ public class AddCommentForm extends Form {
         saveComment(comment);
     }
 
-    protected void saveComment(Comment comment) {
+    private void saveComment(Comment comment) {
         try {
             comment.setDate(new Date());
             comment.setApproved(false);
@@ -95,6 +95,7 @@ public class AddCommentForm extends Form {
             commentService.save(comment);
             setResponsePage(Application.get().getHomePage(), PageParametersUtils.fromStringMessage("Added new comment: " + comment));
         } catch (Exception e) {
+            logger.error("Error while saving comment", e);
             PageParameters pageParameters = PageParametersUtils.fromException(e);
             pageParameters.put(AddCommentPage.PARAM_POSTID_KEY, comment.getPostId());
             throw new RestartResponseException(AddCommentPage.class, pageParameters);

@@ -30,9 +30,6 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
-/**
- * 
- */
 @Entity
 @Table(name = "comment")
 public class Comment implements Serializable {

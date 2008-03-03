@@ -5,7 +5,11 @@ import org.apache.wicket.PageParameters;
 import fr.xebia.demo.wicket.blog.view.BasePage;
 
 
-public class PageParametersUtils {
+public final class PageParametersUtils {
+    
+    private PageParametersUtils() {
+        // Private constructor to ensure no instance is created
+    }
 
     public static PageParameters fromStringMessage(String message) {
         PageParameters pageParameters = new PageParameters();

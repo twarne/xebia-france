@@ -47,7 +47,6 @@ public class CommentService extends GenericService<Comment> {
             .add(Expression.eq("approved", Boolean.TRUE))
             .add(Expression.eq("postId", postId))
             .addOrder(Order.desc("date"))
-            .setMaxResults(5)
             .setCacheable(false);
         return criteria.list();
     }
@@ -61,9 +60,5 @@ public class CommentService extends GenericService<Comment> {
         loadedObject.setDate(updatedObject.getDate());
         loadedObject.setPostId(updatedObject.getPostId());
         return loadedObject;
-    }
-
-    @Override
-    protected void addAssociationCriteria(Criteria criteria, Comment object) {
     }
 }

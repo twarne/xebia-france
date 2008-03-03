@@ -32,6 +32,7 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import fr.xebia.demo.wicket.blog.data.Post;
 import fr.xebia.demo.wicket.blog.service.Service;
+import fr.xebia.demo.wicket.blog.service.ServiceException;
 import fr.xebia.demo.wicket.blog.view.util.LocalizerUtils;
 import fr.xebia.demo.wicket.blog.view.util.PageParametersUtils;
 
@@ -44,18 +45,16 @@ public class PostListPage extends PostPage {
     @SpringBean(name = "postService")
     private Service<Post> postService;
 
-    private List<Post> posts;
-
     @SuppressWarnings("unchecked")
     public PostListPage(PageParameters pageParameters) {
         super(pageParameters);
         if (pageParameters.containsKey(PARAM_POSTS_KEY)) {
-            posts = (List<Post>) pageParameters.get(PARAM_POSTS_KEY);
+            List<Post> posts = (List<Post>) pageParameters.get(PARAM_POSTS_KEY);
+        createComponents(posts);
         }
-        createComponents();
     }
 
-    protected void createComponents() {
+    private void createComponents(List<Post> posts) {
         PageLink pageLink = new PageLink("addLink", AddPostPage.class);
         add(pageLink);
         add(new SearchPostForm("postForm"));
@@ -67,7 +66,7 @@ public class PostListPage extends PostPage {
                 posts = new LinkedList<Post>();
             }
         }
-        ListView categoriesListView = new ListView("posts", posts) {
+        add(new ListView("posts", posts) {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -86,13 +85,14 @@ public class PostListPage extends PostPage {
                             pageParameters.put(ViewPostPage.PARAM_POST_KEY, viewedPost);
                             setResponsePage(ViewPostPage.class, pageParameters);
                         } catch (Exception e) {
+                            logger.error("Error while getting post", e);
                         	throw new RestartResponseException(PostListPage.class, PageParametersUtils.fromException(e));
                         }
                     }
                 };
                 viewLink.add(new Label("id", String.valueOf(post.getId())));
                 listItem.add(viewLink);
-                Link deleteLink = new Link("deleteLink") {
+                listItem.add(new Link("deleteLink") {
                     private static final long serialVersionUID = 1L;
 
                     @Override
@@ -101,11 +101,11 @@ public class PostListPage extends PostPage {
                             deletePost(post);
                             setResponsePage(PostListPage.class, PageParametersUtils.fromStringMessage(LocalizerUtils.getString(this, "post.list.deleted", post.getId())));
                         } catch (Exception e) {
+                            logger.error("Error while deleting post", e);
                         	throw new RestartResponseException(PostListPage.class, PageParametersUtils.fromException(e));
                         }
                     }
-                };
-                listItem.add(deleteLink);
+                });
                 listItem.add(new Label("date", post.getDate().toString()));
                 listItem.add(new Label("modified", post.getModified().toString()));
                 listItem.add(new Label("author", post.getAuthor()));
@@ -113,24 +113,23 @@ public class PostListPage extends PostPage {
                 listItem.add(new Label("title", post.getTitle()));
                 listItem.add(new Label("category", post.getCategory().getNicename()));
             }
-        };
-        add(categoriesListView);
+        });
         add(new Label("resultCount", new StringResourceModel("post.list.resultCount", this, null, new Object[]{posts.size()})));
     }
 
-    protected List<Post> getPosts() throws Exception {
+    private List<Post> getPosts() throws ServiceException {
         List<Post> posts = postService.list();
         logger.debug("Found " + posts.size() + " posts");
         return posts;
     }
 
-    protected Post getPost(Post post) throws Exception {
+    private Post getPost(Post post) throws ServiceException {
         Serializable id = post.getId();
         logger.debug("Getting post with id: " + id);
         return postService.get(id);
     }
 
-    protected void deletePost(Post post) throws Exception {
+    private void deletePost(Post post) throws ServiceException {
         Serializable id = post.getId();
         logger.debug("Deleting post with id: " + id);
         postService.deleteById(id);

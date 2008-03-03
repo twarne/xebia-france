@@ -11,11 +11,11 @@ import fr.xebia.demo.wicket.blog.view.admin.AdminHomePage;
 
 public abstract class PublicPage extends BasePage {
 
+    private List<MenuItem> menuItemPages;
+
     public PublicPage(PageParameters pageParameters) {
         super(pageParameters);
     }
-
-    private List<MenuItem> menuItemPages;
 
     @Override
     protected List<MenuItem> getMenuItems() {

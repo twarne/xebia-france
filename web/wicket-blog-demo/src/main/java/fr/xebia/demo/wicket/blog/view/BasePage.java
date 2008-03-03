@@ -20,7 +20,6 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.log4j.Logger;
 import org.apache.wicket.Application;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.behavior.HeaderContributor;
@@ -41,17 +40,14 @@ public abstract class BasePage extends WebPage {
     public static final String PARAM_ERRORMESSAGE_KEY = "errorMessage";
     public static final String PARAM_EXCEPTION_KEY = "exception";
 
-    private static final Logger logger = Logger.getLogger(BasePage.class);
-
-    private FeedbackPanel feedbackPanel;
+    private final FeedbackPanel feedbackPanel;
 
     public BasePage(PageParameters pageParameters) {
         super(pageParameters);
         add(HeaderContributor.forCss("common/styles.css"));
         add(new BookmarkablePageLink("titleLink", Application.get().getHomePage()));
 
-        ListView menuItemsListView = new ListView("menuItems", getMenuItems()) {
-
+        add(new ListView("menuItems", getMenuItems()) {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -62,8 +58,7 @@ public abstract class BasePage extends WebPage {
                 menuItemLink.add(new Label("menuItemLabel", menuItem.getLabelModel()));
                 listItem.add(menuItemLink);
             }
-        };
-        add(menuItemsListView);
+        });
 
         feedbackPanel = new FeedbackPanel("feedbackPanel");
         add(feedbackPanel);
@@ -80,17 +75,18 @@ public abstract class BasePage extends WebPage {
         if (pageParameters == null) {
             return ;
         }
-        if (pageParameters.containsKey(PARAM_EXCEPTION_KEY)) {
-            Throwable t = (Throwable) pageParameters.get(PARAM_EXCEPTION_KEY);
-            addErrorMessage(t);
-        }
         if (pageParameters.containsKey(PARAM_MESSAGE_KEY)) {
             String message = (String) pageParameters.getString(PARAM_MESSAGE_KEY);
-            addInfoMessage(message);
+            feedbackPanel.info(message);
         }
         if (pageParameters.containsKey(PARAM_ERRORMESSAGE_KEY)) {
             String errorMessage = (String) pageParameters.getString(PARAM_ERRORMESSAGE_KEY);
-            addErrorMessage(errorMessage);
+            feedbackPanel.error(errorMessage);
+        }
+        if (pageParameters.containsKey(PARAM_EXCEPTION_KEY)) {
+            Throwable t = (Throwable) pageParameters.get(PARAM_EXCEPTION_KEY);
+            String errorMessage = StringUtils.isEmpty(t.getMessage()) ? t.toString() : t.getMessage();
+            feedbackPanel.error(errorMessage);
         }
     }
 
@@ -106,7 +102,6 @@ public abstract class BasePage extends WebPage {
         if (t == null) {
             return ;
         }
-        logger.error("Une erreur est survenu", t);
         String errorMessage = StringUtils.isEmpty(t.getMessage()) ? t.toString() : t.getMessage();
         feedbackPanel.error(errorMessage);
     }
@@ -120,9 +115,9 @@ public abstract class BasePage extends WebPage {
 
         private static final long serialVersionUID = 1L;
 
-        private Class pageClass;
+        private final Class pageClass;
 
-        private IModel labelModel;
+        private final IModel labelModel;
 
         public MenuItem(Class pageClass, IModel labelModel) {
             super();
@@ -132,10 +127,6 @@ public abstract class BasePage extends WebPage {
 
         public Class getPageClass() {
             return pageClass;
-        }
-
-        public void setPageClass(Class pageClass) {
-            this.pageClass = pageClass;
         }
 
         public IModel getLabelModel() {

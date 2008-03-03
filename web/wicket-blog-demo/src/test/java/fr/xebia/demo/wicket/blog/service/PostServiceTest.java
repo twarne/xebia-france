@@ -22,16 +22,6 @@ import fr.xebia.demo.wicket.blog.data.Post;
 
 public class PostServiceTest extends AbstractServiceTest<Post> {
 
-    @Override
-    protected void init() throws Exception {
-        super.init();
-    }
-
-    @Override
-    protected void destroy() throws Exception {
-        super.destroy();
-    }
-
     /**
      * @see org.xebia.service.ServiceTestCase#createOneObject()
      */

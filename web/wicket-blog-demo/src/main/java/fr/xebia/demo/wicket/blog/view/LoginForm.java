@@ -1,5 +1,6 @@
 package fr.xebia.demo.wicket.blog.view;
 
+import org.apache.log4j.Logger;
 import org.apache.wicket.RestartResponseException;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
@@ -17,11 +18,13 @@ import fr.xebia.demo.wicket.blog.view.util.PageParametersUtils;
 public class LoginForm extends Form {
 
     private static final long serialVersionUID = 1L;
+    
+    private static final Logger logger = Logger.getLogger(LoginForm.class);
 
     @SpringBean(name = "loginService")
     private LoginService loginService;
 
-    private User user;
+    private final User user;
 
     public LoginForm(String id) {
         super(id);
@@ -29,7 +32,7 @@ public class LoginForm extends Form {
         createComponents();
     }
 
-    protected void createComponents() {
+    private void createComponents() {
         TextField userField = new TextField("user", new PropertyModel(user, "login"));
         userField.setRequired(true);
         add(userField);
@@ -49,7 +52,9 @@ public class LoginForm extends Form {
             // L'appel à continueToOriginalDestination() redirige vers la page
             // stocker via l'appel à redirectToInterceptPage(page)
             // ou la levée de l'exception RestartResponseAtInterceptPageException
-            if (continueToOriginalDestination() == false) {
+            if (continueToOriginalDestination()) {
+                logger.debug("Redirecting to original page");
+            } else { 
                 setResponsePage(AdminHomePage.class);
             }
         } else {

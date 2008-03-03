@@ -19,13 +19,7 @@ import fr.xebia.demo.wicket.blog.data.Category;
 import fr.xebia.demo.wicket.blog.data.Comment;
 import fr.xebia.demo.wicket.blog.data.Post;
 
-/**
- * 
- */
 public class ServiceLocator {
-
-    public ServiceLocator() throws ServiceException {
-    }
 
     private Service<Category> categoryService;
 

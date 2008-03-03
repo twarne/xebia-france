@@ -1,7 +1,5 @@
 package fr.xebia.demo.wicket.blog.view.admin.comment;
 
-import static org.junit.Assert.fail;
-
 import java.util.Date;
 
 import org.apache.wicket.markup.html.basic.Label;
@@ -11,12 +9,11 @@ import org.junit.Test;
 
 import fr.xebia.demo.wicket.blog.data.Comment;
 import fr.xebia.demo.wicket.blog.service.CommentService;
-import fr.xebia.demo.wicket.blog.service.ServiceException;
 
 public class ViewCommentPageTest extends CommentListPageTest {
 
     @Test
-    public void testRender() {
+    public void testRender() throws Exception {
         
         CommentService commentService = (CommentService) appContext.getBean("commentService");
         Comment comment = new Comment();
@@ -26,12 +23,7 @@ public class ViewCommentPageTest extends CommentListPageTest {
         comment.setApproved(Boolean.FALSE);
         comment.setPostId(Long.valueOf(1));
         comment.setContent("Hello guys !");
-        try {
-            commentService.save(comment);
-        } catch (ServiceException e) {
-            e.printStackTrace();
-            fail(e.toString());
-        }
+        commentService.save(comment);
         
         super.testRender();
         

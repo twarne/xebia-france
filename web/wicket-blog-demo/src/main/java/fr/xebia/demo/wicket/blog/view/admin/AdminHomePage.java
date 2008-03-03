@@ -27,7 +27,7 @@ public class AdminHomePage extends BaseAdminPage {
         createComponents();
     }
 
-    protected void createComponents() {
+    private void createComponents() {
         add(new Label("adminWelcomeMessage", new StringResourceModel("index.adminWelcomeMessage", this, null)));
     }
 
