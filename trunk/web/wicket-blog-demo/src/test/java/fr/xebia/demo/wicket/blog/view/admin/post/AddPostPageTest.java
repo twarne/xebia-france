@@ -4,7 +4,6 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.form.DropDownChoice;
-import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.RadioChoice;
 import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.form.TextField;
@@ -27,8 +26,6 @@ public class AddPostPageTest extends PostListPageTest {
         tester.assertComponent("feedbackPanel", FeedbackPanel.class);
         tester.assertComponent("postForm", AddPostForm.class);
         tester.assertComponent("postForm:commentsAllowed", CheckBox.class);
-        tester.assertComponent("postForm:pingAllowed", CheckBox.class);
-        tester.assertComponent("postForm:password", PasswordTextField.class);
         tester.assertComponent("postForm:title", TextField.class);
         tester.assertComponent("postForm:status", RadioChoice.class);
         tester.assertComponent("postForm:author", TextField.class);

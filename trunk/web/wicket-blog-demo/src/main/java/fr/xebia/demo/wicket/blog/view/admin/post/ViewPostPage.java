@@ -43,8 +43,6 @@ public class ViewPostPage extends PostPage {
         add(new MultiLineLabel("content", String.valueOf(post.getContent())));
         add(new Label("date", String.valueOf(post.getDate())));
         add(new Label("modified", String.valueOf(post.getModified())));
-        add(new Label("password", String.valueOf(post.getPassword())));
-        add(new Label("pingStatus", String.valueOf(post.getPingAllowed())));
         add(new Label("author", String.valueOf(post.getAuthor())));
         add(new Label("status", String.valueOf(post.getStatus())));
         add(new Label("title", String.valueOf(post.getTitle())));

@@ -50,10 +50,6 @@ public class Post implements Serializable {
 
     private Date modified;
 
-    private String password;
-
-    private Boolean pingAllowed;
-
     private String author;
 
     private String status = STATUS_DRAFT;
@@ -108,24 +104,6 @@ public class Post implements Serializable {
         this.modified = new Date(pModified.getTime());
     }
 
-    @Column(name = "password")
-    public String getPassword() {
-        return this.password;
-    }
-
-    public void setPassword(String pPassword) {
-        this.password = pPassword;
-    }
-
-    @Column(name = "ping_status")
-    public Boolean getPingAllowed() {
-        return this.pingAllowed;
-    }
-
-    public void setPingAllowed(Boolean pPingStatus) {
-        this.pingAllowed = pPingStatus;
-    }
-
     @Column(name = "post_author")
     public String getAuthor() {
         return this.author;
@@ -178,8 +156,6 @@ public class Post implements Serializable {
         equalsBuilder.append(getContent(), otherPost.getContent());
         equalsBuilder.append(getDate(), otherPost.getDate());
         equalsBuilder.append(getModified(), otherPost.getModified());
-        equalsBuilder.append(getPassword(), otherPost.getPassword());
-        equalsBuilder.append(getPingAllowed(), otherPost.getPingAllowed());
         equalsBuilder.append(getAuthor(), otherPost.getAuthor());
         equalsBuilder.append(getStatus(), otherPost.getStatus());
         equalsBuilder.append(getTitle(), otherPost.getTitle());
@@ -194,8 +170,6 @@ public class Post implements Serializable {
         hashCodeBuilder.append(getContent());
         hashCodeBuilder.append(getDate());
         hashCodeBuilder.append(getModified());
-        hashCodeBuilder.append(getPassword());
-        hashCodeBuilder.append(getPingAllowed());
         hashCodeBuilder.append(getAuthor());
         hashCodeBuilder.append(getStatus());
         hashCodeBuilder.append(getTitle());
@@ -208,8 +182,6 @@ public class Post implements Serializable {
         builder.append("commentStatus", commentsAllowed);
         builder.append("date", date);
         builder.append("modified", modified);
-        builder.append("password", password);
-        builder.append("pingStatus", pingAllowed);
         builder.append("postAuthor", author);
         builder.append("status", status);
         builder.append("title", title);
