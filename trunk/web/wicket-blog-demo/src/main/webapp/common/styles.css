@@ -40,7 +40,7 @@
 	width: 100%;
 	height: 70px;
 	text-align: center;
-	background-color: #CC3355;
+	background-color: #7F4F7F;
 	font-size: 2em;
 	color: #FFFFFF;
 }
@@ -55,7 +55,6 @@
 }
 
 #menu a {
-	text-decoration: none;
 	font-weight: bold;
 	font-size: 0.9em;
 }
@@ -88,6 +87,14 @@
 body {
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 10px;
+}
+a {
+	color: #7F4F7F;
+	text-decoration: none;
+}
+a:hover {
+	color: #AF4FAF;
+	text-decoration: underline;
 }
 legend {
 	font-weight: bold;
