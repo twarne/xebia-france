@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<faqs title="FAQ">
+
+  <part id="general">
+    <faq id="character-encoding"> 
+      <question>
+Quel est le character encoding des sources ?
+      </question>
+      <answer>
+        <p>
+Pour le code Java, la property du POM contrôlant cela est source.encoding.  Il
+est <strong>fortement</strong> déconseillé de la surcharger (et donc de ne pas
+prendre la valeur par défaut) vu la fragilité de l'outillage actuel
+(2007-11-13) concernant la bonne gestion des character encodings.
+        </p>
+      </answer>
+    </faq>
+  </part>
+
+  <part id="site-generation">
+    <faq id="checkstyle-pmd-level">
+      <question>
+Comment paramètre-t-on le niveau de remontée de Checkstyle et
+PMD ?
+      </question>
+      <answer>
+        <p>
+Concernant PMD, c'est très simple : il suffit de setter la property
+pmd.max.level. Le niveau va de 1 (peu de remontées) à 4 (beaucoup de remontées).
+Ex. :
+        </p>
+        <source>
+<project>
+  ...
+  <properties>
+    <pmd.max.level>4</pmd.max.level>
+  </properties>
+  ...
+</project>
+        </source>
+        <p>
+Concernant Checkstyle, c'est plus difficile : il faut copier le
+checkstyle.properties du projet common-build-resources dans un fichier de
+properties que l'on nommera nomProjet-checkstyle.properties et d'y mettre à jour
+les properties severity.a.consideredas où "d" décrit l'ensemble constitué par
+"ignore", "info", "warning", "error".
+        </p>
+        <p>
+Par exemple, pour considérer comme erreur tout ce qui est déclaré comme warning
+ou error :
+        </p>
+        <source>
+severity.ignore.consideredas=ignore
+severity.info.consideredas=info
+severity.warning.consideredas=error
+severity.error.consideredas=error
+        </source>
+        <p>
+Pour considérer comme erreur tout ce qui est déclaré comme info, warning ou
+error :
+        </p>
+        <source>
+severity.ignore.consideredas=ignore
+severity.info.consideredas=error
+severity.warning.consideredas=error
+severity.error.consideredas=error
+        </source>
+      </answer>
+    </faq>
+    <faq id="checkstyle-import-control">
+      <question>
+Quid du contrôle des imports Checkstyle ?
+      </question>
+      <answer>
+        <p>
+Nous avons jugé cette fonctionnalité (check ImportControl) d'un intérêt
+finalement assez limité et surtout excessivement lourde à mettre en oeuvre sur
+tous les projets (puisqu'elle exige de dresser la liste exacte de tous les
+imports pour tous les projets, ce qui est incommode et non souhaitable). Nous
+proposons comme alternative l'utilisation du check IllegalImport. Il suffit de
+copier le checkstyle.properties de common-build-resources dans un fichier de
+properties que l'on nommera nomProjet-checkstyle.properties et d'y mettre à jour
+la liste des imports interdits :
+        </p>
+        <source>
+illegal.imports=sun,com.unwanted.old.api,...
+        </source>
+        <p>
+Il faudra alors écrire dans le POM du projet concerné :
+        </p>
+        <source>
+<project>
+  ...
+  <properties>
+    <checkstyle.property.location>src/main/checkstyle/nomProjet-checkstyle.properties</checkstyle.property.location>
+  </properties>
+  ...
+</project>
+        </source>
+        <p>
+Remarque importante : il est préférable de mettre
+nomProjet-checkstyle.properties dans un répertoire dédié sous src/main plutôt
+que dans src/resources vu que le fichier n'a pas à figurer dans le livrable
+packagé associé au projet.
+        </p>
+      </answer>
+    </faq>
+    <faq id="automatic-code-review-and-then">
+      <question>
+Faut-il corriger chercher à corriger toutes les anomalies Checkstyle, FindBugs,
+PMD, etc. ?
+      </question>
+      <answer>
+        <p>
+<strong>Non ! Surtout pas !</strong>. Ces outils ne sont pas "exacts",
+travaillent à un niveau très bas d'abstraction qui ne permet absolument pas une
+analyse sémantique du code. Certaines règles peuvent être légitimement
+enfreintes. Ceci dit, nous avons pu constater sur un certain nombre de projets
+une relative corrélation entre la fiabilité du code et les scores
+Checkstyle/FindBugs/PMD... A méditer.
+        </p>
+      </answer>
+    </faq>
+  </part>
+</faqs>
+
