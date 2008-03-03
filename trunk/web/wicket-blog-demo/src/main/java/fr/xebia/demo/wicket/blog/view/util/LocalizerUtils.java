@@ -24,35 +24,42 @@ import org.apache.wicket.Component;
 import org.apache.wicket.Localizer;
 import org.apache.wicket.Session;
 
-public class LocalizerUtils {
+public final class LocalizerUtils {
 
     private static final Logger logger = Logger.getLogger(LocalizerUtils.class);
 
-    public static String getString(Component component, String key, Object... parameters) {
+    private LocalizerUtils() {
+        // Private constructor to ensure no instance is created
+    }
+
+    public static String getString(Component component, String key, final Object... parameters) {
         String message = getLocalizer(component).getString(key, component);
-        if (parameters != null && parameters.length != 0) {
-            for (int i = 0; i < parameters.length; i++) {
-                if (!(parameters[i] instanceof String)) {
-                    parameters[i] = String.valueOf(parameters[i]);
-                }
-            }
-            // Apply the parameters
-            try {
-                final MessageFormat format = new MessageFormat(message, getLocale(component));
-                message = format.format(parameters);
-            } catch (RuntimeException e) {
-                logger.warn("Can't get i18n resource for key: " + key, e);
-                return '%' + key + '%';
+        if (parameters == null || parameters.length == 0) {
+            // No parameter, simply return the message
+            return message;
+        }
+        // Convert parameters each parameter to a String
+        String[] parametersAsString = new String[parameters.length];
+        for (int i = 0; i < parameters.length; i++) {
+            if (!(parameters[i] instanceof String)) {
+                parametersAsString[i] = String.valueOf(parameters[i]);
             }
         }
-        return message;
+        // Apply the parameters to the message
+        try {
+            MessageFormat format = new MessageFormat(message, getLocale(component));
+            return format.format(parametersAsString);
+        } catch (RuntimeException e) {
+            logger.warn("Can't get format message with parameters for key: " + key, e);
+            return message;
+        }
     }
 
     private static Locale getLocale(Component component) {
-        if (component != null) {
-            component.getLocale();
-        } else {
+        if (component == null) {
             Session.get().getLocale();
+        } else {
+            component.getLocale();
         }
         return null;
     }
@@ -60,11 +67,10 @@ public class LocalizerUtils {
     private static Localizer getLocalizer(Component component) {
         Localizer localizer = Application.get().getResourceSettings().getLocalizer();
         if (localizer == null) {
-            if (component != null) {
-                localizer = component.getLocalizer();
-            } else {
+            if (component == null) {
                 throw new IllegalStateException("No localizer has been set");
             }
+            localizer = component.getLocalizer();
         }
         return localizer;
     }

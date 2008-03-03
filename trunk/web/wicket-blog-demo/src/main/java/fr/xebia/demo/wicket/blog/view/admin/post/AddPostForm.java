@@ -46,7 +46,7 @@ public class AddPostForm extends Form {
 
     private static final List<String> POST_STATUS_CHOICE = Arrays.asList(new String[]{Post.STATUS_DRAFT, Post.STATUS_PUBLISHED});
 
-    protected static final Logger logger = Logger.getLogger(AddPostForm.class);
+    private static final Logger logger = Logger.getLogger(AddPostForm.class);
 
     @SpringBean(name = "postService")
     protected Service<Post> postService;
@@ -54,7 +54,7 @@ public class AddPostForm extends Form {
     @SpringBean(name = "categoryService")
     protected Service<Category> categoryService;
     
-    protected Post post;
+    protected final Post post;
 
     public AddPostForm(String id) {
         this(id, new Post());
@@ -66,7 +66,7 @@ public class AddPostForm extends Form {
         createComponents();
     }
 
-    protected void createComponents() {
+    private void createComponents() {
         PasswordTextField passwordTextField = new PasswordTextField("password", new PropertyModel(post, "password"));
         passwordTextField.setRequired(false);
         add(passwordTextField);
@@ -105,12 +105,13 @@ public class AddPostForm extends Form {
         add(new Button("submitButton", getButtonModel()));
     }
 
-    protected List<Category> getCategories() {
+    private List<Category> getCategories() {
         try {
             List<Category> categories = categoryService.list();
             logger.debug("Found " + categories.size() + " categories");
             return categories;
         } catch (Exception e) {
+            logger.error("Error while retreiving categories", e);
             throw new RestartResponseException(PostListPage.class, PageParametersUtils.fromException(e));
         }
     }
@@ -127,7 +128,7 @@ public class AddPostForm extends Form {
         savePost(post);
     }
 
-    protected void savePost(Post post) {
+    private void savePost(Post post) {
         try {
             post.setDate(new Date());
             post.setModified(new Date());
@@ -135,6 +136,7 @@ public class AddPostForm extends Form {
             postService.save(post);
             setResponsePage(PostListPage.class, PageParametersUtils.fromStringMessage("Added new post: " + post));
         } catch (Exception e) {
+            logger.error("Error while saving post", e);
             throw new RestartResponseException(AddPostPage.class, PageParametersUtils.fromException(e));
         }
     }

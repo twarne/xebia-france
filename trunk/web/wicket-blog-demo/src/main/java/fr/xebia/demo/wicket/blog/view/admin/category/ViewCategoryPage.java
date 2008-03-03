@@ -36,7 +36,7 @@ public class ViewCategoryPage extends CategoryPage {
         }
     }
 
-    protected void createComponents(Category category) {
+    private void createComponents(Category category) {
         add(new Label("id", String.valueOf(category.getId())));
         add(new Label("description", String.valueOf(category.getDescription())));
         add(new Label("name", String.valueOf(category.getName())));

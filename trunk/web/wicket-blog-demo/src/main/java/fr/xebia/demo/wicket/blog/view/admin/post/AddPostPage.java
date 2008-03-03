@@ -27,7 +27,7 @@ public class AddPostPage extends PostPage {
         createComponents();
     }
 
-    protected void createComponents() {
+    private void createComponents() {
         add(new AddPostForm("postForm"));
         add(new PageLink("backToListLink", PostListPage.class));
     }

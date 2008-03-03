@@ -28,17 +28,17 @@ public interface Service<T> {
      */
     public abstract int getMaxResults();
 
-    public abstract void save(T object) throws ServiceException;
+    public abstract void save(T entity) throws ServiceException;
 
-    public abstract T update(T object) throws ServiceException;
+    public abstract T update(T entity) throws ServiceException;
 
     public abstract void deleteById(Serializable id) throws ServiceException;
 
-    public abstract void delete(T object) throws ServiceException;
+    public abstract void delete(T entity) throws ServiceException;
 
     public abstract T get(Serializable id) throws ServiceException;
 
     public abstract List<T> list() throws ServiceException;
 
-    public abstract List<T> search(T object) throws ServiceException;
+    public abstract List<T> search(T exampleEntity) throws ServiceException;
 }

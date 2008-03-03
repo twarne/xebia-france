@@ -42,12 +42,10 @@ public class EditCommentForm extends AddCommentForm {
 
     public EditCommentForm(String id, Comment comment) {
         super(id, comment);
+        createComponents();
     }
 
-    @Override
-    protected void createComponents() {
-        super.createComponents();
-
+    private void createComponents() {
         add(new Label("idValue", new PropertyModel(comment, "id")));
         CheckBox checkBox = new CheckBox("approved", new PropertyModel(comment, "approved"));
         checkBox.setRequired(true);
@@ -72,9 +70,10 @@ public class EditCommentForm extends AddCommentForm {
     protected void updateComment(Comment comment) {
         try {
             logger.debug("Updating comment: " + comment);
-            comment = commentService.update(comment);
-            setResponsePage(CommentListPage.class, PageParametersUtils.fromStringMessage("Updated comment: " + comment));
+            Comment updatedComment = commentService.update(comment);
+            setResponsePage(CommentListPage.class, PageParametersUtils.fromStringMessage("Updated comment: " + updatedComment));
         } catch (Exception e) {
+            logger.error("Error while updating comment", e);
             PageParameters pageParameters = PageParametersUtils.fromException(e);
             pageParameters.put(EditCommentPage.PARAM_COMMENT_KEY, comment);
             throw new RestartResponseException(EditCommentPage.class, pageParameters);

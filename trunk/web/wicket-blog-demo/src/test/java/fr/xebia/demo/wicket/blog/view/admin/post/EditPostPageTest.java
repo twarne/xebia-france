@@ -58,9 +58,9 @@ public class EditPostPageTest extends ViewPostPageTest {
         tester.assertComponent("postForm:submitButton", Button.class);
 
         TextField nameField = (TextField) tester.getComponentFromLastRenderedPage("postForm:title");
-        assertTrue(nameField.getModelObjectAsString().equals("test"));
+        assertTrue("Field Form is not correctly filled", nameField.getModelObjectAsString().equals("test"));
         TextField nicenameField = (TextField) tester.getComponentFromLastRenderedPage("postForm:author");
-        assertTrue(nicenameField.getModelObjectAsString().equals("Test"));
+        assertTrue("Field Form is not correctly filled", nicenameField.getModelObjectAsString().equals("Test"));
 
         // create the form tester object, mapping to its wicket:id
         FormTester form = tester.newFormTester("postForm");

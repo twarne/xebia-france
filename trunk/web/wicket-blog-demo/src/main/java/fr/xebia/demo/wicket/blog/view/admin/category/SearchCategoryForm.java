@@ -39,7 +39,7 @@ public class SearchCategoryForm extends Form {
     @SpringBean(name = "categoryService")
     private Service<Category> categoryService;
 
-    private Category category;
+    private final Category category;
 
     public SearchCategoryForm(String id) {
         super(id);
@@ -47,7 +47,7 @@ public class SearchCategoryForm extends Form {
         createComponents();
     }
 
-    protected void createComponents() {
+    private void createComponents() {
         add(new TextField("description", new PropertyModel(category, "description")));
         add(new TextField("name", new PropertyModel(category, "name")));
         add(new TextField("nicename", new PropertyModel(category, "nicename")));
@@ -70,6 +70,7 @@ public class SearchCategoryForm extends Form {
             pageParameters.put(CategoryListPage.PARAM_CATEGORIES_KEY, categories);
             setResponsePage(CategoryListPage.class, pageParameters);
         } catch (Exception e) {
+            logger.error("Error while searching categories", e);
         	throw new RestartResponseException(CategoryListPage.class, PageParametersUtils.fromException(e));
         }
     }

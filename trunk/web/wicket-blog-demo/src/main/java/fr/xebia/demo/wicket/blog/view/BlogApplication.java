@@ -33,10 +33,6 @@ import fr.xebia.demo.wicket.blog.view.security.UnauthorizedComponentInstantiatio
 
 public class BlogApplication extends SpringWebApplication {
 
-	public BlogApplication() {
-		super();
-	}
-
 	@Override
 	protected void init() {
 		super.init();

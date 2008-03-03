@@ -33,6 +33,7 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import fr.xebia.demo.wicket.blog.data.Category;
 import fr.xebia.demo.wicket.blog.service.Service;
+import fr.xebia.demo.wicket.blog.service.ServiceException;
 import fr.xebia.demo.wicket.blog.view.util.LocalizerUtils;
 import fr.xebia.demo.wicket.blog.view.util.PageParametersUtils;
 
@@ -55,22 +56,20 @@ public class CategoryListPage extends CategoryPage {
         createComponents(categories);
     }
 
-    protected void createComponents(List<Category> categories) {
+    private void createComponents(List<Category> categories) {
         PageLink pageLink = new PageLink("addLink", AddCategoryPage.class);
         add(pageLink);
         add(new SearchCategoryForm("categoryForm"));
         if (categories == null) {
             categories = getCategories();
         }
-        ListView categoriesListView = new ListView("categories", categories) {
-
+        add(new ListView("categories", categories) {
             private static final long serialVersionUID = 1L;
 
             @Override
             public void populateItem(final ListItem listItem) {
                 final Category category = (Category) listItem.getModelObject();
                 Link editLink = new Link("viewLink") {
-
                     private static final long serialVersionUID = 1L;
 
                     @Override
@@ -85,13 +84,14 @@ public class CategoryListPage extends CategoryPage {
                             pageParameters.put(ViewCategoryPage.PARAM_CATEGORY_KEY, viewedCategory);
                             setResponsePage(ViewCategoryPage.class, pageParameters);
                         } catch (Exception e) {
+                            logger.error("Error while getting category", e);
                         	throw new RestartResponseException(CategoryListPage.class, PageParametersUtils.fromException(e));
                         }
                     }
                 };
                 editLink.add(new Label("id", String.valueOf(category.getId())));
                 listItem.add(editLink);
-                Link detailsLink = new Link("deleteLink") {
+                listItem.add(new Link("deleteLink") {
 
                     private static final long serialVersionUID = 1L;
 
@@ -102,39 +102,39 @@ public class CategoryListPage extends CategoryPage {
                             setResponsePage(CategoryListPage.class, PageParametersUtils.fromStringMessage(LocalizerUtils.getString(this,
                                     "category.list.deleted", category.getId())));
                         } catch (Exception e) {
+                            logger.error("Error while deleting category", e);
                         	throw new RestartResponseException(CategoryListPage.class, PageParametersUtils.fromException(e));
                         }
                     }
-                };
-                listItem.add(detailsLink);
+                });
                 listItem.add(new Label("description", new Model(category.getDescription())));
                 listItem.add(new Label("name", category.getName()));
                 listItem.add(new Label("nicename", category.getNicename()));
             }
-        };
-        add(categoriesListView);
+        });
         add(new Label("resultCount", new StringResourceModel("category.list.resultCount", this, null, new Object[]{categories.size()})));
     }
 
-    protected List<Category> getCategories() {
+    private List<Category> getCategories() {
         List<Category> categories = null;
         try {
             categories = categoryService.list();
             logger.debug("Found " + categories.size() + " categories");
         } catch (Exception e) {
+            logger.error("Error while getting category list", e);
             addErrorMessage(e);
             categories = new LinkedList<Category>();
         }
         return categories;
     }
 
-    protected Category getCategory(Category category) throws Exception {
+    private Category getCategory(Category category) throws ServiceException {
         Serializable id = category.getId();
         logger.debug("Getting category with id: " + id);
         return categoryService.get(id);
     }
 
-    protected void deleteCategory(Category category) throws Exception {
+    private void deleteCategory(Category category) throws ServiceException {
         Serializable id = category.getId();
         logger.debug("Deleting category with id: " + id);
         categoryService.deleteById(id);

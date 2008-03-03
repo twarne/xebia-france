@@ -49,14 +49,14 @@ public class SearchPostForm extends Form {
     @SpringBean(name = "categoryService")
     protected Service<Category> categoryService;
 
-    private Post post = new Post();
+    private final Post post = new Post();
 
     public SearchPostForm(String id) {
         super(id);
         createComponents();
     }
 
-    protected void createComponents() {
+    private void createComponents() {
         
         add(new CustomDateField("date", new PropertyModel(post, "date")));
         add(new CustomDateField("modified", new PropertyModel(post, "modified")));
@@ -79,7 +79,7 @@ public class SearchPostForm extends Form {
         searchPosts(post);
     }
 
-    protected void searchPosts(Post post) {
+    private void searchPosts(Post post) {
         try {
             List<Post> posts = postService.search(post);
             logger.debug("Found " + posts.size() + " posts");
@@ -87,18 +87,19 @@ public class SearchPostForm extends Form {
             pageParameters.put(PostListPage.PARAM_POSTS_KEY, posts);
             setResponsePage(PostListPage.class, pageParameters);
         } catch (Exception e) {
+            logger.error("Error while searching posts", e);
         	throw new RestartResponseException(PostListPage.class, PageParametersUtils.fromException(e));
         }
     }
 
-    protected List<Category> getCategories() {
+    private List<Category> getCategories() {
         try {
             List<Category> categories = categoryService.list();
             logger.debug("Found " + categories.size() + " categories");
             return categories;
         } catch (Exception e) {
+            logger.error("Error while getting categories", e);
             throw new RestartResponseException(PostListPage.class, PageParametersUtils.fromException(e));
         }
     }
-
 }

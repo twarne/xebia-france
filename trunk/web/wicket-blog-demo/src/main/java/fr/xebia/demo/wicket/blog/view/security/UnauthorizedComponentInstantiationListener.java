@@ -9,7 +9,7 @@ import org.apache.wicket.authorization.UnauthorizedInstantiationException;
 public class UnauthorizedComponentInstantiationListener implements
 		IUnauthorizedComponentInstantiationListener {
 	
-	private Class<? extends Component> restartPageClass;
+	private final Class<? extends Component> restartPageClass;
 
 	public UnauthorizedComponentInstantiationListener(Class<? extends Component> restartPageClass) {
 		super();

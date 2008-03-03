@@ -48,10 +48,10 @@ public class HomePage extends PublicPage {
         createComponents();
     }
 
-    protected void createComponents() {
+    private void createComponents() {
         add(new Label("welcomeMessage", new StringResourceModel("index.welcomeMessage", this, null)));
         
-        ListView postsListView = new ListView("posts", getLastPosts()) {
+        add(new ListView("posts", getLastPosts()) {
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -84,32 +84,30 @@ public class HomePage extends PublicPage {
                 };
                 postListItem.add(commentsListView);
             }
-        };
-        add(postsListView);
+        });
     }
 
-    protected List<Post> getLastPosts() {
+    private List<Post> getLastPosts() {
         List<Post> posts = null;
         try {
             posts = postService.getLastPosts();
+            logger.debug("Found " + posts.size() + " posts");
         } catch (Exception e) {
+            logger.error("Can't get posts", e);
             posts = new LinkedList<Post>();
         }
-        logger.debug("Found " + posts.size() + " posts");
         return posts;
     }
 
-    protected List<Comment> getCommentsForPostId(Long postId) {
+    private List<Comment> getCommentsForPostId(Long postId) {
         List<Comment> comments = null;
         try {
             comments = commentService.getCommentsForPostId(postId);
             logger.debug("Found "+comments.size()+" comments for postId: "+postId);
         } catch (Exception e) {
             comments = new LinkedList<Comment>();
-            logger.debug("No comments for postId: "+postId);
+            logger.error("Can't get comments for postId: "+postId, e);
         }
-        logger.debug("Found " + comments.size() + " comments");
         return comments;
     }
-
 }

@@ -15,21 +15,27 @@
  */
 package fr.xebia.demo.wicket.blog.service;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.fail;
+
 import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.net.URL;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-
 import org.apache.log4j.Logger;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import org.springframework.beans.factory.xml.XmlBeanFactory;
 import org.springframework.core.io.UrlResource;
 
-public abstract class AbstractServiceTest<T> extends TestCase {
+public abstract class AbstractServiceTest<T> {
+
+    private static final String NO_ITEM_RETREIVED_MSG = "No item retreived";
 
     private static final Logger logger = Logger.getLogger(AbstractServiceTest.class);
 
@@ -47,11 +53,7 @@ public abstract class AbstractServiceTest<T> extends TestCase {
 
     protected Random randomizer;
 
-    public AbstractServiceTest() {
-        super();
-    }
-
-    @Override
+    @Before
     public void setUp() throws Exception {
         randomizer = new Random();
         if (initialized == false) {
@@ -64,7 +66,7 @@ public abstract class AbstractServiceTest<T> extends TestCase {
         service = getService();
     }
 
-    protected void init() throws Exception {
+    protected void init() {
         logger.info("Initializing Services");
         ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
         URL configuration = contextClassLoader.getResource("applicationContext-service.xml");
@@ -90,7 +92,7 @@ public abstract class AbstractServiceTest<T> extends TestCase {
         return count;
     }
 
-    @Override
+    @After
     public void tearDown() throws Exception {
         currentExecutedTestCount++;
         logger.info("Executed Test " + currentExecutedTestCount + '/' + totalTestCount);
@@ -99,97 +101,102 @@ public abstract class AbstractServiceTest<T> extends TestCase {
         }
     }
 
-    protected void destroy() throws Exception {
+    protected void destroy() {
         logger.info("Destroying Services");
         factory.destroySingletons();
         initialized = false;
     }
 
+    @Test
     public void testAdd() throws ServiceException {
         T object = createObject();
         service.save(object);
+        assertNotNull("Generated id is null !", extractId(object));
         logger.info("Inserted object with id: " + extractId(object));
     }
 
+    @Test
     public void testList() throws ServiceException {
         List<T> objects = service.list();
-        assertTrue(objects.size() != 0);
+        assertSame(NO_ITEM_RETREIVED_MSG, objects.isEmpty(), false);
         logger.info("Objects extracted count : " + objects.size());
     }
 
+    @Test
     public void testGet() throws ServiceException {
         List<T> objects = service.list();
-        if (objects.size() == 0) {
-            fail("No item retreived by getList");
+        if (objects.isEmpty()) {
+            fail(NO_ITEM_RETREIVED_MSG);
         }
         Serializable id = extractId(objects.get(0));
         logger.info("Getting object with id: " + id);
-        service.get(id);
+        T entity = service.get(id);
+        assertNotNull("Returned object is null", entity);
     }
 
+    @Test
     public void testUpdate() throws ServiceException {
         List<T> objects = service.list();
-        if (objects.size() == 0) {
-            fail("No item retreived by getList");
+        if (objects.isEmpty()) {
+            fail(NO_ITEM_RETREIVED_MSG);
         }
         Serializable id = extractId(objects.get(0));
-        T object = service.get(id);
-        updateObject(object);
+        T entity = service.get(id);
+        updateObject(entity);
         logger.info("Updating object with id: " + id);
-        service.update(object);
+        service.update(entity);
+        assertNotNull("Returned object is null", entity);
     }
 
-    public void testGetWithChildren() throws ServiceException {
-        List<T> objects = service.list();
-        if (objects.size() == 0) {
-            fail("No item retreived by getList");
-        }
-        Serializable id = extractId(objects.get(0));
-        logger.info("Getting object with id: " + id);
-        service.get(id);
-    }
-
+    @Test
     public void testSearch() throws ServiceException {
         List<T> objects = service.list();
-        if (objects.size() == 0) {
-            fail("No item retreived by getList");
+        if (objects.isEmpty()) {
+            fail(NO_ITEM_RETREIVED_MSG);
         }
         T fromObject = objects.get(0);
         T object = createSearchObject(fromObject);
         List<T> categories = service.search(object);
         logger.info("Search found " + categories.size() + " objects");
-        assertTrue(categories.size() == 1);
-        assertEquals(fromObject, categories.get(0));
+        assertSame(NO_ITEM_RETREIVED_MSG, categories.size(), 1);
+        assertEquals("Search does retreive the expected object", fromObject, categories.get(0));
     }
 
+    @Test(expected=ServiceException.class)
     public void testDeleteById() throws ServiceException {
         List<T> objects = service.list();
-        if (objects.size() == 0) {
-            fail("No item retreived by getList");
+        if (objects.isEmpty()) {
+            fail(NO_ITEM_RETREIVED_MSG);
         }
         Serializable id = extractId(objects.get(0));
         logger.info("Deleting object with id: " + id);
         service.deleteById(id);
+        service.get(id);
+//        try {
+//            fail("Object should not exists !");
+//        } catch (ServiceException e) {
+//            // Ok, object is deleted
+//        }
     }
 
+    @Test(expected=ServiceException.class)
     public void testDelete() throws ServiceException {
         T object = createObject();
         service.save(object);
         List<T> objects = service.list();
-        if (objects.size() == 0) {
-            fail("No item retreived by getList");
+        if (objects.isEmpty()) {
+            fail(NO_ITEM_RETREIVED_MSG);
         }
         object = objects.get(0);
-        logger.info("Deleting object with id: " + extractId(object));
-        service.deleteById(extractId(object));
-    }
-
-    protected List<T> createObjects(int count) throws ServiceException {
-        List<T> objects = new LinkedList<T>();
-        for (int i = 0; i < count; i++) {
-            objects.add(createObject());
-        }
-        return objects;
+        Serializable id = extractId(object);
+        logger.info("Deleting object with id: " + id);
+        service.delete(object);
+        service.get(id);
+//        try {
+//            fail("Object should not exists !");
+//        } catch (ServiceException e) {
+//            // Ok, object is deleted
+//        }
     }
 
     protected abstract T createObject() throws ServiceException;

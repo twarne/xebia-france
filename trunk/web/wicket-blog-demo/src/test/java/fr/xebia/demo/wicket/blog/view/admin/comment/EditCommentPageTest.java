@@ -17,7 +17,7 @@ public class EditCommentPageTest extends ViewCommentPageTest {
 
     @Test
     @Override
-    public void testRender() {
+    public void testRender() throws Exception {
         super.testRender();
         
         tester.assertComponent("editLink", Link.class);
@@ -37,9 +37,9 @@ public class EditCommentPageTest extends ViewCommentPageTest {
         tester.assertComponent("commentForm:submitButton", Button.class);
 
         TextField nameField = (TextField) tester.getComponentFromLastRenderedPage("commentForm:author");
-        assertTrue(nameField.getModelObjectAsString().equals("test"));
+        assertTrue("Field Form is not correctly filled", nameField.getModelObjectAsString().equals("test"));
         TextField nicenameField = (TextField) tester.getComponentFromLastRenderedPage("commentForm:email");
-        assertTrue(nicenameField.getModelObjectAsString().equals("none@nowhere.com"));
+        assertTrue("Field Form is not correctly filled", nicenameField.getModelObjectAsString().equals("none@nowhere.com"));
 
         // create the form tester object, mapping to its wicket:id
         FormTester form = tester.newFormTester("commentForm");

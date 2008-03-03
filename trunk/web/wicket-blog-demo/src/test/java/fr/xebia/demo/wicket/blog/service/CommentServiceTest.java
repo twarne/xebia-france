@@ -22,16 +22,6 @@ import fr.xebia.demo.wicket.blog.data.Comment;
 
 public class CommentServiceTest extends AbstractServiceTest<Comment> {
 
-    @Override
-    protected void init() throws Exception {
-        super.init();
-    }
-
-    @Override
-    protected void destroy() throws Exception {
-        super.destroy();
-    }
-
     /**
      * @see org.xebia.service.ServiceTestCase#createOneObject()
      */

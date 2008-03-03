@@ -34,7 +34,7 @@ import org.hibernate.criterion.Example.PropertySelector;
 import org.hibernate.type.Type;
 
 /**
- * Defines the generic method (save, update, delete, search, etc) for all kind of objets
+ * Defines the generic method (save, update, delete, search, etc) for all kind of objects
  */
 public abstract class GenericService<T> implements Service<T> {
 
@@ -118,12 +118,12 @@ public abstract class GenericService<T> implements Service<T> {
         return DEFAULT_MAX_RESULTS;
     }
 
-    public void save(T object) throws ServiceException {
+    public void save(T entity) throws ServiceException {
         try {
             EntityManager entityManager = currentEntityManager();
             entityManager.getTransaction().begin();
 
-            entityManager.persist(object);
+            entityManager.persist(entity);
 
             commitTransaction();
         } catch (PersistenceException e) {
@@ -135,15 +135,15 @@ public abstract class GenericService<T> implements Service<T> {
         }
     }
 
-    public T update(T object) throws ServiceException {
+    public T update(T entity) throws ServiceException {
         try {
             EntityManager entityManager = currentEntityManager();
             entityManager.getTransaction().begin();
-            T loadedObject = entityManager.find(getObjectClass(), getObjectId(object));
-            object = merge(loadedObject, object);
-            object = entityManager.merge(object);
+            T loadedObject = entityManager.find(getObjectClass(), getObjectId(entity));
+            T mergedEntity = merge(loadedObject, entity);
+            T updatedEntity = entityManager.merge(mergedEntity);
             commitTransaction();
-            return object;
+            return updatedEntity;
         } catch (PersistenceException e) {
             logger.error(e.getCause(), e);
             rollbackTransaction();
@@ -174,13 +174,13 @@ public abstract class GenericService<T> implements Service<T> {
         }
     }
 
-    public void delete(T object) throws ServiceException {
+    public void delete(T entity) throws ServiceException {
         try {
             EntityManager entityManager = currentEntityManager();
             entityManager.getTransaction().begin();
 
-            object = entityManager.find(getObjectClass(), getObjectId(object));
-            entityManager.remove(object);
+            T loadedEntity = entityManager.find(getObjectClass(), getObjectId(entity));
+            entityManager.remove(loadedEntity);
 
             commitTransaction();
         } catch (PersistenceException e) {
@@ -221,8 +221,7 @@ public abstract class GenericService<T> implements Service<T> {
 
             Criteria criteria = ((Session) entityManager.getDelegate()).createCriteria(getObjectClass());
             criteria.setMaxResults(getMaxResults());
-            List<T> returnedList = criteria.setCacheable(true).list();
-            return returnedList;
+            return criteria.setCacheable(true).list();
         } catch (PersistenceException e) {
             logger.error(e.getCause(), e);
             throw new ServiceException("Can't get object list from database", e);
@@ -244,7 +243,6 @@ public abstract class GenericService<T> implements Service<T> {
             example.enableLike();
             logger.debug("Search example object: " + example.toString());
             criteria.add(example);
-            addAssociationCriteria(criteria, exampleEntity);
             criteria.setMaxResults(getMaxResults());
             criteria.setCacheable(true);
             return criteria.list();
@@ -256,10 +254,10 @@ public abstract class GenericService<T> implements Service<T> {
        }
     }
 
-    /**
-     * Permet de définir les critères de recherche de l'objet dans les sous-classes
-     */
-    protected abstract void addAssociationCriteria(Criteria criteria, T object);
+//    /**
+//     * Permet de définir les critères de recherche de l'objet dans les sous-classes
+//     */
+//    protected abstract void addAssociationCriteria(Criteria criteria, T object);
 
     protected void commitTransaction() throws ServiceException {
         try {

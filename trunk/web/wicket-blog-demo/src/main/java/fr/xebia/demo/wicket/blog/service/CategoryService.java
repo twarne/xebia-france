@@ -17,8 +17,6 @@ package fr.xebia.demo.wicket.blog.service;
 
 import java.io.Serializable;
 
-import org.hibernate.Criteria;
-
 import fr.xebia.demo.wicket.blog.data.Category;
 
 /**
@@ -42,9 +40,5 @@ public class CategoryService extends GenericService<Category> {
         loadedObject.setName(updatedObject.getName());
         loadedObject.setNicename(updatedObject.getNicename());
         return loadedObject;
-    }
-
-    @Override
-    protected void addAssociationCriteria(Criteria criteria, Category object) {
     }
 }

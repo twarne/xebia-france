@@ -38,7 +38,7 @@ public class AddCategoryForm extends Form {
     @SpringBean(name = "categoryService")
     protected Service<Category> categoryService;
 
-    protected Category category;
+    protected final Category category;
 
     public AddCategoryForm(String id) {
         this(id, new Category());
@@ -50,7 +50,7 @@ public class AddCategoryForm extends Form {
         createComponents();
     }
 
-    protected void createComponents() {
+    private void createComponents() {
         TextField nameTextField = new TextField("name", new PropertyModel(category, "name"));
         nameTextField.setRequired(true);
         add(nameTextField);
@@ -73,13 +73,14 @@ public class AddCategoryForm extends Form {
         saveCategory(category);
     }
 
-    protected void saveCategory(Category category) {
+    private void saveCategory(Category category) {
         try {
             logger.debug("Adding category: " + category);
             categoryService.save(category);
             setResponsePage(CategoryListPage.class, PageParametersUtils.fromStringMessage("Added new category: " + category));
         } catch (Exception e) {
-        	throw new RestartResponseException(AddCategoryPage.class, PageParametersUtils.fromException(e));
+            logger.error("Error while saving category", e);
+            throw new RestartResponseException(AddCategoryPage.class, PageParametersUtils.fromException(e));
         }
     }
 }

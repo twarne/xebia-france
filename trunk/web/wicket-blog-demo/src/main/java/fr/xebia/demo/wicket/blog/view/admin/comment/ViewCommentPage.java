@@ -36,7 +36,7 @@ public class ViewCommentPage extends CommentPage {
         }
     }
 
-    protected void createComponents(Comment comment) {
+    private void createComponents(Comment comment) {
         add(new Label("id", String.valueOf(comment.getId())));
         add(new Label("approved", String.valueOf(comment.getApproved())));
         add(new Label("author", String.valueOf(comment.getAuthor())));

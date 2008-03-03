@@ -31,6 +31,7 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import fr.xebia.demo.wicket.blog.data.Comment;
 import fr.xebia.demo.wicket.blog.service.Service;
+import fr.xebia.demo.wicket.blog.service.ServiceException;
 import fr.xebia.demo.wicket.blog.view.util.LocalizerUtils;
 import fr.xebia.demo.wicket.blog.view.util.PageParametersUtils;
 
@@ -43,36 +44,28 @@ public class CommentListPage extends CommentPage {
     @SpringBean(name = "commentService")
     private Service<Comment> commentService;
 
-    private List<Comment> comments;
-
     @SuppressWarnings("unchecked")
     public CommentListPage(PageParameters pageParameters) {
         super(pageParameters);
+        List<Comment> comments = null;
         if (pageParameters.containsKey(PARAM_COMMENTS_KEY)) {
-            this.comments = (List<Comment>) pageParameters.get(PARAM_COMMENTS_KEY);
+            comments = (List<Comment>) pageParameters.get(PARAM_COMMENTS_KEY);
         }
-        createComponents();
+        createComponents(comments);
     }
 
-    protected void createComponents() {
+    private void createComponents(List<Comment> comments) {
         add(new SearchCommentForm("commentForm"));
         if (comments == null) {
-            try {
-                comments = getComments();
-            } catch (Exception e) {
-                addErrorMessage(e);
-                comments = new LinkedList<Comment>();
-            }
+            comments = getComments();
         }
-        ListView categoriesListView = new ListView("comments", comments) {
-
+        add(new ListView("comments", comments) {
             private static final long serialVersionUID = 1L;
 
             @Override
             public void populateItem(final ListItem listItem) {
                 final Comment comment = (Comment) listItem.getModelObject();
                 Link viewLink = new Link("viewLink") {
-
                     private static final long serialVersionUID = 1L;
 
                     @Override
@@ -88,13 +81,14 @@ public class CommentListPage extends CommentPage {
 							pageParameters.put( ViewCommentPage.PARAM_COMMENT_KEY, viewedComment);
 							setResponsePage(ViewCommentPage.class, pageParameters);
                         } catch (Exception e) {
+                            logger.error("Error while getting comment", e);
                         	throw new RestartResponseException(CommentListPage.class, PageParametersUtils.fromException(e));
                         }
                     }
                 };
                 viewLink.add(new Label("id", String.valueOf(comment.getId())));
                 listItem.add(viewLink);
-                Link detailsLink = new Link("deleteLink") {
+                add(new Link("deleteLink") {
 
                     private static final long serialVersionUID = 1L;
 
@@ -104,35 +98,40 @@ public class CommentListPage extends CommentPage {
                             deleteComment(comment);
                             setResponsePage(CommentListPage.class, PageParametersUtils.fromStringMessage(LocalizerUtils.getString(this, "comment.list.deleted", comment.getId())));
                         } catch (Exception e) {
+                            logger.error("Error while deleting comment", e);
                         	throw new RestartResponseException(CommentListPage.class, PageParametersUtils.fromException(e));
                         }
                     }
-                };
-                listItem.add(detailsLink);
+                });
                 listItem.add(new Label("approved", comment.getApproved().toString()));
                 listItem.add(new Label("author", comment.getAuthor()));
                 listItem.add(new Label("email", comment.getEmail()));
                 listItem.add(new Label("date", comment.getDate().toString()));
                 listItem.add(new Label("postId", comment.getPostId().toString()));
             }
-        };
-        add(categoriesListView);
+        });
         add(new Label("resultCount", new StringResourceModel("comment.list.resultCount", this, null, new Object[]{comments.size()})));
     }
 
-    protected List<Comment> getComments() throws Exception {
-        List<Comment> comments = commentService.list();
-        logger.debug("Found " + comments.size() + " comments");
-        return comments;
+    private List<Comment> getComments() {
+        try {
+            List<Comment> comments = commentService.list();
+            logger.debug("Found " + comments.size() + " comments");
+            return comments;
+        } catch (Exception e) {
+            logger.error("Error while getting comment list", e);
+            addErrorMessage(e);
+            return new LinkedList<Comment>();
+        }
     }
 
-    protected Comment getComment(Comment comment) throws Exception {
+    private Comment getComment(Comment comment) throws ServiceException {
         Serializable id = comment.getId();
         logger.debug("Getting comment with id: " + id);
         return commentService.get(id);
     }
 
-    protected void deleteComment(Comment comment) throws Exception {
+    private void deleteComment(Comment comment) throws ServiceException {
         Serializable id = comment.getId();
         logger.debug("Deleting comment with id: " + id);
         commentService.deleteById(id);

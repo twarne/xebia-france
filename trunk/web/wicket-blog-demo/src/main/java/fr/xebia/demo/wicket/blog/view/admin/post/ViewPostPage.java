@@ -37,7 +37,7 @@ public class ViewPostPage extends PostPage {
         }
     }
 
-    protected void createComponents(Post post) {
+    private void createComponents(Post post) {
         add(new Label("id", String.valueOf(post.getId())));
         add(new Label("commentStatus", String.valueOf(post.getCommentsAllowed())));
         add(new MultiLineLabel("content", String.valueOf(post.getContent())));
@@ -48,10 +48,10 @@ public class ViewPostPage extends PostPage {
         add(new Label("author", String.valueOf(post.getAuthor())));
         add(new Label("status", String.valueOf(post.getStatus())));
         add(new Label("title", String.valueOf(post.getTitle())));
-        if (post.getCategory() != null) {
-            add(new Label("category", post.getCategory().getNicename()));
-        } else {
+        if (post.getCategory() == null) {
             add(new Label("category", ""));
+        } else {
+            add(new Label("category", post.getCategory().getNicename()));
         }
 
         PageParameters parameters = new PageParameters();

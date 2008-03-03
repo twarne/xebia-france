@@ -22,8 +22,8 @@ import org.apache.wicket.markup.html.link.Link;
 public class ParametizedPageLink extends Link {
 
     private static final long serialVersionUID = 1L;
-    private Class<? extends WebPage> pageClass;
-    private PageParameters pageParameters;
+    private final Class<? extends WebPage> pageClass;
+    private final PageParameters pageParameters;
 
     public ParametizedPageLink(String id, Class<? extends WebPage> pageClass, PageParameters pageParameters) {
         super(id);

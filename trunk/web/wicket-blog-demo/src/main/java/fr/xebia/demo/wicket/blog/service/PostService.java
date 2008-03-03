@@ -67,8 +67,4 @@ public class PostService extends GenericService<Post> {
         loadedObject.setTitle(updatedObject.getTitle());
         return loadedObject;
     }
-
-    @Override
-    protected void addAssociationCriteria(Criteria criteria, Post object) {
-    }
 }
