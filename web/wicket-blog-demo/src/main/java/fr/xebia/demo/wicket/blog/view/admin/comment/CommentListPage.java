@@ -88,7 +88,7 @@ public class CommentListPage extends CommentPage {
                 };
                 viewLink.add(new Label("id", String.valueOf(comment.getId())));
                 listItem.add(viewLink);
-                add(new Link("deleteLink") {
+                listItem.add(new Link("deleteLink") {
 
                     private static final long serialVersionUID = 1L;
 

@@ -2,7 +2,6 @@ package fr.xebia.demo.wicket.blog.view.admin.comment;
 
 import static org.junit.Assert.assertTrue;
 
-import org.apache.wicket.datetime.markup.html.form.DateTextField;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.CheckBox;
@@ -12,6 +11,8 @@ import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.util.tester.FormTester;
 import org.junit.Test;
+
+import fr.xebia.demo.wicket.blog.view.util.CustomDateTimeField;
 
 public class EditCommentPageTest extends ViewCommentPageTest {
 
@@ -29,7 +30,7 @@ public class EditCommentPageTest extends ViewCommentPageTest {
         tester.assertComponent("commentForm", EditCommentForm.class);
         tester.assertComponent("commentForm:idValue", Label.class);
         tester.assertComponent("commentForm:author", TextField.class);
-        tester.assertComponent("commentForm:date", DateTextField.class);
+        tester.assertComponent("commentForm:date", CustomDateTimeField.class);
         tester.assertComponent("commentForm:email", TextField.class);
         tester.assertComponent("commentForm:approved", CheckBox.class);
         tester.assertComponent("commentForm:postId", Label.class);

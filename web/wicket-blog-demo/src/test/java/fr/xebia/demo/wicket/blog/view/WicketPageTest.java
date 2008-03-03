@@ -3,6 +3,8 @@ package fr.xebia.demo.wicket.blog.view;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 import org.apache.wicket.spring.injection.annot.test.AnnotApplicationContextMock;
 import org.apache.wicket.util.tester.WicketTester;
@@ -20,7 +22,12 @@ public abstract class WicketPageTest {
         // 1. setup mock injection environment
         appContext = new AnnotApplicationContextMock();
         // 2. setup WicketTester and injector for @SpringBean
-        tester = new WicketTester();
+        tester = new WicketTester(new WebApplication() {
+			@Override
+			public Class<? extends WebPage> getHomePage() {
+				return HomePage.class;
+			}
+		});
         tester.getApplication().addComponentInstantiationListener(new SpringComponentInjector(tester.getApplication(), appContext));
     }
 }

@@ -27,6 +27,7 @@ import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.link.PageLink;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
+import org.apache.wicket.model.Model;
 import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
@@ -48,10 +49,11 @@ public class PostListPage extends PostPage {
     @SuppressWarnings("unchecked")
     public PostListPage(PageParameters pageParameters) {
         super(pageParameters);
+        List<Post> posts = null;
         if (pageParameters.containsKey(PARAM_POSTS_KEY)) {
-            List<Post> posts = (List<Post>) pageParameters.get(PARAM_POSTS_KEY);
-        createComponents(posts);
+            posts = (List<Post>) pageParameters.get(PARAM_POSTS_KEY);
         }
+        createComponents(posts);
     }
 
     private void createComponents(List<Post> posts) {
@@ -59,12 +61,7 @@ public class PostListPage extends PostPage {
         add(pageLink);
         add(new SearchPostForm("postForm"));
         if (posts == null) {
-            try {
-                posts = getPosts();
-            } catch (Exception e) {
-                addErrorMessage(e);
-                posts = new LinkedList<Post>();
-            }
+            posts = getPosts();
         }
         add(new ListView("posts", posts) {
             private static final long serialVersionUID = 1L;
@@ -106,20 +103,33 @@ public class PostListPage extends PostPage {
                         }
                     }
                 });
-                listItem.add(new Label("date", post.getDate().toString()));
-                listItem.add(new Label("modified", post.getModified().toString()));
+                listItem.add(new Label("date", new Model(post.getDate())));
+                listItem.add(new Label("modified", new Model(post.getModified())));
                 listItem.add(new Label("author", post.getAuthor()));
                 listItem.add(new Label("status", post.getStatus()));
                 listItem.add(new Label("title", post.getTitle()));
-                listItem.add(new Label("category", post.getCategory().getNicename()));
+                String categoryName = null;
+                if (post.getCategory() == null) {
+                	categoryName = "";
+                } else {
+                	categoryName = post.getCategory().getNicename();
+                }
+                listItem.add(new Label("category", categoryName));
             }
         });
         add(new Label("resultCount", new StringResourceModel("post.list.resultCount", this, null, new Object[]{posts.size()})));
     }
 
-    private List<Post> getPosts() throws ServiceException {
-        List<Post> posts = postService.list();
-        logger.debug("Found " + posts.size() + " posts");
+    private List<Post> getPosts() {
+    	List<Post> posts = null;
+		try {
+	        posts = postService.list();
+	        logger.debug("Found " + posts.size() + " posts");
+        } catch (Exception e) {
+        	logger.error("Can't get post list", e);
+            addErrorMessage(e);
+            posts = new LinkedList<Post>();
+        }
         return posts;
     }
 

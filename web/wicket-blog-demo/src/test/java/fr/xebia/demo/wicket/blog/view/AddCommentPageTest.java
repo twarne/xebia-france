@@ -29,7 +29,7 @@ public class AddCommentPageTest extends HomePageTest {
 
     @Test
     public void testRender() {
-        
+//        super.testRender();
         PageParameters pageParameters = new PageParameters();
         pageParameters.put(AddCommentPage.PARAM_POSTID_KEY, Long.valueOf(1));
         tester.startPage(AddCommentPage.class, pageParameters);
