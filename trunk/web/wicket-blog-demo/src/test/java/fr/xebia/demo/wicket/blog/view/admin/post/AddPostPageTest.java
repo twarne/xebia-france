@@ -26,13 +26,13 @@ public class AddPostPageTest extends PostListPageTest {
 
         tester.assertComponent("feedbackPanel", FeedbackPanel.class);
         tester.assertComponent("postForm", AddPostForm.class);
-        tester.assertComponent("postForm:category", DropDownChoice.class);
         tester.assertComponent("postForm:commentsAllowed", CheckBox.class);
         tester.assertComponent("postForm:pingAllowed", CheckBox.class);
         tester.assertComponent("postForm:password", PasswordTextField.class);
         tester.assertComponent("postForm:title", TextField.class);
         tester.assertComponent("postForm:status", RadioChoice.class);
         tester.assertComponent("postForm:author", TextField.class);
+        tester.assertComponent("postForm:category", DropDownChoice.class);
         tester.assertComponent("postForm:content", TextArea.class);
         tester.assertComponent("postForm:submitButton", Button.class);
         
