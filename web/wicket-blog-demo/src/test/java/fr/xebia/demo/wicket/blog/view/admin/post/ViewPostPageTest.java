@@ -22,11 +22,9 @@ public class ViewPostPageTest extends AddPostPageTest {
         tester.assertComponent("author", Label.class);
         tester.assertComponent("title", Label.class);
         tester.assertComponent("status", Label.class);
-        tester.assertComponent("password", Label.class);
         tester.assertComponent("date", Label.class);
         tester.assertComponent("modified", Label.class);
         tester.assertComponent("commentStatus", Label.class);
-        tester.assertComponent("pingStatus", Label.class);
         tester.assertComponent("category", Label.class);
         tester.assertComponent("content", MultiLineLabel.class);
         

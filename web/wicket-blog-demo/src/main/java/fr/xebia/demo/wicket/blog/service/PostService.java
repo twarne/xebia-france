@@ -60,8 +60,6 @@ public class PostService extends GenericService<Post> {
         loadedObject.setContent(updatedObject.getContent());
         loadedObject.setDate(updatedObject.getDate());
         loadedObject.setModified(updatedObject.getModified());
-        loadedObject.setPassword(updatedObject.getPassword());
-        loadedObject.setPingAllowed(updatedObject.getPingAllowed());
         loadedObject.setAuthor(updatedObject.getAuthor());
         loadedObject.setStatus(updatedObject.getStatus());
         loadedObject.setTitle(updatedObject.getTitle());

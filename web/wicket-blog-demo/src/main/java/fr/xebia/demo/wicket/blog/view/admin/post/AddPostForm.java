@@ -26,7 +26,6 @@ import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.IChoiceRenderer;
-import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.RadioChoice;
 import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.form.TextField;
@@ -67,11 +66,6 @@ public class AddPostForm extends Form {
     }
 
     private void createComponents() {
-        PasswordTextField passwordTextField = new PasswordTextField("password", new PropertyModel(post, "password"));
-        passwordTextField.setRequired(false);
-        add(passwordTextField);
-
-        add(new CheckBox("pingAllowed", new PropertyModel(post, "pingAllowed")));
         add(new CheckBox("commentsAllowed", new PropertyModel(post, "commentsAllowed")));
 
         RadioChoice statusChoice = new RadioChoice("status", new PropertyModel(post, "status"), POST_STATUS_CHOICE);

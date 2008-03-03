@@ -32,8 +32,6 @@ public class PostServiceTest extends AbstractServiceTest<Post> {
         post.setContent(String.valueOf(randomizer.nextInt(2147483647)));
         post.setDate(new Date());
         post.setModified(new Date());
-        post.setPassword(String.valueOf(randomizer.nextInt(20)));
-        post.setPingAllowed(randomizer.nextBoolean());
         post.setAuthor(String.valueOf(randomizer.nextLong()));
         post.setStatus(String.valueOf(randomizer.nextInt(10)));
         post.setTitle(String.valueOf(randomizer.nextInt(65535)));
@@ -49,8 +47,6 @@ public class PostServiceTest extends AbstractServiceTest<Post> {
         object.setContent(String.valueOf(randomizer.nextInt(2147483647)));
         object.setDate(new Date());
         object.setModified(new Date());
-        object.setPassword(String.valueOf(randomizer.nextInt(20)));
-        object.setPingAllowed(randomizer.nextBoolean());
         object.setAuthor(String.valueOf(randomizer.nextLong()));
         object.setStatus(String.valueOf(randomizer.nextInt(10)));
         object.setTitle(String.valueOf(randomizer.nextInt(65535)));
@@ -63,8 +59,6 @@ public class PostServiceTest extends AbstractServiceTest<Post> {
         object.setContent(fromObject.getContent());
         object.setDate(fromObject.getDate());
         object.setModified(fromObject.getModified());
-        object.setPassword(fromObject.getPassword());
-        object.setPingAllowed(fromObject.getPingAllowed());
         object.setAuthor(fromObject.getAuthor());
         object.setStatus(fromObject.getStatus());
         object.setTitle(fromObject.getTitle());
