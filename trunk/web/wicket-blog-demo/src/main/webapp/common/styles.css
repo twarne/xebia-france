@@ -1,0 +1,111 @@
+@CHARSET "UTF-8";
+
+.formFields {
+	width: 300px;
+	font-size: 0.9em;
+}
+.submitButton {
+	font-size: 0.9em;
+}
+.pageTitle {
+	font-weight: bold;
+	font-size: 1.3em;
+	color: black;
+	text-align: center;
+}
+.label {
+    font-style:italic;
+    float:left;
+    width:30%
+}
+.errorLabel {
+	font-style:italic;
+}
+.errorMessage {
+	font-weight: bold;
+	font-size: 0.9em;
+	color: red;
+	text-align: left;
+}
+.checkboxLabel {
+}
+.checkboxErrorLabel {
+	color:red;
+}
+.required {
+	color:red;
+}
+
+#header {
+	width: 100%;
+	height: 70px;
+	text-align: center;
+	background-color: #CC3355;
+	font-size: 2em;
+	color: #FFFFFF;
+}
+
+#header a {
+	text-decoration: underline;
+	color: #FFFFFF;
+}
+
+#menu {
+	font-size: 1.1em;
+}
+
+#menu a {
+	text-decoration: none;
+	font-weight: bold;
+	font-size: 0.9em;
+}
+
+#messages {
+	width: 300px;
+}
+
+#messages li {
+	font-weight: bold;
+	font-size: 0.9em;
+}
+
+#messages .errorMessage {
+	font-weight: bold;
+	font-size: 0.9em;
+	color: red;
+}
+
+#footer {
+	position: absolute;
+	left: 400px;
+	bottom: 0px;
+}
+#footer p {
+	font-size: 0.7em;
+ 	text-align: center;
+}
+
+body {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+}
+legend {
+	font-weight: bold;
+}
+table.results {
+	width: 100%;
+	align: center;
+	border: 1px solid #ccc;
+	border-collapse: collapse;
+}
+table.results thead tr th {
+	background-color: #eee;
+}
+
+table.results tr.even {
+	background-color: #fff;
+}
+td.results {
+	border: 1px solid #ccc;
+	text-align: center;
+}

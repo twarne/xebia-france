@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<ruleset xmlns="http://pmd.sf.net/ruleset/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="Custom ruleset" xsi:schemaLocation="http://pmd.sf.net/ruleset/1.0.0 http://pmd.sf.net/ruleset_xml_schema.xsd" xsi:noNamespaceSchemaLocation="http://pmd.sf.net/ruleset_xml_schema.xsd">
+
+<!--
+Basic rules
+-->
+  <rule ref="rulesets/basic.xml/EmptyIfStmt">
+    <priority>1</priority>
+  </rule>
+  <rule ref="rulesets/basic.xml/EmptyTryBlock">
+    <priority>1</priority>
+  </rule>
+  <rule ref="rulesets/basic.xml/EmptyFinallyBlock">
+    <priority>1</priority>
+  </rule>
+  <rule ref="rulesets/basic.xml/EmptySwitchStatements">
+    <priority>1</priority>
+  </rule>
+  <rule ref="rulesets/basic.xml/JumbledIncrementer">
+    <priority>1</priority>
+  </rule>
+  <rule ref="rulesets/basic.xml/UnnecessaryConversionTemporary">
+    <priority>2</priority>
+  </rule>
+  <rule ref="rulesets/basic.xml/OverrideBothEqualsAndHashcode">
+    <priority>2</priority>
+  </rule>
+  <rule ref="rulesets/basic.xml/DoubleCheckedLocking">
+    <priority>1</priority>
+  </rule>
+  <rule ref="rulesets/basic.xml/ReturnFromFinallyBlock">
+    <priority>1</priority>
+  </rule>
+  <rule ref="rulesets/basic.xml/EmptySynchronizedBlock">
+    <priority>1</priority>
+  </rule>
+  <rule ref="rulesets/basic.xml/UnnecessaryReturn">
+    <priority>3</priority>
+  </rule>
+  <rule ref="rulesets/basic.xml/EmptyStaticInitializer">
+    <priority>1</priority>
+  </rule>
+  <rule ref="rulesets/basic.xml/BooleanInstantiation">
+    <priority>2</priority>
+  </rule>
+  <rule ref="rulesets/basic.xml/ClassCastExceptionWithToArray">
+    <priority>1</priority>
+  </rule>
+  <rule ref="rulesets/basic.xml/MisplacedNullCheck">
+    <priority>1</priority>
+  </rule>
+  <rule ref="rulesets/basic.xml/UnusedNullCheckInEquals">
+    <priority>1</priority>
+  </rule>
+
+<!--
+Rules related to code size/complexity
+-->
+  <rule ref="rulesets/codesize.xml/ExcessiveParameterList">
+    <priority>3</priority>
+  </rule>
+  <rule ref="rulesets/codesize.xml/ExcessivePublicCount">
+    <priority>3</priority>
+  </rule>
+
+<!--
+Controversial rules
+-->
+
+<!--
+The more concise the better... but one may not agree with this...
+-->
+  <rule ref="rulesets/controversial.xml/UnusedModifier">
+    <priority>4</priority>
+  </rule>
+<!--
+La vérification de la règle suivante est boguée avec la version 3.9 :
+  <rule ref="rulesets/controversial.xml/AtLeastOneConstructor"><priority>4</priority></rule>
+-->
+  <rule ref="rulesets/controversial.xml/DontImportSun">
+    <priority>1</priority>
+  </rule>
+
+<!--
+Rules related to coupling
+-->
+  <rule ref="rulesets/coupling.xml/ExcessiveImports">
+    <property name="minimum" value="20"/>
+    <priority>3</priority>
+  </rule>
+  <rule ref="rulesets/coupling.xml/LooseCoupling">
+    <priority>3</priority>
+  </rule>
+
+<!--
+Design rules
+-->
+  <rule ref="rulesets/design.xml/SimplifyBooleanReturns">
+    <priority>2</priority>
+  </rule>
+  <rule ref="rulesets/design.xml/SimplifyBooleanExpressions">
+    <priority>2</priority>
+  </rule>
+  <rule ref="rulesets/design.xml/FinalFieldCouldBeStatic">
+    <priority>2</priority>
+  </rule>
+  <rule ref="rulesets/design.xml/CloseResource">
+    <priority>1</priority>
+  </rule>
+  <rule ref="rulesets/design.xml/EqualsNull">
+    <priority>1</priority>
+  </rule>
+  <rule ref="rulesets/design.xml/IdempotentOperations">
+    <priority>2</priority>
+  </rule>
+  <rule ref="rulesets/design.xml/SimplifyConditional">
+    <priority>3</priority>
+  </rule>
+  <rule ref="rulesets/design.xml/PositionLiteralsFirstInComparisons">
+    <priority>2</priority>
+  </rule>
+  <rule ref="rulesets/design.xml/NonThreadSafeSingleton">
+    <priority>1</priority>
+  </rule>
+  <rule ref="rulesets/design.xml/UnsynchronizedStaticDateFormatter">
+    <priority>1</priority>
+  </rule>
+
+<!--
+Import statement rules
+-->
+  <rule ref="rulesets/imports.xml/DuplicateImports">
+    <priority>3</priority>
+  </rule>
+  <rule ref="rulesets/imports.xml/DontImportJavaLang">
+    <priority>3</priority>
+  </rule>
+  <rule ref="rulesets/imports.xml/UnusedImports">
+    <priority>3</priority>
+  </rule>
+  <rule ref="rulesets/imports.xml/UnusedImports">
+    <priority>3</priority>
+  </rule>
+  <rule ref="rulesets/imports.xml/ImportFromSamePackage">
+    <priority>2</priority>
+  </rule>
+
+<!--
+Java logging rules
+-->
+  <rule ref="rulesets/logging-java.xml/MoreThanOneLogger">
+    <priority>2</priority>
+  </rule>
+  <rule ref="rulesets/logging-java.xml/AvoidPrintStackTrace">
+    <priority>1</priority>
+  </rule>
+
+<!--
+Eliminating calls to old flawy Java APIs
+-->
+  <rule ref="rulesets/migrating.xml/ReplaceVectorWithList">
+    <priority>2</priority>
+  </rule>
+  <rule ref="rulesets/migrating.xml/ReplaceHashtableWithMap">
+    <priority>2</priority>
+  </rule>
+  <rule ref="rulesets/migrating.xml/ReplaceEnumerationWithIterator">
+    <priority>3</priority>
+  </rule>
+  <rule ref="rulesets/migrating.xml/AvoidEnumAsIdentifier">
+    <priority>1</priority>
+  </rule>
+
+<!--
+Naming rules
+-->
+  <rule ref="rulesets/naming.xml/AvoidDollarSigns">
+    <priority>1</priority>
+  </rule>
+  <rule ref="rulesets/naming.xml/SuspiciousHashcodeMethodName">
+    <priority>1</priority>
+  </rule>
+
+<!--
+Optimization rules
+-->
+<!-- La règle LocalVariableCouldBeFinal est correctement implémentée dans
+		PMD mais peut avoir un effet déceptif sur certaines applications. Nous la
+		laissons inactivée pour le moment (2007-04-12). -->
+<!--
+  <rule ref="rulesets/optimizations.xml/LocalVariableCouldBeFinal">
+    <priority>4</priority>
+  </rule>
+-->
+  <rule ref="rulesets/optimizations.xml/UseArrayListInsteadOfVector">
+    <priority>2</priority>
+  </rule>
+  <rule ref="rulesets/optimizations.xml/SimplifyStartsWith">
+    <priority>3</priority>
+  </rule>
+<!--
+La règle suivante ne fonctionne pas avec la verson 3.7 de PMD.
+-->
+<!--
+  <rule ref="rulesets/optimizations.xml/UnnecessaryWrapperObjectCreation"><priority>2</priority></rule>
+-->
+
+<!--
+String and StringBuffer Rules
+-->
+  <rule ref="rulesets/strings.xml/StringInstantiation">
+    <priority>3</priority>
+  </rule>
+  <rule ref="rulesets/strings.xml/AppendCharacterWithChar">
+    <priority>3</priority>
+  </rule>
+  <rule ref="rulesets/strings.xml/InefficientEmptyStringCheck">
+    <priority>3</priority>
+  </rule>
+
+<!--
+Unused code rules
+-->
+  <rule ref="rulesets/unusedcode.xml/UnusedPrivateField">
+    <priority>3</priority>
+  </rule>
+  <rule ref="rulesets/unusedcode.xml/UnusedLocalVariable">
+    <priority>2</priority>
+  </rule>
+  <rule ref="rulesets/unusedcode.xml/UnusedPrivateMethod">
+    <priority>3</priority>
+  </rule>
+
+<!--Customized rules
+-->
+  <rule name="AvoidSystemPrint" message="System.(err|out).print() is used (this may lead to serious performance or administrability issues)" class="net.sourceforge.pmd.rules.XPathRule">
+    <description>System.(err|out).print() should not be used in normal code
+(excepted for little test classes when not using a testing framework, some batches when explicitly specified or any
+code that is just executed once such as a static initializer). Printing on
+standard outputs may lead to serious performance issues, generate gigabytes
+of logs or clutter important traces with debugging messages.</description>
+    <properties>
+      <property name="xpath">
+        <value><![CDATA[
+//Name[
+    starts-with(@Image, 'System.out.print')
+    or
+    starts-with(@Image, 'System.err.print')
+    ]
+]]></value>
+      </property>
+    </properties>
+    <priority>2</priority>
+    <example><![CDATA[
+
+class Test {
+
+	public Customer getCustomer( String id ) {
+		final Customer customer = customerDb.getCustomer(id);
+		if ( customer == null ) {
+			System.out.println( "Unknown customer " + id ); // a disaster in a web application in production
+			return null;
+		}
+		return customer;
+	}
+}]]></example>
+  </rule>
+  <rule name="InefficientIntegerInstantiation" message="Avoid instantiating Integers: use Integer.valueOf()" class="net.sourceforge.pmd.rules.XPathRule">
+    <description>Boxing ints into Integers may consume up a lot of memory.
+Integer.valueOf() or other alternatives that use a
+cache should be used instead.</description>
+    <properties>
+      <property name="xpath">
+        <value><![CDATA[
+//PrimaryPrefix
+ /AllocationExpression
+  [not (ArrayDimsAndInits)
+   and (ClassOrInterfaceType/@Image='Integer'
+    or ClassOrInterfaceType/@Image='java.lang.Integer')]
+]]></value>
+      </property>
+    </properties>
+    <priority>2</priority>
+    <example><![CDATA[
+public class Foo {
+ private Integer i = new Integer(0); // change to Integer i = Integer.valueOf(0); or consider using int's!
+}
+]]></example>
+  </rule>
+</ruleset>
