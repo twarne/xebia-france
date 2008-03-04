@@ -94,17 +94,11 @@ public class CommentServiceTest extends AbstractServiceTest<Comment> {
         return object;
     }
 
-    /**
-     * @see org.xebia.service.ServiceTestCase#extractId(java.lang.Object)
-     */
     @Override
     protected Serializable extractId(Comment object) {
         return object.getId();
     }
 
-    /**
-     * @see org.xebia.service.ServiceTestCase#getService(ServiceLocator)
-     */
     @Override
     protected Service<Comment> getService() {
         return serviceLocator.getCommentService();
