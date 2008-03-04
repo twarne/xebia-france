@@ -3,6 +3,9 @@ package fr.xebia.demo.wicket.blog.view;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+import org.apache.wicket.Request;
+import org.apache.wicket.Response;
+import org.apache.wicket.Session;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
@@ -27,6 +30,10 @@ public abstract class WicketPageTest {
 			public Class<? extends WebPage> getHomePage() {
 				return HomePage.class;
 			}
+            @Override
+            public Session newSession(Request request, Response response) {
+                return new BlogWebSession(request);
+            }
 		});
         tester.getApplication().addComponentInstantiationListener(new SpringComponentInjector(tester.getApplication(), appContext));
     }

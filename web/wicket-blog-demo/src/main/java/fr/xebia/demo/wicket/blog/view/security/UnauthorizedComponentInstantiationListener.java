@@ -6,24 +6,22 @@ import org.apache.wicket.RestartResponseAtInterceptPageException;
 import org.apache.wicket.authorization.IUnauthorizedComponentInstantiationListener;
 import org.apache.wicket.authorization.UnauthorizedInstantiationException;
 
-public class UnauthorizedComponentInstantiationListener implements
-		IUnauthorizedComponentInstantiationListener {
-	
-	private final Class<? extends Component> restartPageClass;
+public class UnauthorizedComponentInstantiationListener implements IUnauthorizedComponentInstantiationListener {
 
-	public UnauthorizedComponentInstantiationListener(Class<? extends Component> restartPageClass) {
-		super();
-		this.restartPageClass = restartPageClass;
-	}
+    private final Class<? extends Component> restartPageClass;
 
-	public void onUnauthorizedInstantiation(Component component) {
-		if (component.getClass().isAssignableFrom(Page.class)) {
-			// Redirect to the defined restartPage
-			throw new RestartResponseAtInterceptPageException(restartPageClass);
-		} else {
-			// The component was not a page, so throw exception
-			throw new UnauthorizedInstantiationException(component.getClass());
-		}
-	}
+    public UnauthorizedComponentInstantiationListener(Class<? extends Component> restartPageClass) {
+        super();
+        this.restartPageClass = restartPageClass;
+    }
 
+    public void onUnauthorizedInstantiation(Component component) {
+        if (Page.class.isAssignableFrom(component.getClass())) {
+            // Redirect to the defined restartPage
+            throw new RestartResponseAtInterceptPageException(restartPageClass);
+        } else {
+            // The component was not a page, so throw exception
+            throw new UnauthorizedInstantiationException(component.getClass());
+        }
+    }
 }
