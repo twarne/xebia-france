@@ -1,6 +1,7 @@
 package fr.xebia.demo.wicket.blog.view.security;
 
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -68,4 +69,9 @@ public class AnnotationAuthorizationStrategyTest extends WicketPageTest {
         strategy.isActionAuthorized(securedPage, new Action("any"));
     }
 
+    @Test
+    public void testIsInstantiationAuthorized() {
+        AnnotationAuthorizationStrategy strategy = new AnnotationAuthorizationStrategy(WebPage.class);
+        assertTrue("Should always return 'true'", strategy.isInstantiationAuthorized(Class.class));
+    }
 }

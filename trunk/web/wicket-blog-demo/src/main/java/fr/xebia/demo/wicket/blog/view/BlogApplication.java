@@ -24,6 +24,7 @@ import org.apache.wicket.settings.IRequestCycleSettings;
 import org.apache.wicket.settings.ISecuritySettings;
 import org.apache.wicket.spring.SpringWebApplication;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
+import org.springframework.context.ApplicationContext;
 
 import fr.xebia.demo.wicket.blog.view.admin.AdminHomePage;
 import fr.xebia.demo.wicket.blog.view.admin.category.CategoryListPage;
@@ -34,14 +35,23 @@ import fr.xebia.demo.wicket.blog.view.security.UnauthorizedComponentInstantiatio
 
 public class BlogApplication extends SpringWebApplication {
 
+    public BlogApplication() {
+        super();
+    }
+
+    public BlogApplication(ApplicationContext applicationContext) {
+        this();
+        setApplicationContext(applicationContext);
+    }
+
     @Override
     protected void init() {
         super.init();
         getRequestCycleSettings().setRenderStrategy(IRequestCycleSettings.ONE_PASS_RENDER);
         // Remove (or not) the wicket xml namespace declaration
         getMarkupSettings().setStripXmlDeclarationFromOutput(true);
-        // Enable Spring injection on page
-        addComponentInstantiationListener(new SpringComponentInjector(this));
+
+        initSecuritySettings();
 
         mountBookmarkablePage("/home", getHomePage());
         mountBookmarkablePage("/login", LoginPage.class);
@@ -51,6 +61,16 @@ public class BlogApplication extends SpringWebApplication {
         mountBookmarkablePage("/admin/posts", PostListPage.class);
         mountBookmarkablePage("/logout", LogoutPage.class);
 
+        initSpringInjection();
+    }
+
+    protected void initSpringInjection() {
+        // Enable Spring injection on page
+        SpringComponentInjector springComponentInjector = new SpringComponentInjector(this);
+        addComponentInstantiationListener(springComponentInjector);
+    }
+
+    protected void initSecuritySettings() {
         ISecuritySettings securitySettings = getSecuritySettings();
         securitySettings.setAuthorizationStrategy(new AnnotationAuthorizationStrategy(LoginPage.class));
         securitySettings.setUnauthorizedComponentInstantiationListener(new UnauthorizedComponentInstantiationListener(getHomePage()));

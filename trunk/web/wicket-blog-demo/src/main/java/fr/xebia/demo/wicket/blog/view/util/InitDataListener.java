@@ -6,7 +6,7 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import org.apache.log4j.Logger;
-import org.springframework.web.context.WebApplicationContext;
+import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import fr.xebia.demo.wicket.blog.data.Category;
@@ -19,8 +19,16 @@ public class InitDataListener implements ServletContextListener {
 
 	private static final Logger logger = Logger.getLogger(InitDataListener.class);
 	
+	private ApplicationContext springContext;
+    
+    public void setApplicationContext(ApplicationContext springContext) {
+        this.springContext = springContext;
+    }
+
 	public void contextInitialized(ServletContextEvent sce) {
-		WebApplicationContext springContext = WebApplicationContextUtils.getWebApplicationContext(sce.getServletContext());
+	    if (springContext == null) {
+	        springContext = WebApplicationContextUtils.getRequiredWebApplicationContext(sce.getServletContext());
+	    }
 
 		CategoryService categoryService = (CategoryService) springContext.getBean("categoryService");
 		Category category = new Category();
