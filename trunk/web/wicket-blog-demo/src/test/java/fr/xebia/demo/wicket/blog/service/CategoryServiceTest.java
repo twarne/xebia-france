@@ -25,12 +25,23 @@ public class CategoryServiceTest extends AbstractServiceTest<Category> {
      * @see org.xebia.service.ServiceTestCase#createOneObject()
      */
     @Override
-    protected Category createObject() throws ServiceException {
+    protected Category createObject() {
         Category category = new Category();
         category.setDescription(String.valueOf(randomizer.nextInt(2147483647)));
         category.setName(String.valueOf(randomizer.nextInt(55)));
         category.setNicename(String.valueOf(randomizer.nextInt(200)));
         return category;
+    }
+
+    @Override
+    protected Category createDirtyObject() {
+        return new Category();
+    }
+
+    @Override
+    protected void updateToDirtyObject(Category object) {
+        object.setName(null);
+        object.setNicename(null);
     }
 
     /**
@@ -64,8 +75,7 @@ public class CategoryServiceTest extends AbstractServiceTest<Category> {
      * @see org.xebia.service.ServiceTestCase#getService(ServiceLocator)
      */
     @Override
-    protected Service<Category> getService() throws ServiceException {
+    protected Service<Category> getService() {
         return serviceLocator.getCategoryService();
     }
-
 }

@@ -62,7 +62,7 @@ public class Category implements Serializable {
         this.description = pDescription;
     }
 
-    @Column(name = "name")
+    @Column(name = "name", nullable=false)
     public String getName() {
         return this.name;
     }
@@ -71,7 +71,7 @@ public class Category implements Serializable {
         this.name = pName;
     }
 
-    @Column(name = "nicename")
+    @Column(name = "nicename", nullable=false)
     public String getNicename() {
         return this.nicename;
     }

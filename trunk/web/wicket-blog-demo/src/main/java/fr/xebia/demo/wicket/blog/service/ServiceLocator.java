@@ -23,31 +23,31 @@ public class ServiceLocator {
 
     private Service<Category> categoryService;
 
-    public void setCategoryService(Service<Category> service) throws ServiceException {
+    public void setCategoryService(Service<Category> service) {
         categoryService = service;
     }
 
-    public Service<Category> getCategoryService() throws ServiceException {
+    public Service<Category> getCategoryService() {
         return categoryService;
     }
 
     private Service<Comment> commentService;
 
-    public void setCommentService(Service<Comment> service) throws ServiceException {
+    public void setCommentService(Service<Comment> service) {
         commentService = service;
     }
 
-    public Service<Comment> getCommentService() throws ServiceException {
+    public Service<Comment> getCommentService() {
         return commentService;
     }
 
     private Service<Post> postService;
 
-    public void setPostService(Service<Post> service) throws ServiceException {
+    public void setPostService(Service<Post> service) {
         postService = service;
     }
 
-    public Service<Post> getPostService() throws ServiceException {
+    public Service<Post> getPostService() {
         return postService;
     }
 

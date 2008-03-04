@@ -18,6 +18,9 @@ package fr.xebia.demo.wicket.blog.service;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.PersistenceException;
+
+import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Expression;
@@ -30,6 +33,8 @@ import fr.xebia.demo.wicket.blog.data.Comment;
  */
 public class CommentService extends GenericService<Comment> {
 
+    private static final Logger logger = Logger.getLogger(CommentService.class);
+    
     @Override
     protected Class<Comment> getObjectClass() {
         return Comment.class;
@@ -41,7 +46,8 @@ public class CommentService extends GenericService<Comment> {
     }
     
     @SuppressWarnings("unchecked")
-    public List<Comment> getCommentsForPostId(Long postId) {
+    public List<Comment> getCommentsForPostId(Long postId) throws ServiceException {
+        try {
         Session session = ((Session) currentEntityManager().getDelegate());
         Criteria criteria = session.createCriteria(getObjectClass())
             .add(Expression.eq("approved", Boolean.TRUE))
@@ -49,6 +55,12 @@ public class CommentService extends GenericService<Comment> {
             .addOrder(Order.desc("date"))
             .setCacheable(false);
         return criteria.list();
+    } catch (PersistenceException e) {
+        logger.error(e.getCause(), e);
+        throw new ServiceException("Can't get last posts", e);
+    } finally {
+        closeEntityManager();
+    }
     }
 
     @Override

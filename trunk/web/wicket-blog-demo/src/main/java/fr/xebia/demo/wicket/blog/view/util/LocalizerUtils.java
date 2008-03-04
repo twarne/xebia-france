@@ -38,17 +38,18 @@ public final class LocalizerUtils {
             // No parameter, simply return the message
             return message;
         }
-        // Convert parameters each parameter to a String
-        String[] parametersAsString = new String[parameters.length];
-        for (int i = 0; i < parameters.length; i++) {
-            if (!(parameters[i] instanceof String)) {
-                parametersAsString[i] = String.valueOf(parameters[i]);
-            }
-        }
+//        // Convert parameters each parameter to a String
+//        String[] parametersAsString = new String[parameters.length];
+//        for (int i = 0; i < parameters.length; i++) {
+//            if (!(parameters[i] instanceof String)) {
+//                parametersAsString[i] = String.valueOf(parameters[i]);
+//            }
+//        }
         // Apply the parameters to the message
         try {
+//            return MessageFormat.format(message, parameters);
             MessageFormat format = new MessageFormat(message, getLocale(component));
-            return format.format(parametersAsString);
+            return format.format(parameters);
         } catch (RuntimeException e) {
             logger.warn("Can't get format message with parameters for key: " + key, e);
             return message;

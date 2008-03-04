@@ -162,8 +162,11 @@ public abstract class GenericService<T> implements Service<T> {
         try {
             EntityManager entityManager = currentEntityManager();
             entityManager.getTransaction().begin();
-            Object object = entityManager.find(getObjectClass(), id);
-            entityManager.remove(object);
+            Object loadedEntity = entityManager.find(getObjectClass(), id);
+            if (loadedEntity == null) {
+                throw new ServiceException("Entity referenced by id "+id+" does not exist");
+            }
+            entityManager.remove(loadedEntity);
             commitTransaction();
         } catch (PersistenceException e) {
             logger.error(e.getCause(), e);
@@ -179,7 +182,14 @@ public abstract class GenericService<T> implements Service<T> {
             EntityManager entityManager = currentEntityManager();
             entityManager.getTransaction().begin();
 
-            T loadedEntity = entityManager.find(getObjectClass(), getObjectId(entity));
+            Serializable objectId = getObjectId(entity);
+            if (objectId == null) {
+                throw new ServiceException("Entity has no id");
+            }
+            T loadedEntity = entityManager.find(getObjectClass(), objectId);
+            if (loadedEntity == null) {
+                throw new ServiceException("Entity referenced by id "+objectId+" does not exist");
+            }
             entityManager.remove(loadedEntity);
 
             commitTransaction();
@@ -196,7 +206,6 @@ public abstract class GenericService<T> implements Service<T> {
     public T get(Serializable id) throws ServiceException {
         try {
             EntityManager entityManager = currentEntityManager();
-            entityManager.getTransaction().begin();
             T object = entityManager.find(getObjectClass(), id);
             if (object == null) {
                 throw new ServiceException("Object Not Found (id=" + id + ')');
@@ -217,7 +226,6 @@ public abstract class GenericService<T> implements Service<T> {
     public List<T> list() throws ServiceException {
         try {
             EntityManager entityManager = currentEntityManager();
-            entityManager.getTransaction().begin();
 
             Criteria criteria = ((Session) entityManager.getDelegate()).createCriteria(getObjectClass());
             criteria.setMaxResults(getMaxResults());

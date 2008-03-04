@@ -16,7 +16,7 @@
 package fr.xebia.demo.wicket.blog.service;
 
 /**
- * Exception g?n?rique de la partie "services". La rootCause de l'exception pass?e en param?tres est cherch? syst?matiquement.
+ * Exception generique de la partie "services". La rootCause de l'exception pass?e en param?tres est cherch? syst?matiquement.
  */
 public class ServiceException extends Exception {
 

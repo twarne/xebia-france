@@ -15,18 +15,33 @@
  */
 package fr.xebia.demo.wicket.blog.service;
 
+import static org.junit.Assert.assertFalse;
+
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+
+import org.junit.Test;
 
 import fr.xebia.demo.wicket.blog.data.Post;
 
 public class PostServiceTest extends AbstractServiceTest<Post> {
+    
+    @Test
+    public void testGetLastPosts() throws ServiceException {
+        Post post = createObject();
+        post.setStatus("published");
+        getService().save(post);
+        PostService postService = (PostService) getService();
+        List<Post> posts = postService.getLastPosts();
+        assertFalse("getLastPosts() should bring back almost one post", posts.isEmpty());
+    }
 
     /**
      * @see org.xebia.service.ServiceTestCase#createOneObject()
      */
     @Override
-    protected Post createObject() throws ServiceException {
+    protected Post createObject() {
         Post post = new Post();
         post.setCommentsAllowed(randomizer.nextBoolean());
         post.setContent(String.valueOf(randomizer.nextInt(2147483647)));
@@ -36,6 +51,17 @@ public class PostServiceTest extends AbstractServiceTest<Post> {
         post.setStatus(String.valueOf(randomizer.nextInt(10)));
         post.setTitle(String.valueOf(randomizer.nextInt(65535)));
         return post;
+    }
+
+    @Override
+    protected Post createDirtyObject() {
+        return new Post();
+    }
+
+    @Override
+    protected void updateToDirtyObject(Post object) {
+        object.setAuthor(null);
+        object.setTitle(null);
     }
 
     /**
@@ -78,7 +104,7 @@ public class PostServiceTest extends AbstractServiceTest<Post> {
      * @see org.xebia.service.ServiceTestCase#getService(ServiceLocator)
      */
     @Override
-    protected Service<Post> getService() throws ServiceException {
+    protected Service<Post> getService() {
         return serviceLocator.getPostService();
     }
 

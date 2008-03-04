@@ -21,14 +21,13 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.fail;
 
 import java.io.Serializable;
-import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.List;
 import java.util.Random;
 
 import org.apache.log4j.Logger;
-import org.junit.After;
-import org.junit.Before;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.beans.factory.xml.XmlBeanFactory;
 import org.springframework.core.io.UrlResource;
@@ -39,91 +38,58 @@ public abstract class AbstractServiceTest<T> {
 
     private static final Logger logger = Logger.getLogger(AbstractServiceTest.class);
 
-    private static boolean initialized = false;
-
-    private static int currentExecutedTestCount = 0;
-
-    private static int totalTestCount = 0;
-
     private static XmlBeanFactory factory;
 
-    protected ServiceLocator serviceLocator;
+    protected static ServiceLocator serviceLocator;
 
-    protected Service<T> service;
+    protected static Random randomizer;
 
-    protected Random randomizer;
-
-    @Before
-    public void setUp() throws Exception {
+    @BeforeClass
+    public static void setUpClass() throws Exception {
         randomizer = new Random();
-        if (initialized == false) {
-            long startTime = System.currentTimeMillis();
-            init();
-            long endTime = System.currentTimeMillis();
-            logger.info("Initialisation des services en " + ((endTime - startTime) / 1000.0) + " s");
-        }
-        serviceLocator = (ServiceLocator) factory.getBean("serviceLocator");
-        service = getService();
-    }
-
-    protected void init() {
+        long startTime = System.currentTimeMillis();
         logger.info("Initializing Services");
         ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
         URL configuration = contextClassLoader.getResource("applicationContext-service.xml");
         factory = new XmlBeanFactory(new UrlResource(configuration));
-        currentExecutedTestCount = 0;
-        totalTestCount = findTestCount();
-        initialized = true;
+        long endTime = System.currentTimeMillis();
+        logger.info("Initialisation des services en " + ((endTime - startTime) / 1000.0) + " s");
+        serviceLocator = (ServiceLocator) factory.getBean("serviceLocator");
     }
 
-    @SuppressWarnings("unchecked")
-    private int findTestCount() {
-        int count = 0;
-        Class superClass = this.getClass();
-        for (; Test.class.isAssignableFrom(superClass); superClass = superClass.getSuperclass()) {
-            Method[] methods = superClass.getDeclaredMethods();
-            for (int i = 0; i < methods.length; i++) {
-                Method each = methods[i];
-                if (each.getParameterTypes().length == 0 && each.getName().startsWith("test") && each.getReturnType().equals(Void.TYPE)) {
-                    count++;
-                }
-            }
-        }
-        return count;
-    }
-
-    @After
-    public void tearDown() throws Exception {
-        currentExecutedTestCount++;
-        logger.info("Executed Test " + currentExecutedTestCount + '/' + totalTestCount);
-        if (currentExecutedTestCount == totalTestCount) {
-            destroy();
-        }
-    }
-
-    protected void destroy() {
+    @AfterClass
+    public static void tearDownClass() throws Exception {
         logger.info("Destroying Services");
         factory.destroySingletons();
-        initialized = false;
+        factory = null;
+        serviceLocator = null;
+        randomizer = null;
     }
 
     @Test
     public void testAdd() throws ServiceException {
         T object = createObject();
-        service.save(object);
+        getService().save(object);
         assertNotNull("Generated id is null !", extractId(object));
         logger.info("Inserted object with id: " + extractId(object));
     }
 
+    @Test(expected=ServiceException.class)
+    public void testFailedAdd() throws ServiceException {
+        T object = createDirtyObject();
+        getService().save(object);
+    }
+
     @Test
     public void testList() throws ServiceException {
-        List<T> objects = service.list();
+        List<T> objects = getService().list();
         assertSame(NO_ITEM_RETREIVED_MSG, objects.isEmpty(), false);
         logger.info("Objects extracted count : " + objects.size());
     }
 
     @Test
     public void testGet() throws ServiceException {
+        Service<T> service = getService();
         List<T> objects = service.list();
         if (objects.isEmpty()) {
             fail(NO_ITEM_RETREIVED_MSG);
@@ -134,8 +100,14 @@ public abstract class AbstractServiceTest<T> {
         assertNotNull("Returned object is null", entity);
     }
 
+    @Test(expected=ServiceException.class)
+    public void testFailedGet() throws ServiceException {
+        getService().get(new Long(100));
+    }
+
     @Test
     public void testUpdate() throws ServiceException {
+        Service<T> service = getService();
         List<T> objects = service.list();
         if (objects.isEmpty()) {
             fail(NO_ITEM_RETREIVED_MSG);
@@ -148,8 +120,21 @@ public abstract class AbstractServiceTest<T> {
         assertNotNull("Returned object is null", entity);
     }
 
+    @Test(expected=ServiceException.class)
+    public void testFailedUpdate() throws ServiceException {
+        Service<T> service = getService();
+        List<T> objects = service.list();
+        if (objects.isEmpty()) {
+            fail(NO_ITEM_RETREIVED_MSG);
+        }
+        T object = objects.get(0);
+        updateToDirtyObject(object);
+        getService().update(object);
+    }
+
     @Test
     public void testSearch() throws ServiceException {
+        Service<T> service = getService();
         List<T> objects = service.list();
         if (objects.isEmpty()) {
             fail(NO_ITEM_RETREIVED_MSG);
@@ -164,6 +149,7 @@ public abstract class AbstractServiceTest<T> {
 
     @Test(expected=ServiceException.class)
     public void testDeleteById() throws ServiceException {
+        Service<T> service = getService();
         List<T> objects = service.list();
         if (objects.isEmpty()) {
             fail(NO_ITEM_RETREIVED_MSG);
@@ -172,15 +158,16 @@ public abstract class AbstractServiceTest<T> {
         logger.info("Deleting object with id: " + id);
         service.deleteById(id);
         service.get(id);
-//        try {
-//            fail("Object should not exists !");
-//        } catch (ServiceException e) {
-//            // Ok, object is deleted
-//        }
+    }
+
+    @Test(expected=ServiceException.class)
+    public void testFailedDeleteById() throws ServiceException {
+        getService().deleteById(new Long(100));
     }
 
     @Test(expected=ServiceException.class)
     public void testDelete() throws ServiceException {
+        Service<T> service = getService();
         T object = createObject();
         service.save(object);
         List<T> objects = service.list();
@@ -192,14 +179,19 @@ public abstract class AbstractServiceTest<T> {
         logger.info("Deleting object with id: " + id);
         service.delete(object);
         service.get(id);
-//        try {
-//            fail("Object should not exists !");
-//        } catch (ServiceException e) {
-//            // Ok, object is deleted
-//        }
     }
 
-    protected abstract T createObject() throws ServiceException;
+    @Test(expected=ServiceException.class)
+    public void testFailedDelete() throws ServiceException {
+        T object = createDirtyObject();
+        getService().delete(object);
+    }
+
+    protected abstract T createObject();
+
+    protected abstract T createDirtyObject();
+
+    protected abstract void updateToDirtyObject(T object);
 
     protected abstract void updateObject(T object);
 
@@ -207,5 +199,5 @@ public abstract class AbstractServiceTest<T> {
 
     protected abstract Serializable extractId(T object);
 
-    protected abstract Service<T> getService() throws ServiceException;
+    protected abstract Service<T> getService();
 }

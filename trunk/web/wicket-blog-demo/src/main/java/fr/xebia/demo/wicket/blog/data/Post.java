@@ -68,7 +68,7 @@ public class Post implements Serializable {
         this.id = pId;
     }
 
-    @Column(name = "comment_status")
+    @Column(name = "comment_status", nullable=false)
     public Boolean getCommentsAllowed() {
         return this.commentsAllowed;
     }
@@ -77,7 +77,7 @@ public class Post implements Serializable {
         this.commentsAllowed = pCommentStatus;
     }
 
-    @Column(name = "content")
+    @Column(name = "content", nullable=false)
     public String getContent() {
         return this.content;
     }
@@ -86,7 +86,7 @@ public class Post implements Serializable {
         this.content = pContent;
     }
 
-    @Column(name = "date")
+    @Column(name = "date", nullable=false)
     public Date getDate() {
         return this.date;
     }
@@ -95,7 +95,7 @@ public class Post implements Serializable {
         this.date = new Date(pDate.getTime());
     }
 
-    @Column(name = "modified")
+    @Column(name = "modified", nullable=false)
     public Date getModified() {
         return this.modified;
     }
@@ -104,7 +104,7 @@ public class Post implements Serializable {
         this.modified = new Date(pModified.getTime());
     }
 
-    @Column(name = "post_author")
+    @Column(name = "post_author", nullable=false)
     public String getAuthor() {
         return this.author;
     }
@@ -113,7 +113,7 @@ public class Post implements Serializable {
         this.author = pPostAuthor;
     }
 
-    @Column(name = "status")
+    @Column(name = "status", nullable=false)
     public String getStatus() {
         return this.status;
     }
@@ -122,7 +122,7 @@ public class Post implements Serializable {
         this.status = pStatus;
     }
 
-    @Column(name = "title")
+    @Column(name = "title", nullable=false)
     public String getTitle() {
         return this.title;
     }
