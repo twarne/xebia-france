@@ -120,7 +120,7 @@ tout à fait acceptables.
       <property name="severity" value="${severity.error.consideredas}"/>
     </module>
     <module name="PackageName">
-      <property name="format" value="^(?:com|net|org)(?:\.[a-z][a-zA-Z0-9_]*)*$"/>
+      <property name="format" value="^(?:fr|com|net|org)(?:\.[a-z][a-zA-Z0-9_]*)*$"/>
       <property name="severity" value="${severity.error.consideredas}"/>
     </module>
     <module name="ParameterName">

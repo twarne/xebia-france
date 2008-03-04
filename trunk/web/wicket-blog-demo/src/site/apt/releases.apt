@@ -2,22 +2,12 @@
 									Releases
 									  ---
 									  ---
-								   2007-11-13
+								   2008-02-04
 									  ---
 
-1.0.4
+1.0
 
-	* configuration du plugin <<<surefire>>> de façon à exécuter les tests dans une JVM dédiée de façon à éviter les <<<OutOfMemoryError>>>
-
-	* compte-rendu d'exécution des tests unitaires (plugin <<<surefire-report>>>)
-
-	* création d'un site pour <<<common-build>>>
-
-	* possibilité de contrôler les remontées Checkstyle via un fichier des properties
-
-	* possibilité de paramétrer pour Checkstyle la liste des imports à interdire pour un projet
-
-	* prise en compte du renommage de certains fichiers de <<<common-build-resources>>> (remplacement systématique des blancs soulignés par des tirets)
+	* Première release du projet démo de blog avec Wicket
 
 	[]
 
