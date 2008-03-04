@@ -37,6 +37,7 @@ public class AddCommentPageTest extends HomePageTest {
         tester.assertNoErrorMessage();
 
         tester.assertComponent("feedbackPanel", FeedbackPanel.class);
+        tester.assertComponent("commentForm", AddCommentForm.class);
         tester.assertComponent("commentForm:author", TextField.class);
         tester.assertComponent("commentForm:email", TextField.class);
         tester.assertComponent("commentForm:postId", Label.class);

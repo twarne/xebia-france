@@ -17,16 +17,39 @@ package fr.xebia.demo.wicket.blog.service;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 import fr.xebia.demo.wicket.blog.data.Comment;
+import fr.xebia.demo.wicket.blog.data.Post;
 
 public class CommentServiceTest extends AbstractServiceTest<Comment> {
 
-    /**
-     * @see org.xebia.service.ServiceTestCase#createOneObject()
-     */
+    @Test
+    public void testGetCommentsForPostId() throws ServiceException {
+        Service<Post> postService = serviceLocator.getPostService();
+        Post post = new Post();
+        post.setCommentsAllowed(randomizer.nextBoolean());
+        post.setContent(String.valueOf(randomizer.nextInt(2147483647)));
+        post.setDate(new Date());
+        post.setModified(new Date());
+        post.setAuthor(String.valueOf(randomizer.nextLong()));
+        post.setStatus(String.valueOf(randomizer.nextInt(10)));
+        post.setTitle(String.valueOf(randomizer.nextInt(65535)));
+        postService.save(post);
+        Long postId = post.getId();
+        Comment comment = createObject();
+        comment.setPostId(postId);
+        CommentService commentService = (CommentService) getService();
+        commentService.save(comment);
+        List<Comment> comments = commentService.getCommentsForPostId(postId);
+        assertFalse("getCommentsForPostId() should bring back almost one comment", comments.isEmpty());
+    }
+
     @Override
-    protected Comment createObject() throws ServiceException {
+    protected Comment createObject() {
         Comment comment = new Comment();
         comment.setApproved(randomizer.nextBoolean());
         comment.setAuthor(String.valueOf(randomizer.nextInt(255)));
@@ -37,9 +60,17 @@ public class CommentServiceTest extends AbstractServiceTest<Comment> {
         return comment;
     }
 
-    /**
-     * @see org.xebia.service.ServiceTestCase#updateObject()
-     */
+    @Override
+    protected Comment createDirtyObject() {
+        return new Comment();
+    }
+
+    @Override
+    protected void updateToDirtyObject(Comment object) {
+        object.setAuthor(null);
+        object.setEmail(null);
+    }
+
     @Override
     protected void updateObject(Comment object) {
         object.setApproved(randomizer.nextBoolean());
@@ -74,7 +105,7 @@ public class CommentServiceTest extends AbstractServiceTest<Comment> {
      * @see org.xebia.service.ServiceTestCase#getService(ServiceLocator)
      */
     @Override
-    protected Service<Comment> getService() throws ServiceException {
+    protected Service<Comment> getService() {
         return serviceLocator.getCommentService();
     }
 

@@ -78,7 +78,7 @@ public class Comment implements Serializable {
         this.approved = pApproved;
     }
 
-    @Column(name = "author")
+    @Column(name = "author", nullable=false)
     public String getAuthor() {
         return this.author;
     }
@@ -87,7 +87,7 @@ public class Comment implements Serializable {
         this.author = pAuthor;
     }
 
-    @Column(name = "author_email")
+    @Column(name = "author_email", nullable=false)
     public String getEmail() {
         return this.email;
     }
@@ -96,7 +96,7 @@ public class Comment implements Serializable {
         this.email = pAuthorEmail;
     }
 
-    @Column(name = "content")
+    @Column(name = "content", nullable=false)
     public String getContent() {
         return this.content;
     }
@@ -105,7 +105,7 @@ public class Comment implements Serializable {
         this.content = pContent;
     }
 
-    @Column(name = "date")
+    @Column(name = "date", nullable=false)
     public Date getDate() {
         return this.date;
     }
@@ -114,7 +114,7 @@ public class Comment implements Serializable {
         this.date = new Date(pDate.getTime());
     }
 
-    @Column(name = "post_id")
+    @Column(name = "post_id", nullable=false)
     public Long getPostId() {
         return this.postId;
     }

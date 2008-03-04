@@ -18,6 +18,9 @@ package fr.xebia.demo.wicket.blog.service;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.PersistenceException;
+
+import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Expression;
@@ -32,6 +35,8 @@ public class PostService extends GenericService<Post> {
 
     private static final int POST_PER_PAGE = 10;
 
+    private static final Logger logger = Logger.getLogger(PostService.class);
+
     @Override
     protected Class<Post> getObjectClass() {
         return Post.class;
@@ -41,17 +46,23 @@ public class PostService extends GenericService<Post> {
     protected Serializable getObjectId(Post object) {
         return object.getId();
     }
-    
-    @SuppressWarnings("unchecked")
-    public List<Post> getLastPosts() {
 
-        Session session = ((Session) currentEntityManager().getDelegate());
-        Criteria criteria = session.createCriteria(getObjectClass())
-            .add(Expression.eq("status", "published"))
-            .addOrder(Order.desc("date"))
-            .setMaxResults(POST_PER_PAGE)
-            .setCacheable(false);
-        return criteria.list();
+    @SuppressWarnings("unchecked")
+    public List<Post> getLastPosts() throws ServiceException {
+        try {
+            Session session = ((Session) currentEntityManager().getDelegate());
+            Criteria criteria = session.createCriteria(getObjectClass())
+                .add(Expression.eq("status", "published"))
+                .addOrder(Order.desc("date"))
+                .setMaxResults(POST_PER_PAGE)
+                .setCacheable(false);
+            return criteria.list();
+        } catch (PersistenceException e) {
+            logger.error(e.getCause(), e);
+            throw new ServiceException("Can't get last posts", e);
+        } finally {
+            closeEntityManager();
+        }
     }
 
     @Override

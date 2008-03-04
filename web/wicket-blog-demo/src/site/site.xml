@@ -24,5 +24,6 @@
 			<item name="Releases" href="releases.html" />
 		</menu>
 		<menu ref="reports" />
+		${reports}
 	</body>
 </project>
