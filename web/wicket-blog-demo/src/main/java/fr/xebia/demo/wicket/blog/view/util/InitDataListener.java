@@ -23,7 +23,6 @@ public class InitDataListener implements ServletContextListener {
 		WebApplicationContext springContext = WebApplicationContextUtils.getWebApplicationContext(sce.getServletContext());
 
 		CategoryService categoryService = (CategoryService) springContext.getBean("categoryService");
-		// TODO Add default categories
 		Category category = new Category();
 		category.setName("divers");
 		category.setNicename("Divers");
@@ -36,7 +35,6 @@ public class InitDataListener implements ServletContextListener {
 		}
 
 		PostService postService = (PostService) springContext.getBean("postService");
-		// TODO Add default post
 		Post post = new Post();
 		post.setTitle("Welcome to the Wicket Blog Demo");
 		post.setAuthor("Xebia");

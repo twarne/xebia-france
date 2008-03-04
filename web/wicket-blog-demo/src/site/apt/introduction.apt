@@ -2,40 +2,12 @@
                                   Introduction
 									  ---
 									  ---
-								   2007-11-13
+								   2008-02-04
 									  ---
 
-	suborganization-commonbuild est le projet racine de tous les projets VSCT. Il
-contient tout les éléments communs et jugés nécessaires pour la construction
-logicielle (build) des applications et de tous les composants logiciels
-développés localement ou offshore par VSCT.
-
-	Tous les projets VSCT/suborganization sont censés être déclarés
-comme descendants de suborganization-commonbuild. Ex. :
-
-------------------------------------------------------------------------
-  <parent>
-    <groupId>com.vsct.suborganization/groupId>
-    <artifactId>suborganization-commonbuild</artifactId>
-    <version>1.0.0</version>
-  </parent
-------------------------------------------------------------------------
-
-	common-build contient en particulier le nécessaire :
-
-		* pour faire fonctionner <<<mvn deploy>>> et permettre la publication dans le repository VSCT
-
-		* pour configurer correctement les plugins concernant la version du JDK utilisée et le character encoding des sources
-
-		* pour lancer les revues de code automatisées type PMD et autres
-
-		* pour exécuter les tests unitaires, obtenir un compte-rendu des tests ainsi que leur couverture
-
-		* pour générer la Javadoc et obtenir une version HTML des sources Java
-
-		* pour obtenir des informations volumétriques (utilisation du plugin JavaNCSS)
-
-		* etc., etc.
+	Voici une application demonstratrice du framework web appelé Wicket !! 
+Vous pouvez retrouver l'ensemble du code source à l'adresse suivante
+http://xebia-france.googlecode.com/svn/trunk/web/wicket-blog-demo/.
 
 		[]
 

@@ -1,24 +1,28 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-
-<project name="${project.name}">
-  <version position="left" /> 
-  <publishDate format="yyyy-MM-dd" position="left" /> 
-<!--
-  <bannerRight>
-    <src>images/logo-vsct.jpg</src>
-  </bannerRight>
-  <skin>
-    <groupId>com.vsct.build.maven</groupId>
-    <artifactId>common-skin</artifactId>
-    <version>1.0.0</version>
-  </skin>
--->
-  <body>
-    <menu ref="parent"/>
-    <menu name="Menu principal" collapse="false">
-      <item name="Introduction" href="introduction.html" />
-      <item name="FAQ" href="faq.html" />
-      <item name="Releases" href="releases.html" />
-    </menu>
-  </body>
+<project name="wicket-blog-demo"
+	xsi:schemaLocation="http://maven.apache.org/maven-navigation-1.0.xsd">
+	<bannerLeft>
+		<name>wicket-blog-demo</name>
+	</bannerLeft>
+	<version position="left" />
+	<publishDate format="yyyy-MM-dd" position="left" />
+	<skin>
+		<groupId>org.apache.maven.skins</groupId>
+		<artifactId>maven-stylus-skin</artifactId>
+		<version>1.0.1</version>
+	</skin>
+	<body>
+		<links>
+			<item name="Project Home"
+				href="http://xebia-france.googlecode.com" />
+			<item name="SVN"
+				href="http://xebia-france.googlecode.com/svn/trunk/web/wicket-blog-demo/" />
+		</links>
+		<menu name="Menu principal" collapse="false">
+			<item name="Introduction" href="introduction.html" />
+			<item name="FAQ" href="faq.html" />
+			<item name="Releases" href="releases.html" />
+		</menu>
+		<menu ref="reports" />
+	</body>
 </project>

@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-/**
- * Copyright 2007 Xebia and the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+	/**
+	* Copyright 2007 Xebia and the original author or authors.
+	*
+	* Licensed under the Apache License, Version 2.0 (the "License");
+	* you may not use this file except in compliance with the License.
+	* You may obtain a copy of the License at
+	*
+	*      http://www.apache.org/licenses/LICENSE-2.0
+	*
+	* Unless required by applicable law or agreed to in writing, software
+	* distributed under the License is distributed on an "AS IS" BASIS,
+	* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	* See the License for the specific language governing permissions and
+	* limitations under the License.
+	*/
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -59,9 +59,6 @@
 		<wicket.version>1.3.1</wicket.version>
 		<spring.version>2.0.8</spring.version>
 		<jetty.version>6.1.4</jetty.version>
-		<checkstyle.property.location>
-			checkstyle.properties
-		</checkstyle.property.location>
 		<!--
 			Domaine : PMD.
 			Description : niveau max. des remontées PMD. Va de 1 à 4.
@@ -345,12 +342,14 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
 				<configuration>
+					<consoleOutput>true</consoleOutput>
 					<configLocation>
-						checkstyle-checks.xml
+						${basedir}/src/main/resources/checkstyle.xml
 					</configLocation>
 					<propertiesLocation>
-						${checkstyle.property.location}
+						${basedir}/src/main/resources/checkstyle.properties
 					</propertiesLocation>
+					<excludes>**/test/**/*.java</excludes>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -360,16 +359,33 @@
 					Remarque (2007-11-07) : la version 2.1 est fortement boguée et inutilisable en pratique.
 				-->
 				<version>2.0</version>
+				<configuration>
+					<formats>
+						<format>html</format>
+						<format>xml</format>
+					</formats>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>findbugs-maven-plugin</artifactId>
+				<configuration>
+					<xmlOutput>true</xmlOutput>
+					<xmlOutputDirectory>
+						${basedir}/target
+					</xmlOutputDirectory>
+					<threshold>Normal</threshold>
+					<effort>Default</effort>
+					<!--
+						<excludeFilterFile>findbugs-exclude.xml</excludeFilterFile>
+						<includeFilterFile>findbugs-include.xml</includeFilterFile>-->
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<configuration>
-					<author>true</author>
+					<author>false</author>
 					<charset>UTF-8</charset>
 					<encoding>${source.encoding}</encoding>
 					<docencoding>UTF-8</docencoding>
@@ -416,30 +432,22 @@
 					</excludes>
 					<minimumPriority>${pmd.max.level}</minimumPriority>
 					<rulesets>
-						<ruleset>pmd-ruleset.xml</ruleset>
+						<ruleset>${basedir}/src/main/resources/pmd-ruleset.xml</ruleset>
 					</rulesets>
 					<sourceEncoding>${source.encoding}</sourceEncoding>
 					<targetJdk>${jdk.version}</targetJdk>
 				</configuration>
 			</plugin>
-			<!--
-				Surefire.
-				Remarque : le fait de lancer une JVM ralentit l'exécution des tests mais évite
-				les OutOfMemoryError (et les pertes de temps liées à leur diagnostic).
-			-->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<configuration>
-					<forkMode>always</forkMode>
-					<argLine>
-						-Xms128M -Xmx512M -enableassertions
-					</argLine>
-				</configuration>
-			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-report-plugin</artifactId>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<report>report-only</report>
+						</reports>
+					</reportSet>
+				</reportSets>
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
@@ -455,6 +463,25 @@
 						<tag>@deprecated</tag>
 					</tags>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>
+					maven-project-info-reports-plugin
+				</artifactId>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<report>index</report>
+							<report>project-team</report>
+							<report>cim</report>
+							<report>issue-tracking</report>
+							<report>dependencies</report>
+							<report>scm</report>
+							<report>summary</report>
+						</reports>
+					</reportSet>
+				</reportSets>
 			</plugin>
 		</plugins>
 	</reporting>
@@ -486,9 +513,9 @@
 		</repository>
 		</repositories-->
 
-<!--
-See: http://mojo.os.xebia.com/maven-dashboard-plugin
-And our M2 repository: http://mojo.os.xebia.com/repository
--->
- 
+	<!--
+		See: http://mojo.os.xebia.com/maven-dashboard-plugin
+		And our M2 repository: http://mojo.os.xebia.com/repository
+	-->
+
 </project>
