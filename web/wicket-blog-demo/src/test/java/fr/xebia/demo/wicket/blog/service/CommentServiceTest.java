@@ -42,6 +42,7 @@ public class CommentServiceTest extends AbstractServiceTest<Comment> {
         Long postId = post.getId();
         Comment comment = createObject();
         comment.setPostId(postId);
+        comment.setApproved(Boolean.TRUE);
         CommentService commentService = (CommentService) getService();
         commentService.save(comment);
         List<Comment> comments = commentService.getCommentsForPostId(postId);
