@@ -37,9 +37,6 @@ public class PostServiceTest extends AbstractServiceTest<Post> {
         assertFalse("getLastPosts() should bring back almost one post", posts.isEmpty());
     }
 
-    /**
-     * @see org.xebia.service.ServiceTestCase#createOneObject()
-     */
     @Override
     protected Post createObject() {
         Post post = new Post();
@@ -64,9 +61,6 @@ public class PostServiceTest extends AbstractServiceTest<Post> {
         object.setTitle(null);
     }
 
-    /**
-     * @see org.xebia.service.ServiceTestCase#updateObject()
-     */
     @Override
     protected void updateObject(Post object) {
         object.setCommentsAllowed(randomizer.nextBoolean());
@@ -91,18 +85,11 @@ public class PostServiceTest extends AbstractServiceTest<Post> {
         return object;
     }
 
-    /**
-     * @see org.xebia.service.ServiceTestCase#extractId(java.lang.Object)
-     */
     @Override
     protected Serializable extractId(Post object) {
         return object.getId();
     }
 
-    /**
-     * @throws ServiceException
-     * @see org.xebia.service.ServiceTestCase#getService(ServiceLocator)
-     */
     @Override
     protected Service<Post> getService() {
         return serviceLocator.getPostService();

@@ -88,9 +88,6 @@ public class BlogApplication extends SpringWebApplication {
         return new BlogWebSession(request);
     }
 
-    /**
-     * @see wicket.Application#getHomePage()
-     */
     @Override
     public Class<? extends WebPage> getHomePage() {
         return HomePage.class;

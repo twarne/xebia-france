@@ -21,9 +21,6 @@ import fr.xebia.demo.wicket.blog.data.Category;
 
 public class CategoryServiceTest extends AbstractServiceTest<Category> {
 
-    /**
-     * @see org.xebia.service.ServiceTestCase#createOneObject()
-     */
     @Override
     protected Category createObject() {
         Category category = new Category();
@@ -44,9 +41,6 @@ public class CategoryServiceTest extends AbstractServiceTest<Category> {
         object.setNicename(null);
     }
 
-    /**
-     * @see org.xebia.service.ServiceTestCase#updateObject()
-     */
     @Override
     protected void updateObject(Category object) {
         object.setDescription(String.valueOf(randomizer.nextInt(2147483647)));
@@ -63,17 +57,11 @@ public class CategoryServiceTest extends AbstractServiceTest<Category> {
         return object;
     }
 
-    /**
-     * @see org.xebia.service.ServiceTestCase#extractId(java.lang.Object)
-     */
     @Override
     protected Serializable extractId(Category object) {
         return object.getId();
     }
 
-    /**
-     * @see org.xebia.service.ServiceTestCase#getService(ServiceLocator)
-     */
     @Override
     protected Service<Category> getService() {
         return serviceLocator.getCategoryService();
