@@ -34,13 +34,12 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import fr.xebia.demo.wicket.blog.data.Category;
 import fr.xebia.demo.wicket.blog.service.Service;
 import fr.xebia.demo.wicket.blog.service.ServiceException;
-import fr.xebia.demo.wicket.blog.view.util.LocalizerUtils;
 import fr.xebia.demo.wicket.blog.view.util.PageParametersUtils;
 
 public class CategoryListPage extends CategoryPage {
 
     private static final long serialVersionUID = 1L;
-    
+
     private static final Logger logger = Logger.getLogger(CategoryListPage.class);
 
     @SpringBean(name = "categoryService")
@@ -64,12 +63,14 @@ public class CategoryListPage extends CategoryPage {
             categories = getCategories();
         }
         add(new ListView("categories", categories) {
+
             private static final long serialVersionUID = 1L;
 
             @Override
             public void populateItem(final ListItem listItem) {
                 final Category category = (Category) listItem.getModelObject();
                 Link editLink = new Link("viewLink") {
+
                     private static final long serialVersionUID = 1L;
 
                     @Override
@@ -77,15 +78,15 @@ public class CategoryListPage extends CategoryPage {
                         try {
                             Category viewedCategory = getCategory(category);
                             if (viewedCategory == null) {
-                            	throw new RestartResponseException(CategoryListPage.class, PageParametersUtils.fromStringMessage(LocalizerUtils.getString(
-                                        this, "category.list.notFound", category.getId())));
+                                throw new RestartResponseException(CategoryListPage.class, PageParametersUtils.fromStringMessage(getString(
+                                        "category.list.notFound", new Model(category.getId()))));
                             }
                             PageParameters pageParameters = new PageParameters();
                             pageParameters.put(ViewCategoryPage.PARAM_CATEGORY_KEY, viewedCategory);
                             setResponsePage(ViewCategoryPage.class, pageParameters);
                         } catch (Exception e) {
                             logger.error("Error while getting category", e);
-                        	throw new RestartResponseException(CategoryListPage.class, PageParametersUtils.fromException(e));
+                            throw new RestartResponseException(CategoryListPage.class, PageParametersUtils.fromException(e));
                         }
                     }
                 };
@@ -99,11 +100,11 @@ public class CategoryListPage extends CategoryPage {
                     public void onClick() {
                         try {
                             deleteCategory(category);
-                            setResponsePage(CategoryListPage.class, PageParametersUtils.fromStringMessage(LocalizerUtils.getString(this,
-                                    "category.list.deleted", category.getId())));
+                            setResponsePage(CategoryListPage.class, PageParametersUtils.fromStringMessage(getString(
+                                    "category.list.deleted", new Model(category.getId()))));
                         } catch (Exception e) {
                             logger.error("Error while deleting category", e);
-                        	throw new RestartResponseException(CategoryListPage.class, PageParametersUtils.fromException(e));
+                            throw new RestartResponseException(CategoryListPage.class, PageParametersUtils.fromException(e));
                         }
                     }
                 });

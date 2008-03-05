@@ -77,16 +77,15 @@ public abstract class BasePage extends WebPage {
         }
         if (pageParameters.containsKey(PARAM_MESSAGE_KEY)) {
             String message = (String) pageParameters.getString(PARAM_MESSAGE_KEY);
-            feedbackPanel.info(message);
+            addInfoMessage(message);
         }
         if (pageParameters.containsKey(PARAM_ERRORMESSAGE_KEY)) {
             String errorMessage = (String) pageParameters.getString(PARAM_ERRORMESSAGE_KEY);
-            feedbackPanel.error(errorMessage);
+            addErrorMessage(errorMessage);
         }
         if (pageParameters.containsKey(PARAM_EXCEPTION_KEY)) {
             Throwable t = (Throwable) pageParameters.get(PARAM_EXCEPTION_KEY);
-            String errorMessage = StringUtils.isEmpty(t.getMessage()) ? t.toString() : t.getMessage();
-            feedbackPanel.error(errorMessage);
+            addErrorMessage(t);
         }
     }
 

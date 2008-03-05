@@ -34,13 +34,12 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import fr.xebia.demo.wicket.blog.data.Post;
 import fr.xebia.demo.wicket.blog.service.Service;
 import fr.xebia.demo.wicket.blog.service.ServiceException;
-import fr.xebia.demo.wicket.blog.view.util.LocalizerUtils;
 import fr.xebia.demo.wicket.blog.view.util.PageParametersUtils;
 
 public class PostListPage extends PostPage {
 
     private static final long serialVersionUID = 1L;
-    
+
     private static final Logger logger = Logger.getLogger(PostListPage.class);
 
     @SpringBean(name = "postService")
@@ -64,42 +63,52 @@ public class PostListPage extends PostPage {
             posts = getPosts();
         }
         add(new ListView("posts", posts) {
+
             private static final long serialVersionUID = 1L;
 
             @Override
             public void populateItem(final ListItem listItem) {
                 final Post post = (Post) listItem.getModelObject();
                 Link viewLink = new Link("viewLink") {
+
                     private static final long serialVersionUID = 1L;
+
                     @Override
                     public void onClick() {
                         try {
                             Post viewedPost = getPost(post);
                             if (viewedPost == null) {
-                            	throw new RestartResponseException(PostListPage.class, PageParametersUtils.fromStringErrorMessage(LocalizerUtils.getString(this, "post.list.notFound", post.getId())));
+                                throw new RestartResponseException(PostListPage.class, PageParametersUtils
+                                        .fromStringErrorMessage(getString("post.list.notFound",
+                                                new Model(post.getId()))));
                             }
                             PageParameters pageParameters = new PageParameters();
                             pageParameters.put(ViewPostPage.PARAM_POST_KEY, viewedPost);
                             setResponsePage(ViewPostPage.class, pageParameters);
                         } catch (Exception e) {
                             logger.error("Error while getting post", e);
-                        	throw new RestartResponseException(PostListPage.class, PageParametersUtils.fromException(e));
+                            throw new RestartResponseException(PostListPage.class,
+                                 PageParametersUtils.fromException(e));
                         }
                     }
                 };
                 viewLink.add(new Label("id", String.valueOf(post.getId())));
                 listItem.add(viewLink);
                 listItem.add(new Link("deleteLink") {
+
                     private static final long serialVersionUID = 1L;
 
                     @Override
                     public void onClick() {
                         try {
                             deletePost(post);
-                            setResponsePage(PostListPage.class, PageParametersUtils.fromStringMessage(LocalizerUtils.getString(this, "post.list.deleted", post.getId())));
+                            setResponsePage(PostListPage.class,
+                                 PageParametersUtils.fromStringMessage(getString(
+                                    "post.list.deleted", new Model(post.getId()))));
                         } catch (Exception e) {
                             logger.error("Error while deleting post", e);
-                        	throw new RestartResponseException(PostListPage.class, PageParametersUtils.fromException(e));
+                            throw new RestartResponseException(PostListPage.class,
+                                 PageParametersUtils.fromException(e));
                         }
                     }
                 });
@@ -110,9 +119,9 @@ public class PostListPage extends PostPage {
                 listItem.add(new Label("title", post.getTitle()));
                 String categoryName = null;
                 if (post.getCategory() == null) {
-                	categoryName = "";
+                    categoryName = "";
                 } else {
-                	categoryName = post.getCategory().getNicename();
+                    categoryName = post.getCategory().getNicename();
                 }
                 listItem.add(new Label("category", categoryName));
             }
@@ -121,12 +130,12 @@ public class PostListPage extends PostPage {
     }
 
     private List<Post> getPosts() {
-    	List<Post> posts = null;
-		try {
-	        posts = postService.list();
-	        logger.debug("Found " + posts.size() + " posts");
+        List<Post> posts = null;
+        try {
+            posts = postService.list();
+            logger.debug("Found " + posts.size() + " posts");
         } catch (Exception e) {
-        	logger.error("Can't get post list", e);
+            logger.error("Can't get post list", e);
             addErrorMessage(e);
             posts = new LinkedList<Post>();
         }

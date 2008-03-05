@@ -26,19 +26,19 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
+import org.apache.wicket.model.Model;
 import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import fr.xebia.demo.wicket.blog.data.Comment;
 import fr.xebia.demo.wicket.blog.service.Service;
 import fr.xebia.demo.wicket.blog.service.ServiceException;
-import fr.xebia.demo.wicket.blog.view.util.LocalizerUtils;
 import fr.xebia.demo.wicket.blog.view.util.PageParametersUtils;
 
 public class CommentListPage extends CommentPage {
 
     private static final long serialVersionUID = 1L;
-    
+
     private static final Logger logger = Logger.getLogger(CommentListPage.class);
 
     @SpringBean(name = "commentService")
@@ -60,12 +60,14 @@ public class CommentListPage extends CommentPage {
             comments = getComments();
         }
         add(new ListView("comments", comments) {
+
             private static final long serialVersionUID = 1L;
 
             @Override
             public void populateItem(final ListItem listItem) {
                 final Comment comment = (Comment) listItem.getModelObject();
                 Link viewLink = new Link("viewLink") {
+
                     private static final long serialVersionUID = 1L;
 
                     @Override
@@ -73,20 +75,20 @@ public class CommentListPage extends CommentPage {
                         try {
                             Comment viewedComment = getComment(comment);
                             if (viewedComment == null) {
-                            	throw new RestartResponseException(CommentListPage.class,
-                                    PageParametersUtils.fromStringErrorMessage(LocalizerUtils.getString(
-                                        this, "comment.list.notFound", comment.getId())));
+                                throw new RestartResponseException(CommentListPage.class,
+                                     PageParametersUtils.fromStringErrorMessage(
+                                          getString("comment.list.notFound", new Model(comment.getId()))));
                             }
-                           	PageParameters pageParameters = new PageParameters();
-							pageParameters.put( ViewCommentPage.PARAM_COMMENT_KEY, viewedComment);
-							setResponsePage(ViewCommentPage.class, pageParameters);
+                            PageParameters pageParameters = new PageParameters();
+                            pageParameters.put(ViewCommentPage.PARAM_COMMENT_KEY, viewedComment);
+                            setResponsePage(ViewCommentPage.class, pageParameters);
                         } catch (Exception e) {
                             logger.error("Error while getting comment", e);
-                        	throw new RestartResponseException(CommentListPage.class, PageParametersUtils.fromException(e));
+                            throw new RestartResponseException(CommentListPage.class, PageParametersUtils.fromException(e));
                         }
                     }
                 };
-                viewLink.add(new Label("id", String.valueOf(comment.getId())));
+                viewLink.add(new Label("id", new Model(comment.getId())));
                 listItem.add(viewLink);
                 listItem.add(new Link("deleteLink") {
 
@@ -96,18 +98,20 @@ public class CommentListPage extends CommentPage {
                     public void onClick() {
                         try {
                             deleteComment(comment);
-                            setResponsePage(CommentListPage.class, PageParametersUtils.fromStringMessage(LocalizerUtils.getString(this, "comment.list.deleted", comment.getId())));
+                            setResponsePage(CommentListPage.class,
+                                PageParametersUtils.fromStringMessage(getString("comment.list.deleted",
+                                    new Model(comment.getId()))));
                         } catch (Exception e) {
                             logger.error("Error while deleting comment", e);
-                        	throw new RestartResponseException(CommentListPage.class, PageParametersUtils.fromException(e));
+                            throw new RestartResponseException(CommentListPage.class, PageParametersUtils.fromException(e));
                         }
                     }
                 });
-                listItem.add(new Label("approved", comment.getApproved().toString()));
+                listItem.add(new Label("approved", new Model(comment.getApproved())));
                 listItem.add(new Label("author", comment.getAuthor()));
                 listItem.add(new Label("email", comment.getEmail()));
-                listItem.add(new Label("date", comment.getDate().toString()));
-                listItem.add(new Label("postId", comment.getPostId().toString()));
+                listItem.add(new Label("date", new Model(comment.getDate())));
+                listItem.add(new Label("postId", new Model(comment.getPostId())));
             }
         });
         add(new Label("resultCount", new StringResourceModel("comment.list.resultCount", this, null, new Object[]{comments.size()})));

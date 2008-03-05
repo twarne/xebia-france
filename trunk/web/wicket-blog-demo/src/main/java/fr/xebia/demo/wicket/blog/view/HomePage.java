@@ -70,7 +70,7 @@ public class HomePage extends PublicPage {
                         pageParameters.put(AddCommentPage.PARAM_POSTID_KEY, post.getId());
                         setResponsePage(AddCommentPage.class, pageParameters);
                     }
-                });
+                }.setVisible(post.getCommentsAllowed()));
                 ListView commentsListView = new ListView("comments", getCommentsForPostId(post.getId())) {
                     private static final long serialVersionUID = 1L;
 
