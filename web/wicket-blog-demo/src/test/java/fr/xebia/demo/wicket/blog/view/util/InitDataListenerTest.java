@@ -3,7 +3,7 @@ package fr.xebia.demo.wicket.blog.view.util;
 import javax.servlet.ServletContextEvent;
 
 import org.apache.wicket.protocol.http.MockServletContext;
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 
 import fr.xebia.demo.wicket.blog.service.CategoryService;
@@ -13,8 +13,8 @@ import fr.xebia.demo.wicket.blog.view.WicketPageTest;
 
 public class InitDataListenerTest extends WicketPageTest {
 
-    @BeforeClass
-    public static void setUpAppContext() {
+    @Before
+    public void setUpAppContext() {
         PostService postService = new PostService();
         postService.setEntityManagerFactory(entityManagerFactory);
         appContext.putBean("postService", postService);

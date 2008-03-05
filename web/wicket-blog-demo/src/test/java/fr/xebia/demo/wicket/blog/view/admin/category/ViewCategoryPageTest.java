@@ -12,7 +12,6 @@ public class ViewCategoryPageTest extends AddCategoryPageTest {
         super.testRender();
 
         tester.assertComponent("categories:0:viewLink", Link.class);
-//        Link viewLink = (Link) tester.getComponentFromLastRenderedPage("categories:0:viewLink");
         tester.clickLink("categories:0:viewLink");
         tester.assertRenderedPage(ViewCategoryPage.class);
         tester.assertNoErrorMessage();

@@ -1,6 +1,7 @@
 package fr.xebia.demo.wicket.blog.view.admin.category;
 
 import org.apache.log4j.Logger;
+import org.apache.wicket.PageParameters;
 import org.apache.wicket.RestartResponseException;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.model.IModel;
@@ -43,7 +44,9 @@ public class EditCategoryForm extends AddCategoryForm {
             setResponsePage(CategoryListPage.class, PageParametersUtils.fromStringMessage("Updated category: " + updatedCategory));
         } catch (Exception e) {
             logger.error("Error while updating category", e);
-        	throw new RestartResponseException(EditCategoryPage.class, PageParametersUtils.fromException(e));
+        	PageParameters pageParameters = PageParametersUtils.fromException(e);
+        	pageParameters.put(EditCategoryPage.PARAM_CATEGORY_KEY, category);
+            throw new RestartResponseException(EditCategoryPage.class, pageParameters);
         }
     }
 }

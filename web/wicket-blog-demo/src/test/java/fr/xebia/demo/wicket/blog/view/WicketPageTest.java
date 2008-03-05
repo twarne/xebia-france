@@ -7,17 +7,20 @@ import org.apache.wicket.Application;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 import org.apache.wicket.spring.injection.annot.test.AnnotApplicationContextMock;
 import org.apache.wicket.util.tester.WicketTester;
-import org.junit.BeforeClass;
+import org.junit.Before;
 
+// TODO Tester le delete des objets
 public abstract class WicketPageTest {
 
-    protected static WicketTester tester;
-    protected static AnnotApplicationContextMock appContext;
-    protected static EntityManagerFactory entityManagerFactory;
-    protected static BlogApplication application;
+    protected static final String ERROR_MESSAGE = "An expected error has occured";
 
-    @BeforeClass
-    public static void setUpClass() {
+    protected WicketTester tester;
+    protected AnnotApplicationContextMock appContext;
+    protected EntityManagerFactory entityManagerFactory;
+    protected BlogApplication application;
+
+    @Before
+    public void setUpClass() {
         entityManagerFactory = Persistence.createEntityManagerFactory("mainManager");
         // 1. setup mock injection environment
         appContext = new AnnotApplicationContextMock();

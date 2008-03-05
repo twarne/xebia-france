@@ -94,6 +94,7 @@ public class HomePage extends PublicPage {
             logger.debug("Found " + posts.size() + " posts");
         } catch (Exception e) {
             logger.error("Can't get posts", e);
+            addErrorMessage(e);
             posts = new LinkedList<Post>();
         }
         return posts;
@@ -106,6 +107,7 @@ public class HomePage extends PublicPage {
             logger.debug("Found "+comments.size()+" comments for postId: "+postId);
         } catch (Exception e) {
             comments = new LinkedList<Comment>();
+            addErrorMessage(e);
             logger.error("Can't get comments for postId: "+postId, e);
         }
         return comments;
