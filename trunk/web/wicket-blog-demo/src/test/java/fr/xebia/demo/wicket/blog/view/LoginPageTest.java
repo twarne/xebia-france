@@ -4,7 +4,7 @@ import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.util.tester.FormTester;
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 
 import fr.xebia.demo.wicket.blog.service.LoginService;
@@ -13,8 +13,8 @@ import fr.xebia.demo.wicket.blog.view.admin.AdminHomePage;
 
 public class LoginPageTest extends WicketPageTest {
 
-    @BeforeClass
-    public static void setUpAppContext() {
+    @Before
+    public void setUpAppContext() {
         appContext.putBean("loginService", new LoginService());
     }
 

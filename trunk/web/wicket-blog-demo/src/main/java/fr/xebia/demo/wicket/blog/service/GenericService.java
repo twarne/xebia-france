@@ -40,7 +40,7 @@ public abstract class GenericService<T> implements Service<T> {
 
     public static final int DEFAULT_MAX_RESULTS = 200;
 
-    public static final PropertySelector NOT_NULL_OR_EMPTY = new NotNullOrEmptyPropertySelector();
+    private static final PropertySelector NOT_NULL_OR_EMPTY = new NotNullOrEmptyPropertySelector();
 
     private static final class NotNullOrEmptyPropertySelector implements PropertySelector {
 
@@ -49,14 +49,10 @@ public abstract class GenericService<T> implements Service<T> {
         private static final long serialVersionUID = 1L;
 
         public boolean include(Object propertyValue, String propertyName, Type type) {
-            logger.debug("Invoking NotNullOrEmptyPropertySelector");
             if (propertyValue == null) {
                 return false;
             }
             try {
-                if (logger.isDebugEnabled()) {
-                    logger.debug("PropertyName: " + propertyName + ", PropertyValue: " + propertyValue);
-                }
                 if ((propertyValue instanceof String) && StringUtils.isEmpty((String) propertyValue)) {
                     return false;
                 }
@@ -261,11 +257,6 @@ public abstract class GenericService<T> implements Service<T> {
            closeEntityManager();
        }
     }
-
-//    /**
-//     * Permet de définir les critères de recherche de l'objet dans les sous-classes
-//     */
-//    protected abstract void addAssociationCriteria(Criteria criteria, T object);
 
     protected void commitTransaction() throws ServiceException {
         try {
