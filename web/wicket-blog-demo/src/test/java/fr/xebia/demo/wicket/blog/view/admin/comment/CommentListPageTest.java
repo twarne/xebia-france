@@ -11,7 +11,7 @@ import fr.xebia.demo.wicket.blog.view.util.CustomDateField;
 public class CommentListPageTest extends CommentPageTest {
 
     @Test
-    public void testRender() throws Exception {
+    public void testRender() {
         tester.startPage(CommentListPage.class);
         tester.assertRenderedPage(CommentListPage.class);
         tester.assertNoErrorMessage();

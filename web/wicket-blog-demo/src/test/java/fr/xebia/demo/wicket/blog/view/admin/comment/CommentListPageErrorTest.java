@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.wicket.util.tester.FormTester;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import fr.xebia.demo.wicket.blog.data.Comment;
@@ -14,14 +15,14 @@ import fr.xebia.demo.wicket.blog.view.WicketPageTest;
 
 public class CommentListPageErrorTest extends WicketPageTest {
 
-    @Before
-    public void setUpAppContext() {
+    @BeforeClass
+    public static void setUpAppContext() {
         CommentService commentService = getCommentService();
         commentService.setEntityManagerFactory(entityManagerFactory);
         appContext.putBean("commentService", commentService);
     }
 
-    protected CommentService getCommentService() {
+    protected static CommentService getCommentService() {
         CommentService commentService = new CommentService() {
             @Override
             public List<Comment> search(Comment exampleEntity) throws ServiceException {
@@ -34,6 +35,10 @@ public class CommentListPageErrorTest extends WicketPageTest {
             @Override
             public Comment get(Serializable id) throws ServiceException {
                 throw new ServiceException(ERROR_MESSAGE);
+            }
+            @Override
+            public void deleteById(Serializable id) throws ServiceException {
+            	throw new ServiceException(ERROR_MESSAGE);
             }
         };
         return commentService;

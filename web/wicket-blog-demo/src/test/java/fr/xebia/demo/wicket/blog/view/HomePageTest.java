@@ -6,8 +6,7 @@ import java.util.Random;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.list.ListView;
-import org.apache.wicket.markup.html.panel.FeedbackPanel;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import fr.xebia.demo.wicket.blog.data.Comment;
@@ -18,8 +17,8 @@ import fr.xebia.demo.wicket.blog.service.ServiceException;
 
 public class HomePageTest extends WicketPageTest {
 
-    @Before
-    public void setUpAppContext() {
+    @BeforeClass
+    public static void setUpAppContext() {
         PostService postService = new PostService();
         postService.setEntityManagerFactory(entityManagerFactory);
         appContext.putBean("postService", postService);
@@ -37,7 +36,6 @@ public class HomePageTest extends WicketPageTest {
 
         tester.assertComponent("welcomeMessage", Label.class);
         tester.assertComponent("titleLink", BookmarkablePageLink.class);
-        tester.assertComponent("feedbackPanel", FeedbackPanel.class);
         tester.assertComponent("menuItems", ListView.class);
     }
     

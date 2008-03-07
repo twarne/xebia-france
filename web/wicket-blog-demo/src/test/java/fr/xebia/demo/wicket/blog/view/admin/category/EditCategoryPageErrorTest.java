@@ -1,6 +1,6 @@
 package fr.xebia.demo.wicket.blog.view.admin.category;
 
-import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.PageParameters;
 import org.apache.wicket.util.tester.FormTester;
 import org.junit.Test;
 
@@ -22,16 +22,12 @@ public class EditCategoryPageErrorTest extends ViewCategoryPageErrorTest {
 
     @Test
     public void testErrorRender() {
-
-        tester.startPage(CategoryListPage.class);
-        tester.assertRenderedPage(CategoryListPage.class);
-        tester.assertNoErrorMessage();
-        tester.assertComponent("categories:0:viewLink", Link.class);
-        tester.clickLink("categories:0:viewLink");
-        tester.assertRenderedPage(ViewCategoryPage.class);
-        
-        tester.assertComponent("editLink", Link.class);
-        tester.clickLink("editLink");
+        PageParameters pageParameters = new PageParameters();
+        Category category = new Category();
+        category.setName("test");
+        category.setNicename("Test");
+        pageParameters.put(EditCategoryPage.PARAM_CATEGORY_KEY, category);
+        tester.startPage(EditCategoryPage.class, pageParameters);
         tester.assertRenderedPage(EditCategoryPage.class);
         tester.assertNoErrorMessage();
 

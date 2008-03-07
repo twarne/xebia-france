@@ -16,6 +16,7 @@
 package fr.xebia.demo.wicket.blog.view;
 
 import java.io.Serializable;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -39,6 +40,18 @@ public abstract class BasePage extends WebPage {
     public static final String PARAM_MESSAGE_KEY = "message";
     public static final String PARAM_ERRORMESSAGE_KEY = "errorMessage";
     public static final String PARAM_EXCEPTION_KEY = "exception";
+    private static final ListView menuItems = new ListView("menuItems", new LinkedList<MenuItem>()) {
+        private static final long serialVersionUID = 1L;
+
+        @Override
+        @SuppressWarnings("unchecked")
+        public void populateItem(final ListItem listItem) {
+            final MenuItem menuItem = (MenuItem) listItem.getModelObject();
+            Link menuItemLink = new BookmarkablePageLink("menuItemLink", menuItem.getPageClass());
+            menuItemLink.add(new Label("menuItemLabel", menuItem.getLabelModel()));
+            listItem.add(menuItemLink);
+        }
+    };
 
     private final FeedbackPanel feedbackPanel;
 
@@ -47,18 +60,19 @@ public abstract class BasePage extends WebPage {
         add(HeaderContributor.forCss("common/styles.css"));
         add(new BookmarkablePageLink("titleLink", Application.get().getHomePage()));
 
-        add(new ListView("menuItems", getMenuItems()) {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            @SuppressWarnings("unchecked")
-            public void populateItem(final ListItem listItem) {
-                final MenuItem menuItem = (MenuItem) listItem.getModelObject();
-                Link menuItemLink = new BookmarkablePageLink("menuItemLink", menuItem.getPageClass());
-                menuItemLink.add(new Label("menuItemLabel", menuItem.getLabelModel()));
-                listItem.add(menuItemLink);
-            }
-        });
+        menuItems.setList(getMenuItems());
+//        add(new ListView("menuItems", getMenuItems()) {
+//            private static final long serialVersionUID = 1L;
+//
+//            @Override
+//            @SuppressWarnings("unchecked")
+//            public void populateItem(final ListItem listItem) {
+//                final MenuItem menuItem = (MenuItem) listItem.getModelObject();
+//                Link menuItemLink = new BookmarkablePageLink("menuItemLink", menuItem.getPageClass());
+//                menuItemLink.add(new Label("menuItemLabel", menuItem.getLabelModel()));
+//                listItem.add(menuItemLink);
+//            }
+//        });
 
         feedbackPanel = new FeedbackPanel("feedbackPanel");
         add(feedbackPanel);

@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.apache.wicket.util.tester.FormTester;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import fr.xebia.demo.wicket.blog.data.Category;
@@ -14,14 +14,14 @@ import fr.xebia.demo.wicket.blog.view.WicketPageTest;
 
 public class CategoryListPageErrorTest extends WicketPageTest {
 
-    @Before
-    public void setUpAppContext() {
+    @BeforeClass
+    public static void setUpAppContext() {
         CategoryService categoryService = getCategoryService();
         categoryService.setEntityManagerFactory(entityManagerFactory);
         appContext.putBean("categoryService", categoryService);
     }
 
-    protected CategoryService getCategoryService() {
+    protected static CategoryService getCategoryService() {
         CategoryService categoryService = new CategoryService() {
             @Override
             public List<Category> search(Category exampleEntity) throws ServiceException {
@@ -35,22 +35,24 @@ public class CategoryListPageErrorTest extends WicketPageTest {
             public Category get(Serializable id) throws ServiceException {
                 throw new ServiceException(ERROR_MESSAGE);
             }
-        };
+            @Override
+            public void deleteById(Serializable id) throws ServiceException {
+            	throw new ServiceException(ERROR_MESSAGE);
+            }
+       };
         return categoryService;
     }
 
     @Test
-    public void testErrorRender() {
+    public void testErrorSearch() {
         tester.startPage(CategoryListPage.class);
         tester.assertRenderedPage(CategoryListPage.class);
         tester.assertNoErrorMessage();
-        tester.assertComponent("categoryForm", SearchCategoryForm.class);
 
         // create the form tester object, mapping to its wicket:id
         FormTester form = tester.newFormTester("categoryForm");
         // set the parameters for each component in the form
         form.setValue("name", "test");
-        form.setValue("nicename", "Test");
         // all set, submit
         form.submit();
         // check if the page is correct: in this case, I'm expecting an error to take me back to the same page

@@ -7,7 +7,7 @@ import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.util.tester.FormTester;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import fr.xebia.demo.wicket.blog.data.Comment;
@@ -16,8 +16,8 @@ import fr.xebia.demo.wicket.blog.service.ServiceException;
 
 public class AddCommentPageErrorTest extends WicketPageTest {
 
-    @Before
-    public void setUpAppContext() {
+    @BeforeClass
+    public static void setUpAppContext() {
         CommentService commentService = new CommentService() {
             @Override
             public void save(Comment entity) throws ServiceException {

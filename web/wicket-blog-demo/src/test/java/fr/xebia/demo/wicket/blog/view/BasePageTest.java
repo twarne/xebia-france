@@ -4,11 +4,12 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.wicket.PageParameters;
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.util.tester.WicketTester;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class BasePageTest /*extends WicketPageTest*/ {
+public class BasePageTest {
 
     private static WicketTester tester;
 
@@ -27,6 +28,7 @@ public class BasePageTest /*extends WicketPageTest*/ {
         pageParameters.put(BasePage.PARAM_EXCEPTION_KEY, new Exception(expectedErrorMessages[1]));
         tester.startPage(TestPage.class, pageParameters);
         tester.assertRenderedPage(TestPage.class);
+		tester.assertComponent("feedbackPanel", FeedbackPanel.class);
         tester.assertInfoMessages(expectedInfoMessages);
         tester.assertErrorMessages(expectedErrorMessages);
     }
