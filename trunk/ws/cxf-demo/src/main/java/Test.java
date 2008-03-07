@@ -2,12 +2,9 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import javax.wsdl.extensions.ExtensionDeserializer;
-
-import org.apache.cxf.common.logging.LogUtils;
-import org.apache.cxf.common.util.StringUtils;
-
 import junit.framework.TestCase;
+
+import org.apache.cxf.common.util.StringUtils;
 
 public class Test extends TestCase {
 
@@ -27,7 +24,7 @@ public class Test extends TestCase {
                 }
             }
             if (!StringUtils.isEmpty(cname)) {
-                Class loggerClass = Class.forName(cname, true, Thread.currentThread().getContextClassLoader());
+                Class<?> loggerClass = Class.forName(cname, true, Thread.currentThread().getContextClassLoader());
                 System.out.println(loggerClass);
             }
         } catch (Exception ex) {
