@@ -15,12 +15,13 @@
  */
 package fr.xebia.demo.wicket.blog.service;
 
+import static org.junit.Assert.assertFalse;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 import fr.xebia.demo.wicket.blog.data.Comment;
 import fr.xebia.demo.wicket.blog.data.Post;

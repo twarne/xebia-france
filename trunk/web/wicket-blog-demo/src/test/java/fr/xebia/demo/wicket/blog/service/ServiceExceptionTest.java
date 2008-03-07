@@ -1,7 +1,8 @@
 package fr.xebia.demo.wicket.blog.service;
 
+import static org.junit.Assert.assertSame;
+
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 
 

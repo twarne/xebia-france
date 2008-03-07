@@ -18,7 +18,7 @@ public class EditCommentPageTest extends ViewCommentPageTest {
 
     @Test
     @Override
-    public void testRender() throws Exception {
+    public void testRender() {
         super.testRender();
         
         tester.assertComponent("editLink", Link.class);

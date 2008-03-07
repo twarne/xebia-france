@@ -5,9 +5,8 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.form.TextField;
-import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.util.tester.FormTester;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import fr.xebia.demo.wicket.blog.service.CommentService;
@@ -16,8 +15,8 @@ import fr.xebia.demo.wicket.blog.service.PostService;
 
 public class AddCommentPageTest extends HomePageTest {
 
-    @Before
-    public void setUpAppContext() {
+    @BeforeClass
+    public static void setUpAppContext() {
         PostService postService = new PostService();
         postService.setEntityManagerFactory(entityManagerFactory);
         appContext.putBean("postService", postService);
@@ -35,7 +34,6 @@ public class AddCommentPageTest extends HomePageTest {
         tester.assertRenderedPage(AddCommentPage.class);
         tester.assertNoErrorMessage();
 
-        tester.assertComponent("feedbackPanel", FeedbackPanel.class);
         tester.assertComponent("commentForm", AddCommentForm.class);
         tester.assertComponent("commentForm:author", TextField.class);
         tester.assertComponent("commentForm:email", TextField.class);

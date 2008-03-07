@@ -6,9 +6,9 @@ import fr.xebia.demo.wicket.blog.view.BasePage;
 
 
 public final class PageParametersUtils {
-    
+
+	// Private constructor to ensure no instance is created
     private PageParametersUtils() {
-        // Private constructor to ensure no instance is created
     }
 
     public static PageParameters fromStringMessage(String message) {

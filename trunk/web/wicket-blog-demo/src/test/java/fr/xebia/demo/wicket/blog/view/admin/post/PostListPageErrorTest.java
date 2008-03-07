@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.apache.wicket.util.tester.FormTester;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import fr.xebia.demo.wicket.blog.data.Post;
@@ -15,8 +15,8 @@ import fr.xebia.demo.wicket.blog.view.WicketPageTest;
 
 public class PostListPageErrorTest extends WicketPageTest {
 
-    @Before
-    public void setUpAppContext() {
+    @BeforeClass
+    public static void setUpAppContext() {
         PostService postService = getPostService();
         postService.setEntityManagerFactory(entityManagerFactory);
         appContext.putBean("postService", postService);
@@ -26,8 +26,7 @@ public class PostListPageErrorTest extends WicketPageTest {
         appContext.putBean("categoryService", categoryService);
     }
 
-
-    protected PostService getPostService() {
+    protected static PostService getPostService() {
         PostService postService = new PostService() {
             @Override
             public List<Post> search(Post exampleEntity) throws ServiceException {
@@ -40,6 +39,10 @@ public class PostListPageErrorTest extends WicketPageTest {
             @Override
             public Post get(Serializable id) throws ServiceException {
                 throw new ServiceException(ERROR_MESSAGE);
+            }
+            @Override
+            public void deleteById(Serializable id) throws ServiceException {
+            	throw new ServiceException(ERROR_MESSAGE);
             }
         };
         return postService;
