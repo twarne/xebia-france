@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.apache.wicket.util.tester.FormTester;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

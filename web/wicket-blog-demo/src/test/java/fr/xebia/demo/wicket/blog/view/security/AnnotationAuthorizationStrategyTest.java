@@ -17,6 +17,7 @@ import org.junit.Test;
 import fr.xebia.demo.wicket.blog.data.User;
 import fr.xebia.demo.wicket.blog.view.BasePage;
 import fr.xebia.demo.wicket.blog.view.BlogWebSession;
+import fr.xebia.demo.wicket.blog.view.MenuItem;
 import fr.xebia.demo.wicket.blog.view.WicketPageTest;
 
 

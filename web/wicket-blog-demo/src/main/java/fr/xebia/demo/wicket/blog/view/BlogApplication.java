@@ -19,7 +19,6 @@ import org.apache.wicket.Application;
 import org.apache.wicket.Request;
 import org.apache.wicket.Response;
 import org.apache.wicket.Session;
-import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.settings.IRequestCycleSettings;
 import org.apache.wicket.settings.ISecuritySettings;
 import org.apache.wicket.spring.SpringWebApplication;
@@ -90,7 +89,7 @@ public class BlogApplication extends SpringWebApplication {
     }
 
     @Override
-    public Class<? extends WebPage> getHomePage() {
+    public Class<? extends BasePage> getHomePage() {
         return HomePage.class;
     }
 }
