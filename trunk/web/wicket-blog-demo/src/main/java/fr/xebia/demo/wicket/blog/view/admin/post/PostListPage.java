@@ -43,7 +43,7 @@ public class PostListPage extends PostPage {
     private static final Logger logger = Logger.getLogger(PostListPage.class);
 
     @SpringBean(name = "postService")
-    private Service<Post> postService;
+    private transient Service<Post> postService;
 
     @SuppressWarnings("unchecked")
     public PostListPage(PageParameters pageParameters) {

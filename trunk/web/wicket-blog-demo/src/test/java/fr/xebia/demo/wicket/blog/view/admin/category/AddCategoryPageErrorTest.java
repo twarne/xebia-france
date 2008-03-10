@@ -8,16 +8,17 @@ import org.junit.Test;
 
 public class AddCategoryPageErrorTest extends CategoryListPageErrorTest {
 
+
     @Test
     public void testValidationErrorRender() {
         tester.startPage(AddCategoryPage.class);
         tester.assertRenderedPage(AddCategoryPage.class);
         tester.assertNoErrorMessage();
         tester.assertComponent("feedbackPanel", FeedbackPanel.class);
-        tester.assertComponent("categoryForm", AddCategoryForm.class);
+        tester.assertComponent(CATEGORY_FORM_ID, AddCategoryForm.class);
 
         // create the form tester object, mapping to its wicket:id
-        FormTester form = tester.newFormTester("categoryForm");
+        FormTester form = tester.newFormTester(CATEGORY_FORM_ID);
         // set the parameters for each component in the form
         form.setValue("name", "test");
         // all set, submit
@@ -32,14 +33,14 @@ public class AddCategoryPageErrorTest extends CategoryListPageErrorTest {
         tester.assertNoErrorMessage();
 //        tester.assertErrorMessages( new String[] { ERROR_MESSAGE });
         tester.assertComponent("feedbackPanel", FeedbackPanel.class);
-        tester.assertComponent("categoryForm", AddCategoryForm.class);
+        tester.assertComponent(CATEGORY_FORM_ID, AddCategoryForm.class);
         tester.assertComponent("categoryForm:name", TextField.class);
         tester.assertComponent("categoryForm:nicename", TextField.class);
         tester.assertComponent("categoryForm:description", TextField.class);
         tester.assertComponent("categoryForm:submitButton", Button.class);
 
         // create the form tester object, mapping to its wicket:id
-        FormTester form = tester.newFormTester("categoryForm");
+        FormTester form = tester.newFormTester(CATEGORY_FORM_ID);
         // set the parameters for each component in the form
         form.setValue("name", "test");
         form.setValue("nicename", "Test");

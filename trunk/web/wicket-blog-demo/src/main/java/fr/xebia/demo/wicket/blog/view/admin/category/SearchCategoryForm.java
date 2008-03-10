@@ -37,7 +37,7 @@ public class SearchCategoryForm extends Form {
     private static final Logger logger = Logger.getLogger(SearchCategoryForm.class);
 
     @SpringBean(name = "categoryService")
-    private Service<Category> categoryService;
+    private transient Service<Category> categoryService;
 
     private final Category category;
 

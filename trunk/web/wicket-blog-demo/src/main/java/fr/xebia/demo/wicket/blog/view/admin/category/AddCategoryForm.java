@@ -36,7 +36,7 @@ public class AddCategoryForm extends Form {
     private static final Logger logger = Logger.getLogger(AddCategoryForm.class);
 
     @SpringBean(name = "categoryService")
-    protected Service<Category> categoryService;
+    protected transient Service<Category> categoryService;
 
     protected final Category category;
 

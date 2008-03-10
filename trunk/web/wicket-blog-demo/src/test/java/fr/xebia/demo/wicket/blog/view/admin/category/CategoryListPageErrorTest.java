@@ -14,6 +14,8 @@ import fr.xebia.demo.wicket.blog.view.WicketPageTest;
 
 public class CategoryListPageErrorTest extends WicketPageTest {
 
+    protected static final String CATEGORY_FORM_ID = "categoryForm";
+
     @BeforeClass
     public static void setUpAppContext() {
         CategoryService categoryService = getCategoryService();

@@ -22,7 +22,7 @@ public class LoginForm extends Form {
     private static final Logger logger = Logger.getLogger(LoginForm.class);
 
     @SpringBean(name = "loginService")
-    private LoginService loginService;
+    private transient LoginService loginService;
 
     private final User user;
 

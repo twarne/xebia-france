@@ -45,7 +45,7 @@ public abstract class AbstractServiceTest<T> {
     protected static Random randomizer;
 
     @BeforeClass
-    public static void setUpClass() throws Exception {
+    public static void setUpClass() {
         randomizer = new Random();
         long startTime = System.currentTimeMillis();
         logger.info("Initializing Services");
@@ -58,12 +58,9 @@ public abstract class AbstractServiceTest<T> {
     }
 
     @AfterClass
-    public static void tearDownClass() throws Exception {
+    public static void tearDownClass() {
         logger.info("Destroying Services");
         factory.destroySingletons();
-        factory = null;
-        serviceLocator = null;
-        randomizer = null;
     }
 
     @Test
@@ -102,7 +99,7 @@ public abstract class AbstractServiceTest<T> {
 
     @Test(expected=ServiceException.class)
     public void testFailedGet() throws ServiceException {
-        getService().get(new Long(100));
+        getService().get(Long.valueOf(100));
     }
 
     @Test
@@ -162,7 +159,7 @@ public abstract class AbstractServiceTest<T> {
 
     @Test(expected=ServiceException.class)
     public void testFailedDeleteById() throws ServiceException {
-        getService().deleteById(new Long(100));
+        getService().deleteById(Long.valueOf(100));
     }
 
     @Test(expected=ServiceException.class)

@@ -42,7 +42,7 @@ public class SearchCommentForm extends Form {
     private static final Logger logger = Logger.getLogger(SearchCommentForm.class);
 
     @SpringBean(name = "commentService")
-    protected Service<Comment> commentService;
+    protected transient Service<Comment> commentService;
 
     protected Comment comment;
 

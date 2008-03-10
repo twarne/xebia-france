@@ -76,15 +76,15 @@ public abstract class BasePage extends WebPage {
         }
     }
 
-    protected void addInfoMessage(String message) {
+    protected final void addInfoMessage(String message) {
         feedbackPanel.info(message);
     }
 
-    protected void addErrorMessage(String message) {
+    protected final void addErrorMessage(String message) {
         feedbackPanel.error(message);
     }
 
-    protected void addErrorMessage(Throwable t) {
+    protected final void addErrorMessage(Throwable t) {
         if (t == null) {
             return;
         }
@@ -94,6 +94,6 @@ public abstract class BasePage extends WebPage {
     
     @Override
     public BlogWebSession getSession() {
-        return (BlogWebSession) getSession();
+        return (BlogWebSession) super.getSession();
     }
 }

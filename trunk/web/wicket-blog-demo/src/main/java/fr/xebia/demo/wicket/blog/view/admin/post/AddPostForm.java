@@ -48,10 +48,10 @@ public class AddPostForm extends Form {
     private static final Logger logger = Logger.getLogger(AddPostForm.class);
 
     @SpringBean(name = "postService")
-    protected Service<Post> postService;
+    protected transient Service<Post> postService;
     
     @SpringBean(name = "categoryService")
-    protected Service<Category> categoryService;
+    protected transient Service<Category> categoryService;
     
     protected final Post post;
 

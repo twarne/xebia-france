@@ -38,10 +38,10 @@ public class HomePage extends PublicPage {
     private static final Logger logger = Logger.getLogger(HomePage.class);
 
     @SpringBean(name="postService")
-    private PostService postService;
+    private transient PostService postService;
 
     @SpringBean(name="commentService")
-    private CommentService commentService;
+    private transient CommentService commentService;
 
     public HomePage(PageParameters pageParameters) {
         super(pageParameters);

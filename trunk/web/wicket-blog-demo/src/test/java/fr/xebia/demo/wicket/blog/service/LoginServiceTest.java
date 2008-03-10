@@ -13,7 +13,7 @@ public class LoginServiceTest {
     public void testAuthenticate() {
         LoginService loginService = new LoginService();
         boolean authenticated = loginService.authenticate(new User("admin", "admin"));
-        assertSame("Authentication should succedd", authenticated, true);
+        assertSame("Authentication should succeed", authenticated, true);
     }
 
     @Test
