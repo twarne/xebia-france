@@ -33,6 +33,7 @@ public class UnauthorizedComponentInstantiationListenerTest extends WicketPageTe
             private static final long serialVersionUID = 1L;
             @Override
             protected void onRender(MarkupStream markupStream) {
+                // Nothing to do as component is just for testing purpose
             }
         });
     }

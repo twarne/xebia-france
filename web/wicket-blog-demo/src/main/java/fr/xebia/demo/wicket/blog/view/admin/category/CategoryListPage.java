@@ -43,7 +43,7 @@ public class CategoryListPage extends CategoryPage {
     private static final Logger logger = Logger.getLogger(CategoryListPage.class);
 
     @SpringBean(name = "categoryService")
-    protected Service<Category> categoryService;
+    protected transient Service<Category> categoryService;
 
     @SuppressWarnings("unchecked")
     public CategoryListPage(PageParameters pageParameters) {

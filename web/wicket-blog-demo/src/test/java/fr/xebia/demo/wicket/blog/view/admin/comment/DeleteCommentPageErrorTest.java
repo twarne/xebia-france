@@ -21,7 +21,7 @@ public class DeleteCommentPageErrorTest extends CommentListPageErrorTest {
     	comment.setEmail("none@nowhere.com");
     	comment.setContent("Comment content");
     	comment.setDate(new Date());
-    	comment.setPostId(new Long(1));
+    	comment.setPostId(Long.valueOf(1));
 		try {
 			commentService.save(comment);
 		} catch (ServiceException e) {

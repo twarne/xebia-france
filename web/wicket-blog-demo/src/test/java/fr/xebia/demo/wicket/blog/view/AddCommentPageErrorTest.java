@@ -16,6 +16,8 @@ import fr.xebia.demo.wicket.blog.service.ServiceException;
 
 public class AddCommentPageErrorTest extends WicketPageTest {
 
+    protected static final String COMMENT_FORM_ID = "commentForm";
+
     @BeforeClass
     public static void setUpAppContext() {
         CommentService commentService = new CommentService() {
@@ -37,7 +39,7 @@ public class AddCommentPageErrorTest extends WicketPageTest {
         tester.assertNoErrorMessage();
 
         tester.assertComponent("feedbackPanel", FeedbackPanel.class);
-        tester.assertComponent("commentForm", AddCommentForm.class);
+        tester.assertComponent(COMMENT_FORM_ID, AddCommentForm.class);
         tester.assertComponent("commentForm:author", TextField.class);
         tester.assertComponent("commentForm:email", TextField.class);
         tester.assertComponent("commentForm:postId", Label.class);
@@ -45,7 +47,7 @@ public class AddCommentPageErrorTest extends WicketPageTest {
         tester.assertComponent("commentForm:submitButton", Button.class);
 
         // create the form tester object, mapping to its wicket:id
-        FormTester form = tester.newFormTester("commentForm");
+        FormTester form = tester.newFormTester(COMMENT_FORM_ID);
         // set the parameters for each component in the form
         form.setValue("author", "Test");
         form.setValue("email", "none@nowhere.com");
@@ -63,7 +65,7 @@ public class AddCommentPageErrorTest extends WicketPageTest {
         tester.assertNoErrorMessage();
 
         tester.assertComponent("feedbackPanel", FeedbackPanel.class);
-        tester.assertComponent("commentForm", AddCommentForm.class);
+        tester.assertComponent(COMMENT_FORM_ID, AddCommentForm.class);
         tester.assertComponent("commentForm:author", TextField.class);
         tester.assertComponent("commentForm:email", TextField.class);
         tester.assertComponent("commentForm:postId", Label.class);
@@ -71,7 +73,7 @@ public class AddCommentPageErrorTest extends WicketPageTest {
         tester.assertComponent("commentForm:submitButton", Button.class);
 
         // create the form tester object, mapping to its wicket:id
-        FormTester form = tester.newFormTester("commentForm");
+        FormTester form = tester.newFormTester(COMMENT_FORM_ID);
         // set the parameters for each component in the form
         form.setValue("author", "Test");
         form.setValue("email", "none@nowhere.com");

@@ -25,7 +25,7 @@ public class ViewCommentPageErrorTest extends WicketPageTest {
         comment.setAuthor("Me");
         comment.setDate(new Date());
         comment.setEmail("none@nowhere.com");
-        comment.setPostId(new Long(1));
+        comment.setPostId(Long.valueOf(1));
         comment.setContent("Fake Content");
         commentService.save(comment);
     }

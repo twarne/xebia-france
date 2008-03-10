@@ -4,6 +4,7 @@ import static org.junit.Assert.fail;
 
 import java.util.Date;
 
+import org.apache.log4j.Logger;
 import org.junit.Test;
 
 import fr.xebia.demo.wicket.blog.data.Post;
@@ -12,6 +13,8 @@ import fr.xebia.demo.wicket.blog.service.ServiceException;
 
 public class DeletePostPageErrorTest extends PostListPageErrorTest {
 
+    private static final Logger logger = Logger.getLogger(DeletePostPageErrorTest.class);
+    
     @Test
     public void testErrorRender() {
     	PostService postService = new PostService();
@@ -27,7 +30,7 @@ public class DeletePostPageErrorTest extends PostListPageErrorTest {
 		try {
 			postService.save(post);
 		} catch (ServiceException e) {
-			e.printStackTrace();
+		    logger.error(e);
 			fail("Error while creating fixture");
 		}
     	

@@ -42,6 +42,7 @@ public abstract class WicketPageTest {
             }
             @Override
             protected void initSecuritySettings() {
+                // Nothing to do here, we don't want security for unit testing
             }
         };
 		tester = new WicketTester(application);

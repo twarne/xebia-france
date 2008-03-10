@@ -42,7 +42,7 @@ public class CommentListPage extends CommentPage {
     private static final Logger logger = Logger.getLogger(CommentListPage.class);
 
     @SpringBean(name = "commentService")
-    private Service<Comment> commentService;
+    private transient Service<Comment> commentService;
 
     @SuppressWarnings("unchecked")
     public CommentListPage(PageParameters pageParameters) {

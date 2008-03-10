@@ -38,7 +38,7 @@ public class EditCommentForm extends AddCommentForm {
     private static final Logger logger = Logger.getLogger(EditCommentForm.class);
 
     @SpringBean(name = "commentService")
-    private Service<Comment> commentService;
+    private transient Service<Comment> commentService;
 
     public EditCommentForm(String id, Comment comment) {
         super(id, comment);

@@ -1,10 +1,12 @@
 package fr.xebia.demo.wicket.blog.view.admin.comment;
 
+import static org.junit.Assert.fail;
+
 import java.util.Date;
 
+import org.apache.log4j.Logger;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
-import static org.junit.Assert.*;
 import org.junit.Test;
 
 import fr.xebia.demo.wicket.blog.data.Comment;
@@ -13,6 +15,8 @@ import fr.xebia.demo.wicket.blog.service.ServiceException;
 
 public class ViewCommentPageTest extends CommentListPageTest {
 
+    private static final Logger logger = Logger.getLogger(ViewCommentPageTest.class);
+    
     @Test
     @Override
     public void testRender() {
@@ -28,7 +32,7 @@ public class ViewCommentPageTest extends CommentListPageTest {
         try {
 			commentService.save(comment);
 		} catch (ServiceException e) {
-			e.printStackTrace();
+			logger.error(e);
 			fail("Error while creating fixture");
 		}
         super.testRender();

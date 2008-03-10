@@ -7,6 +7,8 @@ import org.junit.Test;
 
 public class AddPostPageErrorTest extends PostListPageErrorTest {
 
+    protected static final String POST_FORM_ID = "postForm";
+
     @Test
     public void testValidationErrorRender() {
         super.testErrorRender();
@@ -15,10 +17,10 @@ public class AddPostPageErrorTest extends PostListPageErrorTest {
         tester.assertRenderedPage(AddPostPage.class);
         tester.assertErrorMessages(new String[] { ERROR_MESSAGE });
         tester.assertComponent("feedbackPanel", FeedbackPanel.class);
-        tester.assertComponent("postForm", AddPostForm.class);
+        tester.assertComponent(POST_FORM_ID, AddPostForm.class);
 
         // create the form tester object, mapping to its wicket:id
-        FormTester form = tester.newFormTester("postForm");
+        FormTester form = tester.newFormTester(POST_FORM_ID);
         // set the parameters for each component in the form
         form.setValue("author", "test");
         form.setValue("title", "Test");
@@ -36,10 +38,10 @@ public class AddPostPageErrorTest extends PostListPageErrorTest {
         tester.assertRenderedPage(AddPostPage.class);
         tester.assertErrorMessages( new String[] { ERROR_MESSAGE });
         tester.assertComponent("feedbackPanel", FeedbackPanel.class);
-        tester.assertComponent("postForm", AddPostForm.class);
+        tester.assertComponent(POST_FORM_ID, AddPostForm.class);
 
         // create the form tester object, mapping to its wicket:id
-        FormTester form = tester.newFormTester("postForm");
+        FormTester form = tester.newFormTester(POST_FORM_ID);
         // set the parameters for each component in the form
         form.setValue("author", "test");
         form.setValue("title", "Test");

@@ -51,9 +51,9 @@ public class InitDataListener implements ServletContextListener {
 		post.setModified(new Date());
 		post.setCommentsAllowed(true);
 		post.setStatus(Post.STATUS_PUBLISHED);
-		post.setContent("Voici une application demonstratrice du framework web appelé Wicket !!\n" +
-				"Vous pouvez retrouver l'ensemble du code source à l'adresse suivante :\n" +
-				"http://xebia-france.googlecode.com/svn/trunk/web/wicket-blog-demo/");
+		post.setContent("Voici une application demonstratrice du framework web appelé Wicket !!\n"
+		        + "Vous pouvez retrouver l'ensemble du code source à l'adresse suivante :\n"
+		        + "http://xebia-france.googlecode.com/svn/trunk/web/wicket-blog-demo/");
 		
 		try {
 			postService.save(post);

@@ -44,10 +44,10 @@ public class SearchPostForm extends Form {
     private static final Logger logger = Logger.getLogger(SearchPostForm.class);
 
     @SpringBean(name = "postService")
-    private Service<Post> postService;
+    private transient Service<Post> postService;
     
     @SpringBean(name = "categoryService")
-    protected Service<Category> categoryService;
+    protected transient Service<Category> categoryService;
 
     private final Post post = new Post();
 
