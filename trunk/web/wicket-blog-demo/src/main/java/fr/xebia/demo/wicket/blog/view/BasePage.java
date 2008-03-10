@@ -15,43 +15,28 @@
  */
 package fr.xebia.demo.wicket.blog.view;
 
-import java.io.Serializable;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.wicket.Application;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.behavior.HeaderContributor;
 import org.apache.wicket.markup.html.WebPage;
-import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
-import org.apache.wicket.markup.html.link.Link;
-import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
-import org.apache.wicket.model.IModel;
 
 public abstract class BasePage extends WebPage {
 
     private static final long serialVersionUID = 1L;
 
     public static final String PARAM_MESSAGE_KEY = "message";
-    public static final String PARAM_ERRORMESSAGE_KEY = "errorMessage";
-    public static final String PARAM_EXCEPTION_KEY = "exception";
-    private static final ListView menuItems = new ListView("menuItems", new LinkedList<MenuItem>()) {
-        private static final long serialVersionUID = 1L;
 
-        @Override
-        @SuppressWarnings("unchecked")
-        public void populateItem(final ListItem listItem) {
-            final MenuItem menuItem = (MenuItem) listItem.getModelObject();
-            Link menuItemLink = new BookmarkablePageLink("menuItemLink", menuItem.getPageClass());
-            menuItemLink.add(new Label("menuItemLabel", menuItem.getLabelModel()));
-            listItem.add(menuItemLink);
-        }
-    };
+    public static final String PARAM_ERRORMESSAGE_KEY = "errorMessage";
+
+    public static final String PARAM_EXCEPTION_KEY = "exception";
+
+    private static final ListView menuItems = new MenuListView("menuItems");
 
     private final FeedbackPanel feedbackPanel;
 
@@ -61,18 +46,6 @@ public abstract class BasePage extends WebPage {
         add(new BookmarkablePageLink("titleLink", Application.get().getHomePage()));
 
         menuItems.setList(getMenuItems());
-//        add(new ListView("menuItems", getMenuItems()) {
-//            private static final long serialVersionUID = 1L;
-//
-//            @Override
-//            @SuppressWarnings("unchecked")
-//            public void populateItem(final ListItem listItem) {
-//                final MenuItem menuItem = (MenuItem) listItem.getModelObject();
-//                Link menuItemLink = new BookmarkablePageLink("menuItemLink", menuItem.getPageClass());
-//                menuItemLink.add(new Label("menuItemLabel", menuItem.getLabelModel()));
-//                listItem.add(menuItemLink);
-//            }
-//        });
 
         feedbackPanel = new FeedbackPanel("feedbackPanel");
         add(feedbackPanel);
@@ -80,14 +53,14 @@ public abstract class BasePage extends WebPage {
     }
 
     public boolean isSecured() {
-    	return false;
+        return false;
     }
-    
+
     protected abstract List<MenuItem> getMenuItems();
-    
+
     private void handlePageParameters(PageParameters pageParameters) {
         if (pageParameters == null) {
-            return ;
+            return;
         }
         if (pageParameters.containsKey(PARAM_MESSAGE_KEY)) {
             String message = (String) pageParameters.getString(PARAM_MESSAGE_KEY);
@@ -113,44 +86,14 @@ public abstract class BasePage extends WebPage {
 
     protected void addErrorMessage(Throwable t) {
         if (t == null) {
-            return ;
+            return;
         }
         String errorMessage = StringUtils.isEmpty(t.getMessage()) ? t.toString() : t.getMessage();
         feedbackPanel.error(errorMessage);
     }
-
-    protected BlogWebSession getWebSession() {
+    
+    @Override
+    public BlogWebSession getSession() {
         return (BlogWebSession) getSession();
-    }
-
-    @SuppressWarnings("unchecked")
-    public static class MenuItem implements Serializable {
-
-        private static final long serialVersionUID = 1L;
-
-        private final Class pageClass;
-
-        private final IModel labelModel;
-
-        public MenuItem(Class pageClass, IModel labelModel) {
-            super();
-            this.pageClass = pageClass;
-            this.labelModel = labelModel;
-        }
-
-        public Class getPageClass() {
-            return pageClass;
-        }
-
-        public IModel getLabelModel() {
-            return labelModel;
-        }
-
-        @Override
-        public String toString() {
-            ToStringBuilder builder = new ToStringBuilder(this);
-            builder.append("pageClass", getPageClass()).append("label", getLabelModel().getObject());
-            return super.toString();
-        }
     }
 }

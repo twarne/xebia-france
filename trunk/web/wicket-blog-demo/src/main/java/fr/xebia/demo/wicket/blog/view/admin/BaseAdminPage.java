@@ -18,12 +18,13 @@ package fr.xebia.demo.wicket.blog.view.admin;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.apache.wicket.Application;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.model.StringResourceModel;
 
 import fr.xebia.demo.wicket.blog.view.BasePage;
+import fr.xebia.demo.wicket.blog.view.BlogApplication;
 import fr.xebia.demo.wicket.blog.view.LogoutPage;
+import fr.xebia.demo.wicket.blog.view.MenuItem;
 import fr.xebia.demo.wicket.blog.view.admin.category.CategoryListPage;
 import fr.xebia.demo.wicket.blog.view.admin.comment.CommentListPage;
 import fr.xebia.demo.wicket.blog.view.admin.post.PostListPage;
@@ -48,7 +49,7 @@ public abstract class BaseAdminPage extends BasePage {
     protected List<MenuItem> getMenuItems() {
         if (menuItemPages == null) {
             menuItemPages = new LinkedList<MenuItem>();
-            menuItemPages.add(new MenuItem(Application.get().getHomePage(), new StringResourceModel("menu.home", this, null)));
+            menuItemPages.add(new MenuItem(((BlogApplication) getApplication()).getHomePage(), new StringResourceModel("menu.home", this, null)));
             menuItemPages.add(new MenuItem(AdminHomePage.class, new StringResourceModel("menu.adminHome", this, null)));
             menuItemPages.add(new MenuItem(CategoryListPage.class, new StringResourceModel("menu.category", this, null)));
             menuItemPages.add(new MenuItem(CommentListPage.class, new StringResourceModel("menu.comment", this, null)));
