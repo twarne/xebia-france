@@ -19,9 +19,7 @@ import java.io.Serializable;
 
 import fr.xebia.demo.wicket.blog.data.Category;
 
-/**
- * Service pour l'objet Category qui permet d'effectuer les actions standards (save, update, get, list, search, delete)
- */
+@Service
 public class CategoryService extends GenericService<Category> {
 
     @Override
