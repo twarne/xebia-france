@@ -18,7 +18,6 @@ package fr.xebia.demo.wicket.blog.service;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityNotFoundException;
@@ -74,7 +73,6 @@ public abstract class GenericService<T> implements Service<T> {
 
     private EntityManagerFactory entityManagerFactory;
 
-    @Resource(name="entityManagerFactory")
     public void setEntityManagerFactory(EntityManagerFactory entityManagerFactory) {
         this.entityManagerFactory = entityManagerFactory;
     }

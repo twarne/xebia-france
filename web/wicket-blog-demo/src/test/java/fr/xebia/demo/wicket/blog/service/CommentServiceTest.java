@@ -28,9 +28,10 @@ import fr.xebia.demo.wicket.blog.data.Post;
 
 public class CommentServiceTest extends AbstractServiceTest<Comment> {
 
-    @Test
+    @SuppressWarnings("unchecked")
+	@Test
     public void testGetCommentsForPostId() throws ServiceException {
-        Service<Post> postService = serviceLocator.getPostService();
+        Service<Post> postService = (Service<Post>) factory.getBean("postService");
         Post post = new Post();
         post.setCommentsAllowed(randomizer.nextBoolean());
         post.setContent(String.valueOf(randomizer.nextInt(2147483647)));
@@ -100,9 +101,9 @@ public class CommentServiceTest extends AbstractServiceTest<Comment> {
         return object.getId();
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     protected Service<Comment> getService() {
-        return serviceLocator.getCommentService();
+    	return (Service<Comment>) factory.getBean("commentService");
     }
-
 }

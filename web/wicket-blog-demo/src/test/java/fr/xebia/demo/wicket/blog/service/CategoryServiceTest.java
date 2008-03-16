@@ -62,8 +62,9 @@ public class CategoryServiceTest extends AbstractServiceTest<Category> {
         return object.getId();
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     protected Service<Category> getService() {
-        return serviceLocator.getCategoryService();
+    	return (Service<Category>) factory.getBean("categoryService");
     }
 }
