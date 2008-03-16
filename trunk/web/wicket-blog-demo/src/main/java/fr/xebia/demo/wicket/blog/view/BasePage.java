@@ -46,6 +46,7 @@ public abstract class BasePage extends WebPage {
         add(new BookmarkablePageLink("titleLink", Application.get().getHomePage()));
 
         menuItems.setList(getMenuItems());
+        add(menuItems);
 
         feedbackPanel = new FeedbackPanel("feedbackPanel");
         add(feedbackPanel);
@@ -92,8 +93,8 @@ public abstract class BasePage extends WebPage {
         feedbackPanel.error(errorMessage);
     }
     
-    @Override
-    public BlogWebSession getSession() {
-        return (BlogWebSession) super.getSession();
-    }
+//    @Override
+//    public BlogWebSession getSession() {
+//        return (BlogWebSession) super.getSession();
+//    }
 }

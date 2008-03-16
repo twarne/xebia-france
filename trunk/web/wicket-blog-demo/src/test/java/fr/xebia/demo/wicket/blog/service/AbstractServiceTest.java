@@ -38,9 +38,7 @@ public abstract class AbstractServiceTest<T> {
 
     private static final Logger logger = Logger.getLogger(AbstractServiceTest.class);
 
-    private static XmlBeanFactory factory;
-
-    protected static ServiceLocator serviceLocator;
+    protected static XmlBeanFactory factory;
 
     protected static Random randomizer;
 
@@ -54,13 +52,14 @@ public abstract class AbstractServiceTest<T> {
         factory = new XmlBeanFactory(new UrlResource(configuration));
         long endTime = System.currentTimeMillis();
         logger.info("Initialisation des services en " + ((endTime - startTime) / 1000.0) + " s");
-        serviceLocator = (ServiceLocator) factory.getBean("serviceLocator");
     }
 
     @AfterClass
     public static void tearDownClass() {
         logger.info("Destroying Services");
-        factory.destroySingletons();
+        if (factory != null) {
+			factory.destroySingletons();
+		}
     }
 
     @Test

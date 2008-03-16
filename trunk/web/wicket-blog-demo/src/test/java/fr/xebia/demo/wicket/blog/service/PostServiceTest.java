@@ -90,9 +90,9 @@ public class PostServiceTest extends AbstractServiceTest<Post> {
         return object.getId();
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     protected Service<Post> getService() {
-        return serviceLocator.getPostService();
+    	return (Service<Post>) factory.getBean("postService");
     }
-
 }
