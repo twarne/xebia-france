@@ -26,6 +26,7 @@ public class AddCommentPageTest extends HomePageTest {
         appContext.putBean("commentService", commentService);
     }
 
+    @Override
     @Test
     public void testRender() {
         PageParameters pageParameters = new PageParameters();

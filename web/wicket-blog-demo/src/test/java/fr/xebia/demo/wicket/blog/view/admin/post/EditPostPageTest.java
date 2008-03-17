@@ -22,6 +22,7 @@ import fr.xebia.demo.wicket.blog.service.ServiceException;
 
 public class EditPostPageTest extends ViewPostPageTest {
 
+    @Override
     @Test
     public void testRender() {
         try {

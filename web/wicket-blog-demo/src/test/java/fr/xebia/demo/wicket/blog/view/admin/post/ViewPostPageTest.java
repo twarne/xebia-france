@@ -8,6 +8,7 @@ import org.junit.Test;
 
 public class ViewPostPageTest extends AddPostPageTest {
 
+    @Override
     @Test
     public void testRender() {
         super.testRender();

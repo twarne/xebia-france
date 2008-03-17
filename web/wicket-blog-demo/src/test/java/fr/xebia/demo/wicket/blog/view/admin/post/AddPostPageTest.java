@@ -14,6 +14,7 @@ import org.junit.Test;
 
 public class AddPostPageTest extends PostListPageTest {
 
+    @Override
     @Test
     public void testRender() {
         super.testRender();

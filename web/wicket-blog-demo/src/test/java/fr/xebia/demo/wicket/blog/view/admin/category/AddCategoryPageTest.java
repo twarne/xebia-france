@@ -10,6 +10,7 @@ import org.junit.Test;
 
 public class AddCategoryPageTest extends CategoryListPageTest {
 
+    @Override
     @Test
     public void testRender() {
         super.testRender();

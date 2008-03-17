@@ -9,6 +9,7 @@ import fr.xebia.demo.wicket.blog.service.ServiceException;
 
 public class EditCommentPageErrorTest extends ViewCommentPageErrorTest {
 
+    @Override
     protected CommentService getCommentService() {
         CommentService commentService = new CommentService() {
             @Override
@@ -19,6 +20,7 @@ public class EditCommentPageErrorTest extends ViewCommentPageErrorTest {
         return commentService;
     }
 
+    @Override
     @Test
     public void testErrorRender() {
 

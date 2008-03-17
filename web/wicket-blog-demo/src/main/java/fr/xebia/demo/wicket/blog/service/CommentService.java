@@ -25,16 +25,15 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.Order;
+import org.springframework.stereotype.Repository;
 
 import fr.xebia.demo.wicket.blog.data.Comment;
 
-/**
- * Service pour l'objet Comment qui permet d'effectuer les actions standards (save, update, get, list, search, delete)
- */
+@Repository
 public class CommentService extends GenericService<Comment> {
 
     private static final Logger logger = Logger.getLogger(CommentService.class);
-    
+
     @Override
     protected Class<Comment> getObjectClass() {
         return Comment.class;

@@ -4,6 +4,7 @@ import org.junit.Test;
 
 public class LogoutPageTest extends HomePageTest {
 
+    @Override
     @Test
     public void testRender() {
         tester.startPage(LogoutPage.class);

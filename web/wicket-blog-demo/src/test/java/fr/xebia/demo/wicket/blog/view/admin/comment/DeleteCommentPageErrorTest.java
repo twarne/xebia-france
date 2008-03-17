@@ -12,6 +12,7 @@ import fr.xebia.demo.wicket.blog.service.ServiceException;
 
 public class DeleteCommentPageErrorTest extends CommentListPageErrorTest {
 
+    @Override
     @Test
     public void testErrorRender() {
     	CommentService commentService = new CommentService();

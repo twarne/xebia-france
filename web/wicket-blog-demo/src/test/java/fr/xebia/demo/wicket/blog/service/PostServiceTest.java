@@ -21,6 +21,8 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.EntityManagerFactory;
+
 import org.junit.Test;
 
 import fr.xebia.demo.wicket.blog.data.Post;
@@ -93,6 +95,9 @@ public class PostServiceTest extends AbstractServiceTest<Post> {
     @SuppressWarnings("unchecked")
 	@Override
     protected Service<Post> getService() {
-    	return (Service<Post>) factory.getBean("postService");
+        PostService service = (PostService) factory.getBean("postService");
+        EntityManagerFactory entityManagerFactory = (EntityManagerFactory) factory.getBean("entityManagerFactory");
+        service.setEntityManagerFactory(entityManagerFactory);
+        return service;
     }
 }

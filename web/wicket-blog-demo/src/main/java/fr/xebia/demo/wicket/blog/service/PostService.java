@@ -25,12 +25,11 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.Order;
+import org.springframework.stereotype.Repository;
 
 import fr.xebia.demo.wicket.blog.data.Post;
 
-/**
- * Service pour l'objet Post qui permet d'effectuer les actions standards (save, update, get, list, search, delete)
- */
+@Repository
 public class PostService extends GenericService<Post> {
 
     private static final int POST_PER_PAGE = 10;
