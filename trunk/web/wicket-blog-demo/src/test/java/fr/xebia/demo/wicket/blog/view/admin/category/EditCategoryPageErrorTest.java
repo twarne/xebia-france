@@ -10,6 +10,7 @@ import fr.xebia.demo.wicket.blog.service.ServiceException;
 
 public class EditCategoryPageErrorTest extends ViewCategoryPageErrorTest {
 
+    @Override
     protected CategoryService getCategoryService() {
         CategoryService categoryService = new CategoryService() {
             @Override
@@ -20,6 +21,7 @@ public class EditCategoryPageErrorTest extends ViewCategoryPageErrorTest {
         return categoryService;
     }
 
+    @Override
     @Test
     public void testErrorRender() {
         PageParameters pageParameters = new PageParameters();

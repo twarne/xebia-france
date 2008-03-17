@@ -17,6 +17,8 @@ package fr.xebia.demo.wicket.blog.service;
 
 import java.io.Serializable;
 
+import javax.persistence.EntityManagerFactory;
+
 import fr.xebia.demo.wicket.blog.data.Category;
 
 public class CategoryServiceTest extends AbstractServiceTest<Category> {
@@ -65,6 +67,9 @@ public class CategoryServiceTest extends AbstractServiceTest<Category> {
     @SuppressWarnings("unchecked")
 	@Override
     protected Service<Category> getService() {
-    	return (Service<Category>) factory.getBean("categoryService");
+        CategoryService service = (CategoryService) factory.getBean("categoryService");
+        EntityManagerFactory entityManagerFactory = (EntityManagerFactory) factory.getBean("entityManagerFactory");
+        service.setEntityManagerFactory(entityManagerFactory);
+        return service;
     }
 }

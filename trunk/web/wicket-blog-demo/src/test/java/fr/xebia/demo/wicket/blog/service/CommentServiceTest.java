@@ -21,6 +21,8 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.EntityManagerFactory;
+
 import org.junit.Test;
 
 import fr.xebia.demo.wicket.blog.data.Comment;
@@ -31,7 +33,10 @@ public class CommentServiceTest extends AbstractServiceTest<Comment> {
     @SuppressWarnings("unchecked")
 	@Test
     public void testGetCommentsForPostId() throws ServiceException {
-        Service<Post> postService = (Service<Post>) factory.getBean("postService");
+        PostService postService = (PostService) factory.getBean("postService");
+        EntityManagerFactory entityManagerFactory = (EntityManagerFactory) factory.getBean("entityManagerFactory");
+        postService.setEntityManagerFactory(entityManagerFactory);
+
         Post post = new Post();
         post.setCommentsAllowed(randomizer.nextBoolean());
         post.setContent(String.valueOf(randomizer.nextInt(2147483647)));
@@ -104,6 +109,9 @@ public class CommentServiceTest extends AbstractServiceTest<Comment> {
     @SuppressWarnings("unchecked")
 	@Override
     protected Service<Comment> getService() {
-    	return (Service<Comment>) factory.getBean("commentService");
+        CommentService service = (CommentService) factory.getBean("commentService");
+        EntityManagerFactory entityManagerFactory = (EntityManagerFactory) factory.getBean("entityManagerFactory");
+        service.setEntityManagerFactory(entityManagerFactory);
+        return service;
     }
 }

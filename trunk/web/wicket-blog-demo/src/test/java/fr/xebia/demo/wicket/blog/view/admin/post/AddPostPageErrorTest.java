@@ -29,6 +29,7 @@ public class AddPostPageErrorTest extends PostListPageErrorTest {
         tester.assertErrorMessages(new String[] { ERROR_MESSAGE, "Field 'content' is required" });
     }
 
+    @Override
     @Test
     public void testErrorRender() {
         super.testErrorRender();

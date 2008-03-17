@@ -14,7 +14,6 @@ import org.apache.wicket.util.tester.WicketTester;
 import org.junit.Before;
 import org.junit.BeforeClass;
 
-// TODO Tester le delete des objets
 public abstract class WicketPageTest {
 
     protected static final String ERROR_MESSAGE = "An expected error has occured";

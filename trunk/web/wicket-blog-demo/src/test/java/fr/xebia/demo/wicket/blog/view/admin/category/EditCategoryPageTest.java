@@ -12,6 +12,7 @@ import org.junit.Test;
 
 public class EditCategoryPageTest extends ViewCategoryPageTest {
 
+    @Override
     @Test
     public void testRender() {
         super.testRender();

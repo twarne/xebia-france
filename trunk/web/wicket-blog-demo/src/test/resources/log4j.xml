@@ -38,6 +38,10 @@
 		<priority value="DEBUG"/>
 	</category>
 
+	<category name="org.springframework">
+		<priority value="INFO"/>
+	</category>
+
     <root>
         <priority value="WARN"/>
         <appender-ref ref="LOGFILE"/>

@@ -7,6 +7,7 @@ import org.junit.Test;
 
 public class ViewCategoryPageTest extends AddCategoryPageTest {
 
+    @Override
     @Test
     public void testRender() {
         super.testRender();

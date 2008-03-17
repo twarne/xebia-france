@@ -18,6 +18,7 @@ package fr.xebia.demo.wicket.blog.service;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityNotFoundException;
@@ -32,10 +33,12 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Example;
 import org.hibernate.criterion.Example.PropertySelector;
 import org.hibernate.type.Type;
+import org.springframework.stereotype.Repository;
 
 /**
  * Defines the generic method (save, update, delete, search, etc) for all kind of objects
  */
+@Repository
 public abstract class GenericService<T> implements Service<T> {
 
     public static final int DEFAULT_MAX_RESULTS = 200;
@@ -73,6 +76,7 @@ public abstract class GenericService<T> implements Service<T> {
 
     private EntityManagerFactory entityManagerFactory;
 
+    @Resource(name="entityManagerFactory")
     public void setEntityManagerFactory(EntityManagerFactory entityManagerFactory) {
         this.entityManagerFactory = entityManagerFactory;
     }

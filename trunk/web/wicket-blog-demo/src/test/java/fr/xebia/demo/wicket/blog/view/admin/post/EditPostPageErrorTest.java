@@ -10,6 +10,7 @@ import fr.xebia.demo.wicket.blog.service.ServiceException;
 
 public class EditPostPageErrorTest extends ViewPostPageErrorTest {
 
+    @Override
     protected PostService getPostService() {
         PostService postService = new PostService() {
             @Override
@@ -20,6 +21,7 @@ public class EditPostPageErrorTest extends ViewPostPageErrorTest {
         return postService;
     }
 
+    @Override
     @Test
     public void testErrorRender() {
 

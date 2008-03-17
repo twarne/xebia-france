@@ -17,19 +17,12 @@ package fr.xebia.demo.wicket.blog.service;
 
 import java.io.Serializable;
 
-//import javax.annotation.Resource;
-//import javax.persistence.EntityManagerFactory;
+import org.springframework.stereotype.Repository;
 
 import fr.xebia.demo.wicket.blog.data.Category;
-//import org.springframework.stereotype.Service;
 
-//@Service
+@Repository
 public class CategoryService extends GenericService<Category> {
-
-//    @Resource(name="entityManagerFactory")
-//    public void setEntityManagerFactory(EntityManagerFactory entityManagerFactory) {
-//        super.setEntityManagerFactory(entityManagerFactory);
-//    }
 
     @Override
     protected Class<Category> getObjectClass() {

@@ -15,6 +15,7 @@ public class DeletePostPageErrorTest extends PostListPageErrorTest {
 
     private static final Logger logger = Logger.getLogger(DeletePostPageErrorTest.class);
     
+    @Override
     @Test
     public void testErrorRender() {
     	PostService postService = new PostService();

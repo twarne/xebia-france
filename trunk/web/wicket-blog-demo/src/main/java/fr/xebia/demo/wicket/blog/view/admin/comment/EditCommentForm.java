@@ -55,6 +55,7 @@ public class EditCommentForm extends AddCommentForm {
 
     }
 
+    @Override
     protected IModel getButtonModel() {
         return new StringResourceModel("comment.edit.submitLink", this, null);
     }

@@ -32,7 +32,6 @@ import fr.xebia.demo.wicket.blog.view.admin.post.PostListPage;
 import fr.xebia.demo.wicket.blog.view.security.AnnotationAuthorizationStrategy;
 import fr.xebia.demo.wicket.blog.view.security.UnauthorizedComponentInstantiationListener;
 
-// TODO Corriger les label des boutons submit
 public class BlogApplication extends SpringWebApplication {
 
     public BlogApplication() {
