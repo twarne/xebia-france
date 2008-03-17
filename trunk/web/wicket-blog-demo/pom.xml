@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-/**
- * Copyright 2007 Xebia and the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+	/**
+	* Copyright 2007 Xebia and the original author or authors.
+	*
+	* Licensed under the Apache License, Version 2.0 (the "License");
+	* you may not use this file except in compliance with the License.
+	* You may obtain a copy of the License at
+	*
+	*      http://www.apache.org/licenses/LICENSE-2.0
+	*
+	* Unless required by applicable law or agreed to in writing, software
+	* distributed under the License is distributed on an "AS IS" BASIS,
+	* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	* See the License for the specific language governing permissions and
+	* limitations under the License.
+	*/
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -125,17 +125,17 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 			<version>1.1.2</version>
-		</dependency>
-		<dependency>
+			</dependency>
+			<dependency>
 			<groupId>taglibs</groupId>
 			<artifactId>standard</artifactId>
 			<version>1.1.2</version>
-		</dependency>
-		<dependency>
+			</dependency>
+			<dependency>
 			<groupId>displaytag</groupId>
 			<artifactId>displaytag</artifactId>
 			<version>1.1.1</version>
-		</dependency-->
+			</dependency-->
 
 		<dependency>
 			<groupId>hsqldb</groupId>
@@ -181,6 +181,16 @@
 			<version>${spring.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+			<version>1.5.4</version>
+		</dependency>
+		<dependency>
+			<groupId>aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>1.5.4</version>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
 			<version>${spring.version}</version>
@@ -189,7 +199,7 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-jpa</artifactId>
 			<version>${spring.version}</version>
-		</dependency-->
+			</dependency-->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-orm</artifactId>
@@ -420,7 +430,9 @@
 					</excludes>
 					<minimumPriority>${pmd.max.level}</minimumPriority>
 					<rulesets>
-						<ruleset>${basedir}/src/main/resources/pmd-ruleset.xml</ruleset>
+						<ruleset>
+							${basedir}/src/main/resources/pmd-ruleset.xml
+						</ruleset>
 					</rulesets>
 					<sourceEncoding>${source.encoding}</sourceEncoding>
 					<targetJdk>${jdk.version}</targetJdk>
@@ -454,7 +466,9 @@
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<artifactId>
+					maven-project-info-reports-plugin
+				</artifactId>
 				<reportSets>
 					<reportSet>
 						<reports>
@@ -472,7 +486,7 @@
 			<!--plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-changelog-plugin</artifactId>
-			</plugin-->
+				</plugin-->
 		</plugins>
 	</reporting>
 
