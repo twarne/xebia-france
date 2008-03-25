@@ -15,11 +15,13 @@
  */
 package fr.xebia.springframework.jms.support.converter;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.StringReader;
 import java.nio.charset.Charset;
 import java.nio.charset.UnsupportedCharsetException;
 
+import javax.jms.BytesMessage;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.Session;
@@ -62,7 +64,7 @@ public abstract class JaxbMessageConverter implements MessageConverter, Initiali
 
     protected TransformerFactory transformerFactory;
 
-    protected String encoding;
+    protected String encoding = "UTF-8";
 
     /**
      * Zero args constructor for setter based dependency injection.
@@ -109,17 +111,28 @@ public abstract class JaxbMessageConverter implements MessageConverter, Initiali
      * @see org.springframework.jms.support.converter.MessageConverter#fromMessage(javax.jms.Message)
      */
     public Object fromMessage(Message message) throws JMSException, MessageConversionException {
-        try {
-            Assert.isInstanceOf(TextMessage.class, message);
-            TextMessage textMessage = (TextMessage) message;
+        Assert.notNull(message, "message is null");
 
+        try {
+            StreamSource source;
+            if (message instanceof TextMessage) {
+                TextMessage textMessage = (TextMessage) message;
+                source = new StreamSource(new StringReader(textMessage.getText()));
+            } else if (message instanceof BytesMessage) {
+                BytesMessage bytesMessage = (BytesMessage) message;
+                byte[] bytes = new byte[(int) bytesMessage.getBodyLength()];
+                bytesMessage.readBytes(bytes);
+                source = new StreamSource(new ByteArrayInputStream(bytes));
+            } else {
+                throw new MessageConversionException("Unsupported JMS Message type " + message.getClass()
+                        + ", expected instance of TextMessage or BytesMessage for " + message);
+            }
             // prepare JAXB unmarshalling based on XSL identity transformation
-            StreamSource stringSource = new StreamSource(new StringReader(textMessage.getText()));
             JAXBResult jaxbResult = new JAXBResult(this.jaxbContext);
             Transformer transformer = this.transformerFactory.newTransformer();
 
             // JAXB unmarshalling
-            transformer.transform(stringSource, jaxbResult);
+            transformer.transform(source, jaxbResult);
 
             Object result = jaxbResult.getResult();
             return result;

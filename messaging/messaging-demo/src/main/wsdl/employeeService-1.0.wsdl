@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://demo.xebia.fr/ws/employee" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+   xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="employeeService-1.0" targetNamespace="http://demo.xebia.fr/ws/employee">
+   <wsdl:types>
+      <xsd:schema targetNamespace="http://demo.xebia.fr/ws/employee" xmlns:employee="http://demo.xebia.fr/xml/employee">
+         <xsd:import schemaLocation="../xsd/employee-1.0.xsd" namespace="http://demo.xebia.fr/xml/employee"></xsd:import>
+         <xsd:element name="getEmployeeRequest">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element name="id" type="xsd:int" minOccurs="1" maxOccurs="1" />
+               </xsd:sequence>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="getEmployeeResponse">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element name="out" type="employee:Employee" minOccurs="1" maxOccurs="1" />
+               </xsd:sequence>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="employeeServiceFault">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element name="description" type="xsd:string"></xsd:element>
+               </xsd:sequence>
+            </xsd:complexType>
+         </xsd:element>
+      </xsd:schema>
+   </wsdl:types>
+   <wsdl:message name="getEmployeeRequest">
+      <wsdl:part element="tns:getEmployeeRequest" name="input" />
+   </wsdl:message>
+   <wsdl:message name="getEmployeeResponse">
+      <wsdl:part element="tns:getEmployeeResponse" name="output" />
+   </wsdl:message>
+   <wsdl:message name="employeeServiceFaultMsg">
+      <wsdl:part element="tns:employeeServiceFault" name="fault" />
+   </wsdl:message>
+   <wsdl:portType name="employeeService">
+      <wsdl:operation name="getEmployee">
+         <wsdl:input message="tns:getEmployeeRequest" />
+         <wsdl:output message="tns:getEmployeeResponse" />
+         <wsdl:fault name="fault" message="tns:employeeServiceFaultMsg"></wsdl:fault>
+      </wsdl:operation>
+   </wsdl:portType>
+   <wsdl:binding name="employeeService" type="tns:employeeService">
+      <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+      <wsdl:operation name="getEmployee">
+         <soap:operation soapAction="http://demo.xebia.fr/ws/employee/getEmployee" />
+         <wsdl:input>
+            <soap:body use="literal" />
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal" />
+         </wsdl:output>
+      </wsdl:operation>
+   </wsdl:binding>
+   <wsdl:service name="employeeService">
+      <wsdl:port binding="tns:employeeService" name="employeeService">
+         <soap:address location="http://demo.xebia.fr/messaging-demo/services/employeeService" />
+      </wsdl:port>
+   </wsdl:service>
+</wsdl:definitions>

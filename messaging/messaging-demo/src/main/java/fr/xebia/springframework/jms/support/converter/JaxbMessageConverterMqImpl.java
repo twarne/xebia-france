@@ -31,7 +31,7 @@ public class JaxbMessageConverterMqImpl extends JaxbMessageConverter {
 
     /**
      * Value of <code>com.ibm.mq.jms.JMSC#CHARSET_PROPERTY</code> used to set Websphere MQ message
-     * charset. Value recopied from JMSC API to prevent needing mq jar to complie
+     * charset. Value recopied from JMSC API to prevent needing mq jar to compile
      * 
      * @see com.ibm.mq.jms.JMSC#CHARSET_PROPERTY
      */
