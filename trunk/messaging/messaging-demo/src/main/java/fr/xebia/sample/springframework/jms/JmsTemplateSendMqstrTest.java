@@ -17,26 +17,26 @@ package fr.xebia.sample.springframework.jms;
 
 import java.util.Date;
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
-import org.springframework.test.AbstractDependencyInjectionSpringContextTests;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * Test sending MQSTR message with Spring {@link JmsTemplate}.
  * 
  * @author <a href="mailto:cleclerc@xebia.fr">Cyrille Le Clerc</a>
  */
-public class JmsTemplateSendMqstrTest extends AbstractDependencyInjectionSpringContextTests {
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"classpath:JmsTemplateSendMqstrTest.xml"})
+public class JmsTemplateSendMqstrTest {
 
+    @Autowired
     protected JmsTemplate jmsTemplate;
 
-    protected String[] getConfigLocations() {
-        return new String[] { "classpath:fr/xebia/sample/springframework/jms/JmsTemplateSendMqstrTest.xml" };
-    }
-
-    public void setJmsTemplate(JmsTemplate jmsTemplate) {
-        this.jmsTemplate = jmsTemplate;
-    }
-
+    @Test
     public void testSimpleSendJmsMessage() throws Exception {
 
         this.jmsTemplate.convertAndSend("Hello world " + new Date());

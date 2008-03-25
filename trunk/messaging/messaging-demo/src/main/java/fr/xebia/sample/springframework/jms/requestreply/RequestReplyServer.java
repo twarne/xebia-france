@@ -13,36 +13,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.xebia.sample.springframework.jms;
+package fr.xebia.sample.springframework.jms.requestreply;
 
-import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import javax.jms.Message;
-import javax.jms.MessageListener;
+import javax.jms.JMSException;
 
 import org.apache.log4j.Logger;
 
 /**
- * {@link MessageListener} basic sample.
- * 
  * @author <a href="mailto:cyrille.leclerc@pobox.com">Cyrille Le Clerc</a>
  */
-public class SampleListener implements MessageListener {
+public class RequestReplyServer {
 
-    private final static Logger logger = Logger.getLogger(SampleListener.class);
+    private final static Logger logger = Logger.getLogger(RequestReplyServer.class);
 
-    protected AtomicInteger receivedMessagesCounter = new AtomicInteger();
+    protected AtomicInteger invocationsCounter = new AtomicInteger();
 
-    public void onMessage(Message message) {
+    public String sayHello(String message) throws JMSException {
 
-        logger.debug("> SampleListener.onMessage");
-        logger.debug(message);
-        this.receivedMessagesCounter.incrementAndGet();
-        logger.debug(new Date() + "< SampleListener.onMessage");
+        int counterValue = this.invocationsCounter.incrementAndGet();
+        String result = "Hello " + message + ". Request# " + counterValue;
+
+        logger.debug(result);
+
+        return result;
+
     }
 
-    public int getReceivedMessagesCounter() {
-        return this.receivedMessagesCounter.get();
+    public int getInvocationsCounter() {
+        return this.invocationsCounter.get();
     }
+
 }

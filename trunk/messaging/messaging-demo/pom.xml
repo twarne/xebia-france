@@ -16,24 +16,19 @@
    * limitations under the License.
    */
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
    <modelVersion>4.0.0</modelVersion>
    <name>Messaging Demo</name>
    <groupId>fr.xebia.grid</groupId>
    <artifactId>messaging-demo</artifactId>
-   <packaging>jar</packaging>
+   <packaging>war</packaging>
    <version>0.1-SNAPSHOT</version>
    <description>Messaging demo (Websphere MQ, Tibco EMS, ActiveMQ, etc)</description>
-
    <scm>
       <connection>scm:svn:http://xebia-france.googlecode.com/svn/trunk/messaging/messaging-demo/</connection>
-      <developerConnection>
-         scm:svn:https://xebia-france.googlecode.com/svn/trunk/messaging/messaging-demo/
-      </developerConnection>
+      <developerConnection>scm:svn:https://xebia-france.googlecode.com/svn/trunk/messaging/messaging-demo/</developerConnection>
       <url>http://code.google.com/p/xebia-france/</url>
    </scm>
-
    <licenses>
       <license>
          <name>The Apache Software License, Version 2.0</name>
@@ -42,12 +37,10 @@
          <comments />
       </license>
    </licenses>
-
    <organization>
       <name>Xebia France</name>
       <url>http://www.xebia.fr</url>
    </organization>
-
    <build>
       <plugins>
          <plugin>
@@ -55,6 +48,7 @@
             <artifactId>maven-eclipse-plugin</artifactId>
             <configuration>
                <downloadSources>true</downloadSources>
+               <wtpversion>1.5</wtpversion>
             </configuration>
          </plugin>
          <plugin>
@@ -73,42 +67,104 @@
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-compiler-plugin</artifactId>
             <configuration>
-               <source>1.5</source>
-               <target>1.5</target>
+               <source>1.6</source>
+               <target>1.6</target>
             </configuration>
          </plugin>
+         <plugin>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-codegen-plugin</artifactId>
+            <version>2.1-incubator-SNAPSHOT</version>
+            <executions>
+               <execution>
+                  <id>generate-sources</id>
+                  <phase>generate-sources</phase>
+                  <configuration>
+                     <!-- <sourceRoot>${basedir}/target/generated/src/main/java</sourceRoot> -->
+                     <wsdlOptions>
+                        <wsdlOption>
+                           <wsdl>${basedir}/src/main/wsdl/employeeService-1.0.wsdl</wsdl>
+                        </wsdlOption>
+                     </wsdlOptions>
+                  </configuration>
+                  <goals>
+                     <goal>wsdl2java</goal>
+                  </goals>
+               </execution>
+            </executions>
+            <dependencies>
+               <dependency>
+                  <!-- 
+                     As we use Log4j as CXF logging implementation of our app (via /META-INF/cxf/org.apache.cxf.Logger), we need log4j in the plugin's classpath
+                     java.lang.NoClassDefFoundError
+                     at org.apache.cxf.BusFactory.<clinit>(BusFactory.java:39)
+                     at org.apache.cxf.maven_plugin.WSDL2JavaMojo.execute(WSDL2JavaMojo.java:140)
+                     at org.apache.maven.plugin.DefaultPluginManager.executeMojo(DefaultPluginManager.java:443)
+                     at org.apache.maven.lifecycle.DefaultLifecycleExecutor.executeGoals(DefaultLifecycleExecutor.java:539)
+                  -->
+                  <groupId>log4j</groupId>
+                  <artifactId>log4j</artifactId>
+                  <version>1.2.14</version>
+               </dependency>
+            </dependencies>
+         </plugin>
       </plugins>
-      <defaultGoal>package</defaultGoal>
    </build>
-
    <dependencies>
-
+      <dependency>
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-core</artifactId>
+         <version>${spring.version}</version>
+      </dependency>
       <dependency>
          <groupId>org.springframework</groupId>
          <artifactId>spring-context</artifactId>
-         <version>2.0.7</version>
+         <version>${spring.version}</version>
+      </dependency>
+      <dependency>
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-context-support</artifactId>
+         <version>${spring.version}</version>
       </dependency>
       <dependency>
          <groupId>org.springframework</groupId>
          <artifactId>spring-jms</artifactId>
-         <version>2.0.7</version>
+         <version>${spring.version}</version>
       </dependency>
       <dependency>
          <groupId>org.springframework</groupId>
-         <artifactId>spring-jmx</artifactId>
-         <version>2.0.7</version>
+         <artifactId>spring-test</artifactId>
+         <version>${spring.version}</version>
       </dependency>
       <dependency>
-         <groupId>org.springframework</groupId>
-         <artifactId>spring-remoting</artifactId>
-         <version>2.0.7</version>
+         <groupId>org.apache.cxf</groupId>
+         <artifactId>cxf-rt-management</artifactId>
+         <version>${cxf.version}</version>
       </dependency>
       <dependency>
-         <groupId>org.springframework</groupId>
-         <artifactId>spring-mock</artifactId>
-         <version>2.0.7</version>
+         <groupId>org.apache.cxf</groupId>
+         <artifactId>cxf-rt-frontend-jaxws</artifactId>
+         <version>${cxf.version}</version>
       </dependency>
-
+      <dependency>
+         <groupId>org.apache.cxf</groupId>
+         <artifactId>cxf-rt-transports-http</artifactId>
+         <version>${cxf.version}</version>
+      </dependency>
+      <dependency>
+         <!-- 
+            used to workaround 
+            "org.apache.cxf.interceptor.Fault: No conduit initiator was found for the namespace http://schemas.xmlsoap.org/soap/http." 
+         -->
+         <groupId>org.apache.cxf</groupId>
+         <artifactId>cxf-rt-transports-http-jetty</artifactId>
+         <version>${cxf.version}</version>
+      </dependency>
+      <dependency>
+         <groupId>org.apache.cxf</groupId>
+         <artifactId>cxf-rt-transports-jms</artifactId>
+         <version>${cxf.version}</version>
+      </dependency>
       <dependency>
          <!-- activeMQ <amq:xxx /> cfg in spring -->
          <groupId>org.apache.xbean</groupId>
@@ -125,64 +181,126 @@
          <artifactId>geronimo-jta_1.0.1B_spec</artifactId>
          <version>1.1.1</version>
       </dependency>
-
       <dependency>
          <groupId>commons-lang</groupId>
          <artifactId>commons-lang</artifactId>
-         <version>2.1</version>
+         <version>2.3</version>
       </dependency>
-      <dependency>
-         <groupId>com.sun.xml.bind</groupId>
-         <artifactId>jaxb-impl</artifactId>
-         <version>2.1.5</version>
-      </dependency>
-
-      <dependency>
-         <groupId>com.tibco.ems</groupId>
-         <artifactId>tibjms</artifactId>
-         <version>4.4.1</version>
-      </dependency>
-
       <dependency>
          <!-- Evaluation version download : http://cf.tibco.com/eval/tibjms.cfm -->
-         <groupId>org.apache.activemq</groupId>
-         <artifactId>activemq-core</artifactId>
-         <version>4.1.1</version>
+         <groupId>com.tibco.ems</groupId>
+         <artifactId>tibjms</artifactId>
+         <version>4.1.4</version>
       </dependency>
-
       <dependency>
          <groupId>org.apache.activemq</groupId>
-         <artifactId>activemq-optional</artifactId>
-         <version>4.1.1</version>
+         <artifactId>activemq-core</artifactId>
+         <version>5.0.0</version>
          <exclusions>
             <exclusion>
-               <!-- use spring 2.0.7 -->
-               <groupId>org.springframework</groupId>
-               <artifactId>spring</artifactId>
+               <groupId>javax.xml</groupId>
+               <artifactId>jaxb-api</artifactId>
             </exclusion>
          </exclusions>
       </dependency>
-
       <dependency>
          <groupId>com.ibm.mq</groupId>
          <artifactId>com.ibm.mqjms</artifactId>
-         <version>6.0.2.2</version>
+         <version>${mq.version}</version>
       </dependency>
-
-
+      <dependency>
+         <groupId>com.ibm.mq</groupId>
+         <artifactId>com.ibm.mq</artifactId>
+         <version>${mq.version}</version>
+      </dependency>
+      <dependency>
+         <groupId>com.ibm.mq</groupId>
+         <artifactId>CL3Export</artifactId>
+         <version>${mq.version}</version>
+      </dependency>
+      <dependency>
+         <groupId>com.ibm.mq</groupId>
+         <artifactId>CL3Nonexport</artifactId>
+         <version>${mq.version}</version>
+      </dependency>
+      <dependency>
+         <groupId>com.ibm.mq</groupId>
+         <artifactId>dhbcore</artifactId>
+         <version>${mq.version}</version>
+      </dependency>
+      <dependency>
+         <groupId>com.ibm.mq</groupId>
+         <artifactId>rmm</artifactId>
+         <version>${mq.version}</version>
+      </dependency>
       <dependency>
          <!--
-            ftp://ftp.software.ibm.com/software/websphere/appserv/support/tools/JMSclient/sibc_install-o0727.12.jar
+            ftp://ftp.software.ibm.com/software/websphere/appserv/support/tools/JMSclient/sibc_oeminst-o0810.09.jar
          -->
          <groupId>com.ibm.ws.sib</groupId>
          <artifactId>sibc.jms</artifactId>
-         <version>o0727.12</version>
+         <version>o0810.09</version>
       </dependency>
-
+      <dependency>
+         <groupId>log4j</groupId>
+         <artifactId>log4j</artifactId>
+         <version>1.2.15</version>
+         <exclusions>
+            <exclusion>
+               <groupId>com.sun.jmx</groupId>
+               <artifactId>jmxri</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>com.sun.jdmk</groupId>
+               <artifactId>jmxtools</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>javax.jms</groupId>
+               <artifactId>jms</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>javax.mail</groupId>
+               <artifactId>mail</artifactId>
+            </exclusion>
+         </exclusions>
+      </dependency>
       <dependency>
          <groupId>junit</groupId>
          <artifactId>junit</artifactId>
-         <version>3.8.1</version>
+         <version>4.4</version>
       </dependency>
    </dependencies>
+   <repositories>
+      <repository>
+         <id>apache-snapshots</id>
+         <name>Apache SNAPSHOT Repository</name>
+         <url>http://people.apache.org/repo/m2-snapshot-repository/</url>
+         <snapshots>
+            <enabled>true</enabled>
+         </snapshots>
+      </repository>
+      <repository>
+         <id>apache-incubating</id>
+         <name>Apache Incubating Repository</name>
+         <url>http://people.apache.org/repo/m2-incubating-repository/</url>
+      </repository>
+   </repositories>
+   <pluginRepositories>
+      <pluginRepository>
+         <id>apache-plugin-snapshots</id>
+         <name>Apache Maven Plugin Snapshots</name>
+         <url>http://people.apache.org/repo/m2-snapshot-repository</url>
+         <releases>
+            <enabled>false</enabled>
+         </releases>
+         <snapshots>
+            <enabled>true</enabled>
+         </snapshots>
+      </pluginRepository>
+   </pluginRepositories>
+   <properties>
+      <spring.version>2.5.2</spring.version>
+      <cxf.version>2.1-incubator-SNAPSHOT</cxf.version>
+      <mq.version>6.0.2.1</mq.version>
+   </properties>
 </project>

@@ -26,7 +26,11 @@ import javax.jms.TopicSession;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.stream.StreamSource;
 
-import junit.framework.TestCase;
+import junit.framework.Assert;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 import com.ibm.mq.jms.JMSC;
 import com.ibm.mq.jms.MQTopic;
@@ -41,7 +45,7 @@ import fr.xebia.jms.XmlMessageImpl;
  * 
  * @author <a href="mailto:cleclerc@xebia.fr">Cyrille Le Clerc</a>
  */
-public class XmlAwareTopicPublisherMqImplTest extends TestCase {
+public class XmlAwareTopicPublisherMqImplTest {
 
     protected TopicConnection connection;
 
@@ -49,9 +53,8 @@ public class XmlAwareTopicPublisherMqImplTest extends TestCase {
 
     protected Topic topic;
 
-    @Override
+    @Before
     protected void setUp() throws Exception {
-        super.setUp();
         MQTopicConnectionFactory connectionFactory = new MQTopicConnectionFactory();
         connectionFactory.setHostName("localhost");
         connectionFactory.setPort(1414);
@@ -64,13 +67,13 @@ public class XmlAwareTopicPublisherMqImplTest extends TestCase {
         this.topic = this.session.createTemporaryTopic();
     }
 
-    @Override
+    @After
     protected void tearDown() throws Exception {
-        super.tearDown();
         this.session.close();
         this.connection.close();
     }
 
+    @Test
     public void testSendXmlMessage() throws Exception {
         TopicPublisher topicSender = new XmlAwareTopicPublisher(this.session.createPublisher(this.topic), new JmsCharsetUtilHelperMqImpl());
 
@@ -86,9 +89,10 @@ public class XmlAwareTopicPublisherMqImplTest extends TestCase {
         String expectedXmlDeclaration = "<?xml version=\"1.0\" encoding=\"" + expectedCharset + "\"?>";
 
         String xmlAsText = ((XmlMessageImpl) xmlMessage)._getTextMessage().getText();
-        assertTrue(xmlAsText.startsWith(expectedXmlDeclaration));
+        Assert.assertTrue(xmlAsText.startsWith(expectedXmlDeclaration));
     }
 
+    @Test
     public void testSendIso88591XmlMessage() throws Exception {
         TopicPublisher topicSender = new XmlAwareTopicPublisher(this.session.createPublisher(this.topic), new JmsCharsetUtilHelperMqImpl());
 
@@ -105,12 +109,12 @@ public class XmlAwareTopicPublisherMqImplTest extends TestCase {
         // check XML
         String expectedXmlDeclaration = "<?xml version=\"1.0\" encoding=\"" + expectedCharset + "\"?>";
         String xmlAsText = ((XmlMessageImpl) xmlMessage)._getTextMessage().getText();
-        assertTrue(xmlAsText.startsWith(expectedXmlDeclaration));
+        Assert.assertTrue(xmlAsText.startsWith(expectedXmlDeclaration));
 
         // check JMS Header
         String ccsid = xmlMessage.getStringProperty(JMSC.CHARSET_PROPERTY);
-        assertNotNull("ccsid", ccsid);
+        Assert.assertNotNull("ccsid", ccsid);
         String actualCharset = IbmCharsetUtils.getCharsetName(Integer.parseInt(ccsid));
-        assertEquals(expectedCharset, actualCharset);
+        Assert.assertEquals(expectedCharset, actualCharset);
     }
 }
