@@ -144,7 +144,7 @@ public class HibernateSearchDemoTestCase extends TestCase {
 	public void testApproximateSearch() {
 		String queryString = "jav~";
 		logger.info("=====================================================");
-		logger.info("Proximity Test (query == \"" + queryString + "\"):\n");
+		logger.info("Approximation Test (query == \"" + queryString + "\"):\n");
 		this.logSearhResult(this.searchDocuments(queryString));
 		logger.info("=====================================================\n");
 	}
