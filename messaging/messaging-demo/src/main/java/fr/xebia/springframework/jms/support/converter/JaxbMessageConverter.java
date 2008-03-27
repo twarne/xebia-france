@@ -16,8 +16,8 @@
 package fr.xebia.springframework.jms.support.converter;
 
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.StringReader;
+import java.io.StringWriter;
 import java.nio.charset.Charset;
 import java.nio.charset.UnsupportedCharsetException;
 
@@ -27,20 +27,14 @@ import javax.jms.Message;
 import javax.jms.Session;
 import javax.jms.TextMessage;
 import javax.xml.bind.JAXBContext;
-import javax.xml.bind.util.JAXBResult;
-import javax.xml.bind.util.JAXBSource;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Source;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.stream.StreamResult;
-import javax.xml.transform.stream.StreamSource;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.core.style.ToStringCreator;
 import org.springframework.jms.support.converter.MessageConversionException;
 import org.springframework.jms.support.converter.MessageConverter;
-import org.springframework.util.Assert;
 
 /**
  * <p>
@@ -48,51 +42,37 @@ import org.springframework.util.Assert;
  * </p>
  * 
  * <p>
- * Marshalling : converts the given object into a {@link JAXBSource} and serialize this XML source into a string that is associated to a
- * {@link TextMessage}.
+ * Marshalling : converts the given object into a {@link TextMessage} thanks to {@link Marshaller#marshal(Object, java.io.OutputStream)} .
  * </p>
  * <p>
- * Unmarshalling : converts the given {@link TextMessage} into a {@link StreamSource} and instantiate the associated object via an XSL
- * identity transformation toward a {@link JAXBResult}
+ * Unmarshalling : converts the given {@link TextMessage} or {@link BytesMessage} body into an object thanks to
+ * {@link Unmarshaller#unmarshal(javax.xml.transform.Source)}.
  * </p>
  * 
  * @author <a href="mailto:cyrille.leclerc@pobox.com">Cyrille Le Clerc</a>
  */
 public abstract class JaxbMessageConverter implements MessageConverter, InitializingBean {
 
+    /**
+     * According to <a href="https://jaxb.dev.java.net/faq/index.html#threadSafety">JAXB FAQ : Q. Are the JAXB runtime API's thread safe?</a>,
+     * {@link JAXBContext} is thread safe but {@link Marshaller} and {@link Unmarshaller} are not.
+     */
     protected JAXBContext jaxbContext;
 
-    protected TransformerFactory transformerFactory;
-
+    /**
+     * @see Marshaller#JAXB_ENCODING
+     */
     protected String encoding = "UTF-8";
+    
+    /**
+     * @see Marshaller#JAXB_FORMATTED_OUTPUT
+     */
+    protected Boolean formattedOutput;
 
     /**
-     * Zero args constructor for setter based dependency injection.
+     * Call {@link Charset#forName()} to raise an {@link UnsupportedCharsetException} if {@link #encoding} is not supported.
      */
-    public JaxbMessageConverter() {
-        super();
-    }
-
-    /**
-     * Constructor with params for constructor based dependency injection.
-     * 
-     * @param jaxbContext
-     *            to marshal given objects into xml text and unmarshal given text messages into objects
-     * @param encoding
-     *            used to marshal object into XML (e.g. "UTF-8", "ISO-8859-1" ...)
-     * 
-     * @throws UnsupportedCharsetException
-     *             if the given encoding is not supported by the JVM
-     */
-    public JaxbMessageConverter(JAXBContext jaxbContext, String encoding) throws UnsupportedCharsetException {
-        this();
-        this.jaxbContext = jaxbContext;
-        this.encoding = encoding;
-    }
-
     public void afterPropertiesSet() throws Exception {
-        this.transformerFactory = TransformerFactory.newInstance();
-        // Call Charset.forName() to raise an UnsupportedCharsetException if encoding is not supported
         Charset.forName(this.encoding);
     }
 
@@ -107,42 +87,37 @@ public abstract class JaxbMessageConverter implements MessageConverter, Initiali
      * </p>
      * 
      * @param message
-     *            to unmarshal, MUST be an instance of {@link TextMessage}
+     *            message to unmarshal, MUST be an instance of {@link TextMessage} or of {@link BytesMessage}
      * @see org.springframework.jms.support.converter.MessageConverter#fromMessage(javax.jms.Message)
+     * @see Unmarshaller#unmarshal(java.io.Reader)
      */
     public Object fromMessage(Message message) throws JMSException, MessageConversionException {
-        Assert.notNull(message, "message is null");
-
         try {
-            StreamSource source;
+            Object result;
+            Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
             if (message instanceof TextMessage) {
                 TextMessage textMessage = (TextMessage) message;
-                source = new StreamSource(new StringReader(textMessage.getText()));
+                result = unmarshaller.unmarshal(new StringReader(textMessage.getText()));
+
             } else if (message instanceof BytesMessage) {
                 BytesMessage bytesMessage = (BytesMessage) message;
                 byte[] bytes = new byte[(int) bytesMessage.getBodyLength()];
                 bytesMessage.readBytes(bytes);
-                source = new StreamSource(new ByteArrayInputStream(bytes));
+                result = unmarshaller.unmarshal(new ByteArrayInputStream(bytes));
+
             } else {
                 throw new MessageConversionException("Unsupported JMS Message type " + message.getClass()
                         + ", expected instance of TextMessage or BytesMessage for " + message);
             }
-            // prepare JAXB unmarshalling based on XSL identity transformation
-            JAXBResult jaxbResult = new JAXBResult(this.jaxbContext);
-            Transformer transformer = this.transformerFactory.newTransformer();
 
-            // JAXB unmarshalling
-            transformer.transform(source, jaxbResult);
-
-            Object result = jaxbResult.getResult();
             return result;
-        } catch (Exception e) {
+        } catch (JAXBException e) {
             throw new MessageConversionException("Exception unmarshalling message: " + message, e);
         }
     }
 
     /**
-     * Encoding used for marshalling.
+     * Encoding used for marshalling (ie {@link MessageConverter#toMessage(Object, Session)}).
      * 
      * @param encoding
      *            used to marshal object into XML (e.g. "UTF-8", "ISO-8859-1" ...)
@@ -182,29 +157,29 @@ public abstract class JaxbMessageConverter implements MessageConverter, Initiali
      * </p>
      * 
      * @param object
-     *            to marshal. MUST be supported by the jaxb context used by this converter (see {@link #setJaxbContext(JAXBContext)})
+     *            object to marshal, MUST be supported by the jaxb context used by this converter (see {@link #setJaxbContext(JAXBContext)})
      * @see org.springframework.jms.support.converter.MessageConverter#toMessage(java.lang.Object, javax.jms.Session)
      */
     public Message toMessage(Object object, Session session) throws JMSException, MessageConversionException {
         try {
-            // prepare the JAXB marshalling via identity transformation toward a StreamResult
-            Source source = new JAXBSource(this.jaxbContext, object);
-            Transformer transformer = this.transformerFactory.newTransformer();
-            transformer.setOutputProperty(OutputKeys.ENCODING, this.encoding);
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-
             // JAXB Marshalling
-            transformer.transform(source, new StreamResult(out));
+            Marshaller marshaller = this.jaxbContext.createMarshaller();
+            marshaller.setProperty(Marshaller.JAXB_ENCODING, this.encoding);
+            if(this.formattedOutput != null){
+                marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, this.formattedOutput);
+            }
+            StringWriter out = new StringWriter();
+            marshaller.marshal(object, out);
 
             // create TextMessage result
-            String text = out.toString(this.encoding);
+            String text = out.toString();
             TextMessage textMessage = session.createTextMessage(text);
 
             // Force encoding of the JMS Provider's Message implementation
             setMessageCharset(textMessage, this.encoding);
 
             return textMessage;
-        } catch (Exception e) {
+        } catch (JAXBException e) {
             throw new MessageConversionException("Exception converting", e);
         }
     }
