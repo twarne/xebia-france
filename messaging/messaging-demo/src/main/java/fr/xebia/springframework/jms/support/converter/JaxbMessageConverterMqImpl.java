@@ -19,7 +19,6 @@ import java.nio.charset.UnsupportedCharsetException;
 
 import javax.jms.JMSException;
 import javax.jms.TextMessage;
-import javax.xml.bind.JAXBContext;
 
 /**
  * Jaxb Message Converter implementation for IBM Websphere MQ. Should also work for IBM Websphere
@@ -36,29 +35,6 @@ public class JaxbMessageConverterMqImpl extends JaxbMessageConverter {
      * @see com.ibm.mq.jms.JMSC#CHARSET_PROPERTY
      */
     public static final String JMSC_CHARSET_PROPERTY = "JMS_IBM_Character_Set";
-
-    /**
-     * Zero args constructor for setter based dependency injection.
-     */
-    public JaxbMessageConverterMqImpl() {
-        super();
-    }
-
-    /**
-     * Constructor with params for constructor based dependency injection.
-     * 
-     * @param jaxbContext
-     *            to marshal given objects into xml text and unmarshal given text messages into
-     *            objects
-     * @param encoding
-     *            used to marshal object into XML (e.g. "UTF-8", "ISO-8859-1" ...)
-     * 
-     * @throws UnsupportedCharsetException
-     *             if the given encoding is not supported by the JVM
-     */
-    public JaxbMessageConverterMqImpl(JAXBContext jaxbContext, String encoding) throws UnsupportedCharsetException {
-        super(jaxbContext, encoding);
-    }
 
     /**
      * Set given <code>message</code> encoding with Websphere MQ proprietary APIs.
