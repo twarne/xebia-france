@@ -16,19 +16,19 @@
 package fr.xebia.springframework.jms.support.converter;
 
 import java.lang.reflect.Method;
-import java.nio.charset.UnsupportedCharsetException;
 
 import javax.jms.Message;
 import javax.jms.TextMessage;
-import javax.xml.bind.JAXBContext;
 
 import org.springframework.core.NestedExceptionUtils;
 import org.springframework.jms.support.converter.MessageConversionException;
 
 /**
  * <p>
- * {@link JaxbMessageConverter} implementation for Tibco Enterprise Messaging Service (aka Tibco EMS
- * or Tibco JMS).
+ * {@link JaxbMessageConverter} implementation for Tibco Enterprise Messaging Service (aka Tibco EMS or Tibco JMS).
+ * </p>
+ * <p>
+ * We use reflection to load {@link com.tibco.tibjms.Tibjms#setMessageEncodingMethod} method to be able to compile without Tibco EMS jar.
  * </p>
  * 
  * @author <a href="mailto:cyrille.leclerc@pobox.com">Cyrille Le Clerc</a>
@@ -42,39 +42,18 @@ public class JaxbMessageConverterTibjmsImpl extends JaxbMessageConverter {
     protected Method setMessageEncodingMethod;
 
     /**
-     * Zero args constructor for setter based dependency injection.
      * 
-     * @throws UnsupportedCharsetException
-     *             if the given encoding is not supported by the JVM
+     * 
+     * @throws MessageConversionException
+     *             if a problem occurs loading {@link com.tibco.tibjms.Tibjms#setMessageEncodingMethod} method.
      */
     public JaxbMessageConverterTibjmsImpl() {
         super();
-        init();
-    }
-
-    /**
-     * Constructor with params for constructor based dependency injection.
-     * 
-     * @param jaxbContext
-     *            to marshal given objects into xml text and unmarshal given text messages into
-     *            objects
-     * @param encoding
-     *            used to marshal object into XML (e.g. "UTF-8", "ISO-8859-1" ...)
-     * 
-     * @throws UnsupportedCharsetException
-     *             if the given encoding is not supported by the JVM
-     */
-    public JaxbMessageConverterTibjmsImpl(JAXBContext jaxbContext, String encoding) throws UnsupportedCharsetException {
-        super(jaxbContext, encoding);
-        init();
-    }
-
-    protected void init() {
         try {
             Class<?> tibJmsClass = Class.forName(TIBJMS_CLASS);
 
-            this.setMessageEncodingMethod = tibJmsClass.getMethod(TIBJMS_SET_MESSAGE_ENCODING_METHOD,
-                    new Class[] { Message.class, String.class });
+            this.setMessageEncodingMethod = tibJmsClass.getMethod(TIBJMS_SET_MESSAGE_ENCODING_METHOD, new Class[] { Message.class,
+                    String.class });
         } catch (Exception e) {
             throw new MessageConversionException(NestedExceptionUtils.buildMessage("Exception loading Tibjms class", e), e);
         }
@@ -84,8 +63,7 @@ public class JaxbMessageConverterTibjmsImpl extends JaxbMessageConverter {
      * Set given <code>message</code> encoding with Tibco proprietary APIs.
      * 
      * @see com.tibco.tibjms.Tibjms#setMessageEncoding(javax.jms.Message, String)
-     * @see fr.xebia.springframework.jms.support.converter.JaxbMessageConverter#setMessageCharset(javax.jms.TextMessage,
-     *      java.lang.String)
+     * @see fr.xebia.springframework.jms.support.converter.JaxbMessageConverter#setMessageCharset(javax.jms.TextMessage, java.lang.String)
      */
     @Override
     protected void setMessageCharset(TextMessage textMessage, String charset) {
