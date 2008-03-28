@@ -169,7 +169,7 @@
          <!-- activeMQ <amq:xxx /> cfg in spring -->
          <groupId>org.apache.xbean</groupId>
          <artifactId>xbean-spring</artifactId>
-         <version>3.2</version>
+         <version>3.3</version>
       </dependency>
       <dependency>
          <groupId>org.apache.geronimo.specs</groupId>

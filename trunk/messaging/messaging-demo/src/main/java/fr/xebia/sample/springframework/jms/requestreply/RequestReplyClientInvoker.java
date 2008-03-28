@@ -64,7 +64,7 @@ public class RequestReplyClientInvoker {
 
     protected long timeoutInMillis = 1000;
 
-    protected Random random = new Random();
+    //protected Random random = new Random();
 
     /**
      * Request/Reply SpringFramework sample.
@@ -85,10 +85,10 @@ public class RequestReplyClientInvoker {
                 try {
                     Message requestMessage = session.createTextMessage(request);
                     requestMessage.setJMSReplyTo(this.replyToDestination);
-                    requestMessage.setJMSCorrelationID(String.valueOf(random.nextLong()));
+                    //requestMessage.setJMSCorrelationID(String.valueOf(random.nextLong()));
 
                     messageProducer.send(requestMessage);
-                    String messageSelector = "JMSCorrelationID  LIKE '" + requestMessage.getJMSCorrelationID() + "'";
+                    String messageSelector = "JMSCorrelationID  LIKE '" + requestMessage.getJMSMessageID() + "'";
 
                     MessageConsumer messageConsumer = session.createConsumer(this.replyToDestination, messageSelector);
                     TextMessage replyMessage = (TextMessage) messageConsumer.receive(timeoutInMillis);

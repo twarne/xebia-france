@@ -35,15 +35,13 @@ import org.springframework.jms.support.converter.MessageConversionException;
  */
 public class JaxbMessageConverterTibjmsImpl extends JaxbMessageConverter {
 
-    private static final String TIBJMS_SET_MESSAGE_ENCODING_METHOD = "setMessageEncoding";
-
     private static final String TIBJMS_CLASS = "com.tibco.tibjms.Tibjms";
+
+    private static final String TIBJMS_SET_MESSAGE_ENCODING_METHOD = "setMessageEncoding";
 
     protected Method setMessageEncodingMethod;
 
     /**
-     * 
-     * 
      * @throws MessageConversionException
      *             if a problem occurs loading {@link com.tibco.tibjms.Tibjms#setMessageEncodingMethod} method.
      */

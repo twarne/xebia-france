@@ -123,6 +123,9 @@
     <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/M2_REPO/org/apache/geronimo/specs/geronimo-javamail_1.4_spec/1.2/geronimo-javamail_1.4_spec-1.2.jar">
       <dependency-type>uses</dependency-type>
     </dependent-module>
+    <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/M2_REPO/com/sun/xml/fastinfoset/FastInfoset/1.2.2/FastInfoset-1.2.2.jar">
+      <dependency-type>uses</dependency-type>
+    </dependent-module>
     <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/M2_REPO/org/apache/cxf/cxf-rt-bindings-soap/2.1-incubator-SNAPSHOT/cxf-rt-bindings-soap-2.1-incubator-SNAPSHOT.jar">
       <dependency-type>uses</dependency-type>
     </dependent-module>
@@ -195,7 +198,7 @@
     <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/M2_REPO/org/apache/geronimo/specs/geronimo-jta_1.0.1B_spec/1.1.1/geronimo-jta_1.0.1B_spec-1.1.1.jar">
       <dependency-type>uses</dependency-type>
     </dependent-module>
-    <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/M2_REPO/org/apache/xbean/xbean-spring/3.2/xbean-spring-3.2.jar">
+    <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/M2_REPO/org/apache/xbean/xbean-spring/3.3/xbean-spring-3.3.jar">
       <dependency-type>uses</dependency-type>
     </dependent-module>
     <dependent-module deploy-path="/WEB-INF/lib" handle="module:/classpath/var/M2_REPO/org/springframework/spring-context-support/2.5.2/spring-context-support-2.5.2.jar">
