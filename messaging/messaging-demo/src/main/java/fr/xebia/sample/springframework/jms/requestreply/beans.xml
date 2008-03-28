@@ -17,17 +17,10 @@ http://activemq.org/config/1.0 http://activemq.apache.org/schema/core/activemq-c
    <!-- SERVER SIDE COMPONENTS -->
    <bean id="requestReplyServer" class="fr.xebia.sample.springframework.jms.requestreply.RequestReplyServer" />
    <jms:listener-container connection-factory="connectionFactory" concurrency="10" >
-      <jms:listener destination="requestDestination" ref="requestReplyServer" method="sayHello" />
+      <jms:listener destination="requestDestination" ref="requestReplyServer" method="sayHello" use-message-id-in-response="true" />
    </jms:listener-container>
 
    <!-- ACTIVE MQ COMPONENTS -->
-   <!--
-   <amq:broker useJmx="false" persistent="false">
-      <amq:transportConnectors>
-         <amq:transportConnector uri="tcp://localhost:0" />
-      </amq:transportConnectors>
-   </amq:broker>
-   -->
    <amq:queue id="requestDestination" physicalName="requestDestination" />
    <amq:queue id="replyToDestination" physicalName="replyToDestination" />
    <amq:connectionFactory id="activeMqConnectionFactory" brokerURL="vm://localhost?broker.persistent=false&amp;broker.useJmx=false" />

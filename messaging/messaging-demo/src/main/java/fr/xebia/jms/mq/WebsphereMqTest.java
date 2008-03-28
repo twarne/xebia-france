@@ -87,17 +87,32 @@ public class WebsphereMqTest extends TestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+        // ConfigEnvironment.setTracingOn("base");
+        // System.setProperty("com.ibm.mq.tuning.socketGrainTimeout", "120000");
+        // System.setProperty("MQJMS_TRACE_LEVEL", "base");
+        // System.setProperty("MQJMS_TRACE_DIR", "/tmp");
+
         System.out.println("This test requires :");
         System.out.println("- QueueManager listening on 'localhost:1414'");
         System.out.println("- A channel called 'SYSTEM.DEF.SVRCONN'");
         System.out.println("- A Queue called 'default'");
         ConnectionFactory connectionFactory = new MQConnectionFactory();
         ((MQConnectionFactory) connectionFactory).setHostName("localhost");
-        ((MQConnectionFactory) connectionFactory).setPort(1414);
+        ((MQConnectionFactory) connectionFactory).setPort(80);
         ((MQConnectionFactory) connectionFactory).setChannel("SYSTEM.DEF.SVRCONN");
         ((MQConnectionFactory) connectionFactory).setTransportType(JMSC.MQJMS_TP_CLIENT_MQ_TCPIP);
 
-        this.connection = connectionFactory.createConnection();
+        long timeBefore = System.currentTimeMillis();
+        try {
+            this.connection = connectionFactory.createConnection();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            long timeAfter = System.currentTimeMillis();
+
+            System.out.println("connectionFactory.createConnection() duration " + (timeAfter - timeBefore) + " ms");
+        }
         connection.start();
 
         this.session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
