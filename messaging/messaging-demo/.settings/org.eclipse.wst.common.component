@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project-modules id="moduleCoreId" project-version="1.5.0">
   <wb-module deploy-name="messaging-demo">
     <property name="context-root" value="messaging-demo"/>
@@ -219,5 +220,6 @@
     <wb-resource deploy-path="/WEB-INF/classes" source-path="src/main/java"/>
     <wb-resource deploy-path="/WEB-INF/classes" source-path="src/main/resources"/>
     <wb-resource deploy-path="/WEB-INF/classes" source-path="target/generated/src/main/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/target/generated/src/main/java"/>
   </wb-module>
 </project-modules>
