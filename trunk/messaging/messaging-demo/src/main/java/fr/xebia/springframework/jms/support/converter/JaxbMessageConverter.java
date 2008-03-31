@@ -20,6 +20,7 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.nio.charset.Charset;
 import java.nio.charset.UnsupportedCharsetException;
+import java.util.Map;
 
 import javax.jms.BytesMessage;
 import javax.jms.JMSException;
@@ -35,6 +36,8 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.core.style.ToStringCreator;
 import org.springframework.jms.support.converter.MessageConversionException;
 import org.springframework.jms.support.converter.MessageConverter;
+import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 /**
  * <p>
@@ -59,11 +62,15 @@ public abstract class JaxbMessageConverter implements MessageConverter, Initiali
      */
     protected JAXBContext jaxbContext;
 
+    protected Map<String, ?> jaxbContextProperties;
+
+    protected String jaxbContextPath;
+
     /**
      * @see Marshaller#JAXB_ENCODING
      */
     protected String encoding = "UTF-8";
-    
+
     /**
      * @see Marshaller#JAXB_FORMATTED_OUTPUT
      */
@@ -165,7 +172,7 @@ public abstract class JaxbMessageConverter implements MessageConverter, Initiali
             // JAXB Marshalling
             Marshaller marshaller = this.jaxbContext.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_ENCODING, this.encoding);
-            if(this.formattedOutput != null){
+            if (this.formattedOutput != null) {
                 marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, this.formattedOutput);
             }
             StringWriter out = new StringWriter();
@@ -187,5 +194,30 @@ public abstract class JaxbMessageConverter implements MessageConverter, Initiali
     @Override
     public String toString() {
         return new ToStringCreator(this).append("jaxbContext", this.jaxbContext).append("encoding", this.encoding).toString();
+    }
+
+    public void setJaxbContextProperties(Map<String, ?> jaxbContextProperties) {
+        this.jaxbContextProperties = jaxbContextProperties;
+    }
+
+    /**
+     * @param jaxbContextPath
+     *            list of java package names that contain schema derived class and/or java to schema (JAXB-annotated) mapped classes.
+     */
+    public void setJaxbContextPath(String jaxbContextPath) {
+        Assert.notNull(jaxbContextPath, "'jaxbContextPath' must not be null");
+        this.jaxbContextPath = jaxbContextPath;
+    }
+    /**
+     * @param jaxbContextPath
+     *            list of java package names that contain schema derived class and/or java to schema (JAXB-annotated) mapped classes.
+     */
+    public void setJaxbContextPaths(String[] jaxbContextPaths) {
+        Assert.notEmpty(jaxbContextPaths, "'jaxbContextPaths' must not be empty");
+        this.jaxbContextPath = StringUtils.arrayToDelimitedString(jaxbContextPaths, ":");
+    }
+
+    public void setFormattedOutput(Boolean formattedOutput) {
+        this.formattedOutput = formattedOutput;
     }
 }
