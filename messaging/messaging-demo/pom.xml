@@ -137,6 +137,11 @@
          <version>${spring.version}</version>
       </dependency>
       <dependency>
+         <groupId>org.springframework.ws</groupId>
+         <artifactId>spring-oxm-tiger</artifactId>
+         <version>${spring-ws.version}</version>
+      </dependency>
+      <dependency>
          <groupId>org.apache.cxf</groupId>
          <artifactId>cxf-rt-management</artifactId>
          <version>${cxf.version}</version>
@@ -300,6 +305,7 @@
    </pluginRepositories>
    <properties>
       <spring.version>2.5.2</spring.version>
+      <spring-ws.version>1.0.3</spring-ws.version>
       <cxf.version>2.1-incubator-SNAPSHOT</cxf.version>
       <mq.version>6.0.2.1</mq.version>
    </properties>
