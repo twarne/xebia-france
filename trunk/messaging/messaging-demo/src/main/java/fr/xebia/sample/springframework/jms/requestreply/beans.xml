@@ -1,5 +1,6 @@
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:lang="http://www.springframework.org/schema/lang"
-   xmlns:amq="http://activemq.org/config/1.0" xmlns:jms="http://www.springframework.org/schema/jms"
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:lang="http://www.springframework.org/schema/lang" xmlns:amq="http://activemq.org/config/1.0"
+   xmlns:jms="http://www.springframework.org/schema/jms"
    xsi:schemaLocation="
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang-2.5.xsd
@@ -8,7 +9,8 @@ http://activemq.org/config/1.0 http://activemq.apache.org/schema/core/activemq-c
 
 
    <!-- CLIENT SIDE COMPONENT -->
-   <bean id="requestReplyClientInvoker" class="fr.xebia.sample.springframework.jms.requestreply.RequestReplyClientInvoker">
+   <bean id="requestReplyClientInvoker"
+      class="fr.xebia.sample.springframework.jms.requestreply.RequestReplyClientInvoker">
       <property name="connectionFactory" ref="connectionFactory" />
       <property name="requestDestination" ref="requestDestination" />
       <property name="replyToDestination" ref="replyToDestination" />
@@ -16,17 +18,19 @@ http://activemq.org/config/1.0 http://activemq.apache.org/schema/core/activemq-c
 
    <!-- SERVER SIDE COMPONENTS -->
    <bean id="requestReplyServer" class="fr.xebia.sample.springframework.jms.requestreply.RequestReplyServer" />
-   <jms:listener-container connection-factory="connectionFactory" concurrency="10" >
-      <jms:listener destination="requestDestination" ref="requestReplyServer" method="sayHello" use-message-id-in-response="true" />
+   <jms:listener-container connection-factory="connectionFactory" concurrency="10">
+      <jms:listener destination="requestDestination" ref="requestReplyServer" method="sayHello"
+         use-message-id-in-response="true" />
    </jms:listener-container>
 
    <!-- ACTIVE MQ COMPONENTS -->
    <amq:queue id="requestDestination" physicalName="requestDestination" />
    <amq:queue id="replyToDestination" physicalName="replyToDestination" />
-   <amq:connectionFactory id="activeMqConnectionFactory" brokerURL="vm://localhost?broker.persistent=false&amp;broker.useJmx=false" />
-   
+   <amq:connectionFactory id="activeMqConnectionFactory"
+      brokerURL="vm://localhost?broker.persistent=false&amp;broker.useJmx=false" />
+
    <!-- Wrap in a pool to avoid creating a connection per send -->
-   <bean id="connectionFactory" class="org.springframework.jms.connection.SingleConnectionFactory">
-      <property name="targetConnectionFactory" ref="activeMqConnectionFactory" />
+   <bean id="connectionFactory" class="org.apache.activemq.pool.PooledConnectionFactory" destroy-method="stop">
+      <property name="connectionFactory" ref="activeMqConnectionFactory" />
    </bean>
 </beans>
