@@ -16,12 +16,16 @@
 package fr.xebia.springframework.jms.support.converter;
 
 import org.junit.Test;
+
 /**
  * 
  * @author <a href="mailto:cleclerc@xebia.fr">Cyrille Le Clerc</a>
  */
-public class JaxbMessageConverterTibjmsImplTest{
+public class JaxbMessageConverterTibjmsImplTest {
 
+    /**
+     * 
+     */
     @Test
     public void testJaxbMessageConverterTibjmsImpl() {
         JaxbMessageConverter jaxbMessageConverter = new JaxbMessageConverterTibjmsImpl();

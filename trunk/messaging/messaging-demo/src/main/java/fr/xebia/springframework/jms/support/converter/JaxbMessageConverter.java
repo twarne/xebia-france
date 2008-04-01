@@ -59,9 +59,9 @@ import org.springframework.xml.transform.StringSource;
  * 
  * @author <a href="mailto:cyrille.leclerc@pobox.com">Cyrille Le Clerc</a>
  */
-public abstract class JaxbMessageConverter implements MessageConverter, InitializingBean {
+public class JaxbMessageConverter implements MessageConverter, InitializingBean {
 
-    protected Jaxb2Marshaller jaxb2Marshaller;
+    protected Jaxb2Marshaller jaxb2Marshaller = new Jaxb2Marshaller();
 
     protected Map<String, ?> marshallerProperties;
 
@@ -184,7 +184,9 @@ public abstract class JaxbMessageConverter implements MessageConverter, Initiali
      * If JMS provider supports messages encoding, this charset must be in sync with the encoding used to generate the XML text output
      * </p>
      */
-    protected abstract void setMessageCharset(TextMessage textMessage, String charset) throws JMSException;
+    protected void postProcessResponseMessage(Message textMessage) throws JMSException {
+
+    }
 
     /**
      * Indicates whether MTOM support should be enabled or not. Default is <code>false</code>, marshalling using XOP/MTOM is not enabled.
@@ -268,7 +270,7 @@ public abstract class JaxbMessageConverter implements MessageConverter, Initiali
      * </p>
      * 
      * @param object
-     *            object to marshal, MUST be supported by the jaxb context used by this converter (see {@link #setJaxbContext(JAXBContext)}).
+     *            Object to marshal, MUST be supported by the jaxb context used by this converter (see {@link #setJaxbContext(JAXBContext)}).
      * @see org.springframework.jms.support.converter.MessageConverter#toMessage(java.lang.Object, javax.jms.Session)
      */
     public Message toMessage(Object object, Session session) throws JMSException, MessageConversionException {
@@ -281,8 +283,7 @@ public abstract class JaxbMessageConverter implements MessageConverter, Initiali
         String text = out.toString();
         TextMessage textMessage = session.createTextMessage(text);
 
-        // Force encoding of the JMS Provider's Message implementation
-        setMessageCharset(textMessage, encoding);
+        postProcessResponseMessage(textMessage);
 
         return textMessage;
     }
@@ -290,5 +291,10 @@ public abstract class JaxbMessageConverter implements MessageConverter, Initiali
     @Override
     public String toString() {
         return new ToStringCreator(this).append("jaxb2Marshaller", this.jaxb2Marshaller).toString();
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        this.jaxb2Marshaller.afterPropertiesSet();
     }
 }

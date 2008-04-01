@@ -19,10 +19,11 @@ import java.nio.charset.Charset;
 import java.nio.charset.UnsupportedCharsetException;
 
 import javax.jms.JMSException;
-import javax.jms.TextMessage;
+import javax.jms.Message;
+import javax.xml.bind.Marshaller;
 
 /**
- * Jaxb Message Converter implementation for ActiveMQ.
+ * <code>JaxbMessageConverter</code> implementation for ActiveMQ. Enforce that UTF-8 is used to marshal the XML.
  * 
  * @author <a href="mailto:cyrille.leclerc@pobox.com">Cyrille Le Clerc</a>
  */
@@ -37,10 +38,13 @@ public class JaxbMessageConverterActiveMqImpl extends JaxbMessageConverter {
      *             if the given <code>charset is not UTF-8</code>
      */
     @Override
-    protected void setMessageCharset(TextMessage textMessage, String charsetName) throws JMSException, UnsupportedCharsetException {
-        Charset charset = Charset.forName(charsetName);
-        if (UTF_8.equals(charset) == false) {
-            throw new UnsupportedCharsetException("ActiveMQ only supports UTF-8, '" + charset + "' charset is not supported");
+    protected void postProcessResponseMessage(Message message) throws JMSException, UnsupportedCharsetException {
+        String encoding = this.marshallerProperties == null ? null : (String) this.marshallerProperties.get(Marshaller.JAXB_ENCODING);
+        if (encoding != null) {
+            Charset charset = Charset.forName(encoding);
+            if (UTF_8.equals(charset) == false) {
+                throw new UnsupportedCharsetException("ActiveMQ only supports UTF-8, '" + charset + "' charset is not supported");
+            }
         }
     }
 }
