@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2005 the original author or authors.
+ * Copyright 2002-2008 Xebia and the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -63,6 +63,10 @@ public class JaxbMessageConverter implements MessageConverter, InitializingBean 
 
     protected Jaxb2Marshaller jaxb2Marshaller = new Jaxb2Marshaller();
 
+    /**
+     * Keep a reference on <code>Jaxb2Marshaller.marshallerProperties</code> to be able to retreive the {@link Marshaller#JAXB_ENCODING}
+     * if it has been set.
+     */
     protected Map<String, ?> marshallerProperties;
 
     /**
@@ -274,8 +278,6 @@ public class JaxbMessageConverter implements MessageConverter, InitializingBean 
      * @see org.springframework.jms.support.converter.MessageConverter#toMessage(java.lang.Object, javax.jms.Session)
      */
     public Message toMessage(Object object, Session session) throws JMSException, MessageConversionException {
-        String encoding = this.marshallerProperties == null ? null : (String) this.marshallerProperties.get(Marshaller.JAXB_ENCODING);
-
         StringWriter out = new StringWriter();
         jaxb2Marshaller.marshal(object, new StreamResult(out));
 
