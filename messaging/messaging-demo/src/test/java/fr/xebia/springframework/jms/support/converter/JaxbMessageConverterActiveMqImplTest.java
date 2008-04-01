@@ -16,6 +16,10 @@
 package fr.xebia.springframework.jms.support.converter;
 
 import java.nio.charset.UnsupportedCharsetException;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.xml.bind.Marshaller;
 
 import org.junit.Test;
 
@@ -27,30 +31,46 @@ public class JaxbMessageConverterActiveMqImplTest {
 
     @Test
     public void testSetMessageCharsetUtf8LowerCase() throws Exception {
-        JaxbMessageConverterActiveMqImpl jaxbMessageConverter = new JaxbMessageConverterActiveMqImpl();
+        String encoding = "utf-8";
 
-        jaxbMessageConverter.setMessageCharset(null, "utf-8");
+        JaxbMessageConverterActiveMqImpl jaxbMessageConverter = createJaxbMessageConverterActiveMqImpl(encoding);
+
+        jaxbMessageConverter.postProcessResponseMessage(null);
+    }
+
+    private JaxbMessageConverterActiveMqImpl createJaxbMessageConverterActiveMqImpl(final String encoding) {
+        JaxbMessageConverterActiveMqImpl jaxbMessageConverter = new JaxbMessageConverterActiveMqImpl();
+        Map<String, String> marshallerProperties = new HashMap<String, String>();
+        marshallerProperties.put(Marshaller.JAXB_ENCODING, encoding);
+        jaxbMessageConverter.setMarshallerProperties(marshallerProperties);
+        return jaxbMessageConverter;
     }
 
     @Test
     public void testSetMessageCharsetUtf8UpperCase() throws Exception {
-        JaxbMessageConverterActiveMqImpl jaxbMessageConverter = new JaxbMessageConverterActiveMqImpl();
+        String encoding = "UTF-8";
 
-        jaxbMessageConverter.setMessageCharset(null, "UTF-8");
+        JaxbMessageConverterActiveMqImpl jaxbMessageConverter = createJaxbMessageConverterActiveMqImpl(encoding);
+
+        jaxbMessageConverter.postProcessResponseMessage(null);
     }
 
     @Test
     public void testSetMessageCharsetUtf8NoDash() throws Exception {
-        JaxbMessageConverterActiveMqImpl jaxbMessageConverter = new JaxbMessageConverterActiveMqImpl();
+        String encoding = "utf8";
 
-        jaxbMessageConverter.setMessageCharset(null, "UTF8");
+        JaxbMessageConverterActiveMqImpl jaxbMessageConverter = createJaxbMessageConverterActiveMqImpl(encoding);
+
+        jaxbMessageConverter.postProcessResponseMessage(null);
     }
 
     @Test(expected = UnsupportedCharsetException.class)
     public void testSetMessageCharsetUnsupported() throws Exception {
-        JaxbMessageConverterActiveMqImpl jaxbMessageConverter = new JaxbMessageConverterActiveMqImpl();
+        String encoding = "ISO-8859-1";
 
-        jaxbMessageConverter.setMessageCharset(null, "ISO-8859-1");
+        JaxbMessageConverterActiveMqImpl jaxbMessageConverter = createJaxbMessageConverterActiveMqImpl(encoding);
+
+        jaxbMessageConverter.postProcessResponseMessage(null);
         // should throw an UnsupportedCharsetException
     }
 

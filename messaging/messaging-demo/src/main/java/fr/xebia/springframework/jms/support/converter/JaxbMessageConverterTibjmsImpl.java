@@ -17,20 +17,24 @@ package fr.xebia.springframework.jms.support.converter;
 
 import java.lang.reflect.Method;
 
+import javax.jms.JMSException;
 import javax.jms.Message;
-import javax.jms.TextMessage;
+import javax.xml.bind.Marshaller;
 
 import org.springframework.core.NestedExceptionUtils;
 import org.springframework.jms.support.converter.MessageConversionException;
 
 /**
  * <p>
- * {@link JaxbMessageConverter} implementation for Tibco Enterprise Messaging Service (aka Tibco EMS or Tibco JMS).
+ * Tibco Enterprise Messaging Service (EMS) implementation of the <code>JaxbMessageConverter</code>. Keeps generated XML encoding in sync
+ * with {@link com.tibco.tibjms.TibjmsMessage#_encoding} field.
  * </p>
  * <p>
- * We use reflection to load {@link com.tibco.tibjms.Tibjms#setMessageEncodingMethod} method to be able to compile without Tibco EMS jar.
+ * We use reflection to load {@link com.tibco.tibjms.Tibjms#setMessageEncoding(Message, String)} method to be able to compile without Tibco
+ * EMS jar.
  * </p>
  * 
+ * @see com.tibco.tibjms.Tibjms#setMessageEncoding(Message, String)
  * @author <a href="mailto:cyrille.leclerc@pobox.com">Cyrille Le Clerc</a>
  */
 public class JaxbMessageConverterTibjmsImpl extends JaxbMessageConverter {
@@ -50,8 +54,8 @@ public class JaxbMessageConverterTibjmsImpl extends JaxbMessageConverter {
         try {
             Class<?> tibJmsClass = Class.forName(TIBJMS_CLASS);
 
-            this.setMessageEncodingMethod = tibJmsClass.getMethod(TIBJMS_SET_MESSAGE_ENCODING_METHOD, new Class[] { Message.class,
-                    String.class });
+            this.setMessageEncodingMethod = tibJmsClass.getMethod(TIBJMS_SET_MESSAGE_ENCODING_METHOD, new Class[]{Message.class,
+                    String.class});
         } catch (Exception e) {
             throw new MessageConversionException(NestedExceptionUtils.buildMessage("Exception loading Tibjms class", e), e);
         }
@@ -61,12 +65,16 @@ public class JaxbMessageConverterTibjmsImpl extends JaxbMessageConverter {
      * Set given <code>message</code> encoding with Tibco proprietary APIs.
      * 
      * @see com.tibco.tibjms.Tibjms#setMessageEncoding(javax.jms.Message, String)
-     * @see fr.xebia.springframework.jms.support.converter.JaxbMessageConverter#setMessageCharset(javax.jms.TextMessage, java.lang.String)
+     * @see fr.xebia.springframework.jms.support.converter.JaxbMessageConverter#postProcessResponseMessage(Message)
      */
     @Override
-    protected void setMessageCharset(TextMessage textMessage, String charset) {
+    protected void postProcessResponseMessage(Message textMessage) throws JMSException {
+        super.postProcessResponseMessage(textMessage);
+        String encoding = this.marshallerProperties == null ? null : (String) this.marshallerProperties.get(Marshaller.JAXB_ENCODING);
+
+        encoding = encoding == null ? "UTF-8" : encoding;
         try {
-            this.setMessageEncodingMethod.invoke(null, new Object[] { textMessage, charset });
+            this.setMessageEncodingMethod.invoke(null, new Object[]{textMessage, encoding});
         } catch (Exception e) {
             MessageConversionException jmse = new MessageConversionException(NestedExceptionUtils.buildMessage(
                     "Exception setting message encoding", e), e);
