@@ -16,10 +16,7 @@
 package fr.xebia.springframework.jms.support.converter;
 
 import java.io.ByteArrayInputStream;
-import java.io.StringReader;
 import java.io.StringWriter;
-import java.nio.charset.Charset;
-import java.nio.charset.UnsupportedCharsetException;
 import java.util.Map;
 
 import javax.jms.BytesMessage;
@@ -27,21 +24,29 @@ import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.Session;
 import javax.jms.TextMessage;
+import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.ValidationEventHandler;
+import javax.xml.bind.Marshaller.Listener;
+import javax.xml.bind.annotation.adapters.XmlAdapter;
+import javax.xml.transform.Source;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
 
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.core.io.Resource;
 import org.springframework.core.style.ToStringCreator;
 import org.springframework.jms.support.converter.MessageConversionException;
 import org.springframework.jms.support.converter.MessageConverter;
-import org.springframework.util.Assert;
-import org.springframework.util.StringUtils;
+import org.springframework.oxm.jaxb.AbstractJaxbMarshaller;
+import org.springframework.oxm.jaxb.Jaxb2Marshaller;
+import org.springframework.xml.transform.StringSource;
 
 /**
  * <p>
- * JAXB based message converter.
+ * JAXB2 based <code>MessageConverter</code>.
  * </p>
  * 
  * <p>
@@ -56,32 +61,9 @@ import org.springframework.util.StringUtils;
  */
 public abstract class JaxbMessageConverter implements MessageConverter, InitializingBean {
 
-    /**
-     * According to <a href="https://jaxb.dev.java.net/faq/index.html#threadSafety">JAXB FAQ : Q. Are the JAXB runtime API's thread safe?</a>,
-     * {@link JAXBContext} is thread safe but {@link Marshaller} and {@link Unmarshaller} are not.
-     */
-    protected JAXBContext jaxbContext;
+    protected Jaxb2Marshaller jaxb2Marshaller;
 
-    protected Map<String, ?> jaxbContextProperties;
-
-    protected String jaxbContextPath;
-
-    /**
-     * @see Marshaller#JAXB_ENCODING
-     */
-    protected String encoding = "UTF-8";
-
-    /**
-     * @see Marshaller#JAXB_FORMATTED_OUTPUT
-     */
-    protected Boolean formattedOutput;
-
-    /**
-     * Call {@link Charset#forName()} to raise an {@link UnsupportedCharsetException} if {@link #encoding} is not supported.
-     */
-    public void afterPropertiesSet() throws Exception {
-        Charset.forName(this.encoding);
-    }
+    protected Map<String, ?> marshallerProperties;
 
     /**
      * <p>
@@ -90,57 +72,108 @@ public abstract class JaxbMessageConverter implements MessageConverter, Initiali
      * 
      * <p>
      * Should we raise an exception if the XML message encoding is not in sync with the underlying TextMessage encoding when the JMS
-     * Provider supports MOM message's encoding.
+     * Provider supports MOM message's encoding ?
      * </p>
      * 
      * @param message
-     *            message to unmarshal, MUST be an instance of {@link TextMessage} or of {@link BytesMessage}
+     *            message to unmarshal, MUST be an instance of {@link TextMessage} or of {@link BytesMessage}.
      * @see org.springframework.jms.support.converter.MessageConverter#fromMessage(javax.jms.Message)
-     * @see Unmarshaller#unmarshal(java.io.Reader)
+     * @see org.springframework.oxm.Unmarshaller#unmarshal(Source)
      */
     public Object fromMessage(Message message) throws JMSException, MessageConversionException {
-        try {
-            Object result;
-            Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-            if (message instanceof TextMessage) {
-                TextMessage textMessage = (TextMessage) message;
-                result = unmarshaller.unmarshal(new StringReader(textMessage.getText()));
 
-            } else if (message instanceof BytesMessage) {
-                BytesMessage bytesMessage = (BytesMessage) message;
-                byte[] bytes = new byte[(int) bytesMessage.getBodyLength()];
-                bytesMessage.readBytes(bytes);
-                result = unmarshaller.unmarshal(new ByteArrayInputStream(bytes));
+        Source source;
+        if (message instanceof TextMessage) {
+            TextMessage textMessage = (TextMessage) message;
+            source = new StringSource(textMessage.getText());
 
-            } else {
-                throw new MessageConversionException("Unsupported JMS Message type " + message.getClass()
-                        + ", expected instance of TextMessage or BytesMessage for " + message);
-            }
+        } else if (message instanceof BytesMessage) {
+            BytesMessage bytesMessage = (BytesMessage) message;
+            byte[] bytes = new byte[(int) bytesMessage.getBodyLength()];
+            bytesMessage.readBytes(bytes);
+            source = new StreamSource(new ByteArrayInputStream(bytes));
 
-            return result;
-        } catch (JAXBException e) {
-            throw new MessageConversionException("Exception unmarshalling message: " + message, e);
+        } else {
+            throw new MessageConversionException("Unsupported JMS Message type " + message.getClass()
+                    + ", expected instance of TextMessage or BytesMessage for " + message);
         }
+        Object result = jaxb2Marshaller.unmarshal(source);
+
+        return result;
     }
 
     /**
-     * Encoding used for marshalling (ie {@link MessageConverter#toMessage(Object, Session)}).
+     * Sets the <code>XmlAdapter</code>s to be registered with the JAXB <code>Marshaller</code> and <code>Unmarshaller</code>.
      * 
-     * @param encoding
-     *            used to marshal object into XML (e.g. "UTF-8", "ISO-8859-1" ...)
+     * @see Jaxb2Marshaller#setAdapters(XmlAdapter[])
      */
-    public void setEncoding(String encoding) {
-        this.encoding = encoding;
+    public void setAdapters(XmlAdapter<?, ?>[] adapters) {
+        jaxb2Marshaller.setAdapters(adapters);
     }
 
     /**
-     * JAXB context used for marshalling and unmarshalling.
+     * Sets the list of java classes to be recognized by a newly created JAXBContext. Setting this property or <code>contextPath</code> is
+     * required.
      * 
-     * @param jaxbContext
-     *            to marshal given objects into xml text and unmarshal given text messages into objects
+     * @see Jaxb2Marshaller#setContextPath(String)
+     * @see Jaxb2Marshaller#setClassesToBeBound(Class[])
      */
-    public void setJaxbContext(JAXBContext jaxbContext) {
-        this.jaxbContext = jaxbContext;
+    public void setClassesToBeBound(Class<?>[] classesToBeBound) {
+        jaxb2Marshaller.setClassesToBeBound(classesToBeBound);
+    }
+
+    /**
+     * Sets the JAXB Context path.
+     * 
+     * @see AbstractJaxbMarshaller#setContextPath(String)
+     */
+    public void setContextPath(String contextPath) {
+        jaxb2Marshaller.setContextPath(contextPath);
+    }
+
+    /**
+     * Sets multiple JAXB Context paths. The given array of context paths is converted to a colon-delimited string, as supported by JAXB.
+     * 
+     * @see AbstractJaxbMarshaller#setContextPaths(String[])
+     */
+    public void setContextPaths(String[] contextPaths) {
+        jaxb2Marshaller.setContextPaths(contextPaths);
+    }
+
+    /**
+     * Sets the <code>JAXBContext</code> properties. These implementation-specific properties will be set on the <code>JAXBContext</code>.
+     * 
+     * @see Jaxb2Marshaller#setJaxbContextProperties(Map)
+     */
+    public void setJaxbContextProperties(Map<String, ?> jaxbContextProperties) {
+        jaxb2Marshaller.setJaxbContextProperties(jaxbContextProperties);
+    }
+
+    /**
+     * Sets the <code>Marshaller.Listener</code> to be registered with the JAXB <code>Marshaller</code>.
+     * 
+     * @see Jaxb2Marshaller#setMarshallerListener(Listener)
+     */
+    public void setMarshallerListener(Listener marshallerListener) {
+        jaxb2Marshaller.setMarshallerListener(marshallerListener);
+    }
+
+    /**
+     * Sets the JAXB <code>Marshaller</code> properties. These properties will be set on the underlying JAXB <code>Marshaller</code>,
+     * and allow for features such as indentation.
+     * 
+     * @param properties
+     *            the properties
+     * @see javax.xml.bind.Marshaller#setProperty(String,Object)
+     * @see javax.xml.bind.Marshaller#JAXB_ENCODING
+     * @see javax.xml.bind.Marshaller#JAXB_FORMATTED_OUTPUT
+     * @see javax.xml.bind.Marshaller#JAXB_NO_NAMESPACE_SCHEMA_LOCATION
+     * @see javax.xml.bind.Marshaller#JAXB_SCHEMA_LOCATION
+     * @see AbstractJaxbMarshaller#setMarshallerProperties(Map)
+     */
+    public void setMarshallerProperties(Map<String, ?> properties) {
+        jaxb2Marshaller.setMarshallerProperties(properties);
+        this.marshallerProperties = properties;
     }
 
     /**
@@ -154,6 +187,77 @@ public abstract class JaxbMessageConverter implements MessageConverter, Initiali
     protected abstract void setMessageCharset(TextMessage textMessage, String charset) throws JMSException;
 
     /**
+     * Indicates whether MTOM support should be enabled or not. Default is <code>false</code>, marshalling using XOP/MTOM is not enabled.
+     * 
+     * @see Jaxb2Marshaller#setMtomEnabled(boolean)
+     */
+    public void setMtomEnabled(boolean mtomEnabled) {
+        jaxb2Marshaller.setMtomEnabled(mtomEnabled);
+    }
+
+    /**
+     * Sets the schema resource to use for validation.
+     * 
+     * @see Jaxb2Marshaller#setSchema(Resource)
+     */
+    public void setSchema(Resource schemaResource) {
+        jaxb2Marshaller.setSchema(schemaResource);
+    }
+
+    /**
+     * Sets the schema language. Default is the W3C XML Schema: <code>http://www.w3.org/2001/XMLSchema"</code>.
+     * 
+     * @see XMLConstants#W3C_XML_SCHEMA_NS_URI
+     * @see XMLConstants#RELAXNG_NS_URI
+     * @see Jaxb2Marshaller#setSchemaLanguage(String)
+     */
+    public void setSchemaLanguage(String schemaLanguage) {
+        jaxb2Marshaller.setSchemaLanguage(schemaLanguage);
+    }
+
+    /**
+     * Sets the schema resources to use for validation.
+     * 
+     * @see Jaxb2Marshaller#setSchemas(Resource[])
+     */
+    public void setSchemas(Resource[] schemaResources) {
+        jaxb2Marshaller.setSchemas(schemaResources);
+    }
+
+    /**
+     * Sets the <code>Unmarshaller.Listener</code> to be registered with the JAXB <code>Unmarshaller</code>.
+     * 
+     * @see Jaxb2Marshaller#setUnmarshallerListener(javax.xml.bind.Unmarshaller.Listener)
+     */
+    public void setUnmarshallerListener(javax.xml.bind.Unmarshaller.Listener unmarshallerListener) {
+        jaxb2Marshaller.setUnmarshallerListener(unmarshallerListener);
+    }
+
+    /**
+     * Sets the JAXB <code>Unmarshaller</code> properties. These properties will be set on the underlying JAXB <code>Unmarshaller</code>.
+     * 
+     * @param properties
+     *            the properties
+     * @see javax.xml.bind.Unmarshaller#setProperty(String,Object)
+     * @see AbstractJaxbMarshaller#setUnmarshallerProperties(Map)
+     */
+    public void setUnmarshallerProperties(Map<String, ?> properties) {
+        jaxb2Marshaller.setUnmarshallerProperties(properties);
+    }
+
+    /**
+     * Sets the JAXB validation event handler. This event handler will be called by JAXB if any validation errors are encountered during
+     * calls to any of the marshal API's.
+     * 
+     * @param validationEventHandler
+     *            the event handler
+     * @see AbstractJaxbMarshaller#setValidationEventHandler(ValidationEventHandler)
+     */
+    public void setValidationEventHandler(ValidationEventHandler validationEventHandler) {
+        jaxb2Marshaller.setValidationEventHandler(validationEventHandler);
+    }
+
+    /**
      * <p>
      * Marshal the given <code>object</code> into a text message.
      * </p>
@@ -164,60 +268,27 @@ public abstract class JaxbMessageConverter implements MessageConverter, Initiali
      * </p>
      * 
      * @param object
-     *            object to marshal, MUST be supported by the jaxb context used by this converter (see {@link #setJaxbContext(JAXBContext)})
+     *            object to marshal, MUST be supported by the jaxb context used by this converter (see {@link #setJaxbContext(JAXBContext)}).
      * @see org.springframework.jms.support.converter.MessageConverter#toMessage(java.lang.Object, javax.jms.Session)
      */
     public Message toMessage(Object object, Session session) throws JMSException, MessageConversionException {
-        try {
-            // JAXB Marshalling
-            Marshaller marshaller = this.jaxbContext.createMarshaller();
-            marshaller.setProperty(Marshaller.JAXB_ENCODING, this.encoding);
-            if (this.formattedOutput != null) {
-                marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, this.formattedOutput);
-            }
-            StringWriter out = new StringWriter();
-            marshaller.marshal(object, out);
+        String encoding = this.marshallerProperties == null ? null : (String) this.marshallerProperties.get(Marshaller.JAXB_ENCODING);
 
-            // create TextMessage result
-            String text = out.toString();
-            TextMessage textMessage = session.createTextMessage(text);
+        StringWriter out = new StringWriter();
+        jaxb2Marshaller.marshal(object, new StreamResult(out));
 
-            // Force encoding of the JMS Provider's Message implementation
-            setMessageCharset(textMessage, this.encoding);
+        // create TextMessage result
+        String text = out.toString();
+        TextMessage textMessage = session.createTextMessage(text);
 
-            return textMessage;
-        } catch (JAXBException e) {
-            throw new MessageConversionException("Exception converting", e);
-        }
+        // Force encoding of the JMS Provider's Message implementation
+        setMessageCharset(textMessage, encoding);
+
+        return textMessage;
     }
 
     @Override
     public String toString() {
-        return new ToStringCreator(this).append("jaxbContext", this.jaxbContext).append("encoding", this.encoding).toString();
-    }
-
-    public void setJaxbContextProperties(Map<String, ?> jaxbContextProperties) {
-        this.jaxbContextProperties = jaxbContextProperties;
-    }
-
-    /**
-     * @param jaxbContextPath
-     *            list of java package names that contain schema derived class and/or java to schema (JAXB-annotated) mapped classes.
-     */
-    public void setJaxbContextPath(String jaxbContextPath) {
-        Assert.notNull(jaxbContextPath, "'jaxbContextPath' must not be null");
-        this.jaxbContextPath = jaxbContextPath;
-    }
-    /**
-     * @param jaxbContextPath
-     *            list of java package names that contain schema derived class and/or java to schema (JAXB-annotated) mapped classes.
-     */
-    public void setJaxbContextPaths(String[] jaxbContextPaths) {
-        Assert.notEmpty(jaxbContextPaths, "'jaxbContextPaths' must not be empty");
-        this.jaxbContextPath = StringUtils.arrayToDelimitedString(jaxbContextPaths, ":");
-    }
-
-    public void setFormattedOutput(Boolean formattedOutput) {
-        this.formattedOutput = formattedOutput;
+        return new ToStringCreator(this).append("jaxb2Marshaller", this.jaxb2Marshaller).toString();
     }
 }
