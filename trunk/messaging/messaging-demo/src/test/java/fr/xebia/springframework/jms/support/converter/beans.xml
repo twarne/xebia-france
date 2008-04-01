@@ -3,7 +3,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-   <!-- SERVER SIDE COMPONENTS -->
    <bean id="jaxbMessageConverter" class="fr.xebia.springframework.jms.support.converter.JaxbMessageConverter">
       <property name="classesToBeBound">
          <list>
