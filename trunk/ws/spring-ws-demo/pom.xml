@@ -186,6 +186,6 @@
    </pluginRepositories>
    <properties>
       <spring.version>2.5.2</spring.version>
-      <spring-ws.version>1.0.3</spring-ws.version>
+      <spring-ws.version>1.5.0</spring-ws.version>
    </properties>
 </project>
