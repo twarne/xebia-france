@@ -62,22 +62,22 @@
       <dependency>
          <groupId>org.apache.cxf</groupId>
          <artifactId>cxf-rt-management</artifactId>
-         <version>2.1-incubator-SNAPSHOT</version>
+         <version>${cxf.version}</version>
       </dependency>
       <dependency>
          <groupId>org.apache.cxf</groupId>
          <artifactId>cxf-rt-frontend-jaxws</artifactId>
-         <version>2.1-incubator-SNAPSHOT</version>
+         <version>${cxf.version}</version>
       </dependency>
       <dependency>
          <groupId>org.apache.cxf</groupId>
          <artifactId>cxf-rt-transports-http</artifactId>
-         <version>2.1-incubator-SNAPSHOT</version>
+         <version>${cxf.version}</version>
       </dependency>
       <dependency>
          <groupId>org.apache.cxf</groupId>
          <artifactId>cxf-rt-transports-jms</artifactId>
-         <version>2.1-incubator-SNAPSHOT</version>
+         <version>${cxf.version}</version>
       </dependency>
       <dependency>
          <!-- 
@@ -86,7 +86,7 @@
          -->
          <groupId>org.apache.cxf</groupId>
          <artifactId>cxf-rt-transports-http-jetty</artifactId>
-         <version>2.1-incubator-SNAPSHOT</version>
+         <version>${cxf.version}</version>
       </dependency>
 
       <!-- 
@@ -116,36 +116,36 @@
          <version>1.2.14</version>
       </dependency>
 
-      <!--  upgrade spring version to 2.0.7 -->
+      <!--  upgrade spring version to ${spring-version} -->
       <dependency>
          <groupId>org.springframework</groupId>
          <artifactId>spring-mock</artifactId>
-         <version>2.0.7</version>
+         <version>${spring-version}</version>
       </dependency>
       <dependency>
          <groupId>org.springframework</groupId>
          <artifactId>spring-core</artifactId>
-         <version>2.0.7</version>
+         <version>${spring-version}</version>
       </dependency>
       <dependency>
          <groupId>org.springframework</groupId>
          <artifactId>spring-beans</artifactId>
-         <version>2.0.7</version>
+         <version>${spring-version}</version>
       </dependency>
       <dependency>
          <groupId>org.springframework</groupId>
          <artifactId>spring-context</artifactId>
-         <version>2.0.7</version>
+         <version>${spring-version}</version>
       </dependency>
       <dependency>
          <groupId>org.springframework</groupId>
          <artifactId>spring-web</artifactId>
-         <version>2.0.7</version>
+         <version>${spring-version}</version>
       </dependency>
       <dependency>
          <groupId>junit</groupId>
          <artifactId>junit</artifactId>
-         <version>3.8.1</version>
+         <version>4.4</version>
       </dependency>
    </dependencies>
    <build>
@@ -153,7 +153,7 @@
          <plugin>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-codegen-plugin</artifactId>
-            <version>2.1-incubator-SNAPSHOT</version>
+            <version>${cxf.version}</version>
             <executions>
                <execution>
                   <id>generate-sources</id>
@@ -223,4 +223,8 @@
          </snapshots>
       </pluginRepository>
    </pluginRepositories>
+   <properties>
+      <spring.version>2.5.2</spring.version>
+      <cxf.version>2.1-incubator-SNAPSHOT</cxf.version>
+   </properties>
 </project>
