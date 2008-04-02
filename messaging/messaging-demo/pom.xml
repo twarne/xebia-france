@@ -16,7 +16,8 @@
    * limitations under the License.
    */
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
    <modelVersion>4.0.0</modelVersion>
    <name>Messaging Demo</name>
    <groupId>fr.xebia.messaging</groupId>
@@ -26,7 +27,9 @@
    <description>Messaging demo (Websphere MQ, Tibco EMS, ActiveMQ, etc)</description>
    <scm>
       <connection>scm:svn:http://xebia-france.googlecode.com/svn/trunk/messaging/messaging-demo/</connection>
-      <developerConnection>scm:svn:https://xebia-france.googlecode.com/svn/trunk/messaging/messaging-demo/</developerConnection>
+      <developerConnection>
+         scm:svn:https://xebia-france.googlecode.com/svn/trunk/messaging/messaging-demo/
+      </developerConnection>
       <url>http://code.google.com/p/xebia-france/</url>
    </scm>
    <licenses>
@@ -80,10 +83,9 @@
                   <id>generate-sources</id>
                   <phase>generate-sources</phase>
                   <configuration>
-                     <!-- <sourceRoot>${basedir}/target/generated/src/main/java</sourceRoot> -->
                      <wsdlOptions>
                         <wsdlOption>
-                           <wsdl>${basedir}/src/main/wsdl/employeeService-1.0.wsdl</wsdl>
+                           <wsdl>${basedir}/src/main/resources/META-INF/wsdl/employeeService-1.0.wsdl</wsdl>
                         </wsdlOption>
                      </wsdlOptions>
                   </configuration>
@@ -131,6 +133,11 @@
          <artifactId>spring-jms</artifactId>
          <version>${spring.version}</version>
       </dependency>
+            <dependency>
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-webmvc</artifactId>
+         <version>${spring.version}</version>
+      </dependency>
       <dependency>
          <groupId>org.springframework</groupId>
          <artifactId>spring-test</artifactId>
@@ -155,6 +162,12 @@
          <groupId>org.apache.cxf</groupId>
          <artifactId>cxf-rt-transports-http</artifactId>
          <version>${cxf.version}</version>
+         <exclusions>
+            <exclusion>
+               <groupId>org.springframework</groupId>
+               <artifactId>spring-web</artifactId>
+            </exclusion>
+         </exclusions>
       </dependency>
       <dependency>
          <!-- 
@@ -164,6 +177,12 @@
          <groupId>org.apache.cxf</groupId>
          <artifactId>cxf-rt-transports-http-jetty</artifactId>
          <version>${cxf.version}</version>
+         <exclusions>
+            <exclusion>
+               <groupId>org.springframework</groupId>
+               <artifactId>spring-web</artifactId>
+            </exclusion>
+         </exclusions>
       </dependency>
       <dependency>
          <groupId>org.apache.cxf</groupId>
@@ -305,7 +324,7 @@
    </pluginRepositories>
    <properties>
       <spring.version>2.5.2</spring.version>
-      <spring-ws.version>1.0.3</spring-ws.version>
+      <spring-ws.version>1.5.0</spring-ws.version>
       <cxf.version>2.1-incubator-SNAPSHOT</cxf.version>
       <mq.version>6.0.2.1</mq.version>
    </properties>
