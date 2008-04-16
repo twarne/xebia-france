@@ -29,11 +29,10 @@ http://cxf.apache.org/configuration/security http://cxf.apache.org/schemas/confi
          -->
          <bean class="org.apache.cxf.feature.LoggingFeature" />
       </jaxws:features>
-      <!--
       <jaxws:schemaLocations>
          <jaxws:schemaLocation>classpath:META-INF/xsd/employee-1.0.xsd</jaxws:schemaLocation>
+         <jaxws:schemaLocation>classpath:META-INF/xsd/employeeService-1.0.xsd</jaxws:schemaLocation>
       </jaxws:schemaLocations>
-      -->
       <jaxws:properties>
          <!-- enable XSD validation -->
          <entry key="schema-validation-enabled" value="true" />
