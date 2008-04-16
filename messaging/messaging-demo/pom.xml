@@ -51,7 +51,7 @@
             <artifactId>maven-eclipse-plugin</artifactId>
             <configuration>
                <downloadSources>true</downloadSources>
-               <wtpversion>1.5</wtpversion>
+               <wtpversion>2.0</wtpversion>
             </configuration>
          </plugin>
          <plugin>

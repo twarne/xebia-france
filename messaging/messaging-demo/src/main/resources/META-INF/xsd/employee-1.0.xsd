@@ -3,13 +3,6 @@
    elementFormDefault="qualified" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" jaxb:version="2.1"
    xsi:schemaLocation="
 http://java.sun.com/xml/ns/jaxb http://java.sun.com/xml/ns/jaxb/bindingschema_2_0.xsd">
-   <xsd:annotation>
-      <xsd:appinfo>
-         <jaxb:globalBindings>
-            <jaxb:serializable uid="1" />
-         </jaxb:globalBindings>
-      </xsd:appinfo>
-   </xsd:annotation>
    <xsd:complexType name="Employee">
       <xsd:all>
          <xsd:element name="id" type="xsd:int" minOccurs="0" maxOccurs="1"></xsd:element>

@@ -3,44 +3,9 @@
    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="employeeService-1.0"
    targetNamespace="http://demo.xebia.fr/ws/employee">
    <wsdl:types>
-      <xsd:schema targetNamespace="http://demo.xebia.fr/ws/employee"
+      <xsd:schema targetNamespace="http://demo.xebia.fr/ws/"
          xmlns:employee="http://demo.xebia.fr/xml/employee">
-         <xsd:import schemaLocation="../xsd/employee-1.0.xsd" namespace="http://demo.xebia.fr/xml/employee"></xsd:import>
-         <xsd:element name="getEmployee">
-            <xsd:complexType>
-               <xsd:sequence>
-                  <xsd:element name="id" type="xsd:int" minOccurs="1" maxOccurs="1" />
-               </xsd:sequence>
-            </xsd:complexType>
-         </xsd:element>
-         <xsd:element name="getEmployeeResponse">
-            <xsd:complexType>
-               <xsd:sequence>
-                  <xsd:element name="employee" type="employee:Employee" minOccurs="1" maxOccurs="1" />
-               </xsd:sequence>
-            </xsd:complexType>
-         </xsd:element>
-         <xsd:element name="employeeServiceFault">
-            <xsd:complexType>
-               <xsd:sequence>
-                  <xsd:element name="description" type="xsd:string"></xsd:element>
-               </xsd:sequence>
-            </xsd:complexType>
-         </xsd:element>
-         <xsd:element name="putEmployee">
-            <xsd:complexType>
-               <xsd:sequence>
-                  <xsd:element name="employee" type="employee:Employee"  minOccurs="1" maxOccurs="1" />
-               </xsd:sequence>
-            </xsd:complexType>
-         </xsd:element>
-         <xsd:element name="putEmployeeResponse">
-            <xsd:complexType>
-               <xsd:sequence>
-                  <xsd:element name="employee" type="employee:Employee" minOccurs="1" maxOccurs="1" />
-               </xsd:sequence>
-            </xsd:complexType>
-         </xsd:element>
+         <xsd:import schemaLocation="../xsd/employeeService-1.0.xsd" namespace="http://demo.xebia.fr/ws/employee"></xsd:import>
       </xsd:schema>
    </wsdl:types>
    <wsdl:message name="getEmployee">

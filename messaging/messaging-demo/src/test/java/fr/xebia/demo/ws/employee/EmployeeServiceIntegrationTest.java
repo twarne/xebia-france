@@ -20,6 +20,7 @@ import java.util.Random;
 import javax.xml.datatype.DatatypeConstants;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.ws.Holder;
+import javax.xml.ws.soap.SOAPFaultException;
 
 import junit.framework.Assert;
 
@@ -38,7 +39,7 @@ import fr.xebia.demo.xml.employee.Gender;
  * @author <a href="mailto:cyrille.leclerc@pobox.com">Cyrille Le Clerc</a>
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:ApplicationContext.xml" })
+@ContextConfiguration(locations = {"classpath:ApplicationContext.xml"})
 public class EmployeeServiceIntegrationTest {
 
     /**
@@ -55,7 +56,6 @@ public class EmployeeServiceIntegrationTest {
         final int employeeId = random.nextInt();
         Employee employee = employeeService.getEmployee(employeeId);
         System.out.println(ToStringBuilder.reflectionToString(employee));
-
     }
 
     @Test
@@ -74,24 +74,33 @@ public class EmployeeServiceIntegrationTest {
         System.out.println(ToStringBuilder.reflectionToString(employeeHolder.value));
 
     }
-    @Test
+
+    @Test(expected = SOAPFaultException.class)
     public void testPutEmployeeFirstNameMissing() throws Exception {
         int id = random.nextInt();
 
         Employee employee = new Employee();
         employee.setId(id);
         employee.setLastName("Doe-" + id);
-        // employee.setFirstName(null);
+        employee.setFirstName(null);
         employee.setGender(Gender.MALE);
         employee.setBirthdate(DatatypeFactory.newInstance().newXMLGregorianCalendarDate(1976, 01, 05, DatatypeConstants.FIELD_UNDEFINED));
 
         final Holder<Employee> employeeHolder = new Holder<Employee>(employee);
-        employeeService.putEmployee(employeeHolder);
-        System.out.println(ToStringBuilder.reflectionToString(employeeHolder.value));
+        try {
+            employeeService.putEmployee(employeeHolder);
+        } catch (SOAPFaultException e) {
+            e.printStackTrace();
+            throw e;
+        }
+        /*
+         * throws javax.xml.ws.soap.SOAPFaultException: Marshalling Error: cvc-complex-type.2.4.b: The content of element 'employee' is not
+         * complete. One of '{"http://demo.xebia.fr/xml/employee":firstName}' is expected.
+         */
 
     }
-    
-    @Test
+
+    @Test(expected = SOAPFaultException.class)
     public void testPutEmployeeFirstNameTooLong() throws Exception {
         int id = random.nextInt();
 
@@ -105,8 +114,16 @@ public class EmployeeServiceIntegrationTest {
         employee.setBirthdate(DatatypeFactory.newInstance().newXMLGregorianCalendarDate(1976, 01, 05, DatatypeConstants.FIELD_UNDEFINED));
 
         final Holder<Employee> employeeHolder = new Holder<Employee>(employee);
-        employeeService.putEmployee(employeeHolder);
-        System.out.println(ToStringBuilder.reflectionToString(employeeHolder.value));
+        try {
+            employeeService.putEmployee(employeeHolder);
+        } catch (SOAPFaultException e) {
+            e.printStackTrace();
+            throw e;
+        }
+        /*
+         * throws javax.xml.ws.soap.SOAPFaultException: Marshalling Error: cvc-maxLength-valid: Value '...' with length = '500' is not
+         * facet-valid with respect to maxLength '256' for type '#AnonType_firstNameEmployee'.
+         */
 
     }
 }
