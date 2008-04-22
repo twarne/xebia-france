@@ -1,0 +1,50 @@
+<project name="findbugs-plugin" default="run">
+
+	<property file="build.properties"/>
+
+	<property name="classes.dir" value="classes"/>
+	<property name="resources.dir" value="resources"/>
+	<property name="lib.dir" value="lib"/>
+	<property name="src.dir" value="src"/>
+	<property name="jar.file" value="xebia-findbugs-plugin.jar"/>
+	<property name="findbugs.home" value="C:\bin\findbugs-1.3.2\"/>
+	
+	<property name="findbugs.plugin.dir" value="${findbugs.home}\plugin"/>
+	<property name="findbugs.bin.dir" value="${findbugs.home}\bin"/>
+			
+	
+	<path id="class.path">
+	    <pathelement location="${lib.dir}/findbugs.jar"/>
+	    <pathelement location="${lib.dir}/bcel.jar"/>
+	</path>
+
+	<target name="build" depends="jar"/>
+
+	<target name="compile">
+		<mkdir dir="${classes.dir}"/>
+		<javac srcdir="${src.dir}" destdir="${classes.dir}" source="1.5" target="jsr14" deprecation="on" debug="on">
+			<classpath refid="class.path"/>
+		</javac>
+	</target>
+
+	<target name="jar" depends="compile">
+		<jar destfile="${jar.file}">
+			<fileset dir="${resources.dir}">
+				<include name="findbugs.xml"/>
+				<include name="messages*.xml"/>
+			</fileset>
+			<fileset dir="${classes.dir}">
+				<include name="**/*.class"/>
+			</fileset>
+		</jar>
+	</target>
+
+	<target name="copy" depends="build">
+		<copyfile dest="${findbugs.plugin.dir}\${jar.file}" src="${jar.file}"/>
+	</target>
+	
+	<target name="run" depends="copy">
+		<exec command="${findbugs.bin.dir}\findbugs.bat -debug" />
+	</target>
+	
+</project>

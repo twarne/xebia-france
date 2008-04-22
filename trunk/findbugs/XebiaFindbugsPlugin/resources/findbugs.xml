@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<FindbugsPlugin xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   				xsi:noNamespaceSchemaLocation="findbugsplugin.xsd"
+				pluginid="com.briangoetz.findbugs.plugin"
+                defaultenabled="true"
+                provider="Xebia"
+                website="http://blog.xebia.fr">
+
+  <Detector class="fr.xebia.findbugs.XebiaDoNotUseDetector" speed="fast" reports="XEBIA_DO_NOT_USE" />
+  <Detector class="fr.xebia.findbugs.XebiaDeprecatedUseDetector" speed="fast" reports="XEBIA_DEPRECATED" />
+  <Detector class="fr.xebia.findbugs.XebiaNoStringBufferDetector" speed="fast" reports="XEBIA_STRINGBUFFER" />
+  
+ 
+  <BugPattern abbrev="XEB" type="XEBIA_DO_NOT_USE" category="PERFORMANCE" />
+  <BugPattern abbrev="XEB" type="XEBIA_DEPRECATED" category="PERFORMANCE" />
+  <BugPattern abbrev="XEB" type="XEBIA_STRINGBUFFER" category="PERFORMANCE" />
+
+  
+</FindbugsPlugin>
