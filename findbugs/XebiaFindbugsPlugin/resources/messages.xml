@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MessageCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="messagecollection.xsd">
+
+  <Plugin>
+    <ShortDescription>Xebia Findbugs Plugins</ShortDescription>
+    <Details>Xebia Findbugs Plugins</Details>
+  </Plugin>
+
+  <Detector class="fr.xebia.findbugs.XebiaDoNotUseDetector">
+    <Details><![CDATA[ L'appel à cette méthod est interdite ]]></Details>
+  </Detector>
+
+  <Detector class="fr.xebia.findbugs.XebiaDeprecatedUseDetector">
+    <Details><![CDATA[ Appel à une méthode dépréciée ]]></Details>
+  </Detector>
+
+  <Detector class="fr.xebia.findbugs.XebiaNoStringBufferDetector">
+    <Details><![CDATA[ Appel à StringBuffer ]]></Details>
+  </Detector>
+
+
+  <BugPattern type="XEBIA_DO_NOT_USE">
+    <ShortDescription>Appel à la méthode BadClass.doNotUse()</ShortDescription>
+    <LongDescription>Appel à la méthode BadClass.doNotUse() dans {1}</LongDescription>
+    <Details><![CDATA[ L'appel est cette méthode est interdite. ]]></Details>
+  </BugPattern>
+
+  <BugPattern type="XEBIA_DEPRECATED">
+    <ShortDescription>Appel à une méthode dépréciée</ShortDescription>
+    <LongDescription>Appel à une méthode dépréciée dans {1}</LongDescription>
+    <Details><![CDATA[ L'appel aux méthodes marquées par l'annotation @Depracated est rendue interdite. ]]></Details>
+  </BugPattern>
+
+  <BugPattern type="XEBIA_STRINGBUFFER">
+    <ShortDescription>Appel à StringBuffer</ShortDescription>
+    <LongDescription>Appel à StringBuffer dans {1}</LongDescription>
+    <Details><![CDATA[ L'appel à StringBuffer est déconseillé car ThreadSafe, utilisez StringBuilder à la place.. ]]></Details>
+  </BugPattern>
+
+
+  <BugCode abbrev="XEB" >Xebia Findbugs Plugins</BugCode>
+
+</MessageCollection>

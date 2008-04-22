@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Built-By: Erwan ALLIAUME
+Premain-Class: fr.xebia.agent.PrintLoaderAgent
+Agent-Class: fr.xebia.agent.PrintLoaderAgent
+Can-Redefine-Classes: true
+Can-Retransform-Classes: true
+
