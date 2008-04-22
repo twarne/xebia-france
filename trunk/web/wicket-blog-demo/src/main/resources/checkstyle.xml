@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE module PUBLIC "-//Puppy Crawl//DTD Check Configuration 1.2//EN" "http://www.puppycrawl.com/dtds/configuration_1_2.dtd">
 <!--
-VSCT VAT 2007-08-02
 Adaptation de sun_checks.xml avec :
 # relaxation de certaines règles jugées ou bien vraiment non pertinentes ou non réalistes à mettre en oeuvre dans notre contexte.
 # adjonction de quelques spécifités propres à VSCT
