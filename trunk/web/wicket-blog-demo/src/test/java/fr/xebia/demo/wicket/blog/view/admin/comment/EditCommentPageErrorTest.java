@@ -24,8 +24,8 @@ public class EditCommentPageErrorTest extends ViewCommentPageErrorTest {
     @Test
     public void testErrorRender() {
 
-        tester.startPage(CommentListPage.class);
-        tester.assertRenderedPage(CommentListPage.class);
+        tester.startPage(ListCommentPage.class);
+        tester.assertRenderedPage(ListCommentPage.class);
         tester.assertNoErrorMessage();
         tester.clickLink("comments:0:viewLink");
         tester.assertRenderedPage(ViewCommentPage.class);

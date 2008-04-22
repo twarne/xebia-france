@@ -36,17 +36,17 @@ import fr.xebia.demo.wicket.blog.service.Service;
 import fr.xebia.demo.wicket.blog.service.ServiceException;
 import fr.xebia.demo.wicket.blog.view.util.PageParametersUtils;
 
-public class PostListPage extends PostPage {
+public class ListPostPage extends PostPage {
 
     private static final long serialVersionUID = 1L;
 
-    private static final Logger logger = Logger.getLogger(PostListPage.class);
+    private static final Logger logger = Logger.getLogger(ListPostPage.class);
 
     @SpringBean(name = "postService")
     private transient Service<Post> postService;
 
     @SuppressWarnings("unchecked")
-    public PostListPage(PageParameters pageParameters) {
+    public ListPostPage(PageParameters pageParameters) {
         super(pageParameters);
         List<Post> posts = null;
         if (pageParameters.containsKey(PARAM_POSTS_KEY)) {
@@ -78,7 +78,7 @@ public class PostListPage extends PostPage {
                         try {
                             Post viewedPost = getPost(post);
                             if (viewedPost == null) {
-                                throw new RestartResponseException(PostListPage.class, PageParametersUtils
+                                throw new RestartResponseException(ListPostPage.class, PageParametersUtils
                                         .fromStringErrorMessage(getString("post.list.notFound",
                                                 new Model(post.getId()))));
                             }
@@ -87,7 +87,7 @@ public class PostListPage extends PostPage {
                             setResponsePage(ViewPostPage.class, pageParameters);
                         } catch (Exception e) {
                             logger.error("Error while getting post", e);
-                            throw new RestartResponseException(PostListPage.class,
+                            throw new RestartResponseException(ListPostPage.class,
                                  PageParametersUtils.fromException(e));
                         }
                     }
@@ -102,12 +102,12 @@ public class PostListPage extends PostPage {
                     public void onClick() {
                         try {
                             deletePost(post);
-                            setResponsePage(PostListPage.class,
+                            setResponsePage(ListPostPage.class,
                                  PageParametersUtils.fromStringMessage(getString(
-                                    "post.list.deleted", new Model(post.getId()))));
+                                    "post.list.deleted", new Model(post))));
                         } catch (Exception e) {
                             logger.error("Error while deleting post", e);
-                            throw new RestartResponseException(PostListPage.class,
+                            throw new RestartResponseException(ListPostPage.class,
                                  PageParametersUtils.fromException(e));
                         }
                     }

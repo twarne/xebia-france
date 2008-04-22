@@ -36,6 +36,6 @@ public class EditCategoryPage extends CategoryPage {
 
     private void createComponents(final Category category) {
         add(new EditCategoryForm("categoryForm", category));
-        add(new PageLink("backToListLink", CategoryListPage.class));
+        add(new PageLink("backToListLink", ListCategoryPage.class));
     }
 }

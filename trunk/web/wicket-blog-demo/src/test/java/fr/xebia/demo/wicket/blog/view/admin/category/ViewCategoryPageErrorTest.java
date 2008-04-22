@@ -36,12 +36,12 @@ public class ViewCategoryPageErrorTest extends WicketPageTest {
 
     @Test
     public void testErrorRender() {
-        tester.startPage(CategoryListPage.class);
-        tester.assertRenderedPage(CategoryListPage.class);
+        tester.startPage(ListCategoryPage.class);
+        tester.assertRenderedPage(ListCategoryPage.class);
         tester.assertNoErrorMessage();
         tester.assertComponent("categories:0:viewLink", Link.class);
         tester.clickLink("categories:0:viewLink");
-        tester.assertRenderedPage(CategoryListPage.class);
+        tester.assertRenderedPage(ListCategoryPage.class);
         tester.assertErrorMessages(new String[] { ERROR_MESSAGE });
     }
 }

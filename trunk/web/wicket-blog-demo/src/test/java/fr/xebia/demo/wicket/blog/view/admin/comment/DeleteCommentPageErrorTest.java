@@ -29,12 +29,12 @@ public class DeleteCommentPageErrorTest extends CommentListPageErrorTest {
 			fail("Error while creating fixture");
 		}
     	
-        tester.startPage(CommentListPage.class);
-        tester.assertRenderedPage(CommentListPage.class);
+        tester.startPage(ListCommentPage.class);
+        tester.assertRenderedPage(ListCommentPage.class);
         tester.assertNoErrorMessage();
         
         tester.clickLink("comments:0:deleteLink");
         tester.assertErrorMessages(new String[] { ERROR_MESSAGE });
-        tester.assertRenderedPage(CommentListPage.class);
+        tester.assertRenderedPage(ListCommentPage.class);
     }
 }

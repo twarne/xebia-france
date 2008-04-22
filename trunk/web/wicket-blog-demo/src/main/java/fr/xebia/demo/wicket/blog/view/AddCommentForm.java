@@ -27,6 +27,7 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
@@ -93,7 +94,10 @@ public class AddCommentForm extends Form {
             comment.setApproved(false);
             logger.debug("Adding comment: " + comment);
             commentService.save(comment);
-            setResponsePage(Application.get().getHomePage(), PageParametersUtils.fromStringMessage("Added new comment: " + comment));
+            setResponsePage(Application.get().getHomePage(), PageParametersUtils.fromStringMessage(
+                    getString("comment.list.added",
+                            new Model(comment))
+                    ));
         } catch (Exception e) {
             logger.error("Error while saving comment", e);
             PageParameters pageParameters = PageParametersUtils.fromException(e);

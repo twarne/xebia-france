@@ -9,8 +9,8 @@ public class CategoryListPageTest extends CategoryPageTest {
 
     @Test
     public void testRender() {
-        tester.startPage(CategoryListPage.class);
-        tester.assertRenderedPage(CategoryListPage.class);
+        tester.startPage(ListCategoryPage.class);
+        tester.assertRenderedPage(ListCategoryPage.class);
         tester.assertNoErrorMessage();
         tester.assertComponent("categoryForm", SearchCategoryForm.class);
         tester.assertComponent("categoryForm:name", TextField.class);
@@ -27,7 +27,7 @@ public class CategoryListPageTest extends CategoryPageTest {
         form.submit();
         tester.assertNoErrorMessage();
         // check if the page is correct: in this case, I'm expecting an error to take me back to the same page
-        tester.assertRenderedPage(CategoryListPage.class);
+        tester.assertRenderedPage(ListCategoryPage.class);
         // if you're not expecting an error (testing for submit unsuccessful) use assertErrorMessage(String) instead
         tester.assertNoErrorMessage();
     }

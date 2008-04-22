@@ -44,6 +44,6 @@ public class ViewCategoryPage extends CategoryPage {
         PageParameters pageParameters = new PageParameters();
         pageParameters.put(EditCategoryPage.PARAM_CATEGORY_KEY, category);
         add(new ParametizedPageLink("editLink", EditCategoryPage.class, pageParameters));
-        add(new PageLink("backToListLink", CategoryListPage.class));
+        add(new PageLink("backToListLink", ListCategoryPage.class));
     }
 }

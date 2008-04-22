@@ -36,6 +36,6 @@ public class EditPostPage extends PostPage {
 
     private void createComponents(final Post post) {
         add(new EditPostForm("postForm", post));
-        add(new PageLink("backToListLink", PostListPage.class));
+        add(new PageLink("backToListLink", ListPostPage.class));
     }
 }

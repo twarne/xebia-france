@@ -21,6 +21,7 @@ import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
@@ -77,7 +78,10 @@ public class AddCategoryForm extends Form {
         try {
             logger.debug("Adding category: " + category);
             categoryService.save(category);
-            setResponsePage(CategoryListPage.class, PageParametersUtils.fromStringMessage("Added new category: " + category));
+            setResponsePage(ListCategoryPage.class,
+                PageParametersUtils.fromStringMessage(
+                    getString("category.list.added",
+                        new Model(category))));
         } catch (Exception e) {
             logger.error("Error while saving category", e);
             throw new RestartResponseException(AddCategoryPage.class, PageParametersUtils.fromException(e));

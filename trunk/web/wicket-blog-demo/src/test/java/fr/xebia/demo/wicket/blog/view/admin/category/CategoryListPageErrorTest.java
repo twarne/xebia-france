@@ -47,8 +47,8 @@ public class CategoryListPageErrorTest extends WicketPageTest {
 
     @Test
     public void testErrorSearch() {
-        tester.startPage(CategoryListPage.class);
-        tester.assertRenderedPage(CategoryListPage.class);
+        tester.startPage(ListCategoryPage.class);
+        tester.assertRenderedPage(ListCategoryPage.class);
         tester.assertNoErrorMessage();
 
         // create the form tester object, mapping to its wicket:id
@@ -58,7 +58,7 @@ public class CategoryListPageErrorTest extends WicketPageTest {
         // all set, submit
         form.submit();
         // check if the page is correct: in this case, I'm expecting an error to take me back to the same page
-        tester.assertRenderedPage(CategoryListPage.class);
+        tester.assertRenderedPage(ListCategoryPage.class);
         // if you're not expecting an error (testing for submit unsuccessful) use assertErrorMessage(String) instead
         tester.assertErrorMessages(new String[] { ERROR_MESSAGE });
     }

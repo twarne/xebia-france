@@ -25,8 +25,8 @@ public class EditPostPageErrorTest extends ViewPostPageErrorTest {
     @Test
     public void testErrorRender() {
 
-        tester.startPage(PostListPage.class);
-        tester.assertRenderedPage(PostListPage.class);
+        tester.startPage(ListPostPage.class);
+        tester.assertRenderedPage(ListPostPage.class);
         tester.assertNoErrorMessage();
         tester.assertComponent("posts:0:viewLink", Link.class);
         tester.clickLink("posts:0:viewLink");

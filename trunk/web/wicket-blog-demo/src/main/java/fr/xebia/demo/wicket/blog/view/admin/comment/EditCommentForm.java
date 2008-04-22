@@ -21,6 +21,7 @@ import org.apache.wicket.RestartResponseException;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
@@ -72,7 +73,7 @@ public class EditCommentForm extends AddCommentForm {
         try {
             logger.debug("Updating comment: " + comment);
             Comment updatedComment = commentService.update(comment);
-            setResponsePage(CommentListPage.class, PageParametersUtils.fromStringMessage("Updated comment: " + updatedComment));
+            setResponsePage(ListCommentPage.class, PageParametersUtils.fromStringMessage(getString("comment.list.updated", new Model(updatedComment))));
         } catch (Exception e) {
             logger.error("Error while updating comment", e);
             PageParameters pageParameters = PageParametersUtils.fromException(e);

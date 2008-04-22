@@ -84,10 +84,10 @@ public class SearchCommentForm extends Form {
             logger.debug("Found " + comments.size() + " comments");
             PageParameters pageParameters = new PageParameters();
             pageParameters.put(ViewCommentPage.PARAM_COMMENTS_KEY, comments);
-            setResponsePage(CommentListPage.class, pageParameters);
+            setResponsePage(ListCommentPage.class, pageParameters);
         } catch (Exception e) {
             logger.error("Error while searching comments", e);
-        	throw new RestartResponseException(CommentListPage.class, PageParametersUtils.fromException(e));
+        	throw new RestartResponseException(ListCommentPage.class, PageParametersUtils.fromException(e));
         }
     }
 }

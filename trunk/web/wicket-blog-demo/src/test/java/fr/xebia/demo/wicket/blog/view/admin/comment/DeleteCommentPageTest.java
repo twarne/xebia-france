@@ -12,7 +12,7 @@ public class DeleteCommentPageTest extends ViewCommentPageTest {
 		tester.clickLink("backToListLink");
 		tester.assertComponent("comments:0:deleteLink", Link.class);
 		tester.clickLink("comments:0:deleteLink");
-		tester.assertRenderedPage(CommentListPage.class);
+		tester.assertRenderedPage(ListCommentPage.class);
 		tester.assertNoErrorMessage();
 	}
 }

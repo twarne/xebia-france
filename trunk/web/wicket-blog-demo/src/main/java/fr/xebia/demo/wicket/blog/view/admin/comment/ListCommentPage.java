@@ -35,17 +35,17 @@ import fr.xebia.demo.wicket.blog.service.Service;
 import fr.xebia.demo.wicket.blog.service.ServiceException;
 import fr.xebia.demo.wicket.blog.view.util.PageParametersUtils;
 
-public class CommentListPage extends CommentPage {
+public class ListCommentPage extends CommentPage {
 
     private static final long serialVersionUID = 1L;
 
-    private static final Logger logger = Logger.getLogger(CommentListPage.class);
+    private static final Logger logger = Logger.getLogger(ListCommentPage.class);
 
     @SpringBean(name = "commentService")
     private transient Service<Comment> commentService;
 
     @SuppressWarnings("unchecked")
-    public CommentListPage(PageParameters pageParameters) {
+    public ListCommentPage(PageParameters pageParameters) {
         super(pageParameters);
         List<Comment> comments = null;
         if (pageParameters.containsKey(PARAM_COMMENTS_KEY)) {
@@ -75,7 +75,7 @@ public class CommentListPage extends CommentPage {
                         try {
                             Comment viewedComment = getComment(comment);
                             if (viewedComment == null) {
-                                throw new RestartResponseException(CommentListPage.class,
+                                throw new RestartResponseException(ListCommentPage.class,
                                      PageParametersUtils.fromStringErrorMessage(
                                           getString("comment.list.notFound", new Model(comment.getId()))));
                             }
@@ -84,7 +84,7 @@ public class CommentListPage extends CommentPage {
                             setResponsePage(ViewCommentPage.class, pageParameters);
                         } catch (Exception e) {
                             logger.error("Error while getting comment", e);
-                            throw new RestartResponseException(CommentListPage.class, PageParametersUtils.fromException(e));
+                            throw new RestartResponseException(ListCommentPage.class, PageParametersUtils.fromException(e));
                         }
                     }
                 };
@@ -98,12 +98,12 @@ public class CommentListPage extends CommentPage {
                     public void onClick() {
                         try {
                             deleteComment(comment);
-                            setResponsePage(CommentListPage.class,
+                            setResponsePage(ListCommentPage.class,
                                 PageParametersUtils.fromStringMessage(getString("comment.list.deleted",
-                                    new Model(comment.getId()))));
+                                    new Model(comment))));
                         } catch (Exception e) {
                             logger.error("Error while deleting comment", e);
-                            throw new RestartResponseException(CommentListPage.class, PageParametersUtils.fromException(e));
+                            throw new RestartResponseException(ListCommentPage.class, PageParametersUtils.fromException(e));
                         }
                     }
                 });

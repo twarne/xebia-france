@@ -35,12 +35,12 @@ public class DeletePostPageErrorTest extends PostListPageErrorTest {
 			fail("Error while creating fixture");
 		}
     	
-        tester.startPage(PostListPage.class);
-        tester.assertRenderedPage(PostListPage.class);
+        tester.startPage(ListPostPage.class);
+        tester.assertRenderedPage(ListPostPage.class);
         tester.assertNoErrorMessage();
         
         tester.clickLink("posts:0:deleteLink");
         tester.assertErrorMessages(new String[] { ERROR_MESSAGE });
-        tester.assertRenderedPage(PostListPage.class);
+        tester.assertRenderedPage(ListPostPage.class);
     }
 }

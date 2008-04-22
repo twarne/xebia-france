@@ -47,6 +47,6 @@ public class ViewCommentPage extends CommentPage {
         PageParameters pageParameters = new PageParameters();
         pageParameters.put(EditCommentPage.PARAM_COMMENT_KEY, comment);
         add(new ParametizedPageLink("editLink", EditCommentPage.class, pageParameters));
-        add(new PageLink("backToListLink", CommentListPage.class));
+        add(new PageLink("backToListLink", ListCommentPage.class));
     }
 }
