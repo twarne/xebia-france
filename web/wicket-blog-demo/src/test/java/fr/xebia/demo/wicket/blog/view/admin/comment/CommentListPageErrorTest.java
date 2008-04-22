@@ -45,8 +45,8 @@ public class CommentListPageErrorTest extends WicketPageTest {
 
     @Test
     public void testErrorRender() {
-        tester.startPage(CommentListPage.class);
-        tester.assertRenderedPage(CommentListPage.class);
+        tester.startPage(ListCommentPage.class);
+        tester.assertRenderedPage(ListCommentPage.class);
         tester.assertNoErrorMessage();
         tester.assertComponent("commentForm", SearchCommentForm.class);
 
@@ -58,7 +58,7 @@ public class CommentListPageErrorTest extends WicketPageTest {
         // all set, submit
         form.submit();
         // check if the page is correct: in this case, I'm expecting an error to take me back to the same page
-        tester.assertRenderedPage(CommentListPage.class);
+        tester.assertRenderedPage(ListCommentPage.class);
         // if you're not expecting an error (testing for submit unsuccessful) use assertErrorMessage(String) instead
         tester.assertErrorMessages(new String[] { ERROR_MESSAGE });
     }

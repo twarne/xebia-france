@@ -41,7 +41,7 @@ public class EditCategoryForm extends AddCategoryForm {
         try {
             logger.debug("Updating category: " + category);
             Category updatedCategory = categoryService.update(category);
-            setResponsePage(CategoryListPage.class, PageParametersUtils.fromStringMessage("Updated category: " + updatedCategory));
+            setResponsePage(ListCategoryPage.class, PageParametersUtils.fromStringMessage(getString("category.list.updated", new Model(updatedCategory))));
         } catch (Exception e) {
             logger.error("Error while updating category", e);
         	PageParameters pageParameters = PageParametersUtils.fromException(e);

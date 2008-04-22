@@ -56,6 +56,6 @@ public class ViewPostPage extends PostPage {
         parameters.put(EditPostPage.PARAM_POST_KEY, post);
         add(new ParametizedPageLink("editLink", EditPostPage.class, parameters));
 
-        add(new PageLink("backToListLink", PostListPage.class));
+        add(new PageLink("backToListLink", ListPostPage.class));
     }
 }

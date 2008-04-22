@@ -42,7 +42,7 @@ public class EditCategoryPageTest extends ViewCategoryPageTest {
         form.submit();
         tester.assertNoErrorMessage();
         // check if the page is correct: in this case, I'm expecting an error to take me back to the same page
-        tester.assertRenderedPage(CategoryListPage.class);
+        tester.assertRenderedPage(ListCategoryPage.class);
         // if you're not expecting an error (testing for submit unsuccessful) use assertErrorMessage(String) instead
         tester.assertNoErrorMessage();
 

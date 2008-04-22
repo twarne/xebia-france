@@ -11,7 +11,7 @@ public class DeleteCategoryPageTest extends AddCategoryPageTest {
 		super.testRender();
 		tester.assertComponent("categories:0:deleteLink", Link.class);
 		tester.clickLink("categories:0:deleteLink");
-		tester.assertRenderedPage(CategoryListPage.class);
+		tester.assertRenderedPage(ListCategoryPage.class);
 		tester.assertNoErrorMessage();
 	}
 }

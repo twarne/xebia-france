@@ -84,11 +84,11 @@ public class SearchPostForm extends Form {
             List<Post> posts = postService.search(post);
             logger.debug("Found " + posts.size() + " posts");
             PageParameters pageParameters = new PageParameters();
-            pageParameters.put(PostListPage.PARAM_POSTS_KEY, posts);
-            setResponsePage(PostListPage.class, pageParameters);
+            pageParameters.put(ListPostPage.PARAM_POSTS_KEY, posts);
+            setResponsePage(ListPostPage.class, pageParameters);
         } catch (Exception e) {
             logger.error("Error while searching posts", e);
-        	throw new RestartResponseException(PostListPage.class, PageParametersUtils.fromException(e));
+        	throw new RestartResponseException(ListPostPage.class, PageParametersUtils.fromException(e));
         }
     }
 
@@ -99,7 +99,7 @@ public class SearchPostForm extends Form {
             return categories;
         } catch (Exception e) {
             logger.error("Error while getting categories", e);
-            throw new RestartResponseException(PostListPage.class, PageParametersUtils.fromException(e));
+            throw new RestartResponseException(ListPostPage.class, PageParametersUtils.fromException(e));
         }
     }
 }

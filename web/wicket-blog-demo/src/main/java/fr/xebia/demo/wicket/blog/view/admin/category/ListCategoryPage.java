@@ -36,17 +36,17 @@ import fr.xebia.demo.wicket.blog.service.Service;
 import fr.xebia.demo.wicket.blog.service.ServiceException;
 import fr.xebia.demo.wicket.blog.view.util.PageParametersUtils;
 
-public class CategoryListPage extends CategoryPage {
+public class ListCategoryPage extends CategoryPage {
 
     private static final long serialVersionUID = 1L;
 
-    private static final Logger logger = Logger.getLogger(CategoryListPage.class);
+    private static final Logger logger = Logger.getLogger(ListCategoryPage.class);
 
     @SpringBean(name = "categoryService")
     protected transient Service<Category> categoryService;
 
     @SuppressWarnings("unchecked")
-    public CategoryListPage(PageParameters pageParameters) {
+    public ListCategoryPage(PageParameters pageParameters) {
         super(pageParameters);
         List<Category> categories = null;
         if (pageParameters.containsKey(PARAM_CATEGORIES_KEY)) {
@@ -78,15 +78,15 @@ public class CategoryListPage extends CategoryPage {
                         try {
                             Category viewedCategory = getCategory(category);
                             if (viewedCategory == null) {
-                                throw new RestartResponseException(CategoryListPage.class, PageParametersUtils.fromStringMessage(getString(
-                                        "category.list.notFound", new Model(category.getId()))));
+                                throw new RestartResponseException(ListCategoryPage.class, PageParametersUtils.fromStringMessage(getString(
+                                        "category.list.notFound", new Model(category))));
                             }
                             PageParameters pageParameters = new PageParameters();
                             pageParameters.put(ViewCategoryPage.PARAM_CATEGORY_KEY, viewedCategory);
                             setResponsePage(ViewCategoryPage.class, pageParameters);
                         } catch (Exception e) {
                             logger.error("Error while getting category", e);
-                            throw new RestartResponseException(CategoryListPage.class, PageParametersUtils.fromException(e));
+                            throw new RestartResponseException(ListCategoryPage.class, PageParametersUtils.fromException(e));
                         }
                     }
                 };
@@ -100,11 +100,14 @@ public class CategoryListPage extends CategoryPage {
                     public void onClick() {
                         try {
                             deleteCategory(category);
-                            setResponsePage(CategoryListPage.class, PageParametersUtils.fromStringMessage(getString(
-                                    "category.list.deleted", new Model(category.getId()))));
+                            setResponsePage(ListCategoryPage.class,
+                                PageParametersUtils.fromStringMessage(
+                                    getString(
+                                    "category.list.deleted", new Model(category)))
+                            );
                         } catch (Exception e) {
                             logger.error("Error while deleting category", e);
-                            throw new RestartResponseException(CategoryListPage.class, PageParametersUtils.fromException(e));
+                            throw new RestartResponseException(ListCategoryPage.class, PageParametersUtils.fromException(e));
                         }
                     }
                 });
@@ -113,7 +116,10 @@ public class CategoryListPage extends CategoryPage {
                 listItem.add(new Label("nicename", category.getNicename()));
             }
         });
-        add(new Label("resultCount", new StringResourceModel("category.list.resultCount", this, null, new Object[]{categories.size()})));
+        add(new Label("resultCount",
+           new StringResourceModel(
+               "category.list.resultCount", this, null,
+               new Object[]{categories.size()})));
     }
 
     private List<Category> getCategories() {

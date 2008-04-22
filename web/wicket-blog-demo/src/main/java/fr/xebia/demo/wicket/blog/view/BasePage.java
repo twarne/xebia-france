@@ -32,6 +32,8 @@ public abstract class BasePage extends WebPage {
 
     public static final String PARAM_MESSAGE_KEY = "message";
 
+    public static final String PARAM_MESSAGE_MODEL_KEY = "messageModel";
+
     public static final String PARAM_ERRORMESSAGE_KEY = "errorMessage";
 
     public static final String PARAM_EXCEPTION_KEY = "exception";

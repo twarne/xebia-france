@@ -50,7 +50,7 @@ public class EditCommentPageTest extends ViewCommentPageTest {
         form.submit();
         tester.assertNoErrorMessage();
         // check if the page is correct: in this case, I'm expecting an error to take me back to the same page
-        tester.assertRenderedPage(CommentListPage.class);
+        tester.assertRenderedPage(ListCommentPage.class);
         // if you're not expecting an error (testing for submit unsuccessful) use assertErrorMessage(String) instead
         tester.assertNoErrorMessage();
 

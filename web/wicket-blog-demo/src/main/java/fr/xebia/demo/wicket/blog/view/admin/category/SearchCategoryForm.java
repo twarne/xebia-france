@@ -67,11 +67,11 @@ public class SearchCategoryForm extends Form {
             List<Category> categories = categoryService.search(category);
             logger.debug("Found " + categories.size() + " categories");
             PageParameters pageParameters = new PageParameters();
-            pageParameters.put(CategoryListPage.PARAM_CATEGORIES_KEY, categories);
-            setResponsePage(CategoryListPage.class, pageParameters);
+            pageParameters.put(ListCategoryPage.PARAM_CATEGORIES_KEY, categories);
+            setResponsePage(ListCategoryPage.class, pageParameters);
         } catch (Exception e) {
             logger.error("Error while searching categories", e);
-        	throw new RestartResponseException(CategoryListPage.class, PageParametersUtils.fromException(e));
+        	throw new RestartResponseException(ListCategoryPage.class, PageParametersUtils.fromException(e));
         }
     }
 }

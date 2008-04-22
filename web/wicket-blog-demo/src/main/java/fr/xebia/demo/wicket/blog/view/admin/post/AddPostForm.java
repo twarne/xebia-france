@@ -30,6 +30,7 @@ import org.apache.wicket.markup.html.form.RadioChoice;
 import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
@@ -106,7 +107,7 @@ public class AddPostForm extends Form {
             return categories;
         } catch (Exception e) {
             logger.error("Error while retreiving categories", e);
-            throw new RestartResponseException(PostListPage.class, PageParametersUtils.fromException(e));
+            throw new RestartResponseException(ListPostPage.class, PageParametersUtils.fromException(e));
         }
     }
 
@@ -128,7 +129,7 @@ public class AddPostForm extends Form {
             post.setModified(new Date());
             logger.debug("Adding post: " + post);
             postService.save(post);
-            setResponsePage(PostListPage.class, PageParametersUtils.fromStringMessage("Added new post: " + post));
+            setResponsePage(ListPostPage.class, PageParametersUtils.fromStringMessage(getString("post.list.added", new Model(post))));
         } catch (Exception e) {
             logger.error("Error while saving post", e);
             throw new RestartResponseException(AddPostPage.class, PageParametersUtils.fromException(e));

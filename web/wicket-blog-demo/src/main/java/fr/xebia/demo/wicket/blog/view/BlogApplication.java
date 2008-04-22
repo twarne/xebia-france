@@ -26,9 +26,9 @@ import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 import org.springframework.context.ApplicationContext;
 
 import fr.xebia.demo.wicket.blog.view.admin.AdminHomePage;
-import fr.xebia.demo.wicket.blog.view.admin.category.CategoryListPage;
-import fr.xebia.demo.wicket.blog.view.admin.comment.CommentListPage;
-import fr.xebia.demo.wicket.blog.view.admin.post.PostListPage;
+import fr.xebia.demo.wicket.blog.view.admin.category.ListCategoryPage;
+import fr.xebia.demo.wicket.blog.view.admin.comment.ListCommentPage;
+import fr.xebia.demo.wicket.blog.view.admin.post.ListPostPage;
 import fr.xebia.demo.wicket.blog.view.security.AnnotationAuthorizationStrategy;
 import fr.xebia.demo.wicket.blog.view.security.UnauthorizedComponentInstantiationListener;
 
@@ -55,9 +55,9 @@ public class BlogApplication extends SpringWebApplication {
         mountBookmarkablePage("/home", getHomePage());
         mountBookmarkablePage("/login", LoginPage.class);
         mountBookmarkablePage("/admin", AdminHomePage.class);
-        mountBookmarkablePage("/admin/categories", CategoryListPage.class);
-        mountBookmarkablePage("/admin/comments", CommentListPage.class);
-        mountBookmarkablePage("/admin/posts", PostListPage.class);
+        mountBookmarkablePage("/admin/categories", ListCategoryPage.class);
+        mountBookmarkablePage("/admin/comments", ListCommentPage.class);
+        mountBookmarkablePage("/admin/posts", ListPostPage.class);
         mountBookmarkablePage("/logout", LogoutPage.class);
 
         initSpringInjection();

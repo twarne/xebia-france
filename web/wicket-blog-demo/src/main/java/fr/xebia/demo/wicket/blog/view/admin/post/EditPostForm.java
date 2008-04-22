@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.RestartResponseException;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.model.Model;
 
 import fr.xebia.demo.wicket.blog.data.Post;
 import fr.xebia.demo.wicket.blog.view.util.PageParametersUtils;
@@ -35,7 +36,7 @@ public class EditPostForm extends AddPostForm {
             post.setModified(new Date());
             logger.debug("Updating post: " + post);
             Post updatedPost = postService.update(post);
-            setResponsePage(PostListPage.class, PageParametersUtils.fromStringMessage("Updated post: " + updatedPost));
+            setResponsePage(ListPostPage.class, PageParametersUtils.fromStringMessage(getString("post.list.updated", new Model(updatedPost))));
         } catch (Exception e) {
             logger.error("Error while updating post", e);
             PageParameters parameters = PageParametersUtils.fromException(e);

@@ -23,12 +23,12 @@ public class DeleteCategoryPageErrorTest extends CategoryListPageErrorTest {
 			fail("Error while creating fixture");
 		}
     	
-        tester.startPage(CategoryListPage.class);
-        tester.assertRenderedPage(CategoryListPage.class);
+        tester.startPage(ListCategoryPage.class);
+        tester.assertRenderedPage(ListCategoryPage.class);
         tester.assertNoErrorMessage();
         
         tester.clickLink("categories:0:deleteLink");
         tester.assertErrorMessages(new String[] { ERROR_MESSAGE });
-        tester.assertRenderedPage(CategoryListPage.class);
+        tester.assertRenderedPage(ListCategoryPage.class);
     }
 }

@@ -42,12 +42,12 @@ public class ViewCommentPageErrorTest extends WicketPageTest {
 
     @Test
     public void testErrorRender() {
-        tester.startPage(CommentListPage.class);
-        tester.assertRenderedPage(CommentListPage.class);
+        tester.startPage(ListCommentPage.class);
+        tester.assertRenderedPage(ListCommentPage.class);
         tester.assertNoErrorMessage();
         tester.assertComponent("comments:0:viewLink", Link.class);
         tester.clickLink("comments:0:viewLink");
-        tester.assertRenderedPage(CommentListPage.class);
+        tester.assertRenderedPage(ListCommentPage.class);
         tester.assertErrorMessages(new String[]{ERROR_MESSAGE});
     }
 }

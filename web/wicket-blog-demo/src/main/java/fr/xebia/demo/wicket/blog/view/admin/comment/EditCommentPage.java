@@ -36,6 +36,6 @@ public class EditCommentPage extends CommentPage {
 
     private void createComponents(final Comment comment) {
         add(new EditCommentForm("commentForm", comment));
-        add(new PageLink("backToListLink", CommentListPage.class));
+        add(new PageLink("backToListLink", ListCommentPage.class));
     }
 }

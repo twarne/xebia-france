@@ -25,9 +25,9 @@ import fr.xebia.demo.wicket.blog.view.BasePage;
 import fr.xebia.demo.wicket.blog.view.BlogApplication;
 import fr.xebia.demo.wicket.blog.view.LogoutPage;
 import fr.xebia.demo.wicket.blog.view.MenuItem;
-import fr.xebia.demo.wicket.blog.view.admin.category.CategoryListPage;
-import fr.xebia.demo.wicket.blog.view.admin.comment.CommentListPage;
-import fr.xebia.demo.wicket.blog.view.admin.post.PostListPage;
+import fr.xebia.demo.wicket.blog.view.admin.category.ListCategoryPage;
+import fr.xebia.demo.wicket.blog.view.admin.comment.ListCommentPage;
+import fr.xebia.demo.wicket.blog.view.admin.post.ListPostPage;
 
 public abstract class BaseAdminPage extends BasePage {
 
@@ -51,9 +51,9 @@ public abstract class BaseAdminPage extends BasePage {
             menuItemPages = new LinkedList<MenuItem>();
             menuItemPages.add(new MenuItem(((BlogApplication) getApplication()).getHomePage(), new StringResourceModel("menu.home", this, null)));
             menuItemPages.add(new MenuItem(AdminHomePage.class, new StringResourceModel("menu.adminHome", this, null)));
-            menuItemPages.add(new MenuItem(CategoryListPage.class, new StringResourceModel("menu.category", this, null)));
-            menuItemPages.add(new MenuItem(CommentListPage.class, new StringResourceModel("menu.comment", this, null)));
-            menuItemPages.add(new MenuItem(PostListPage.class, new StringResourceModel("menu.post", this, null)));
+            menuItemPages.add(new MenuItem(ListCategoryPage.class, new StringResourceModel("menu.category", this, null)));
+            menuItemPages.add(new MenuItem(ListCommentPage.class, new StringResourceModel("menu.comment", this, null)));
+            menuItemPages.add(new MenuItem(ListPostPage.class, new StringResourceModel("menu.post", this, null)));
             menuItemPages.add(new MenuItem(LogoutPage.class, new StringResourceModel("menu.logout", this, null)));
         }
         return menuItemPages;

@@ -11,7 +11,7 @@ public class DeletePostPageTest extends AddPostPageTest {
 		super.testRender();
 		tester.assertComponent("posts:0:deleteLink", Link.class);
 		tester.clickLink("posts:0:deleteLink");
-		tester.assertRenderedPage(PostListPage.class);
+		tester.assertRenderedPage(ListPostPage.class);
 		tester.assertNoErrorMessage();
 	}
 }
