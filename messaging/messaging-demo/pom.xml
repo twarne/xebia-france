@@ -77,7 +77,7 @@
          <plugin>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-codegen-plugin</artifactId>
-            <version>2.1-incubator-SNAPSHOT</version>
+            <version>${cxf-version}</version>
             <executions>
                <execution>
                   <id>generate-sources</id>
@@ -116,32 +116,32 @@
       <dependency>
          <groupId>org.springframework</groupId>
          <artifactId>spring-core</artifactId>
-         <version>${spring.version}</version>
+         <version>${spring-version}</version>
       </dependency>
       <dependency>
          <groupId>org.springframework</groupId>
          <artifactId>spring-context</artifactId>
-         <version>${spring.version}</version>
+         <version>${spring-version}</version>
       </dependency>
       <dependency>
          <groupId>org.springframework</groupId>
          <artifactId>spring-context-support</artifactId>
-         <version>${spring.version}</version>
+         <version>${spring-version}</version>
       </dependency>
       <dependency>
          <groupId>org.springframework</groupId>
          <artifactId>spring-jms</artifactId>
-         <version>${spring.version}</version>
+         <version>${spring-version}</version>
       </dependency>
             <dependency>
          <groupId>org.springframework</groupId>
          <artifactId>spring-webmvc</artifactId>
-         <version>${spring.version}</version>
+         <version>${spring-version}</version>
       </dependency>
       <dependency>
          <groupId>org.springframework</groupId>
          <artifactId>spring-test</artifactId>
-         <version>${spring.version}</version>
+         <version>${spring-version}</version>
       </dependency>
       <dependency>
          <groupId>org.springframework.ws</groupId>
@@ -151,17 +151,17 @@
       <dependency>
          <groupId>org.apache.cxf</groupId>
          <artifactId>cxf-rt-management</artifactId>
-         <version>${cxf.version}</version>
+         <version>${cxf-version}</version>
       </dependency>
       <dependency>
          <groupId>org.apache.cxf</groupId>
          <artifactId>cxf-rt-frontend-jaxws</artifactId>
-         <version>${cxf.version}</version>
+         <version>${cxf-version}</version>
       </dependency>
       <dependency>
          <groupId>org.apache.cxf</groupId>
          <artifactId>cxf-rt-transports-http</artifactId>
-         <version>${cxf.version}</version>
+         <version>${cxf-version}</version>
          <exclusions>
             <exclusion>
                <groupId>org.springframework</groupId>
@@ -176,7 +176,7 @@
          -->
          <groupId>org.apache.cxf</groupId>
          <artifactId>cxf-rt-transports-http-jetty</artifactId>
-         <version>${cxf.version}</version>
+         <version>${cxf-version}</version>
          <exclusions>
             <exclusion>
                <groupId>org.springframework</groupId>
@@ -187,7 +187,7 @@
       <dependency>
          <groupId>org.apache.cxf</groupId>
          <artifactId>cxf-rt-transports-jms</artifactId>
-         <version>${cxf.version}</version>
+         <version>${cxf-version}</version>
       </dependency>
       <dependency>
          <!-- activeMQ <amq:xxx /> cfg in spring -->
@@ -230,32 +230,32 @@
       <dependency>
          <groupId>com.ibm.mq</groupId>
          <artifactId>com.ibm.mqjms</artifactId>
-         <version>${mq.version}</version>
+         <version>${mq-version}</version>
       </dependency>
       <dependency>
          <groupId>com.ibm.mq</groupId>
          <artifactId>com.ibm.mq</artifactId>
-         <version>${mq.version}</version>
+         <version>${mq-version}</version>
       </dependency>
       <dependency>
          <groupId>com.ibm.mq</groupId>
          <artifactId>CL3Export</artifactId>
-         <version>${mq.version}</version>
+         <version>${mq-version}</version>
       </dependency>
       <dependency>
          <groupId>com.ibm.mq</groupId>
          <artifactId>CL3Nonexport</artifactId>
-         <version>${mq.version}</version>
+         <version>${mq-version}</version>
       </dependency>
       <dependency>
          <groupId>com.ibm.mq</groupId>
          <artifactId>dhbcore</artifactId>
-         <version>${mq.version}</version>
+         <version>${mq-version}</version>
       </dependency>
       <dependency>
          <groupId>com.ibm.mq</groupId>
          <artifactId>rmm</artifactId>
-         <version>${mq.version}</version>
+         <version>${mq-version}</version>
       </dependency>
       <dependency>
          <!--
@@ -294,38 +294,10 @@
          <version>4.4</version>
       </dependency>
    </dependencies>
-   <repositories>
-      <repository>
-         <id>apache-snapshots</id>
-         <name>Apache SNAPSHOT Repository</name>
-         <url>http://people.apache.org/repo/m2-snapshot-repository/</url>
-         <snapshots>
-            <enabled>true</enabled>
-         </snapshots>
-      </repository>
-      <repository>
-         <id>apache-incubating</id>
-         <name>Apache Incubating Repository</name>
-         <url>http://people.apache.org/repo/m2-incubating-repository/</url>
-      </repository>
-   </repositories>
-   <pluginRepositories>
-      <pluginRepository>
-         <id>apache-plugin-snapshots</id>
-         <name>Apache Maven Plugin Snapshots</name>
-         <url>http://people.apache.org/repo/m2-snapshot-repository</url>
-         <releases>
-            <enabled>false</enabled>
-         </releases>
-         <snapshots>
-            <enabled>true</enabled>
-         </snapshots>
-      </pluginRepository>
-   </pluginRepositories>
    <properties>
-      <spring.version>2.5.2</spring.version>
+      <spring-version>2.5.3</spring-version>
       <spring-ws.version>1.5.0</spring-ws.version>
-      <cxf.version>2.1-incubator-SNAPSHOT</cxf.version>
-      <mq.version>6.0.2.1</mq.version>
+      <cxf-version>2.1</cxf-version>
+      <mq-version>6.0.2.1</mq-version>
    </properties>
 </project>

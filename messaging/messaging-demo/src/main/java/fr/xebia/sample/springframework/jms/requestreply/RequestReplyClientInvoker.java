@@ -15,8 +15,6 @@
  */
 package fr.xebia.sample.springframework.jms.requestreply;
 
-import java.util.Random;
-
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
 import javax.jms.Destination;
@@ -64,7 +62,7 @@ public class RequestReplyClientInvoker {
 
     protected long timeoutInMillis = 1000;
 
-    //protected Random random = new Random();
+    // protected Random random = new Random();
 
     /**
      * Request/Reply SpringFramework sample.
@@ -85,7 +83,7 @@ public class RequestReplyClientInvoker {
                 try {
                     Message requestMessage = session.createTextMessage(request);
                     requestMessage.setJMSReplyTo(this.replyToDestination);
-                    //requestMessage.setJMSCorrelationID(String.valueOf(random.nextLong()));
+                    // requestMessage.setJMSCorrelationID(String.valueOf(random.nextLong()));
 
                     messageProducer.send(requestMessage);
                     String messageSelector = "JMSCorrelationID  LIKE '" + requestMessage.getJMSMessageID() + "'";

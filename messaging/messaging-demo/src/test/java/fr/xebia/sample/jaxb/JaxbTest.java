@@ -20,8 +20,6 @@ import java.io.Serializable;
 import java.io.StringReader;
 import java.io.StringWriter;
 
-import javax.jms.Message;
-import javax.jms.TextMessage;
 import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
@@ -42,10 +40,6 @@ import javax.xml.validation.SchemaFactory;
 import junit.framework.Assert;
 
 import org.junit.Test;
-
-import fr.xebia.springframework.jms.support.converter.JaxbMessageConverter;
-import fr.xebia.springframework.jms.support.converter.JaxbMessageConverterTest.Employee;
-import fr.xebia.springframework.jms.support.converter.JaxbMessageConverterTest.Gender;
 
 /**
  * @author <a href="mailto:cyrille.leclerc@pobox.com">Cyrille Le Clerc</a>
@@ -229,13 +223,13 @@ public class JaxbTest {
 
         Assert.assertEquals(expected, actual);
     }
-    
+
     @Test
     public void testToXmlWithValidation() throws Exception {
 
         SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
         Schema schema = schemaFactory.newSchema(new File("employee.xsd"));
-        
+
         JAXBContext jaxbContext = JAXBContext.newInstance(Employee.class, Gender.class);
         Marshaller marshaller = jaxbContext.createMarshaller();
         marshaller.setSchema(schema);
