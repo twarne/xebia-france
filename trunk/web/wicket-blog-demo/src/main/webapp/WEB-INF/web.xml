@@ -27,8 +27,4 @@
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 
-	<listener>
-		<listener-class>fr.xebia.demo.wicket.blog.view.util.InitDataListener</listener-class>
-	</listener>
-
 </web-app>
