@@ -24,6 +24,8 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
 import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
@@ -61,6 +63,13 @@ public class HomePage extends PublicPage {
                 postListItem.add(new Label("author", post.getAuthor()));
                 postListItem.add(new Label("title", post.getTitle()));
                 postListItem.add(new Label("content", post.getContent()));
+                IModel categoryNicename;
+                if (post.getCategory() != null) {
+                    categoryNicename = new Model(post.getCategory().getNicename());
+                } else {
+                    categoryNicename = new StringResourceModel("nocategory", this, null);
+                }
+                postListItem.add(new Label("category", categoryNicename));
                 postListItem.add(new Link("addCommentLink"){
                     private static final long serialVersionUID = 1L;
 
