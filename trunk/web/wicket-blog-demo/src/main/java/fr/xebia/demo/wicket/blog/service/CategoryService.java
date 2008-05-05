@@ -21,7 +21,7 @@ import org.springframework.stereotype.Repository;
 
 import fr.xebia.demo.wicket.blog.data.Category;
 
-@Repository
+@Repository("categoryService")
 public class CategoryService extends GenericService<Category> {
 
     @Override

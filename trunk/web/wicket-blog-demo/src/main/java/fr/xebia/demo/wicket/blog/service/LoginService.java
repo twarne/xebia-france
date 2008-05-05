@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 
 import fr.xebia.demo.wicket.blog.data.User;
 
-@Service
+@Service("loginService")
 public class LoginService {
 	
 	private static final User[] users = { new User("admin", "admin") };

@@ -34,6 +34,14 @@
         </layout>
     </appender>
 
+	<category name="org.springframework.web.context">
+		<priority value="DEBUG"/>
+	</category>
+
+	<category name="org.springframework.context">
+		<priority value="DEBUG"/>
+	</category>
+
 	<category name="fr.xebia.demo.wicket.blog">
 		<priority value="DEBUG"/>
 	</category>

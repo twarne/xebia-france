@@ -29,7 +29,7 @@ import org.springframework.stereotype.Repository;
 
 import fr.xebia.demo.wicket.blog.data.Comment;
 
-@Repository
+@Repository("commentService")
 public class CommentService extends GenericService<Comment> {
 
     private static final Logger logger = Logger.getLogger(CommentService.class);
