@@ -29,7 +29,7 @@ import org.springframework.stereotype.Repository;
 
 import fr.xebia.demo.wicket.blog.data.Post;
 
-@Repository
+@Repository("postService")
 public class PostService extends GenericService<Post> {
 
     private static final int POST_PER_PAGE = 10;

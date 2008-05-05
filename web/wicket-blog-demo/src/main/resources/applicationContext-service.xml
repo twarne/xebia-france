@@ -32,6 +32,7 @@
 
 	<context:annotation-config />
 	<context:component-scan base-package="fr.xebia.demo.wicket.blog.service" />
+	<context:spring-configured />
 
 	<!--
 		<jee:jndi-lookup id="dataSource" jndi-name="jdbc/jpetstore"/> 

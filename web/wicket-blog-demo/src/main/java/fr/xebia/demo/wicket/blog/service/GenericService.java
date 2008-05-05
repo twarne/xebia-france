@@ -33,12 +33,10 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Example;
 import org.hibernate.criterion.Example.PropertySelector;
 import org.hibernate.type.Type;
-import org.springframework.stereotype.Repository;
 
 /**
  * Defines the generic method (save, update, delete, search, etc) for all kind of objects
  */
-@Repository
 public abstract class GenericService<T> implements Service<T> {
 
     public static final int DEFAULT_MAX_RESULTS = 200;
