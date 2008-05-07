@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" width="665" height="476">
+
+    <mx:Style>
+    	.labelCar {
+            fontWeight: bold;
+            font-size : 18;
+            font-family : Verdana;
+        }
+    </mx:Style>
+
+
+	 <mx:Array id="lands">
+        <mx:Object label="Paysage 1"
+                smallImage="images/paysage1.jpg"
+                fullImage="images/paysage1_large.jpg" 
+                description="Description Paysage 1"/>
+        <mx:Object label="Paysage 2"
+                smallImage="images/paysage2.jpg"
+                fullImage="images/paysage2_large.jpg" 
+                description="Description Paysage 2"/>
+        <mx:Object label="Paysage 3"
+                smallImage="images/paysage3.jpg"
+                fullImage="images/paysage3_large.jpg" 
+                description="Description Paysage 3"/>
+        <mx:Object label="Paysage 4"
+                smallImage="images/paysage4.jpg"
+                fullImage="images/paysage4_large.jpg" 
+                description="Description Paysage 4"/>
+        <mx:Object label="Paysage 5"
+                smallImage="images/paysage5.jpg"
+                fullImage="images/paysage5_large.jpg" 
+                description="Description Paysage 5"/>
+        <mx:Object label="Paysage 6"
+                smallImage="images/paysage6.jpg"
+                fullImage="images/paysage6_large.jpg" 
+                description="Description Paysage 6"/>
+        <mx:Object label="Paysage 7"
+                smallImage="images/paysage7.jpg"
+                fullImage="images/paysage7_large.jpg" 
+                description="Description Paysage 7"/>
+        <mx:Object label="Paysage 8"
+                smallImage="images/paysage8.jpg"
+                fullImage="images/paysage8_large.jpg" 
+                description="Description Paysage 8"/>
+    </mx:Array>
+
+	<mx:Panel title="{listLands.selectedItem.label}" horizontalAlign="center" height="476" borderColor="#AF7FAF">
+        <mx:HorizontalList id="listLands"
+                dataProvider="{lands}"
+                columnCount="4"
+                columnWidth="160"
+                rowCount="1"
+                rowHeight="140"
+                itemRenderer="Render"/>
+         <mx:HBox id="detail">
+	         <mx:Image id="img" source="{listLands.selectedItem.fullImage}" />
+			 <mx:Label text="{listLands.selectedItem.description}" styleName="labelCar"/>
+		 </mx:HBox>
+
+	 </mx:Panel>
+</mx:Application>
