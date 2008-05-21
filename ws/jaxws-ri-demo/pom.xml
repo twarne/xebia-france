@@ -16,35 +16,14 @@
    * limitations under the License.
    */
 -->
-<!-- 
-   WARNING : 
-   
-   Version 6+ JDKs bundle a version of JAXB that may not be compatible with the one used by jaxws-ri.
-   You may need to use bootstrap classloader. 
-   
-   java.lang.LinkageError: JAXB 2.0 API is being loaded from the bootstrap classloader, but this RI (from jar:file:/$M2_REPO/.m2/repository/com/sun/xml/bind/jaxb-impl/2.1.5/jaxb-impl-2.1.5.jar!/com/sun/xml/bind/v2/model/impl/ModelBuilder.class) need
-   s 2.1 API. Use the endorsed directory mechanism to place jaxb-api.jar in the bootstrap classloader. (See http://java.sun.com/j2se/1.5.0/docs
-   /guide/standards/)
-   at com.sun.xml.bind.v2.model.impl.ModelBuilder.<clinit>(ModelBuilder.java:172)
-   ...
-   at org.codehaus.mojo.jaxws.WsImportMojo.execute(WsImportMojo.java:152)
-   ...
-   at org.apache.maven.DefaultMaven.doExecute(DefaultMaven.java:334)
--->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
    <modelVersion>4.0.0</modelVersion>
-   <parent>
-      <groupId>fr.xebia</groupId>
-      <artifactId>parent</artifactId>
-      <version>0.1-SNAPSHOT</version>
-   </parent>
-
+   <version>0.1-SNAPSHOT</version>
    <name>jaxws-ri-demo</name>
    <groupId>fr.xebia.ws</groupId>
    <artifactId>jaxws-ri-demo</artifactId>
    <packaging>war</packaging>
-   <version>0.1-SNAPSHOT</version>
    <description>JAXWS-RI demo relying on Amazon E-Commerce Service's AWSECommerceService.wsdl</description>
    <scm>
       <connection>scm:svn:http://xebia-france.googlecode.com/svn/trunk/ws/jaxws-ri-demo/</connection>
@@ -55,23 +34,12 @@
       <dependency>
          <groupId>com.sun.xml.ws</groupId>
          <artifactId>jaxws-rt</artifactId>
-         <version>2.1.2</version>
+         <version>${jaxwsri.version}</version>
       </dependency>
       <dependency>
          <groupId>org.jvnet.jax-ws-commons.spring</groupId>
          <artifactId>jaxws-spring</artifactId>
-         <version>1.7</version>
-      </dependency>
-      <dependency>
-         <groupId>javax.jws</groupId>
-         <artifactId>jsr181-api</artifactId>
-         <version>1.0-MR1</version>
-         <!-- 
-            To fix :
-            java.lang.NoClassDefFoundError: javax.jws.WebParam$Mode
-            at com.sun.tools.ws.processor.modeler.wsdl.WSDLModeler.getParameterOrder(WSDLModeler.java:2465)
-            ...
-         -->
+         <version>1.8</version>
       </dependency>
       <dependency>
          <groupId>log4j</groupId>
@@ -87,7 +55,7 @@
       <dependency>
          <groupId>junit</groupId>
          <artifactId>junit</artifactId>
-         <version>3.8.1</version>
+         <version>4.4</version>
       </dependency>
    </dependencies>
    <build>
@@ -95,7 +63,6 @@
          <plugin>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>jaxws-maven-plugin</artifactId>
-            <version>1.7</version>
             <configuration>
                <verbose>true</verbose>
             </configuration>
@@ -107,24 +74,40 @@
                </execution>
             </executions>
             <dependencies>
-               <!-- force jaxws-tools version to 2.1.2 -->
+               <!-- force jaxws-tools version -->
                <dependency>
                   <groupId>com.sun.xml.ws</groupId>
                   <artifactId>jaxws-tools</artifactId>
-                  <version>2.1.2</version>
-               </dependency>
-               <dependency>
-                  <groupId>javax.jws</groupId>
-                  <artifactId>jsr181-api</artifactId>
-                  <version>1.0-MR1</version>
-                  <!-- 
-                     To fix :
-                     java.lang.NoClassDefFoundError: javax.jws.WebParam$Mode
-                     at com.sun.tools.ws.processor.modeler.wsdl.WSDLModeler.getParameterOrder(WSDLModeler.java:2465)
-                     ...
-                  -->
+                  <version>${jaxwsri.version}</version>
                </dependency>
             </dependencies>
+         </plugin>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-eclipse-plugin</artifactId>
+            <configuration>
+               <downloadSources>true</downloadSources>
+            </configuration>
+         </plugin>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+            <executions>
+               <execution>
+                  <id>attach-source</id>
+                  <goals>
+                     <goal>jar</goal>
+                  </goals>
+               </execution>
+            </executions>
+         </plugin>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+               <source>1.5</source>
+               <target>1.5</target>
+            </configuration>
          </plugin>
       </plugins>
    </build>
@@ -156,4 +139,8 @@
          <layout>default</layout>
       </repository>
    </repositories>
+
+   <properties>
+      <jaxwsri.version>2.1.4</jaxwsri.version>
+   </properties>
 </project>
