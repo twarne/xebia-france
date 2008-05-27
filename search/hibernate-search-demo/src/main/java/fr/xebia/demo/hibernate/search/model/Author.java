@@ -39,7 +39,7 @@ import fr.xebia.demo.hibernate.search.analysis.SimpleEnglishAnalyzer;
 /**
  * Model class representing a document's author.
  * 
- * @author <a href="cheubes@xebia.fr">Christophe HeubÃ¨s</a>
+ * @author <a href="cheubes@xebia.fr">Christophe Heubès</a>
  */
 @Entity
 @Indexed
