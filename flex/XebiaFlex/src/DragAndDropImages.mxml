@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" height="532">
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" width="550" height="550">
 
     <mx:Script>
         <![CDATA[
@@ -29,9 +29,7 @@
                 ds.addData(dragInitiator, "img");               
 
                 var imageProxy:Image = new Image();
-                imageProxy.source = event.currentTarget.source;
-                imageProxy.height=15;
-                imageProxy.width=15;                
+                imageProxy.source = event.currentTarget.source;              
                 DragManager.doDrag(dragInitiator, ds, event, imageProxy);
             }
             
@@ -48,9 +46,9 @@
             // "dropping" it in its new location.
             private function dragDropHandler(event:DragEvent):void {
                 Image(event.dragInitiator).x = 
-                    Canvas(event.currentTarget).mouseX;
+                    Canvas(event.currentTarget).mouseX - 70;
                 Image(event.dragInitiator).y = 
-                    Canvas(event.currentTarget).mouseY;
+                    Canvas(event.currentTarget).mouseY - 50;
             }
         ]]>
     </mx:Script>
