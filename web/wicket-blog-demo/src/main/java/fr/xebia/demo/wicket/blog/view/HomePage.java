@@ -51,8 +51,6 @@ public class HomePage extends PublicPage {
     }
 
     private void createComponents() {
-        add(new Label("welcomeMessage", new StringResourceModel("index.welcomeMessage", this, null)));
-        
         add(new ListView("posts", getLastPosts()) {
             private static final long serialVersionUID = 1L;
 
