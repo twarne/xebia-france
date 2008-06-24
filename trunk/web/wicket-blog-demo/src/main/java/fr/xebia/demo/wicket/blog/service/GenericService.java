@@ -24,6 +24,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceException;
+import javax.persistence.PersistenceUnit;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
@@ -74,7 +75,8 @@ public abstract class GenericService<T> implements Service<T> {
 
     private EntityManagerFactory entityManagerFactory;
 
-    @Resource(name="entityManagerFactory")
+//    @Resource(name="entityManagerFactory")
+    @PersistenceUnit(unitName="mainManager")
     public void setEntityManagerFactory(EntityManagerFactory entityManagerFactory) {
         this.entityManagerFactory = entityManagerFactory;
     }

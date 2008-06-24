@@ -38,7 +38,6 @@ public class HomePageErrorTest extends WicketPageTest {
         tester.assertRenderedPage(HomePage.class);
         tester.assertErrorMessages(new String[]{ERROR_MESSAGE});
 
-        tester.assertComponent("welcomeMessage", Label.class);
         tester.assertComponent("titleLink", BookmarkablePageLink.class);
         tester.assertComponent("feedbackPanel", FeedbackPanel.class);
         tester.assertComponent("menuItems", ListView.class);

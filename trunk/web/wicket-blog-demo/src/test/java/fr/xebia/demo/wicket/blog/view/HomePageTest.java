@@ -34,7 +34,6 @@ public class HomePageTest extends WicketPageTest {
         tester.assertRenderedPage(HomePage.class);
         tester.assertNoErrorMessage();
 
-        tester.assertComponent("welcomeMessage", Label.class);
         tester.assertComponent("titleLink", BookmarkablePageLink.class);
         tester.assertComponent("menuItems", ListView.class);
     }
