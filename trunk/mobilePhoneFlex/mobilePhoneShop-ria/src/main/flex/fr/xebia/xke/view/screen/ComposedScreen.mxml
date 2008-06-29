@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml"
+                layout="vertical" width="600" height="380" creationComplete="service.send()" title="Available mobile phones" xmlns:panel="fr.xebia.xke.view.component.*">
+                
+    <mx:Script>
+    	<![CDATA[
+    	
+    	import mx.controls.Alert ;
+    		private function fireParentEvent(event:Event):void{
+    			//Alert.show("Parent event ");
+    		}
+    	]]>
+    </mx:Script>                
+
+    <mx:HTTPService id="service" url="simpleJspTransposed.jsp"/>
+
+    <mx:HBox>
+    	<mx:VBox>
+		    <mx:Label text="SimpleHttpService with Events" />
+		    <panel:PhoneList mobilePhones="{service.lastResult.mobilePhones}" choosenItemEvent="fireParentEvent(event)"/>
+		</mx:VBox>
+	    <panel:ImageDisplay />
+    </mx:HBox>
+</mx:TitleWindow>

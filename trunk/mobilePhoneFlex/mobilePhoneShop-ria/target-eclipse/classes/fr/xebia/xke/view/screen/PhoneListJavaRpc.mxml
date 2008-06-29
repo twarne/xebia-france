@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml"
+                layout="vertical" width="488" height="384" creationComplete="mobilePhoneService.getList()" title="Available mobile phones" xmlns="fr.xebia.xke.view.component.*">
+   	<mx:RemoteObject id="mobilePhoneService" showBusyCursor="true"
+                     fault="onFault(event)" destination="mobilePhoneServicePojo">
+        <mx:method name="getList" result="onResultGetList(event)" fault="onFault(event)"/>
+    </mx:RemoteObject>
+   	<mx:Script>
+        <![CDATA[
+        import mx.collections.ArrayCollection;
+        import fr.xebia.xke.view.entity.MobilePhone;
+        import mx.rpc.events.ResultEvent;
+        import mx.rpc.events.FaultEvent;
+        import mx.controls.Alert;
+
+        [Bindable]
+        private var mobilePhones:ArrayCollection;
+
+        private var mobilePhone:MobilePhone;
+
+        public function getList():void
+        {
+            mobilePhoneService.getList();
+        }
+
+        public function onResultGetList(event:ResultEvent):void
+        {
+            mobilePhones = event.result as ArrayCollection;
+        }
+
+        public function onFault(event:FaultEvent):void
+        {
+            Alert.show(event.fault.message);
+        }
+        ]]>
+    </mx:Script>
+   	
+   	
+   <mx:Label text="RemoteObject Pojo" />	
+   <mx:DataGrid id="mobilePhoneDatagrid" width="100%" height="100%" dataProvider="{mobilePhones}">
+	    <mx:columns>
+	        <mx:DataGridColumn headerText="ID" dataField="id" width="30"/>
+	        <mx:DataGridColumn headerText="Name" dataField="name"/>
+	    </mx:columns>
+	</mx:DataGrid>
+</mx:TitleWindow>

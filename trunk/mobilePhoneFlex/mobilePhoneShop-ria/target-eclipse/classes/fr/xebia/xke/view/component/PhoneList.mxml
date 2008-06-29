@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <mx:DataGrid xmlns:mx="http://www.adobe.com/2006/mxml" dataProvider="{mobilePhones.mobilePhone}" sortableColumns="true" width="100%" itemClick="dataGridClickEventHandler()">
+    <mx:Script >
+    	<![CDATA[
+    	import mx.controls.Alert ;
+    	import fr.xebia.xke.view.event.* ;
+    	import fr.xebia.xke.view.entity.* ;
+    	
+    	[Bindable]
+    	public var mobilePhones:Object;
+    	
+    	private function dataGridClickEventHandler():void{
+    		//Alert.show("Datagrid clicked");
+    		
+    		// Test
+    		// Voir avec MobilePhoneForm si on peut caster en MobilePhone
+    		
+    		var mobilePhoneSelectedEvent:MobilePhoneSelectedEvent=new MobilePhoneSelectedEvent(this.selectedItem);
+    		dispatchEvent(mobilePhoneSelectedEvent);
+    	}
+    	]]>
+    </mx:Script>
+    <mx:Metadata>
+    	[Event(name="choosenItemEvent",type="fr.xebia.xke.view.event.MobilePhoneSelectedEvent")]
+    </mx:Metadata>
+    </mx:DataGrid>
