@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml"
+                layout="vertical" width="488" height="384" creationComplete="service.send()" title="Available mobile phones" xmlns="fr.xebia.xke.view.component.*">
+   	<mx:HTTPService id="service" url="simpleJspTransposed.jsp"/>
+    <mx:Label text="SimpleHttpService" />	
+    <mx:DataGrid dataProvider="{service.lastResult.mobilePhones.mobilePhone}" sortableColumns="true" width="100%"/>
+</mx:TitleWindow>

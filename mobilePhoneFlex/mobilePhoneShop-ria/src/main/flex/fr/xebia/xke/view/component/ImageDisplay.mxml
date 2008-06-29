@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+	<mx:VBox  xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="init()" >
+		
+		<mx:Label text="Display phone image" />
+	    <mx:Label id="phoneNameLabel" text="View of the selected phone" />
+		<mx:Image id="imageDisplay" source="" width="100" height="184" />
+		<mx:TextArea id="phoneDescription" text="Description of the selected phone" height="90" width="240" editable="false" borderThickness="0"/>
+
+	    <mx:Script>
+	    	<![CDATA[
+	    	import mx.controls.Alert ;
+	   		import fr.xebia.xke.view.event.* ;
+	    	
+	    	private function init():void{
+	    		parent.addEventListener("choosenItemEvent", fireEvent);	
+	    	}
+	    	
+	    	private function fireEvent(event:Event):void{
+	    		//Alert.show("Datagrid clicked intercepted");
+	    		this.phoneNameLabel.text=MobilePhoneSelectedEvent(event).getMobilePhone().name;
+	    		this.imageDisplay.source="images/"+MobilePhoneSelectedEvent(event).getMobilePhone().image;
+	    		this.phoneDescription.text=MobilePhoneSelectedEvent(event).getMobilePhone().description;
+			}
+	    	]]>
+	    </mx:Script>
+    </mx:VBox>

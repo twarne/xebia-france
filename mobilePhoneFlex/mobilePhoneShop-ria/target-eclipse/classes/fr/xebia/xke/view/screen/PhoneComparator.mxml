@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml"
+                layout="vertical" width="488" height="384" title="Available mobile phones" xmlns:sprite="fr.xebia.xke.view.sprite.*" creationComplete="init()">
+    
+    <mx:Canvas id="myCanvas">
+    	<mx:Script>
+    	<![CDATA[
+    	import flash.display.Sprite;
+		import fr.xebia.xke.view.sprite.*;
+	
+    	private function init():void{
+			var collada:BlenderColladaTorusClavier = new BlenderColladaTorusClavier();
+			myCanvas.rawChildren.addChild(collada);
+		}
+    	]]>
+    </mx:Script>
+    </mx:Canvas>
+    
+</mx:TitleWindow>
