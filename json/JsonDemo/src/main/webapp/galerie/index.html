@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Galerie d'images</title>
+
+<link href="css/style.css" rel="stylesheet" type="text/css"></link>
+<script type="text/javascript"  src="js/prototype.js"></script>
+<script type="text/javascript"  src="js/scriptaculous.js"></script>
+<script type="text/javascript"  src="js/thumb.js"></script>
+</head>
+<body>
+<div id="gallerie">
+
+	<div id="preview">
+		
+	</div>
+	<div id="view">
+	<div style="">
+		<img id="img_big" src="img/img_velo_1.jpg" />
+		<p>Mon albumMon Album de vacances.Mon Album de vacances.</p>
+	</div>
+		
+	</div>
+	<p id="albumTitle">Mon Album de vacances.</p>
+</div>
+<div id="debug">
+</div>
+
+<script type="text/javascript">
+// mon js 
+// 
+
+var images = [
+	{name: "velo", url:"img/img_velo_1.jpg", desc:"Balade à velo"},
+	{name: "palmier", url:"img/img_palmier_7.jpg", desc:"les palmiers ..."},
+	{name: "neige", url:"img/img_neige_6.jpg", desc:"la neige ..."},
+	{name: "plage", url:"img/img_plage_8.jpg", desc:"la plage ..."},
+	{name: "rue", url:"img/img_rue_9.jpg", desc:"dans la rue ..."},
+	{name: "bateaux", url:"img/img_bateaux_2.jpg", desc:"Partir a la pêche ..."},
+	{name: "bouddha", url:"img/img_bouddha_4.jpg", desc:"Pour se recueillir ..."},
+	{name: "crique", url:"img/img_crique_3.jpg", desc:"La belle crique ..."},
+	{name: "inca", url:"img/img_inca_5.jpg", desc:"Sur les traces des Incas ..."},
+	{name: "voile", url:"img/img_voile.jpg", desc:"Dans le vent ..."}
+]; 
+   
+     
+ new ThumbBar('preview', images, new ImageViewer('view', 'img_big')); 
+ 	
+     
+
+</script>
+</body>
+</html>
