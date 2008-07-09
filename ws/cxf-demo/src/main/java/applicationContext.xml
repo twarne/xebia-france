@@ -1,0 +1,38 @@
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jaxws="http://cxf.apache.org/jaxws" xmlns:http-conf="http://cxf.apache.org/transports/http/configuration"
+	xmlns:security="http://cxf.apache.org/configuration/security"
+	xsi:schemaLocation="
+                       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+                       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+                       http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+                       http://cxf.apache.org/transports/http/configuration http://cxf.apache.org/schemas/configuration/http-conf.xsd
+                       http://cxf.apache.org/configuration/security http://cxf.apache.org/schemas/configuration/security.xsd
+                       ">
+
+	<context:property-placeholder location="applicationContext.properties" />
+
+	<jaxws:client name="AWSECommerceService" address="${jaxws-client.location}"
+		serviceClass="com.amazon.webservices.awsecommerceservice._2007_07_16.AWSECommerceServicePortType">
+		<jaxws:features>
+			<!-- 
+				logging is enabled/disabled setting log4j loggers to INFO :
+				org.apache.cxf.interceptor.LoggingInInterceptor
+				org.apache.cxf.interceptor.LoggingOutInterceptor 
+				
+			-->
+			<bean class="org.apache.cxf.feature.LoggingFeature" />
+			<bean class="org.apache.cxf.management.interceptor.ResponseTimeFeature" />
+		</jaxws:features>
+	</jaxws:client>
+
+	<http-conf:conduit name="{http://webservices.amazon.com/AWSECommerceService/2007-07-16}AWSECommerceServicePortTypeService.http-conduit">
+		<http-conf:client ConnectionTimeout="30000" ReceiveTimeout="60000" />
+		<http-conf:authorization>
+			<security:UserName>${jaxws-client.username}</security:UserName>
+			<security:Password>${jaxws-client.password}</security:Password>
+		</http-conf:authorization>
+	</http-conf:conduit>
+
+</beans>

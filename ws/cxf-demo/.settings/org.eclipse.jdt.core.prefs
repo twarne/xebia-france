@@ -1,6 +1,5 @@
-#Sat Sep 22 17:41:21 CEST 2007
+#Wed Apr 30 13:11:42 CEST 2008
 org.eclipse.jdt.core.compiler.codegen.targetPlatform=1.5
 eclipse.preferences.version=1
 org.eclipse.jdt.core.compiler.source=1.5
 org.eclipse.jdt.core.compiler.compliance=1.5
-instance/org.eclipse.core.net/org.eclipse.core.net.hasMigrated=true

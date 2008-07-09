@@ -1,0 +1,642 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions  xmlns:tns="http://cegetelsi/psg/CompteAcces/1.0/"
+  xmlns:wsr="http://www.openuri.org/2002/10/soap/reliability/"
+  xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+  xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+  xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+  xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+  xmlns:soap12enc="http://www.w3.org/2003/05/soap-encoding"
+  xmlns:conv="http://www.openuri.org/2002/04/wsdl/conversation/"
+  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+  xmlns:s="http://www.w3.org/2001/XMLSchema"
+  xmlns="http://schemas.xmlsoap.org/wsdl/"
+  targetNamespace="http://cegetelsi/psg/CompteAcces/1.0/">
+ <types   xmlns:tns="http://cegetelsi/psg/CompteAcces/1.0/"
+   xmlns:wsr="http://www.openuri.org/2002/10/soap/reliability/"
+   xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+   xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+   xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+   xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+   xmlns:soap12enc="http://www.w3.org/2003/05/soap-encoding"
+   xmlns:conv="http://www.openuri.org/2002/04/wsdl/conversation/"
+   xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+   xmlns:s="http://www.w3.org/2001/XMLSchema"
+   xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <xsd:schema    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:stns="http://cegetelsi/psg/CompteAcces/1.0/"
+    xmlns:tp="java:com.capgemini.sfr.psgfo.bll.bean"
+    elementFormDefault="qualified"
+    attributeFormDefault="qualified"
+    targetNamespace="http://cegetelsi/psg/CompteAcces/1.0/">
+   <xsd:import     namespace="java:com.capgemini.sfr.psgfo.bll.bean">
+   </xsd:import>
+   <xsd:element     type="xsd:int"
+     name="checkServiceResponse">
+   </xsd:element>
+   <xsd:element     xmlns:tp="java:com.capgemini.sfr.psgfo.bll.bean"
+     type="tp:CompteIN"
+     name="createAccount"
+     nillable="true">
+   </xsd:element>
+   <xsd:element     xmlns:tp="java:com.capgemini.sfr.psgfo.bll.bean"
+     type="tp:ActeOUT"
+     name="createAccountResponse"
+     nillable="true">
+   </xsd:element>
+   <xsd:element     xmlns:tp="java:com.capgemini.sfr.psgfo.bll.bean"
+     type="tp:CompteIN"
+     name="createSecondAccount"
+     nillable="true">
+   </xsd:element>
+   <xsd:element     xmlns:tp="java:com.capgemini.sfr.psgfo.bll.bean"
+     type="tp:CreeCompte2OUT"
+     name="createSecondAccountResponse"
+     nillable="true">
+   </xsd:element>
+   <xsd:element     xmlns:tp="java:com.capgemini.sfr.psgfo.bll.bean"
+     type="tp:SuppCompte2IN"
+     name="deleteSecondAccount"
+     nillable="true">
+   </xsd:element>
+   <xsd:element     xmlns:tp="java:com.capgemini.sfr.psgfo.bll.bean"
+     type="tp:ActeOUT"
+     name="deleteSecondAccountResponse"
+     nillable="true">
+   </xsd:element>
+   <xsd:element     xmlns:tp="java:com.capgemini.sfr.psgfo.bll.bean"
+     type="tp:AliasIN"
+     name="freeAlias"
+     nillable="true">
+   </xsd:element>
+   <xsd:element     xmlns:tp="java:com.capgemini.sfr.psgfo.bll.bean"
+     type="tp:ActeOUT"
+     name="freeAliasResponse"
+     nillable="true">
+   </xsd:element>
+   <xsd:element     xmlns:tp="java:com.capgemini.sfr.psgfo.bll.bean"
+     type="tp:ModifCompteIN"
+     name="updateAccount"
+     nillable="true">
+   </xsd:element>
+   <xsd:element     xmlns:tp="java:com.capgemini.sfr.psgfo.bll.bean"
+     type="tp:ActeOUT"
+     name="updateAccountResponse"
+     nillable="true">
+   </xsd:element>
+   <xsd:element     xmlns:tp="java:com.capgemini.sfr.psgfo.bll.bean"
+     type="tp:CompteIN"
+     name="updateFlag"
+     nillable="true">
+   </xsd:element>
+   <xsd:element     xmlns:tp="java:com.capgemini.sfr.psgfo.bll.bean"
+     type="tp:ActeOUT"
+     name="updateFlagResponse"
+     nillable="true">
+   </xsd:element>
+   <xsd:element     xmlns:tp="java:com.capgemini.sfr.psgfo.bll.bean"
+     type="tp:CompteIN"
+     name="updateSecondAccount"
+     nillable="true">
+   </xsd:element>
+   <xsd:element     xmlns:tp="java:com.capgemini.sfr.psgfo.bll.bean"
+     type="tp:ActeOUT"
+     name="updateSecondAccountResponse"
+     nillable="true">
+   </xsd:element>
+   <xsd:element     xmlns:tp="java:com.capgemini.sfr.psgfo.bll.bean"
+     type="tp:AliasIN"
+     name="useAlias"
+     nillable="true">
+   </xsd:element>
+   <xsd:element     xmlns:tp="java:com.capgemini.sfr.psgfo.bll.bean"
+     type="tp:ActeOUT"
+     name="useAliasResponse"
+     nillable="true">
+   </xsd:element>
+  </xsd:schema>
+  <xsd:schema    xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:stns="java:com.capgemini.sfr.psgfo.bll.bean"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    elementFormDefault="qualified"
+    attributeFormDefault="qualified"
+    targetNamespace="java:com.capgemini.sfr.psgfo.bll.bean">
+   <xsd:import     namespace="http://schemas.xmlsoap.org/soap/encoding/">
+   </xsd:import>
+   <xsd:complexType     name="ActeContenuOUT">
+    <xsd:sequence>
+     <xsd:element       type="xsd:string"
+       name="codeErreur"
+       minOccurs="1"
+       maxOccurs="1"
+       nillable="true">
+     </xsd:element>
+     <xsd:element       type="xsd:int"
+       name="codeRetour"
+       minOccurs="1"
+       maxOccurs="1">
+     </xsd:element>
+     <xsd:element       type="xsd:string"
+       name="libelleErreur"
+       minOccurs="1"
+       maxOccurs="1"
+       nillable="true">
+     </xsd:element>
+    </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType     name="ActeOUT">
+    <xsd:sequence>
+     <xsd:element       type="stns:ActeContenuOUT"
+       name="body"
+       minOccurs="1"
+       maxOccurs="1"
+       nillable="true">
+     </xsd:element>
+     <xsd:element       type="stns:Entete"
+       name="header"
+       minOccurs="1"
+       maxOccurs="1"
+       nillable="true">
+     </xsd:element>
+    </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType     name="AliasIN">
+    <xsd:sequence>
+     <xsd:element       type="xsd:string"
+       name="alias"
+       minOccurs="1"
+       maxOccurs="1"
+       nillable="true">
+     </xsd:element>
+     <xsd:element       type="stns:Entete"
+       name="header"
+       minOccurs="1"
+       maxOccurs="1"
+       nillable="true">
+     </xsd:element>
+    </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType     name="ArrayOfParametre">
+    <xsd:complexContent>
+     <xsd:restriction       xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+       base="soapenc:Array">
+      <xsd:attribute        xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+        ref="soapenc:arrayType"
+        wsdl:arrayType="stns:Parametre[]">
+      </xsd:attribute>
+     </xsd:restriction>
+    </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType     name="CompteIN">
+    <xsd:sequence>
+     <xsd:element       type="xsd:string"
+       name="UID"
+       minOccurs="1"
+       maxOccurs="1"
+       nillable="true">
+     </xsd:element>
+     <xsd:element       type="stns:Entete"
+       name="header"
+       minOccurs="1"
+       maxOccurs="1"
+       nillable="true">
+     </xsd:element>
+     <xsd:element       type="stns:ArrayOfParametre"
+       name="params"
+       minOccurs="1"
+       maxOccurs="1"
+       nillable="true">
+     </xsd:element>
+    </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType     name="CreeCompte2OUT">
+    <xsd:complexContent>
+     <xsd:extension       base="stns:ActeOUT">
+      <xsd:sequence>
+       <xsd:element         type="xsd:string"
+         name="secondUID"
+         minOccurs="1"
+         maxOccurs="1"
+         nillable="true">
+       </xsd:element>
+      </xsd:sequence>
+     </xsd:extension>
+    </xsd:complexContent>
+   </xsd:complexType>
+   <xsd:complexType     name="Entete">
+    <xsd:sequence>
+     <xsd:element       type="xsd:string"
+       name="SSAEmetteur"
+       minOccurs="1"
+       maxOccurs="1"
+       nillable="true">
+     </xsd:element>
+     <xsd:element       type="xsd:string"
+       name="date"
+       minOccurs="1"
+       maxOccurs="1"
+       nillable="true">
+     </xsd:element>
+     <xsd:element       type="xsd:string"
+       name="evenementType"
+       minOccurs="1"
+       maxOccurs="1"
+       nillable="true">
+     </xsd:element>
+     <xsd:element       type="xsd:string"
+       name="idTransaction"
+       minOccurs="1"
+       maxOccurs="1"
+       nillable="true">
+     </xsd:element>
+     <xsd:element       type="xsd:string"
+       name="numeroFlux"
+       minOccurs="1"
+       maxOccurs="1"
+       nillable="true">
+     </xsd:element>
+     <xsd:element       type="xsd:string"
+       name="numeroMacroFonction"
+       minOccurs="1"
+       maxOccurs="1"
+       nillable="true">
+     </xsd:element>
+     <xsd:element       type="xsd:string"
+       name="numeroPA"
+       minOccurs="1"
+       maxOccurs="1"
+       nillable="true">
+     </xsd:element>
+     <xsd:element       type="xsd:string"
+       name="versionFlux"
+       minOccurs="1"
+       maxOccurs="1"
+       nillable="true">
+     </xsd:element>
+    </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType     name="ModifCompteIN">
+    <xsd:sequence>
+     <xsd:element       type="stns:Entete"
+       name="header"
+       minOccurs="1"
+       maxOccurs="1"
+       nillable="true">
+     </xsd:element>
+     <xsd:element       type="stns:ArrayOfParametre"
+       name="params"
+       minOccurs="1"
+       maxOccurs="1"
+       nillable="true">
+     </xsd:element>
+     <xsd:element       type="xsd:string"
+       name="sfrLogin"
+       minOccurs="1"
+       maxOccurs="1"
+       nillable="true">
+     </xsd:element>
+    </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType     name="Parametre">
+    <xsd:sequence>
+     <xsd:element       type="xsd:string"
+       name="key"
+       minOccurs="1"
+       maxOccurs="1"
+       nillable="true">
+     </xsd:element>
+     <xsd:element       type="xsd:string"
+       name="value"
+       minOccurs="1"
+       maxOccurs="1"
+       nillable="true">
+     </xsd:element>
+    </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType     name="SuppCompte2IN">
+    <xsd:sequence>
+     <xsd:element       type="xsd:string"
+       name="UID"
+       minOccurs="1"
+       maxOccurs="1"
+       nillable="true">
+     </xsd:element>
+     <xsd:element       type="stns:Entete"
+       name="header"
+       minOccurs="1"
+       maxOccurs="1"
+       nillable="true">
+     </xsd:element>
+    </xsd:sequence>
+   </xsd:complexType>
+  </xsd:schema>
+ </types>
+ <message   name="createAccount">
+  <part    xmlns:partns="http://cegetelsi/psg/CompteAcces/1.0/"
+    name="creeCompteIn"
+    element="partns:createAccount">
+  </part>
+ </message>
+ <message   name="createAccountResponse">
+  <part    xmlns:partns="http://cegetelsi/psg/CompteAcces/1.0/"
+    name="result"
+    element="partns:createAccountResponse">
+  </part>
+ </message>
+ <message   name="createSecondAccount">
+  <part    xmlns:partns="http://cegetelsi/psg/CompteAcces/1.0/"
+    name="creeCompte2In"
+    element="partns:createSecondAccount">
+  </part>
+ </message>
+ <message   name="createSecondAccountResponse">
+  <part    xmlns:partns="http://cegetelsi/psg/CompteAcces/1.0/"
+    name="result"
+    element="partns:createSecondAccountResponse">
+  </part>
+ </message>
+ <message   name="updateSecondAccount">
+  <part    xmlns:partns="http://cegetelsi/psg/CompteAcces/1.0/"
+    name="modifCompte2In"
+    element="partns:updateSecondAccount">
+  </part>
+ </message>
+ <message   name="updateSecondAccountResponse">
+  <part    xmlns:partns="http://cegetelsi/psg/CompteAcces/1.0/"
+    name="result"
+    element="partns:updateSecondAccountResponse">
+  </part>
+ </message>
+ <message   name="updateAccount">
+  <part    xmlns:partns="http://cegetelsi/psg/CompteAcces/1.0/"
+    name="modifCompteIn"
+    element="partns:updateAccount">
+  </part>
+ </message>
+ <message   name="updateAccountResponse">
+  <part    xmlns:partns="http://cegetelsi/psg/CompteAcces/1.0/"
+    name="result"
+    element="partns:updateAccountResponse">
+  </part>
+ </message>
+ <message   name="deleteSecondAccount">
+  <part    xmlns:partns="http://cegetelsi/psg/CompteAcces/1.0/"
+    name="suppCompte2In"
+    element="partns:deleteSecondAccount">
+  </part>
+ </message>
+ <message   name="deleteSecondAccountResponse">
+  <part    xmlns:partns="http://cegetelsi/psg/CompteAcces/1.0/"
+    name="result"
+    element="partns:deleteSecondAccountResponse">
+  </part>
+ </message>
+ <message   name="updateFlag">
+  <part    xmlns:partns="http://cegetelsi/psg/CompteAcces/1.0/"
+    name="modifFlagIn"
+    element="partns:updateFlag">
+  </part>
+ </message>
+ <message   name="updateFlagResponse">
+  <part    xmlns:partns="http://cegetelsi/psg/CompteAcces/1.0/"
+    name="result"
+    element="partns:updateFlagResponse">
+  </part>
+ </message>
+ <message   name="useAlias">
+  <part    xmlns:partns="http://cegetelsi/psg/CompteAcces/1.0/"
+    name="utilAliasIn"
+    element="partns:useAlias">
+  </part>
+ </message>
+ <message   name="useAliasResponse">
+  <part    xmlns:partns="http://cegetelsi/psg/CompteAcces/1.0/"
+    name="result"
+    element="partns:useAliasResponse">
+  </part>
+ </message>
+ <message   name="freeAlias">
+  <part    xmlns:partns="http://cegetelsi/psg/CompteAcces/1.0/"
+    name="libAliasIn"
+    element="partns:freeAlias">
+  </part>
+ </message>
+ <message   name="freeAliasResponse">
+  <part    xmlns:partns="http://cegetelsi/psg/CompteAcces/1.0/"
+    name="result"
+    element="partns:freeAliasResponse">
+  </part>
+ </message>
+ <message   name="checkService">
+ </message>
+ <message   name="checkServiceResponse">
+  <part    xmlns:partns="http://cegetelsi/psg/CompteAcces/1.0/"
+    name="result"
+    element="partns:checkServiceResponse">
+  </part>
+ </message>
+ <portType   name="CompteAccesPortType">
+  <operation    name="checkService">
+   <input     message="tns:checkService">
+   </input>
+   <output     message="tns:checkServiceResponse">
+   </output>
+  </operation>
+  <operation    name="createAccount">
+   <input     message="tns:createAccount">
+   </input>
+   <output     message="tns:createAccountResponse">
+   </output>
+  </operation>
+  <operation    name="createSecondAccount">
+   <input     message="tns:createSecondAccount">
+   </input>
+   <output     message="tns:createSecondAccountResponse">
+   </output>
+  </operation>
+  <operation    name="updateSecondAccount">
+   <input     message="tns:updateSecondAccount">
+   </input>
+   <output     message="tns:updateSecondAccountResponse">
+   </output>
+  </operation>
+  <operation    name="updateAccount">
+   <input     message="tns:updateAccount">
+   </input>
+   <output     message="tns:updateAccountResponse">
+   </output>
+  </operation>
+  <operation    name="deleteSecondAccount">
+   <input     message="tns:deleteSecondAccount">
+   </input>
+   <output     message="tns:deleteSecondAccountResponse">
+   </output>
+  </operation>
+  <operation    name="updateFlag">
+   <input     message="tns:updateFlag">
+   </input>
+   <output     message="tns:updateFlagResponse">
+   </output>
+  </operation>
+  <operation    name="useAlias">
+   <input     message="tns:useAlias">
+   </input>
+   <output     message="tns:useAliasResponse">
+   </output>
+  </operation>
+  <operation    name="freeAlias">
+   <input     message="tns:freeAlias">
+   </input>
+   <output     message="tns:freeAliasResponse">
+   </output>
+  </operation>
+ </portType>
+ <binding   type="tns:CompteAccesPortType"
+   name="CompteAccesPort">
+  <soap:binding    style="document"
+    transport="http://schemas.xmlsoap.org/soap/http">
+  </soap:binding>
+  <operation    name="createAccount">
+   <soap:operation     style="document"
+     soapAction="">
+   </soap:operation>
+   <input>
+    <soap:body      namespace="http://cegetelsi/psg/CompteAcces/1.0/"
+      use="literal">
+    </soap:body>
+   </input>
+   <output>
+    <soap:body      namespace="http://cegetelsi/psg/CompteAcces/1.0/"
+      use="literal">
+    </soap:body>
+   </output>
+  </operation>
+  <operation    name="createSecondAccount">
+   <soap:operation     style="document"
+     soapAction="">
+   </soap:operation>
+   <input>
+    <soap:body      namespace="http://cegetelsi/psg/CompteAcces/1.0/"
+      use="literal">
+    </soap:body>
+   </input>
+   <output>
+    <soap:body      namespace="http://cegetelsi/psg/CompteAcces/1.0/"
+      use="literal">
+    </soap:body>
+   </output>
+  </operation>
+  <operation    name="updateSecondAccount">
+   <soap:operation     style="document"
+     soapAction="">
+   </soap:operation>
+   <input>
+    <soap:body      namespace="http://cegetelsi/psg/CompteAcces/1.0/"
+      use="literal">
+    </soap:body>
+   </input>
+   <output>
+    <soap:body      namespace="http://cegetelsi/psg/CompteAcces/1.0/"
+      use="literal">
+    </soap:body>
+   </output>
+  </operation>
+  <operation    name="updateAccount">
+   <soap:operation     style="document"
+     soapAction="">
+   </soap:operation>
+   <input>
+    <soap:body      namespace="http://cegetelsi/psg/CompteAcces/1.0/"
+      use="literal">
+    </soap:body>
+   </input>
+   <output>
+    <soap:body      namespace="http://cegetelsi/psg/CompteAcces/1.0/"
+      use="literal">
+    </soap:body>
+   </output>
+  </operation>
+  <operation    name="deleteSecondAccount">
+   <soap:operation     style="document"
+     soapAction="">
+   </soap:operation>
+   <input>
+    <soap:body      namespace="http://cegetelsi/psg/CompteAcces/1.0/"
+      use="literal">
+    </soap:body>
+   </input>
+   <output>
+    <soap:body      namespace="http://cegetelsi/psg/CompteAcces/1.0/"
+      use="literal">
+    </soap:body>
+   </output>
+  </operation>
+  <operation    name="updateFlag">
+   <soap:operation     style="document"
+     soapAction="">
+   </soap:operation>
+   <input>
+    <soap:body      namespace="http://cegetelsi/psg/CompteAcces/1.0/"
+      use="literal">
+    </soap:body>
+   </input>
+   <output>
+    <soap:body      namespace="http://cegetelsi/psg/CompteAcces/1.0/"
+      use="literal">
+    </soap:body>
+   </output>
+  </operation>
+  <operation    name="useAlias">
+   <soap:operation     style="document"
+     soapAction="">
+   </soap:operation>
+   <input>
+    <soap:body      namespace="http://cegetelsi/psg/CompteAcces/1.0/"
+      use="literal">
+    </soap:body>
+   </input>
+   <output>
+    <soap:body      namespace="http://cegetelsi/psg/CompteAcces/1.0/"
+      use="literal">
+    </soap:body>
+   </output>
+  </operation>
+  <operation    name="freeAlias">
+   <soap:operation     style="document"
+     soapAction="">
+   </soap:operation>
+   <input>
+    <soap:body      namespace="http://cegetelsi/psg/CompteAcces/1.0/"
+      use="literal">
+    </soap:body>
+   </input>
+   <output>
+    <soap:body      namespace="http://cegetelsi/psg/CompteAcces/1.0/"
+      use="literal">
+    </soap:body>
+   </output>
+  </operation>
+  <operation    name="checkService">
+   <soap:operation     style="document"
+     soapAction="">
+   </soap:operation>
+   <input>
+    <soap:body      namespace="http://cegetelsi/psg/CompteAcces/1.0/"
+      use="literal">
+    </soap:body>
+   </input>
+   <output>
+    <soap:body      namespace="http://cegetelsi/psg/CompteAcces/1.0/"
+      use="literal">
+    </soap:body>
+   </output>
+  </operation>
+ </binding>
+ <service   name="CompteAccesService">
+  <port    name="CompteAccesPort"
+    binding="tns:CompteAccesPort">
+   <soap:address     location="http://intra-psg-ws-tdb-pack:80/webservices/psg/CompteAcces/1.0/CompteAcces">
+   </soap:address>
+  </port>
+ </service>
+</definitions>

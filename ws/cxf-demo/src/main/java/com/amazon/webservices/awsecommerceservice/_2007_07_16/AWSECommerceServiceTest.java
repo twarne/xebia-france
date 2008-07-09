@@ -19,11 +19,6 @@ import java.util.Map;
 
 import javax.xml.ws.BindingProvider;
 
-import org.apache.cxf.endpoint.Client;
-import org.apache.cxf.endpoint.ConduitSelector;
-import org.apache.cxf.frontend.ClientProxy;
-import org.apache.cxf.transport.Conduit;
-
 import junit.framework.TestCase;
 
 /**
