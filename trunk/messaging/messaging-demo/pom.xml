@@ -148,6 +148,7 @@
          <artifactId>spring-oxm-tiger</artifactId>
          <version>${spring-ws.version}</version>
       </dependency>
+      
       <dependency>
          <groupId>org.apache.cxf</groupId>
          <artifactId>cxf-rt-management</artifactId>
@@ -155,9 +156,26 @@
       </dependency>
       <dependency>
          <groupId>org.apache.cxf</groupId>
+         <artifactId>cxf-rt-javascript</artifactId>
+         <version>${cxf-version}</version>
+      </dependency>
+
+      <dependency>
+         <groupId>org.apache.cxf</groupId>
          <artifactId>cxf-rt-frontend-jaxws</artifactId>
          <version>${cxf-version}</version>
       </dependency>
+      <dependency>
+         <groupId>org.apache.cxf</groupId>
+         <artifactId>cxf-rt-frontend-jaxrs</artifactId>
+         <version>${cxf-version}</version>
+      </dependency>
+      <dependency>
+         <groupId>org.apache.cxf</groupId>
+         <artifactId>cxf-rt-frontend-js</artifactId>
+         <version>${cxf-version}</version>
+      </dependency>
+      
       <dependency>
          <groupId>org.apache.cxf</groupId>
          <artifactId>cxf-rt-transports-http</artifactId>
@@ -295,9 +313,9 @@
       </dependency>
    </dependencies>
    <properties>
-      <spring-version>2.5.3</spring-version>
+      <spring-version>2.5.5</spring-version>
       <spring-ws.version>1.5.0</spring-ws.version>
-      <cxf-version>2.1</cxf-version>
+      <cxf-version>2.1.1</cxf-version>
       <mq-version>6.0.2.1</mq-version>
    </properties>
 </project>

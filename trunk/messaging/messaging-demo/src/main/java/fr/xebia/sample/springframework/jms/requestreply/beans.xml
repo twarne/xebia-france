@@ -19,8 +19,7 @@ http://activemq.org/config/1.0 http://activemq.apache.org/schema/core/activemq-c
    <!-- SERVER SIDE COMPONENTS -->
    <bean id="requestReplyServer" class="fr.xebia.sample.springframework.jms.requestreply.RequestReplyServer" />
    <jms:listener-container connection-factory="connectionFactory" concurrency="10">
-      <jms:listener destination="requestDestination" ref="requestReplyServer" method="sayHello"
-         use-message-id-in-response="true" />
+      <jms:listener destination="requestDestination" ref="requestReplyServer" method="sayHello" />
    </jms:listener-container>
 
    <!-- ACTIVE MQ COMPONENTS -->
