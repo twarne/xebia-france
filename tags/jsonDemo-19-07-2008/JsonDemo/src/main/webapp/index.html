@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>Simple JSON Auto-complete demo</title>
+  <script src="./js/scriptaculous-js-1.8.1/lib/prototype.js" type="text/javascript"></script>
+  <script src="./js/scriptaculous-js-1.8.1/src/scriptaculous.js" type="text/javascript"></script>
+
+  <!-- Modification de la page pour creation d'un nouveau tag -->
+  
+  <style type="text/css">
+    div.autocomplete {
+  position:absolute;
+  width:250px;
+  background-color:white;
+  border:1px solid #888;
+  margin:0px;
+  padding:0px;
+}
+div.autocomplete ul {
+  list-style-type:none;
+  margin:0px;
+  padding:0px;
+}
+div.autocomplete ul li.selected { background-color: #ffb;}
+div.autocomplete ul li {
+  list-style-type:none;
+  display:block;
+  margin:0;
+  padding:2px;
+  height:32px;
+  cursor:pointer;
+}
+
+span.informal {
+	font-weight: bold;
+	font-size:10px;
+	color:#888;
+}
+
+  </style>
+</head>
+<body>
+<!-- Titre et input de type texte pour la saisie -->
+<h2>Json Auto-complete demo</h2>
+Enter a name: <input type="text" id="autocomplete" name="autocomplete_parameter" autocomplete="off"/>
+<!-- span affiché pendant le chargement de la liste -->
+<span id="indicator1" style="display: none">
+  Working ....
+</span>
+<!-- span pour affiché le couriel -->
+<span id="email"></span>
+<!-- div utilisée par Ajax.autocompleter pour afficher la liste des contacts trouvés -->
+<div id="autocomplete_choices" class="autocomplete"></div>
+<script type="text/javascript">
+// <![CDATA[
+var jsonListObj = null;
+var complete = null;
+
+	// Fonction appellée pour traitée la réopnse HTTP
+ function processJson(choices){
+ 	var aux ='';
+ 			// Parse la chaine Json en objet JS la valeur 'true' indique à prototypeJs d'échaper proprement
+ 			// les guillemets pour interdire l'injection de code.
+ 	jsonListObj = choices.evalJSON(true);
+ 	aux = "<ul>";
+ 	
+ 	if (jsonListObj == undefined){
+ 		aux += "<li> No value found !</li>";
+ 	} else {
+	 	for (var i = 0; i < jsonListObj.length; i++){
+	 		aux += "<li>"+ jsonListObj[i].name + " <span class=\"informal\"> " + jsonListObj[i].email  + "</span></li>";
+	 	}
+ 	}
+ 	aux += "</ul>";
+ 	return aux;
+ }
+ 	// Affiche le couriel quand 
+ function updateTitle (id){
+ 	$('autocomplete').value = jsonListObj[id].name;
+ 	$('email').innerHTML = "Email: " + jsonListObj[id].email;
+ }
+ 
+    // Initialise l'autocompleter script.aculo.us
+ var complete = new Ajax.Autocompleter("autocomplete", "autocomplete_choices", "/JsonDemo/AutoComplete.jsp", {
+  paramName: "value", 
+  minChars: 2, 
+  updateElementByIndex: updateTitle, 
+  indicator: 'indicator1',
+  onUpdateChoices: processJson
+});
+
+// ]]>
+</script>
+
+
+</body>
+</html>
