@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jaxws:bindings xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns="http://java.sun.com/xml/ns/jaxws"
+	xmlns:jaxws="http://java.sun.com/xml/ns/jaxws" xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc" jaxb:extensionBindingPrefixes="xjc" jaxb:version="2.0"
+	xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" node="xsd:schema">
+	<jaxb:globalBindings>
+		<xjc:simple />
+		<jaxb:javaType name="java.sql.Date" xmlType="xsd:date" parseMethod="valueOf" printMethod="toString" />
+		<jaxb:serializable uid="1" />
+	</jaxb:globalBindings>
+</jaxws:bindings>

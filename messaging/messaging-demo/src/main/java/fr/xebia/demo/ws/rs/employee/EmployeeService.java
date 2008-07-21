@@ -42,8 +42,7 @@ public class EmployeeService {
 
     @GET
     @Path("/employees/{id}/")
-    public Employee getEmployee(@PathParam("id")
-    int id) {
+    public Employee getEmployee(@PathParam("id") int id) {
         Employee employee = new Employee();
         employee.setId(id);
         employee.setLastName("Doe");
@@ -76,8 +75,7 @@ public class EmployeeService {
 
     @DELETE
     @Path("/employees/{id}/")
-    public Response deleteEmployee(@PathParam("id")
-    String id) {
+    public Response deleteEmployee(@PathParam("id") String id) {
         return Response.ok(id).build();
     }
 
