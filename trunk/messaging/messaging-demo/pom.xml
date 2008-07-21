@@ -84,24 +84,6 @@
 							<goal>wsdl2java</goal>
 						</goals>
 					</execution>
-					<execution>
-						<id>generate-sources-userProfileService</id>
-						<phase>generate-sources</phase>
-						<configuration>
-							<wsdlOptions>
-								<wsdlOption>
-									<wsdl>${basedir}/src/main/resources/META-INF/wsdl/userProfileService-1.0.wsdl</wsdl>
-									<extraargs>
-										<extraarg>-b</extraarg>
-										<extraarg>${basedir}/src/main/resources/META-INF/xjb/binding.xjb</extraarg>
-									</extraargs>
-								</wsdlOption>
-							</wsdlOptions>
-						</configuration>
-						<goals>
-							<goal>wsdl2java</goal>
-						</goals>
-					</execution>
 				</executions>
 				<dependencies>
 					<dependency>
