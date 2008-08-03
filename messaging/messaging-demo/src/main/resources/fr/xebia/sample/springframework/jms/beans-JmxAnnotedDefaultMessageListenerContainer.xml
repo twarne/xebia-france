@@ -1,0 +1,53 @@
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:lang="http://www.springframework.org/schema/lang"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang.xsd">
+
+	<!-- JMS stuff -->
+	<bean id="activeMqConnectionFactory" class="org.apache.activemq.spring.ActiveMQConnectionFactory">
+		<property name="brokerURL" value="vm://localhost?broker.persistent=false&amp;broker.useJmx=false" />
+	</bean>
+
+	<bean id="connectionFactory" class="org.springframework.jms.connection.SingleConnectionFactory">
+		<property name="targetConnectionFactory" ref="activeMqConnectionFactory" />
+	</bean>
+
+	<bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+		<property name="connectionFactory" ref="connectionFactory" />
+		<property name="defaultDestinationName" value="defaultQueue" />
+		<property name="pubSubDomain" value="false" />
+	</bean>
+
+	<bean id="listenerContainer" class="fr.xebia.springframework.jms.support.listener.JmxAnnotedDefaultMessageListenerContainer">
+		<property name="concurrentConsumers" value="5" />
+		<property name="connectionFactory" ref="connectionFactory" />
+		<property name="destinationName" value="defaultQueue" />
+		<property name="messageListener" ref="messageListener" />
+	</bean>
+
+	<bean id="queueSender" class="fr.xebia.sample.springframework.jms.SampleSender">
+		<property name="jmsTemplate" ref="jmsTemplate" />
+	</bean>
+
+	<bean id="messageListener" class="fr.xebia.sample.springframework.jms.SampleListener" />
+
+	<!-- JMX stuff -->
+	<bean id="mbeanServer" class="java.lang.management.ManagementFactory" factory-method="getPlatformMBeanServer" />
+
+	<bean id="jmxAttributeSource" class="org.springframework.jmx.export.annotation.AnnotationJmxAttributeSource" />
+
+	<bean id="namingStrategy" class="org.springframework.jmx.export.naming.MetadataNamingStrategy">
+		<property name="attributeSource" ref="jmxAttributeSource" />
+	</bean>
+
+	<!-- will create management interface using annotation metadata -->
+	<bean id="assembler" class="org.springframework.jmx.export.assembler.MetadataMBeanInfoAssembler">
+		<property name="attributeSource" ref="jmxAttributeSource" />
+	</bean>
+
+	<bean id="exporter" class="org.springframework.jmx.export.MBeanExporter">
+		<property name="assembler" ref="assembler" />
+		<property name="namingStrategy" ref="namingStrategy" />
+		<property name="autodetectModeName" value="AUTODETECT_ASSEMBLER" />
+	</bean>
+</beans>

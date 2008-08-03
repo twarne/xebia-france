@@ -15,6 +15,9 @@
  */
 package fr.xebia.demo.ws.rs.employee;
 
+import java.sql.Date;
+import java.util.GregorianCalendar;
+
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -22,9 +25,6 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
-import javax.xml.datatype.DatatypeConfigurationException;
-import javax.xml.datatype.DatatypeConstants;
-import javax.xml.datatype.DatatypeFactory;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.log4j.Logger;
@@ -48,12 +48,7 @@ public class EmployeeService {
         employee.setLastName("Doe");
         employee.setFirstName("John");
         employee.setGender(Gender.MALE);
-        try {
-            employee.setBirthdate(DatatypeFactory.newInstance()
-                    .newXMLGregorianCalendarDate(1976, 01, 05, DatatypeConstants.FIELD_UNDEFINED));
-        } catch (DatatypeConfigurationException e) {
-            logger.error("Exception creating XMLGregorianCalendarDate", e);
-        }
+        employee.setBirthdate(new Date(new GregorianCalendar(1976, 01, 05).getTimeInMillis()));
 
         logger.info("getEmployee(" + id + "): " + ToStringBuilder.reflectionToString(employee));
         return employee;

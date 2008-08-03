@@ -15,10 +15,11 @@
  */
 package fr.xebia.demo.ws.employee;
 
+import java.sql.Date;
+import java.util.GregorianCalendar;
 import java.util.Random;
 
-import javax.xml.datatype.DatatypeConstants;
-import javax.xml.datatype.DatatypeFactory;
+import javax.xml.ws.Endpoint;
 import javax.xml.ws.Holder;
 import javax.xml.ws.soap.SOAPFaultException;
 
@@ -29,6 +30,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -39,7 +41,7 @@ import fr.xebia.demo.xml.employee.Gender;
  * @author <a href="mailto:cyrille.leclerc@pobox.com">Cyrille Le Clerc</a>
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:ApplicationContext.xml"})
+@ContextConfiguration(locations = {"classpath:clientApplicationContext.xml"})
 public class EmployeeServiceIntegrationTest {
 
     /**
@@ -49,6 +51,25 @@ public class EmployeeServiceIntegrationTest {
 
     @Autowired
     protected EmployeeService employeeService;
+
+    @Autowired
+    protected ApplicationContext applicationContext;
+    
+    //@Test
+    public void testEmployeeServiceEndpoint() throws Exception {
+        String address = "http://localhost:8080/cxf/services/employee-service";
+        //employeeServiceEndpoint.publish(address);
+        System.out.println("wait ...");
+        Thread.sleep(1000*60);
+        System.out.println("bye");
+    }
+    @Test
+    public void testListBeans() throws Exception {
+        System.out.println("beanDefinitionNames");
+       for(String beanDefinitionName : applicationContext.getBeanDefinitionNames()){
+           System.out.println(beanDefinitionName);
+       }
+    }
 
     @Test
     public void testGetEmployee() throws Exception {
@@ -67,7 +88,7 @@ public class EmployeeServiceIntegrationTest {
         employee.setLastName("Doe-" + id);
         employee.setFirstName("John");
         employee.setGender(Gender.MALE);
-        employee.setBirthdate(DatatypeFactory.newInstance().newXMLGregorianCalendarDate(1976, 01, 05, DatatypeConstants.FIELD_UNDEFINED));
+        employee.setBirthdate(new Date(new GregorianCalendar(1976, 01, 05).getTimeInMillis()));
 
         final Holder<Employee> employeeHolder = new Holder<Employee>(employee);
         employeeService.putEmployee(employeeHolder);
@@ -84,7 +105,7 @@ public class EmployeeServiceIntegrationTest {
         employee.setLastName("Doe-" + id);
         employee.setFirstName(null);
         employee.setGender(Gender.MALE);
-        employee.setBirthdate(DatatypeFactory.newInstance().newXMLGregorianCalendarDate(1976, 01, 05, DatatypeConstants.FIELD_UNDEFINED));
+        employee.setBirthdate(new Date(new GregorianCalendar(1976, 01, 05).getTimeInMillis()));
 
         final Holder<Employee> employeeHolder = new Holder<Employee>(employee);
         try {
@@ -111,7 +132,7 @@ public class EmployeeServiceIntegrationTest {
         Assert.assertTrue("firstName must be longer than 256 chars to exceed Schema constraint", firstName.length() > 256);
         employee.setFirstName(firstName);
         employee.setGender(Gender.MALE);
-        employee.setBirthdate(DatatypeFactory.newInstance().newXMLGregorianCalendarDate(1976, 01, 05, DatatypeConstants.FIELD_UNDEFINED));
+        employee.setBirthdate(new Date(new GregorianCalendar(1976, 01, 05).getTimeInMillis()));
 
         final Holder<Employee> employeeHolder = new Holder<Employee>(employee);
         try {
