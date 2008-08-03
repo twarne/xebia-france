@@ -15,9 +15,9 @@
  */
 package fr.xebia.demo.ws.employee;
 
-import javax.xml.datatype.DatatypeConfigurationException;
-import javax.xml.datatype.DatatypeConstants;
-import javax.xml.datatype.DatatypeFactory;
+import java.sql.Date;
+import java.util.GregorianCalendar;
+
 import javax.xml.ws.Holder;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -48,12 +48,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setLastName("Doe");
         employee.setFirstName("John");
         employee.setGender(Gender.MALE);
-        try {
-            employee.setBirthdate(DatatypeFactory.newInstance()
-                    .newXMLGregorianCalendarDate(1976, 01, 05, DatatypeConstants.FIELD_UNDEFINED));
-        } catch (DatatypeConfigurationException e) {
-            logger.error("Exception creating XMLGregorianCalendarDate", e);
-        }
+        employee.setBirthdate(new Date(new GregorianCalendar(1976, 01, 05).getTimeInMillis()));
 
         logger.info("getEmployee(" + id + "): " + ToStringBuilder.reflectionToString(employee));
         return employee;

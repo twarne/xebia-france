@@ -9,36 +9,8 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
 http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
 http://cxf.apache.org/transports/http/configuration http://cxf.apache.org/schemas/configuration/http-conf.xsd
 http://cxf.apache.org/configuration/security http://cxf.apache.org/schemas/configuration/security.xsd">
-   <import resource="classpath:META-INF/cxf/cxf.xml" />
-   <import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
-   <import resource="classpath:META-INF/cxf/cxf-extension-http.xml" />
-   <import resource="classpath:META-INF/cxf/cxf-extension-jaxws.xml" />
-   <!-- <import resource="classpath:META-INF/cxf/cxf-extension-jaxrs-binding.xml" /> -->
-   <import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
-   <import resource="classpath:META-INF/cxf/cxf-extension-xml.xml" />
-   <import resource="classpath:META-INF/cxf/cxf-extension-javascript-client.xml" />
    <context:annotation-config />
    <context:property-placeholder location="classpath:applicationContext.properties" />
-   <jaxws:endpoint implementor="fr.xebia.demo.ws.employee.EmployeeServiceImpl" address="/employee-service">
-      <jaxws:features>
-         <!-- 
-            logging is enabled/disabled setting log4j loggers to INFO :
-            org.apache.cxf.interceptor.LoggingInInterceptor
-            org.apache.cxf.interceptor.LoggingOutInterceptor 
-            
-         -->
-         <bean class="org.apache.cxf.feature.LoggingFeature" />
-         <bean class="org.apache.cxf.management.interceptor.ResponseTimeFeature" />
-      </jaxws:features>
-      <jaxws:schemaLocations>
-         <jaxws:schemaLocation>classpath:META-INF/xsd/employee-1.0.xsd</jaxws:schemaLocation>
-         <jaxws:schemaLocation>classpath:META-INF/xsd/employeeService-1.0.xsd</jaxws:schemaLocation>
-      </jaxws:schemaLocations>
-      <jaxws:properties>
-         <entry key="schema-validation-enabled" value="true" />
-         <entry key="faultStackTraceEnabled" value="true" />
-      </jaxws:properties>
-   </jaxws:endpoint>
    <jaxws:client id="EmployeeService" serviceClass="fr.xebia.demo.ws.employee.EmployeeService" address="${employee-service.address}">
       <jaxws:features>
          <!-- 
@@ -54,9 +26,11 @@ http://cxf.apache.org/configuration/security http://cxf.apache.org/schemas/confi
          <entry key="faultStackTraceEnabled" value="true" />
       </jaxws:properties>
    </jaxws:client>
-
-   <!--
-      <jaxrs:server id="employeeServiceJaxRs" address="/"> <jaxrs:serviceBeans> <bean class="fr.xebia.demo.ws.rs.employee.EmployeeService"
-      /> </jaxrs:serviceBeans> </jaxrs:server>
-   -->
+   <http-conf:conduit name="{http://demo.xebia.fr/ws/employee}employeeServicePort.http-conduit">
+      <http-conf:client ConnectionTimeout="30000" ReceiveTimeout="60000" />
+      <http-conf:authorization>
+         <security:UserName>rod</security:UserName>
+         <security:Password>koala</security:Password>
+      </http-conf:authorization>
+   </http-conf:conduit>
 </beans>

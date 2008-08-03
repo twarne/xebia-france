@@ -3,7 +3,13 @@
 	xmlns:jaxws="http://java.sun.com/xml/ns/jaxws" xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc" jaxb:extensionBindingPrefixes="xjc" jaxb:version="2.0"
 	xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" node="xsd:schema">
 	<jaxb:globalBindings>
-		<xjc:simple />
+		<!--
+		FIXME
+		Caused by: org.xml.sax.SAXParseException: The prefix "xjc" for element "xjc:simple" is not bound.
+          at com.sun.org.apache.xerces.internal.parsers.DOMParser.parse(DOMParser.java:239)
+          at com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderImpl.parse(DocumentBuilderImpl.java:283) 
+		<xjc:simple /> 
+		-->
 		<jaxb:javaType name="java.sql.Date" xmlType="xsd:date" parseMethod="valueOf" printMethod="toString" />
 		<jaxb:serializable uid="1" />
 	</jaxb:globalBindings>
