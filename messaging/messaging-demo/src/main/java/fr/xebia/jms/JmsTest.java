@@ -15,8 +15,6 @@
  */
 package fr.xebia.jms;
 
-import java.util.concurrent.CountDownLatch;
-
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
 import javax.jms.Destination;
