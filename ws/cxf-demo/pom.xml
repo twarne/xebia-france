@@ -1,23 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-	/*
-	* Copyright 2007 Xebia and the original author or authors.
-	*
-	* Licensed under the Apache License, Version 2.0 (the "License");
-	* you may not use this file except in compliance with the License.
-	* You may obtain a copy of the License at
-	*
-	*      http://www.apache.org/licenses/LICENSE-2.0
-	*
-	* Unless required by applicable law or agreed to in writing, software
-	* distributed under the License is distributed on an "AS IS" BASIS,
-	* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	* See the License for the specific language governing permissions and
-	* limitations under the License.
-	*/
--->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<!--
+		/* * Copyright 2007 Xebia and the original author or authors. * * Licensed under the Apache License, Version 2.0 (the "License"); * you may not use
+		this file except in compliance with the License. * You may obtain a copy of the License at * * http://www.apache.org/licenses/LICENSE-2.0 * * Unless
+		required by applicable law or agreed to in writing, software * distributed under the License is distributed on an "AS IS" BASIS, * WITHOUT
+		WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. * See the License for the specific language governing permissions and * limitations
+		under the License. */
+	-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<name>cxf-demo</name>
 	<groupId>fr.xebia.ws</groupId>
@@ -72,15 +61,14 @@
 			<version>${cxf-version}</version>
 		</dependency>
 		<dependency>
-		   <groupId>org.apache.cxf</groupId>
-		   <artifactId>cxf-rt-ws-security</artifactId>
-		   <version>${cxf-version}</version>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-ws-security</artifactId>
+			<version>${cxf-version}</version>
 		</dependency>
-
 		<dependency>
-		   <groupId>log4j</groupId>
-		   <artifactId>log4j</artifactId>
-		   <version>1.2.14</version>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.14</version>
 		</dependency>
 
 		<!--  upgrade spring version to ${spring-version} -->
@@ -129,7 +117,7 @@
 							<sourceRoot>${basedir}/target/generated/src/main/java</sourceRoot>
 							<wsdlOptions>
 								<wsdlOption>
-									<wsdl>${basedir}/src/main/wsdl/AWSECommerceService.wsdl</wsdl>
+									<wsdl>${basedir}/src/main/resources/META-INF/wsdl/AWSECommerceService.wsdl</wsdl>
 								</wsdlOption>
 							</wsdlOptions>
 						</configuration>
@@ -140,13 +128,12 @@
 				</executions>
 				<dependencies>
 					<dependency>
-						<!-- 
+						<!--
 							As we use Log4j as CXF logging implementation of our app (via /META-INF/cxf/org.apache.cxf.Logger), we need log4j in the plugin's classpath
-							java.lang.NoClassDefFoundError
-							at org.apache.cxf.BusFactory.<clinit>(BusFactory.java:39)
-							at org.apache.cxf.maven_plugin.WSDL2JavaMojo.execute(WSDL2JavaMojo.java:140)
-							at org.apache.maven.plugin.DefaultPluginManager.executeMojo(DefaultPluginManager.java:443)
-							at org.apache.maven.lifecycle.DefaultLifecycleExecutor.executeGoals(DefaultLifecycleExecutor.java:539)
+							java.lang.NoClassDefFoundError at org.apache.cxf.BusFactory.<clinit>(BusFactory.java:39) at
+							org.apache.cxf.maven_plugin.WSDL2JavaMojo.execute(WSDL2JavaMojo.java:140) at
+							org.apache.maven.plugin.DefaultPluginManager.executeMojo(DefaultPluginManager.java:443) at
+							org.apache.maven.lifecycle.DefaultLifecycleExecutor.executeGoals(DefaultLifecycleExecutor.java:539)
 						-->
 						<groupId>log4j</groupId>
 						<artifactId>log4j</artifactId>
@@ -174,7 +161,14 @@
 					</execution>
 				</executions>
 			</plugin>
-
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.5</source>
+					<target>1.5</target>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 	<repositories>
@@ -187,6 +181,6 @@
 	</repositories>
 	<properties>
 		<spring-version>2.5.5</spring-version>
-		<cxf-version>2.1.1</cxf-version>
+		<cxf-version>2.1.2</cxf-version>
 	</properties>
 </project>
