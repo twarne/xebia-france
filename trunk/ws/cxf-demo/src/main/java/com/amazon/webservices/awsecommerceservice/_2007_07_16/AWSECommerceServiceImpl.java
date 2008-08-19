@@ -20,7 +20,6 @@ import javax.jws.HandlerChain;
 /**
  * @author <a href="mailto:cyrille.leclerc@pobox.com">Cyrille Le Clerc</a>
  */
-@HandlerChain(file = "AWSECommerceServiceImplCandlerChain.xml")
 public class AWSECommerceServiceImpl implements AWSECommerceServicePortType {
 
     public BrowseNodeLookupResponse browseNodeLookup(BrowseNodeLookup body) {
