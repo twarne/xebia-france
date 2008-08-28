@@ -315,30 +315,11 @@
          <version>4.4</version>
       </dependency>
    </dependencies>
-   <repositories>
-      <repository>
-         <id>apache snapshot repository</id>
-         <url>http://people.apache.org/repo/m2-snapshot-repository/</url>
-         <snapshots>
-            <enabled>true</enabled>
-         </snapshots>
-      </repository>
-   </repositories>
-   <pluginRepositories>
-      <pluginRepository>
-         <id>apache snapshot repository</id>
-         <url>http://people.apache.org/repo/m2-snapshot-repository/</url>
-         <snapshots>
-            <enabled>true</enabled>
-         </snapshots>
-      </pluginRepository>
-   </pluginRepositories>
    <properties>
       <spring-version>2.5.5</spring-version>
       <spring-security.version>2.0.3</spring-security.version>
       <spring-ws.version>1.5.3</spring-ws.version>
-      <!-- use cxf 2.1.2-SNAPSHOT waiting for https://issues.apache.org/jira/browse/CXF-1663 -->
-      <cxf-version>2.1.2-SNAPSHOT</cxf-version>
+      <cxf-version>2.1.2</cxf-version>
       <mq-version>6.0.2.1</mq-version>
    </properties>
 </project>
