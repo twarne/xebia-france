@@ -20,6 +20,8 @@
    <sec:http auto-config="true">
       <sec:intercept-url pattern="/services/**" access="IS_AUTHENTICATED_FULLY, IS_AUTHENTICATED_REMEMBERED" />
       <sec:intercept-url pattern="/**" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+      <sec:anonymous/>
+      <sec:http-basic/>
    </sec:http>
     <!--
     Usernames/Passwords are
