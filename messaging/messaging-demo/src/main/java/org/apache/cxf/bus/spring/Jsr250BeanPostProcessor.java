@@ -99,7 +99,6 @@ public class Jsr250BeanPostProcessor
         }
     }
 
-    @Override
     public void afterPropertiesSet() throws Exception {
         try {
             // CommonAnnotationBeanPostProcessor was introduced in Spring 2.5
