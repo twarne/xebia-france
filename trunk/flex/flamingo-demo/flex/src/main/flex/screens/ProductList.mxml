@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml">
+    <mx:Metadata>
+        [Event(name='changeScreen', type='events.ChangeScreenEvent')]
+    </mx:Metadata>
+    <mx:Script>
+        <![CDATA[
+            import fr.xebia.demo.flamingo.vo.Product;
+
+            import events.ChangeScreenEvent;
+            import mx.rpc.events.FaultEvent;
+            import mx.rpc.events.ResultEvent;
+
+            import mx.collections.ArrayCollection;
+            import mx.controls.Alert;
+
+            [Bindable]
+            public var entities:ArrayCollection;
+
+            private function addEntity() :void {
+                var cse : ChangeScreenEvent  = new ChangeScreenEvent('changeScreen');
+                cse.toScreen = 'addEntity';
+                dispatchEvent(cse);
+            }
+
+            private function editEntity() :void {
+                var cse : ChangeScreenEvent  = new ChangeScreenEvent('changeScreen');
+                cse.toScreen = 'editEntity';
+                cse.payload = entityDataGrid.selectedItem;
+                dispatchEvent(cse);
+            }
+
+            private function faultHandler(event:FaultEvent):void {
+                Alert.show(event.fault.faultString, event.fault.faultCode.toString());
+            }
+
+            private function resultHandler(event:ResultEvent):void {
+                entities = event.result as ArrayCollection;
+            }
+
+            private function removeHandler(event:ResultEvent):void {
+                product.findAll(); //update table
+            }
+
+            public function refreshList() : void {
+                product.findAll();
+            }
+
+        ]]>
+    </mx:Script>
+
+    <mx:RemoteObject id="product" destination="Product" result="resultHandler(event)" fault="faultHandler(event)">
+        <mx:method name="remove" result="removeHandler(event)" fault="faultHandler(event)" />
+    </mx:RemoteObject>
+
+    <mx:DataGrid id="entityDataGrid" width="100%" height="250" dataProvider="{entities}">
+        <mx:columns>
+
+            <mx:DataGridColumn headerText="id" dataField="id"/>
+        
+            <mx:DataGridColumn headerText="version" dataField="version"/>
+        
+            <mx:DataGridColumn headerText="name" dataField="name"/>
+        
+            <mx:DataGridColumn headerText="description" dataField="description"/>
+        
+            <mx:DataGridColumn headerText="price" dataField="price"/>
+        
+            <mx:DataGridColumn headerText="avaibility" dataField="avaibility"/>
+        
+        </mx:columns>
+    </mx:DataGrid>
+    <mx:HBox width="100%" height="32">
+        <mx:Button label="Add" click="addEntity()"/>
+        <mx:Button label="Edit" click="editEntity()" enabled="{entityDataGrid.selectedIndex > -1}"/>
+        <mx:Button label="Delete" enabled="{entityDataGrid.selectedIndex > -1}" click="product.remove(entityDataGrid.selectedItem)"/>
+        <mx:Spacer width="100%"/>
+        <mx:Button label="Refresh list" click="refreshList();"/>
+    </mx:HBox>
+</mx:VBox>

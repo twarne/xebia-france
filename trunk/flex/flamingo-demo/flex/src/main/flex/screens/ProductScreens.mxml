@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<mx:Panel xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:view="screens.*"
+    width="700" height="400" layout="vertical" title="Product" horizontalAlign="center" verticalAlign="top">
+
+    <mx:Script>
+        <![CDATA[
+            import fr.xebia.demo.flamingo.vo.Product;
+
+
+            import events.ChangeScreenEvent;
+            import mx.collections.ArrayCollection;
+
+            private function productFormChangeScreenHandler(event:ChangeScreenEvent) :void {
+                if (event.toScreen == 'mainList') {
+                    productViewStack.selectedChild = productList;
+                    productList.refreshList();
+                }
+
+
+
+            }
+
+            private function productListChangeScreenHandler(event:ChangeScreenEvent) :void {
+                if (event.toScreen == 'addEntity') {
+                    productForm.reset();
+                    productViewStack.selectedChild = productForm;
+                } else if (event.toScreen == 'editEntity') {
+                    productForm.formModel = event.payload as Product;
+                    productViewStack.selectedChild = productForm;
+                }
+            }
+
+
+        ]]>
+    </mx:Script>
+
+    <mx:ViewStack id="productViewStack" width="100%" height="300">
+        <view:ProductList id="productList" width="100%" changeScreen="productListChangeScreenHandler(event)"/>
+        <view:ProductForm id="productForm" width="100%" height="100%" changeScreen="productFormChangeScreenHandler(event)"/>
+
+    </mx:ViewStack>
+</mx:Panel>
+

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<services-config>
+    <services>
+        <service
+            id="login-service"
+            class="flex.messaging.services.RemotingService"
+            messageTypes="flex.messaging.messages.RemotingMessage">
+            <destination id="loginService"/>
+            <destination id="ProductService"/>
+			<destination id="Product" />
+            <default-channels>
+                <channel ref="spring-amf"/>
+            </default-channels>
+        </service>
+    </services>
+
+    <channels>
+        <channel-definition id="spring-amf" class="mx.messaging.channels.AMFChannel">
+            <endpoint
+                uri="http://localhost:9081/flamingo-demo-web/flamingo/amf"
+                class="flex.messaging.endpoints.AMFEndpoint"/>
+        </channel-definition>
+    </channels>
+
+</services-config>

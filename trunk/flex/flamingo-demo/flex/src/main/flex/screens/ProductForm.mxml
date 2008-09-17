@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Form xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:flamingo="com.exadel.flamingo.flex.components.flamingo.*">
+    <mx:Metadata>
+        [Event(name='changeScreen', type='events.ChangeScreenEvent')]
+    </mx:Metadata>
+<mx:Script>
+    <![CDATA[
+        import events.ChangeScreenEvent;
+        import mx.rpc.events.FaultEvent;
+        import mx.rpc.events.ResultEvent;
+        import mx.controls.Alert;
+
+        import fr.xebia.demo.flamingo.vo.Product;
+
+
+        [Bindable]
+        public var formModel:Product;
+
+        private function gotoMainList():void {
+            var event:ChangeScreenEvent = new ChangeScreenEvent('changeScreen');
+            event.toScreen = 'mainList';
+            dispatchEvent(event);
+        }
+
+        public function reset() : void {
+            formModel = new Product();
+        }
+
+        private function fillFormModel():void {
+
+                formModel.id = Number(Product_id.text);
+        
+                formModel.version = Number(Product_version.text);
+        
+                formModel.name = Product_name.text;
+        
+                formModel.description = Product_description.text;
+        
+                formModel.price = Number(Product_price.text);
+        
+                formModel.avaibility = Product_avaibility.selectedDate;
+        
+        }
+
+
+        private function faultHandler(event:FaultEvent):void {
+            Alert.show(event.fault.faultString, event.fault.faultCode.toString());
+        }
+
+        private function resultHandler(event:ResultEvent):void {
+            gotoMainList();
+        }
+
+    ]]>
+</mx:Script>
+
+
+    <flamingo:EntityValidator id="nameValidator"
+        destination="Product"
+        validationTarget="name"
+        required="false"
+        source="{Product_name}"
+        property="text"/>
+            
+
+    <mx:RemoteObject id="product" destination="Product" result="resultHandler(event)" fault="faultHandler(event)"/>
+
+    <mx:FormHeading label="Product Form"/>
+
+
+    <mx:FormItem label="id">
+        <mx:Text id="Product_id" text="{formModel.id}"/>
+    </mx:FormItem>
+        
+    <mx:FormItem label="version">
+        <mx:TextInput id="Product_version" text="{formModel.version}"/>
+    </mx:FormItem>
+        
+    <mx:FormItem label="name">
+        <mx:TextInput id="Product_name" text="{formModel.name}"/>
+    </mx:FormItem>
+        
+    <mx:FormItem label="description">
+        <mx:TextInput id="Product_description" text="{formModel.description}"/>
+    </mx:FormItem>
+        
+    <mx:FormItem label="price">
+        <mx:TextInput id="Product_price" text="{formModel.price}"/>
+    </mx:FormItem>
+        
+    <mx:FormItem label="avaibility">
+        <mx:DateField id="Product_avaibility" selectedDate="{formModel.avaibility}"/>
+    </mx:FormItem>
+        
+
+
+
+    <mx:FormItem  horizontalAlign="left">
+        <mx:HBox width="100%">
+            <mx:Button label="Save" click="fillFormModel(); product.save(formModel)"/>
+            <mx:Button label="Cancel" click="gotoMainList()"/>
+        </mx:HBox>
+    </mx:FormItem>
+
+</mx:Form>
