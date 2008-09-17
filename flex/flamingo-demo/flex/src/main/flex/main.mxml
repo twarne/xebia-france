@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" 
+        xmlns:view="fr.xebia.demo.flamingo.view.*"
+>
+
+    <mx:Script>
+        <![CDATA[
+        import mx.controls.Alert;
+        import mx.rpc.events.FaultEvent;
+        import mx.rpc.events.ResultEvent;
+
+        [Bindable]
+        private var loggedIn:Boolean = false;
+
+        private function doLogin():void
+        {
+            if (loggedIn)
+            {
+                loginService.doLogout(username.text);
+            } else {
+                loginService.login(username.text, password.text);
+            }
+        }
+
+        private function loginHandler(event:ResultEvent):void
+        {
+            if (event.result)
+            {
+                loggedIn = true;
+                loginBtn.label = 'Logout';
+            } else {
+                Alert.show('Cannot login');
+            }
+        }
+
+        private function logoutHandler(event:ResultEvent):void
+        {
+            loggedIn = false;
+            loginBtn.label = 'Login';
+        }
+
+        private function faultHandler(event:FaultEvent):void
+        {
+            Alert.show(event.fault.faultString, event.fault.faultCode.toString());
+        }
+
+        ]]>
+	</mx:Script>
+
+    <mx:RemoteObject id="loginService" destination="loginService" fault="faultHandler(event)">
+        <mx:method name="login" result="loginHandler(event)" />
+        <mx:method name="doLogout" result="logoutHandler(event)" />
+    </mx:RemoteObject>
+
+        <mx:Panel title="Login" visible="{!loggedIn}" includeInLayout="{!loggedIn}" horizontalAlign="center" paddingBottom="10" paddingTop="10">
+	    <mx:Form>
+                <mx:FormItem label="User Name">
+                    <mx:TextInput id="username" text="admin" enabled="{!loggedIn}" />
+		</mx:FormItem>
+		<mx:FormItem label="Password">
+		    <mx:TextInput id="password" text="qwerty" enabled="{!loggedIn}" />
+		</mx:FormItem>
+	    </mx:Form>
+	    <mx:Button id="loginBtn" label="Login" click="doLogin()"/>
+	</mx:Panel>
+
+        <mx:HBox visible="{loggedIn}" verticalAlign="middle">
+	    <mx:Label text="Welcome {username.text}" />
+	    <mx:Button label="Logout" click="doLogin()"/>
+	</mx:HBox>
+	
+    <mx:ViewStack id="mainStack" selectedIndex="1" visible="{loggedIn}" width="750" height="500">
+        <view:ProductManager id="manager" width="100%" />
+
+        <mx:TabNavigator id="screenNavigator" width="750" height="500">
+            <!-- Do not remove these comments, they are used for screen generation -->
+            <!-- Start of screen definitions -->
+<screens:ProductScreens label="Product" xmlns:screens="screens.*"/>
+            <!-- End of screen definitions -->
+        </mx:TabNavigator>
+    </mx:ViewStack>
+
+</mx:Application>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml">
+
+	<mx:RemoteObject id="ProductService" destination="ProductService" fault="faultHandler(event)">
+            <mx:method name="getResultList" result="refreshHandler(event)" />
+            <mx:method name="save" result="operationHandler(event)" />
+            <mx:method name="update" result="operationHandler(event)" />
+            <mx:method name="remove" result="operationHandler(event)" />
+        </mx:RemoteObject>
+	
+	<mx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			import mx.utils.ObjectUtil;
+			import fr.xebia.demo.flamingo.vo.Product;
+			
+			[Bindable]
+			private var newEntity:Boolean;
+			
+			[Bindable]
+			private var itemsList:ArrayCollection = new ArrayCollection();
+			
+			[Bindable]
+			private var selectedItem:Product;
+
+                        override public function set visible(value:Boolean):void {
+                            super.visible = value;
+                            if (value) {
+                                refresh();
+                            }
+                        }
+						
+			public function refresh():void
+			{
+				selectedItem = null;
+                                ProductService.getResultList();
+			}
+			
+			private function selectItem():void
+			{
+				newEntity = false;
+                                selectedItem = entities.selectedItem as Product;
+				entityName.text = selectedItem.name;
+			}
+
+			private function addNewEntity():void
+			{
+				newEntity = true;
+				entities.selectedIndex = -1;
+				selectedItem = new Product();
+                                entityName.text = "";
+			}
+			
+			private function saveEntity():void
+			{
+				var entityToSend:Product = ObjectUtil.copy(selectedItem) as Product;
+				entityToSend.name = entityName.text;
+				if (newEntity)
+				{
+					ProductService.save(entityToSend);
+				} else {
+					ProductService.update(entityToSend);
+				}
+			}
+			
+			private function deleteEntity():void
+			{
+				ProductService.remove(selectedItem);
+			}
+			
+			private function refreshHandler(event:ResultEvent):void
+			{
+				itemsList = event.result as ArrayCollection;
+			}
+
+			private function operationHandler(event:ResultEvent):void
+			{
+				refresh();
+			}
+
+			private function faultHandler(event:FaultEvent):void
+			{
+				Alert.show(event.fault.faultString, event.fault.faultCode.toString());
+			}
+		]]>
+	</mx:Script>
+	
+	<mx:WipeDown id="showEffect" duration="300" />
+	<mx:WipeUp id="hideEffect" duration="300" />
+	
+	<mx:Panel title="Entities list" layout="horizontal" width="100%">
+            <mx:DataGrid id="entities" width="100%" dataProvider="{itemsList}" itemClick="selectItem()">
+	        <mx:columns>
+		    <mx:DataGridColumn headerText="id" dataField="id" width="50" />
+		    <mx:DataGridColumn headerText="Name" dataField="name" />
+		</mx:columns>
+	    </mx:DataGrid>
+	    <mx:VBox horizontalAlign="center">
+	        <mx:Button label="Refresh" click="refresh()"/>
+		<mx:Button label="Add new" click="addNewEntity()"/>
+	    </mx:VBox>
+	</mx:Panel>
+	
+	<mx:Panel title="Product entity editor" 
+            visible="{selectedItem != null}" 
+	    showEffect="{showEffect}" 
+	    hideEffect="{hideEffect}"
+	    width="100%">
+	        <mx:Form width="100%">
+		     <mx:FormItem label="Name" width="100%">
+                        <mx:TextInput id="entityName"/>
+			</mx:FormItem>
+			<mx:FormItem width="100%">
+			    <mx:HBox>
+			        <mx:Button label="{(newEntity) ? 'Insert' : 'Update'}" click="saveEntity()" />
+				<mx:Button label="Delete" visible="{!newEntity}" click="deleteEntity()" />
+			    </mx:HBox>
+		      </mx:FormItem>
+		  </mx:Form>
+	</mx:Panel>
+
+</mx:VBox>

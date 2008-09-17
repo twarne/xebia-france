@@ -1,0 +1,48 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>fr.xebia.demo.flamingo</groupId>
+        <artifactId>flamingo-demo</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <artifactId>flamingo-demo-flex</artifactId>
+    <packaging>swf</packaging>
+    <name>flamingo-demo Flex</name>
+
+    <properties>
+        <flex.home>${env.FLEX_HOME}</flex.home>
+    </properties>
+
+    <dependencies>
+       <dependency>
+           <groupId>com.exadel.flamingo.flex</groupId>
+           <artifactId>flamingo-flex</artifactId>
+           <version>1.6.0</version>
+           <type>swc</type>
+       </dependency>
+    </dependencies>
+    
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>net.israfil.mojo</groupId>
+                <artifactId>maven-flex2-plugin</artifactId>
+                <version>1.3</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <flexHome>${flex.home}</flexHome>
+                    <main>main.mxml</main>
+                    <dataServicesConfig>src/main/resources/services-config.xml</dataServicesConfig>
+                    <extraParameters>
+                        <parameter>
+                            <name>compiler.fonts.local-fonts-snapshot</name>
+                            <values><value>${env.FLEX_HOME}/frameworks/localFonts.ser</value></values>
+                        </parameter>
+                    </extraParameters>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
