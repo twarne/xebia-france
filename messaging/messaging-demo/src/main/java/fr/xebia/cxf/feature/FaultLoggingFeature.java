@@ -22,20 +22,19 @@ import org.apache.cxf.interceptor.InterceptorProvider;
 import fr.xebia.cxf.interceptor.FaultLoggingOutInterceptor;
 
 /**
- * This class is used to control message faults logging. 
- * By attaching this feature to an endpoint, you
- * enable faults logging. If this feature is present, an endpoint will log 
- * outgoing exceptions.
+ * This class is used to control message faults logging. By attaching this feature to an endpoint, you enable faults logging. If this
+ * feature is present, an endpoint will log outgoing exceptions.
+ * 
  * <pre>
- * <![CDATA[
-    <jaxws:endpoint ...>
-      <jaxws:features>
-       <bean class="fr.xebia.cxf.interceptor.FaultLoggingOutInterceptor"/>
-      </jaxws:features>
-    </jaxws:endpoint>
-  ]]>
-  </pre>
- *  
+ * &lt;![CDATA[
+ *     &lt;jaxws:endpoint ...&gt;
+ *       &lt;jaxws:features&gt;
+ *        &lt;bean class=&quot;fr.xebia.cxf.interceptor.FaultLoggingOutInterceptor&quot;/&gt;
+ *       &lt;/jaxws:features&gt;
+ *     &lt;/jaxws:endpoint&gt;
+ *   ]]&gt;
+ * </pre>
+ * 
  * @author <a href="mailto:cyrille.leclerc@pobox.com">Cyrille Le Clerc</a>
  */
 public class FaultLoggingFeature extends AbstractFeature {
@@ -45,6 +44,6 @@ public class FaultLoggingFeature extends AbstractFeature {
     @Override
     protected void initializeProvider(InterceptorProvider provider, Bus bus) {
         super.initializeProvider(provider, bus);
-        provider.getOutFaultInterceptors().add(OUT);        
+        provider.getOutFaultInterceptors().add(OUT);
     }
 }
