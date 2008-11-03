@@ -18,13 +18,12 @@ package fr.xebia.demo.objectgrid.ticketing;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.Logger;
 
 import com.ibm.websphere.objectgrid.ObjectMap;
+import com.ibm.websphere.objectgrid.Session;
 import com.ibm.websphere.objectgrid.datagrid.AgentManager;
 
 import fr.xebia.demo.objectgrid.ticketing.test.AbstractTicketingGridTest;
@@ -33,27 +32,25 @@ import fr.xebia.demo.objectgrid.ticketing.test.AbstractTicketingGridTest;
  * @author <a href="mailto:cyrille.leclerc@pobox.com">Cyrille Le Clerc</a>
  */
 public class TrainSearchAgentTest extends AbstractTicketingGridTest {
-
+    
     private final static Logger logger = Logger.getLogger(TrainSearchAgentTest.class);
-
+    
     public void test() throws Exception {
-
-        Date noonToday = DateUtils.add(DateUtils.truncate(new Date(), Calendar.DAY_OF_MONTH), Calendar.HOUR, 12);
-
+        
+        Date today = DateUtils.truncate(new Date(), Calendar.DAY_OF_MONTH);
+        Date noonToday = DateUtils.addHours(today, 12);
+        
         TrainSearchAgent trainSearchAgent = new TrainSearchAgent(PARIS_GARE_DE_LYON, noonToday, MARSEILLE_SAINT_CHARLES);
-
-        ObjectMap employeeMap = objectGrid.getSession().getMap("Train");
+        
+        Session session = objectGrid.getSession();
+        ObjectMap employeeMap = session.getMap("Train");
         AgentManager agentManager = employeeMap.getAgentManager();
-
-        Map<Integer, List<Train>> matchingTrainsByPartionId = agentManager.callMapAgent(trainSearchAgent);
-
-        for (Entry<Integer, List<Train>> entry : matchingTrainsByPartionId.entrySet()) {
-            int partionId = entry.getKey();
-            List<Train> matchingTrains = entry.getValue();
-            logger.debug(matchingTrains.size() + " matching trains found on partion " + partionId);
-            for (Train train : matchingTrains) {
-                logger.debug(train);
-            }
+        
+        List<RouteDetails> matchingTrainsByPartionId = (List<RouteDetails>)agentManager.callReduceAgent(trainSearchAgent);
+        logger.debug(matchingTrainsByPartionId.size() + " matching trains found ");
+        
+        for (RouteDetails routeDetails : matchingTrainsByPartionId) {
+            logger.debug(routeDetails);
         }
     }
 }

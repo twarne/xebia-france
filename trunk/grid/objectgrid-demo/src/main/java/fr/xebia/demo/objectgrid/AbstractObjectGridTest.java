@@ -57,7 +57,7 @@ public abstract class AbstractObjectGridTest extends TestCase {
         int employeeId = 1;
         List<Employee> employees = new ArrayList<Employee>();
 
-        employees.add(new Employee(employeeId++, "XXXXX", "Yyyyyy", " yxxxxx@gmail.com", "06 60 00 00 00", 0));
+        employees.add(new Employee(employeeId++, "Doe", "John", " john@doe.com", "06 60 00 00 00", 0));
         employees.add(new Employee(employeeId++, "AAAAA", "Bbbbbb", " baaaaa@gmail.com", "06 30 00 00 00", 0));
 
         int payrollId = 0;

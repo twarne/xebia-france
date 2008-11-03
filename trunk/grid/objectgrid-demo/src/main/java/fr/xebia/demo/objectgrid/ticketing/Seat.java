@@ -16,6 +16,7 @@
 package fr.xebia.demo.objectgrid.ticketing;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -32,30 +33,34 @@ import com.ibm.websphere.projector.annotations.Version;
  */
 @Entity
 public class Seat implements Serializable, Comparable<Seat> {
-
+    
     private static final long serialVersionUID = 1L;
-
+    
+    @Basic
+    protected boolean booked;
+    
     @Id
-    private int id;
-
+    protected int id;
+    
     @Basic
-    private int number;
-
+    protected int number;
+    
     @Basic
-    private boolean booked;
-
+    protected BigInteger price;
+    
     @Version
-    private int version;
+    protected int version;
 
     public Seat() {
         super();
     }
 
-    public Seat(int id, int number, boolean booked) {
+    public Seat(int id, int number, boolean booked, int price) {
         super();
         this.id = id;
         this.number = number;
         this.booked = booked;
+        this.price = BigInteger.valueOf(price);
     }
 
     public int compareTo(Seat other) {
@@ -73,42 +78,58 @@ public class Seat implements Serializable, Comparable<Seat> {
         if (!(obj instanceof Seat)) {
             return false;
         }
-        final Seat other = (Seat) obj;
+        final Seat other = (Seat)obj;
         return new EqualsBuilder().append(this.number, other.number).isEquals();
     }
-
+    
     public int getId() {
         return id;
     }
-
+    
     public int getNumber() {
         return number;
     }
-
+    
+    public BigInteger getPrice() {
+        return price;
+    }
+    
+    public int getVersion() {
+        return version;
+    }
+    
     @Override
     public int hashCode() {
         return new HashCodeBuilder().append(this.number).toHashCode();
     }
-
+    
     public boolean isBooked() {
         return booked;
     }
-
+    
     public void setBooked(boolean booked) {
         this.booked = booked;
     }
-
+    
     public void setId(int id) {
         this.id = id;
     }
-
+    
     public void setNumber(int number) {
         this.number = number;
     }
-
+    
+    public void setPrice(BigInteger price) {
+        this.price = price;
+    }
+    
+    public void setVersion(int version) {
+        this.version = version;
+    }
+    
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("id", this.id).append("number", this.number).append("booked", this.booked).append(
-                "version", this.version).toString();
+        return new ToStringBuilder(this).append("id", this.id).append("number", this.number).append("booked", this.booked)
+            .append("price", this.price).append("version", this.version).toString();
     }
 }

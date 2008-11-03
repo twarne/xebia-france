@@ -87,7 +87,7 @@ public class ObjectGridUtils {
         float javaVersion = Float.parseFloat(System.getProperty("java.specification.version").substring(0, 3));
         String jvmVendor = System.getProperty("java.vm.vendor");
 
-        Validate.isTrue(jvmVendor.indexOf("IBM") > -1, "JVM must be an IBM 5+ JVM");
-        Validate.isTrue(javaVersion >= 1.5f, "JVM must be an IBM 5+ JVM");
+        Validate.isTrue(jvmVendor.indexOf("IBM") > -1, "JVM must be an IBM 5+ JVM, vendor " + jvmVendor + " is not supported");
+        Validate.isTrue(javaVersion >= 1.5f, "JVM must be an IBM 5+ JVM, version " + javaVersion + " is not supported");
     }
 }
