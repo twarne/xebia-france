@@ -21,6 +21,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import junit.framework.Assert;
+
 import com.ibm.websphere.objectgrid.BackingMap;
 import com.ibm.websphere.objectgrid.ClientClusterContext;
 import com.ibm.websphere.objectgrid.ObjectGrid;
@@ -37,7 +39,6 @@ import fr.xebia.demo.objectgrid.data.Employee;
 
 public class EntityManagerTest extends AbstractObjectGridTest {
 
-    @SuppressWarnings("unchecked")
     public void testObjectQueryOnPartitionedData() throws Exception {
 
         // LOAD OBJECT GRID, SESSION AND ENTITY MANAGER
@@ -48,6 +49,7 @@ public class EntityManagerTest extends AbstractObjectGridTest {
         BackingMap employeeBackingMap = objectGrid.getMap("Employee");
         PartitionManager partitionManager = employeeBackingMap.getPartitionManager();
 
+        int actualEmployeeCount = 0;
         // PERFORM QUERY ON EACH PARTITION
         for (int partitionId = 0; partitionId < partitionManager.getNumOfPartitions(); partitionId++) {
 
@@ -57,7 +59,7 @@ public class EntityManagerTest extends AbstractObjectGridTest {
             entityManager.getTransaction().begin();
 
             Query query = entityManager.createQuery("select e from Employee e where e.lastName=:lastName");
-            query.setParameter("lastName", "BACROT");
+            query.setParameter("lastName", "Doe");
             // define partition (otherwise "PersistenceException: Unable to route request for non-root partitioned entity")
             query.setPartition(partitionId);
 
@@ -65,14 +67,16 @@ public class EntityManagerTest extends AbstractObjectGridTest {
             while (iterator.hasNext()) {
                 Employee employee = iterator.next();
                 System.out.println("Partition " + partitionId + " : " + employee);
+                actualEmployeeCount++;
             }
 
             // COMMIT TRANSACTION
             entityManager.getTransaction().commit();
         }
+        
+        assertEquals(1, actualEmployeeCount);
     }
 
-    @SuppressWarnings("unchecked")
     public void testObjectQueryOnPartitionedGridWithAgent() throws Exception {
 
         // LOAD OBJECT GRID, SESSION AND ENTITY MANAGER
@@ -82,7 +86,7 @@ public class EntityManagerTest extends AbstractObjectGridTest {
         Session session = objectGrid.getSession();
 
         AgentManager agentManager = session.getMap(QueryAgent.AGENT_RUNNER_MAP_NAME).getAgentManager();
-        MapGridAgent agent = new QueryAgent<Employee>("select e from Employee e where e.lastName=:lastName", "lastName", "BACROT");
+        MapGridAgent agent = new QueryAgent<Employee>("select e from Employee e where e.lastName=:lastName", "lastName", "Doe");
 
         Map<Integer, List<Employee>> employeesByPartitionId = agentManager.callMapAgent(agent);
         List<Employee> result = new ArrayList<Employee>();
@@ -96,5 +100,8 @@ public class EntityManagerTest extends AbstractObjectGridTest {
         for (Employee employee : result) {
             System.out.println(employee);
         }
+        
+        int actualEmployeeCount = result.size();
+        assertEquals(1, actualEmployeeCount);
     }
 }
