@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>fr.mycompany.myapp</groupId>
+  <artifactId>myapp-multi</artifactId>
+  <packaging>pom</packaging>
+  <name>Main Maven Project</name>
+  <version>1.0-SNAPSHOT</version>
+  <url>http://maven.apache.org</url>
+    <modules>
+    <module>myapp-webapp</module>
+    <module>myapp-functional-tests</module>
+  </modules>
+  <repositories>
+		<repository>
+			<id>OpenQA</id>
+			<url>http://archiva.openqa.org/repository/releases/</url>
+		</repository>
+	</repositories>
+
+  <dependencyManagement>
+  	<dependencies>
+		<dependency>
+			<groupId>org.testng</groupId>
+			<artifactId>testng</artifactId>
+			<version>${testng.version}</version>
+			<scope>test</scope>
+			<optional>true</optional>
+			<classifier>jdk15</classifier>
+		</dependency>
+		<dependency>
+			<groupId>org.openqa.selenium.client-drivers</groupId>
+			<artifactId>selenium-java-client-driver</artifactId>
+			<version>${selenium-client.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.openqa.selenium.server</groupId>
+			<artifactId>selenium-server</artifactId>
+			<version>${selenium-server.version}</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+	</dependencyManagement>
+	<properties>
+	<testng.version>5.1</testng.version>
+	<selenium-client.version>1.0-beta-1</selenium-client.version>
+	<selenium-server.version>1.0-beta-1</selenium-server.version>
+	</properties>
+</project>
