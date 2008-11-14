@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"
+				layout="absolute" width="580" height="392">
+
+	<mx:ArrayCollection id="countries">
+		<mx:Object label="Germany" data="0"/>
+		<mx:Object label="England" data="1"/>
+		<mx:Object label="Spain" data="2"/>
+		<mx:Object label="United States" data="3"/>
+		<mx:Object label="France" data="4"/>
+		<mx:Object label="India" data="5"/>
+		<mx:Object label="Netherlands" data="6"/>
+	</mx:ArrayCollection>
+
+	<mx:Array id="roles">
+        <mx:Object label="Administrator"/>
+        <mx:Object label="Gold Customer"/>
+        <mx:Object label="Read only Customer"/>
+        <mx:Object label="Editor Customer"/>
+        <mx:Object label="Read only User"/>
+        <mx:Object label="Admin User"/>
+     </mx:Array>
+	
+	<mx:Panel x="22" y="32" title="Gestion des utilisateurs">
+		<mx:Form>
+			<mx:FormItem label="Login">
+		        <mx:TextInput width="182" id="login"/>
+		    </mx:FormItem>
+			<mx:FormItem label="Password">
+		        <mx:TextInput width="182" id="password" displayAsPassword="true"/>
+		    </mx:FormItem>
+			<mx:FormItem label="Country">
+		        <mx:ComboBox id="country" dataProvider="{countries}" width="182" 
+		        			 prompt="Select a Country"
+							 selectedIndex="-1"/>
+		    </mx:FormItem>
+			<mx:FormItem>
+				<mx:HBox width="400" height="175">
+					 	<mx:VBox width="50%">
+				            <mx:Label text="Available Role"/>
+				
+				            <mx:List id="roleProvider" dataProvider="{roles}" width="100%" height="138" 
+				                allowMultipleSelection="true"                
+				                dragEnabled="true"
+				                dropEnabled="true"
+								dragMoveEnabled="true"
+				            />
+				
+				        </mx:VBox>
+				
+				        <mx:VBox width="50%">
+				            <mx:Label text="Selected Role"/>
+				
+				            <mx:List id="roleSelected" width="100%" height="138" 
+				                dropEnabled="true"
+				                dragEnabled="true"
+								dragMoveEnabled="true"
+				            />
+						</mx:VBox>
+				</mx:HBox>
+		    </mx:FormItem>
+		</mx:Form>
+	</mx:Panel>
+</mx:Application>

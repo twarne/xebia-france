@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" 
+				xmlns:myComponent="myComponents.*"
+				layout="absolute" width="580" height="392">
+
+	<mx:Panel x="22" y="32" title="Gestion des utilisateurs">
+		<mx:Form>
+			<mx:FormItem label="Login">
+		        <mx:TextInput width="182" id="login"/>
+		    </mx:FormItem>
+			<mx:FormItem label="Password">
+		        <mx:TextInput width="182" id="password" displayAsPassword="true"/>
+		    </mx:FormItem>
+			<mx:FormItem label="Country">
+		        <myComponent:ComboCountry width="182" id="country"/>
+		    </mx:FormItem>
+			<mx:FormItem>
+				<myComponent:ListPerm id="listRoles"/>
+		    </mx:FormItem>
+		</mx:Form>
+	</mx:Panel>
+</mx:Application>

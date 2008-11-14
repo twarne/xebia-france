@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:ComboBox xmlns:mx="http://www.adobe.com/2006/mxml" prompt="Select a Country"
+	selectedIndex="-1">
+	<mx:dataProvider>
+		<mx:ArrayCollection>
+			<mx:Object label="Germany" data="0"/>
+			<mx:Object label="England" data="1"/>
+			<mx:Object label="Spain" data="2"/>
+			<mx:Object label="United States" data="3"/>
+			<mx:Object label="France" data="4"/>
+			<mx:Object label="India" data="5"/>
+			<mx:Object label="Netherlands" data="6"/>
+		</mx:ArrayCollection>
+	</mx:dataProvider>
+</mx:ComboBox>
