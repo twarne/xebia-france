@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" 
 				xmlns:myComponent="myComponents.*"
-				layout="absolute" width="580" height="392">
+				layout="absolute" width="522" height="338">
 
-	<mx:Panel x="22" y="32" title="Gestion des utilisateurs">
+	<mx:Panel title="Gestion des utilisateurs">
 		<mx:Form>
 			<mx:FormItem label="Login">
 		        <mx:TextInput width="182" id="login"/>
