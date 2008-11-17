@@ -36,6 +36,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public void putEmployee(Holder<Employee> employee) throws EmployeeServiceFaultMsg {
+        
+        if(employee.value.getId() == null) {
+            throw new NullPointerException("employee.id can NOT be null");
+        }
 
         logger.info("putEmployee(" + employee + "): " + ToStringBuilder.reflectionToString(employee.value));
 

@@ -19,7 +19,6 @@ import java.sql.Date;
 import java.util.GregorianCalendar;
 import java.util.Random;
 
-import javax.xml.ws.Endpoint;
 import javax.xml.ws.Holder;
 import javax.xml.ws.soap.SOAPFaultException;
 
@@ -84,7 +83,7 @@ public class EmployeeServiceIntegrationTest {
         int id = random.nextInt();
 
         Employee employee = new Employee();
-        employee.setId(id);
+        employee.setId(null);
         employee.setLastName("Doe-" + id);
         employee.setFirstName("John");
         employee.setGender(Gender.MALE);
