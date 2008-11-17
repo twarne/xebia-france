@@ -321,10 +321,10 @@
       </dependency>
    </dependencies>
    <properties>
-      <spring-version>2.5.5</spring-version>
-      <spring-security.version>2.0.3</spring-security.version>
-      <spring-ws.version>1.5.3</spring-ws.version>
-      <cxf-version>2.1.2</cxf-version>
+      <spring-version>2.5.6</spring-version>
+      <spring-security.version>2.0.4</spring-security.version>
+      <spring-ws.version>1.5.5</spring-ws.version>
+      <cxf-version>2.1.3</cxf-version>
       <mq-version>6.0.2.1</mq-version>
    </properties>
 </project>

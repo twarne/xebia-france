@@ -42,6 +42,7 @@ http://cxf.apache.org/configuration/security http://cxf.apache.org/schemas/confi
          -->
          <bean class="org.apache.cxf.feature.LoggingFeature" />
          <bean class="org.apache.cxf.management.interceptor.ResponseTimeFeature" />
+         <bean class="fr.xebia.cxf.feature.FaultEnhancerFeature" />
       </jaxws:features>
       <!--
          <jaxws:schemaLocations> <jaxws:schemaLocation>classpath:META-INF/xsd/employee-1.0.xsd</jaxws:schemaLocation>
