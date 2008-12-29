@@ -1,0 +1,37 @@
+Panel {
+   borderThicknessLeft: 10;
+   borderThicknessTop: 0;
+   borderThicknessBottom: 0;
+   borderThicknessRight: 10;
+   borderStyle: solid;
+   borderColor: #000000;
+   borderAlpha: 1;
+   borderThickness: 1;
+   cornerRadius: 0;
+   dropShadowEnabled: false;
+}
+
+.xebiaTitle {
+   color: #AF7FAF;
+   fontFamily: Arial;
+   fontSize: 22;
+}
+
+TabNavigator {
+   borderColor: #000000;
+   background-color: #5F5E54;
+   borderThickness: 1;
+   color: #FFFFFF;
+   fontFamily: Arial;
+   fontSize: 12;
+   borderStyle: solid;
+   tabStyleName: "myTabs";
+}
+
+.myTabs {
+	borderColor: #000000;
+}
+
+DataGrid {
+	rollOverColor: #CC99FF;
+}

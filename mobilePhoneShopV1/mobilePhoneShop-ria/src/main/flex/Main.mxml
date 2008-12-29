@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"
+                layout="vertical" verticalAlign="middle" horizontalAlign="center"
+                xmlns:tab="main.flex.fr.xebia.xke.view.screen.*" width="1400" height="800" backgroundGradientAlphas="[1.0, 0.51]" backgroundGradientColors="[#AF7FAF, #D32C2C]">
+                
+	<mx:Style source="../../../mobilePhoneShop.css"/>
+                
+<mx:Label text="Online Mobile Phone Shop" width="661" height="54" enabled="true" fontFamily="Georgia" fontSize="40" textAlign="center" fontStyle="italic" color="#5F5E54"/>
+
+<mx:TabNavigator width="100%" height="408">
+	<mx:Canvas label="Jsp to Datagrid">
+		<tab:SimpleJspTransposition x="10" width="1330" height="364" color="#000000"/>
+	</mx:Canvas>
+</mx:TabNavigator>
+    
+</mx:Application>
