@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service id="remoting-service"
+    class="flex.messaging.services.RemotingService">
+
+    <adapters>
+        <adapter-definition id="java-object" class="flex.messaging.services.remoting.adapters.JavaAdapter" default="true"/>
+    </adapters>
+
+    <default-channels>
+        <channel ref="my-amf"/>
+    </default-channels>
+	
+	<!-- RPC Remote Object POJO configured -->
+	<destination id="mobilePhoneServicePojo">
+		<properties>
+			<source>fr.xebia.xke.business.impl.MobilePhoneServiceNoInjection</source>
+		</properties>
+	</destination>
+	
+	<!-- RPC Remote Object Spring configured -->
+	<destination id="mobilePhoneServiceSpring">
+		<properties>
+			<factory>spring</factory>
+			<source>mobilePhoneService</source>
+		</properties>
+	</destination>
+	
+	<destination id="flashSellServiceSpring">
+		<properties>
+			<factory>spring</factory>
+			<source>flashSellService</source>
+		</properties>
+	</destination>
+	
+	<destination id="securedMobilePhoneServiceSpring">
+		<properties>
+			<factory>spring</factory>
+			<source>mobilePhoneService</source>
+		</properties>
+	</destination>
+
+    <!--<destination id="product">
+        <properties>
+            <source>flex.samples.product.ProductService</source>
+        </properties>
+    </destination>
+
+    <destination id="chat-room-service">
+        <properties>
+            <source>flex.samples.runtimeconfig.ChatRoomService</source>
+            <scope>application</scope>
+        </properties>
+    </destination>
+
+    <destination id="database">
+        <properties>
+            <source>flex.samples.sqladmin.DatabaseService</source>
+        </properties>
+    </destination>
+
+    <destination id="census">
+        <properties>
+            <source>flex.samples.census.CensusService</source>
+        </properties>
+    </destination>
+
+    <destination id="flex-client-qos-config" channels="per-client-qos-polling-amf">
+        <properties>
+            <source>flex.samples.qos.FlexClientConfigService</source>
+        </properties>
+    </destination>-->
+    
+  </service>
