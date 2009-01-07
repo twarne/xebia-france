@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" 
+	width="400" height="300" 
+	horizontalAlign="center"
+	creationComplete="onCreationComplete()">
+
+	<mx:Metadata>
+		[Event("addContact")]
+	</mx:Metadata>	
+
+	<mx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+		
+			[Bindable]
+			private var contacts:ArrayCollection;
+			
+			private function onCreationComplete():void{
+				contacts = new ArrayCollection();
+			}
+		
+			private function onClick():void{
+				// on dispatche un nouvel évènement
+				// qui sera intercepté ici par le composant parent
+				dispatchEvent(new Event("addContact"));
+			}
+			
+			public function addContact(name:String):void{
+				contacts.addItem(name);
+			}
+			
+		]]>
+	</mx:Script>
+	
+	<mx:DataGrid width="100%" height="100%" dataProvider="{contacts}">
+		<mx:columns>
+			<mx:DataGridColumn headerText="Nom et prénoms"/>
+		</mx:columns>
+	</mx:DataGrid>
+	<mx:Button label="Ajouter" click="onClick()"/>
+
+</mx:VBox>
