@@ -31,6 +31,16 @@
       <param-value>classpath:applicationContext.xml</param-value>
    </context-param>
 
+   <servlet>
+      <display-name>CXF Servlet</display-name>
+      <servlet-name>CXFServlet</servlet-name>
+      <servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>
+   </servlet>
+   <servlet-mapping>
+      <servlet-name>CXFServlet</servlet-name>
+      <url-pattern>/services/*</url-pattern>
+   </servlet-mapping>
+
    <resource-env-ref>
       <resource-env-ref-name>jdbc/jmx-demo-data-source</resource-env-ref-name>
       <resource-env-ref-type>javax.sql.DataSource</resource-env-ref-type>

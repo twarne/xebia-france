@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:lang="http://www.springframework.org/schema/lang"
    xmlns:util="http://www.springframework.org/schema/util" xmlns:context="http://www.springframework.org/schema/context" xmlns:jee="http://www.springframework.org/schema/jee"
-   xmlns:tx="http://www.springframework.org/schema/tx"
+   xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jaxws="http://cxf.apache.org/jaxws" xmlns:http-conf="http://cxf.apache.org/transports/http/configuration"
+   xmlns:security="http://cxf.apache.org/configuration/security"
    xsi:schemaLocation="
        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
        http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd 
-       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
-
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+       http://cxf.apache.org/transports/http/configuration http://cxf.apache.org/schemas/configuration/http-conf.xsd
+       http://cxf.apache.org/configuration/security http://cxf.apache.org/schemas/configuration/security.xsd
+       ">
 
    <!-- JMX -->
    <bean id="servletContextAwareMbeanServer" class="fr.xebia.management.ServletContextAwareMBeanServer">
@@ -106,5 +110,36 @@
       <constructor-arg index="4" value="true" />
       <constructor-arg index="5" value="true" />
    </bean>
+
+   <!-- CXF -->
+   <import resource="classpath:META-INF/cxf/cxf.xml" />
+   <import resource="classpath:META-INF/cxf/cxf-extension-http.xml" />
+   <import resource="classpath:META-INF/cxf/cxf-extension-jaxws.xml" />
+   <import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
+   <import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
+
+   <bean id="cxf" class="org.apache.cxf.bus.CXFBusImpl">
+      <property name="id" value="jmx-demo-cxf-bus" />
+   </bean>
+   <bean id="org.apache.cxf.management.InstrumentationManager" class="fr.xebia.cxf.management.jmx.InstrumentationManagerImpl">
+      <property name="bus" ref="cxf" />
+      <property name="mbeanServer" ref="servletContextAwareMbeanServer" />
+      <property name="enabled" value="true" />
+   </bean>
+   <bean id="CounterRepository" class="org.apache.cxf.management.counters.CounterRepository">
+      <property name="bus" ref="cxf" />
+   </bean>
+
+   <bean id="helloWorldServiceImpl" class="fr.xebia.demo.jmx.webservice.HelloWorldServiceImpl"></bean>
+   <jaxws:endpoint id="helloWorldService" implementor="#helloWorldServiceImpl" address="/helloWorldService" endpointName="se:helloWorldServiceSOAP"
+      serviceName="se:helloWorldService" xmlns:se="http://www.xebia.fr/demo/jmx/webservice">
+      <jaxws:features>
+         <bean class="org.apache.cxf.feature.LoggingFeature" />
+         <bean class="org.apache.cxf.management.interceptor.ResponseTimeFeature" />
+      </jaxws:features>
+      <jaxws:properties>
+         <entry key="faultStackTraceEnabled" value="true" />
+      </jaxws:properties>
+   </jaxws:endpoint>
 
 </beans>
