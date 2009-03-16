@@ -3,6 +3,9 @@
   <!ENTITY process-metrics SYSTEM "/pdk/plugins/process-metrics.xml">
 ]>
 <plugin name="hibernate">
+   <!-- 
+   Inspired by http://svn.hyperic.org/projects/hq/trunk/plugins/jboss/etc/hibernate-plugin.xml
+    -->
    <classpath>
       <include name="pdk/lib/mx4j" />
    </classpath>
