@@ -16,9 +16,14 @@
        ">
 
    <!-- JMX -->
-   <bean id="servletContextAwareMbeanServer" class="fr.xebia.management.ServletContextAwareMBeanServer">
+
+   <bean id="servletContextAwareMbeanServer" class="fr.xebia.management.ServletContextAwareMBeanServerFactory">
       <property name="mbeanServer" ref="mbeanServer" />
    </bean>
+
+   <!-- 
+   <alias name="mbeanServer" alias="servletContextAwareMbeanServer"/>
+   -->
    <bean id="mbeanServer" class="org.springframework.jmx.support.MBeanServerFactoryBean">
       <property name="locateExistingServerIfPossible" value="true" />
    </bean>
