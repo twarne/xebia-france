@@ -20,10 +20,6 @@
    <bean id="servletContextAwareMbeanServer" class="fr.xebia.management.ServletContextAwareMBeanServerFactory">
       <property name="mbeanServer" ref="mbeanServer" />
    </bean>
-
-   <!-- 
-   <alias name="mbeanServer" alias="servletContextAwareMbeanServer"/>
-   -->
    <bean id="mbeanServer" class="org.springframework.jmx.support.MBeanServerFactoryBean">
       <property name="locateExistingServerIfPossible" value="true" />
    </bean>
@@ -126,10 +122,10 @@
    <bean id="cxf" class="org.apache.cxf.bus.CXFBusImpl">
       <property name="id" value="jmx-demo-cxf-bus" />
    </bean>
-   <bean id="org.apache.cxf.management.InstrumentationManager" class="fr.xebia.cxf.management.jmx.InstrumentationManagerImpl">
-      <property name="bus" ref="cxf" />
-      <property name="mbeanServer" ref="servletContextAwareMbeanServer" />
+   <bean id="org.apache.cxf.management.InstrumentationManager" class="org.apache.cxf.management.jmx.InstrumentationManagerImpl">
+      <property name="server" ref="servletContextAwareMbeanServer" />
       <property name="enabled" value="true" />
+      <property name="createMBServerConnectorFactory" value="false" />
    </bean>
    <bean id="CounterRepository" class="org.apache.cxf.management.counters.CounterRepository">
       <property name="bus" ref="cxf" />
