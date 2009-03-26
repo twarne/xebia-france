@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objectGridConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ibm.com/ws/objectgrid/config ../objectGrid.xsd"
+   xmlns="http://ibm.com/ws/objectgrid/config">
+
+   <objectGrids>
+      <objectGrid name="ticketingGrid" entityMetadataXMLFile="entity.xml">
+         <bean id="TransactionCallback" className="com.ibm.websphere.objectgrid.jpa.JPATxCallback">
+            <property name="persistenceUnitName" type="java.lang.String" value="ticketingPersistenceUnit" />
+         </bean>
+         <backingMap name="Seat" pluginCollectionRef="SeatBackingMapPluginCollection"/>
+         <backingMap name="Train" pluginCollectionRef="TrainBackingMapPluginCollection"/>
+         <backingMap name="TrainStop" pluginCollectionRef="TrainStopBackingMapPluginCollection"/>
+      </objectGrid>
+   </objectGrids>
+   <backingMapPluginCollections>
+      <backingMapPluginCollection id="SeatBackingMapPluginCollection">
+         <bean id="Loader" className="com.ibm.websphere.objectgrid.jpa.JPAEntityLoader">
+            <property name="entityClassName" type="java.lang.String" value="fr.xebia.demo.objectgrid.ticketing.Seat" />
+         </bean>
+      </backingMapPluginCollection>
+      <backingMapPluginCollection id="TrainBackingMapPluginCollection">
+         <bean id="Loader" className="com.ibm.websphere.objectgrid.jpa.JPAEntityLoader">
+            <property name="entityClassName" type="java.lang.String" value="fr.xebia.demo.objectgrid.ticketing.Train" />
+         </bean>
+      </backingMapPluginCollection>
+      <backingMapPluginCollection id="TrainStopBackingMapPluginCollection">
+         <bean id="Loader" className="com.ibm.websphere.objectgrid.jpa.JPAEntityLoader">
+            <property name="entityClassName" type="java.lang.String" value="fr.xebia.demo.objectgrid.ticketing.TrainStop" />
+         </bean>
+      </backingMapPluginCollection>
+   </backingMapPluginCollections>
+</objectGridConfig>

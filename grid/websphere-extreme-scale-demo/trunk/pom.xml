@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+   <!--                                                                          -->
+   <!-- Copyright 2007 Xebia and the original author or authors.                 -->
+   <!--                                                                          -->
+   <!-- Licensed under the Apache License, Version 2.0 (the "License");          -->
+   <!-- you may not use this file except in compliance with the License.         -->
+   <!-- You may obtain a copy of the License at                                  -->
+   <!--                                                                          -->
+   <!-- http://www.apache.org/licenses/LICENSE-2.0                               -->
+   <!--                                                                          -->
+   <!-- Unless required by applicable law or agreed to in writing, software      -->
+   <!-- distributed under the License is distributed on an "AS IS" BASIS,        -->
+   <!-- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. -->
+   <!-- See the License for the specific language governing permissions and      -->
+   <!-- limitations under the License.                                           -->
+   <!--                                                                          -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+   <name>Websphere eXtreme Scale Demo</name>
+   <groupId>fr.xebia.grid</groupId>
+   <artifactId>websphere-extreme-scale-demo</artifactId>
+   <packaging>jar</packaging>
+   <version>0.1-SNAPSHOT</version>
+   <description>IBM Websphere eXtreme Scale Demo</description>
+   <scm>
+      <connection>scm:svn:http://xebia-france.googlecode.com/svn/grid/websphere-extreme-scale-demo/trunk/</connection>
+      <developerConnection>scm:svn:https://xebia-france.googlecode.com/svn/grid/websphere-extreme-scale-demo/trunk</developerConnection>
+      <url>http://code.google.com/p/xebia-france/</url>
+   </scm>
+   <dependencies>
+      <dependency>
+         <groupId>com.ibm.ws.objectgrid</groupId>
+         <artifactId>objectgrid</artifactId>
+         <version>${objectgrid.version}</version>
+      </dependency>
+      <dependency>
+         <groupId>com.ibm.ws.objectgrid</groupId>
+         <artifactId>ogagent</artifactId>
+         <version>${objectgrid.version}</version>
+      </dependency>
+      <dependency>
+         <groupId>com.ibm.ws.objectgrid</groupId>
+         <artifactId>ogspring</artifactId>
+         <version>${objectgrid.version}</version>
+      </dependency>
+      <dependency>
+         <groupId>com.ibm.ws.objectgrid</groupId>
+         <artifactId>ogstreamquery</artifactId>
+         <version>${objectgrid.version}</version>
+      </dependency>
+      <dependency>
+         <groupId>commons-lang</groupId>
+         <artifactId>commons-lang</artifactId>
+         <version>2.4</version>
+      </dependency>
+      <dependency>
+         <groupId>log4j</groupId>
+         <artifactId>log4j</artifactId>
+         <version>1.2.14</version>
+      </dependency>
+      <dependency>
+         <groupId>commons-io</groupId>
+         <artifactId>commons-io</artifactId>
+         <version>1.4</version>
+      </dependency>
+      <dependency>
+         <groupId>cglib</groupId>
+         <artifactId>cglib-nodep</artifactId>
+         <version>2.1_3</version>
+      </dependency>
+
+      <!-- SPRING FRAMEWORK -->
+      <dependency>
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-aop</artifactId>
+         <version>${springframework.version}</version>
+      </dependency>
+      <dependency>
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-tx</artifactId>
+         <version>${springframework.version}</version>
+      </dependency>
+
+      <!-- HIBERNATE -->
+      <dependency>
+         <groupId>org.hibernate</groupId>
+         <artifactId>hibernate-entitymanager</artifactId>
+         <version>${hibernate-entitymanager.version}</version>
+      </dependency>
+      <dependency>
+         <groupId>org.hibernate</groupId>
+         <artifactId>hibernate-core</artifactId>
+         <version>${hibernate-core.version}</version>
+      </dependency>
+      <dependency>
+         <groupId>org.hibernate</groupId>
+         <artifactId>hibernate-jmx</artifactId>
+         <version>${hibernate-core.version}</version>
+      </dependency>
+
+      <dependency>
+         <groupId>javax.persistence</groupId>
+         <artifactId>persistence-api</artifactId>
+         <version>1.0</version>
+      </dependency>
+
+      <!-- HSQL DB -->
+      <dependency>
+         <groupId>hsqldb</groupId>
+         <artifactId>hsqldb</artifactId>
+         <version>1.8.0.7</version>
+      </dependency>
+      
+      <!--
+         <dependency> <groupId>castor</groupId> <artifactId>castor</artifactId> <version>0.9.5.3</version> </dependency> <dependency>
+         <groupId>mx4j</groupId> <artifactId>mx4j-jmx</artifactId> <version>3.0.1</version> </dependency> <dependency>
+         <groupId>mx4j</groupId> <artifactId>mx4j-remote</artifactId> <version>3.0.1</version> </dependency> <dependency>
+         <groupId>mx4j</groupId> <artifactId>mx4j-tools</artifactId> <version>3.0.1</version> </dependency>
+      -->
+      <dependency>
+         <groupId>junit</groupId>
+         <artifactId>junit</artifactId>
+         <version>4.4</version>
+      </dependency>
+   </dependencies>
+   <properties>
+      <hibernate-entitymanager.version>3.4.0.GA</hibernate-entitymanager.version>
+      <hibernate-core.version>3.3.1.GA</hibernate-core.version>
+      <objectgrid.version>6.1.0.5-fix1</objectgrid.version>
+      <springframework.version>2.5.6</springframework.version>
+   </properties>
+</project>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<deploymentPolicy xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ibm.com/ws/objectgrid/deploymentPolicy ../deploymentPolicy.xsd"
+   xmlns="http://ibm.com/ws/objectgrid/deploymentPolicy">
+
+   <objectgridDeployment objectgridName="ticketingGrid">
+      <mapSet name="trainMapSet" numberOfPartitions="1" maxSyncReplicas="1" maxAsyncReplicas="1" minSyncReplicas="0" developmentMode="true">
+         <map ref="Seat" />
+         <map ref="Train" />
+         <map ref="TrainStop" />
+      </mapSet>
+   </objectgridDeployment>
+</deploymentPolicy>

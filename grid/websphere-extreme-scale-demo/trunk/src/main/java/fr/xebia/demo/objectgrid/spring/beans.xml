@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:aop="http://www.springframework.org/schema/aop" xmlns:beans="http://www.springframework.org/schema/beans" xmlns:tx="http://www.springframework.org/schema/tx"
+   xmlns:objectgrid="http://www.ibm.com/schema/objectgrid"
+   xsi:schemaLocation="
+      http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+      http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+      http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+      http://www.ibm.com/schema/objectgrid http://localhost/downloads/java/websphere/websphere-6/objectgrid/objectgridtrial-6.1.0.4-fix2/objectgrid.xsd">
+
+   <aop:aspectj-autoproxy />
+
+   <tx:annotation-driven transaction-manager="transactionManager" />
+
+   <bean id="ObjectGridManager" class="com.ibm.websphere.objectgrid.ObjectGridManagerFactory" factory-method="getObjectGridManager" />
+
+   <bean id="ObjectGrid" factory-bean="ObjectGridManager" factory-method="createObjectGrid" />
+
+   <objectgrid:transactionManager id="transactionManager" />
+
+   <bean id="Service" class="com.ibm.websphere.objectgrid.spring.test.TestService">
+      <property name="txManager" ref="transactionManager" />
+   </bean>
+
+
+
+</beans:beans>
