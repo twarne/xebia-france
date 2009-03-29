@@ -247,7 +247,7 @@
 	            String classpath = oClasspath == null ? "" : oClasspath.toString();
 	            String[] arrClasspath = classpath.split(System.getProperty("path.separator"));
 	            for (int i = 0; i < arrClasspath.length; i++) {
-	                value += arrClasspath[i] + System.getProperty("path.separator");
+	                value += arrClasspath[i] + System.getProperty("path.separator") + "\n";
 	            }
 	            value += "</pre>";
 	        } else {
