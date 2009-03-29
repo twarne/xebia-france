@@ -45,7 +45,7 @@
 		<td><%=request.getServerPort()%></td>
 	</tr>
 	<tr>
-		<th colspan=2>Http request information</th>
+		<th colspan="2">Http request information</th>
 	</tr>
 	<tr>
 		<th>Name</th>
@@ -114,17 +114,17 @@
 </table>
 <br>
 <h1>Request headers</h1>
-<%
-    out.println("<table border='1'>");
-    out.println("<tr><th>Name</th><th>Value</th></tr>");
-    Enumeration headers = request.getHeaderNames();
-    while (headers.hasMoreElements()) {
-        String header = (String)headers.nextElement();
-        out.println("<tr><td>" + header + "</td><td>" + request.getHeader(header) + "</td></tr>");
-    }
-    
-    out.println("</table>");
-%>
+<table border='1'>
+	<%
+	    out.println("<tr><th>Name</th><th>Value</th></tr>");
+	    Enumeration<?> headers = request.getHeaderNames();
+	    while (headers.hasMoreElements()) {
+	        String header = (String)headers.nextElement();
+	        out.println("<tr><td>" + header + "</td><td>" + request.getHeader(header) + "</td></tr>");
+	    }
+	    
+	    out.println("</table>");
+	%>
 </table>
 
 <h1>Request cookies</h1>
@@ -143,29 +143,23 @@
 
 <h1>Request attributes</h1>
 <%
-    Enumeration attributes = request.getAttributeNames();
     out.println("<table border='1'>");
     out.println("<tr><th>Name</th><th>Value</th></tr>");
-    while (attributes.hasMoreElements()) {
-        String attribute = (String)attributes.nextElement();
+    for (String attribute : Collections.list((Enumeration<String>)request.getAttributeNames())) {
         out.println("<tr><td>" + attribute + "</td><td>" + request.getAttribute(attribute) + "</td></tr>");
     }
     out.println("</table>");
 %>
 
 <h1>Request parameters</h1>
-<%
-    Enumeration enuParameters = request.getParameterNames();
-%>
 <table border="1">
 	<tr>
 		<th>Name</th>
 		<th>Value</th>
-		<th>N° of values</th>
+		<th># of values</th>
 	</tr>
 	<%
-	    while (enuParameters.hasMoreElements()) {
-	        String parameter = (String)enuParameters.nextElement();
+	    for (String parameter : Collections.list((Enumeration<String>)request.getParameterNames())) {
 	%><tr>
 		<td><%=parameter%></td>
 		<td><%=request.getParameter(parameter)%></td>
@@ -196,9 +190,6 @@
 		<td><%=new Date(session.getLastAccessedTime())%></td>
 	</tr>
 </table>
-<%
-    attributes = session.getAttributeNames();
-%>
 <h2>Attributes</h2>
 <table border="1">
 	<tr>
@@ -206,13 +197,8 @@
 		<th>Value</th>
 	</tr>
 	<%
-	    while (attributes.hasMoreElements()) {
-	        String attribute = (String)attributes.nextElement();
-	%><tr>
-		<td><%=attribute%></td>
-		<td><%=session.getAttribute(attribute)%></td>
-	</tr>
-	<%
+	    for (String attribute : Collections.list((Enumeration<String>)session.getAttributeNames())) {
+	        out.println("<tr><td>" + attribute + "</td><td>" + session.getAttribute(attribute) + "</td></tr>");
 	    }
 	%>
 </table>
@@ -246,61 +232,44 @@
 	</tr>
 </table>
 <h1>Application attributes</h1>
-<%
-    attributes = application.getAttributeNames();
-%>
 <table border="1">
 	<tr>
 		<th>Name</th>
 		<th>Value</th>
 	</tr>
 	<%
-	    while (attributes.hasMoreElements()) {
-	        String attribute = (String)attributes.nextElement();
-	%><tr>
-		<td valign="top"><%=attribute%></td>
-		<td>
-		<%
-		    if (attribute.indexOf("classpath") >= 0) {
-		            out.println("<pre>");
-		            
-		            Object oClasspath = application.getAttribute(attribute);
-		            String classpath = oClasspath == null ? "" : oClasspath.toString();
-		            String[] arrClasspath = classpath.split(System.getProperty("path.separator"));
-		            for (int i = 0; i < arrClasspath.length; i++) {
-		                out.println(arrClasspath[i] + System.getProperty("path.separator"));
-		            }
-		            
-		            out.println("</pre>");
-		        } else {
-		%><%=application.getAttribute(attribute)%> <%
-     }
- %>
-		</td>
-	</tr>
-	<%
+	    for (String attribute : Collections.list((Enumeration<String>)application.getAttributeNames())) {
+	        String value;
+	        if (attribute.indexOf("classpath") >= 0) {
+	            value = "<pre>";
+	            
+	            Object oClasspath = application.getAttribute(attribute);
+	            String classpath = oClasspath == null ? "" : oClasspath.toString();
+	            String[] arrClasspath = classpath.split(System.getProperty("path.separator"));
+	            for (int i = 0; i < arrClasspath.length; i++) {
+	                value += arrClasspath[i] + System.getProperty("path.separator");
+	            }
+	            value += "</pre>";
+	        } else {
+	            value = "" + application.getAttribute(attribute);
+	        }
+	        
+	        out.println("<tr><td valign='top'>" + attribute + "</td><td>" + value + "</td></tr>");
+	        
 	    }
 	%>
 </table>
 <br>
 
 <h1>Application init parameters</h1>
-<%
-    enuParameters = application.getInitParameterNames();
-%>
 <table border="1">
 	<tr>
 		<th>Name</th>
 		<th>Value</th>
 	</tr>
 	<%
-	    while (enuParameters.hasMoreElements()) {
-	        String parameter = (String)enuParameters.nextElement();
-	%><tr>
-		<td><%=parameter%></td>
-		<td><%=application.getInitParameter(parameter)%></td>
-	</tr>
-	<%
+	    for (String parameter : Collections.list((Enumeration<String>)application.getInitParameterNames())) {
+	        out.println("<tr><td>" + parameter + "</td><td>" + application.getInitParameter(parameter) + "</td></tr>");
 	    }
 	%>
 </table>
@@ -339,7 +308,7 @@
 	<%
 	    for (Map.Entry<Object, Object> entry : System.getProperties().entrySet()) {
 	        
-	        String propertyName = (String)entry.getValue();
+	        String propertyName = (String)entry.getKey();
 	        String propertyValue = (String)entry.getValue();
 	        
 	        out.println("<tr><td valign='top'>" + propertyName + "</td><td>");
