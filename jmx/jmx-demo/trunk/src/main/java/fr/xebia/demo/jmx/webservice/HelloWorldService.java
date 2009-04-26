@@ -23,5 +23,5 @@ import javax.jws.WebService;
  */
 @WebService
 public interface HelloWorldService {
-    String sayHi(@WebParam(name="text") String text);
+    String sayHi(@WebParam(name = "text") String text) throws HelloWorldServiceException;
 }

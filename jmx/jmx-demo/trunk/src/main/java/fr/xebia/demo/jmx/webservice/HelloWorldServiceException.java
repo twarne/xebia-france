@@ -15,20 +15,30 @@
  */
 package fr.xebia.demo.jmx.webservice;
 
+import javax.xml.ws.WebFault;
+
 /**
  * @author <a href="mailto:cyrille.leclerc@pobox.com">Cyrille Le Clerc</a>
  */
-public class HelloWorldServiceImpl implements HelloWorldService {
+@WebFault
+public class HelloWorldServiceException extends Exception {
     
-    @Override
-    public String sayHi(String text) throws HelloWorldServiceException {
-        if (RuntimeException.class.getName().equals(text)) {
-            throw new RuntimeException("the runtime exception");
-        } else if (Error.class.getName().equals(text)) {
-            throw new Error("the error");
-        } else if (HelloWorldServiceException.class.getName().equals(text)) {
-            throw new HelloWorldServiceException("the hello world service exception");
-        }
-        return "Hi " + text;
+    private static final long serialVersionUID = 1L;
+    
+    public HelloWorldServiceException() {
+        super();
     }
+    
+    public HelloWorldServiceException(String message, Throwable cause) {
+        super(message, cause);
+    }
+    
+    public HelloWorldServiceException(String message) {
+        super(message);
+    }
+    
+    public HelloWorldServiceException(Throwable cause) {
+        super(cause);
+    }
+    
 }
