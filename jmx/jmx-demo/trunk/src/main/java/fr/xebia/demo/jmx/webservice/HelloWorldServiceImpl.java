@@ -15,6 +15,12 @@
  */
 package fr.xebia.demo.jmx.webservice;
 
+import javax.xml.namespace.QName;
+import javax.xml.soap.SOAPException;
+import javax.xml.soap.SOAPFactory;
+import javax.xml.soap.SOAPFault;
+import javax.xml.ws.soap.SOAPFaultException;
+
 /**
  * @author <a href="mailto:cyrille.leclerc@pobox.com">Cyrille Le Clerc</a>
  */
@@ -24,6 +30,14 @@ public class HelloWorldServiceImpl implements HelloWorldService {
     public String sayHi(String text) throws HelloWorldServiceException {
         if (RuntimeException.class.getName().equals(text)) {
             throw new RuntimeException("the runtime exception");
+        } else if (SOAPFaultException.class.getName().equals(text)) {
+            // Raise a SOAP Faut specifying the faultCode
+            try {
+                SOAPFault soapFault = SOAPFactory.newInstance().createFault("This Exception Message", QName.valueOf("http://www.xebia.fr/fault/666"));
+                throw new SOAPFaultException(soapFault);
+            } catch (SOAPException e) {
+                e.printStackTrace();
+            }
         } else if (Error.class.getName().equals(text)) {
             throw new Error("the error");
         } else if (HelloWorldServiceException.class.getName().equals(text)) {
