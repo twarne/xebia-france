@@ -20,12 +20,10 @@
    <bean id="servletContextAwareMbeanServer" class="fr.xebia.management.ServletContextAwareMBeanServerFactory">
       <property name="mbeanServer" ref="mbeanServer" />
    </bean>
-   <bean id="mbeanServer" class="org.springframework.jmx.support.MBeanServerFactoryBean">
-      <property name="locateExistingServerIfPossible" value="true" />
-   </bean>
-   <bean id="mbeanExporter" class="org.springframework.jmx.export.annotation.AnnotationMBeanExporter">
-      <property name="server" ref="servletContextAwareMbeanServer" />
-   </bean>
+
+   <context:mbean-server id="mbeanServer" />
+
+   <context:mbean-export server="servletContextAwareMbeanServer" />
 
    <!-- JNDI datasource -->
    <jee:jndi-lookup id="jmxDemoDataSource" jndi-name="java:comp/env/jdbc/jmx-demo-data-source" />
