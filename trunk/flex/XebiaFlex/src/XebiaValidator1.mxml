@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" 
+                xmlns:validation="validation.*"
+                layout="absolute"
+                width="520" height="242">
+ 
+    
+    <mx:StringValidator id="userNameValidator"
+		                source="{userName}"
+		                property="text"
+		                requiredFieldError="User Name can not be empty !"/>
+		                
+    <validation:CustomNumberValidator id="commandValidator"
+        source="{commandeId}"
+        property="text" 
+        minLength="4"
+        maxLength="20"
+        domain="int"
+        required="true"
+        lengthFieldError="Number command has to be between 4 and 20 digits"/>
+    
+    <mx:Panel title="Command management" x="86" y="31">
+    	   <mx:Form defaultButton="{valideButton}" verticalGap="20">
+    	        <mx:FormItem label="User Name">
+    	            <mx:TextInput id="userName" styleName="textLogin" width="172"/>
+    	        </mx:FormItem>
+    	        <mx:FormItem label="Command Number">
+    	            <mx:TextInput id="commandeId" width="172"/>
+    	        </mx:FormItem>
+    	        <mx:FormItem horizontalAlign="right" width="100%">
+    	            <mx:Button id="valideButton" label="Validate"/>
+    	        </mx:FormItem>
+    	    </mx:Form>
+    </mx:Panel>
+</mx:Application>
