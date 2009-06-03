@@ -24,12 +24,12 @@ import fr.xebia.blog.guice.dao.MyBasicDao;
  */
 public class MyBasicDaoImpl implements MyBasicDao {
 
-    /**
-     * A mock method.
-     * 
-     * @return the value "Selected"
-     */
-    public String select() {
-        return "Selected";
-    }
+	/**
+	 * A mock method.
+	 * 
+	 * @return the value "Selected"
+	 */
+	public String select() {
+		return "Selected";
+	}
 }

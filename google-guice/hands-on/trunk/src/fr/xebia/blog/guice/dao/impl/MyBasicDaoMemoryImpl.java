@@ -13,30 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.xebia.blog.guice.main;
+package fr.xebia.blog.guice.dao.impl;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-
-import fr.xebia.blog.guice.module.MyModule;
-import fr.xebia.blog.guice.service.MyService;
+import fr.xebia.blog.guice.dao.MyBasicDao;
 
 /**
- * This is a java main, to illustrate Google Guice usage.
+ * Mock implementation.
  * 
  * @author <a href="mailto:pabs.agro@gmail.com">Pablo Lopez</a>
  */
-public class MyMain {
-	/**
-	 * Run main to run GoogleGuice HandsOn
-	 * 
-	 * @param args
-	 *            Java args.
-	 */
-	public static void main(String[] args) {
-		Injector injector = Guice.createInjector(new MyModule());
+public class MyBasicDaoMemoryImpl implements MyBasicDao {
 
-		MyService myService = injector.getInstance(MyService.class);
-		myService.displaySample();
+	/**
+	 * A mock method.
+	 * 
+	 * @return the value "Memory"
+	 */
+	public String select() {
+		return "Memory select";
 	}
 }

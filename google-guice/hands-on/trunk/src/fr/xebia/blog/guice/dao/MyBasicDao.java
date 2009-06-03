@@ -23,6 +23,7 @@ package fr.xebia.blog.guice.dao;
 public interface MyBasicDao {
 	/**
 	 * Select a String into DB.
+	 * 
 	 * @return the selected value.
 	 */
 	public String select();

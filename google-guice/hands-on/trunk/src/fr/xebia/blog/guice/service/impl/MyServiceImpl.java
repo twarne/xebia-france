@@ -18,6 +18,7 @@ package fr.xebia.blog.guice.service.impl;
 import java.io.IOException;
 
 import com.google.inject.Inject;
+import com.google.inject.name.Named;
 
 import fr.xebia.blog.guice.dao.MyBasicDao;
 import fr.xebia.blog.guice.service.MyService;
@@ -39,19 +40,49 @@ public class MyServiceImpl implements MyService {
 	 * Dao.
 	 */
 	private final MyBasicDao basicDao;
+	// Injection nommée
+	private final MyBasicDao memoryDao;
+	// Provider
+	private final MyBasicDao randomDao;
 
 	/**
 	 * Parameterized constructor.
-	 * @param basicDao a simple Dao to converse with.
+	 */
+	// Injection nommée
+	// Solution 1
+	// @Inject
+	// public MyServiceImpl(MyBasicDao basicDao, @Memory MyBasicDao memoryDao) {
+	// super();
+	// this.basicDao = basicDao;
+	// this.memoryDao = memoryDao;
+	// }
+	/**
+	 * Parameterized constructor.
+	 */
+	// Solution 2
+	// @Inject
+	// public MyServiceImpl(MyBasicDao basicDao,
+	// @Named("Memory") MyBasicDao memoryDao) {
+	// super();
+	// this.basicDao = basicDao;
+	// this.memoryDao = memoryDao;
+	// }
+
+	/**
+	 * Parameterized constructor.
 	 */
 	@Inject
-	public MyServiceImpl(MyBasicDao basicDao) {
+	public MyServiceImpl(MyBasicDao basicDao,
+			@Named("Memory") MyBasicDao memoryDao,
+			@Named("Random") MyBasicDao randomDao) {
 		super();
 		this.basicDao = basicDao;
+		this.memoryDao = memoryDao;
+		this.randomDao = randomDao;
 	}
 
 	/**
-	 * {@inheritDoc} 
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void displaySample() {
@@ -59,6 +90,12 @@ public class MyServiceImpl implements MyService {
 			recorder.append("Calling DAO\n");
 			String daoResult = basicDao.select();
 			recorder.append("Result from DAO : " + daoResult + "\n");
+			recorder.append("Calling memory DAO\n");
+			daoResult = memoryDao.select();
+			recorder.append("Result from memory DAO : " + daoResult + "\n");
+			recorder.append("Calling random DAO\n");
+			daoResult = randomDao.select();
+			recorder.append("Result from random DAO : " + daoResult + "\n");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -15,10 +15,18 @@
  */
 package fr.xebia.blog.guice.module;
 
+import com.google.inject.Inject;
+import com.google.inject.Provides;
+import com.google.inject.name.Named;
+import com.google.inject.name.Names;
+
+import fr.xebia.blog.guice.annotation.Memory;
 import fr.xebia.blog.guice.dao.MyBasicDao;
 import fr.xebia.blog.guice.dao.impl.MyBasicDaoImpl;
+import fr.xebia.blog.guice.dao.impl.MyBasicDaoMemoryImpl;
 import fr.xebia.blog.guice.service.MyService;
 import fr.xebia.blog.guice.service.impl.MyServiceImpl;
+import fr.xebia.blog.guice.util.RandomUtils;
 
 /**
  * Google Guice Module, to bind dependencies to their implementations.
@@ -28,7 +36,7 @@ import fr.xebia.blog.guice.service.impl.MyServiceImpl;
 public class MyModule implements com.google.inject.Module {
 
 	/**
-	 * {@inheritDoc} 
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void configure(com.google.inject.Binder binder) {
@@ -39,6 +47,28 @@ public class MyModule implements com.google.inject.Module {
 
 		// Bind to instance.
 		binder.bind(Appendable.class).toInstance(System.out);
+
+		// Injection nommée
+		// Solution 1
+		binder.bind(MyBasicDao.class).annotatedWith(Memory.class).to(
+				MyBasicDaoMemoryImpl.class);
+		// Solution 2
+		binder.bind(MyBasicDao.class).annotatedWith(Names.named("Memory")).to(
+				MyBasicDaoMemoryImpl.class);
+	}
+
+	/**
+	 * Provides method
+	 */
+	@Provides
+	@Inject
+	private @Named("Random")
+	MyBasicDao provideRandomDao(MyBasicDao basicDao,
+			@Named("Memory") MyBasicDao memoryDao) {
+		if (RandomUtils.randomBoolean()) {
+			return basicDao;
+		}
+		return memoryDao;
 	}
 
 }

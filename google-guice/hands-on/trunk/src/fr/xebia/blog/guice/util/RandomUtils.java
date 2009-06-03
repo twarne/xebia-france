@@ -13,30 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.xebia.blog.guice.main;
-
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-
-import fr.xebia.blog.guice.module.MyModule;
-import fr.xebia.blog.guice.service.MyService;
+package fr.xebia.blog.guice.util;
 
 /**
- * This is a java main, to illustrate Google Guice usage.
+ * Utils for Provides
  * 
  * @author <a href="mailto:pabs.agro@gmail.com">Pablo Lopez</a>
  */
-public class MyMain {
-	/**
-	 * Run main to run GoogleGuice HandsOn
-	 * 
-	 * @param args
-	 *            Java args.
-	 */
-	public static void main(String[] args) {
-		Injector injector = Guice.createInjector(new MyModule());
+public class RandomUtils {
 
-		MyService myService = injector.getInstance(MyService.class);
-		myService.displaySample();
+	/**
+	 * Randomizer
+	 * 
+	 * @return a random Boolean
+	 */
+	public static Boolean randomBoolean() {
+		if (Math.random() > .5) {
+			return Boolean.TRUE;
+		}
+		return Boolean.FALSE;
 	}
 }
