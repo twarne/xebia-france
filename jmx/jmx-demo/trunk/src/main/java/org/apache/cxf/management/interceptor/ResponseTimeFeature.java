@@ -16,35 +16,27 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
 package org.apache.cxf.management.interceptor;
 
-import org.apache.cxf.interceptor.Fault;
-import org.apache.cxf.message.Exchange;
-import org.apache.cxf.message.FaultMode;
-import org.apache.cxf.message.Message;
-import org.apache.cxf.phase.Phase;
+import org.apache.cxf.Bus;
+import org.apache.cxf.feature.AbstractFeature;
+import org.apache.cxf.interceptor.InterceptorProvider;
 
-public class ResponseTimeMessageInInterceptor extends AbstractMessageResponseTimeInterceptor {
-    
-    public ResponseTimeMessageInInterceptor() {
-        super(Phase.POST_LOGICAL);
-    }
-    
-    public void handleMessage(Message message) throws Fault {
-        
-        Exchange ex = message.getExchange();        
-        if (isClient(message)) {
-            endHandlingMessage(ex);
-        } else {            
-            beginHandlingMessage(ex);            
-        }
-    }    
+public class ResponseTimeFeature extends AbstractFeature {
+    private static final ResponseTimeMessageInInterceptor IN =
+        new ResponseTimeMessageInInterceptor();
+    private static final ResponseTimeMessageInvokerInterceptor INVOKER = 
+        new ResponseTimeMessageInvokerInterceptor();
+    private static final ResponseTimeMessageOutInterceptor OUT = 
+        new ResponseTimeMessageOutInterceptor();
     
     @Override
-    public void handleFault(Message message) {
-        Exchange ex = message.getExchange();
-        ex.put(FaultMode.class, message.get(FaultMode.class));
-        endHandlingMessage(ex);
+    protected void initializeProvider(InterceptorProvider provider, Bus bus) {
+        provider.getInInterceptors().add(IN);
+        provider.getInFaultInterceptors().add(IN);
+        provider.getInInterceptors().add(INVOKER);
+        provider.getOutInterceptors().add(OUT);
+        
     }
+
 }
