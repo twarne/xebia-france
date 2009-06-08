@@ -36,8 +36,11 @@ import org.springframework.util.ClassUtils;
 import org.springframework.web.context.ServletContextAware;
 
 /**
+ * <p></p>
+ * <p>
  * Don't extend {@link AbstractFactoryBean} due to <a href="http://jira.springframework.org/browse/SPR-4968">SPR-4968 : Error
  * "Singleton instance not initialized yet" triggered by toString call in case of circular references</a>
+ * </p>
  * 
  * @author <a href="mailto:cyrille.leclerc@pobox.com">Cyrille Le Clerc</a>
  */
@@ -58,7 +61,8 @@ public class ServletContextAwareMBeanServerFactory implements FactoryBean, Servl
     }
     
     /**
-     * Limit {@link ServletContext} attributes to {@link ServletContext#getContextPath()} to ease Hyperic configuration.
+     * <p>Copy the given <code>objectName</code> adding a "path" property  </p>
+     * <p>Limit {@link ServletContext} attributes to {@link ServletContext#getContextPath()} to ease Hyperic configuration.</p>
      * 
      * @param objectName
      * @return
@@ -119,7 +123,7 @@ public class ServletContextAwareMBeanServerFactory implements FactoryBean, Servl
     public void setMbeanServer(MBeanServer mbeanServer) {
         this.mbeanServer = mbeanServer;
     }
-
+    
     @Override
     public void setServletContext(ServletContext servletContext) {
         this.servletContext = servletContext;

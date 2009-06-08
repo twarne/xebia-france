@@ -2,31 +2,41 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:lang="http://www.springframework.org/schema/lang"
    xmlns:util="http://www.springframework.org/schema/util" xmlns:context="http://www.springframework.org/schema/context" xmlns:jee="http://www.springframework.org/schema/jee"
    xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jaxws="http://cxf.apache.org/jaxws" xmlns:http-conf="http://cxf.apache.org/transports/http/configuration"
-   xmlns:security="http://cxf.apache.org/configuration/security"
-   xsi:schemaLocation="
-       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
-       http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
-       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
-       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd 
-       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
-       http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
-       http://cxf.apache.org/transports/http/configuration http://cxf.apache.org/schemas/configuration/http-conf.xsd
-       http://cxf.apache.org/configuration/security http://cxf.apache.org/schemas/configuration/security.xsd
-       ">
+   xmlns:security="http://cxf.apache.org/configuration/security" xmlns:sec="http://www.springframework.org/schema/security"
+   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+		http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang.xsd
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+		http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+		http://cxf.apache.org/transports/http/configuration http://cxf.apache.org/schemas/configuration/http-conf.xsd
+		http://cxf.apache.org/configuration/security http://cxf.apache.org/schemas/configuration/security.xsd">
 
    <!-- JMX -->
-
    <bean id="servletContextAwareMbeanServer" class="fr.xebia.management.ServletContextAwareMBeanServerFactory">
       <property name="mbeanServer" ref="mbeanServer" />
    </bean>
-
    <context:mbean-server id="mbeanServer" />
-
    <context:mbean-export server="servletContextAwareMbeanServer" />
 
-   <!-- JNDI datasource -->
+   <!-- JNDI DATASOURCE -->
    <jee:jndi-lookup id="jmxDemoDataSource" jndi-name="java:comp/env/jdbc/jmx-demo-data-source" />
+
+   <!-- SECURITY -->
+   <sec:http auto-config='true'>
+      <sec:intercept-url pattern="/services/**" access="ROLE_USER" />
+      <sec:http-basic />
+      <sec:anonymous />
+   </sec:http>
+
+   <sec:authentication-provider>
+      <sec:user-service>
+         <sec:user name="admin" password="admin" authorities="ROLE_USER, ROLE_ADMIN" />
+         <sec:user name="user" password="user" authorities="ROLE_USER" />
+      </sec:user-service>
+   </sec:authentication-provider>
 
    <!-- JPA / ENTITY MANAGER / HIBERNATE -->
    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean" depends-on="hibernate.UpdateTimestampsCache, hibernate.StandardQueryCache, countryCache">
@@ -165,4 +175,12 @@
          <bean class="org.apache.cxf.management.interceptor.ResponseTimeFeature" />
       </jaxws:features>
    </jaxws:client>
+
+   <jaxws:client id="helloWorldServiceClient-ok" serviceClass="fr.xebia.demo.jmx.webservice.HelloWorldService" address="http://localhost:8080/jmx-demo/services/helloWorldService">
+      <jaxws:features>
+         <bean class="org.apache.cxf.feature.LoggingFeature" />
+         <bean class="org.apache.cxf.management.interceptor.ResponseTimeFeature" />
+      </jaxws:features>
+   </jaxws:client>
+
 </beans>

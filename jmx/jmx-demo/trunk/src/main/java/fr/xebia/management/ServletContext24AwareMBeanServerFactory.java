@@ -36,8 +36,14 @@ import org.springframework.util.ClassUtils;
 import org.springframework.web.context.ServletContextAware;
 
 /**
+ * <p>
+ * ServletContext 2.4 compatible MBean Server wrapper. Instead of relying on {@link ServletContext#getContextPath()} that was introduced in
+ * Servlet API 2.5 is that is used in Tomcat
+ * </p>
+ * <p>
  * Don't extend {@link AbstractFactoryBean} due to <a href="http://jira.springframework.org/browse/SPR-4968">SPR-4968 : Error
  * "Singleton instance not initialized yet" triggered by toString call in case of circular references</a>
+ * </p>
  * 
  * @author <a href="mailto:cyrille.leclerc@pobox.com">Cyrille Le Clerc</a>
  */
@@ -119,7 +125,7 @@ public class ServletContext24AwareMBeanServerFactory implements FactoryBean, Ser
     public void setMbeanServer(MBeanServer mbeanServer) {
         this.mbeanServer = mbeanServer;
     }
-
+    
     @Override
     public void setServletContext(ServletContext servletContext) {
         this.servletContext = servletContext;

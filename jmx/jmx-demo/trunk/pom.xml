@@ -117,6 +117,22 @@
          <artifactId>spring-test</artifactId>
          <version>${spring.version}</version>
       </dependency>
+      <dependency>
+         <groupId>org.springframework.security</groupId>
+         <artifactId>spring-security-core</artifactId>
+         <version>${spring-security.version}</version>
+         <exclusions>
+            <exclusion>
+               <groupId>org.springframework</groupId>
+               <artifactId>spring-support</artifactId>
+            </exclusion>
+         </exclusions>
+      </dependency>
+      <dependency>
+         <groupId>org.springframework.security</groupId>
+         <artifactId>spring-security-core-tiger</artifactId>
+         <version>${spring-security.version}</version>
+      </dependency>
 
       <!-- CXF -->
       <dependency>
@@ -246,7 +262,8 @@
    </dependencies>
    <properties>
       <spring.version>2.5.6</spring.version>
-      <cxf.version>2.2.1</cxf.version>
+      <spring-security.version>2.0.4</spring-security.version>
+      <cxf.version>2.2.2</cxf.version>
       <hibernate-entitymanager.version>3.4.0.GA</hibernate-entitymanager.version>
       <hibernate-core.version>3.3.1.GA</hibernate-core.version>
       <persistence-api.version>1.0</persistence-api.version>
