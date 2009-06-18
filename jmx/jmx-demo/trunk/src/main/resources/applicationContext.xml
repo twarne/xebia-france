@@ -182,5 +182,10 @@
          <bean class="org.apache.cxf.management.interceptor.ResponseTimeFeature" />
       </jaxws:features>
    </jaxws:client>
-
+   <http-conf:conduit name="{http://webservice.jmx.demo.xebia.fr/}HelloWorldServicePort.http-conduit">
+      <http-conf:authorization>
+         <security:UserName>user</security:UserName>
+         <security:Password>user</security:Password>
+      </http-conf:authorization>
+   </http-conf:conduit>
 </beans>
