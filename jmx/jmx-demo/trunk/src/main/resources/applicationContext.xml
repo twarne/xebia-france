@@ -47,7 +47,7 @@
       </property>
       <property name="jpaVendorAdapter">
          <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-            <property name="databasePlatform" value="org.hibernate.dialect.HSQLDialect" />
+            <property name="databasePlatform" value="org.hibernate.dialect.H2Dialect" />
             <property name="showSql" value="true" />
             <property name="generateDdl" value="true" />
          </bean>
@@ -60,7 +60,7 @@
             <prop key="hibernate.cache.use_second_level_cache">true</prop>
             <prop key="hibernate.cache.use_structured_entries">true</prop>
             <prop key="hibernate.current_session_context_class">thread</prop>
-            <prop key="hibernate.dialect">org.hibernate.dialect.HSQLDialect</prop>
+            <prop key="hibernate.dialect">org.hibernate.dialect.H2Dialect</prop>
             <prop key="hibernate.format_sql">true</prop>
             <prop key="hibernate.generate_statistics">true</prop>
             <prop key="hibernate.use_sql_comments">true</prop>

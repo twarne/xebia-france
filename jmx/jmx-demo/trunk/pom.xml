@@ -255,9 +255,9 @@
          <version>4.4</version>
       </dependency>
       <dependency>
-         <groupId>hsqldb</groupId>
-         <artifactId>hsqldb</artifactId>
-         <version>1.8.0.7</version>
+         <groupId>com.h2database</groupId>
+         <artifactId>h2</artifactId>
+         <version>1.1.114</version>
       </dependency>
    </dependencies>
    <properties>
