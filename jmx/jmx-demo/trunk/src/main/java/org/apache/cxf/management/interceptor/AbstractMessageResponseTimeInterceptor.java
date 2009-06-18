@@ -18,7 +18,6 @@
  */
 package org.apache.cxf.management.interceptor;
 
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -27,6 +26,7 @@ import javax.management.ObjectName;
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.common.logging.LogUtils;
+import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.endpoint.Endpoint;
 import org.apache.cxf.management.ManagementConstants;
 import org.apache.cxf.management.counters.Counter;
@@ -49,23 +49,23 @@ public abstract class AbstractMessageResponseTimeInterceptor extends AbstractPha
     }
     
     protected boolean isClient(Message msg) {
-        return msg == null ? false : Boolean.TRUE.equals(msg.get(Message.REQUESTOR_ROLE));        
+        return msg == null ? false : Boolean.TRUE.equals(msg.get(Message.REQUESTOR_ROLE));
     }
-   
+    
     protected void beginHandlingMessage(Exchange ex) {
         if (null == ex) {
             return;
         }
-        MessageHandlingTimeRecorder mhtr = ex.get(MessageHandlingTimeRecorder.class);        
+        MessageHandlingTimeRecorder mhtr = ex.get(MessageHandlingTimeRecorder.class);
         if (null != mhtr) {
             mhtr.beginHandling();
         } else {
             mhtr = new MessageHandlingTimeRecorder(ex);
             mhtr.beginHandling();
-        }        
+        }
     }
     
-    protected void endHandlingMessage(Exchange ex) {                
+    protected void endHandlingMessage(Exchange ex) {
         if (null == ex) {
             return;
         }
@@ -74,20 +74,20 @@ public abstract class AbstractMessageResponseTimeInterceptor extends AbstractPha
             mhtr.endHandling();
             mhtr.setFaultMode(ex.get(FaultMode.class));
             increaseCounter(ex, mhtr);
-                        
-        } // else can't get the MessageHandling Infor  
+            
+        } // else can't get the MessageHandling Infor
     }
     
     protected void setOneWayMessage(Exchange ex) {
-        MessageHandlingTimeRecorder mhtr = ex.get(MessageHandlingTimeRecorder.class);        
+        MessageHandlingTimeRecorder mhtr = ex.get(MessageHandlingTimeRecorder.class);
         if (null == mhtr) {
-            mhtr = new MessageHandlingTimeRecorder(ex);            
+            mhtr = new MessageHandlingTimeRecorder(ex);
         } else {
             mhtr.endHandling();
         }
         mhtr.setOneWay(true);
         increaseCounter(ex, mhtr);
-    }    
+    }
     
     private void increaseCounter(Exchange ex, MessageHandlingTimeRecorder mhtr) {
         Bus bus = ex.get(Bus.class);
@@ -103,12 +103,12 @@ public abstract class AbstractMessageResponseTimeInterceptor extends AbstractPha
         if (null == cr) {
             LOG.log(Level.WARNING, "NO_COUNTER_REPOSITORY");
             return;
-        } else {            
-            Service service = ex.get(Service.class);            
+        } else {
+            Service service = ex.get(Service.class);
             OperationInfo opInfo = ex.get(OperationInfo.class);
             Endpoint endpoint = ex.get(Endpoint.class);
             
-            String serviceName = "\"" + service.getName() + "\"";            
+            String serviceName = "\"" + service.getName() + "\"";
             String portName = "\"" + endpoint.getEndpointInfo().getName().getLocalPart() + "\"";
             String operationName = "\"" + opInfo.getName().getLocalPart() + "\"";
             
@@ -121,27 +121,30 @@ public abstract class AbstractMessageResponseTimeInterceptor extends AbstractPha
                 buffer.append(ManagementConstants.TYPE_PROP + "=" + Counter.PERFORMANCE_COUNTER + ".Server,");
             }
             buffer.append(ManagementConstants.SERVICE_NAME_PROP + "=" + serviceName + ",");
-           
+            
             buffer.append(ManagementConstants.PORT_NAME_PROP + "=" + portName);
             String serviceCounterName = buffer.toString();
             
             buffer.append("," + ManagementConstants.OPERATION_NAME_PROP + "=" + operationName);
             String operationCounterName = buffer.toString();
             
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            buffer.append("," + "username=" + (authentication == null ? "anonymous" : authentication.getName()));
-            String authenticatedOperationCounterName = buffer.toString();
-            try {               
-                ObjectName serviceCounter = new ObjectName(serviceCounterName);                
+            try {
+                ObjectName serviceCounter = new ObjectName(serviceCounterName);
                 cr.increaseCounter(serviceCounter, mhtr);
                 ObjectName operationCounter = new ObjectName(operationCounterName);
-                cr.increaseCounter(operationCounter, mhtr);   
-                ObjectName authenticatedOperationCounter = new ObjectName(authenticatedOperationCounterName);
-                cr.increaseCounter(authenticatedOperationCounter, mhtr);
+                cr.increaseCounter(operationCounter, mhtr);
+                
+                if (ex.get(Client.class) == null) {
+                    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+                    buffer.append("," + "username=" + (authentication == null ? "anonymous" : authentication.getName()));
+                    String authenticatedOperationCounterName = buffer.toString();
+                    ObjectName authenticatedOperationCounter = new ObjectName(authenticatedOperationCounterName);
+                    cr.increaseCounter(authenticatedOperationCounter, mhtr);
+                }
             } catch (Exception exception) {
                 LOG.log(Level.WARNING, "CREATE_COUNTER_OBJECTNAME_FAILED", exception);
             }
         }
     }
-        
+    
 }
