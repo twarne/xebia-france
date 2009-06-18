@@ -54,7 +54,7 @@
             <artifactId>maven-eclipse-plugin</artifactId>
             <configuration>
                <downloadSources>true</downloadSources>
-               <wtpversion>2.0</wtpversion>
+               <wtpversion>1.5</wtpversion>
             </configuration>
          </plugin>
          <plugin>
@@ -207,7 +207,7 @@
       <dependency>
          <groupId>net.sf.ehcache</groupId>
          <artifactId>ehcache</artifactId>
-         <version>1.5.0</version>
+         <version>1.6.0</version>
       </dependency>
       <dependency>
          <groupId>javax.servlet</groupId>
