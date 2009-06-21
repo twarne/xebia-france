@@ -23,9 +23,9 @@
    <version>1.0</version>
    <description>JMX demo </description>
    <scm>
-      <connection>scm:svn:http://xebia-france.googlecode.com/svn/tags/jmx-demo-1.0</connection>
-      <developerConnection> scm:svn:https://xebia-france.googlecode.com/svn/tags/jmx-demo-1.0</developerConnection>
-      <url>http://code.google.com/p/xebia-france/tags/jmx-demo-1.0</url>
+      <connection>scm:svn:http://xebia-france.googlecode.com/svn/jmx/jmx-demo/tags/jmx-demo-1.0</connection>
+      <developerConnection> scm:svn:https://xebia-france.googlecode.com/svn/jmx/jmx-demo/tags/jmx-demo-1.0</developerConnection>
+      <url>https://xebia-france.googlecode.com/svn/jmx/jmx-demo/tags/jmx-demo-1.0</url>
    </scm>
    <licenses>
       <license>
