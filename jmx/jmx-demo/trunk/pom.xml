@@ -21,7 +21,7 @@
    <groupId>fr.xebia.jmx</groupId>
    <artifactId>jmx-demo</artifactId>
    <packaging>war</packaging>
-   <version>0.1-SNAPSHOT</version>
+   <version>1.0-SNAPSHOT</version>
    <description>JMX demo </description>
    <scm>
       <connection>scm:svn:http://xebia-france.googlecode.com/svn/trunk/jmx/jmx-demo/</connection>
@@ -75,6 +75,13 @@
             <configuration>
                <source>1.6</source>
                <target>1.6</target>
+            </configuration>
+         </plugin>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-release-plugin</artifactId>
+            <configuration>
+               <goals>install</goals>
             </configuration>
          </plugin>
       </plugins>
@@ -149,12 +156,6 @@
          <groupId>org.apache.cxf</groupId>
          <artifactId>cxf-rt-transports-http</artifactId>
          <version>${cxf.version}</version>
-         <exclusions>
-            <exclusion>
-               <groupId>org.springframework</groupId>
-               <artifactId>spring-web</artifactId>
-            </exclusion>
-         </exclusions>
       </dependency>
 
       <!-- HIBERNATE -->
@@ -267,5 +268,6 @@
       <hibernate-entitymanager.version>3.4.0.GA</hibernate-entitymanager.version>
       <hibernate-core.version>3.3.1.GA</hibernate-core.version>
       <persistence-api.version>1.0</persistence-api.version>
+      <project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
    </properties>
 </project>
