@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project name="HelloWorldService" resourceRoot="" soapui-version="2.5.1" xmlns:con="http://eviware.com/soapui/config"><con:settings><con:setting id="ProjectSettings@projectRoot">C:\data\xebia\subversion\jmx\jmx-demo\trunk\src\main\soapui</con:setting></con:settings><con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="helloWorldServiceSoapBinding" type="wsdl" bindingName="{http://www.xebia.fr/demo/jmx/webservice}helloWorldServiceSoapBinding" soapVersion="1_1" anonymous="optional" definition="http://localhost:8080/jmx-demo/services/helloWorldService?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:8080/jmx-demo/services/helloWorldService?wsdl"><con:part><con:url>http://localhost:8080/jmx-demo/services/helloWorldService?wsdl=HelloWorldService.wsdl</con:url><con:content><![CDATA[<wsdl:definitions name="HelloWorldService" targetNamespace="http://webservice.jmx.demo.xebia.fr/" xmlns:ns1="http://webservice.jmx.demo.xebia.fr/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:types>
+    <xs:schema attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://webservice.jmx.demo.xebia.fr/" xmlns:tns="http://webservice.jmx.demo.xebia.fr/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="sayHi" type="tns:sayHi"/>
+      <xs:element name="sayHiResponse" type="tns:sayHiResponse"/>
+      <xs:complexType name="sayHi">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="text" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="sayHiResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="HelloWorldServiceException" type="tns:HelloWorldServiceException"/>
+      <xs:complexType name="HelloWorldServiceException">
+        <xs:sequence/>
+      </xs:complexType>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="sayHiResponse">
+    <wsdl:part element="ns1:sayHiResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="HelloWorldServiceException">
+    <wsdl:part element="ns1:HelloWorldServiceException" name="HelloWorldServiceException"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="sayHi">
+    <wsdl:part element="ns1:sayHi" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="HelloWorldService">
+    <wsdl:operation name="sayHi">
+      <wsdl:input message="ns1:sayHi" name="sayHi"></wsdl:input>
+      <wsdl:output message="ns1:sayHiResponse" name="sayHiResponse"></wsdl:output>
+      <wsdl:fault message="ns1:HelloWorldServiceException" name="HelloWorldServiceException"></wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part><con:part><con:url>http://localhost:8080/jmx-demo/services/helloWorldService?wsdl</con:url><con:content><![CDATA[<wsdl:definitions name="helloWorldService" targetNamespace="http://www.xebia.fr/demo/jmx/webservice" xmlns:ns1="http://webservice.jmx.demo.xebia.fr/" xmlns:ns2="http://cxf.apache.org/bindings/xformat" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.xebia.fr/demo/jmx/webservice" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:import location="http://localhost:8080/jmx-demo/services/helloWorldService?wsdl=HelloWorldService.wsdl" namespace="http://webservice.jmx.demo.xebia.fr/"></wsdl:import>
+  <wsdl:binding name="helloWorldServiceSoapBinding" type="ns1:HelloWorldService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="sayHi">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="sayHi">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="sayHiResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="HelloWorldServiceException">
+        <soap:fault name="HelloWorldServiceException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="helloWorldService">
+    <wsdl:port binding="tns:helloWorldServiceSoapBinding" name="helloWorldServiceSOAP">
+      <soap:address location="http://localhost:8080/jmx-demo/services/helloWorldService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://localhost:8080/jmx-demo/services/helloWorldService</con:endpoint></con:endpoints><con:operation isOneWay="false" action="" name="sayHi" bindingOperationName="sayHi" type="Request-Response" outputName="sayHiResponse" inputName="sayHi" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="hi"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/jmx-demo/services/helloWorldService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:web="http://webservice.jmx.demo.xebia.fr/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <web:sayHi>
+         <!--Optional:-->
+         <text>hi</text>
+      </web:sayHi>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:username>user</con:username><con:password>user</con:password></con:credentials><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.xebia.fr/demo/jmx/webservice/HelloWorldService/sayHi"/></con:call><con:call name="java.lang.RuntimeException"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/jmx-demo/services/helloWorldService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:web="http://webservice.jmx.demo.xebia.fr/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <web:sayHi>
+         <!--Optional:-->
+         <text>java.lang.RuntimeException</text>
+      </web:sayHi>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:username>user</con:username><con:password>user</con:password></con:credentials><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.xebia.fr/demo/jmx/webservice/HelloWorldService/sayHi"/></con:call><con:call name="fr.xebia.demo.jmx.webservice.HelloWorldServiceException"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/jmx-demo/services/helloWorldService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:web="http://webservice.jmx.demo.xebia.fr/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <web:sayHi>
+         <!--Optional:-->
+         <text>fr.xebia.demo.jmx.webservice.HelloWorldServiceException</text>
+      </web:sayHi>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:username>user</con:username><con:password>user</con:password></con:credentials><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.xebia.fr/demo/jmx/webservice/HelloWorldService/sayHi"/></con:call><con:call name="java.lang.Error"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/jmx-demo/services/helloWorldService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:web="http://webservice.jmx.demo.xebia.fr/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <web:sayHi>
+         <!--Optional:-->
+         <text>java.lang.Error</text>
+      </web:sayHi>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:username>user</con:username><con:password>user</con:password></con:credentials><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.xebia.fr/demo/jmx/webservice/HelloWorldService/sayHi"/></con:call><con:call name="javax.xml.ws.soap.SOAPFaultException"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/jmx-demo/services/helloWorldService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:web="http://webservice.jmx.demo.xebia.fr/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <web:sayHi>
+         <!--Optional:-->
+         <text>javax.xml.ws.soap.SOAPFaultException</text>
+      </web:sayHi>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:username>user</con:username><con:password>user</con:password></con:credentials><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.xebia.fr/demo/jmx/webservice/HelloWorldService/sayHi"/></con:call></con:operation></con:interface><con:properties/><con:wssContainer/></con:soapui-project>
