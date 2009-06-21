@@ -20,12 +20,12 @@
    <groupId>fr.xebia.jmx</groupId>
    <artifactId>jmx-demo</artifactId>
    <packaging>war</packaging>
-   <version>1.0</version>
-   <description>JMX demo </description>
+   <version>1.1-SNAPSHOT</version>
+   <description>JMX demo</description>
    <scm>
-      <connection>scm:svn:http://xebia-france.googlecode.com/svn/tags/jmx-demo-1.0</connection>
-      <developerConnection> scm:svn:https://xebia-france.googlecode.com/svn/tags/jmx-demo-1.0</developerConnection>
-      <url>http://code.google.com/p/xebia-france/tags/jmx-demo-1.0</url>
+      <connection>scm:svn:http://xebia-france.googlecode.com/svn/jmx/jmx-demo/trunk/</connection>
+      <developerConnection> scm:svn:https://xebia-france.googlecode.com/svn/jmx/jmx-demo/trunk/</developerConnection>
+      <url>http://xebia-france.googlecode.com/svn/jmx/jmx-demo/trunk/</url>
    </scm>
    <licenses>
       <license>
