@@ -36,10 +36,26 @@ import org.springframework.util.ClassUtils;
 import org.springframework.web.context.ServletContextAware;
 
 /**
- * <p></p>
  * <p>
- * Don't extend {@link AbstractFactoryBean} due to <a href="http://jira.springframework.org/browse/SPR-4968">SPR-4968 : Error
- * "Singleton instance not initialized yet" triggered by toString call in case of circular references</a>
+ * Instantiate {@link MBeanServer} which add a "path" property with value {@link ServletContext#getContextPath()} to each {@link ObjectName}
+ * passed as method parameter. The goal is to prevent collisions between MBeans declared in different web applications.
+ * </p>
+ * <p>
+ * Sample : EHCache's {@link net.sf.ehcache.management.ManagementService} will register Hibernate's
+ * {@linkplain org.hibernate.cache.StandardQueryCache} as
+ * <code>net.sf.ehcache:CacheManager=my-cachemanager,name=org.hibernate.cache.StandardQueryCache,type=CacheStatistics</code> that could
+ * collide with other applications and this MBeanServer will add the <code>path</code> attribute to prevent problems :
+ * <code>net.sf.ehcache:CacheManager=my-cachemanager,name=org.hibernate.cache.StandardQueryCache,type=CacheStatistics,path=/my-application</code>
+ * .
+ * </p>
+ * <p>
+ * The added property was named <code>path</code>
+ * </p>
+ * to follow Tomcat JMX beans naming convention.
+ * <p>
+ * This {@link FactoryBean} doesn't extend {@link AbstractFactoryBean} due to <a
+ * href="http://jira.springframework.org/browse/SPR-4968">SPR-4968 : Error "Singleton instance not initialized yet" triggered by toString
+ * call in case of circular references</a>
  * </p>
  * 
  * @author <a href="mailto:cyrille.leclerc@pobox.com">Cyrille Le Clerc</a>
@@ -60,25 +76,6 @@ public class ServletContextAwareMBeanServerFactory implements FactoryBean, Servl
         Assert.notNull(this.servletContext, "servletContext can NOT be null");
     }
     
-    /**
-     * <p>Copy the given <code>objectName</code> adding a "path" property  </p>
-     * <p>Limit {@link ServletContext} attributes to {@link ServletContext#getContextPath()} to ease Hyperic configuration.</p>
-     * 
-     * @param objectName
-     * @return
-     * @throws MalformedObjectNameException
-     */
-    protected ObjectName buildObjectName(ObjectName objectName) throws MalformedObjectNameException {
-        Hashtable<String, String> table = new Hashtable<String, String>(objectName.getKeyPropertyList());
-        table.put("path", this.servletContext.getContextPath());
-        
-        ObjectName result = ObjectName.getInstance(objectName.getDomain(), table);
-        if (logger.isTraceEnabled()) {
-            logger.trace("buildObjectName(objectName=" + objectName + "):" + result);
-        }
-        return result;
-    }
-    
     @Override
     public Object getObject() throws Exception {
         if (instance == null) {
@@ -90,7 +87,7 @@ public class ServletContextAwareMBeanServerFactory implements FactoryBean, Servl
                         Object arg = modifiedArgs[i];
                         if (arg instanceof ObjectName) {
                             ObjectName objectName = (ObjectName)arg;
-                            modifiedArgs[i] = buildObjectName(objectName);
+                            modifiedArgs[i] = addPathPropertyToObjectName(objectName);
                         }
                     }
                     if (logger.isDebugEnabled()) {
@@ -102,10 +99,27 @@ public class ServletContextAwareMBeanServerFactory implements FactoryBean, Servl
                         throw ite.getCause();
                     }
                 }
+                
+                /**
+                 * <p>
+                 * Copy the given <code>objectName</code> adding a "path" property with value {@link ServletContext#getContextPath()}
+                 * </p>
+                 */
+                protected ObjectName addPathPropertyToObjectName(ObjectName objectName) throws MalformedObjectNameException {
+                    Hashtable<String, String> table = new Hashtable<String, String>(objectName.getKeyPropertyList());
+                    table.put("path", servletContext.getContextPath());
+                    
+                    ObjectName result = ObjectName.getInstance(objectName.getDomain(), table);
+                    if (logger.isTraceEnabled()) {
+                        logger.trace("addPathPropertyToObjectName(objectName=" + objectName + "):" + result);
+                    }
+                    return result;
+                }
             };
             instance = (MBeanServer)Proxy.newProxyInstance(ClassUtils.getDefaultClassLoader(), new Class[] {
                 MBeanServer.class
             }, invocationHandler);
+            
         }
         return instance;
     }
