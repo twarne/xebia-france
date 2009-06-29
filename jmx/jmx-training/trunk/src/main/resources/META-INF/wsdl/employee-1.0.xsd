@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://demo.xebia.fr/xml/employee" xmlns:tns="http://demo.xebia.fr/xml/employee"
+   elementFormDefault="qualified" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+   <xsd:complexType name="Employee">
+      <xsd:all>
+         <xsd:element name="id" type="xsd:long" minOccurs="1" maxOccurs="1" />
+         <xsd:element name="lastName" minOccurs="1" maxOccurs="1" />
+         <xsd:element name="firstName" minOccurs="1" maxOccurs="1" />
+         <xsd:element name="gender" minOccurs="0" maxOccurs="1" type="tns:Gender" />
+         <xsd:element name="birthdate" type="xsd:date" minOccurs="0" maxOccurs="1" />
+      </xsd:all>
+   </xsd:complexType>
+
+   <xsd:simpleType name="Gender">
+      <xsd:restriction base="xsd:string">
+         <xsd:enumeration value="MALE" />
+         <xsd:enumeration value="FEMALE" />
+      </xsd:restriction>
+   </xsd:simpleType>
+</xsd:schema>
