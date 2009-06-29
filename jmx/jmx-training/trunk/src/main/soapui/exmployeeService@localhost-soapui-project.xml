@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project name="jmx-training-exmployeeService@localhost" soapui-version="2.5.1" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="employeeServiceSoapBinding" type="wsdl" bindingName="{http://www.xebia.fr/demo/jmx/webservice}employeeServiceSoapBinding" soapVersion="1_1" anonymous="optional" definition="http://localhost:8080/jmx-training/services/employeeService?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:8080/jmx-training/services/employeeService?wsdl"><con:part><con:url>http://localhost:8080/jmx-training/services/employeeService?wsdl</con:url><con:content><![CDATA[<wsdl:definitions name="employeeService" targetNamespace="http://www.xebia.fr/demo/jmx/webservice" xmlns:ns1="http://demo.xebia.fr/ws/employee" xmlns:ns2="http://cxf.apache.org/bindings/xformat" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.xebia.fr/demo/jmx/webservice" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:import location="http://localhost:8080/jmx-training/services/employeeService?wsdl=employeeService.wsdl" namespace="http://demo.xebia.fr/ws/employee"></wsdl:import>
+  <wsdl:binding name="employeeServiceSoapBinding" type="ns1:employeeService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getEmployee">
+      <soap:operation soapAction="http://demo.xebia.fr/ws/employee/getEmployee" style="document"/>
+      <wsdl:input name="getEmployee">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getEmployeeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="EmployeeNotFoundException">
+        <soap:fault name="EmployeeNotFoundException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="putEmployee">
+      <soap:operation soapAction="http://demo.xebia.fr/ws/employee/putEmployee" style="document"/>
+      <wsdl:input name="putEmployee">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="putEmployeeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="employeeService">
+    <wsdl:port binding="tns:employeeServiceSoapBinding" name="employeeServiceSOAP">
+      <soap:address location="http://localhost:8080/jmx-training/services/employeeService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part><con:part><con:url>http://localhost:8080/jmx-training/services/employeeService?wsdl=employeeService.wsdl</con:url><con:content><![CDATA[<wsdl:definitions name="employeeService" targetNamespace="http://demo.xebia.fr/ws/employee" xmlns:ns1="http://demo.xebia.fr/ws/employee" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:types>
+    <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://demo.xebia.fr/xml/employee" xmlns:tns="http://demo.xebia.fr/xml/employee" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:complexType name="Employee">
+        <xs:all>
+          <xs:element name="id" type="xs:long"/>
+          <xs:element name="lastName" type="xs:anyType"/>
+          <xs:element name="firstName" type="xs:anyType"/>
+          <xs:element minOccurs="0" name="gender" type="tns:Gender"/>
+          <xs:element minOccurs="0" name="birthdate" type="xs:date"/>
+        </xs:all>
+      </xs:complexType>
+      <xs:simpleType name="Gender">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="MALE"/>
+          <xs:enumeration value="FEMALE"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:schema>
+    <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://demo.xebia.fr/ws/employee" xmlns="http://demo.xebia.fr/ws/employee" xmlns:ns1="http://demo.xebia.fr/xml/employee" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:import namespace="http://demo.xebia.fr/xml/employee"/>
+      <xs:element name="employeeNotFoundFault">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="description" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getEmployee">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="id" type="xs:long"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getEmployeeResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="employee" type="ns1:Employee"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="putEmployee">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="employee" type="ns1:Employee"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="putEmployeeResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="employee" type="ns1:Employee"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="EmployeeNotFoundException">
+    <wsdl:part element="ns1:employeeNotFoundFault" name="EmployeeNotFoundException"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="putEmployee">
+    <wsdl:part element="ns1:putEmployee" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getEmployeeResponse">
+    <wsdl:part element="ns1:getEmployeeResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getEmployee">
+    <wsdl:part element="ns1:getEmployee" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="putEmployeeResponse">
+    <wsdl:part element="ns1:putEmployeeResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="employeeService">
+    <wsdl:operation name="getEmployee">
+      <wsdl:input message="ns1:getEmployee" name="getEmployee"></wsdl:input>
+      <wsdl:output message="ns1:getEmployeeResponse" name="getEmployeeResponse"></wsdl:output>
+      <wsdl:fault message="ns1:EmployeeNotFoundException" name="EmployeeNotFoundException"></wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="putEmployee">
+      <wsdl:input message="ns1:putEmployee" name="putEmployee"></wsdl:input>
+      <wsdl:output message="ns1:putEmployeeResponse" name="putEmployeeResponse"></wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://localhost:8080/jmx-training/services/employeeService</con:endpoint></con:endpoints><con:operation isOneWay="false" action="http://demo.xebia.fr/ws/employee/getEmployee" name="getEmployee" bindingOperationName="getEmployee" type="Request-Response" outputName="getEmployeeResponse" inputName="getEmployee" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="10"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/jmx-training/services/employeeService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:emp="http://demo.xebia.fr/ws/employee">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <emp:getEmployee>
+         <emp:id>1</emp:id>
+      </emp:getEmployee>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:username>admin</con:username><con:password>admin</con:password></con:credentials><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.xebia.fr/demo/jmx/webservice/employeeService/getEmployee"/></con:call></con:operation><con:operation isOneWay="false" action="http://demo.xebia.fr/ws/employee/putEmployee" name="putEmployee" bindingOperationName="putEmployee" type="Request-Response" outputName="putEmployeeResponse" inputName="putEmployee" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/jmx-training/services/employeeService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:emp="http://demo.xebia.fr/ws/employee" xmlns:emp1="http://demo.xebia.fr/xml/employee">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <emp:putEmployee>
+         <emp:employee>
+            <!--You may enter the following 5 items in any order-->
+            <emp1:id>?</emp1:id>
+            <emp1:lastName>?</emp1:lastName>
+            <emp1:firstName>?</emp1:firstName>
+            <!--Optional:-->
+            <emp1:gender>?</emp1:gender>
+            <!--Optional:-->
+            <emp1:birthdate>?</emp1:birthdate>
+         </emp:employee>
+      </emp:putEmployee>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.xebia.fr/demo/jmx/webservice/employeeService/putEmployee"/></con:call></con:operation></con:interface><con:properties/><con:wssContainer/></con:soapui-project>
