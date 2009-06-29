@@ -76,10 +76,6 @@ public class ServletContext24AwareMBeanServerFactory implements FactoryBean, Ser
     
     protected String path;
     
-    public void setPath(String path) {
-        this.path = path;
-    }
-    
     protected ServletContext servletContext;
     
     @Override
@@ -92,26 +88,6 @@ public class ServletContext24AwareMBeanServerFactory implements FactoryBean, Ser
     public Object getObject() throws Exception {
         if (instance == null) {
             InvocationHandler invocationHandler = new InvocationHandler() {
-                @Override
-                public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-                    Object[] modifiedArgs = args.clone();
-                    for (int i = 0; i < modifiedArgs.length; i++) {
-                        Object arg = modifiedArgs[i];
-                        if (arg instanceof ObjectName) {
-                            ObjectName objectName = (ObjectName)arg;
-                            modifiedArgs[i] = addPathPropertyToObjectName(objectName);
-                        }
-                    }
-                    if (logger.isDebugEnabled()) {
-                        logger.debug(method + " : " + Arrays.asList(modifiedArgs));
-                    }
-                    try {
-                        return method.invoke(mbeanServer, modifiedArgs);
-                    } catch (InvocationTargetException ite) {
-                        throw ite.getCause();
-                    }
-                }
-                
                 /**
                  * <p>
                  * Copy the given <code>objectName</code> adding a "path" property with value bean property <code>path</code> if not empty
@@ -135,6 +111,26 @@ public class ServletContext24AwareMBeanServerFactory implements FactoryBean, Ser
                     }
                     return result;
                 }
+                
+                @Override
+                public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+                    Object[] modifiedArgs = args.clone();
+                    for (int i = 0; i < modifiedArgs.length; i++) {
+                        Object arg = modifiedArgs[i];
+                        if (arg instanceof ObjectName) {
+                            ObjectName objectName = (ObjectName)arg;
+                            modifiedArgs[i] = addPathPropertyToObjectName(objectName);
+                        }
+                    }
+                    if (logger.isDebugEnabled()) {
+                        logger.debug(method + " : " + Arrays.asList(modifiedArgs));
+                    }
+                    try {
+                        return method.invoke(mbeanServer, modifiedArgs);
+                    } catch (InvocationTargetException ite) {
+                        throw ite.getCause();
+                    }
+                }
             };
             instance = (MBeanServer)Proxy.newProxyInstance(ClassUtils.getDefaultClassLoader(), new Class[] {
                 MBeanServer.class
@@ -156,6 +152,10 @@ public class ServletContext24AwareMBeanServerFactory implements FactoryBean, Ser
     
     public void setMbeanServer(MBeanServer mbeanServer) {
         this.mbeanServer = mbeanServer;
+    }
+    
+    public void setPath(String path) {
+        this.path = path;
     }
     
     @Override
