@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Context>
-       <Resource name="jdbc/jmx-training-data-source" auth="Container" type="javax.sql.DataSource"
-               maxActive="10" maxWait="100"
-               username="sa" password="" driverClassName="org.h2.Driver"
-               url="jdbc:h2:mem:jmx-teaining-db"/>
+   <!-- Java EE DataSource disabled to ease training application deployment -->
+   <!--
+      <Resource name="jdbc/jmx-training-data-source" auth="Container" type="javax.sql.DataSource" maxActive="10" maxWait="100" username="sa"
+      password="" driverClassName="org.h2.Driver" url="jdbc:h2:mem:jmx-teaining-db"/>
+   -->
 </Context>

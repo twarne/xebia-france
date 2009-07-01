@@ -21,6 +21,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.RejectedExecutionException;
 
 import javax.sql.DataSource;
 
@@ -28,6 +30,7 @@ import net.sf.ehcache.Cache;
 import net.sf.ehcache.Element;
 
 import org.apache.commons.dbutils.DbUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
 
@@ -41,18 +44,23 @@ import fr.xebia.demo.xml.employee.Employee;
  */
 public class EmployeeServiceImpl implements EmployeeService, InitializingBean {
     
+    private final static Logger logger = Logger.getLogger(EmployeeServiceImpl.class);
+    
     private Cache cache;
     
     private DataSource dataSource;
     
-    private ZeBuggyService zeBuggyService;
+    private ExecutorService executorService;
     
     private Random random = new Random();
+    
+    private ZeBuggyService zeBuggyService;
     
     @Override
     public void afterPropertiesSet() throws Exception {
         Assert.notNull(this.cache, "cache can not be null");
         Assert.notNull(this.dataSource, "dataSource can not be null");
+        Assert.notNull(this.executorService, "executorService can not be null");
         Assert.notNull(this.zeBuggyService, "zeBuggService can not be null");
     }
     
@@ -76,7 +84,13 @@ public class EmployeeServiceImpl implements EmployeeService, InitializingBean {
         
         simulateCacheCalls(employee);
         
+        simulateAsynchronousActivity(employee);
+        
         return employee;
+    }
+    
+    public void setExecutorService(ExecutorService executorService) {
+        this.executorService = executorService;
     }
     
     public ZeBuggyService getZeBuggyService() {
@@ -98,6 +112,24 @@ public class EmployeeServiceImpl implements EmployeeService, InitializingBean {
     
     public void setZeBuggyService(ZeBuggyService zeBuggyService) {
         this.zeBuggyService = zeBuggyService;
+    }
+    
+    private void simulateAsynchronousActivity(Employee employee) {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(random.nextInt(200));
+                } catch (InterruptedException e) {
+                    logger.warn("non blocking " + e);
+                }
+            }
+        };
+        try {
+            executorService.execute(runnable);
+        } catch (RejectedExecutionException e) {
+            logger.warn("Non blocking " + e);
+        }
     }
     
     private void simulateCacheCalls(Employee employee) {

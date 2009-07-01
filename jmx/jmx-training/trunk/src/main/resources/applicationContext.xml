@@ -21,8 +21,28 @@
    <context:mbean-server id="mbeanServer" />
    <context:mbean-export server="servletContextAwareMbeanServer" />
 
-   <!-- JNDI DATASOURCE -->
+   <!-- THREAD POOL -->
+   <bean id="executorService" class="fr.xebia.springframework.concurrent.ThreadPoolExecutorFactory">
+      <property name="mbeanExporter" ref="mbeanExporter" />
+      <property name="nbThreads" value="10" />
+      <property name="queueCapacity" value="15" />
+   </bean>
+
+   <!-- DATASOURCE -->
+
+   <bean id="dataSource" class="fr.xebia.springframework.jdbc.DataSourceFactory">
+      <property name="url" value="jdbc:h2:mem:jmx-demo-db" />
+      <property name="driverClassName" value="org.h2.Driver" />
+      <property name="username" value="sa" />
+      <property name="password" value="" />
+      <property name="maxActive" value="10" />
+      <property name="maxWait" value="50" />
+      <property name="mbeanExporter" ref="mbeanExporter" />
+   </bean>
+   <!-- Java EE DataSource disabled to ease training application deployment -->
+   <!--
    <jee:jndi-lookup id="dataSource" jndi-name="java:comp/env/jdbc/jmx-training-data-source" />
+   -->
 
    <!-- SECURITY -->
    <sec:http auto-config='true'>
@@ -148,6 +168,7 @@
    <bean id="employeeServiceImpl" class="fr.xebia.demo.ws.employee.EmployeeServiceImpl">
       <property name="cache" ref="employeeCache" />
       <property name="dataSource" ref="dataSource" />
+      <property name="executorService" ref="executorService" />
       <property name="zeBuggyService" ref="zeBuggyService" />
    </bean>
 

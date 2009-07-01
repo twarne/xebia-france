@@ -15,6 +15,9 @@
  */
 package fr.xebia.demo.ws.employee;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -39,15 +42,17 @@ public class EmployeeServicePounder {
         }
         
     }
-
+    
     private static void stressTest() throws InterruptedException {
         final EmployeeService employeeService = buildEmployeeService();
         
-        ExecutorService executorService = Executors.newFixedThreadPool(10);
+        int injectorsCount = 10;
+        
+        ExecutorService executorService = Executors.newFixedThreadPool(injectorsCount);
         final Random random = new Random();
         
-        for (int i = 0; i < 10; i++) {
-            Runnable runnable = new Runnable() {                
+        for (int i = 0; i < injectorsCount; i++) {
+            Runnable runnable = new Runnable() {
                 @Override
                 public void run() {
                     for (int j = 0; j < 10000; j++) {
@@ -58,6 +63,21 @@ public class EmployeeServicePounder {
                             StressTestUtils.incrementProgressBarFailure("x");
                         } catch (RuntimeException e) {
                             StressTestUtils.incrementProgressBarFailure("*");
+                        }
+                        try {
+                            URL url = new URL("http://localhost:8080/jmx-training/employee.jsp?id=" + random.nextInt(1000));
+                            HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+                            int responseCode = httpURLConnection.getResponseCode();
+                            // go to end of stream to ease connection recycling
+                            httpURLConnection.getContentLength();
+                            if (HttpURLConnection.HTTP_OK == responseCode) {
+                                StressTestUtils.incrementProgressBarSuccess();
+                            } else {
+                                StressTestUtils.incrementProgressBarFailure("#");
+                            }
+                        } catch (IOException e) {
+                            StressTestUtils.incrementProgressBarFailure("#");
+                            e.printStackTrace();
                         }
                     }
                 }

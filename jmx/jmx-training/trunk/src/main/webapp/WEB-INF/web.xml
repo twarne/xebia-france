@@ -36,7 +36,7 @@
       <servlet-name>CXFServlet</servlet-name>
       <servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>
    </servlet>
-   
+
    <filter>
       <filter-name>springSecurityFilterChain</filter-name>
       <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
@@ -50,10 +50,9 @@
       <servlet-name>CXFServlet</servlet-name>
       <url-pattern>/services/*</url-pattern>
    </servlet-mapping>
-
-
-   <resource-env-ref>
-      <resource-env-ref-name>jdbc/jmx-training-data-source</resource-env-ref-name>
-      <resource-env-ref-type>javax.sql.DataSource</resource-env-ref-type>
-   </resource-env-ref>
+   <!-- Java EE DataSource disabled to ease training application deployment -->
+   <!--
+      <resource-env-ref> <resource-env-ref-name>jdbc/jmx-training-data-source</resource-env-ref-name>
+      <resource-env-ref-type>javax.sql.DataSource</resource-env-ref-type> </resource-env-ref>
+   -->
 </web-app>
