@@ -10,8 +10,9 @@
   * Start debugging "Tomcat v6.0 Server at localhost"
   * Check in the "console" view that no error occured
  * Open a web browser and test the following url :
-   * http://localhost:8080/jmx-demo/tools/jmx/mbeans.jsp : list all the mbeans of the Tomcat Server
-   * http://localhost:8080/jmx-demo/tools/parameters.jsp : a status page
+   * http://localhost:8080/jmx-training/tools/jmx/mbeans.jsp : list all the mbeans of the Tomcat Server
+   * http://localhost:8080/jmx-training/tools/parameters.jsp : a status page
+   * http://localhost:8080/jmx-training/services with username=admin, password=admin : the CXF services page
  * Start {{{visualvm}}} (located under {{{JDK_HOME\bin}}} )
   * Open the "tools\plugins" window and install the VisualVM-MBeans and VisualGC plugins
   * Restart if necessary
