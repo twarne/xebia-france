@@ -1,0 +1,17 @@
+= Introduction =
+
+Add your content here.
+
+
+= Setup =
+
+ * Checkout http://xebia-france.googlecode.com/svn/jmx/jmx-training/trunk/ 
+ * Run "mvn eclipse:eclipse"
+ * Import "jmx-training" project in Eclipse
+ * 
+
+
+Add your content here.  Format your content with:
+  * Text in *bold* or _italic_
+  * Headings, paragraphs, and lists
+  * Automatic links to other wiki pages
