@@ -50,7 +50,7 @@ The rules are :
 
 Well done, you can really quantify the error rate of the REST service in the QOS Crisis Meeting. 
 
-Your second task is to provide to the QOS team a way to look at these metrics. 
+Your second task is to provide to the QOS team a way to look at these metrics. They want a report, even if it is basic.
 The rules are :
  * The QOS team cannot use visualvm, they are not hardcore java guys like you are
  * The QOS team like to use web browsers
@@ -76,3 +76,13 @@ Few tips :
       </sec:user-service>
    </sec:authentication-provider>
 }}}
+
+= Lab 3 : Don't shoot the messenger ! It's not me =
+
+Reporting is done, you can leave the crisis meetings and start working !
+
+The Employee Service may be innocent. It the {{{BuggyService}}} that seems to be guilty. Everybody knows in the company that this service is terrible and that its connector is not reliable.
+
+Your taks is :
+ # To instrument this {{{BuggyService}}} to count errors
+ # To enhance the error rate report you gave to the QOS team with the new metrics.
