@@ -25,9 +25,7 @@ Add your content here.
    * http://localhost:8080/jmx-demo/tools/parameters.jsp : a status page
  * Start {{{visualvm}} (located under {{{JDK_HOME\bin}}} )
   * Open the "tools\plugins" window and install the VisualVM-MBeans and VisualGC plugins
-  *  
-
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+  * Restart if necessary
+  * In "Application\local", open the "Tomcat (pid xxx)" application
+  * On "Tomcat (pid xxx)" application, open the MBeans tab
+  * Check that the "Catalina" entry exists in the MBeans tree view
