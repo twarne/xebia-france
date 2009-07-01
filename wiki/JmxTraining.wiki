@@ -2,14 +2,30 @@
 
 Add your content here.
 
+= Prerequisites =
+
+ * Subversion
+ * 1.6 JDK (with jvisualvm)
+ * Maven
+ * Eclipse with WTP and Tomcat server configured
+ * Hyperic HQ
 
 = Setup =
 
  * Checkout http://xebia-france.googlecode.com/svn/jmx/jmx-training/trunk/ 
  * Run "mvn eclipse:eclipse"
- * Import "jmx-training" project in Eclipse
- * 
-
+ * Start Eclipse IDE
+  * Import "jmx-training" project
+  * In Servers view, add jmx-traing project to the Tomcat Server
+  * Open "Debug Configuration...", select the "Tomcat v6.0 Server at localhost", on tab "Arguments", field "VM Arguments", add {{{-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=6969 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false}}}
+  * Start debugging "Tomcat v6.0 Server at localhost"
+  * Check in the "console" view that no error occured
+ * Open a web browser and test the following url :
+   * http://localhost:8080/jmx-demo/tools/jmx/mbeans.jsp : list all the mbeans of the Tomcat Server
+   * http://localhost:8080/jmx-demo/tools/parameters.jsp : a status page
+ * Start {{{visualvm}} (located under {{{JDK_HOME\bin}}} )
+  * Open the "tools\plugins" window and install the VisualVM-MBeans and VisualGC plugins
+  *  
 
 Add your content here.  Format your content with:
   * Text in *bold* or _italic_
