@@ -13,7 +13,7 @@
 		http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
 		http://cxf.apache.org/transports/http/configuration http://cxf.apache.org/schemas/configuration/http-conf.xsd
 		http://cxf.apache.org/configuration/security http://cxf.apache.org/schemas/configuration/security.xsd">
-   
+
    <!-- JMX -->
    <bean id="servletContextAwareMbeanServer" class="fr.xebia.management.ServletContextAwareMBeanServerFactory">
       <property name="mbeanServer" ref="mbeanServer" />
@@ -188,6 +188,7 @@
 
    <!-- THREAD POOL -->
    <bean id="threadPool" class="fr.xebia.springframework.concurrent.ThreadPoolExecutorFactory">
+      <property name="mbeanExporter" ref="mbeanExporter" />
       <property name="nbThreads" value="10" />
       <property name="queueCapacity" value="15" />
    </bean>
@@ -201,10 +202,11 @@
       <property name="password" value="" />
       <property name="maxActive" value="10" />
       <property name="maxWait" value="50" />
+      <property name="mbeanExporter" ref="mbeanExporter" />
    </bean>
 
    <jee:jndi-lookup id="jmxDemoDataSource" jndi-name="java:comp/env/jdbc/jmx-demo-data-source" />
-   
-   <alias name="embeddedDataSource" alias="dataSource"/>
+
+   <alias name="embeddedDataSource" alias="dataSource" />
 
 </beans>

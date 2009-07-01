@@ -15,34 +15,34 @@
  */
 package fr.xebia.springframework.jdbc;
 
-import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
-import javax.sql.DataSource;
 
 import org.apache.commons.dbcp.BasicDataSource;
 import org.springframework.beans.factory.BeanNameAware;
-import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.FactoryBean;
-import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.config.AbstractFactoryBean;
+import org.springframework.jmx.export.MBeanExporter;
 import org.springframework.jmx.export.annotation.ManagedAttribute;
 import org.springframework.jmx.export.annotation.ManagedResource;
-import org.springframework.jmx.export.naming.SelfNaming;
+import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 /**
+ * <p>
  * TODO complete properties settings.
+ * </p>
+ * <p>
+ * To prevent need of using {@link MBeanExporter#setAllowEagerInit(boolean)} to <code>true</code>, we manually call
+ * {@link MBeanExporter#registerManagedResource(Object, ObjectName)}. See <a href="http://jira.springframework.org/browse/SPR-4954">SPR-4954
+ * : Add property to MBeanExporter to control eager initiailization of FactoryBeans</a>
+ * </p>
  * 
  * @author <a href="mailto:cyrille.leclerc@pobox.com">Cyrille Le Clerc</a>
  */
-public class DataSourceFactory implements FactoryBean, InitializingBean, DisposableBean, BeanNameAware {
+public class DataSourceFactory extends AbstractFactoryBean implements FactoryBean, BeanNameAware {
+    
     @ManagedResource
-    public static class SpringJmxEnableBasicDataSource extends BasicDataSource implements SelfNaming {
-        private final ObjectName objectName;
-        
-        public SpringJmxEnableBasicDataSource(ObjectName objectName) {
-            super();
-            this.objectName = objectName;
-        }
+    public static class SpringJmxEnableBasicDataSource extends BasicDataSource {
         
         @ManagedAttribute
         @Override
@@ -56,19 +56,12 @@ public class DataSourceFactory implements FactoryBean, InitializingBean, Disposa
             return super.getNumIdle();
         }
         
-        @Override
-        public ObjectName getObjectName() throws MalformedObjectNameException {
-            return objectName;
-        }
-        
         @ManagedAttribute
         @Override
         public synchronized String getUrl() {
             return super.getUrl();
         }
     }
-    
-    private BasicDataSource basicDataSource;
     
     private String beanName;
     
@@ -78,44 +71,45 @@ public class DataSourceFactory implements FactoryBean, InitializingBean, Disposa
     
     private long maxWait;
     
+    private MBeanExporter mbeanExporter;
+    
     private String objectName;
     
     private String password;
     
     private String url;
+    
     private String username;
+    
     @Override
-    public void afterPropertiesSet() throws Exception {
+    protected Object createInstance() throws Exception {
+        
+        BasicDataSource basicDataSource = new SpringJmxEnableBasicDataSource();
+        basicDataSource.setDriverClassName(driverClassName);
+        basicDataSource.setUrl(url);
+        basicDataSource.setUsername(username);
+        basicDataSource.setPassword(password);
+        basicDataSource.setMaxActive(maxActive);
+        basicDataSource.setMaxWait(maxWait);
+        
         if (!StringUtils.hasLength(this.objectName)) {
             objectName = "javax.sql:type=DataSource,name=" + ObjectName.quote(beanName);
         }
-        BasicDataSource newBasicDataSource = new SpringJmxEnableBasicDataSource(new ObjectName(objectName));
-        newBasicDataSource.setDriverClassName(driverClassName);
-        newBasicDataSource.setUrl(url);
-        newBasicDataSource.setUsername(username);
-        newBasicDataSource.setPassword(password);
-        newBasicDataSource.setMaxActive(maxActive);
-        newBasicDataSource.setMaxWait(maxWait);
+        Assert.notNull(mbeanExporter, "mbeanExporter can not be null");
         
-        this.basicDataSource = newBasicDataSource;
-    }
-    @Override
-    public void destroy() throws Exception {
-        this.basicDataSource.close();
-    }
-    @Override
-    public Object getObject() throws Exception {
-        return this.basicDataSource;
-    }
-    @Override
-    public Class<?> getObjectType() {
-        return this.basicDataSource == null ? DataSource.class : this.basicDataSource.getClass();
+        mbeanExporter.registerManagedResource(basicDataSource, new ObjectName(objectName));
         
+        return basicDataSource;
     }
     
     @Override
-    public boolean isSingleton() {
-        return true;
+    protected void destroyInstance(Object instance) throws Exception {
+        ((BasicDataSource)instance).close();
+    }
+    
+    @Override
+    public Class<?> getObjectType() {
+        return BasicDataSource.class;
     }
     
     @Override
@@ -133,6 +127,10 @@ public class DataSourceFactory implements FactoryBean, InitializingBean, Disposa
     
     public void setMaxWait(long maxWait) {
         this.maxWait = maxWait;
+    }
+    
+    public void setMbeanExporter(MBeanExporter mbeanExporter) {
+        this.mbeanExporter = mbeanExporter;
     }
     
     public void setObjectName(String objectName) {
