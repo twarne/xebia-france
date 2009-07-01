@@ -1,4 +1,4 @@
-= Introduction =
+b= Introduction =
 
 Add your content here.
 
@@ -12,22 +12,67 @@ Add your content here.
 
 = Setup =
 
- * Checkout http://xebia-france.googlecode.com/svn/jmx/jmx-training/trunk/ 
- * Run "mvn eclipse:eclipse"
- * Start Eclipse IDE
-  * Import "jmx-training" project
-  * In Servers view, add jmx-traing project to the Tomcat Server
-  * Open "Debug Configuration...", select the "Tomcat v6.0 Server at localhost", on tab "Arguments", field "VM Arguments", add {{{-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=6969 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false}}}
-   [http://xebia-france.googlecode.com/svn/jmx/jmx-training/trunk/src/site/img/eclipse-tomcat-vm-args-enable-jmx.png]
-  * Start debugging "Tomcat v6.0 Server at localhost"
-  * Check in the "console" view that no error occured
- * Open a web browser and test the following url :
-   * http://localhost:8080/jmx-demo/tools/jmx/mbeans.jsp : list all the mbeans of the Tomcat Server
-   * http://localhost:8080/jmx-demo/tools/parameters.jsp : a status page
- * Start {{{visualvm}} (located under {{{JDK_HOME\bin}}} )
-  * Open the "tools\plugins" window and install the VisualVM-MBeans and VisualGC plugins
-  * Restart if necessary
-  * In "Application\local", open the "Tomcat (pid xxx)" application
-  * On "Tomcat (pid xxx)" application, open the MBeans tab
-  * Check that the "Catalina" entry exists in the MBeans tree view
-     [http://xebia-france.googlecode.com/svn/jmx/jmx-training/trunk/src/site/img/visualVM-mbeans-tomcat-jmx-training.png]
+See [JmxTrainingSetup]
+
+= The Pounder =
+
+ * Start the pounder to generate load on the Tomcat Server 
+  * In Eclipse, open {{{fr.xebia.demo.ws.employee.EmployeeServicePounder}}}
+  * This multi threaded pounder will call both 
+   * [http://localhost:8080/jmx-training/employee.jsp?id=1] with varying {{{id}}} : a REST style service to retrieve the employee
+   * [http://localhost:8080/jmx-training/services/employeeService] the SOAP based Employee Service
+  * Run this {{{EmployeeServicePounder}}}
+  * Console output will look like 
+    {{{
+[19:12:20   27 req/s]	*--**-*--*##---###-#-*--------
+[19:12:22   24 req/s]	-#-#-##-##---**--x-##---#-*-#-
+[19:12:23   24 req/s]	--x**--#**--#---**####--#-*--*
+[19:12:24   27 req/s]	-##-*#----#**##----*#----#-#-*
+[19:12:25   24 req/s]	##--#*-##--**#--#---#------#--
+[19:12:26   25 req/s]	---x--#x#--*-###*---#**--#--*#
+}}}
+  * Legend :
+   * {{{-}}} success
+   * {{{#}}} failure of the REST style {{{employee.jsp}}}
+   * {{{x}}} EmployeeNotFoundException raised by the SOAP service
+   * {{{*}}} failure of the SOAP service
+
+= Lab 1 : Immediate Diagnosis, the quick win =
+
+You are responsible of the Employee Web Service that is accused by the Quality Of Service QOS team to raise many errors.
+
+Your first task is to follow the error rate of the REST style service. 
+The rules are : 
+ * The only tool you have is to query Tomcat Out Of The Box MBeans (ie the "Catalina" MBeans) 
+ * VisualVM can connect to the Tomcat Server
+
+= Lab 2 : Reporting for the QOS team =
+
+Well done, you can really quantify the error rate of the REST service in the QOS Crisis Meeting. 
+
+Your second task is to provide to the QOS team a way to look at these metrics. 
+The rules are :
+ * The QOS team cannot use visualvm, they are not hardcore java guys like you are
+ * The QOS team like to use web browsers
+ * The Security team allows you to deploy troubleshooting readonly pages on the live application with the following recommandations :
+  * it is better to have unpredictable URLs
+  * it is better to have password protected pages
+
+Few tips :
+ * A nice Tomcat JMX troubleshooting page is available [http://xebia-france.googlecode.com/svn/jmx/jmx-training/trunk/src/main/webapp/tools/jmx/tomcat.jsp here] and can be a nice template to start working
+ * A nice web application called [http://www.pctools.com/guides/password/ Secure Password Generator] generates unpredictables word that could be cool in URLs
+ * For Basic Authentication, the application is Already using Spring Security, a {{{ROLE_ADMIN}}} is already used and the account {{{admin}}} with password {{{admin}}} is already known by the QOS team. All this cool stuff is configured in [http://xebia-france.googlecode.com/svn/jmx/jmx-training/trunk/src/main/resources/applicationContext.xml src/main/resources/applicationContext.xml]
+   {{{
+   <sec:http auto-config='true'>
+      <sec:intercept-url pattern="/services/**" access="ROLE_USER" />
+      <sec:http-basic />
+      <sec:anonymous />
+   </sec:http>
+
+   <sec:authentication-provider>
+      <sec:user-service>
+         <sec:user name="admin" password="admin" authorities="ROLE_USER, ROLE_ADMIN" />
+         <sec:user name="user" password="user" authorities="ROLE_USER" />
+      </sec:user-service>
+   </sec:authentication-provider>
+}}}
