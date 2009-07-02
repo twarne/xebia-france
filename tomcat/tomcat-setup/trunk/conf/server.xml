@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Server port="${shutdown.port}" shutdown="gat6eSpU">
+
+  <Listener className="org.apache.catalina.core.AprLifecycleListener" SSLEngine="on" />
+  <Listener className="org.apache.catalina.core.JasperListener" />
+  <Listener className="org.apache.catalina.mbeans.ServerLifecycleListener" />
+  <Listener className="org.apache.catalina.mbeans.GlobalResourcesLifecycleListener" />
+
+  <GlobalNamingResources>
+    <Resource name="jdbc/test-global-data-source" auth="Container" type="javax.sql.DataSource"
+               maxActive="100" maxIdle="30" maxWait="10000"
+               username="${database.username}" password="${database.password}" driverClassName="org.h2.Driver"
+               url="jdbc:h2:mem:test-global-data-source" />
+  </GlobalNamingResources>
+
+  <Service name="Catalina">
+    <Executor name="tomcatThreadPool" namePrefix="tomcat-http--" maxThreads="100" />
+      
+    <Connector port="${http.port}" server="Apache-Coyote/${instance.name}" executor="tomcatThreadPool" />
+
+    <Connector port="${decrypted-https.port}" scheme="https" secure="true" proxyPort="443" server="Apache-Coyote/${instance.name}" executor="tomcatThreadPool" />
+    
+    <Engine name="Catalina" defaultHost="localhost" jvmRoute="${instance.name}">
+
+      <Valve className="org.apache.catalina.connector.RemoteIpValve" />
+      
+      <Valve className="org.apache.catalina.connector.SecuredRemoteAddressesValve" />
+      
+      <Valve className="org.apache.catalina.valves.AccessLogValve" prefix="tomcat_access_log." suffix=".txt" pattern='common' />
+
+      <Host name="localhost" appBase="webapps" unpackWARs="true" autoDeploy="true" xmlValidation="false" xmlNamespaceAware="false">
+      </Host>
+    </Engine>
+  </Service>
+</Server>
