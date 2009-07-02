@@ -159,19 +159,33 @@
       <property name="bus" ref="cxf" />
    </bean>
 
+   <!-- BUGGY SERVICE -->
    <bean id="zeBuggyServiceImpl" class="fr.xebia.demo.backend.zebuggyservice.ZeBuggyServiceImpl" />
 
    <bean id="zeBuggyService" class="fr.xebia.demo.backend.zebuggyservice.ZeBuggyServiceMonitoringImpl">
       <property name="zeBuggyService" ref="zeBuggyServiceImpl" />
    </bean>
 
-   <bean id="employeeServiceImpl" class="fr.xebia.demo.ws.employee.EmployeeServiceImpl">
+   <!-- ASYNC SERVICE -->
+   <bean id="zeAsyncService" class="fr.xebia.demo.backend.zeasyncservice.ZeAsyncServiceImpl">
+      <property name="executorService" ref="executorService" />
+   </bean>
+
+   <!-- Employee DAO -->
+   <bean id="employeeDao" class="fr.xebia.demo.dao.EmployeeDaoJdbcImpl">
       <property name="cache" ref="employeeCache" />
       <property name="dataSource" ref="dataSource" />
-      <property name="executorService" ref="executorService" />
+   </bean>
+   
+   <!-- EMPLOYEE SERVICE -->
+   <bean id="employeeServiceImpl" class="fr.xebia.demo.ws.employee.EmployeeServiceImpl">
+      <property name="employeeDao" ref="employeeDao" />
+      <property name="zeAsyncService" ref="zeAsyncService" />
       <property name="zeBuggyService" ref="zeBuggyService" />
    </bean>
 
+
+   <!-- CXF ENDPOINT -->
    <jaxws:endpoint id="employeeService" implementor="#employeeServiceImpl" address="/employeeService" endpointName="se:employeeServiceSOAP"
       serviceName="se:employeeService" xmlns:se="http://www.xebia.fr/demo/jmx/webservice">
       <jaxws:features>

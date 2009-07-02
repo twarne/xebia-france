@@ -15,28 +15,15 @@
  */
 package fr.xebia.demo.ws.employee;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.RejectedExecutionException;
-
-import javax.sql.DataSource;
-
-import net.sf.ehcache.Cache;
-import net.sf.ehcache.Element;
-
-import org.apache.commons.dbutils.DbUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
 
+import fr.xebia.demo.backend.zeasyncservice.ZeAsyncService;
 import fr.xebia.demo.backend.zebuggyservice.ZeBuggyPerson;
 import fr.xebia.demo.backend.zebuggyservice.ZeBuggyService;
 import fr.xebia.demo.backend.zebuggyservice.ZeBuggyServiceException;
+import fr.xebia.demo.dao.EmployeeDao;
 import fr.xebia.demo.xml.employee.Employee;
 
 /**
@@ -46,30 +33,17 @@ public class EmployeeServiceImpl implements EmployeeService, InitializingBean {
     
     private final static Logger logger = Logger.getLogger(EmployeeServiceImpl.class);
     
-    private Cache cache;
+    private EmployeeDao employeeDao;
     
-    private DataSource dataSource;
-    
-    private ExecutorService executorService;
-    
-    private Random random = new Random();
+    private ZeAsyncService zeAsyncService;
     
     private ZeBuggyService zeBuggyService;
     
     @Override
     public void afterPropertiesSet() throws Exception {
-        Assert.notNull(this.cache, "cache can not be null");
-        Assert.notNull(this.dataSource, "dataSource can not be null");
-        Assert.notNull(this.executorService, "executorService can not be null");
+        Assert.notNull(this.employeeDao, "employeeDao can not be null");
+        Assert.notNull(this.zeAsyncService, "zeAsyncService can not be null");
         Assert.notNull(this.zeBuggyService, "zeBuggService can not be null");
-    }
-    
-    public Cache getCache() {
-        return cache;
-    }
-    
-    public DataSource getDataSource() {
-        return dataSource;
     }
     
     @Override
@@ -80,17 +54,11 @@ public class EmployeeServiceImpl implements EmployeeService, InitializingBean {
         
         simulateZeBuggyServiceCalls(employee);
         
-        simulateDatabaseCalls(employee);
+        employeeDao.getEmployee(id);
         
-        simulateCacheCalls(employee);
-        
-        simulateAsynchronousActivity(employee);
+        zeAsyncService.doAsyncWork(id);
         
         return employee;
-    }
-    
-    public void setExecutorService(ExecutorService executorService) {
-        this.executorService = executorService;
     }
     
     public ZeBuggyService getZeBuggyService() {
@@ -102,77 +70,16 @@ public class EmployeeServiceImpl implements EmployeeService, InitializingBean {
         return null;
     }
     
-    public void setCache(Cache cache) {
-        this.cache = cache;
+    public void setEmployeeDao(EmployeeDao employeeDao) {
+        this.employeeDao = employeeDao;
     }
     
-    public void setDataSource(DataSource dataSource) {
-        this.dataSource = dataSource;
+    public void setZeAsyncService(ZeAsyncService zeAsyncService) {
+        this.zeAsyncService = zeAsyncService;
     }
     
     public void setZeBuggyService(ZeBuggyService zeBuggyService) {
         this.zeBuggyService = zeBuggyService;
-    }
-    
-    private void simulateAsynchronousActivity(Employee employee) {
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(random.nextInt(200));
-                } catch (InterruptedException e) {
-                    logger.warn("non blocking " + e);
-                }
-            }
-        };
-        try {
-            executorService.execute(runnable);
-        } catch (RejectedExecutionException e) {
-            logger.warn("Non blocking " + e);
-        }
-    }
-    
-    private void simulateCacheCalls(Employee employee) {
-        Element cacheElement = cache.get(employee.getId());
-        if (cacheElement == null) {
-            cache.put(new Element(employee.getId(), employee));
-        }
-    }
-    
-    private void simulateDatabaseCalls(Employee employee) {
-        
-        // REGULAR JDBC
-        Connection connection = null;
-        Statement statement = null;
-        try {
-            connection = dataSource.getConnection();
-            statement = connection.createStatement();
-            statement.execute("select 1");
-            
-            Thread.sleep(random.nextInt(200));
-            
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        } finally {
-            DbUtils.closeQuietly(connection, statement, null);
-        }
-        
-        // RANDMOLY GENERATE DATASOURCE CONNECTION EXHAUSTION
-        if (random.nextInt(50) == 1) {
-            List<Connection> connections = new ArrayList<Connection>();
-            try {
-                connections.add(dataSource.getConnection());
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            } finally {
-                for (Connection conn : connections) {
-                    DbUtils.closeQuietly(conn);
-                }
-            }
-        }
-        
     }
     
     private void simulateZeBuggyServiceCalls(Employee employee) throws EmployeeNotFoundException {

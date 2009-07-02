@@ -42,6 +42,17 @@ import org.springframework.util.StringUtils;
  * {@link MBeanExporter#registerManagedResource(Object, ObjectName)}. See <a href="http://jira.springframework.org/browse/SPR-4954">SPR-4954
  * : Add property to MBeanExporter to control eager initiailization of FactoryBeans</a>
  * </p>
+ * <p>
+ * Configuration sample : <code>
+ * <pre>
+ * &lt;bean id="executorService" class="fr.xebia.springframework.concurrent.ThreadPoolExecutorFactory"&gt;
+ *    &lt;property name="mbeanExporter" ref="mbeanExporter" /&gt;
+ *    &lt;property name="nbThreads" value="10" /&gt;
+ *    &lt;property name="queueCapacity" value="15" /&gt;
+ * &lt;/bean&gt;
+ * </pre>
+ * </code>
+ * </p>
  * 
  * @author <a href="mailto:cyrille.leclerc@pobox.com">Cyrille Le Clerc</a>
  */
