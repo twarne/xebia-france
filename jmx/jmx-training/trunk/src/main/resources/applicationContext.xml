@@ -22,10 +22,8 @@
    <context:mbean-export server="servletContextAwareMbeanServer" />
 
    <!-- THREAD POOL -->
-   <bean id="executorService" class="fr.xebia.springframework.concurrent.ThreadPoolExecutorFactory">
-      <property name="mbeanExporter" ref="mbeanExporter" />
-      <property name="nbThreads" value="10" />
-      <property name="queueCapacity" value="15" />
+   <bean id="executorService" class="java.util.concurrent.Executors" factory-method="newFixedThreadPool">
+      <constructor-arg type="int" value="15"/>
    </bean>
 
    <!-- DATASOURCE -->
@@ -129,15 +127,6 @@
    <bean id="hibernate.StandardQueryCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
       <property name="cacheManager" ref="cacheManager" />
       <property name="cacheName" value="org.hibernate.cache.StandardQueryCache" />
-   </bean>
-
-   <bean id="managementService" class="net.sf.ehcache.management.ManagementService" init-method="init">
-      <constructor-arg ref="servletContextAwareMbeanServer" />
-      <constructor-arg ref="cacheManager" />
-      <constructor-arg index="2" value="true" />
-      <constructor-arg index="3" value="true" />
-      <constructor-arg index="4" value="true" />
-      <constructor-arg index="5" value="true" />
    </bean>
 
    <!-- CXF -->
