@@ -20,11 +20,11 @@
    <groupId>fr.xebia.jmx</groupId>
    <artifactId>jmx-training</artifactId>
    <packaging>war</packaging>
-   <version>1.0</version>
+   <version>1.1-SNAPSHOT</version>
    <scm>
-      <connection>scm:svn:http://xebia-france.googlecode.com/svn/jmx/jmx-training/tags/jmx-training-1.0</connection>
-      <developerConnection> scm:svn:https://xebia-france.googlecode.com/svn/jmx/jmx-training/tags/jmx-training-1.0</developerConnection>
-      <url>http://xebia-france.googlecode.com/svn/jmx/jmx-training/tags/jmx-training-1.0</url>
+      <connection>scm:svn:http://xebia-france.googlecode.com/svn/jmx/jmx-training/trunk/</connection>
+      <developerConnection> scm:svn:https://xebia-france.googlecode.com/svn/jmx/jmx-training/trunk/</developerConnection>
+      <url>http://xebia-france.googlecode.com/svn/jmx/jmx-training/trunk/</url>
    </scm>
    <licenses>
       <license>
