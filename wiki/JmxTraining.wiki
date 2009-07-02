@@ -129,20 +129,26 @@ Tips :
    </bean>
 }}}
 
-= Lab 6 : Limit load on BuggyService =
+= Lab 6 : Keep your service under control, monitor CXF =
+
+Monitoring error rate on CXF endpoint would be a nice way to monitor the Employee Service.
+
+Please expose these metrics t othe QOS team.
+
+= Lab 7 : Limit load on BuggyService =
 
 You are asked to limit the number of concurrent invocations on BuggyService to 5.
 
 Tip :
  * create a wrapper implementation that rely on a semaphore
 
-= Lab 7 : Let's put all this under Hyperic HQ =
+= Lab 8 : Let's put all this under Hyperic HQ =
 
 * Create a folder {{{hq-plugins}}} under Hyperic root folder, next to the folder {{{agent-4.1.2}}} and {{{server-4.1.2}}} (by default on Windows under {{{C:\Program Files\Hyperic HQ 4.1.2}}})
 * Copy Hyperic plugins located under [http://xebia-france.googlecode.com/svn/jmx/jmx-training/trunk/src/main/hyperic/ /src/main/hyperic/] to {{{hq-plugins}}}
 * Restart Hyperic Agent and Server
 * Search in Hyperic console for autodiscovery
 
-= Lab 8 : Create your own Hyperic Plugin =
+= Lab 9 : Create your own Hyperic Plugin =
 
 Create an Hyperic Plugin for BuggyService
