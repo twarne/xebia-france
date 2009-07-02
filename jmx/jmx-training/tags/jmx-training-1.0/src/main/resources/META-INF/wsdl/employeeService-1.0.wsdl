@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://demo.xebia.fr/ws/employee"
+   xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="employeeService-1.0"
+   targetNamespace="http://demo.xebia.fr/ws/employee">
+   <wsdl:types>
+      <xsd:schema targetNamespace="http://demo.xebia.fr/ws/"
+         xmlns:employee="http://demo.xebia.fr/xml/employee">
+         <xsd:import schemaLocation="employeeService-1.0.xsd" namespace="http://demo.xebia.fr/ws/employee" />
+      </xsd:schema>
+   </wsdl:types>
+   <wsdl:message name="getEmployee">
+      <wsdl:part element="tns:getEmployee" name="input" />
+   </wsdl:message>
+   <wsdl:message name="getEmployeeResponse">
+      <wsdl:part element="tns:getEmployeeResponse" name="output" />
+   </wsdl:message>
+   <wsdl:message name="putEmployeeRequest">
+      <wsdl:part name="input" element="tns:putEmployee"/>
+   </wsdl:message>
+   <wsdl:message name="putEmployeeResponse">
+      <wsdl:part name="output" element="tns:putEmployeeResponse"/>
+   </wsdl:message>
+   <wsdl:message name="employeeNotFoundException">
+      <wsdl:part name="fault" element="tns:employeeNotFoundFault"/>
+   </wsdl:message>
+
+   <wsdl:portType name="employeeService">
+      <wsdl:operation name="getEmployee">
+         <wsdl:input message="tns:getEmployee" />
+         <wsdl:output message="tns:getEmployeeResponse" />
+         <wsdl:fault name="fault" message="tns:employeeNotFoundException" />
+      </wsdl:operation>
+      <wsdl:operation name="putEmployee">
+         <wsdl:input message="tns:putEmployeeRequest" />
+         <wsdl:output message="tns:putEmployeeResponse" />
+      </wsdl:operation>
+   </wsdl:portType>
+
+   <wsdl:binding name="employeeService" type="tns:employeeService">
+      <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+      <wsdl:operation name="getEmployee">
+         <soap:operation soapAction="http://demo.xebia.fr/ws/employee/getEmployee" />
+         <wsdl:input>
+            <soap:body use="literal" />
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal" />
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="putEmployee">
+         <soap:operation soapAction="http://demo.xebia.fr/ws/employee/putEmployee" />
+         <wsdl:input>
+            <soap:body use="literal" />
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal" />
+         </wsdl:output>
+      </wsdl:operation>
+   </wsdl:binding>
+   <wsdl:service name="employeeService">
+      <wsdl:port binding="tns:employeeService" name="employeeService">
+         <soap:address location="http://localhost:8080/jmx-training/services/employeeService" />
+      </wsdl:port>
+   </wsdl:service>
+</wsdl:definitions>

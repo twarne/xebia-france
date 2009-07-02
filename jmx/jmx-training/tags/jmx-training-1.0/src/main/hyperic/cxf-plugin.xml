@@ -1,0 +1,112 @@
+<?xml version="1.0"?>
+<!DOCTYPE plugin [
+  <!ENTITY process-metrics SYSTEM "/pdk/plugins/process-metrics.xml">
+]>
+<plugin name="cxf">
+   <classpath>
+      <include name="pdk/lib/mx4j" />
+   </classpath>
+
+   <server name="CXF">
+
+      <config>
+         <option name="jmx.url" description="JMX URL to MBeanServer" default="service:jmx:rmi:///jndi/rmi://localhost:6969/jmxrmi" />
+         <option name="jmx.username" description="JMX username" optional="true" default="system" />
+         <option name="jmx.password" description="JMX password" optional="true" default="manager" type="secret" />
+      </config>
+
+      <property name="domain" value="org.apache.cxf" />
+      <property name="PROC_HOME_PROPERTY" value="catalina.base" />
+      <plugin type="autoinventory" class="org.hyperic.hq.product.jmx.MxServerDetector" />
+      <plugin type="measurement" class="org.hyperic.hq.product.jmx.MxMeasurementPlugin" />
+
+      <service name="Endpoint Statistics">
+         <!-- 
+         org.apache.cxf:type=Performance.Counter.Server,bus.id=jmx-demo-cxf-bus,service="{http://www.xebia.fr/demo/jmx/webservice}helloWorldService",port="helloWorldServiceSOAP"
+         -->
+         <property name="OBJECT_NAME" value="${domain}:type=Performance.Counter.Server,bus.id=*,service=*,port=*" />
+
+         <plugin type="autoinventory" />
+
+         <config>
+            <option name="bus.id" description="ID of the CXF Bus" />
+            <option name="service" description="Name of the Service" />
+            <option name="port" description="Name of the Port" />
+         </config>
+
+         <filter name="template" value="${OBJECT_NAME}:${alias}" />
+
+         <metric name="Availability" indicator="true" />
+         <metric name="Number of Invocations" alias="NumInvocations" indicator="true" template="${OBJECT_NAME}:${alias}" units="none" type="trendsup" />
+         <metric name="Total Handling Time" alias="TotalHandlingTime" indicator="true" template="${OBJECT_NAME}:${alias}" units="none" type="trendsup" />
+      </service>
+
+      <service name="Endpoint Per Application Statistics">
+         <!-- 
+         org.apache.cxf:type=Performance.Counter.Server,path=/jmx-demo,bus.id=jmx-demo-cxf-bus,service="{http://www.xebia.fr/demo/jmx/webservice}helloWorldService",port="helloWorldServiceSOAP",operation="sayHi"
+         -->
+         <property name="OBJECT_NAME" value="${domain}:type=Performance.Counter.Server,path=*,bus.id=*,service=*,port=*" />
+
+         <plugin type="autoinventory" />
+
+         <config>
+            <option name="path" description="Path of the web application" default="/" />
+            <option name="bus.id" description="ID of the CXF Bus" />
+            <option name="service" description="Name of the Service" />
+            <option name="port" description="Name of the Port" />
+         </config>
+
+         <filter name="template" value="${OBJECT_NAME}:${alias}" />
+
+         <metric name="Availability" indicator="true" />
+         <metric name="Number of Invocations" alias="NumInvocations" indicator="true" template="${OBJECT_NAME}:${alias}" units="none" type="trendsup" />
+         <metric name="Total Handling Time" alias="TotalHandlingTime" indicator="true" template="${OBJECT_NAME}:${alias}" units="none" type="trendsup" />
+      </service>
+
+      <service name="Endpoint Per Operation Statistics">
+         <!-- 
+         org.apache.cxf:type=Performance.Counter.Server,bus.id=jmx-demo-cxf-bus,service="{http://www.xebia.fr/demo/jmx/webservice}helloWorldService",port="helloWorldServiceSOAP",operation="sayHi"
+         -->
+         <property name="OBJECT_NAME" value="${domain}:type=Performance.Counter.Server,bus.id=*,service=*,port=*,operation=*" />
+
+         <plugin type="autoinventory" />
+
+         <config>
+            <option name="bus.id" description="ID of the CXF Bus" />
+            <option name="service" description="Name of the Service" />
+            <option name="port" description="Name of the Port" />
+            <option name="operation" description="Name of the Operation" />
+         </config>
+
+         <filter name="template" value="${OBJECT_NAME}:${alias}" />
+
+         <metric name="Availability" indicator="true" />
+         <metric name="Number of Invocations" alias="NumInvocations" indicator="true" template="${OBJECT_NAME}:${alias}" units="none" type="trendsup" />
+         <metric name="Total Handling Time" alias="TotalHandlingTime" indicator="true" template="${OBJECT_NAME}:${alias}" units="none" type="trendsup" />
+      </service>
+
+      <service name="Endpoint Per Operation And Per Application Statistics">
+         <!-- 
+         org.apache.cxf:type=Performance.Counter.Server,path=/jmx-demo,bus.id=jmx-demo-cxf-bus,service="{http://www.xebia.fr/demo/jmx/webservice}helloWorldService",port="helloWorldServiceSOAP",operation="sayHi"
+         -->
+         <property name="OBJECT_NAME" value="${domain}:type=Performance.Counter.Server,path=*,bus.id=*,service=*,port=*,operation=*" />
+
+         <plugin type="autoinventory" />
+
+         <config>
+            <option name="path" description="Path of the web application" default="/" />
+            <option name="bus.id" description="ID of the CXF Bus" />
+            <option name="service" description="Name of the Service" />
+            <option name="port" description="Name of the Port" />
+            <option name="operation" description="Name of the Operation" />
+         </config>
+
+         <filter name="template" value="${OBJECT_NAME}:${alias}" />
+
+         <metric name="Availability" indicator="true" />
+         <metric name="Number of Invocations" alias="NumInvocations" indicator="true" template="${OBJECT_NAME}:${alias}" units="none" type="trendsup" />
+         <metric name="Total Handling Time" alias="TotalHandlingTime" indicator="true" template="${OBJECT_NAME}:${alias}" units="none" type="trendsup" />
+      </service>
+
+   </server>
+</plugin>

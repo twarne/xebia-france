@@ -1,0 +1,1 @@
+<% throw new RuntimeException("This is an exception"); %>

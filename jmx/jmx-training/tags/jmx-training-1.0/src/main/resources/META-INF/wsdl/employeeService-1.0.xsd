@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://demo.xebia.fr/ws/employee" xmlns:employee="http://demo.xebia.fr/xml/employee"
+   elementFormDefault="qualified" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+   <xsd:import schemaLocation="employee-1.0.xsd" namespace="http://demo.xebia.fr/xml/employee"></xsd:import>
+   <xsd:element name="getEmployee">
+      <xsd:complexType>
+         <xsd:sequence>
+            <xsd:element name="id" type="xsd:long" minOccurs="1" maxOccurs="1" />
+         </xsd:sequence>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="getEmployeeResponse">
+      <xsd:complexType>
+         <xsd:sequence>
+            <xsd:element name="employee" type="employee:Employee" minOccurs="1" maxOccurs="1" />
+         </xsd:sequence>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="employeeNotFoundFault">
+      <xsd:complexType>
+         <xsd:sequence>
+            <xsd:element name="description" type="xsd:string" />
+         </xsd:sequence>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="putEmployee">
+      <xsd:complexType>
+         <xsd:sequence>
+            <xsd:element name="employee" type="employee:Employee" minOccurs="1" maxOccurs="1" />
+         </xsd:sequence>
+      </xsd:complexType>
+   </xsd:element>
+   <xsd:element name="putEmployeeResponse">
+      <xsd:complexType>
+         <xsd:sequence>
+            <xsd:element name="employee" type="employee:Employee" minOccurs="1" maxOccurs="1" />
+         </xsd:sequence>
+      </xsd:complexType>
+   </xsd:element>
+</xsd:schema>
