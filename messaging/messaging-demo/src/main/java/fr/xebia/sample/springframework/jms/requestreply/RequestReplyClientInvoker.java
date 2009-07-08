@@ -46,7 +46,7 @@ import org.springframework.util.Assert;
  * </p>
  * <blockquote><strong> 4.4.3 Creating Temporary Destinations </strong> <br/> Although sessions are used to create temporary destinations,
  * this is only for convenience. Their scope is actually the entire connection. Their lifetime is that of their connection, and any of the
- * connection’s sessions is allowed to create a MessageConsumer for them. </blockquote>
+ * connection's sessions is allowed to create a MessageConsumer for them. </blockquote>
  * 
  * @author <a href="mailto:cyrille.leclerc@pobox.com">Cyrille Le Clerc</a>
  */
