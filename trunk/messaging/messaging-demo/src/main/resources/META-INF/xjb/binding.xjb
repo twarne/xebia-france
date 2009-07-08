@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jaxws:bindings xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns="http://java.sun.com/xml/ns/jaxws"
-	xmlns:jaxws="http://java.sun.com/xml/ns/jaxws" xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc" jaxb:extensionBindingPrefixes="xjc" jaxb:version="2.0"
-	xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" node="xsd:schema">
-	<jaxb:globalBindings>
-		<!--
-		FIXME
-		Caused by: org.xml.sax.SAXParseException: The prefix "xjc" for element "xjc:simple" is not bound.
-          at com.sun.org.apache.xerces.internal.parsers.DOMParser.parse(DOMParser.java:239)
-          at com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderImpl.parse(DocumentBuilderImpl.java:283) 
-		<xjc:simple /> 
-		-->
-		<jaxb:javaType name="java.sql.Date" xmlType="xsd:date" parseMethod="valueOf" printMethod="toString" />
-		<jaxb:serializable uid="1" />
-	</jaxb:globalBindings>
-</jaxws:bindings>
+<jaxb:bindings jaxb:version="2.0" jaxb:extensionBindingPrefixes="xjc"
+           xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+           xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+     <jaxb:globalBindings generateElementProperty="false" >
+     		<!-- Permet d'avoir la balise @XmlRootElement sur les beans générés.-->
+           <xjc:simple/>
+           <jaxb:javaType name="java.util.Date" xmlType="xsd:date" parseMethod="org.apache.cxf.tools.common.DataTypeAdapter.parseDate" printMethod="org.apache.cxf.tools.common.DataTypeAdapter.printDate" />
+           <jaxb:javaType name="java.util.Date" xmlType="xsd:dateTime" parseMethod="org.apache.cxf.tools.common.DataTypeAdapter.parseDateTime" printMethod="org.apache.cxf.tools.common.DataTypeAdapter.printDateTime" />
+           <jaxb:serializable/>
+     </jaxb:globalBindings>
+</jaxb:bindings>

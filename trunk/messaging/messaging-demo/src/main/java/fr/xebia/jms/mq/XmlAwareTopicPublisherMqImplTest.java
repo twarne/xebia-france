@@ -79,7 +79,7 @@ public class XmlAwareTopicPublisherMqImplTest {
 
         XmlMessage xmlMessage = new XmlMessageImpl(this.session.createTextMessage());
 
-        Reader xml = new StringReader("<root><child>Hello Topic È‡Ë with default encoding</child></root>");
+        Reader xml = new StringReader("<root><child>Hello Topic √©√®√† with default encoding</child></root>");
         xmlMessage.setSource(new StreamSource(xml));
 
         topicSender.publish(xmlMessage);
@@ -98,7 +98,7 @@ public class XmlAwareTopicPublisherMqImplTest {
 
         XmlMessage xmlMessage = new XmlMessageImpl(this.session.createTextMessage());
 
-        Reader xml = new StringReader("<root><child>Hello Topic È‡Ë with ISO-8859-1 encoding</child></root>");
+        Reader xml = new StringReader("<root><child>Hello Topic √©√®√† with ISO-8859-1 encoding</child></root>");
         xmlMessage.setSource(new StreamSource(xml));
         xmlMessage.setOutputProperty(OutputKeys.ENCODING, "ISO-8859-1");
 

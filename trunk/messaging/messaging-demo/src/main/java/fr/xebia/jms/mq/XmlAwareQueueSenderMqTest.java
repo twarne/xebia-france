@@ -76,7 +76,7 @@ public class XmlAwareQueueSenderMqTest extends TestCase {
 
         XmlMessage xmlMessage = new XmlMessageImpl(this.session.createTextMessage());
 
-        Reader xml = new StringReader("<root><child>Hello Queue È‡Ë with default encoding</child></root>");
+        Reader xml = new StringReader("<root><child>Hello Queue √©√®√† with default encoding</child></root>");
         xmlMessage.setSource(new StreamSource(xml));
 
         queueSender.send(xmlMessage);
@@ -94,7 +94,7 @@ public class XmlAwareQueueSenderMqTest extends TestCase {
 
         XmlMessage xmlMessage = new XmlMessageImpl(this.session.createTextMessage());
 
-        Reader xml = new StringReader("<root><child>Hello Queue È‡Ë with ISO-8859-1 encoding</child></root>");
+        Reader xml = new StringReader("<root><child>Hello Queue √©√®√† with ISO-8859-1 encoding</child></root>");
         xmlMessage.setSource(new StreamSource(xml));
         xmlMessage.setOutputProperty(OutputKeys.ENCODING, "ISO-8859-1");
 
@@ -119,7 +119,7 @@ public class XmlAwareQueueSenderMqTest extends TestCase {
 
         XmlMessage xmlMessage = new XmlMessageImpl(this.session.createTextMessage());
 
-        Reader xml = new StringReader("<root><child>Hello Queue È‡Ë with UTF-8 encoding</child></root>");
+        Reader xml = new StringReader("<root><child>Hello Queue √©√®√† with UTF-8 encoding</child></root>");
         xmlMessage.setSource(new StreamSource(xml));
         xmlMessage.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
 

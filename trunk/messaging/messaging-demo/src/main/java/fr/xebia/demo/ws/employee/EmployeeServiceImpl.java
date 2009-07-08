@@ -18,8 +18,6 @@ package fr.xebia.demo.ws.employee;
 import java.sql.Date;
 import java.util.GregorianCalendar;
 
-import javax.xml.ws.Holder;
-
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.log4j.Logger;
 
@@ -27,24 +25,23 @@ import fr.xebia.demo.xml.employee.Employee;
 import fr.xebia.demo.xml.employee.Gender;
 
 /**
- * 
  * @author <a href="mailto:cleclerc@xebia.fr">Cyrille Le Clerc</a>
  */
 public class EmployeeServiceImpl implements EmployeeService {
-
+    
     private final static Logger logger = Logger.getLogger(EmployeeServiceImpl.class);
-
+    
     @Override
-    public void putEmployee(Holder<Employee> employee) throws EmployeeServiceFaultMsg {
-        
-        if(employee.value.getId() == null) {
+    public Employee putEmployee(Employee employee) throws EmployeeServiceFaultMsg {
+        if (employee.getId() == null) {
             throw new NullPointerException("employee.id can NOT be null");
         }
-
-        logger.info("putEmployee(" + employee + "): " + ToStringBuilder.reflectionToString(employee.value));
-
+        
+        logger.info("putEmployee(" + employee + "): " + ToStringBuilder.reflectionToString(employee));
+        
+        return employee;
     }
-
+    
     @Override
     public Employee getEmployee(int id) throws EmployeeServiceFaultMsg {
         Employee employee = new Employee();
@@ -53,7 +50,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setFirstName("John");
         employee.setGender(Gender.MALE);
         employee.setBirthdate(new Date(new GregorianCalendar(1976, 01, 05).getTimeInMillis()));
-
+        
         logger.info("getEmployee(" + id + "): " + ToStringBuilder.reflectionToString(employee));
         return employee;
     }

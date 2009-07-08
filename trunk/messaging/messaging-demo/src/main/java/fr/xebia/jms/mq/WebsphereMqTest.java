@@ -185,7 +185,7 @@ public class WebsphereMqTest extends TestCase {
      */
     public void testSendXmlMessageIso88591() throws Exception {
         String encoding = "ISO-8859-1";
-        Source xmlSource = new StreamSource(new StringReader("<root><child>Hello Queue éàè with " + encoding + " encoding</child></root>"));
+        Source xmlSource = new StreamSource(new StringReader("<root><child>Hello Queue Ã©ÃªÃ  with " + encoding + " encoding</child></root>"));
 
         sendXmlMessage(xmlSource, encoding);
     }
@@ -197,7 +197,7 @@ public class WebsphereMqTest extends TestCase {
      */
     public void testSendXmlMessageUtf8() throws Exception {
         String encoding = "UTF-8";
-        Source xmlSource = new StreamSource(new StringReader("<root><child>Hello Queue éàè with " + encoding + " encoding</child></root>"));
+        Source xmlSource = new StreamSource(new StringReader("<root><child>Hello Queue Ã©ÃªÃ  with " + encoding + " encoding</child></root>"));
 
         sendXmlMessage(xmlSource, encoding);
     }
