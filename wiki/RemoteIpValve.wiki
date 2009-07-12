@@ -16,7 +16,7 @@ Another feature of this valve is to replace the apparent scheme ({{{http}}}/{{{h
 
 This Valve may be attached to any Container, depending on the granularity of the filtering you wish to perform.
 
-== Basic configuration to handle x-forwarded-for ==
+== Basic configuration to handle {{{x-forwarded-for}}} ==
 
 The valve will process the {{{x-forwarded-for}}} http header. 
 
@@ -31,7 +31,7 @@ The valve will process the {{{x-forwarded-for}}} http header.
 </Host>
 }}}
 
-== Basic configuration to handle x-forwarded-for and x-forwarded-proto ==
+== Basic configuration to handle {{{x-forwarded-for}}} and {{{x-forwarded-proto}}} ==
 
 The valve will process {{{x-forwarded-for}}} and {{{x-forwarded-proto}}} http headers. Expected value for {{{x-forwarded-proto}}} https connections is {{{https}}} (case insensitive).
 
