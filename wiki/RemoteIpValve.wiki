@@ -1,3 +1,5 @@
+# RemoteIpValve is a Tomcat port of Apache mod_remoteip to handle x-forwarded-for and x-forwarded-proto http headers
+
 = Description =
 The RemoteIpValve is a Tomcat port of [http://httpd.apache.org/docs/trunk/mod/mod_remoteip.html mod_remoteip], this valve replaces the apparent client remote IP address and hostname for the request with the IP address list presented by a proxy or a load balancer via a request headers (e.g. "{{{X-Forwarded-For}}}"). 
 
