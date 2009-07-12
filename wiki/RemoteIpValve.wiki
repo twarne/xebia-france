@@ -54,9 +54,9 @@ RemoteIpValve configuration:
 Request values:
 || *property* || *Value Before RemoteIpValve* || *Value After RemoteIpValve* ||
 || request.remoteAddr || 192.168.0.10 || 140.211.11.130 ||
-|| request.header['x-forwarded-for'] || 140.211.11.130, 192.168.0.10 || null ||
-|| request.header['x-forwarded-by'] || null || null ||
-|| request.header['x-forwarded-proto'] || https || https ||
+|| request.header`[`'x-forwarded-for'`]` || 140.211.11.130, 192.168.0.10 || null ||
+|| request.header`[`'x-forwarded-by'`]` || null || null ||
+|| request.header`[`'x-forwarded-proto'`]` || https || https ||
 || request.scheme || http || https ||
 || request.secure || false || true ||
 || request.serverPort || 80 || 443 ||
@@ -82,8 +82,8 @@ RemoteIpValve configuration:
 Request values:
 || *property* || *Value Before RemoteIpValve* || *Value After RemoteIpValve* ||
 || request.remoteAddr || 192.168.0.10 || 140.211.11.130 ||
-|| request.header['x-forwarded-for'] || 140.211.11.130, proxy1, proxy2 || null ||
-|| request.header['x-forwarded-by'] || null || proxy1, proxy2 ||
+|| request.header`[`'x-forwarded-for'`]` || 140.211.11.130, proxy1, proxy2 || null ||
+|| request.header`[`'x-forwarded-by'`]` || null || proxy1, proxy2 ||
 
 Note : {{{proxy1}}} and {{{proxy2}}} are both trusted proxies that come in {{{x-forwarded-for}}} header, they both
 are migrated in {{{x-forwarded-by}}} header. {{{x-forwarded-by}}} is null because all the proxies are trusted or internal.
@@ -106,8 +106,8 @@ RemoteIpValve configuration:
 Request values:
 || *property* || *Value Before RemoteIpValve* || *Value After RemoteIpValve* ||
 || request.remoteAddr || 192.168.0.10 || 140.211.11.130 ||
-|| request.header['x-forwarded-for'] || 140.211.11.130, proxy1, proxy2, 192.168.0.10 || null ||
-|| request.header['x-forwarded-by'] || null || proxy1, proxy2 ||
+|| request.header`[`'x-forwarded-for'`]` || 140.211.11.130, proxy1, proxy2, 192.168.0.10 || null ||
+|| request.header`[`'x-forwarded-by'`]` || null || proxy1, proxy2 ||
 
 Note : {{{proxy1}}} and {{{proxy2}}} are both trusted proxies that come in {{{x-forwarded-for}}} header, they both
 are migrated in {{{x-forwarded-by}}} header. As {{{192.168.0.10}}} is an internal proxy, it does not appear in
@@ -131,8 +131,8 @@ RemoteIpValve configuration:
 Request values:
 || *property* || *Value Before RemoteIpValve* || *Value After RemoteIpValve* ||
 || request.remoteAddr || 192.168.0.10 || untrusted-proxy ||
-|| request.header['x-forwarded-for'] || 140.211.11.130, untrusted-proxy, proxy1 || 140.211.11.130 ||
-|| request.header['x-forwarded-by'] || null || proxy1 ||
+|| request.header`[`'x-forwarded-for'`]` || 140.211.11.130, untrusted-proxy, proxy1 || 140.211.11.130 ||
+|| request.header`[`'x-forwarded-by'`]` || null || proxy1 ||
 
 Note : {{{x-forwarded-by}}} holds the trusted proxy {{{proxy1}}}. {{{x-forwarded-by}}} holds
 {{{140.211.11.130}}} because {{{untrusted-proxy}}} is not trusted and thus, we can not trust that
