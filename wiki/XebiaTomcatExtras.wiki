@@ -3,4 +3,4 @@
 
 = Introduction =
 
-* RemoteIpValve : `RemoteIpValve` is a Tomcat port of [http://httpd.apache.org/docs/trunk/mod/mod_remoteip.html Apache mod_remoteip] to handle {{{x-forwarded-for}}} and {{{x-forwarded-proto}}} http headers 
+ * RemoteIpValve : `RemoteIpValve` is a Tomcat port of [http://httpd.apache.org/docs/trunk/mod/mod_remoteip.html Apache mod_remoteip] to handle {{{x-forwarded-for}}} and {{{x-forwarded-proto}}} http headers 
