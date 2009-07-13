@@ -1,5 +1,5 @@
 #summary RemoteIpValve is a Tomcat port of Apache mod_remoteip to handle x-forwarded-for and x-forwarded-proto http headers
-#labels proxy,loadbalancer,tomcat
+#labels proxy,loadbalancer,tomcat,x-forwarded
 
 = Description =
 The RemoteIpValve is a Tomcat port of [http://httpd.apache.org/docs/trunk/mod/mod_remoteip.html mod_remoteip], this valve replaces the apparent client remote IP address and hostname for the request with the IP address list presented by a proxy or a load balancer via a request headers (e.g. "{{{X-Forwarded-For}}}"). 
@@ -19,7 +19,7 @@ Another feature of this valve is to replace the apparent scheme ({{{http}}}/{{{h
 
 This Valve may be attached to any Container, depending on the granularity of the filtering you wish to perform.
 
-== Basic configuration to handle {{{x-forwarded-for}}} ==
+== Basic configuration to handle {{{x-forwarded-for}}} in Tomcat access logs and in servlet requests ==
 
 The valve will process the {{{x-forwarded-for}}} http header. 
 
@@ -34,9 +34,13 @@ The valve will process the {{{x-forwarded-for}}} http header.
 </Host>
 }}}
 
-== Basic configuration to handle {{{x-forwarded-for}}} and {{{x-forwarded-proto}}} ==
+Note that the value of the {{{x-forwarded-for}}} header will be used in Tomcat's access log because the {{{AccessLogValve}}} is declared *after* the {{{RemoteIpValve}}}.
+
+== Basic configuration to handle {{{x-forwarded-for}}} and {{{x-forwarded-proto}}} in Tomcat access logs and in servlet requests ==
 
 The valve will process {{{x-forwarded-for}}} and {{{x-forwarded-proto}}} http headers. Expected value for {{{x-forwarded-proto}}} https connections is {{{https}}} (case insensitive).
+
+Note that the value of the {{{x-forwarded-for}}} header will be used in Tomcat's access log because the {{{AccessLogValve}}} is declared *after* the {{{RemoteIpValve}}}.
 
 {{{
 <Host ... >
