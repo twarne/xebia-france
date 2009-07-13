@@ -231,9 +231,33 @@ Note : {{{x-forwarded-by}}} holds the trusted proxy {{{proxy1}}}. {{{x-forwarded
 verified by {{{proxy1}}}.
 
 = Install / Download =
- * Jar : Drop the jar #TODO# in Tomcat's classpath (e.g. under {{{$TOMCAT_HOME/lib}}})
- * Java class : [http://xebia-france.googlecode.com/svn/web/xebia-servlet-extras/trunk/src/main/java/fr/xebia/servlet/filter/XForwardedFilter.java XForwardedFilter.java]
- * Java project : {{{svn checkout http://xebia-france.googlecode.com/svn/web/xebia-servlet-extras/trunk/}}}
+ * Maven Project:
+{{{
+<project ...>
+   ...
+   <repositories>
+      <repository>
+      	<id>xebia-france-googlecode-repository</id>
+      	<url>http://xebia-france.googlecode.com/svn/repository/maven2/</url>
+      </repository>
+   </repositories>
+   ...
+   <dependencies>
+      ...
+      <dependency>
+         <groupId>fr.xebia.web.extras</groupId>
+         <artifactId>xebia-servlet-extras</artifactId>
+         <version>0.1</version>
+      </dependency>
+      ...
+   </dependencies>
+   ...
+</project>
+}}}
+ * Jar : Drop the jar [http://xebia-france.googlecode.com/svn/repository/maven2/fr/xebia/web/extras/xebia-servlet-extras/0.1/xebia-servlet-extras-0.1.jar xebia-servlet-extras-0.1.jar] in Tomcat's classpath (e.g. under {{{$TOMCAT_HOME/lib}}})
+ * Java class : [http://xebia-france.googlecode.com/svn/web/xebia-servlet-extras/tags/xebia-servlet-extras-0.1/src/main/java/fr/xebia/servlet/filter/XForwardedFilter.java XForwardedFilter.java]
+ * Java project : {{{svn checkout http://xebia-france.googlecode.com/svn/web/xebia-servlet-extras/tags/xebia-servlet-extras-0.1/}}}
+
 
 = Implementation Details =
 
