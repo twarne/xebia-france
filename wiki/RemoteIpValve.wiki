@@ -1,5 +1,5 @@
 #summary RemoteIpValve is a Tomcat port of Apache mod_remoteip to handle x-forwarded-for and x-forwarded-proto http headers
-#labels tomcat,proxy,loadbalancer
+#labels proxy,loadbalancer,tomcat
 
 = Description =
 The RemoteIpValve is a Tomcat port of [http://httpd.apache.org/docs/trunk/mod/mod_remoteip.html mod_remoteip], this valve replaces the apparent client remote IP address and hostname for the request with the IP address list presented by a proxy or a load balancer via a request headers (e.g. "{{{X-Forwarded-For}}}"). 
@@ -58,7 +58,7 @@ RemoteIpValve configuration:
 {{{
 <Valve 
   className="org.apache.catalina.connector.RemoteIpValve"
-  allowedInternalProxies="192\.168\.0\.10, 192\.168\.0\.11"
+  internalProxies="192\.168\.0\.10, 192\.168\.0\.11"
   remoteIPHeader="x-forwarded-for"
   remoteIPProxiesHeader="x-forwarded-by"
   protocolHeader="x-forwarded-proto"
@@ -86,7 +86,7 @@ RemoteIpValve configuration:
 {{{
 <Valve 
   className="org.apache.catalina.connector.RemoteIpValve"
-  allowedInternalProxies="192\.168\.0\.10, 192\.168\.0\.11"
+  internalProxies="192\.168\.0\.10, 192\.168\.0\.11"
   remoteIPHeader="x-forwarded-for"
   remoteIPProxiesHeader="x-forwarded-by"
   trustedProxies="proxy1, proxy2"
@@ -110,7 +110,7 @@ RemoteIpValve configuration:
 {{{
 <Valve 
   className="org.apache.catalina.connector.RemoteIpValve"
-  allowedInternalProxies="192\.168\.0\.10, 192\.168\.0\.11"
+  internalProxies="192\.168\.0\.10, 192\.168\.0\.11"
   remoteIPHeader="x-forwarded-for"
   remoteIPProxiesHeader="x-forwarded-by"
   trustedProxies="proxy1, proxy2"
@@ -135,7 +135,7 @@ RemoteIpValve configuration:
 {{{
 <Valve 
   className="org.apache.catalina.connector.RemoteIpValve"
-  allowedInternalProxies="192\.168\.0\.10, 192\.168\.0\.11"
+  internalProxies="192\.168\.0\.10, 192\.168\.0\.11"
   remoteIPHeader="x-forwarded-for"
   remoteIPProxiesHeader="x-forwarded-by"
   trustedProxies="proxy1, proxy2"
