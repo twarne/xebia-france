@@ -2,24 +2,17 @@
 #labels proxy,loadbalancer,tomcat,x-forwarded
 
 = Description =
-The RemoteIpValve is a Tomcat port of [http://httpd.apache.org/docs/trunk/mod/mod_remoteip.html mod_remoteip], this valve replaces the apparent client remote IP address and hostname for the request with the IP address list presented by a proxy or a load balancer via a request headers (e.g. "{{{X-Forwarded-For}}}"). 
 
-Another feature of this valve is to replace the apparent scheme ({{{http}}}/{{{https}}}) and server port with the scheme presented by a proxy or a load balancer via a request header (e.g. "{{{X-Forwarded-Proto}}}"). 
+The RemoteIpValve is a Tomcat port of [http://httpd.apache.org/docs/trunk/mod/mod_remoteip.html mod_remoteip], this valve replaces the apparent client remote IP address and hostname for the request with the IP address list presented by a proxy or a load balancer via a request headers (e.g. "{{{X-Forwarded-For}}}"). Moreover, RemoteIpValve replaces the apparent scheme ({{{http}}}/{{{https}}}) and server port with the scheme presented by a proxy or a load balancer via a request header (e.g. "{{{X-Forwarded-Proto}}}").
+
+The RemoteIpValve is intented to be used when there are proxies or load balancers (F5 Big IP, Nortel Alteon, Apache mod_proxy, etc) in front of a Tomcat server.
+
+Presence of the {{{x-fowarded-for}}} http header will modify the behavior of {{{request.getRemoteAddr()}}} and {{{request.getRemoteHost()}}}.
+Presence of {{{x-forwarded-proto}}} with value {{{https}}} will modify the behavior of {{{request.isSecure()}}}, {{{request.getScheme()}}} and {{{request.getServerPort()}}}.
 
 = Valve Configuration =
 
-|| *RemoteIpValve property* || *Description* || *Equivalent mod_remoteip directive* || *Format* || *Default Value* ||
-|| remoteIPHeader || Name of the Http Header read by this servlet filter that holds the list of traversed IP addresses starting from the requesting client || RemoteIPHeader || Compliant http header name like {{{x-forwarded-for}}} or {{{X-Client-IP}}} || x-forwarded-for ||
-|| internalProxies || List of internal proxies ip adress. If they appear in the {{{remoteIpHeader}}} value, they will be trusted and will not appear in the {{{proxiesHeader}}} value || RemoteIPInternalProxy || Comma delimited list of regular expressions (in the syntax supported by the [http://java.sun.com/javase/6/docs/api/index.html?java/util/regex/Pattern.html java.util.regex.Pattern] library) || 10\.\d{1,3}\.\d{1,3}\.\d{1,3}, 192\.168\.\d{1,3}\.\d{1,3}, 169\.254\.\d{1,3}\.\d{1,3}, 127\.\d{1,3}\.\d{1,3}\.\d{1,3}. By default, 10/8, 192.168/16, 169.254/16 and 127/8 are allowed ; 172.16/12 has not been enabled by default because it is complex to describe with regular expressions ||
-|| proxiesHeader || Name of the http header created by this servlet filter to hold the list of proxies that have been processed in the incoming {{{remoteIPHeader}}} || RemoteIPProxiesHeader || Compliant http header name || x-forwarded-by ||
-|| trustedProxies || List of trusted proxies ip adress. If they appear in the {{{remoteIpHeader}}} value, they will be trusted and will appear in the {{{proxiesHeader}}} value || RemoteIPTrustedProxy || Comma delimited list of regular expressions (in the syntax supported by the [http://java.sun.com/javase/6/docs/api/index.html?java/util/regex/Pattern.html java.util.regex.Pattern] library) ||   ||
-|| protocolHeader || Name of the http header read by this servlet filter that holds the flag that this request  || N/A || Compliant http header name like {{{X-Forwarded-Proto}}}, {{{X-Forwarded-Ssl}}} or {{{Front-End-Https}}} || {{{null}}} || 
-|| protocolHeaderHttpsValue || Value of the {{{protocolHeader}}} to indicate that it is an Https request || N/A || String like {{{https}}} or {{{ON}}} || {{{https}}} ||
-
-
-This Valve may be attached to any Container, depending on the granularity of the filtering you wish to perform.
-
-== Basic configuration to handle {{{x-forwarded-for}}} in Tomcat access logs and in servlet requests ==
+== Basic configuration to handle {{{x-forwarded-for}}} in Tomcat access logs and in {{{HttpServletRequest}}} ==
 
 The valve will process the {{{x-forwarded-for}}} http header. 
 
@@ -36,7 +29,7 @@ The valve will process the {{{x-forwarded-for}}} http header.
 
 Note that the value of the {{{x-forwarded-for}}} header will be used in Tomcat's access log because the {{{AccessLogValve}}} is declared *after* the {{{RemoteIpValve}}}.
 
-== Basic configuration to handle {{{x-forwarded-for}}} and {{{x-forwarded-proto}}} in Tomcat access logs and in servlet requests ==
+== Basic configuration to handle {{{x-forwarded-for}}} and {{{x-forwarded-proto}}} in Tomcat access logs and in {{{HttpServletRequest}}} ==
 
 The valve will process {{{x-forwarded-for}}} and {{{x-forwarded-proto}}} http headers. Expected value for {{{x-forwarded-proto}}} https connections is {{{https}}} (case insensitive).
 
@@ -51,6 +44,18 @@ Note that the value of the {{{x-forwarded-for}}} header will be used in Tomcat's
    ...
 </Host>
 }}}
+
+==Advanced Configuration==
+|| *RemoteIpValve property* || *Description* || *Equivalent mod_remoteip directive* || *Format* || *Default Value* ||
+|| remoteIPHeader || Name of the Http Header read by this servlet filter that holds the list of traversed IP addresses starting from the requesting client || RemoteIPHeader || Compliant http header name like {{{x-forwarded-for}}} or {{{X-Client-IP}}} || x-forwarded-for ||
+|| internalProxies || List of internal proxies ip adress. If they appear in the {{{remoteIpHeader}}} value, they will be trusted and will not appear in the {{{proxiesHeader}}} value || RemoteIPInternalProxy || Comma delimited list of regular expressions (in the syntax supported by the [http://java.sun.com/javase/6/docs/api/index.html?java/util/regex/Pattern.html java.util.regex.Pattern] library) || 10\.\d{1,3}\.\d{1,3}\.\d{1,3}, 192\.168\.\d{1,3}\.\d{1,3}, 169\.254\.\d{1,3}\.\d{1,3}, 127\.\d{1,3}\.\d{1,3}\.\d{1,3}. By default, 10/8, 192.168/16, 169.254/16 and 127/8 are allowed ; 172.16/12 has not been enabled by default because it is complex to describe with regular expressions ||
+|| proxiesHeader || Name of the http header created by this servlet filter to hold the list of proxies that have been processed in the incoming {{{remoteIPHeader}}} || RemoteIPProxiesHeader || Compliant http header name || x-forwarded-by ||
+|| trustedProxies || List of trusted proxies ip adress. If they appear in the {{{remoteIpHeader}}} value, they will be trusted and will appear in the {{{proxiesHeader}}} value || RemoteIPTrustedProxy || Comma delimited list of regular expressions (in the syntax supported by the [http://java.sun.com/javase/6/docs/api/index.html?java/util/regex/Pattern.html java.util.regex.Pattern] library) ||   ||
+|| protocolHeader || Name of the http header read by this servlet filter that holds the flag that this request  || N/A || Compliant http header name like {{{X-Forwarded-Proto}}}, {{{X-Forwarded-Ssl}}} or {{{Front-End-Https}}} || {{{null}}} || 
+|| protocolHeaderHttpsValue || Value of the {{{protocolHeader}}} to indicate that it is an Https request || N/A || String like {{{https}}} or {{{ON}}} || {{{https}}} ||
+
+
+This Valve may be attached to any Container, depending on the granularity of the filtering you wish to perform.
 
 = Advanced samples =
 
@@ -158,9 +163,9 @@ Note : {{{x-forwarded-by}}} holds the trusted proxy {{{proxy1}}}. {{{x-forwarded
 verified by {{{proxy1}}}.
 
 = Install / Download =
- * Jar : Drop the jar [http://xebia-france.googlecode.com/svn/repository/maven2/fr/xebia/tomcat/extras/xebia-tomcat-extras/0.6/xebia-tomcat-extras-0.6.jar xebia-tomcat-extras-0.6.jar] in Tomcat's classpath (e.g. under {{{$TOMCAT_HOME/lib}}})
- * Java class : [http://xebia-france.googlecode.com/svn/tomcat/xebia-tomcat-extras/tags/xebia-tomcat-extras-0.6/src/main/java/org/apache/catalina/connector/RemoteIpValve.java RemoteIpValve.java]
- * Java project : {{{svn checkout http://xebia-france.googlecode.com/svn/tomcat/xebia-tomcat-extras/tags/xebia-tomcat-extras-0.6/}}}
+ * Jar : Copy the jar [http://xebia-france.googlecode.com/svn/repository/maven2//fr/xebia/tomcat/extras/xebia-tomcat-extras/1.0.0/xebia-tomcat-extras-1.0.0.jar xebia-tomcat-extras-1.0.0.jar] in Tomcat's classpath (e.g. under {{{$TOMCAT_HOME/lib}}})
+ * Java class : [http://xebia-france.googlecode.com/svn/tomcat/xebia-tomcat-extras/tags/xebia-tomcat-extras-1.0.0/src/main/java/org/apache/catalina/connector/RemoteIpValve.java RemoteIpValve.java]
+ * Java project : {{{svn checkout http://xebia-france.googlecode.com/svn/tomcat/xebia-tomcat-extras/tags/xebia-tomcat-extras-1.0.0/}}}
 
 = Implementation Details =
 
