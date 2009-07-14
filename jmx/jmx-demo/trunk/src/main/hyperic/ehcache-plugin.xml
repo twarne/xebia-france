@@ -1,68 +1,64 @@
 <?xml version="1.0"?>
-<!DOCTYPE plugin [
-  <!ENTITY process-metrics SYSTEM "/pdk/plugins/process-metrics.xml">
-]>
+   <!--                                                                              -->
+   <!--   Copyright 2009 Xebia and the original author or authors.                   -->
+   <!--                                                                              -->
+   <!--   Licensed under the Apache License, Version 2.0 (the "License");            -->
+   <!--   you may not use this file except in compliance with the License.           -->
+   <!--   You may obtain a copy of the License at                                    -->
+   <!--                                                                              -->
+   <!--       http://www.apache.org/licenses/LICENSE-2.0                             -->
+   <!--                                                                              -->
+   <!--   Unless required by applicable law or agreed to in writing, software        -->
+   <!--   distributed under the License is distributed on an "AS IS" BASIS,          -->
+   <!--   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.   -->
+   <!--   See the License for the specific language governing permissions and        -->
+   <!--   limitations under the License.                                             -->
+   <!--                                                                              -->
+   <!--   Hyperic jvm-plugin extensions for EH Cache metrics                         -->
+   <!--                                                                              -->
 <plugin name="ehcache">
-   <classpath>
-      <include name="pdk/lib/mx4j" />
-   </classpath>
+   <service name="EHCache" server="Sun JVM" version="1.5">
 
-   <server name="EHCache">
+      <property name="OBJECT_NAME" value="net.sf.ehcache:type=CacheStatistics,CacheManager=*,name=*" />
+
+      <property name="AUTOINVENTORY_NAME" value="%serverName% %CacheManager% %name% EHCache" />
+
+      <plugin type="autoinventory" />
 
       <config>
-         <option name="jmx.url" description="JMX URL to MBeanServer" default="service:jmx:rmi:///jndi/rmi://localhost:6970/jmxrmi" />
-         <option name="jmx.username" description="JMX username" optional="true" default="system" />
-         <option name="jmx.password" description="JMX password" optional="true" default="manager" type="secret" />
+         <option name="CacheManager" description="Name of the CacheManager" default="" />
+         <option name="name" description="Name of Cache" default="" />
       </config>
 
-      <property name="domain" value="net.sf.ehcache" />
-      <property name="PROC_HOME_PROPERTY" value="catalina.base" />
-      <plugin type="autoinventory" class="org.hyperic.hq.product.jmx.MxServerDetector" />
-      <plugin type="measurement" class="org.hyperic.hq.product.jmx.MxMeasurementPlugin" />
+      <filter name="template" value="${OBJECT_NAME}:${alias}" />
 
-      <service name="EHCache Statistics">
-         <!-- 
-         net.sf.ehcache:type=CacheStatistics,CacheManager=jmxDemoCacheManager,name=fr.xebia.demo.jmx.model.Country
-         -->
-         <property name="OBJECT_NAME" value="${domain}:type=CacheStatistics,CacheManager=*,name=*" />
+      <metric name="Availability" indicator="true" />
+      <metric name="Cache Hits" alias="CacheHits" indicator="true" template="${OBJECT_NAME}:${alias}" units="none" type="trendsup" />
+      <metric name="In Memory Hits" alias="InMemoryHits" indicator="true" template="${OBJECT_NAME}:${alias}" units="none" type="trendsup" />
+      <metric name="On Disk Hits" alias="OnDiskHits" indicator="true" template="${OBJECT_NAME}:${alias}" units="none" type="trendsup" />
+      <metric name="Object Count" alias="ObjectCount" indicator="true" template="${OBJECT_NAME}:${alias}" units="none" />
+   </service>
 
-         <plugin type="autoinventory" />
+   <service name="Per Application EHCache" server="Sun JVM" version="1.5">
 
-         <config>
-            <option name="CacheManager" description="Name of the CacheManager" default="" />
-            <option name="name" description="Name of Cache" default="" />
-         </config>
+      <property name="OBJECT_NAME" value="${domain}:type=CacheStatistics,CacheManager=*,name=*,path=*" />
 
-         <filter name="template" value="${OBJECT_NAME}:${alias}" />
+      <property name="AUTOINVENTORY_NAME" value="%serverName% %path% %CacheManager% %name% EHCache" />
 
-         <metric name="Availability" indicator="true" />
-         <metric name="Cache Hits" alias="CacheHits" indicator="true" template="${OBJECT_NAME}:${alias}" units="none" type="trendsup" />
-         <metric name="In Memory Hits" alias="InMemoryHits" indicator="true" template="${OBJECT_NAME}:${alias}" units="none" type="trendsup" />
-         <metric name="On Disk Hits" alias="OnDiskHits" indicator="true" template="${OBJECT_NAME}:${alias}" units="none" type="trendsup" />
-         <metric name="Object Count" alias="ObjectCount" indicator="true" template="${OBJECT_NAME}:${alias}" units="none" />
-      </service>
+      <plugin type="autoinventory" />
 
-      <service name="Per Application EHCache Statistics">
-         <!-- 
-         net.sf.ehcache:type=CacheStatistics,CacheManager=jmxDemoCacheManager,name=fr.xebia.demo.jmx.model.Country,path=/jmx-demo
-         -->
-         <property name="OBJECT_NAME" value="${domain}:type=CacheStatistics,CacheManager=*,name=*,path=*" />
+      <config>
+         <option name="path" description="Path of the web application" default="/" />
+         <option name="CacheManager" description="Name of the CacheManager" />
+         <option name="name" description="Name of Cache" />
+      </config>
 
-         <plugin type="autoinventory" />
+      <filter name="template" value="${OBJECT_NAME}:${alias}" />
 
-         <config>
-            <option name="CacheManager" description="Name of the CacheManager"/>
-            <option name="name" description="Name of Cache"/>
-            <option name="path" description="Path of the web application" default="/" />
-         </config>
-
-         <filter name="template" value="${OBJECT_NAME}:${alias}" />
-
-         <metric name="Availability" indicator="true" />
-         <metric name="Cache Hits" alias="CacheHits" indicator="true" template="${OBJECT_NAME}:${alias}" units="none" type="trendsup" />
-         <metric name="In Memory Hits" alias="InMemoryHits" indicator="true" template="${OBJECT_NAME}:${alias}" units="none" type="trendsup" />
-         <metric name="On Disk Hits" alias="OnDiskHits" indicator="true" template="${OBJECT_NAME}:${alias}" units="none" type="trendsup" />
-         <metric name="Object Count" alias="ObjectCount" indicator="true" template="${OBJECT_NAME}:${alias}" units="none" />
-      </service>
-   </server>
+      <metric name="Availability" indicator="true" />
+      <metric name="Cache Hits" alias="CacheHits" indicator="true" template="${OBJECT_NAME}:${alias}" units="none" type="trendsup" />
+      <metric name="In Memory Hits" alias="InMemoryHits" indicator="true" template="${OBJECT_NAME}:${alias}" units="none" type="trendsup" />
+      <metric name="On Disk Hits" alias="OnDiskHits" indicator="true" template="${OBJECT_NAME}:${alias}" units="none" type="trendsup" />
+      <metric name="Object Count" alias="ObjectCount" indicator="true" template="${OBJECT_NAME}:${alias}" units="none" />
+   </service>
 </plugin>

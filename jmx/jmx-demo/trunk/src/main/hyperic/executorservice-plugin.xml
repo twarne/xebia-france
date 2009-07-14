@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+   <!--                                                                              -->
+   <!--   Copyright 2009 Xebia and the original author or authors.                   -->
+   <!--                                                                              -->
+   <!--   Licensed under the Apache License, Version 2.0 (the "License");            -->
+   <!--   you may not use this file except in compliance with the License.           -->
+   <!--   You may obtain a copy of the License at                                    -->
+   <!--                                                                              -->
+   <!--       http://www.apache.org/licenses/LICENSE-2.0                             -->
+   <!--                                                                              -->
+   <!--   Unless required by applicable law or agreed to in writing, software        -->
+   <!--   distributed under the License is distributed on an "AS IS" BASIS,          -->
+   <!--   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.   -->
+   <!--   See the License for the specific language governing permissions and        -->
+   <!--   limitations under the License.                                             -->
+   <!--                                                                              -->
+   <!--   Hyperic jvm-plugin extensions for                                          -->
+   <!--   java.util.concurrent.ExecutorService metrics                               -->
+   <!--                                                                              -->
+<plugin name="executorservice">
+   <service name="ExecutorService" server="Sun JVM" version="1.5">
+      <property name="OBJECT_NAME" value="java.util.concurrent:type=ThreadPoolExecutor,name=*" />
+
+      <plugin type="autoinventory" />
+
+      <property name="AUTOINVENTORY_NAME" value="%serverName% %name% ExecutorService" />
+
+      <config>
+         <option name="name" description="Name of the ExecutorService" default="" />
+      </config>
+
+      <filter name="template" value="${OBJECT_NAME}:${alias}" />
+
+      <metric name="Availability" indicator="true" />
+      <metric name="Task Count" alias="TaskCount" indicator="true" template="${OBJECT_NAME}:${alias}" units="none" type="trendsup" />
+      <metric name="Rejected Execution Count" alias="RejectedExecutionCount" indicator="true" template="${OBJECT_NAME}:${alias}"
+         units="none" type="trendsup" />
+      <metric name="Active Count" alias="ActiveCount" indicator="true" template="${OBJECT_NAME}:${alias}" units="none" />
+   </service>
+
+   <service name="Per Application ExecutorService" server="Sun JVM" version="1.5">
+
+      <property name="OBJECT_NAME" value="java.util.concurrent:type=ThreadPoolExecutor,name=*,path=*" />
+
+      <property name="AUTOINVENTORY_NAME" value="%serverName% %path% %name% ExecutorService" />
+
+      <plugin type="autoinventory" />
+
+      <config>
+         <option name="name" description="Name of the ExecutorService" default="" />
+         <option name="path" description="Path of the web application" default="/" />
+      </config>
+
+      <filter name="template" value="${OBJECT_NAME}:${alias}" />
+
+      <metric name="Availability" indicator="true" />
+      <metric name="Task Count" alias="TaskCount" indicator="true" template="${OBJECT_NAME}:${alias}" units="none" type="trendsup" />
+      <metric name="Rejected Execution Count" alias="RejectedExecutionCount" indicator="true" template="${OBJECT_NAME}:${alias}"
+         units="none" type="trendsup" />
+      <metric name="Active Count" alias="ActiveCount" indicator="true" template="${OBJECT_NAME}:${alias}" units="none" />
+   </service>
+</plugin>

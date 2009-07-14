@@ -1,112 +1,153 @@
 <?xml version="1.0"?>
-<!DOCTYPE plugin [
-  <!ENTITY process-metrics SYSTEM "/pdk/plugins/process-metrics.xml">
-]>
+   <!--                                                                              -->
+   <!--   Copyright 2009 Xebia and the original author or authors.                   -->
+   <!--                                                                              -->
+   <!--   Licensed under the Apache License, Version 2.0 (the "License");            -->
+   <!--   you may not use this file except in compliance with the License.           -->
+   <!--   You may obtain a copy of the License at                                    -->
+   <!--                                                                              -->
+   <!--       http://www.apache.org/licenses/LICENSE-2.0                             -->
+   <!--                                                                              -->
+   <!--   Unless required by applicable law or agreed to in writing, software        -->
+   <!--   distributed under the License is distributed on an "AS IS" BASIS,          -->
+   <!--   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.   -->
+   <!--   See the License for the specific language governing permissions and        -->
+   <!--   limitations under the License.                                             -->
+   <!--                                                                              -->
+   <!--   Hyperic jvm-plugin extensions for CXF metrics                              -->
+   <!--                                                                              -->
 <plugin name="cxf">
-   <classpath>
-      <include name="pdk/lib/mx4j" />
-   </classpath>
 
-   <server name="CXF">
+   <service name="CXF Endpoint" server="Sun JVM" version="1.5">
+
+      <property name="OBJECT_NAME" value="org.apache.cxf:type=Performance.Counter.Server,bus.id=*,service=*,port=*,operation=*" />
+
+      <property name="AUTOINVENTORY_NAME" value="%serverName% %service% %port% %operation% CXF Endpoint" />
+
+      <plugin type="autoinventory" />
 
       <config>
-         <option name="jmx.url" description="JMX URL to MBeanServer" default="service:jmx:rmi:///jndi/rmi://localhost:6970/jmxrmi" />
-         <option name="jmx.username" description="JMX username" optional="true" default="system" />
-         <option name="jmx.password" description="JMX password" optional="true" default="manager" type="secret" />
+         <option name="bus.id" description="ID of the CXF Bus" />
+         <option name="service" description="Name of the Service" />
+         <option name="port" description="Name of the Port" />
+         <option name="operation" description="Name of the Operation" />
       </config>
 
-      <property name="domain" value="org.apache.cxf" />
-      <property name="PROC_HOME_PROPERTY" value="catalina.base" />
-      <plugin type="autoinventory" class="org.hyperic.hq.product.jmx.MxServerDetector" />
-      <plugin type="measurement" class="org.hyperic.hq.product.jmx.MxMeasurementPlugin" />
+      <filter name="template" value="${OBJECT_NAME}:${alias}" />
 
-      <service name="Endpoint Statistics">
-         <!-- 
-         org.apache.cxf:type=Performance.Counter.Server,bus.id=jmx-demo-cxf-bus,service="{http://www.xebia.fr/demo/jmx/webservice}helloWorldService",port="helloWorldServiceSOAP"
-         -->
-         <property name="OBJECT_NAME" value="${domain}:type=Performance.Counter.Server,bus.id=*,service=*,port=*" />
+      <metric name="Availability" indicator="true" />
+      <metric name="Number of Invocations" alias="NumInvocations" indicator="true" template="${OBJECT_NAME}:${alias}" units="none"
+         type="trendsup" />
+      <metric name="Total Handling Time" alias="TotalHandlingTime" indicator="true" template="${OBJECT_NAME}:${alias}" units="mu"
+         type="trendsup" />
 
-         <plugin type="autoinventory" />
+      <metric name="Num Checked Application Faults" alias="NumCheckedApplicationFaults" indicator="true" template="${OBJECT_NAME}:${alias}"
+         units="none" type="trendsup" />
+      <metric name="Num Logical Runtime Faults" alias="NumLogicalRuntimeFaults" indicator="true" template="${OBJECT_NAME}:${alias}"
+         units="none" type="trendsup" />
+      <metric name="Num Runtime Faults" alias="NumRuntimeFaults" indicator="true" template="${OBJECT_NAME}:${alias}" units="none"
+         type="trendsup" />
+      <metric name="Num UnChecked Application Faults" alias="NumUnCheckedApplicationFaults" indicator="true" template="${OBJECT_NAME}:${alias}"
+         units="none" type="trendsup" />
+   </service>
 
-         <config>
-            <option name="bus.id" description="ID of the CXF Bus" />
-            <option name="service" description="Name of the Service" />
-            <option name="port" description="Name of the Port" />
-         </config>
+   <service name="Per Application CXF Endpoint"  server="Sun JVM" version="1.5">
 
-         <filter name="template" value="${OBJECT_NAME}:${alias}" />
+      <property name="OBJECT_NAME" value="org.apache.cxf:type=Performance.Counter.Server,path=*,bus.id=*,service=*,port=*,operation=*" />
 
-         <metric name="Availability" indicator="true" />
-         <metric name="Number of Invocations" alias="NumInvocations" indicator="true" template="${OBJECT_NAME}:${alias}" units="none" type="trendsup" />
-         <metric name="Total Handling Time" alias="TotalHandlingTime" indicator="true" template="${OBJECT_NAME}:${alias}" units="none" type="trendsup" />
-      </service>
+      <property name="AUTOINVENTORY_NAME" value="%serverName% %path% %service% %port% %operation% CXF Endpoint" />
 
-      <service name="Endpoint Per Application Statistics">
-         <!-- 
-         org.apache.cxf:type=Performance.Counter.Server,path=/jmx-demo,bus.id=jmx-demo-cxf-bus,service="{http://www.xebia.fr/demo/jmx/webservice}helloWorldService",port="helloWorldServiceSOAP",operation="sayHi"
-         -->
-         <property name="OBJECT_NAME" value="${domain}:type=Performance.Counter.Server,path=*,bus.id=*,service=*,port=*" />
+      <plugin type="autoinventory" />
 
-         <plugin type="autoinventory" />
+      <config>
+         <option name="path" description="Path of the web application" default="/" />
+         <option name="bus.id" description="ID of the CXF Bus" />
+         <option name="service" description="Name of the Service" />
+         <option name="port" description="Name of the Port" />
+         <option name="operation" description="Name of the Operation" />
+      </config>
 
-         <config>
-            <option name="path" description="Path of the web application" default="/" />
-            <option name="bus.id" description="ID of the CXF Bus" />
-            <option name="service" description="Name of the Service" />
-            <option name="port" description="Name of the Port" />
-         </config>
+      <filter name="template" value="${OBJECT_NAME}:${alias}" />
 
-         <filter name="template" value="${OBJECT_NAME}:${alias}" />
+      <metric name="Availability" indicator="true" />
+      <metric name="Number of Invocations" alias="NumInvocations" indicator="true" template="${OBJECT_NAME}:${alias}" units="none"
+         type="trendsup" />
+      <metric name="Total Handling Time" alias="TotalHandlingTime" indicator="true" template="${OBJECT_NAME}:${alias}" units="mu"
+         type="trendsup" />
 
-         <metric name="Availability" indicator="true" />
-         <metric name="Number of Invocations" alias="NumInvocations" indicator="true" template="${OBJECT_NAME}:${alias}" units="none" type="trendsup" />
-         <metric name="Total Handling Time" alias="TotalHandlingTime" indicator="true" template="${OBJECT_NAME}:${alias}" units="none" type="trendsup" />
-      </service>
+      <metric name="Num Checked Application Faults" alias="NumCheckedApplicationFaults" indicator="true" template="${OBJECT_NAME}:${alias}"
+         units="none" type="trendsup" />
+      <metric name="Num Logical Runtime Faults" alias="NumLogicalRuntimeFaults" indicator="true" template="${OBJECT_NAME}:${alias}"
+         units="none" type="trendsup" />
+      <metric name="Num Runtime Faults" alias="NumRuntimeFaults" indicator="true" template="${OBJECT_NAME}:${alias}" units="none"
+         type="trendsup" />
+      <metric name="Num UnChecked Application Faults" alias="NumUnCheckedApplicationFaults" indicator="true" template="${OBJECT_NAME}:${alias}"
+         units="none" type="trendsup" />
+   </service>
 
-      <service name="Endpoint Per Operation Statistics">
-         <!-- 
-         org.apache.cxf:type=Performance.Counter.Server,bus.id=jmx-demo-cxf-bus,service="{http://www.xebia.fr/demo/jmx/webservice}helloWorldService",port="helloWorldServiceSOAP",operation="sayHi"
-         -->
-         <property name="OBJECT_NAME" value="${domain}:type=Performance.Counter.Server,bus.id=*,service=*,port=*,operation=*" />
+   <service name="CXF Client"  server="Sun JVM" version="1.5">
+      <property name="OBJECT_NAME" value="org.apache.cxf:type=Performance.Counter.Client,bus.id=*,service=*,port=*,operation=*" />
 
-         <plugin type="autoinventory" />
+      <property name="AUTOINVENTORY_NAME" value="%serverName% %service% %port% %operation% CXF Client" />
 
-         <config>
-            <option name="bus.id" description="ID of the CXF Bus" />
-            <option name="service" description="Name of the Service" />
-            <option name="port" description="Name of the Port" />
-            <option name="operation" description="Name of the Operation" />
-         </config>
+      <plugin type="autoinventory" />
 
-         <filter name="template" value="${OBJECT_NAME}:${alias}" />
+      <config>
+         <option name="bus.id" description="ID of the CXF Bus" />
+         <option name="service" description="Name of the Service" />
+         <option name="port" description="Name of the Port" />
+         <option name="operation" description="Name of the Operation" />
+      </config>
 
-         <metric name="Availability" indicator="true" />
-         <metric name="Number of Invocations" alias="NumInvocations" indicator="true" template="${OBJECT_NAME}:${alias}" units="none" type="trendsup" />
-         <metric name="Total Handling Time" alias="TotalHandlingTime" indicator="true" template="${OBJECT_NAME}:${alias}" units="none" type="trendsup" />
-      </service>
+      <filter name="template" value="${OBJECT_NAME}:${alias}" />
 
-      <service name="Endpoint Per Operation And Per Application Statistics">
-         <!-- 
-         org.apache.cxf:type=Performance.Counter.Server,path=/jmx-demo,bus.id=jmx-demo-cxf-bus,service="{http://www.xebia.fr/demo/jmx/webservice}helloWorldService",port="helloWorldServiceSOAP",operation="sayHi"
-         -->
-         <property name="OBJECT_NAME" value="${domain}:type=Performance.Counter.Server,path=*,bus.id=*,service=*,port=*,operation=*" />
+      <metric name="Availability" indicator="true" />
+      <metric name="Number of Invocations" alias="NumInvocations" indicator="true" template="${OBJECT_NAME}:${alias}" units="none"
+         type="trendsup" />
+      <metric name="Total Handling Time" alias="TotalHandlingTime" indicator="true" template="${OBJECT_NAME}:${alias}" units="mu"
+         type="trendsup" />
 
-         <plugin type="autoinventory" />
+      <metric name="Num Checked Application Faults" alias="NumCheckedApplicationFaults" indicator="true" template="${OBJECT_NAME}:${alias}"
+         units="none" type="trendsup" />
+      <metric name="Num Logical Runtime Faults" alias="NumLogicalRuntimeFaults" indicator="true" template="${OBJECT_NAME}:${alias}"
+         units="none" type="trendsup" />
+      <metric name="Num Runtime Faults" alias="NumRuntimeFaults" indicator="true" template="${OBJECT_NAME}:${alias}" units="none"
+         type="trendsup" />
+      <metric name="Num UnChecked Application Faults" alias="NumUnCheckedApplicationFaults" indicator="true" template="${OBJECT_NAME}:${alias}"
+         units="none" type="trendsup" />
+   </service>
 
-         <config>
-            <option name="path" description="Path of the web application" default="/" />
-            <option name="bus.id" description="ID of the CXF Bus" />
-            <option name="service" description="Name of the Service" />
-            <option name="port" description="Name of the Port" />
-            <option name="operation" description="Name of the Operation" />
-         </config>
+   <service name="Per Application CXF Client"  server="Sun JVM" version="1.5">
+      <property name="OBJECT_NAME" value="org.apache.cxf:type=Performance.Counter.Client,path=*,bus.id=*,service=*,port=*,operation=*" />
 
-         <filter name="template" value="${OBJECT_NAME}:${alias}" />
+      <property name="AUTOINVENTORY_NAME" value="%serverName% %path% %service% %port% %operation% CXF Client" />
 
-         <metric name="Availability" indicator="true" />
-         <metric name="Number of Invocations" alias="NumInvocations" indicator="true" template="${OBJECT_NAME}:${alias}" units="none" type="trendsup" />
-         <metric name="Total Handling Time" alias="TotalHandlingTime" indicator="true" template="${OBJECT_NAME}:${alias}" units="none" type="trendsup" />
-      </service>
+      <plugin type="autoinventory" />
 
-   </server>
+      <config>
+         <option name="path" description="Path of the web application" default="/" />
+         <option name="bus.id" description="ID of the CXF Bus" />
+         <option name="service" description="Name of the Service" />
+         <option name="port" description="Name of the Port" />
+         <option name="operation" description="Name of the Operation" />
+      </config>
+
+      <filter name="template" value="${OBJECT_NAME}:${alias}" />
+
+      <metric name="Availability" indicator="true" />
+      <metric name="Number of Invocations" alias="NumInvocations" indicator="true" template="${OBJECT_NAME}:${alias}" units="none"
+         type="trendsup" />
+      <metric name="Total Handling Time" alias="TotalHandlingTime" indicator="true" template="${OBJECT_NAME}:${alias}" units="mu"
+         type="trendsup" />
+
+      <metric name="Num Checked Application Faults" alias="NumCheckedApplicationFaults" indicator="true" template="${OBJECT_NAME}:${alias}"
+         units="none" type="trendsup" />
+      <metric name="Num Logical Runtime Faults" alias="NumLogicalRuntimeFaults" indicator="true" template="${OBJECT_NAME}:${alias}"
+         units="none" type="trendsup" />
+      <metric name="Num Runtime Faults" alias="NumRuntimeFaults" indicator="true" template="${OBJECT_NAME}:${alias}" units="none"
+         type="trendsup" />
+      <metric name="Num UnChecked Application Faults" alias="NumUnCheckedApplicationFaults" indicator="true" template="${OBJECT_NAME}:${alias}"
+         units="none" type="trendsup" />
+   </service>
+
 </plugin>
