@@ -275,7 +275,7 @@ If the incoming {{{request.getRemoteAddr()}}} matches the filter's list of inter
 *Regular expression vs. IP address blocks:* {{{mod_remoteip}}} allows to use address blocks (e.g. {{{192.168/16}}}) to configure {{{RemoteIPInternalProxy}}} and {{{RemoteIPTrustedProxy}}} ; as Tomcat doesn't have a library similar to [http://apr.apache.org/docs/apr/1.3/group__apr__network__io.html#gb74d21b8898b7c40bf7fd07ad3eb993d apr_ipsubnet_test], {{{XForwardedFilter}}} uses regular expression to configure {{{internalProxies}}} and {{{trustedProxies}}} in the same fashion as [http://tomcat.apache.org/tomcat-6.0-doc/api/index.html?org/apache/catalina/filters/RequestFilterFilter.html RequestFilterFilter] does.
 
 = Resources =
- * [XForwardedValve] : the equivalent feature of XForwardedValve integrated in Tomcat. It has been proposed to the Tomcat project as [https://issues.apache.org/bugzilla/show_bug.cgi?id=47330 Bug 47330 - proposal : port of mod_remoteip in Tomcat as RemoteIpValve].
+ * [RemoteIpValve] : the equivalent of XForwardedValve integrated in Tomcat. It has been proposed to the Tomcat project as [https://issues.apache.org/bugzilla/show_bug.cgi?id=47330 Bug 47330 - proposal : port of mod_remoteip in Tomcat as RemoteIpValve].
  * Wikipedia [http://en.wikipedia.org/wiki/X-Forwarded-For X-Forwarded-For] page
  * How to enable the X-Forwarded-For http header on F5 BIGIP/Viprion : [http://devcentral.f5.com/weblogs/macvittie/archive/2008/06/02/3323.aspx Dev Central - Using "X-Forwarded-For" in Apache or PHP]]
  * Apache mod_proxy X-Forwarded headers (X-Forwarded-For, X-Forwarded-Host and X-Forwarded-Server) : [http://httpd.apache.org/docs/2.2/mod/mod_proxy.html#x-headers Reverse Proxy Request Headers]
