@@ -163,7 +163,7 @@ Note : {{{x-forwarded-by}}} holds the trusted proxy {{{proxy1}}}. {{{x-forwarded
 verified by {{{proxy1}}}.
 
 = Install / Download =
- * Jar : Copy the jar [http://xebia-france.googlecode.com/svn/repository/maven2//fr/xebia/tomcat/extras/xebia-tomcat-extras/1.0.0/xebia-tomcat-extras-1.0.0.jar xebia-tomcat-extras-1.0.0.jar] in Tomcat's classpath (e.g. under {{{$TOMCAT_HOME/lib}}})
+ * Jar : Copy the jar [http://xebia-france.googlecode.com/files/xebia-tomcat-extras-1.0.0.jar xebia-tomcat-extras-1.0.0.jar] ([http://xebia-france.googlecode.com/files/xebia-tomcat-extras-1.0.0-sources.jar sources]) in Tomcat's classpath (e.g. under {{{$TOMCAT_HOME/lib}}})
  * Java class : [http://xebia-france.googlecode.com/svn/tomcat/xebia-tomcat-extras/tags/xebia-tomcat-extras-1.0.0/src/main/java/org/apache/catalina/connector/RemoteIpValve.java RemoteIpValve.java]
  * Java project : {{{svn checkout http://xebia-france.googlecode.com/svn/tomcat/xebia-tomcat-extras/tags/xebia-tomcat-extras-1.0.0/}}}
 
