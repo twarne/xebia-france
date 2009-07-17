@@ -1,5 +1,5 @@
 #summary XForwardedFilter is a Servlet API port of Apache mod_remoteip to handle x-forwarded-for and x-forwarded-proto http headers
-#labels proxy,loadbalancer,servlet,x-forwarded-for,x-forwarded-proto
+#labels proxy,loadbalancer,servlet,x-forwarded-for,x-forwarded-proto,Featured,Phase-Implementation
 
 = Description =
 The XForwardedFilter is a Servlet API port of [http://httpd.apache.org/docs/trunk/mod/mod_remoteip.html mod_remoteip], this filter replaces the apparent client remote IP address and hostname for the request with the IP address list presented by a proxy or a load balancer via a request headers (e.g. "{{{X-Forwarded-For}}}"). 
@@ -254,7 +254,7 @@ verified by {{{proxy1}}}.
    ...
 </project>
 }}}
- * Jar : Drop the jar [http://xebia-france.googlecode.com/svn/repository/maven2/fr/xebia/web/extras/xebia-servlet-extras/1.0.0/xebia-servlet-extras-1.0.0.jar xebia-servlet-extras-1.0.0.jar] in your web application classpath.
+ * Jar : Drop the jar [http://xebia-france.googlecode.com/files/xebia-servlet-extras-1.0.0.jar xebia-servlet-extras-1.0.0.jar] ([http://xebia-france.googlecode.com/files/xebia-servlet-extras-1.0.0-sources.jar sources]) in your web application classpath.
  * Java class : [http://xebia-france.googlecode.com/svn/web/xebia-servlet-extras/tags/xebia-servlet-extras-1.0.0/src/main/java/fr/xebia/servlet/filter/XForwardedFilter.java XForwardedFilter.java]
  * Java project : {{{svn checkouthttp://xebia-france.googlecode.com/svn/web/xebia-servlet-extras/tags/xebia-servlet-extras-1.0.0/}}}
 
