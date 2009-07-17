@@ -1,5 +1,5 @@
 #summary XForwardedFilter is a Servlet API port of Apache mod_remoteip to handle x-forwarded-for and x-forwarded-proto http headers
-#labels proxy,loadbalancer,servlet,x-forwarded
+#labels proxy,loadbalancer,servlet,x-forwarded-for,x-forwarded-proto
 
 = Description =
 The XForwardedFilter is a Servlet API port of [http://httpd.apache.org/docs/trunk/mod/mod_remoteip.html mod_remoteip], this filter replaces the apparent client remote IP address and hostname for the request with the IP address list presented by a proxy or a load balancer via a request headers (e.g. "{{{X-Forwarded-For}}}"). 
@@ -254,9 +254,9 @@ verified by {{{proxy1}}}.
    ...
 </project>
 }}}
- * Jar : Drop the jar [http://xebia-france.googlecode.com/svn/repository/maven2/fr/xebia/web/extras/xebia-servlet-extras/0.1/xebia-servlet-extras-0.1.jar xebia-servlet-extras-0.1.jar] in your web application classpath.
- * Java class : [http://xebia-france.googlecode.com/svn/web/xebia-servlet-extras/tags/xebia-servlet-extras-0.1/src/main/java/fr/xebia/servlet/filter/XForwardedFilter.java XForwardedFilter.java]
- * Java project : {{{svn checkout http://xebia-france.googlecode.com/svn/web/xebia-servlet-extras/tags/xebia-servlet-extras-0.1/}}}
+ * Jar : Drop the jar [http://xebia-france.googlecode.com/svn/repository/maven2/fr/xebia/web/extras/xebia-servlet-extras/1.0.0/xebia-servlet-extras-1.0.0.jar xebia-servlet-extras-1.0.0.jar] in your web application classpath.
+ * Java class : [http://xebia-france.googlecode.com/svn/web/xebia-servlet-extras/tags/xebia-servlet-extras-1.0.0/src/main/java/fr/xebia/servlet/filter/XForwardedFilter.java XForwardedFilter.java]
+ * Java project : {{{svn checkouthttp://xebia-france.googlecode.com/svn/web/xebia-servlet-extras/tags/xebia-servlet-extras-1.0.0/}}}
 
 
 = Implementation Details =
@@ -273,3 +273,14 @@ If the incoming {{{request.getRemoteAddr()}}} matches the filter's list of inter
  * If the request http header named {{{$protocolHeader}}} (e.g. {{{x-forwarded-for}}}) equals to the value of {{{protocolHeaderHttpsValue}}} configuration parameter (default {{{https}}}) then {{{request.isSecure = true}}}, {{{request.scheme = https}}} and {{{request.serverPort = 443}}}. Note that 443 can be overwritten with the {{{$httpsServerPort}}} configuration parameter.
 
 *Regular expression vs. IP address blocks:* {{{mod_remoteip}}} allows to use address blocks (e.g. {{{192.168/16}}}) to configure {{{RemoteIPInternalProxy}}} and {{{RemoteIPTrustedProxy}}} ; as Tomcat doesn't have a library similar to [http://apr.apache.org/docs/apr/1.3/group__apr__network__io.html#gb74d21b8898b7c40bf7fd07ad3eb993d apr_ipsubnet_test], {{{XForwardedFilter}}} uses regular expression to configure {{{internalProxies}}} and {{{trustedProxies}}} in the same fashion as [http://tomcat.apache.org/tomcat-6.0-doc/api/index.html?org/apache/catalina/filters/RequestFilterFilter.html RequestFilterFilter] does.
+
+= Resources =
+ * Wikipedia [http://en.wikipedia.org/wiki/X-Forwarded-For X-Forwarded-For] page
+ * How to enable the X-Forwarded-For http header on F5 BIGIP/Viprion : [http://devcentral.f5.com/weblogs/macvittie/archive/2008/06/02/3323.aspx Dev Central - Using "X-Forwarded-For" in Apache or PHP]]
+ * Apache mod_proxy X-Forwarded headers (X-Forwarded-For, X-Forwarded-Host and X-Forwarded-Server) : [http://httpd.apache.org/docs/2.2/mod/mod_proxy.html#x-headers Reverse Proxy Request Headers]
+ * Apache [http://httpd.apache.org/docs/trunk/mod/mod_remoteip.html mod_remoteip]
+ * Squid Proxy [http://www.squid-cache.org/Doc/config/forwarded_for/ X-Forwarded-For configuration]
+ * Firefox [https://addons.mozilla.org/en-US/firefox/addon/967 Modify Headers] [https://addons.mozilla.org/en-US/firefox/addon/5948 X-Forwarded-For Spoofer] add-ons. Modify Headers allows you to test both X-Forwarded-For and X-Forwarded-Proto.
+ * Jetty [http://docs.codehaus.org/display/JETTY/Configuring+Connectors connector configuration] to handle X-Forwarded-For
+ * [http://blog.xebia.fr/2009/05/05/tomcat-adresse-ip-de-linternaute-load-balancer-reverse-proxy-et-header-http-x-forwarded-for/ Tomcat : Adresse IP de l’internaute, load balancer, reverse proxy et header Http X-Forwarded-For] : a french tutorial on X-Forwarded-For handling in Java.
+ * [https://issues.apache.org/bugzilla/show_bug.cgi?id=47330 Bug 47330 - proposal : port of mod_remoteip in Tomcat as RemoteIpValve] to handle X-Forwarded-For and X-Forwarded-Proto in Tomcat. This proposal is documented with a downloadable jar on XForwardedValve .
