@@ -187,11 +187,11 @@ If the incoming {{{request.getRemoteAddr()}}} matches the valve's list of intern
 = Resources =
  * This valve has been proposed to the Tomcat project as [https://issues.apache.org/bugzilla/show_bug.cgi?id=47330 Bug 47330 - proposal : port of mod_remoteip in Tomcat as RemoteIpValve].
  * [XForwardedFilter] : the equivalent of RemoteIpValve to handle X-Forwarded-For and X(Forwarded-Proto directly in web applications with a Servlet Filter.
- * Wikipedia [http://en.wikipedia.org/wiki/X-Forwarded-For X-Forwarded-For] page
- * How to enable the X-Forwarded-For http header on F5 BIGIP/Viprion : [http://devcentral.f5.com/weblogs/macvittie/archive/2008/06/02/3323.aspx Dev Central - Using "X-Forwarded-For" in Apache or PHP]]
- * Apache mod_proxy X-Forwarded headers (X-Forwarded-For, X-Forwarded-Host and X-Forwarded-Server) : [http://httpd.apache.org/docs/2.2/mod/mod_proxy.html#x-headers Reverse Proxy Request Headers]
- * Apache [http://httpd.apache.org/docs/trunk/mod/mod_remoteip.html mod_remoteip]
- * Squid Proxy [http://www.squid-cache.org/Doc/config/forwarded_for/ X-Forwarded-For configuration]
+ * Wikipedia [http://en.wikipedia.org/wiki/X-Forwarded-For X-Forwarded-For] page.
+ * How to enable the X-Forwarded-For http header on F5 BIGIP/Viprion : [http://devcentral.f5.com/weblogs/macvittie/archive/2008/06/02/3323.aspx Dev Central - Using "X-Forwarded-For" in Apache or PHP]].
+ * Apache mod_proxy X-Forwarded http headers (X-Forwarded-For, X-Forwarded-Host and X-Forwarded-Server) : [http://httpd.apache.org/docs/2.2/mod/mod_proxy.html#x-headers Reverse Proxy Request Headers].
+ * Apache [http://httpd.apache.org/docs/trunk/mod/mod_remoteip.html mod_remoteip] module to handle X-Forwarded-For header in Apache.
+ * Squid Proxy [http://www.squid-cache.org/Doc/config/forwarded_for/ X-Forwarded-For configuration].
  * Firefox [https://addons.mozilla.org/en-US/firefox/addon/967 Modify Headers] [https://addons.mozilla.org/en-US/firefox/addon/5948 X-Forwarded-For Spoofer] add-ons. Modify Headers allows you to test both X-Forwarded-For and X-Forwarded-Proto.
- * Jetty [http://docs.codehaus.org/display/JETTY/Configuring+Connectors connector configuration] to handle X-Forwarded-For
+ * Jetty [http://docs.codehaus.org/display/JETTY/Configuring+Connectors connector configuration] to handle X-Forwarded-For.
  * [http://blog.xebia.fr/2009/05/05/tomcat-adresse-ip-de-linternaute-load-balancer-reverse-proxy-et-header-http-x-forwarded-for/ Tomcat : Adresse IP de l’internaute, load balancer, reverse proxy et header Http X-Forwarded-For] : a french tutorial on X-Forwarded-For handling in Java.
