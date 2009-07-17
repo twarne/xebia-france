@@ -1,5 +1,5 @@
 #summary RemoteIpValve is a Tomcat port of Apache mod_remoteip to handle x-forwarded-for and x-forwarded-proto http headers
-#labels proxy,loadbalancer,tomcat,x-forwarded-for,x-forwarded-proto,Featured,Phase-Implementation
+#labels Phase-Implementation,Featured
 
 = Description =
 
