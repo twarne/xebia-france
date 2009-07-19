@@ -17,31 +17,10 @@
    <!--   Hyperic jvm-plugin extensions for EH Cache metrics                         -->
    <!--                                                                              -->
 <plugin name="ehcache">
+
    <service name="EHCache" server="Sun JVM" version="1.5">
 
-      <property name="OBJECT_NAME" value="net.sf.ehcache:type=CacheStatistics,CacheManager=*,name=*" />
-
-      <property name="AUTOINVENTORY_NAME" value="%serverName% %CacheManager% %name% EHCache" />
-
-      <plugin type="autoinventory" />
-
-      <config>
-         <option name="CacheManager" description="Name of the CacheManager" default="" />
-         <option name="name" description="Name of Cache" default="" />
-      </config>
-
-      <filter name="template" value="${OBJECT_NAME}:${alias}" />
-
-      <metric name="Availability" indicator="true" />
-      <metric name="Cache Hits" alias="CacheHits" indicator="true" template="${OBJECT_NAME}:${alias}" units="none" type="trendsup" />
-      <metric name="In Memory Hits" alias="InMemoryHits" indicator="true" template="${OBJECT_NAME}:${alias}" units="none" type="trendsup" />
-      <metric name="On Disk Hits" alias="OnDiskHits" indicator="true" template="${OBJECT_NAME}:${alias}" units="none" type="trendsup" />
-      <metric name="Object Count" alias="ObjectCount" indicator="true" template="${OBJECT_NAME}:${alias}" units="none" />
-   </service>
-
-   <service name="Per Application EHCache" server="Sun JVM" version="1.5">
-
-      <property name="OBJECT_NAME" value="${domain}:type=CacheStatistics,CacheManager=*,name=*,path=*" />
+      <property name="OBJECT_NAME" value="${domain}:CacheManager=*,name=*,type=CacheStatistics,path=*" />
 
       <property name="AUTOINVENTORY_NAME" value="%serverName% %path% %CacheManager% %name% EHCache" />
 
