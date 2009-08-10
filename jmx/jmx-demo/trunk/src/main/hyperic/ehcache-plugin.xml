@@ -20,7 +20,7 @@
 
    <service name="EHCache" server="Sun JVM" version="1.5">
 
-      <property name="OBJECT_NAME" value="${domain}:CacheManager=*,name=*,type=CacheStatistics,path=*" />
+      <property name="OBJECT_NAME" value="net.sf.ehcache:CacheManager=*,name=*,type=CacheStatistics,path=*" />
 
       <property name="AUTOINVENTORY_NAME" value="%serverName% %path% %CacheManager% %name% EHCache" />
 
