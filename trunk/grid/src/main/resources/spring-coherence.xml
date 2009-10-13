@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="classpath:database.properties" />
+	</bean>
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${driver}" />
+		<property name="url" value="${url}" />
+		<property name="username" value="${username}" />
+		<property name="password" value="${password}" />
+	</bean>
+	<bean id="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+		<property name="configLocation">
+			<value>classpath:fr/xebia/coherence/persistence/sqlmap/sql-map-config.xml
+			</value>
+		</property>
+		<property name="useTransactionAwareDataSource">
+			<value>true</value>
+		</property>
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<bean id="catalogDao" class="fr.xebia.coherence.persistence.sqlmap.SqlMapCatalogDao">
+		<property name="sqlMapClient" ref="sqlMapClient" />
+	</bean>
+
+	<bean id="catalogService" class="fr.xebia.coherence.service.CatalogServiceWithCoherence">
+		<property name="dao" ref="catalogDao" />
+	</bean>
+
+	<bean id="interceptor" class="fr.xebia.coherence.service.SimonMethodInterceptor" />
+
+	<bean id="interceptedCatalogService" class="org.springframework.aop.framework.ProxyFactoryBean">
+		<property name="target">
+			<ref bean="catalogService" />
+		</property>
+		<property name="interceptorNames">
+			<list>
+				<value>interceptor</value>
+			</list>
+		</property>
+	</bean>
+
+
+
+</beans>
