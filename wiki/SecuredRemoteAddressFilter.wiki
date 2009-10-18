@@ -3,7 +3,7 @@
 
 = Description =
 
-Some Http request are secured even if they don't use SSL. This is usually the case for http request emitted by applications that are located in the same data center / VLAN as the requested server. A typical scenario would be a web service consumed both by consumers located on the Internet and others located in the same data center. The first ones will use SSL when the second ones will not. 
+Some http requests are secured even if they don't use SSL. This is usually the case for http request emitted by applications that are located in the same data center / VLAN as the requested server. A typical scenario would be a web service consumed both by consumers located on the Internet and others located in the same data center. The first ones will use SSL when the second ones will not. 
 
 SecuredRemoteAddressFilter is a Java Servlet API filter to set {{{ServletRequest.isSecure() == true}}} for predefined remote addresses even if {{{ServletRequest.getScheme() == "http"}}}.
 
@@ -120,3 +120,8 @@ Note : the default configuration can usually be used as all internal servers are
  * Jar : Drop the jar [http://xebia-france.googlecode.com/files/xebia-servlet-extras-1.0.1.jar xebia-servlet-extras-1.0.1.jar] ([http://xebia-france.googlecode.com/files/xebia-servlet-extras-1.0.1-sources.jar sources]) in your web application classpath.
  * Java class : [http://xebia-france.googlecode.com/svn/web/xebia-servlet-extras/tags/xebia-servlet-extras-1.0.1/src/main/java/fr/xebia/servlet/filter/SecuredRemoteAddressFilter.java SecuredRemoteAddressFilter.java]
  * Java project : {{{svn checkout http://xebia-france.googlecode.com/svn/web/xebia-servlet-extras/tags/xebia-servlet-extras-1.0.1/}}}
+
+= Resources =
+
+  * XForwardedFilter : servlet filter usually used before SecuredRemoteAddressFilter to handle {{{X-Forwarded-For}}} and {{{X-Forwarded-Proto}}} header to get the actual remote address of the calling client and the protocol used (http or https).
+  * SecuredRemoteAddressValve : Tomcat valve port of the SecuredRemoteAddressFilter.
