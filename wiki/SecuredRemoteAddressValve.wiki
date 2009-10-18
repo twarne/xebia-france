@@ -1,4 +1,5 @@
 #summary SecuredRemoteAddressValve is a Tomcat Valve to set "ServletRequest.isSecure() == true" for predefined remote addresses even if "ServletRequest.getScheme() == 'http'".
+#labels Phase-Implementation,Featured
 
 = Description =
 
@@ -78,5 +79,5 @@ SecuredRemoteAddressValve is preceded by RemoteIpValve to get the actual remote 
 
 = Resources =
 
-* RemoteIpValve : Tomcat valve usually used before SecuredRemoteAddressValve to handle {{{X-Forwarded-For}}} and {{{X-Forwarded-Proto}}} header to get the actual remote address of the calling client and the protocol used (http or https).
-* SecuredRemoteAddressFilter : Java Servlet Filter port of the SecuredRemoteAddressValve.
+  * RemoteIpValve : Tomcat valve usually used before SecuredRemoteAddressValve to handle {{{X-Forwarded-For}}} and {{{X-Forwarded-Proto}}} header to get the actual remote address of the calling client and the protocol used (http or https).
+  * SecuredRemoteAddressFilter : Java Servlet Filter port of the SecuredRemoteAddressValve.
