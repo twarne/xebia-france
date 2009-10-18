@@ -75,3 +75,8 @@ SecuredRemoteAddressValve is preceded by RemoteIpValve to get the actual remote 
  * Jar : Copy the jar [http://xebia-france.googlecode.com/files/xebia-tomcat-extras-1.0.0.jar xebia-tomcat-extras-1.0.0.jar] ([http://xebia-france.googlecode.com/files/xebia-tomcat-extras-1.0.0-sources.jar sources]) in Tomcat's classpath (e.g. under {{{$TOMCAT_HOME/lib}}})
  * Java class : [http://xebia-france.googlecode.com/svn/tomcat/xebia-tomcat-extras/tags/xebia-tomcat-extras-1.0.0/src/main/java/org/apache/catalina/connector/SecuredRemoteAddressValve.java SecuredRemoteAddressValve.java]
  * Java project : {{{svn checkout http://xebia-france.googlecode.com/svn/tomcat/xebia-tomcat-extras/tags/xebia-tomcat-extras-1.0.0/}}}
+
+= Resources =
+
+* RemoteIpValve : Tomcat valve usually used before SecuredRemoteAddressValve to handle {{{X-Forwarded-For}}} and {{{X-Forwarded-Proto}}} header to get the actual remote address of the calling client and the protocol used (http or https).
+* SecuredRemoteAddressFilter : Java Servlet Filter port of the SecuredRemoteAddressValve.
