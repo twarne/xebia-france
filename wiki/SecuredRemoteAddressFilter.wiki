@@ -1,4 +1,4 @@
-#summary SecuredRemoteAddressFilter is a Java Servlet API filter to set {{{ServletRequest.isSecure() == true}}} for predefined remote addresses even if {{{ServletRequest.getScheme() == "http"}}}
+#summary SecuredRemoteAddressFilter is a Java Servlet API filter to set "ServletRequest.isSecure() == true" for predefined remote addresses even if "ServletRequest.getScheme() == 'http'"
 #labels Phase-Implementation,Featured
 
 = Description =
