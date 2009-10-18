@@ -3,7 +3,7 @@
 
 = Description =
 
-Some Http request are secured even if they don't use SSL. This is usually the case for http request emitted by applications that are located in the same data center / VLAN as the requested server. A typical scenario would be a web service consumed both by consumers located on the Internet and others located in the same data center. The first ones will use SSL when the second ones will not.
+Some http requests are secured even if they don't use SSL. This is usually the case for http request emitted by applications that are located in the same data center / VLAN as the requested server. A typical scenario would be a web service consumed both by consumers located on the Internet and others located in the same data center. The first ones will use SSL when the second ones will not.
 
 SecuredRemoteAddressValve is a Tomcat valve to set {{{ServletRequest.isSecure() == true}}} for predefined remote addresses even if {{{ServletRequest.getScheme() == "http"}}}.
 
