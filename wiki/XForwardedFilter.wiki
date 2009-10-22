@@ -8,6 +8,8 @@ Another feature of this filter is to replace the apparent scheme ({{{http}}}/{{{
 
 = Filter Configuration =
 
+*Note:* In most cases, the XForwardedFilter should precede all the other filter and in particular precede logging, authentication, authorization or remote IP related filters.
+
 || *XForwardedFilter property* || *Description* || *Equivalent mod_remoteip directive* || *Format* || *Default Value* ||
 || remoteIPHeader || Name of the Http Header read by this servlet filter that holds the list of traversed IP addresses starting from the requesting client || RemoteIPHeader || Compliant http header name like {{{x-forwarded-for}}} or {{{X-Client-IP}}} || x-forwarded-for ||
 || allowedInternalProxies || List of internal proxies ip adress. If they appear in the {{{remoteIpHeader}}} value, they will be trusted and will not appear in the {{{proxiesHeader}}} value || RemoteIPInternalProxy || Comma delimited list of regular expressions (in the syntax supported by the [http://java.sun.com/javase/6/docs/api/index.html?java/util/regex/Pattern.html java.util.regex.Pattern] library) || 10\.\d{1,3}\.\d{1,3}\.\d{1,3}, 192\.168\.\d{1,3}\.\d{1,3}, 172\\.(?:1[6-9]|2\\d|3[0-1]).\\d{1,3}.\\d{1,3}, 169\.254\.\d{1,3}\.\d{1,3}, 127\.\d{1,3}\.\d{1,3}\.\d{1,3}. By default, 10/8, 192.168/16, 172.16/12, 169.254/16 and 127/8 are allowed ||
