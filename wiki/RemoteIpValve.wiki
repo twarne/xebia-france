@@ -12,6 +12,8 @@ Presence of {{{x-forwarded-proto}}} with value {{{https}}} will modify the behav
 
 = Valve Configuration =
 
+*Note:* In most cases, the RemoteIpValve should precede all the other valves and in particular precede logging, authentication and authorization valves.  
+
 == Basic configuration to handle {{{x-forwarded-for}}} in Tomcat access logs and in {{{HttpServletRequest}}} ==
 
 The valve will process the {{{x-forwarded-for}}} http header. 
