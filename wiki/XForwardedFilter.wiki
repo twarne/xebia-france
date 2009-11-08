@@ -1,6 +1,8 @@
 #summary XForwardedFilter is a Java Servlet API port of Apache mod_remoteip to handle x-forwarded-for and x-forwarded-proto http headers
 #labels Phase-Implementation,Featured
 
+|| XForwardedFilter is now [http://svn.apache.org/viewvc/tomcat/trunk/java/org/apache/catalina/filters/RemoteIpFilter.java?annotate=833155 integrated in the forthcoming Tomcat 7 as RemoteIpFilter] || 
+
 = Description =
 The XForwardedFilter is a Java Servlet API port of [http://httpd.apache.org/docs/trunk/mod/mod_remoteip.html mod_remoteip], this filter replaces the apparent client remote IP address and hostname for the request with the IP address list presented by a proxy or a load balancer via a request headers (e.g. "{{{X-Forwarded-For}}}"). 
 
