@@ -201,3 +201,4 @@ If the incoming {{{request.getRemoteAddr()}}} matches the valve's list of intern
  * Firefox [https://addons.mozilla.org/en-US/firefox/addon/967 Modify Headers] [https://addons.mozilla.org/en-US/firefox/addon/5948 X-Forwarded-For Spoofer] add-ons. Modify Headers allows you to test both X-Forwarded-For and X-Forwarded-Proto.
  * Jetty [http://docs.codehaus.org/display/JETTY/Configuring+Connectors connector configuration] to handle X-Forwarded-For.
  * [http://blog.xebia.fr/2009/05/05/tomcat-adresse-ip-de-linternaute-load-balancer-reverse-proxy-et-header-http-x-forwarded-for/ Tomcat : Adresse IP de l’internaute, load balancer, reverse proxy et header Http X-Forwarded-For] : a french tutorial on X-Forwarded-For handling in Java.
+ * [http://blog.xebia.fr/2009/11/13/tomcat-ssl-communications-securisees-et-x-forwarded-proto/ Tomcat, SSL, communications sécurisées et X-Forwarded-Proto] : a french tutorial on Tomcat, SSL, X-Forwarded-Proto and secured communications.
