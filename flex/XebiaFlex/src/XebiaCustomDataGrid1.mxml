@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" xmlns:mx="library://ns.adobe.com/flex/halo" minWidth="1024" minHeight="768">
+
+	<fx:Style source="css/xebia.css"/>
+
+	<fx:Script>
+	<![CDATA[
+			import mx.collections.ArrayCollection;
+			[Bindable]
+			public var xebia:ArrayCollection = new ArrayCollection([
+				{Company:"Xebia France", City:"Défense", Benefits:200000},
+				{Company:"Xebia Hollande", City:"Hilversum", Benefits:400000},
+				{Company:"Xebia Inde", City:"New Dehli", Benefits:150000},
+				{Company:"Xebia US", City:"New York", Benefits:500000},
+				{Company:"Xebia Allemagne", City:"Berlin", Benefits:160000},
+				{Company:"Xebia Espagne", City:"Barcelone", Benefits:80000},
+				{Company:"Xebia Portugal", City:"New Dehli", Benefits:75000},
+				{Company:"Xebia Italie", City:"New Dehli", Benefits:110000}
+			]);
+		]]>
+	</fx:Script>
+
+
+	<mx:DataGrid dataProvider="{xebia}" sortableColumns="false" selectable="false" height="228" width="515">
+		<mx:columns>
+			<mx:DataGridColumn headerText="Company" dataField="Company"/>
+			<mx:DataGridColumn headerText="City" dataField="City"/>
+			<mx:DataGridColumn headerText="Benefits" dataField="Benefits"/>
+		</mx:columns>
+	</mx:DataGrid>
+
+</s:Application>
