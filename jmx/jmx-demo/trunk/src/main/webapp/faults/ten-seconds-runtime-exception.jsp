@@ -1,0 +1,50 @@
+<%
+    Thread.sleep(10 * 1000);
+    response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+    response.setContentType("text/xml;charset=UTF-8");
+%><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+   <soap:Body>
+      <soap:Fault>
+         <faultcode>soap:Server</faultcode>
+         <faultstring>should have timed out</faultstring>
+         <detail>
+            <stackTrace xmlns="http://schemas.xmlsoap.org/soap/envelope/">fr.xebia.demo.jmx.webservice.HelloWorldServiceImpl!sayHi!HelloWorldServiceImpl.java!26
+sun.reflect.NativeMethodAccessorImpl!invoke0!NativeMethodAccessorImpl.java!-2
+sun.reflect.NativeMethodAccessorImpl!invoke!NativeMethodAccessorImpl.java!39
+sun.reflect.DelegatingMethodAccessorImpl!invoke!DelegatingMethodAccessorImpl.java!25
+java.lang.reflect.Method!invoke!Method.java!597
+org.apache.cxf.service.invoker.AbstractInvoker!performInvocation!AbstractInvoker.java!166
+org.apache.cxf.service.invoker.AbstractInvoker!invoke!AbstractInvoker.java!82
+org.apache.cxf.jaxws.JAXWSMethodInvoker!invoke!JAXWSMethodInvoker.java!55
+org.apache.cxf.service.invoker.AbstractInvoker!invoke!AbstractInvoker.java!68
+org.apache.cxf.interceptor.ServiceInvokerInterceptor$1!run!ServiceInvokerInterceptor.java!57
+java.util.concurrent.Executors$RunnableAdapter!call!Executors.java!441
+java.util.concurrent.FutureTask$Sync!innerRun!FutureTask.java!303
+java.util.concurrent.FutureTask!run!FutureTask.java!138
+org.apache.cxf.workqueue.SynchronousExecutor!execute!SynchronousExecutor.java!37
+org.apache.cxf.interceptor.ServiceInvokerInterceptor!handleMessage!ServiceInvokerInterceptor.java!95
+org.apache.cxf.phase.PhaseInterceptorChain!doIntercept!PhaseInterceptorChain.java!236
+org.apache.cxf.transport.ChainInitiationObserver!onMessage!ChainInitiationObserver.java!89
+org.apache.cxf.transport.servlet.ServletDestination!invoke!ServletDestination.java!99
+org.apache.cxf.transport.servlet.ServletController!invokeDestination!ServletController.java!343
+org.apache.cxf.transport.servlet.ServletController!invoke!ServletController.java!182
+org.apache.cxf.transport.servlet.AbstractCXFServlet!invoke!AbstractCXFServlet.java!163
+org.apache.cxf.transport.servlet.AbstractCXFServlet!doPost!AbstractCXFServlet.java!141
+javax.servlet.http.HttpServlet!service!HttpServlet.java!637
+javax.servlet.http.HttpServlet!service!HttpServlet.java!717
+org.apache.catalina.core.ApplicationFilterChain!internalDoFilter!ApplicationFilterChain.java!290
+org.apache.catalina.core.ApplicationFilterChain!doFilter!ApplicationFilterChain.java!206
+org.apache.catalina.core.StandardWrapperValve!invoke!StandardWrapperValve.java!233
+org.apache.catalina.core.StandardContextValve!invoke!StandardContextValve.java!191
+org.apache.catalina.core.StandardHostValve!invoke!StandardHostValve.java!128
+org.apache.catalina.valves.ErrorReportValve!invoke!ErrorReportValve.java!102
+org.apache.catalina.core.StandardEngineValve!invoke!StandardEngineValve.java!109
+org.apache.catalina.connector.CoyoteAdapter!service!CoyoteAdapter.java!286
+org.apache.coyote.http11.Http11Processor!process!Http11Processor.java!845
+org.apache.coyote.http11.Http11Protocol$Http11ConnectionHandler!process!Http11Protocol.java!583
+org.apache.tomcat.util.net.JIoEndpoint$Worker!run!JIoEndpoint.java!447
+java.lang.Thread!run!Thread.java!619</stackTrace>
+         </detail>
+      </soap:Fault>
+   </soap:Body>
+</soap:Envelope>
