@@ -95,6 +95,20 @@
          <version>${spring.version}</version>
       </dependency>
       <dependency>
+         <!-- for Spring AOP -->
+         <groupId>org.aspectj</groupId>
+         <artifactId>aspectjrt</artifactId>
+         <version>1.6.1</version>
+      </dependency>
+      <dependency>
+         <!-- for Spring AOP -->
+         <groupId>org.aspectj</groupId>
+         <artifactId>aspectjweaver</artifactId>
+         <version>1.6.1</version>
+         <scope>runtime</scope>
+      </dependency>
+
+      <dependency>
          <groupId>org.springframework</groupId>
          <artifactId>spring-core</artifactId>
          <version>${spring.version}</version>
@@ -150,6 +164,11 @@
       <dependency>
          <groupId>org.apache.cxf</groupId>
          <artifactId>cxf-rt-frontend-jaxws</artifactId>
+         <version>${cxf.version}</version>
+      </dependency>
+      <dependency>
+         <groupId>org.apache.cxf</groupId>
+         <artifactId>cxf-rt-frontend-jaxrs</artifactId>
          <version>${cxf.version}</version>
       </dependency>
       <dependency>
@@ -279,7 +298,7 @@
    <properties>
       <spring.version>2.5.6</spring.version>
       <spring-security.version>2.0.4</spring-security.version>
-      <cxf.version>2.2.2</cxf.version>
+      <cxf.version>2.2.6-SNAPSHOT</cxf.version>
       <hibernate-entitymanager.version>3.4.0.GA</hibernate-entitymanager.version>
       <hibernate-core.version>3.3.1.GA</hibernate-core.version>
       <persistence-api.version>1.0</persistence-api.version>
