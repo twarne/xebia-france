@@ -7,10 +7,10 @@
 
 <%@page import="java.io.PrintWriter"%><html>
 <head>
-<title>HelloWorldService expect RuntimeException</title>
+<title>HelloWorldService expect successful request</title>
 </head>
 <body>
-<h1>HelloWorldService expect RuntimeException</h1>
+<h1>HelloWorldService expect successful request</h1>
 <%
     WebApplicationContext applicationContext = WebApplicationContextUtils.getWebApplicationContext(application);
     HelloWorldService helloWorldService = (HelloWorldService)applicationContext.getBean("helloWorldServiceClient-ok");
