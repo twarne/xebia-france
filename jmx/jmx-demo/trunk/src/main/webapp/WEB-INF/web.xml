@@ -36,6 +36,10 @@
       <servlet-name>CXFServlet</servlet-name>
       <servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>
    </servlet>
+   <servlet>
+      <servlet-name>ExceptionServlet</servlet-name>
+      <servlet-class>fr.xebia.demo.jmx.webservice.ExceptionServlet</servlet-class>
+   </servlet>
    <filter>
       <filter-name>springSecurityFilterChain</filter-name>
       <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
@@ -49,7 +53,10 @@
       <servlet-name>CXFServlet</servlet-name>
       <url-pattern>/services/*</url-pattern>
    </servlet-mapping>
-
+   <servlet-mapping>
+      <servlet-name>ExceptionServlet</servlet-name>
+      <url-pattern>/exception/*</url-pattern>
+   </servlet-mapping>
 
    <resource-env-ref>
       <resource-env-ref-name>jdbc/jmx-demo-data-source</resource-env-ref-name>

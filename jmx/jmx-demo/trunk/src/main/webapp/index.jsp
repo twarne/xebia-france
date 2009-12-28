@@ -16,6 +16,7 @@
 	<li><a href="rest/client/404-exception-client.jsp">404-exception-client</a></li>
 	<li><a href="rest/client/hello-world-service-exception-client.jsp">hello-world-service-exception-client</a></li>
 	<li><a href="rest/client/500-exception-client.jsp">500-exception-client</a></li>
+	<li><a href="rest/client/505-exception-client.jsp">505-exception-client</a></li>
 	<li><a href="rest/client/timeout-exception-client.jsp">timeout-exception-client</a></li>
 </ul>
 

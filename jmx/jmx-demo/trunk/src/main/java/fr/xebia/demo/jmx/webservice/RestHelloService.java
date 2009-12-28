@@ -26,6 +26,7 @@ public interface RestHelloService {
     @RolesAllowed("IS_AUTHENTICATED_FULLY")
     @Path("{text}")
     @GET
-    public abstract String sayHello(@PathParam("text") String text) throws HelloWorldServiceException;
+    public abstract String sayHello(@PathParam("text") String text) throws HelloWorldServiceException,
+        Status505Exception;
 
 }

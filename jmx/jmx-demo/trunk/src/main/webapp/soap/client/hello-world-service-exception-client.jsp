@@ -20,6 +20,9 @@
         out.println("Unexpected answer " + answer);
     } catch (HelloWorldServiceException e) {
         out.println("Received expected " + e);
+        out.println("<pre>");
+        e.printStackTrace(new PrintWriter(out));
+        out.println("</pre>");
     } catch (Exception e) {
         out.println("<pre>");
         e.printStackTrace(new PrintWriter(out));

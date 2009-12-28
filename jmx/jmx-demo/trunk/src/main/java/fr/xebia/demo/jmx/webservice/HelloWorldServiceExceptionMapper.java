@@ -7,23 +7,11 @@ import javax.ws.rs.ext.Provider;
 import org.apache.cxf.jaxrs.client.ResponseExceptionMapper;
 
 @Provider
-public class HelloWorldServiceExceptionMapper implements ExceptionMapper<HelloWorldServiceException>,
-    ResponseExceptionMapper<HelloWorldServiceException> {
+public class HelloWorldServiceExceptionMapper implements ExceptionMapper<HelloWorldServiceException> {
 
     @Override
     public Response toResponse(HelloWorldServiceException exception) {
-        return Response.status(533).build();
-    }
-
-    @Override
-    public HelloWorldServiceException fromResponse(Response response) {
-        HelloWorldServiceException result;
-        if (response.getStatus() == 533) {
-            result = new HelloWorldServiceException();
-        } else {
-            result = null;
-        }
-        return result;
+        return Response.status(533).entity("this is an HelloWorldServiceException").build();
     }
 
 }

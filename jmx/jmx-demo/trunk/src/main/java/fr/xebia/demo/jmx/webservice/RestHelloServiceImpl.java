@@ -32,14 +32,15 @@ public class RestHelloServiceImpl implements RestHelloService {
     @RolesAllowed("IS_AUTHENTICATED_FULLY")
     @Path("{text}")
     @GET
-    public String sayHello(@PathParam("text") String text) throws HelloWorldServiceException {
+    public String sayHello(@PathParam("text") String text) throws HelloWorldServiceException,
+        Status505Exception {
         if (RuntimeException.class.getName().equals(text)) {
             throw new RuntimeException("the runtime exception");
         } else if (SOAPFaultException.class.getName().equals(text)) {
             // Raise a SOAP Faut specifying the faultCode
             try {
-                SOAPFault soapFault = SOAPFactory.newInstance().createFault("This Exception Message",
-                        QName.valueOf("http://www.xebia.fr/fault/666"));
+                SOAPFault soapFault = SOAPFactory.newInstance()
+                    .createFault("This Exception Message", QName.valueOf("http://www.xebia.fr/fault/666"));
                 throw new SOAPFaultException(soapFault);
             } catch (SOAPException e) {
                 e.printStackTrace();
