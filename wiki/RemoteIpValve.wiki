@@ -2,7 +2,7 @@
 #labels Phase-Implementation,Featured
 
 
-|| *[http://svn.apache.org/viewvc/tomcat/tc6.0.x/trunk/java/org/apache/catalina/valves/RemoteIpValve.java?annotate=833535&pathrev=833536 RemoteIpValve is now integrated in the forthcoming Tomcat 6.0.21] and will also be [http://svn.apache.org/viewvc/tomcat/trunk/java/org/apache/catalina/valves/RemoteIpValve.java?annotate=832974 available in Tomcat 7].* ||
+|| *[http://svn.apache.org/viewvc/tomcat/tc6.0.x/trunk/java/org/apache/catalina/valves/RemoteIpValve.java?annotate=833535&pathrev=833536 RemoteIpValve has been integrated in Tomcat 6.0.24] and will also be [http://svn.apache.org/viewvc/tomcat/trunk/java/org/apache/catalina/valves/RemoteIpValve.java?annotate=832974 available in Tomcat 7].* ||
 
 
 = Description =
