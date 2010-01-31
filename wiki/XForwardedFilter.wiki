@@ -19,6 +19,8 @@ Another feature of this filter is to replace the apparent scheme ({{{http}}}/{{{
 || trustedProxies || List of trusted proxies ip adress. If they appear in the {{{remoteIpHeader}}} value, they will be trusted and will appear in the {{{proxiesHeader}}} value || RemoteIPTrustedProxy || Comma delimited list of regular expressions (in the syntax supported by the [http://java.sun.com/javase/6/docs/api/index.html?java/util/regex/Pattern.html java.util.regex.Pattern] library) ||   ||
 || protocolHeader || Name of the http header read by this servlet filter that holds the flag that this request  || N/A || Compliant http header name like {{{X-Forwarded-Proto}}}, {{{X-Forwarded-Ssl}}} or {{{Front-End-Https}}} || {{{null}}} || 
 || protocolHeaderHttpsValue || Value of the {{{protocolHeader}}} to indicate that it is an Https request || N/A || String like {{{https}}} or {{{ON}}} || {{{https}}} ||
+|| httpServerPort || Value returned by {{{ServletRequest.getServerPort()}}} when the {{{protocolHeader}}} indicates {{{http}}} protocol || N/A || integer || 80 ||
+|| httpsServerPort || Value returned by {{{ServletRequest.getServerPort()}}} when the {{{protocolHeader}}} indicates {{{https}}} protocol || N/A || integer || 443 ||
 
 
 
