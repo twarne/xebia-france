@@ -1,4 +1,7 @@
-<%@page import="java.io.PrintWriter"%>
+
+<%@page import="org.apache.cxf.service.model.EndpointInfo"%>
+<%@page import="org.apache.cxf.endpoint.Endpoint"%><%@page
+	import="java.io.PrintWriter"%>
 <%@page import="java.io.StringWriter"%>
 <%@page import="java.lang.reflect.InvocationHandler"%>
 <%@page import="java.lang.reflect.Proxy"%>
@@ -44,10 +47,24 @@
 
                 Client client = clientProxy.getClient();
 
+                out.println("<h2>Endpoint</h2>");
+                Endpoint endpoint = client.getEndpoint();
+                out.println("activeFeatures: " + endpoint.getActiveFeatures());
+
+                out.println("<h2>Endpoint Infos</h2>");
+                EndpointInfo endpointInfo = endpoint.getEndpointInfo();
+                out.println("name: " + endpointInfo.getName() + "<br/>");
+                out.println("address: " + endpointInfo.getAddress() + "<br/>");
+                out.println("binding.name: " + endpointInfo.getBinding().getName() + "<br/>");
+                out.println("service.name: " + endpointInfo.getService().getName() + "<br/>");
+
                 out.println("<h2>Conduit</h2>");
                 Conduit conduit = client.getConduit();
+
                 if (conduit instanceof HTTPConduit) {
                     HTTPConduit httpConduit = (HTTPConduit) clientProxy.getClient().getConduit();
+                    out.println("beanName: " + httpConduit.getBeanName() + "<br/>");
+                    out.println("conduitName: " + httpConduit.getConduitName() + "<br/>");
 
                     out.println("<h3>Target</h3>");
                     EndpointReferenceType endpointReferenceType = httpConduit.getTarget();
@@ -99,7 +116,7 @@
                         out.println("proxyServerPort: "
                                 + (clientPolicy.isSetProxyServerPort() ? clientPolicy.getProxyServerPort() : null) + "<br/>");
                         out.println("proxyServerType: " + clientPolicy.getProxyServerType() + "<br/>");
-                        if(defaultProxyConfigured) {
+                        if (defaultProxyConfigured) {
                             out.println("<strong>Default JVM proxy " + proxies + "is ignored</strong>");
                         }
                     } else if (defaultProxyConfigured) {
@@ -112,7 +129,8 @@
                     if (authorizationPolicy != null) {
                         out.println("<h3>authorization</h3>");
                         out.println("userName: " + authorizationPolicy.getUserName() + "<br/>");
-                        String passwordSize = authorizationPolicy.getPassword() == null ? null : "" + authorizationPolicy.getPassword().length();
+                        String passwordSize = authorizationPolicy.getPassword() == null ? null : ""
+                                + authorizationPolicy.getPassword().length();
                         out.println("passwordSize: " + passwordSize + "</br>");
                         out.println("authorizationType: " + authorizationPolicy.getAuthorizationType());
                     }
