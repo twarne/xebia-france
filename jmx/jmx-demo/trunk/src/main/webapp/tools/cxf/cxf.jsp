@@ -6,25 +6,21 @@
 <%@page import="java.net.URI"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.util.List"%>
-<%@page import="javax.xml.bind.annotation.XmlRootElement"%>
-<%@page import="javax.xml.bind.JAXBContext"%>
-<%@page import="javax.xml.bind.JAXBElement"%>
-<%@page import="javax.xml.bind.Marshaller"%>
-<%@page import="org.apache.commons.lang.builder.ToStringBuilder"%>
-<%@page import="org.apache.commons.lang.StringEscapeUtils"%>
 <%@page import="org.apache.commons.lang.StringUtils"%>
-<%@page import="org.apache.commons.lang.time.DateFormatUtils"%>
-<%@page import="org.apache.commons.lang.time.DateUtils"%>
-<%@page import="org.apache.cxf.configuration.security.AuthorizationPolicy"%>
+<%@page
+	import="org.apache.cxf.configuration.security.AuthorizationPolicy"%>
 <%@page import="org.apache.cxf.endpoint.Client"%>
 <%@page import="org.apache.cxf.frontend.ClientProxy"%>
 <%@page import="org.apache.cxf.transport.Conduit"%>
 <%@page import="org.apache.cxf.transport.http.HTTPConduit"%>
-<%@page import="org.apache.cxf.transports.http.configuration.HTTPClientPolicy"%>
+<%@page
+	import="org.apache.cxf.transports.http.configuration.HTTPClientPolicy"%>
 <%@page import="org.apache.cxf.ws.addressing.AttributedURIType"%>
 <%@page import="org.apache.cxf.ws.addressing.EndpointReferenceType"%>
-<%@page import="org.springframework.beans.factory.BeanIsAbstractException"%>
-<%@page import="org.springframework.web.context.support.WebApplicationContextUtils"%>
+<%@page
+	import="org.springframework.beans.factory.BeanIsAbstractException"%>
+<%@page
+	import="org.springframework.web.context.support.WebApplicationContextUtils"%>
 <%@page import="org.springframework.web.context.WebApplicationContext"%>
 <%
     String uid = request.getParameter("uid");
@@ -118,9 +114,8 @@
                     if (authorizationPolicy != null) {
                         out.println("<h3>authorization</h3>");
                         out.println("userName: " + authorizationPolicy.getUserName() + "<br/>");
-                        String password = authorizationPolicy.getPassword();
-                        password = password == null ? null : StringUtils.repeat("*", password.length());
-                        out.println("password: " + password + "</br>");
+                        String passwordSize = authorizationPolicy.getPassword() == null ? null : "" + authorizationPolicy.getPassword().length();
+                        out.println("passwordSize: " + passwordSize + "</br>");
                         out.println("authorizationType: " + authorizationPolicy.getAuthorizationType());
                     }
 
