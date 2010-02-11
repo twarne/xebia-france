@@ -23,8 +23,6 @@
 	import="org.springframework.web.context.support.WebApplicationContextUtils"%>
 <%@page import="org.springframework.web.context.WebApplicationContext"%>
 <%
-    String uid = request.getParameter("uid");
-
     WebApplicationContext applicationContext = WebApplicationContextUtils.getRequiredWebApplicationContext(application);
 
     for (String springBeanName : applicationContext.getBeanDefinitionNames()) {
