@@ -134,10 +134,9 @@
                         out.println("passwordSize: " + passwordSize + "</br>");
                         out.println("authorizationType: " + authorizationPolicy.getAuthorizationType());
                     }
-
+                    out.println("<hr/>");
                 }
 
-                clientProxy.getClient().getEndpoint();
             } catch (Exception e) {
                 out.print("<pre>");
                 e.printStackTrace(new PrintWriter(out));
@@ -147,7 +146,6 @@
         } catch (BeanIsAbstractException e) {
             // skip
         }
-        out.println("<hr/>");
         out.flush();
     }
 %>

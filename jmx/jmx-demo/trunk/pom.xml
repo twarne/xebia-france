@@ -53,7 +53,6 @@
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-eclipse-plugin</artifactId>
             <configuration>
-               <downloadSources>true</downloadSources>
                <wtpversion>1.5</wtpversion>
             </configuration>
          </plugin>
@@ -242,6 +241,11 @@
          <scope>provided</scope>
       </dependency>
       <dependency>
+         <groupId>javax.annotation</groupId>
+         <artifactId>jsr250-api</artifactId>
+         <version>1.0</version>
+      </dependency>
+      <dependency>
          <groupId>commons-dbcp</groupId>
          <artifactId>commons-dbcp</artifactId>
          <version>1.2.2</version>
@@ -250,6 +254,11 @@
          <groupId>commons-lang</groupId>
          <artifactId>commons-lang</artifactId>
          <version>2.4</version>
+      </dependency>
+      <dependency>
+         <groupId>com.google.collections</groupId>
+         <artifactId>google-collections</artifactId>
+         <version>1.0</version>
       </dependency>
       <dependency>
          <groupId>log4j</groupId>
@@ -298,7 +307,7 @@
    <properties>
       <spring.version>2.5.6</spring.version>
       <spring-security.version>2.0.4</spring-security.version>
-      <cxf.version>2.2.6-SNAPSHOT</cxf.version>
+      <cxf.version>2.3.0-SNAPSHOT</cxf.version>
       <hibernate-entitymanager.version>3.4.0.GA</hibernate-entitymanager.version>
       <hibernate-core.version>3.3.1.GA</hibernate-core.version>
       <persistence-api.version>1.0</persistence-api.version>

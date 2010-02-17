@@ -135,7 +135,7 @@
 	</bean>
 
 	<bean id="managementService" class="net.sf.ehcache.management.ManagementService"
-		init-method="init">
+		init-method="init" destroy-method="dispose">
 		<constructor-arg ref="servletContextAwareMbeanServer" />
 		<constructor-arg ref="cacheManager" />
 		<constructor-arg index="2" value="true" />
@@ -238,14 +238,54 @@
 			<bean class="org.apache.cxf.management.interceptor.ResponseTimeFeature" />
 		</jaxws:features>
 	</jaxws:client>
+
+	<jaxws:client id="helloWorldServiceClient-302Exception"
+		serviceClass="fr.xebia.demo.jmx.webservice.HelloWorldService" address="http://localhost:8080/jmx-demo/soap/fault/302.jsp">
+		<jaxws:features>
+			<bean class="org.apache.cxf.feature.LoggingFeature" />
+			<bean class="org.apache.cxf.management.interceptor.ResponseTimeFeature" />
+		</jaxws:features>
+	</jaxws:client>
+
+	<jaxws:client id="helloWorldServiceClient-401Exception"
+		serviceClass="fr.xebia.demo.jmx.webservice.HelloWorldService" address="http://localhost:8080/jmx-demo/exception/401">
+		<jaxws:features>
+			<bean class="org.apache.cxf.feature.LoggingFeature" />
+			<bean class="org.apache.cxf.management.interceptor.ResponseTimeFeature" />
+		</jaxws:features>
+	</jaxws:client>
+
+	<jaxws:client id="helloWorldServiceClient-403Exception"
+		serviceClass="fr.xebia.demo.jmx.webservice.HelloWorldService" address="http://localhost:8080/jmx-demo/exception/403">
+		<jaxws:features>
+			<bean class="org.apache.cxf.feature.LoggingFeature" />
+			<bean class="org.apache.cxf.management.interceptor.ResponseTimeFeature" />
+		</jaxws:features>
+	</jaxws:client>
+
+	<jaxws:client id="helloWorldServiceClient-407Exception"
+		serviceClass="fr.xebia.demo.jmx.webservice.HelloWorldService" address="http://localhost:8080/jmx-demo/exception/407">
+		<jaxws:features>
+			<bean class="org.apache.cxf.feature.LoggingFeature" />
+			<bean class="org.apache.cxf.management.interceptor.ResponseTimeFeature" />
+		</jaxws:features>
+	</jaxws:client>
+
 	<http-conf:conduit
 		name="{http://webservice.jmx.demo.xebia.fr/}HelloWorldServicePort.http-conduit">
 		<http-conf:client ConnectionTimeout="500"
-			ReceiveTimeout="5000" />
+			ReceiveTimeout="5000"
+			/>
 		<http-conf:authorization>
 			<security:UserName>user</security:UserName>
 			<security:Password>user</security:Password>
 		</http-conf:authorization>
+		<!--
+		<http-conf:proxyAuthorization>
+			<security:UserName>john</security:UserName>
+			<security:Password>Doe</security:Password>
+		</http-conf:proxyAuthorization>
+		-->
 	</http-conf:conduit>
 
 	<jaxrs:client id="restHelloServiceClient-ok"

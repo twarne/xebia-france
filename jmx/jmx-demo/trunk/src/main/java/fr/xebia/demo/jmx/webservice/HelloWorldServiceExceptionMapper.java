@@ -11,7 +11,8 @@ public class HelloWorldServiceExceptionMapper implements ExceptionMapper<HelloWo
 
     @Override
     public Response toResponse(HelloWorldServiceException exception) {
-        return Response.status(533).entity("this is an HelloWorldServiceException").build();
+        return Response.status(533)
+            .entity("this is an HelloWorldServiceException handled by an ExceptionMapper").build();
     }
 
 }

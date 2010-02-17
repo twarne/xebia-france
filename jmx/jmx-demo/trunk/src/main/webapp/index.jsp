@@ -5,7 +5,11 @@
 <ul>
 	<li><a href="soap/client/successful-client.jsp">successful-client</a></li>
 	<li><a href="soap/client/hello-world-service-exception-client.jsp">hello-world-service-exception-client</a></li>
+	<li><a href="soap/client/302-exception-client.jsp">302-exception-client</a></li>
+	<li><a href="soap/client/401-exception-client.jsp">401-exception-client</a></li>
+	<li><a href="soap/client/403-exception-client.jsp">403-exception-client</a></li>
 	<li><a href="soap/client/404-exception-client.jsp">404-exception-client</a></li>
+	<li><a href="soap/client/407-exception-client.jsp">407-exception-client</a></li>
 	<li><a href="soap/client/runtime-exception-client.jsp">runtime-exception-client</a></li>
 	<li><a href="soap/client/timeout-exception-client.jsp">timeout-exception-client</a></li>
 </ul>

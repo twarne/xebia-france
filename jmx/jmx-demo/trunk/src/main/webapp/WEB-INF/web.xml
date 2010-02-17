@@ -3,7 +3,11 @@
    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 
    <display-name>JMX Demo Web Application</display-name>
-
+   <!--
+   <listener>
+      <listener-class>fr.xebia.demo.jmx.ExceptionServletContextListener</listener-class>
+   </listener>
+   -->
    <listener>
       <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
    </listener>
@@ -40,6 +44,11 @@
       <servlet-name>ExceptionServlet</servlet-name>
       <servlet-class>fr.xebia.demo.jmx.webservice.ExceptionServlet</servlet-class>
    </servlet>
+   <servlet>
+      <servlet-name>CxfClientServlet</servlet-name>
+      <servlet-class>CxfClientServlet</servlet-class>
+      <load-on-startup>1</load-on-startup>
+   </servlet>
    <filter>
       <filter-name>springSecurityFilterChain</filter-name>
       <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
@@ -56,6 +65,10 @@
    <servlet-mapping>
       <servlet-name>ExceptionServlet</servlet-name>
       <url-pattern>/exception/*</url-pattern>
+   </servlet-mapping>
+   <servlet-mapping>
+      <servlet-name>CxfClientServlet</servlet-name>
+      <url-pattern>/cxf-client-ok</url-pattern>
    </servlet-mapping>
 
    <resource-env-ref>
