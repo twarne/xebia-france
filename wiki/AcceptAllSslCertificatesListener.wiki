@@ -1,0 +1,34 @@
+#Tomcat Listener to accept all HTTPS / X509 certificates with HttpsURLConnection (self-signed, untrusted, expired or with mismatching hostname certificates)
+
+= Configuration =
+
+== Standard Tomcat Configuration ==
+*server.xml*
+{{{
+<Server port="8005" shutdown="SHUTDOWN">
+   ...
+   <!-- Disable SSL/X509 certificates verifications () -->
+  <Listener className="fr.xebia.catalina.listener.AcceptAllSslCertificatesListener"/>
+
+</Server>
+}}}
+
+
+== Parameterized Tomcat Configuration ==
+
+*server.xml*
+{{{
+<Server port="8005" shutdown="SHUTDOWN">
+   ...
+   <!-- Disable SSL/X509 certificates verifications () -->
+  <Listener 
+      enable="${acceptAllSslCertificates}" 
+      className="fr.xebia.catalina.listener.AcceptAllSslCertificatesListener"/>
+
+</Server>
+}}}
+
+*catalina.properties*
+{{{
+acceptAllSslCertificates=true
+}}}
