@@ -37,33 +37,34 @@ acceptAllSslCertificates=true
 
 *Initialization log message*
 
-<pre>
+<code>
 ...
 Mar 9, 2010 11:08:04 AM fr.xebia.catalina.listener.AcceptAllSslCertificatesListener lifecycleEvent
 SEVERE: SSL VERIFICATIONS DISABLED ! SECURITY IS JEOPARDIZED ! SHOULD BE USED CAREFULLY IN PRODUCTION !
 ...
 Mar 9, 2010 11:08:12 AM org.apache.catalina.startup.Catalina start
 INFO: Server startup in 8360 ms
-</pre>
+</code>
 
 *Log message when an SSL connection is established with an untrusted certificate*
 
 Message for a self-signed expired certificate :
 
-<pre>
+<code>
 Mar 9, 2010 11:11:22 AM fr.xebia.catalina.listener.AcceptAllSslCertificatesListener$AcceptAllX509TrustManager checkServerTrusted
 SEVERE: SSL SECURITY IS JEOPARDIZED ! Untrusted self-signed expired certificate: 
    'EMAILADDRESS=cleclerc@xebia.fr, CN=localhost, OU=Xebia, O=Xebia, L=Paris, C=FR' (valid from Sun Sep 13 14:47:07 CEST 2009 until Tue Oct 13 14:47:07 CEST 2009) : 
    sun.security.validator.ValidatorException: PKIX path building failed: 
    sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
-</pre>
+</code>
+
 
 *Log message when an SSL connection is established with a mismatch between the URL's hostname and the certificate*
 
 Message for a {{{https://127.0.0.1/...}}} url with {{{localhost}}} declared for the certificate {{{CN}}} :
 
-<pre>
+<code>
 Mar 9, 2010 11:11:25 AM fr.xebia.catalina.listener.AcceptAllSslCertificatesListener$AcceptAllHostnameVerifier verify
 WARNING: SSL SECURITY IS JEOPARDIZED ! SSL hostname mismatch : given hostname=127.0.0.1, 
    sslSession[peer=127.0.0.1:443, peerPrincipal=[EMAILADDRESS=cleclerc@xebia.fr, CN=localhost, OU=Xebia, O=Xebia, L=Paris, C=FR]]
-</pre>
+</code>
