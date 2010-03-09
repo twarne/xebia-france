@@ -39,7 +39,7 @@ A warning message is emitted in Tomcat logs because disabling SSL verifications 
 
 Then, each time an SSL connection is established with untrusted certificates (self-signed, untrusted Certificate Authority, not yet valid, expired certificates or a mismatch between the URL hostname and the certificate), a warning message is emitted to both reminds user of the security hole and to ease debugging.
 
-*Initialization log message*
+*Initialization log message for the enabled listener*
 
 {{{
 ...
@@ -70,4 +70,16 @@ Message for a {{{https://127.0.0.1/...}}} url with {{{localhost}}} declared for 
 Mar 9, 2010 11:11:25 AM fr.xebia.catalina.listener.AcceptAllSslCertificatesListener$AcceptAllHostnameVerifier verify
 WARNING: SSL SECURITY IS JEOPARDIZED ! SSL hostname mismatch : given hostname=127.0.0.1, 
    sslSession[peer=127.0.0.1:443, peerPrincipal=[EMAILADDRESS=cleclerc@xebia.fr, CN=localhost, OU=Xebia, O=Xebia, L=Paris, C=FR]]
+}}}
+
+*Initialization log message for the disabled listener*
+
+SSL verifications are activated.
+{{{
+...
+Mar 9, 2010 4:56:28 PM fr.xebia.catalina.listener.AcceptAllSslCertificatesListener lifecycleEvent
+INFO: AcceptAllSslCertificatesListener is disabled. SSL verifications are activated.
+...
+Mar 9, 2010 4:56:41 PM org.apache.catalina.startup.Catalina start
+INFO: Server startup in 13005 ms
 }}}
