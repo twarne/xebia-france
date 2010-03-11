@@ -46,7 +46,7 @@ acceptAllSslCertificates=true
 = Install / Download =
 
  * Jar : Copy the jar [http://xebia-france.googlecode.com/files/xebia-tomcat-extras-1.0.1.jar xebia-tomcat-extras-1.0.1.jar] ([http://xebia-france.googlecode.com/files/xebia-tomcat-extras-1.0.1-sources.jar sources]) in Tomcat's classpath (e.g. under {{{$TOMCAT_HOME/lib}}})
- * Java class : [hhttp://xebia-france.googlecode.com/svn/tomcat/xebia-tomcat-extras/trunk/src/main/java/fr/xebia/catalina/listener/AcceptAllSslCertificatesListener.java AcceptAllSslCertificatesListener.java]
+ * Java class : [http://xebia-france.googlecode.com/svn/tomcat/xebia-tomcat-extras/trunk/src/main/java/fr/xebia/catalina/listener/AcceptAllSslCertificatesListener.java AcceptAllSslCertificatesListener.java]
  * Java project : {{{svn checkout http://xebia-france.googlecode.com/svn/tomcat/xebia-tomcat-extras/tags/xebia-tomcat-extras-1.0.1/}}}
 
 = Log Messages =
