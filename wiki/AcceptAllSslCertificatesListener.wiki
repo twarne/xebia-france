@@ -106,7 +106,7 @@ Caused by: sun.security.provider.certpath.SunCertPathBuilderException: unable to
 	...
 }}}
 
-To enable debug level logging, declare in {{$CATALINA_BASE/conf/logging.properties}} :
+To enable debug level logging, declare in {{{$CATALINA_BASE/conf/logging.properties}}} :
 {{{
 fr.xebia.catalina.listener.AcceptAllSslCertificatesListener.level=FINE
 }}}
