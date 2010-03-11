@@ -6,13 +6,14 @@ Tomcat Listener to configure at the middleware level the deactivation of all SSL
 
 This listener will deactivate SSL verifications for connections established via :
  * {{{java.net.URL}}}
+ * [http://hc.apache.org/httpclient-3.x/ Apache Commons Http Client 3]
  * CXF client (>=2.2.7) with configuration 
  {{{
 <http-conf:conduit>
    <http-conf:tlsClientParameters useHttpsURLConnectionDefaultSslSocketFactory="true" useHttpsURLConnectionDefaultHostnameVerifier="true" />
 </http-conf:conduit>
 }}}
-* 
+
 = Configuration =
 
 == Standard Tomcat Configuration ==
@@ -54,9 +55,9 @@ acceptAllSslCertificates=true
 
 = Install / Download =
 
- * Jar : Copy the jar [http://xebia-france.googlecode.com/files/xebia-tomcat-extras-1.0.1.jar xebia-tomcat-extras-1.0.1.jar] ([http://xebia-france.googlecode.com/files/xebia-tomcat-extras-1.0.1-sources.jar sources]) in Tomcat's classpath (e.g. under {{{$TOMCAT_HOME/lib}}})
- * Java class : [http://xebia-france.googlecode.com/svn/tomcat/xebia-tomcat-extras/trunk/src/main/java/fr/xebia/catalina/listener/AcceptAllSslCertificatesListener.java AcceptAllSslCertificatesListener.java]
- * Java project : {{{svn checkout http://xebia-france.googlecode.com/svn/tomcat/xebia-tomcat-extras/tags/xebia-tomcat-extras-1.0.1/}}}
+ * Jar : Copy the jar [http://xebia-france.googlecode.com/files/xebia-tomcat-extras-1.0.1.2.jar xebia-tomcat-extras-1.0.1.2.jar] ([http://xebia-france.googlecode.com/files/xebia-tomcat-extras-1.0.1.2-sources.jar sources]) in Tomcat's classpath (e.g. under {{{$TOMCAT_HOME/lib}}})
+ * Java class : [http://xebia-france.googlecode.com/svn/tomcat/xebia-tomcat-extras/tags/xebia-tomcat-extras-1.0.1.2/src/main/java/fr/xebia/catalina/listener/AcceptAllSslCertificatesListener.java AcceptAllSslCertificatesListener.java]
+ * Java project : {{{svn checkout http://xebia-france.googlecode.com/svn/tomcat/xebia-tomcat-extras/tags/xebia-tomcat-extras-1.0.1.2/}}}
 
 = Log Messages =
 
