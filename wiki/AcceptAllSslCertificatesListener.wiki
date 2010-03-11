@@ -3,11 +3,14 @@
 = Configuration =
 
 == Standard Tomcat Configuration ==
+
 *server.xml*
 {{{
 <Server port="8005" shutdown="SHUTDOWN">
    ...
-   <!-- Disable SSL/X509 certificates verifications () -->
+   <!-- 
+     Disable SSL/X509 certificates verifications (self-signed, untrusted Certificate Authority, expired or not yet valid certificate) 
+   -->
   <Listener className="fr.xebia.catalina.listener.AcceptAllSslCertificatesListener"/>
 
 </Server>
@@ -20,7 +23,9 @@
 {{{
 <Server port="8005" shutdown="SHUTDOWN">
    ...
-   <!-- Disable SSL/X509 certificates verifications () -->
+   <!-- 
+     Disable SSL/X509 certificates verifications (self-signed, untrusted Certificate Authority, expired or not yet valid certificate) 
+   -->
   <Listener 
       enable="${acceptAllSslCertificates}" 
       className="fr.xebia.catalina.listener.AcceptAllSslCertificatesListener"/>
