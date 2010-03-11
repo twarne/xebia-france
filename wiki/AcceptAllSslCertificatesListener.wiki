@@ -80,6 +80,11 @@ Caused by: sun.security.provider.certpath.SunCertPathBuilderException: unable to
 	...
 }}}
 
+To enable debug level logging, declare in {{$CATALINA_BASE/conf/logging.properties}} :
+{{{
+fr.xebia.catalina.listener.AcceptAllSslCertificatesListener.level=FINE
+}}}
+
 *Log message when an SSL connection is established with a mismatch between the URL's hostname and the certificate*
 
 Message for a {{{https://127.0.0.1/...}}} url with {{{localhost}}} declared for the certificate {{{CN}}} :
