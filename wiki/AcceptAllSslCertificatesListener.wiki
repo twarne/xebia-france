@@ -1,5 +1,9 @@
 #summary Tomcat Listener to accept all HTTPS / X509 certificates with HttpsURLConnection (self-signed, untrusted, expired or with mismatching hostname certificates)
 
+= Description =
+
+Tomcat Listener to configure at the middleware level the deactivation of all SSL checks : self-signed, untrusted Certificate Authority, expired, not yet valid or with hostname mismatch certificate.
+
 = Configuration =
 
 == Standard Tomcat Configuration ==
@@ -9,7 +13,7 @@
 <Server port="8005" shutdown="SHUTDOWN">
    ...
    <!-- 
-     Disable SSL/X509 certificates verifications (self-signed, untrusted Certificate Authority, expired or not yet valid certificate) 
+     Disable SSL/X509 certificates verifications (self-signed, untrusted Certificate Authority, expired, not yet valid or with hostname mismatch certificate) 
    -->
   <Listener className="fr.xebia.catalina.listener.AcceptAllSslCertificatesListener"/>
 
@@ -24,7 +28,7 @@
 <Server port="8005" shutdown="SHUTDOWN">
    ...
    <!-- 
-     Disable SSL/X509 certificates verifications (self-signed, untrusted Certificate Authority, expired or not yet valid certificate) 
+     Disable SSL/X509 certificates verifications (self-signed, untrusted Certificate Authority, expired, not yet valid or with hostname mismatch certificate) 
    -->
   <Listener 
       enable="${acceptAllSslCertificates}" 
