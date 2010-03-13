@@ -2,32 +2,36 @@
 <%@ page import="javax.management.*"%>
 <%@ page import="java.io.*,java.util.*"%>
 <%@page import="java.net.InetAddress"%>
-<%!public void dumpMbeans(Set<ObjectInstance> objectInstances, MBeanServer mbeanServer, JspWriter out) throws Exception {
+<%@page import="org.springframework.context.ApplicationContext"%>
+<%@page import="org.springframework.web.context.support.WebApplicationContextUtils"%>
+<%@page import="org.apache.commons.lang.StringUtils"%>
+<%!public void dumpMbeans(Collection<ObjectInstance> objectInstances, JspWriter out, MBeanServer mbeanServer, String... mbeanAttributes) throws Exception {
         out.write("<table border='1'>");
-        MBeanAttributeInfo[] beanAttributeInfos = null;
+        
+        out.write("<tr>");
+        out.print("<th>ObjectName</th>");
+        for (String mbeanAttribute : mbeanAttributes) {
+            out.print("<th>" + mbeanAttribute + "</th>");
+        }
+        out.println("</tr>");
+        
         for (ObjectInstance objectInstance : objectInstances) {
-            ObjectName objectName = objectInstance.getObjectName();
-            
-            if (beanAttributeInfos == null) {
-                beanAttributeInfos = mbeanServer.getMBeanInfo(objectName).getAttributes();
-                out.write("<tr><th>Object Name</th>");
-                for (MBeanAttributeInfo mbeanAttributeInfo : beanAttributeInfos) {
-                    out.print("<th>" + mbeanAttributeInfo.getName() + "<br/>" + mbeanAttributeInfo.getDescription() + "</th>");
-                }
-                out.write("</tr>");
+            ObjectName objectName = objectInstance.getObjectName();            
+            String objectNameString = objectName.getKeyProperty("service");
+            if (StringUtils.isNotEmpty(objectName.getKeyProperty("operation"))) {
+                objectNameString += "<br />" + objectName.getKeyProperty("operation");
             }
-            
-            out.write("<tr><td>" + objectName + "</td>");
-            for (MBeanAttributeInfo mbeanAttributeInfo : beanAttributeInfos) {
-                out.write("<td>" + mbeanServer.getAttribute(objectName, mbeanAttributeInfo.getName()) + "</td>");
+            out.print("<tr><td nowrap>" + objectNameString + "</td>");
+            for (String mbeanAttribute : mbeanAttributes) {
+                out.print("<td>" + mbeanServer.getAttribute(objectName, mbeanAttribute) + "</td>");
             }
-            out.write("</tr>\r\n");
-            out.flush();
+            out.println("</tr>");
         }
         
-        out.write("</table>");
+        out.println("</table>");
         
     }%>
+
 
 <html>
 <head>
@@ -37,26 +41,96 @@
 <h1>CXF Response time</h1>
 <%
     try {
-        long startime = (Long) ManagementFactory.getPlatformMBeanServer().getAttribute(new ObjectName("java.lang:type=Runtime"), "StartTime");
-        out.write("time: " + new java.sql.Timestamp(System.currentTimeMillis()).toString() + ", start-time: " + new java.sql.Timestamp(startime).toString() +"<br>");
+        java.sql.Timestamp applicationStartupDate = WebApplicationContextUtils.getWebApplicationContext(application) == null
+           ? null : new java.sql.Timestamp(WebApplicationContextUtils.getWebApplicationContext(application).getStartupDate());
+
+        out.println("Server=" + InetAddress.getLocalHost() + ", current date: "
+         + new java.sql.Timestamp(System.currentTimeMillis()).toString() + ", application startup date="
+         + applicationStartupDate + "<br>");
         
         List<MBeanServer> mbeanServers = MBeanServerFactory.findMBeanServer(null);
         for (MBeanServer mbeanServer : mbeanServers) {
             
-            out.println("<h1> MbeanServer domain = " + mbeanServer.getDefaultDomain() + "</h1>");
+            out.println("<h2> MbeanServer domain = " + mbeanServer.getDefaultDomain() + "</h2>");
             {
                 out.println("<h2>CXF Server Endpoints</h2>");
                 Set<ObjectInstance> objectInstances = mbeanServer
                     .queryMBeans(new ObjectName("org.apache.cxf:type=Performance.Counter.Server,*"), null);
-                dumpMbeans(objectInstances, mbeanServer, out);
+                
+                List<ObjectInstance> objectInstancesList = new ArrayList(objectInstances);
+                Collections.sort(objectInstancesList,
+                                 new Comparator<ObjectInstance>() {
+									public int compare(ObjectInstance objectInstance1, ObjectInstance objectInstance2) {
+									    int serviceComparaison = objectInstance1.getObjectName().getKeyProperty("service").compareTo( objectInstance2.getObjectName().getKeyProperty("service"));
+									    if (serviceComparaison == 0) {
+									        String operation1 = objectInstance1.getObjectName().getKeyProperty("operation");
+									        String operation2 = objectInstance2.getObjectName().getKeyProperty("operation");
+									        if (operation1 == null) {
+									            return -1;
+									        }
+									        if (operation2 == null) {
+									            return 1;
+									        }
+									        return operation1.compareTo(operation2);
+									    }
+									    
+										return serviceComparaison;
+									}
+                } );
+                
+                
+                dumpMbeans(objectInstancesList, out, mbeanServer, 
+                           "NumInvocations",    
+                           "NumCheckedApplicationFaults",
+                           "NumLogicalRuntimeFaults",
+                           "NumRuntimeFaults",
+                           "NumUnCheckedApplicationFaults",
+                           "TotalHandlingTime",
+                           "MinResponseTime",   
+                           "MaxResponseTime",
+                           "AvgResponseTime");
+                           
+                               
             }
             
             {
                 out.println("<h2>CXF Clients</h2>");
                 Set<ObjectInstance> objectInstances = mbeanServer
                     .queryMBeans(new ObjectName("org.apache.cxf:type=Performance.Counter.Client,*"), null);
-                dumpMbeans(objectInstances, mbeanServer, out);
+                List<ObjectInstance> objectInstancesList = new ArrayList(objectInstances);
+                Collections.sort(objectInstancesList,
+                                 new Comparator<ObjectInstance>() {
+									public int compare(ObjectInstance objectInstance1, ObjectInstance objectInstance2) {
+									    int serviceComparaison = objectInstance1.getObjectName().getKeyProperty("service").compareTo( objectInstance2.getObjectName().getKeyProperty("service"));
+									    if (serviceComparaison == 0) {
+									        String operation1 = objectInstance1.getObjectName().getKeyProperty("operation");
+									        String operation2 = objectInstance2.getObjectName().getKeyProperty("operation");
+									        if (operation1 == null) {
+									            return -1;
+									        }
+									        if (operation2 == null) {
+									            return 1;
+									        }
+									        return operation1.compareTo(operation2);
+									    }
+									    
+										return serviceComparaison;
+									}
+                } );
+                dumpMbeans(objectInstancesList, out, mbeanServer, 
+                           "NumInvocations",    
+                           "NumCheckedApplicationFaults",
+                           "NumLogicalRuntimeFaults",
+                           "NumRuntimeFaults",
+                           "NumUnCheckedApplicationFaults",
+                           "TotalHandlingTime",
+                           "MinResponseTime",   
+                           "MaxResponseTime",
+                           "AvgResponseTime");
             }
+            
+                
+            
         }
     } catch (Throwable e) {
         out.println("<pre>");
