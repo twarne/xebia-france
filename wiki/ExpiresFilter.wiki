@@ -1,10 +1,18 @@
-#summary ExpiresFilter is a Java Servlet API port of Apache mod_expires to add {{{Expires}}} and {{{Cache-Control}}} headers to HTTP response according to its {{{Content-Type}}}
+#summary ExpiresFilter is a Java Servlet API port of Apache mod_expires to add 'Expires' and 'Cache-Control: max-age=' headers to HTTP response according to its 'Content-Type'
 
+Port of [http://httpd.apache.org/docs/2.2/mod/mod_expires.html Apache mod_expires]. Following documentation is inspired by {{{mod_expires}}} .
 
 = Description =
 
 Add your content here.
 
+= Summary =
+
+This filter controls the setting of the {{{Expires}}}  HTTP header and the {{{max-age}}} directive of the {{{Cache-Control}}} HTTP header in server responses. The expiration date can set to be relative to either the time the source file was last modified, or to the time of the client access.
+
+These HTTP headers are an instruction to the client about the document's validity and persistence. If cached, the document may be fetched from the cache rather than from the source until this time has passed. After that, the cache copy is considered "expired" and invalid, and a new copy must be obtained from the source.
+
+To modify {{{Cache-Control}}} directives other than {{{max-age}}} (see [http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9" RFC 2616 section 14.9]), you can use other servlet filters or [http://httpd.apache.org/docs/2.2/mod/mod_headers.html Apache Httpd mod_headers] module.
 
 = Filter Configuration =
 
