@@ -1,0 +1,106 @@
+#summary ExpiresFilter is a Java Servlet API port of Apache mod_expires to add {{{Expires}}} and {{{Cache-Control}}} headers to HTTP response according to its {{{Content-Type}}}
+
+
+= Description =
+
+Add your content here.
+
+
+= Filter Configuration =
+
+== Basic configuration to add '{{{Expires}}}' and '{{{Cache-Control: max-age=}}}' headers to images, css and javascript ==
+
+The filter will process the {{{x-forwarded-for}}} http header. 
+
+{{{
+<web-app ...>
+   ...
+   <filter>
+      <filter-name>ExpiresFilter</filter-name>
+      <filter-class>fr.xebia.servlet.filter.ExpiresFilter</filter-class>
+      <init-param>
+         <param-name>ExpiresByType image</param-name>
+         <param-value>access plus 10 minutes</param-value>
+      </init-param>
+      <init-param>
+         <param-name>ExpiresByType text/css</param-name>
+         <param-value>access plus 10 minutes</param-value>
+      </init-param>
+      <init-param>
+         <param-name>ExpiresByType text/javascript</param-name>
+         <param-value>access plus 10 minutes</param-value>
+      </init-param>
+   </filter>
+
+   <filter>
+      <filter-name>springSecurityFilterChain</filter-name>
+      <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+   </filter>
+   ...
+</web-app>
+}}}
+
+== Configuration Parameters ==
+
+=== {{{ExpiresActive}}} ===
+
+* Default value : {{{true}}}
+
+* Description :
+
+This directive enables or disables the generation of the {{{Expires}}} and {{{Cache-Control}}} headers by this ExpiresFilter. If set to {{{Off}}}, the headers will not be generated for any HTTP response. If set to {{{On}}}, the headers will be added to served HTTP responses according to the criteria defined by the {{{ExpiresByType <content-type>}}} and {{{ExpiresDefault}}} directives. 
+ 
+Note that this directive does not guarantee that an {{{Expires}}} or {{{Cache-Control}}} header will be generated. If the criteria aren't met, no header will be sent, and the effect will be as though this directive wasn't even specified.
+
+=== {{{ExpiresByType <content-type>}}} ===
+
+This directive defines the value of the {{{Expires}}}  header and the {{{max-age}}} directive of the {{{Cache-Control}}} header generated for documents of the specified type (_e.g._, {{{text/html}}}). The second argument sets the number of seconds that will be added to a base time to construct the expiration date.  The {{{Cache-Control: max-age}}} is calculated by subtracting the request time from the expiration date and expressing the result in seconds.
+
+The base time is either the last modification time of the file, or the time of the client's access to the document. Which should be used is specified by the {{{<var>&lt;code&gt;</var>}}} field; {{{M}}}  means that the file's last modification time should be used as the base time, and {{{A}}} means the client's access time should be used.
+
+The difference in effect is subtle. If {{{M}}} is used, all current copies of the document in all caches will expire at the same time, which can be good for something like a weekly notice that's always found at the same URL. If {{{A}}} is used, the date of expiration is different for each client; this can be good for image files that don't change very often, particularly for a set of related documents that all refer to the same images (_i.e._, the images will be accessed repeatedly within a relatively short timespan).
+
+*Example:*
+
+Note that this directive only has effect if {{{ExpiresActive On}}} has been specified. It overrides, for the specified MIME type _only_, any expiration date set by the {{{ExpiresDefault}}}  directive.
+
+You can also specify the expiration time calculation using an alternate syntax, described earlier in this document.
+
+= Install / Download =
+
+*1.0.3 is not yet available, please build the snapshot*
+
+ * Maven Project, add the following to {{{pom.xml}}}
+{{{
+<project ...>
+   ...
+   <repositories>
+      <repository>
+      	<id>xebia-france-googlecode-repository</id>
+      	<url>http://xebia-france.googlecode.com/svn/repository/maven2/</url>
+      </repository>
+   </repositories>
+   ...
+   <dependencies>
+      ...
+      <dependency>
+         <groupId>fr.xebia.web.extras</groupId>
+         <artifactId>xebia-servlet-extras</artifactId>
+         <version>1.0.3</version>
+         <scope>runtime</scope>
+      </dependency>
+      ...
+   </dependencies>
+   ...
+</project>
+}}}
+ * Jar : Drop the jar [http://xebia-france.googlecode.com/files/xebia-servlet-extras-1.0.3.jar xebia-servlet-extras-1.0.3.jar] ([http://xebia-france.googlecode.com/files/xebia-servlet-extras-1.0.3-sources.jar sources]) in your web application classpath.
+ * Java class : [http://xebia-france.googlecode.com/svn/web/xebia-servlet-extras/tags/xebia-servlet-extras-1.0.3/src/main/java/fr/xebia/servlet/filter/XForwardedFilter.java XForwardedFilter.java]
+ * Java project : {{{svn checkouthttp://xebia-france.googlecode.com/svn/web/xebia-servlet-extras/tags/xebia-servlet-extras-1.0.3/}}}
+
+
+= Implementation Details =
+
+= Troubleshooting =
+
+To troubleshoot
