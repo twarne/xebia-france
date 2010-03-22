@@ -190,6 +190,7 @@ Note :
   ** a content-type without encoding like '{{{text}}}'
 
 To trap the 'before write response body' event, the ExpiresFilter wraps the http servlet response's writer and outputStream to intercept calls to the methods {{{write()}}}, {{{print()}}}, {{{close()}}} and {{{flush()}}}.
+For empty response body (e.g. empty files), the {{{write()}}}, {{{print()}}}, {{{close()}}} and {{{flush()}}} methods are not called; to handle this case, the ExpiresFilter, at the end of its {{{doFilter()}}} method, manually triggers the {{{onBeforeWriteResponseBody()}}} method.
 
 = Troubleshooting =
 
