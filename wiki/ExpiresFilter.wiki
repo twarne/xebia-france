@@ -176,7 +176,7 @@ Note that if you use a modification date based setting, the {{{Expires}}} header
 
 = Implementation Details =
 
-TODO
+The ExpiresFilter traps the 'on before write response body' event to decide whether it should generate expiration headers or not. The decision is based on the 'Content-Type'
 
 = Troubleshooting =
 
@@ -198,7 +198,7 @@ Sample of initialization log message :
          text/css=ExpiresConfiguration[startingPoint=ACCESS_TIME, duration=[10 MINUTE]], \
          text/javascript=ExpiresConfiguration[startingPoint=ACCESS_TIME, duration=[10 MINUTE]], \
          text/html=ExpiresConfiguration[startingPoint=ACCESS_TIME, duration=[5 MINUTE]]}, \
-         active=true]  
+      active=true]  
 }}}
 
 Sample of per-request log message where ExpiresFilter adds an expiration date
