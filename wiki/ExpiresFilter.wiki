@@ -86,6 +86,19 @@ Note that this directive only has effect if {{{ExpiresActive On}}} has been spec
 
 You can also specify the expiration time calculation using an alternate syntax, described earlier in this document.
 
+=== {{{ExpiresExcludedResponseStatusCodes}}} ===
+
+This directive defines the http response status codes for which the ExpiresFilter will not generate expiration headers. By default, the {{{304}} status code ("{{{Not modified}}}") is skipped. The vzlue is a comma separated list of http status codes.
+
+This directive is useful to ease usage of {{{ExpiresDefault}}} directive. Indeed, the behavior of {{{304 Not modified}}} (which does specify a {{{Content-Type}}} header) combined with {{{Expires}}} and {{{Cache-Control:max-age=}}} headers can be unnecessarily tricky to understand.
+
+Configuration sample :
+{{{
+<init-param>
+   <param-name>ExpiresExcludedResponseStatusCodes</param-name><param-value>302, 500, 503</param-value>
+</init-param>
+}}}
+
 = Alternate Syntax =
 
 The {{{ExpiresDefault}}} and {{{ExpiresByType}}} directives can also be defined in a more readable syntax of the form:
@@ -180,6 +193,7 @@ The ExpiresFilter traps the 'on before write response body' event to decide whet
 
 A response is eligible to be enriched by ExpiresFilter if :
   # no expiration header is defined ({{{Expires}}} header or the {{{max-age}}} directive of the {{{Cache-Control}}} header)
+  # the response status code is not excluded by the directive {{{ExpiresExcludedResponseStatusCodes}}}
   # The {{{Content-Type}}} of the response matches one of the types defined the in {{{ExpiresByType}}} directives or the {{{ExpiresDefault}}} directive is defined
 
 Note : 
