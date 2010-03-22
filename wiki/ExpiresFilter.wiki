@@ -1,11 +1,7 @@
 #summary ExpiresFilter is a Java Servlet API port of Apache mod_expires to add 'Expires' and 'Cache-Control: max-age=' headers to HTTP response according to its 'Content-Type'
 #labels Featured,Phase-Implementation
 
-Port of [http://httpd.apache.org/docs/2.2/mod/mod_expires.html Apache mod_expires]. Following documentation is inspired by {{{mod_expires}}} .
-
-= Description =
-
-Add your content here.
+Following documentation is inspired by {{{mod_expires}}} .
 
 = Summary =
 
@@ -90,7 +86,7 @@ Note that this directive only has effect if {{{ExpiresActive On}}} has been spec
 
 You can also specify the expiration time calculation using an alternate syntax, described earlier in this document.
 
-== Alternative Syntax ==
+= Alternate Syntax =
 
 The {{{ExpiresDefault}}} and {{{ExpiresByType}}} directives can also be defined in a more readable syntax of the form:
 {{{
