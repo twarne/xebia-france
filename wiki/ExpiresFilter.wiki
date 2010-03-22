@@ -176,7 +176,20 @@ Note that if you use a modification date based setting, the {{{Expires}}} header
 
 = Implementation Details =
 
-The ExpiresFilter traps the 'on before write response body' event to decide whether it should generate expiration headers or not. The decision is based on the 'Content-Type'
+The ExpiresFilter traps the 'on before write response body' event to decide whether it should generate expiration headers or not. 
+
+A response is eligible to be enriched by ExpiresFilter if :
+  # no expiration header is defined ({{{Expires}}} header or the {{{max-age}}} directive of the {{{Cache-Control}}} header)
+  # The {{{Content-Type}}} of the response matches one of the types defined the in {{{ExpiresByType}}} directives or the {{{ExpiresDefault}}} directive is defined
+
+Note : 
+  * If {{{Cache-Control}}} header contains other directives than {{{max-age}}}, they are concatenated with the {{{max-age}}} directive that is added by the ExpiresFilter
+  * The type declared in a  {{{ExpiresByType}}} directive can be 
+  ** a content-type with encoding like '{{{text/xml;charset=UTF-8}}}'
+  ** a content-type without encoding like '{{{text/xm}}}'
+  ** a content-type without encoding like '{{{text}}}'
+
+To trap the 'before write response body' event, the ExpiresFilter wraps the http servlet response's writer and outputStream to intercept calls to the methods {{{write()}}}, {{{print()}}}, {{{close()}}} and {{{flush()}}}.
 
 = Troubleshooting =
 
