@@ -40,11 +40,12 @@ The filter will process the {{{x-forwarded-for}}} http header.
          <param-value>access plus 10 minutes</param-value>
       </init-param>
    </filter>
-
-   <filter>
-      <filter-name>springSecurityFilterChain</filter-name>
-      <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
-   </filter>
+   ...
+   <filter-mapping>
+      <filter-name>ExpiresFilter</filter-name>
+      <url-pattern>/*</url-pattern>
+      <dispatcher>REQUEST</dispatcher>
+   </filter-mapping>
    ...
 </web-app>
 }}}
@@ -53,13 +54,27 @@ The filter will process the {{{x-forwarded-for}}} http header.
 
 === {{{ExpiresActive}}} ===
 
-* Default value : {{{true}}}
-
-* Description :
-
-This directive enables or disables the generation of the {{{Expires}}} and {{{Cache-Control}}} headers by this ExpiresFilter. If set to {{{Off}}}, the headers will not be generated for any HTTP response. If set to {{{On}}}, the headers will be added to served HTTP responses according to the criteria defined by the {{{ExpiresByType <content-type>}}} and {{{ExpiresDefault}}} directives. 
+This directive enables or disables the generation of the {{{Expires}}} and {{{Cache-Control}}} headers by this ExpiresFilter. If set to {{{Off}}}, the headers will not be generated for any HTTP response. If set to {{{On}}} or {{{true}}}, the headers will be added to served HTTP responses according to the criteria defined by the {{{ExpiresByType <content-type>}}} and {{{ExpiresDefault}}} directives. 
  
 Note that this directive does not guarantee that an {{{Expires}}} or {{{Cache-Control}}} header will be generated. If the criteria aren't met, no header will be sent, and the effect will be as though this directive wasn't even specified.
+
+This parameter is optional, default value is {{{true}}}.
+
+_Enable filter_
+{{{
+<init-param>
+   <!-- supports case insensitive 'On' or 'true' -->
+   <param-name>ExpiresActive</param-name><param-value>On</param-value>
+</init-param>
+}}}
+
+_Disable filter_
+{{{
+<init-param>
+   <!-- supports anything different from case insensitive 'On' and 'true' -->
+   <param-name>ExpiresActive</param-name><param-value>Off</param-value>
+</init-param>
+}}}
 
 === {{{ExpiresByType <content-type>}}} ===
 
@@ -74,6 +89,61 @@ The difference in effect is subtle. If {{{M}}} is used, all current copies of th
 Note that this directive only has effect if {{{ExpiresActive On}}} has been specified. It overrides, for the specified MIME type _only_, any expiration date set by the {{{ExpiresDefault}}}  directive.
 
 You can also specify the expiration time calculation using an alternate syntax, described earlier in this document.
+
+== Alternative Syntax ==
+
+The {{{ExpiresDefault}}} and {{{ExpiresByType}}} directives can also be defined in a more readable syntax of the form:
+{{{
+<init-param>
+   <param-name>ExpiresDefault</param-name><param-value><base> [plus] {<num>   <type>}*</param-value>
+</init-param>
+
+<init-param>
+   <param-name>ExpiresByType type/encoding</param-name><param-value><base> [plus]   {<num> <type>}*</param-value>
+</init-param>
+}}}
+
+where {{{<base>}}} is one of:
+  * {{{access}}}
+  * {{{now}}} (equivalent to '{{{access}}}')
+  * {{{modification}}}
+
+The {{{plus}}} keyword is optional. {{{<num>}}} should be an integer value (acceptable to {{{Integer.parseInt()}}}), and {{{<type>}}} is one of:
+  * {{{years}}}
+  * {{{months}}}
+  * {{{weeks}}}
+  * {{{days}}}
+  * {{{hours}}}
+  * {{{minutes}}}
+  * {{{seconds}}}
+  
+For example, any of the following directives can be used to make documents expire 1 month after being accessed, by default:
+{{{
+<init-param>
+   <param-name>ExpiresDefault</param-name><param-value>access plus 1 month</param-value>
+</init-param>
+
+<init-param>
+   <param-name>ExpiresDefault</param-name><param-value>access plus 4 weeks</param-value>
+</init-param>
+
+<init-param>
+   <param-name>ExpiresDefault</param-name><param-value>access plus 30 days</param-value>
+</init-param>
+}}}
+
+The expiry time can be fine-tuned by adding several '{{{<num> <type>}}}' clauses:
+{{{
+<init-param>
+   <param-name>ExpiresByType text/html</param-name><param-value>access plus 1 month 15   days 2 hours</param-value>
+</init-param>
+
+<init-param>
+   <param-name>ExpiresByType image/gif</param-name><param-value>modification plus 5 hours 3   minutes</param-value>
+</init-param>
+}}}
+
+Note that if you use a modification date based setting, the {{{Expires}}} header will *not* be added to content that does not come from a file on disk. This is due to the fact that there is no modification time for such content.
 
 = Install / Download =
 
