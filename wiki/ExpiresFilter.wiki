@@ -197,7 +197,8 @@ Sample of initialization log message :
          image=ExpiresConfiguration[startingPoint=ACCESS_TIME, duration=[10 MINUTE]], \
          text/css=ExpiresConfiguration[startingPoint=ACCESS_TIME, duration=[10 MINUTE]], \
          text/javascript=ExpiresConfiguration[startingPoint=ACCESS_TIME, duration=[10 MINUTE]], \
-         text/html=ExpiresConfiguration[startingPoint=ACCESS_TIME, duration=[5 MINUTE]]}, active=true]  
+         text/html=ExpiresConfiguration[startingPoint=ACCESS_TIME, duration=[5 MINUTE]]}, \
+         active=true]  
 }}}
 
 Sample of per-request log message where ExpiresFilter adds an expiration date
