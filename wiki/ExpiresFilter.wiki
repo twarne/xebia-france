@@ -76,11 +76,28 @@ _Disable filter_
 
 This directive defines the value of the {{{Expires}}}  header and the {{{max-age}}} directive of the {{{Cache-Control}}} header generated for documents of the specified type (_e.g._, {{{text/html}}}). The second argument sets the number of seconds that will be added to a base time to construct the expiration date.  The {{{Cache-Control: max-age}}} is calculated by subtracting the request time from the expiration date and expressing the result in seconds.
 
-The base time is either the last modification time of the file, or the time of the client's access to the document. Which should be used is specified by the {{{<var>&lt;code&gt;</var>}}} field; {{{M}}}  means that the file's last modification time should be used as the base time, and {{{A}}} means the client's access time should be used.
+The base time is either the last modification time of the file, or the time of the client's access to the document. Which should be used is specified by the {{{<code>}}} field; {{{M}}}  means that the file's last modification time should be used as the base time, and {{{A}}} means the client's access time should be used.
 
 The difference in effect is subtle. If {{{M}}} is used, all current copies of the document in all caches will expire at the same time, which can be good for something like a weekly notice that's always found at the same URL. If {{{A}}} is used, the date of expiration is different for each client; this can be good for image files that don't change very often, particularly for a set of related documents that all refer to the same images (_i.e._, the images will be accessed repeatedly within a relatively short timespan).
 
 *Example:*
+{{{
+<init-param>
+   <param-name>ExpiresByType text/html</param-name><param-value>access plus 1 month 15   days 2 hours</param-value>
+</init-param>
+
+<init-param>
+   <param-name>ExpiresByType image/gif</param-name><param-value>A2592000</param-value>
+</init-param>
+}}}
+
+{{{
+# expire GIF images after a month in the client's cache
+ExpiresByType image/gif 
+# HTML documents are good for a week from the
+# time they were changed
+ExpiresByType text/html 
+}}}
 
 Note that this directive only has effect if {{{ExpiresActive On}}} has been specified. It overrides, for the specified MIME type _only_, any expiration date set by the {{{ExpiresDefault}}}  directive.
 
@@ -88,7 +105,7 @@ You can also specify the expiration time calculation using an alternate syntax, 
 
 === {{{ExpiresExcludedResponseStatusCodes}}} ===
 
-This directive defines the http response status codes for which the ExpiresFilter will not generate expiration headers. By default, the {{{304}} status code ("{{{Not modified}}}") is skipped. The vzlue is a comma separated list of http status codes.
+This directive defines the http response status codes for which the ExpiresFilter will not generate expiration headers. By default, the {{{304}}} status code ("{{{Not modified}}}") is skipped. The vzlue is a comma separated list of http status codes.
 
 This directive is useful to ease usage of {{{ExpiresDefault}}} directive. Indeed, the behavior of {{{304 Not modified}}} (which does specify a {{{Content-Type}}} header) combined with {{{Expires}}} and {{{Cache-Control:max-age=}}} headers can be unnecessarily tricky to understand.
 
