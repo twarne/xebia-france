@@ -242,6 +242,14 @@ Key methods to override for extension are :
   * {{{protected boolean isEligibleToExpirationHeaderGeneration(HttpServletRequest request, XHttpServletResponse response)}}}
   * {{{protected Date getExpirationDate(HttpServletRequest request, XHttpServletResponse response)}}}
 
+== Performances ==
+
+The `ExpiresFilter` has been extensively profiled, the largest cost of the filter is now the invocation of {{{Response.setHeader(name, value)}}} to set the {{{Expires}}} and {{{Cache-Control:max-age=}}} headers. The core business logic of `ExpiresFilter`is largely cheaper than these {{{setHeader(...)}}} calls that are delegated to the underlying servlet engines.
+
+== Tests ==
+
+The `ExpiresFilter` has been unit tested with Jetty, profiled with Tomcat 6.0.24 and Tomcat 7.0 trunk and used with Tomcat 6.0.20.
+
 = Troubleshooting =
 
 To troubleshoot, enable logging on the {{{fr.xebia.servlet.filter.ExpiresFilter}}}. Logging relies on SLF4J.
