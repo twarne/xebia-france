@@ -9,7 +9,7 @@ This filter controls the setting of the {{{Expires}}}  HTTP header and the {{{ma
 
 These HTTP headers are an instruction to the client about the document's validity and persistence. If cached, the document may be fetched from the cache rather than from the source until this time has passed. After that, the cache copy is considered "expired" and invalid, and a new copy must be obtained from the source.
 
-To modify {{{Cache-Control}}} directives other than {{{max-age}}} (see [http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9" RFC 2616 section 14.9]), you can use other servlet filters or [http://httpd.apache.org/docs/2.2/mod/mod_headers.html Apache Httpd mod_headers] module.
+To modify {{{Cache-Control}}} directives other than {{{max-age}}} (see [http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9 RFC 2616 section 14.9]), you can use other servlet filters or [http://httpd.apache.org/docs/2.2/mod/mod_headers.html Apache Httpd mod_headers] module.
 
 = Filter Configuration =
 
