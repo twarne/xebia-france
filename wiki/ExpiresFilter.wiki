@@ -50,7 +50,7 @@ The filter will process the {{{x-forwarded-for}}} http header.
 
 === {{{ExpiresActive}}} ===
 
-This directive enables or disables the generation of the {{{Expires}}} and {{{Cache-Control}}} headers by this ExpiresFilter. If set to {{{Off}}}, the headers will not be generated for any HTTP response. If set to {{{On}}} or {{{true}}}, the headers will be added to served HTTP responses according to the criteria defined by the {{{ExpiresByType <content-type>}}} and {{{ExpiresDefault}}} directives. 
+This directive enables or disables the generation of the {{{Expires}}} and {{{Cache-Control}}} headers by this `ExpiresFilter`. If set to {{{Off}}}, the headers will not be generated for any HTTP response. If set to {{{On}}} or {{{true}}}, the headers will be added to served HTTP responses according to the criteria defined by the {{{ExpiresByType <content-type>}}} and {{{ExpiresDefault}}} directives. 
  
 Note that this directive does not guarantee that an {{{Expires}}} or {{{Cache-Control}}} header will be generated. If the criteria aren't met, no header will be sent, and the effect will be as though this directive wasn't even specified.
 
@@ -98,7 +98,7 @@ You can also specify the expiration time calculation using an alternate syntax, 
 
 === {{{ExpiresExcludedResponseStatusCodes}}} ===
 
-This directive defines the http response status codes for which the ExpiresFilter will not generate expiration headers. By default, the {{{304}}} status code ("{{{Not modified}}}") is skipped. The value is a comma separated list of http status codes.
+This directive defines the http response status codes for which the `ExpiresFilter` will not generate expiration headers. By default, the {{{304}}} status code ("{{{Not modified}}}") is skipped. The value is a comma separated list of http status codes.
 
 This directive is useful to ease usage of {{{ExpiresDefault}}} directive. Indeed, the behavior of {{{304 Not modified}}} (which does specify a {{{Content-Type}}} header) combined with {{{Expires}}} and {{{Cache-Control:max-age=}}} headers can be unnecessarily tricky to understand.
 
@@ -166,13 +166,13 @@ Note that if you use a modification date based setting, the {{{Expires}}} header
 
 = Expiration headers generation eligibility =
 
-A response is eligible to be enriched by ExpiresFilter if :
+A response is eligible to be enriched by `ExpiresFilter` if :
   # no expiration header is defined ({{{Expires}}} header or the {{{max-age}}} directive of the {{{Cache-Control}}} header),
   # the response status code is not excluded by the directive {{{ExpiresExcludedResponseStatusCodes}}},
   # The {{{Content-Type}}} of the response matches one of the types defined the in {{{ExpiresByType}}} directives or the {{{ExpiresDefault}}} directive is defined.
 
 Note : 
-  * If {{{Cache-Control}}} header contains other directives than {{{max-age}}}, they are concatenated with the {{{max-age}}} directive that is added by the ExpiresFilter.
+  * If {{{Cache-Control}}} header contains other directives than {{{max-age}}}, they are concatenated with the {{{max-age}}} directive that is added by the `ExpiresFilter`.
 
 
 = Expiration configuration selection =
@@ -221,14 +221,14 @@ The expiration configuration if elected according to the following algorithm:
 
 == When to write the expiration headers ? ==
 
-The ExpiresFilter traps the 'on before write response body' event to decide whether it should generate expiration headers or not. 
+The `ExpiresFilter` traps the 'on before write response body' event to decide whether it should generate expiration headers or not. 
 
-To trap the 'before write response body' event, the ExpiresFilter wraps the http servlet response's writer and outputStream to intercept calls to the methods {{{write()}}}, {{{print()}}}, {{{close()}}} and {{{flush()}}}.
-For empty response body (e.g. empty files), the {{{write()}}}, {{{print()}}}, {{{close()}}} and {{{flush()}}} methods are not called; to handle this case, the ExpiresFilter, at the end of its {{{doFilter()}}} method, manually triggers the {{{onBeforeWriteResponseBody()}}} method.
+To trap the 'before write response body' event, the `ExpiresFilter` wraps the http servlet response's writer and outputStream to intercept calls to the methods {{{write()}}}, {{{print()}}}, {{{close()}}} and {{{flush()}}}.
+For empty response body (e.g. empty files), the {{{write()}}}, {{{print()}}}, {{{close()}}} and {{{flush()}}} methods are not called; to handle this case, the `ExpiresFilter`, at the end of its {{{doFilter()}}} method, manually triggers the {{{onBeforeWriteResponseBody()}}} method.
 
 == Configuration syntax ==
 
-The ExpiresFilter supports the same configuration syntax as Apache Httpd mod_expires.
+The `ExpiresFilter` supports the same configuration syntax as Apache Httpd mod_expires.
 
 A challenge has been to choose the name of the {{{<param-name>}}} associated with {{{ExpiresByType}}} in the {{{<filter>}}} declaration. Indeed, Several {{{ExpiresByType}}} directives can be declared when {{{web.xml}}} syntax does not allow to declare several {{{<init-param>}}} with the same name.
 
@@ -236,7 +236,7 @@ The workaround has been to declare the content type in the {{{<param-name>}}} ra
 
 == Designed for extension : the open/close principle ==
 
-The ExpiresFilter has been designed for extension following the open/close principle.
+The `ExpiresFilter` has been designed for extension following the open/close principle.
 
 Key methods to override for extension are :
   * {{{protected boolean isEligibleToExpirationHeaderGeneration(HttpServletRequest request, XHttpServletResponse response)}}}
@@ -264,13 +264,13 @@ Sample of initialization log message :
       text/html=ExpiresConfiguration[startingPoint=ACCESS_TIME, duration=[5 MINUTE]]}]  
 }}}
 
-Sample of per-request log message where ExpiresFilter adds an expiration date
+Sample of per-request log message where `ExpiresFilter` adds an expiration date
 {{{
 2010/03/24 18:43:34,586 DEBUG [http-8080-1] fr.xebia.servlet.filter.ExpiresFilter - 
    Request '/' with response status '200' content-type 'text/html‘, set expiration date Wed Mar 24 18:48:34 CET 2010  
 }}}
 
-Sample of per-request log message where ExpiresFilter does not add an expiration date
+Sample of per-request log message where `ExpiresFilter` does not add an expiration date
 {{{
 2010/03/24 18:43:34,564 DEBUG [http-8080-2] fr.xebia.servlet.filter.ExpiresFilter - 
    Request '/services/helloWorldService' with response status '200' content-type 'text/xml;charset=UTF-8‘ status , no expiration configured  
