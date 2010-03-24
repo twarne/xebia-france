@@ -234,6 +234,13 @@ A challenge has been to choose the name of the {{{<param-name>}}} associated wit
 
 The workaround has been to declare the content type in the {{{<param-name>}}} rather than in the {{{<param-value>}}}.
 
+== Designed for extension : the open/close principle ==
+
+The ExpiresFilter has been designed for extension following the open/close principle.
+
+Key methods to override for extension are :
+  * {{{protected boolean isEligibleToExpirationHeaderGeneration(HttpServletRequest request, XHttpServletResponse response)}}}
+  * {{{protected Date getExpirationDate(HttpServletRequest request, XHttpServletResponse response)}}}
 
 = Troubleshooting =
 
