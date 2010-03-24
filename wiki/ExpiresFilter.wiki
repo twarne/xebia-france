@@ -164,6 +164,26 @@ The expiry time can be fine-tuned by adding several '{{{<num> <type>}}}' clauses
 
 Note that if you use a modification date based setting, the {{{Expires}}} header will *not* be added to content that does not come from a file on disk. This is due to the fact that there is no modification time for such content.
 
+= Expiration headers generation eligibility =
+
+A response is eligible to be enriched by ExpiresFilter if :
+  # no expiration header is defined ({{{Expires}}} header or the {{{max-age}}} directive of the {{{Cache-Control}}} header),
+  # the response status code is not excluded by the directive {{{ExpiresExcludedResponseStatusCodes}}},
+  # The {{{Content-Type}}} of the response matches one of the types defined the in {{{ExpiresByType}}} directives or the {{{ExpiresDefault}}} directive is defined.
+
+Note : 
+  * If {{{Cache-Control}}} header contains other directives than {{{max-age}}}, they are concatenated with the {{{max-age}}} directive that is added by the ExpiresFilter.
+
+
+= Expiration configuration selection =
+
+The expiration configuration if elected according to the following algorithm:
+  # {{{ExpiresByType}}} matching the exact content-type returned by {{{HttpServletResponse.getContentType()}}} possibly including the charset (e.g. '{{{text/xml;charset=UTF-8}}}'),
+  # {{{ExpiresByType}}} matching the content-type without the charset if {{{HttpServletResponse.getContentType()}}} contains a charset (e.g. '{{{text/xml;charset=UTF-8}}}' ->  '{{{text/xml}}}'),
+  # {{{ExpiresByType}}} matching the major type (e.g. substring before '{{{/}}}') of {{{HttpServletResponse.getContentType()}}} (e.g. '{{{text/xml;charset=UTF-8}}}' ->  '{{{text}}}'),
+  # {{{ExpiresDefault}}}
+
+
 = Install / Download =
 
 *1.0.3 is not yet available, please build the snapshot*
@@ -199,22 +219,21 @@ Note that if you use a modification date based setting, the {{{Expires}}} header
 
 = Implementation Details =
 
+== When to write the expiration headers ? ==
+
 The ExpiresFilter traps the 'on before write response body' event to decide whether it should generate expiration headers or not. 
-
-A response is eligible to be enriched by ExpiresFilter if :
-  # no expiration header is defined ({{{Expires}}} header or the {{{max-age}}} directive of the {{{Cache-Control}}} header)
-  # the response status code is not excluded by the directive {{{ExpiresExcludedResponseStatusCodes}}}
-  # The {{{Content-Type}}} of the response matches one of the types defined the in {{{ExpiresByType}}} directives or the {{{ExpiresDefault}}} directive is defined
-
-Note : 
-  * If {{{Cache-Control}}} header contains other directives than {{{max-age}}}, they are concatenated with the {{{max-age}}} directive that is added by the ExpiresFilter
-  * The type declared in a  {{{ExpiresByType}}} directive can be 
-  ** a content-type with encoding like '{{{text/xml;charset=UTF-8}}}'
-  ** a content-type without encoding like '{{{text/xm}}}'
-  ** a content-type without encoding like '{{{text}}}'
 
 To trap the 'before write response body' event, the ExpiresFilter wraps the http servlet response's writer and outputStream to intercept calls to the methods {{{write()}}}, {{{print()}}}, {{{close()}}} and {{{flush()}}}.
 For empty response body (e.g. empty files), the {{{write()}}}, {{{print()}}}, {{{close()}}} and {{{flush()}}} methods are not called; to handle this case, the ExpiresFilter, at the end of its {{{doFilter()}}} method, manually triggers the {{{onBeforeWriteResponseBody()}}} method.
+
+== Configuration syntax ==
+
+The ExpiresFilter supports the same configuration syntax as Apache Httpd mod_expires.
+
+A challenge has been to choose the name of the {{{<param-name>}}} associated with {{{ExpiresByType}}} in the {{{<filter>}}} declaration. Indeed, Several {{{ExpiresByType}}} directives can be declared when {{{web.xml}}} syntax does not allow to declare several {{{<init-param>}}} with the same name.
+
+The workaround has been to declare the content type in the {{{<param-name>}}} rather than in the {{{<param-value>}}}.
+
 
 = Troubleshooting =
 
