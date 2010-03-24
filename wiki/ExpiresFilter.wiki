@@ -253,26 +253,25 @@ log4j.logger.fr.xebia.servlet.filter.ExpiresFilter=DEBUG
 
 Sample of initialization log message :
 {{{
-
-2010/03/22 02:01:34,333  INFO [main] fr.xebia.servlet.filter.ExpiresFilter - Filter initialized with configuration  \
-   ExpiresFilter[ \
-      default=null, \
-      byType={ \
-         image=ExpiresConfiguration[startingPoint=ACCESS_TIME, duration=[10 MINUTE]], \
-         text/css=ExpiresConfiguration[startingPoint=ACCESS_TIME, duration=[10 MINUTE]], \
-         text/javascript=ExpiresConfiguration[startingPoint=ACCESS_TIME, duration=[10 MINUTE]], \
-         text/html=ExpiresConfiguration[startingPoint=ACCESS_TIME, duration=[5 MINUTE]]}, \
-      active=true]  
+2010/03/24 18:18:12,637  INFO [main] fr.xebia.servlet.filter.ExpiresFilter - Filter initialized with configuration ExpiresFilter[
+   active=true, 
+   excludedResponseStatusCode=[304], 
+   default=null, 
+   byType={
+      image=ExpiresConfiguration[startingPoint=ACCESS_TIME, duration=[10 MINUTE]], 
+      text/css=ExpiresConfiguration[startingPoint=ACCESS_TIME, duration=[10 MINUTE]], 
+      text/javascript=ExpiresConfiguration[startingPoint=ACCESS_TIME, duration=[10 MINUTE]], 
+      text/html=ExpiresConfiguration[startingPoint=ACCESS_TIME, duration=[5 MINUTE]]}]  
 }}}
 
 Sample of per-request log message where ExpiresFilter adds an expiration date
 {{{
-2010/03/22 02:04:47,329 DEBUG [http-8080-1] fr.xebia.servlet.filter.ExpiresFilter - Request '/my.css' \
-   with content-type 'text/css‘, set expiration date Mon Mar 22 02:14:47 CET 2010  
+2010/03/24 18:43:34,586 DEBUG [http-8080-1] fr.xebia.servlet.filter.ExpiresFilter - 
+   Request '/' with response status '200' content-type 'text/html‘, set expiration date Wed Mar 24 18:48:34 CET 2010  
 }}}
 
 Sample of per-request log message where ExpiresFilter does not add an expiration date
 {{{
-2010/03/22 02:06:20,946 DEBUG [http-8080-2] fr.xebia.servlet.filter.ExpiresFilter - Request '/services/helloWorldService' \
-   with content-type 'text/xml;charset=UTF-8‘, no expiration configured for given content-type  
+2010/03/24 18:43:34,564 DEBUG [http-8080-2] fr.xebia.servlet.filter.ExpiresFilter - 
+   Request '/services/helloWorldService' with response status '200' content-type 'text/xml;charset=UTF-8‘ status , no expiration configured  
 }}}
