@@ -31,20 +31,34 @@ import javax.servlet.http.HttpServletResponseWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** This filter checks if the Http response and ban IP address in case of authentication error.
- * If the Http Response status is 401 (unauthorized), 403 (Forbidden) or custom defined response, the IP address is added to
- * the list of failed attempts.
- * If the number of failed attempts for the client IP address is greater than the number of maximum retry, the connection
- * attempt is rejected (returns 403 error).
- *
- * The failureResponseStatusCodes filter property defines a comma separated list of Http Response status that implies a
- * failed connection attempt.
- *
- * The maxRetry property defines the maximum number of failed attempts to connect (default is 10).
- *
+/**
+ * <p>
+ * This filter checks if the Http response and ban IP address in case of
+ * authentication error.
+ * </p>
+ * <p>
+ * If the Http Response status is 401/unauthorized or 403/Forbidden
+ * (configurable codes), the IP address is added to the list of failed attempts.
+ * If the number of failed attempts for the client IP address is greater than
+ * the number of maximum retry, the connection attempt is rejected (returns a
+ * 403 error).
+ * </p>
+ * <p>
+ * The {@link #failureResponseStatusCodes} filter property defines a comma
+ * separated list of Http response status that implies a failed connection
+ * attempt.
+ * </p>
+ * <p>
+ * The maxRetry property defines the maximum number of failed attempts to
+ * connect (default is 10).
+ * </p>
+ * <p>
  * Example of web.xml :
+ * </p>
+ * 
+ * <pre>
+ * <code>
  * <filter>
- *   <filter-name>IP Banner</filter-name>
  *   <display-name>IP Banner</display-name>
  *   <filter-class>fr.xebia.ipbanner.IpBannerFilter</filter-class>
  *   <init-param>
@@ -54,7 +68,7 @@ import org.slf4j.LoggerFactory;
  *   <init-param>
  *     <param-name>failureRequestAttributeName</param-name>
  *     <param-value>IpBannerFilter.failure</param-value>
- *   </init-param>>
+ *   </init-param>
  *   <init-param>
  *     <param-name>maxRetry</param-name>
  *     <param-value>10</param-value>
@@ -64,12 +78,15 @@ import org.slf4j.LoggerFactory;
  *     <param-value>60</param-value>
  *   </init-param>
  * </filter>
- *
+ * </code>
+ * </pre>
+ * 
  * @author <a href="mailto:cyrille@cyrilleleclerc.com">Cyrille Le Clerc</a>
  */
 public class IpBannerFilter implements Filter {
 
-    /** Wrap the HttpServletResponse to get the http response status.
+    /**
+     * Wrap the HttpServletResponse to get the http response status.
      */
     public static class XHttpServletResponse extends HttpServletResponseWrapper {
 
@@ -139,7 +156,7 @@ public class IpBannerFilter implements Filter {
 
     private static final String BAN_TIME_PARAMETER = "banTimeInSecond";
 
-    private static final int DEFAULT_BAN_TIME = 60; 
+    private static final int DEFAULT_BAN_TIME = 60;
 
     /**
      * Convert a comma delimited list of numbers into an <tt>int[]</tt>.
@@ -222,15 +239,17 @@ public class IpBannerFilter implements Filter {
 
             if (ipBanner.isIpBanned(ip)) {
 
-                StringBuilder msg = new StringBuilder("Reject request ");
-                msg.append(request.getMethod()).append(" ");
-                msg.append(request.getRequestURL());
-                if (request.getQueryString() != null) {
-                    msg.append("?").append(request.getQueryString());
+                if (logger.isInfoEnabled()) {
+                    StringBuilder msg = new StringBuilder("Reject request ");
+                    msg.append(request.getMethod()).append(" ");
+                    msg.append(request.getRequestURL());
+                    if (request.getQueryString() != null) {
+                        msg.append("?").append(request.getQueryString());
+                    }
+                    msg.append(" emmitted by ip ").append(ip);
+                    logger.info(msg.toString());
                 }
-                msg.append(" emmitted by ip ").append(ip);
-                logger.info(msg.toString());
-
+                
                 response.sendError(HttpServletResponse.SC_FORBIDDEN, "Banned ip");
                 return;
             }
