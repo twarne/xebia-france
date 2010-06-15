@@ -16,6 +16,7 @@
 package fr.xebia.springframework.security.fail2ban;
 
 import fr.xebia.ipbanner.IpBanner;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.context.ApplicationListener;
 import org.springframework.security.authentication.event.AbstractAuthenticationFailureEvent;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
@@ -32,5 +33,10 @@ public class IpBannerAuthenticationFailureListener implements ApplicationListene
             String remoteAddr = details.getRemoteAddress();
             ipBanner.incrementFailureCounter(remoteAddr);
         }
+    }
+
+    @Required
+    public void setIpBanner(IpBanner ipBanner) {
+        this.ipBanner = ipBanner;
     }
 }

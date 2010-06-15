@@ -16,6 +16,7 @@
 package fr.xebia.springframework.security.fail2ban;
 
 import fr.xebia.ipbanner.IpBanner;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.filter.GenericFilterBean;
 
 import javax.servlet.*;
@@ -50,6 +51,7 @@ public class IpBannerFilter extends GenericFilterBean implements Filter {
         }
     }
 
+    @Required
     public void setIpBanner(IpBanner ipBanner) {
         this.ipBanner = ipBanner;
     }
