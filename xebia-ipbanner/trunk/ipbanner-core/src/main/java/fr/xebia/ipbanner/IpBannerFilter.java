@@ -39,6 +39,12 @@ import org.slf4j.LoggerFactory;
  * <p>
  * If the Http Response status is 401/unauthorized or 403/Forbidden
  * (configurable codes), the IP address is added to the list of failed attempts.
+ * <br/>
+ * If the request contains a failureRequest attribute (defined by
+ * failureRequestAttributeName), the filter will consider
+ * the authentication request to be failed and the IP address is added to the
+ * list of failed attempts.
+ * <br/>
  * If the number of failed attempts for the client IP address is greater than
  * the number of maximum retry, the connection attempt is rejected (returns a
  * 403 error).
@@ -51,6 +57,9 @@ import org.slf4j.LoggerFactory;
  * <p>
  * The maxRetry property defines the maximum number of failed attempts to
  * connect (default is 10).
+ * <br/>
+ * The bucketTimeToLive property defines the time in seconds that a IP address
+ * stays in the list of address with failed authentications attempts.
  * </p>
  * <p>
  * Example of web.xml :
@@ -58,26 +67,30 @@ import org.slf4j.LoggerFactory;
  * 
  * <pre>
  * <code>
- * <filter>
- *   <display-name>IP Banner</display-name>
- *   <filter-class>fr.xebia.ipbanner.IpBannerFilter</filter-class>
- *   <init-param>
- *     <param-name>failureResponseStatusCodes</param-name>
- *     <param-value>401,403</param-value>
- *   </init-param
- *   <init-param>
- *     <param-name>failureRequestAttributeName</param-name>
- *     <param-value>IpBannerFilter.failure</param-value>
- *   </init-param>
- *   <init-param>
- *     <param-name>maxRetry</param-name>
- *     <param-value>10</param-value>
- *   </init-param>
- *   <init-param>
- *     <param-name>banTimeInSecond</param-name>
- *     <param-value>60</param-value>
- *   </init-param>
- * </filter>
+ * &lt;filter&gt;
+ *   &lt;display-name&gt;IP Banner&lt;/display-name&gt;
+ *   &lt;filter-class&gt;fr.xebia.ipbanner.IpBannerFilter&lt;/filter-class&gt;
+ *   &lt;init-param&gt;
+ *     &lt;param-name&gt;failureResponseStatusCodes&lt;/param-name&gt;
+ *     &lt;param-value&gt;401,403&lt;/param-value&gt;
+ *   &lt;/init-param
+ *   &lt;init-param&gt;
+ *     &lt;param-name&gt;failureRequestAttributeName&lt;/param-name&gt;
+ *     &lt;param-value&gt;IpBannerFilter.failure&lt;/param-value&gt;
+ *   &lt;/init-param&gt;
+ *   &lt;init-param&gt;
+ *     &lt;param-name&gt;maxRetry&lt;/param-name&gt;
+ *     &lt;param-value&gt;10&lt;/param-value&gt;
+ *   &lt;/init-param&gt;
+ *   &lt;init-param&gt;
+ *     &lt;param-name&gt;banTimeInSecond&lt;/param-name&gt;
+ *     &lt;param-value&gt;60&lt;/param-value&gt;
+ *   &lt;/init-param&gt;
+ *   &lt;init-param&gt;
+ *     &lt;param-name&gt;bucketTimeToLive&lt;/param-name&gt;
+ *     &lt;param-value&gt;600&lt;/param-value&gt;
+ *   &lt;/init-param&gt;
+ * &lt;/filter&gt;
  * </code>
  * </pre>
  * 
@@ -157,6 +170,10 @@ public class IpBannerFilter implements Filter {
     private static final String BAN_TIME_PARAMETER = "banTimeInSecond";
 
     private static final int DEFAULT_BAN_TIME = 60;
+
+    private static final String BUCKET_TIME_TO_LIVE = "bucketTimeToLive";
+
+    public static final int DEFAULT_BUCKET_TIME_TO_LIVE = 600;
 
     /**
      * Convert a comma delimited list of numbers into an <tt>int[]</tt>.
@@ -305,10 +322,12 @@ public class IpBannerFilter implements Filter {
 
         ipBanner = new IpBanner();
 
-        ipBanner.initialize();
 
         ipBanner.setMaxRetry(getIntParameter(filterConfig, MAX_RETRY_PARAMETER, DEFAULT_MAX_RETRY));
         ipBanner.setBanTimeInSeconds(getIntParameter(filterConfig, BAN_TIME_PARAMETER, DEFAULT_BAN_TIME));
+        ipBanner.setFindTimeInSeconds(getIntParameter(filterConfig, BUCKET_TIME_TO_LIVE, DEFAULT_BUCKET_TIME_TO_LIVE));
+
+        ipBanner.initialize();
 
     }
 
