@@ -38,6 +38,11 @@ configurable amount of time. The life time for a bucket is defined by filter
 parameter bucketTimeToLive.
 
 = How to use it =
+== Filter installation ==
+=== Manual installation ===
+TODO.
+=== Maven dependency ===
+TODO
 == Filter configuration ==
 The filter is defined in your application 'web.xml' :
 {{{
