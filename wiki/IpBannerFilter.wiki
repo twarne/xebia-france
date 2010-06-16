@@ -35,7 +35,7 @@ on the next authentication failure, the IP will be directly banned.
 
 IP address are never removed from buckets but buckets are removed after a
 configurable amount of time. The life time for a bucket is defined by filter
-parameter bucketTimeToLeave.
+parameter bucketTimeToLive.
 
 = How to use it =
 == Filter configuration ==
@@ -61,7 +61,7 @@ The filter is defined in your application 'web.xml' :
     <param-value>60</param-value>
   </init-param>
   <init-param>
-    <param-name>bucketTimeToLeave</param-name>
+    <param-name>bucketTimeToLive</param-name>
     <param-value>600</param-value>
   </init-param>
 </filter>
@@ -71,7 +71,7 @@ The following parameters are used to configure the *IpBanner* Filter :
  * *failureRequestAttributeName* : defines a request attribute that implies a failed authentication request. This is mostly used for test purpose.
  * *maxRetry* : defines the number of retry before considering that the IP address must be banned (default to 10 times).
  * *banTimeInSecond* : defines how many time an IP address must be banned (default 60 seconds)
- * *bucketTimeToLeave* : defines the life time of a bucket (default to 600 seconds)
+ * *bucketTimeToLive* : defines the life time of a bucket (default to 600 seconds)
 
 == Configuration application authentication ==
 Coming soon...
