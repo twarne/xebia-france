@@ -74,10 +74,10 @@ definition. You can download the complete demo [http://.. here].
 Here is a code snippet of `springContext-security.xml` :
 {{{
 <http auto-config='true'>
-    <intercept-url pattern="/Login.jsp" filters="none"/>
+    <intercept-url pattern="/login.jsp" filters="none"/>
     <intercept-url pattern="/**" access="ROLE_USER"/>
-    <form-login login-page="/Login.jsp" default-target-url="/Home.jsp"
-                authentication-failure-url="/Login.jsp?authfailed=true" always-use-default-target="true"/>
+    <form-login login-page="/login.jsp" default-target-url="/Home.jsp"
+                authentication-failure-url="/login.jsp?authfailed=true" always-use-default-target="true"/>
     <logout/>
 </http>
 
@@ -94,7 +94,7 @@ This configuration defines the user `test` with password `test` that has been
 granted `ROLE_USER` authority.
 
 When first accessing the application, the user will be automatically redirected
-to the login page `Login.jsp` :
+to the login page `login.jsp` :
 {{{
 ...
 <form id="loginForm" name="loginForm" action="j_spring_security_check" method="post">
@@ -115,7 +115,7 @@ to the login page `Login.jsp` :
 
 Spring Security will handle `j_spring_security_check` action to verify `j_username`
 and `j_password` and will redirect to `Home.jsp` in case or success or send back to
-`Login.jsp` (with request parameter `authfaile=true`) in case or authentication
+`login.jsp` (with request parameter `authfaile=true`) in case or authentication
 failure.
 
 Finally, we need to configure web application `web.xml` to initiate Spring
@@ -168,7 +168,7 @@ We also need to define filters mappings in the `web.xml` file :
 When passing through the *IpBanner* Filter, the IP address is checked to know if
 the it has been banned. If not, the request is passed to the
 `springSecurityFilterChain` that will try authenticate the user. In case of
-authentication failure, we are redirect to `Login.jsp` page with a
+authentication failure, we are redirect to `login.jsp` page with a
 `401/Unauthorized` error status.
 The response will then be checked by *IpBanner* Filter and in case of status error
 defined in `failureResponseStatusCodes`, the IP address will be added to the
