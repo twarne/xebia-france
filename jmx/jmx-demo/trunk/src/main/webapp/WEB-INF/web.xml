@@ -3,32 +3,12 @@
    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 
    <display-name>JMX Demo Web Application</display-name>
-   <!--
-   <listener>
-      <listener-class>fr.xebia.demo.jmx.ExceptionServletContextListener</listener-class>
-   </listener>
-   -->
-   <listener>
-      <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
-   </listener>
+
    <listener>
       <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
    </listener>
 
-   <context-param>
-      <param-name>log4jConfigLocation</param-name>
-      <param-value>classpath:log4j.properties</param-value>
-   </context-param>
 
-   <context-param>
-      <param-name>log4jRefreshInterval</param-name>
-      <param-value>5000</param-value>
-   </context-param>
-
-   <context-param>
-      <param-name>log4jExposeWebAppRoot</param-name>
-      <param-value>false</param-value>
-   </context-param>
 
    <context-param>
       <param-name>contextConfigLocation</param-name>
@@ -36,7 +16,6 @@
    </context-param>
 
    <servlet>
-      <display-name>CXF Servlet</display-name>
       <servlet-name>CXFServlet</servlet-name>
       <servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>
    </servlet>
@@ -49,6 +28,7 @@
       <servlet-class>CxfClientServlet</servlet-class>
       <load-on-startup>1</load-on-startup>
    </servlet>
+
    <filter>
       <filter-name>springSecurityFilterChain</filter-name>
       <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>

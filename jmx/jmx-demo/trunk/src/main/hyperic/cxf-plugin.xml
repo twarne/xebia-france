@@ -19,7 +19,7 @@
 <plugin name="cxf">
    <service name="CXF Endpoint" server="Sun JVM" version="1.5">
 
-      <property name="OBJECT_NAME" value="org.apache.cxf:type=Performance.Counter.Server,path=*,bus.id=*,service=*,port=*,operation=*" />
+      <property name="OBJECT_NAME" value="org.apache.cxf:type=Performance.Counter.Server,host=*,path=*,bus.id=*,service=*,port=*,operation=*" />
 
       <!-- Don't add service in autoinventory name to limit the name length -->
       <property name="AUTOINVENTORY_NAME" value="%serverName% %path% %port% %operation% CXF Endpoint" />
@@ -27,6 +27,7 @@
       <plugin type="autoinventory" />
 
       <config>
+         <option name="host" description="Hostname" default="" />
          <option name="path" description="Path of the web application" default="/" />
          <option name="bus.id" description="ID of the CXF Bus" />
          <option name="service" description="Name of the Service" />
@@ -37,23 +38,28 @@
       <filter name="template" value="${OBJECT_NAME}:${alias}" />
 
       <metric name="Availability" indicator="true" />
+
       <metric name="Number of Invocations" alias="NumInvocations" indicator="true" template="${OBJECT_NAME}:${alias}" units="none"
-         type="trendsup" />
+         collectionType="trendsup" category="THROUGHPUT" />
+
       <metric name="Total Handling Time" alias="TotalHandlingTime" indicator="true" template="${OBJECT_NAME}:${alias}" units="mu"
-         type="trendsup" />
+         collectionType="trendsup" category="PERFORMANCE" />
 
       <metric name="Num Checked Application Faults" alias="NumCheckedApplicationFaults" indicator="true" template="${OBJECT_NAME}:${alias}"
-         units="none" type="trendsup" />
+         units="none" collectionType="trendsup" category="THROUGHPUT" />
+
       <metric name="Num Logical Runtime Faults" alias="NumLogicalRuntimeFaults" indicator="true" template="${OBJECT_NAME}:${alias}"
-         units="none" type="trendsup" />
+         units="none" collectionType="trendsup" category="THROUGHPUT" />
+
       <metric name="Num Runtime Faults" alias="NumRuntimeFaults" indicator="true" template="${OBJECT_NAME}:${alias}" units="none"
-         type="trendsup" />
+         collectionType="trendsup" category="THROUGHPUT" />
+
       <metric name="Num UnChecked Application Faults" alias="NumUnCheckedApplicationFaults" indicator="true" template="${OBJECT_NAME}:${alias}"
-         units="none" type="trendsup" />
+         units="none" collectionType="trendsup" category="THROUGHPUT" />
    </service>
 
    <service name="CXF Client" server="Sun JVM" version="1.5">
-      <property name="OBJECT_NAME" value="org.apache.cxf:type=Performance.Counter.Client,path=*,bus.id=*,service=*,port=*,operation=*" />
+      <property name="OBJECT_NAME" value="org.apache.cxf:type=Performance.Counter.Client,host=*,path=*,bus.id=*,service=*,port=*,operation=*" />
 
       <!-- Don't add service in autoinventory name to limit the name length -->
       <property name="AUTOINVENTORY_NAME" value="%serverName% %path% %port% %operation% CXF Client" />
@@ -61,6 +67,7 @@
       <plugin type="autoinventory" />
 
       <config>
+         <option name="host" description="Hostname" default="" />
          <option name="path" description="Path of the web application" default="/" />
          <option name="bus.id" description="ID of the CXF Bus" />
          <option name="service" description="Name of the Service" />
@@ -72,18 +79,22 @@
 
       <metric name="Availability" indicator="true" />
       <metric name="Number of Invocations" alias="NumInvocations" indicator="true" template="${OBJECT_NAME}:${alias}" units="none"
-         type="trendsup" />
+         collectionType="trendsup" category="THROUGHPUT" />
+
       <metric name="Total Handling Time" alias="TotalHandlingTime" indicator="true" template="${OBJECT_NAME}:${alias}" units="mu"
-         type="trendsup" />
+         collectionType="trendsup" category="PERFORMANCE" />
 
       <metric name="Num Checked Application Faults" alias="NumCheckedApplicationFaults" indicator="true" template="${OBJECT_NAME}:${alias}"
-         units="none" type="trendsup" />
+         units="none" collectionType="trendsup" category="THROUGHPUT" />
+
       <metric name="Num Logical Runtime Faults" alias="NumLogicalRuntimeFaults" indicator="true" template="${OBJECT_NAME}:${alias}"
-         units="none" type="trendsup" />
+         units="none" collectionType="trendsup" category="THROUGHPUT" />
+
       <metric name="Num Runtime Faults" alias="NumRuntimeFaults" indicator="true" template="${OBJECT_NAME}:${alias}" units="none"
-         type="trendsup" />
+         collectionType="trendsup" category="THROUGHPUT" />
+
       <metric name="Num UnChecked Application Faults" alias="NumUnCheckedApplicationFaults" indicator="true" template="${OBJECT_NAME}:${alias}"
-         units="none" type="trendsup" />
+         units="none" collectionType="trendsup" category="THROUGHPUT" />
    </service>
 
 </plugin>

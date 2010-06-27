@@ -18,15 +18,16 @@
    <!--                                                                              -->
 <plugin name="datasource">
    <service name="DataSource" server="Sun JVM" version="1.5">
-      <property name="OBJECT_NAME" value="javax.sql:type=DataSource,name=*,path=*" />
+      <property name="OBJECT_NAME" value="javax.sql:type=DataSource,name=*,host=*,path=*" />
 
       <property name="AUTOINVENTORY_NAME" value="%serverName% %path% %name% DataSource" />
 
       <plugin type="autoinventory" />
 
       <config>
-         <option name="name" description="Name of the DataSource" default="" />
+         <option name="host" description="Hostname" default="" />
          <option name="path" description="Path of the web application" default="/" />
+         <option name="name" description="Name of the DataSource" default="" />
       </config>
 
       <filter name="template" value="${OBJECT_NAME}:${alias}" />

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Context>
+<Context path="/jmx-demo" reloadable="false">
        <Resource name="jdbc/jmx-demo-data-source" auth="Container" type="javax.sql.DataSource"
                maxActive="100" maxIdle="30" maxWait="100"
                username="sa" password="" driverClassName="org.h2.Driver"

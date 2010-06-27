@@ -22,13 +22,14 @@
 
    <service name="Hibernate Session Factory" server="Sun JVM" version="1.5">
 
-      <property name="OBJECT_NAME" value="org.hibernate.jmx:name=hibernateStatistics,type=StatisticsService,path=*" />
+      <property name="OBJECT_NAME" value="org.hibernate.jmx:name=hibernateStatistics,type=StatisticsService,host=*,path=*" />
 
       <property name="AUTOINVENTORY_NAME" value="%serverName% %path% Hibernate Session Factory" />
 
       <plugin type="autoinventory" />
 
       <config>
+         <option name="host" description="Hostname" default="" />
          <option name="path" description="Path of the web application" default="/" />
       </config>
 

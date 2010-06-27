@@ -58,9 +58,7 @@ public class JmxRemoteLifecycleListenerTest {
         HashMap<String, Object> env = new HashMap<String, Object>();
 
         JMXConnectorServer csPlatform = createServer("Platform", 6969, 6979, env, ManagementFactory.getPlatformMBeanServer());
-        
-        Thread.sleep(Long.MAX_VALUE);
-        
+                
         System.out.println(csPlatform);
     }
 

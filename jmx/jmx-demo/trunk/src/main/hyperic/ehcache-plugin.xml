@@ -20,24 +20,32 @@
 
    <service name="EHCache" server="Sun JVM" version="1.5">
 
-      <property name="OBJECT_NAME" value="net.sf.ehcache:CacheManager=*,name=*,type=CacheStatistics,path=*" />
+      <property name="OBJECT_NAME" value="net.sf.ehcache:CacheManager=*,name=*,type=CacheStatistics,host=*,path=*" />
 
       <property name="AUTOINVENTORY_NAME" value="%serverName% %path% %CacheManager% %name% EHCache" />
 
       <plugin type="autoinventory" />
 
       <config>
-         <option name="path" description="Path of the web application" default="/" />
          <option name="CacheManager" description="Name of the CacheManager" />
          <option name="name" description="Name of Cache" />
+         <option name="host" description="Hostname" default="" />
+         <option name="path" description="Path of the web application" default="/" />
       </config>
 
       <filter name="template" value="${OBJECT_NAME}:${alias}" />
 
       <metric name="Availability" indicator="true" />
-      <metric name="Cache Hits" alias="CacheHits" indicator="true" template="${OBJECT_NAME}:${alias}" units="none" type="trendsup" />
-      <metric name="In Memory Hits" alias="InMemoryHits" indicator="true" template="${OBJECT_NAME}:${alias}" units="none" type="trendsup" />
-      <metric name="On Disk Hits" alias="OnDiskHits" indicator="true" template="${OBJECT_NAME}:${alias}" units="none" type="trendsup" />
-      <metric name="Object Count" alias="ObjectCount" indicator="true" template="${OBJECT_NAME}:${alias}" units="none" />
+      
+      <metric name="Cache Hits" alias="CacheHits" indicator="true" template="${OBJECT_NAME}:${alias}" units="none" collectionType="trendsup"
+         category="THROUGHPUT" />
+         
+      <metric name="In Memory Hits" alias="InMemoryHits" indicator="true" template="${OBJECT_NAME}:${alias}" units="none"
+         collectionType="trendsup" category="THROUGHPUT" />
+         
+      <metric name="On Disk Hits" alias="OnDiskHits" indicator="true" template="${OBJECT_NAME}:${alias}" units="none" collectionType="trendsup"
+         category="THROUGHPUT" />
+         
+      <metric name="Object Count" alias="ObjectCount" indicator="true" template="${OBJECT_NAME}:${alias}" units="none" category="UTILIZATION" />
    </service>
 </plugin>
