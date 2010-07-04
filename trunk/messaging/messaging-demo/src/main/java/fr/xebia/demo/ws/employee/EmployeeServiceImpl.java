@@ -18,6 +18,8 @@ package fr.xebia.demo.ws.employee;
 import java.sql.Date;
 import java.util.GregorianCalendar;
 
+import javax.xml.ws.Holder;
+
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.log4j.Logger;
 
@@ -32,14 +34,13 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final static Logger logger = Logger.getLogger(EmployeeServiceImpl.class);
     
     @Override
-    public Employee putEmployee(Employee employee) throws EmployeeServiceFaultMsg {
-        if (employee.getId() == null) {
+    public void putEmployee(Holder<Employee> employee) throws EmployeeServiceFaultMsg {
+        if (employee.value.getId() == null) {
             throw new NullPointerException("employee.id can NOT be null");
         }
         
         logger.info("putEmployee(" + employee + "): " + ToStringBuilder.reflectionToString(employee));
         
-        return employee;
     }
     
     @Override

@@ -112,12 +112,6 @@
          </plugin>
       </plugins>
    </build>
-   <repositories>
-   	<repository>
-   		<id>repository.codehaus.org</id>
-   		<url>http://repository.codehaus.org/</url>
-   	</repository>
-   </repositories>
    <dependencies>
       <dependency>
          <groupId>org.springframework</groupId>
@@ -158,17 +152,21 @@
          <groupId>org.springframework.ws</groupId>
          <artifactId>spring-ws-core-tiger</artifactId>
          <version>${spring-ws.version}</version>
-      </dependency>      
+      </dependency>
+      <dependency>
+         <groupId>org.springframework.ws</groupId>
+         <artifactId>spring-oxm-tiger</artifactId>
+         <version>${spring-ws.version}</version>
+      </dependency>
+      <dependency>
+         <groupId>org.springframework.ws</groupId>
+         <artifactId>spring-ws-support</artifactId>
+         <version>${spring-ws.version}</version>
+      </dependency>
       <dependency>
          <groupId>org.springframework.security</groupId>
          <artifactId>spring-security-core</artifactId>
          <version>${spring-security.version}</version>
-         <exclusions>
-            <exclusion>
-               <groupId>org.springframework</groupId>
-               <artifactId>spring-context</artifactId>
-            </exclusion>
-         </exclusions>
       </dependency>
       <dependency>
          <groupId>org.apache.cxf</groupId>
@@ -193,11 +191,6 @@
       <dependency>
          <groupId>org.apache.cxf</groupId>
          <artifactId>cxf-rt-frontend-js</artifactId>
-         <version>${cxf.version}</version>
-      </dependency>
-      <dependency>
-         <groupId>org.apache.cxf</groupId>
-         <artifactId>cxf-rt-management</artifactId>
          <version>${cxf.version}</version>
       </dependency>
       <dependency>
@@ -251,7 +244,7 @@
       <dependency>
          <groupId>org.apache.activemq</groupId>
          <artifactId>activemq-core</artifactId>
-         <version>5.1.0</version>
+         <version>5.3.2</version>
          <exclusions>
             <exclusion>
                <groupId>javax.xml</groupId>
@@ -329,14 +322,14 @@
       <dependency>
          <groupId>junit</groupId>
          <artifactId>junit</artifactId>
-         <version>4.4</version>
+         <version>4.6</version>
       </dependency>
    </dependencies>
    <properties>
-      <spring.version>2.5.6</spring.version>
-      <spring-security.version>2.0.4</spring-security.version>
-      <spring-ws.version>1.5.7</spring-ws.version>
-      <cxf.version>2.2.1</cxf.version>
+      <spring.version>3.0.3.RELEASE</spring.version>
+      <spring-security.version>3.0.3.RELEASE</spring-security.version>
+      <spring-ws.version>1.5.9</spring-ws.version>
+      <cxf.version>2.2.8</cxf.version>
       <mq.version>6.0.2.1</mq.version>
    </properties>
 </project>
