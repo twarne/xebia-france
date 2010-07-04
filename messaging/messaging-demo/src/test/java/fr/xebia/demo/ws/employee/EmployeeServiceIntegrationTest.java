@@ -19,6 +19,7 @@ import java.sql.Date;
 import java.util.GregorianCalendar;
 import java.util.Random;
 
+import javax.xml.ws.Holder;
 import javax.xml.ws.soap.SOAPFaultException;
 
 import junit.framework.Assert;
@@ -88,7 +89,7 @@ public class EmployeeServiceIntegrationTest {
         employee.setGender(Gender.MALE);
         employee.setBirthdate(new Date(new GregorianCalendar(1976, 01, 05).getTimeInMillis()));
 
-        employeeService.putEmployee(employee);
+        employeeService.putEmployee(new Holder<Employee>(employee));
         System.out.println(ToStringBuilder.reflectionToString(employee));
 
     }
@@ -105,7 +106,7 @@ public class EmployeeServiceIntegrationTest {
         employee.setBirthdate(new Date(new GregorianCalendar(1976, 01, 05).getTimeInMillis()));
 
         try {
-            employeeService.putEmployee(employee);
+            employeeService.putEmployee(new Holder<Employee>(employee));
         } catch (SOAPFaultException e) {
             e.printStackTrace();
             throw e;
@@ -131,7 +132,7 @@ public class EmployeeServiceIntegrationTest {
         employee.setBirthdate(new Date(new GregorianCalendar(1976, 01, 05).getTimeInMillis()));
 
         try {
-            employeeService.putEmployee(employee);
+            employeeService.putEmployee(new Holder<Employee>(employee));
         } catch (SOAPFaultException e) {
             e.printStackTrace();
             throw e;
