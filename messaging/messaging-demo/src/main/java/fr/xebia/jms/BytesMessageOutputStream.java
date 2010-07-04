@@ -25,7 +25,19 @@ import javax.jms.JMSException;
 import org.springframework.util.Assert;
 
 /**
+ * <p>
+ * Small modification on
+ * {@link org.springframework.ws.transport.jms.BytesMessageOutputStream} :
+ * <ul>
+ * <li>make class <code>public</code> instead of <code>protected</code>,</li>
+ * </ul>
+ * </p>
+ * <p>
+ * Initial javadoc:
+ * </p>
+ * <p>
  * Output stream that wraps a {@link BytesMessage}.
+ * </p>
  * 
  * @author Arjen Poutsma
  * @since 1.5.0

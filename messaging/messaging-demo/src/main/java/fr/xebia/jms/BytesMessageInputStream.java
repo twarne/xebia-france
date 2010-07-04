@@ -26,12 +26,24 @@ import javax.jms.MessageEOFException;
 import org.springframework.util.Assert;
 
 /**
- * Small modification on {@link org.springframework.ws.transport.jms.BytesMessageInputStream} 
- * in {@link #read()} method inspired by {@link java.io.ByteArrayInputStream.read()} : 
- * <code>return message.readByte() & 0xff;</code> instead of <code>return message.readByte() </code>.
- */
-/**
+ * <p>
+ * Small modification on
+ * {@link org.springframework.ws.transport.jms.BytesMessageInputStream} :
+ * <ul>
+ * <li>make class <code>public</code> instead of <code>protected</code>,</li>
+ * <li>
+ * in {@link #read()} method inspired by
+ * {@link java.io.ByteArrayInputStream#read()} : "
+ * <code>return message.readByte() & 0xff;</code>" instead of "
+ * <code>return message.readByte() </code>".</li>
+ * </ul>
+ * </p>
+ * <p>
+ * Initial javadoc:
+ * </p>
+ * <p>
  * Input stream that wraps a {@link BytesMessage}.
+ * </p>
  * 
  * @author Arjen Poutsma
  * @since 1.5.0
