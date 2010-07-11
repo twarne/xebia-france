@@ -6,9 +6,9 @@
    <packaging>pom</packaging>
    <version>1.0</version>
    <scm>
-      <connection>scm:svn:http://xebia-france.googlecode.com/svn/xebia-ipbanner/tags/release-1.0</connection>
-      <developerConnection>scm:svn:https://xebia-france.googlecode.com/svn/xebia-ipbanner/tags/release-1.0</developerConnection>
-      <url>http://xebia-france.googlecode.com/svn/xebia-ipbanner/tags/release-1.0</url>
+      <connection>scm:svn:http://xebia-france.googlecode.com/svn/xebia-ipbanner/trunk</connection>
+      <developerConnection>scm:svn:https://xebia-france.googlecode.com/svn/xebia-ipbanner/trunk</developerConnection>
+      <url>http://xebia-france.googlecode.com/svn/xebia-ipbanner/trunk</url>
    </scm>
     <modules>
         <module>ipbanner-core</module>
