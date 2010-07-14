@@ -4,12 +4,12 @@
    <groupId>fr.xebia.ipbanner</groupId>
    <artifactId>ipbanner</artifactId>
    <packaging>pom</packaging>
-   <version>1.0</version>
+   <version>1.1-SNAPSHOT</version>
    <name>IpBanner</name>
    <scm>
-      <connection>scm:svn:http://xebia-france.googlecode.com/svn/xebia-ipbanner/tags/ipbanner-1.0</connection>
-      <developerConnection>scm:svn:https://xebia-france.googlecode.com/svn/xebia-ipbanner/tags/ipbanner-1.0</developerConnection>
-      <url>http://xebia-france.googlecode.com/svn/xebia-ipbanner/tags/ipbanner-1.0</url>
+      <connection>scm:svn:http://xebia-france.googlecode.com/svn/xebia-ipbanner/trunk</connection>
+      <developerConnection>scm:svn:https://xebia-france.googlecode.com/svn/xebia-ipbanner/trunk</developerConnection>
+      <url>http://xebia-france.googlecode.com/svn/xebia-ipbanner/trunk</url>
    </scm>
     <modules>
         <module>ipbanner-core</module>
