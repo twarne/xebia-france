@@ -9,11 +9,13 @@ Extras on top of Java SE (e.g. Thread Pool) and Spring Framework (e.g. JMS Liste
 ManagedConnectionFactory allows to monitor creation of JMS resources: 
 
 
-JMX ObjectName : {{{javax.jms:type=ConnectionFactory,name=${spring-bean-name\}}}}
+|| JMX Object Name || {{{javax.jms:type=ConnectionFactory,name=${spring-bean-name} }}} where {{{${spring-bean-name} }}} is the name of the spring object ||
+|| Metrics || CreateConnectionCount, CreateConnectionExceptionCount <br/> CreateMessageProducerCount, CreateMessageProducerExceptionCount <br/> CreateMessageConsumerCount, CreateMessageConsumerExceptionCount <br/> CreateSessionCount, CreateSessionExceptionCount <br/> SendMessageCount, SendMessageExceptionCount, SendMessageDurationInMillis <br/><br/>ReceiveMessageCount, ReceiveMessageExceptionCount, ReceiveMessageDurationInMillis||
+|| Sample Of Configuration || {{{test  multi ligne }}} ||
 
 
 
-Sample of configuration with Spring Framework :
+
 {{{
 <beans ...>
 
@@ -27,7 +29,7 @@ Sample of configuration with Spring Framework :
 
    ...
 </beans>
-}}}
+}}} 
 
 
 == 
