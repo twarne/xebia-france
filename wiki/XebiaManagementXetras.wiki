@@ -10,7 +10,7 @@ ManagedConnectionFactory allows to monitor creation of JMS resources:
 
 
 || JMX Object Name || {{{javax.jms:type=ConnectionFactory,name=${spring-bean-name} }}} where {{{${spring-bean-name} }}} is the name of the spring object ||
-|| Metrics || CreateConnectionCount, CreateConnectionExceptionCount <br/> CreateMessageProducerCount, CreateMessageProducerExceptionCount <br/> CreateMessageConsumerCount, CreateMessageConsumerExceptionCount <br/> CreateSessionCount, CreateSessionExceptionCount <br/> SendMessageCount, SendMessageExceptionCount, SendMessageDurationInMillis <br/><br/>ReceiveMessageCount, ReceiveMessageExceptionCount, ReceiveMessageDurationInMillis||
+|| Metrics || {{{CreateConnectionCount}}}, {{{CreateConnectionExceptionCount}}} <br/>  {{{CreateMessageProducerCount}}}, {{{CreateMessageProducerExceptionCount}}} <br/>  {{{CreateMessageConsumerCount}}}, {{{CreateMessageConsumerExceptionCount}}} <br/>  {{{CreateSessionCount}}}, {{{CreateSessionExceptionCount}}} <br/> <br/> {{{SendMessageCount}}}, {{{SendMessageExceptionCount}}}, {{{SendMessageDurationInMillis}}} <br/>{{{ReceiveMessageCount}}}, {{{ReceiveMessageExceptionCount}}}, {{{ReceiveMessageDurationInMillis}}} ||
 || Sample Of Configuration || {{{test  multi ligne }}} ||
 
 
