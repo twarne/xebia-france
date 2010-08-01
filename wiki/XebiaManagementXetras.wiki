@@ -1,0 +1,38 @@
+#summary JMX based extras to ease monitoring
+
+= Introduction =
+
+Extras on top of Java SE (e.g. Thread Pool) and Spring Framework (e.g. JMS Listener) to ease monitoring.
+
+= JMS Connection Factory =
+
+ManagedConnectionFactory allows to monitor creation of JMS resources: 
+
+
+JMX ObjectName : {{{javax.jms:type=ConnectionFactory,name=${spring-bean-name\}}}}
+
+
+
+Sample of configuration with Spring Framework :
+{{{
+<beans ...>
+
+   <bean id="connectionFactory" class="fr.xebia.management.jms.SpringManagedConnectionFactory">
+      <property name="delegate">
+         <bean class="org.apache.activemq.ActiveMQConnectionFactory">
+            <property name="brokerURL" value="vm://localhost?broker.persistent=false&amp;broker.useJmx=true" />
+         </bean>
+      </property>
+   </bean>
+
+   ...
+</beans>
+}}}
+
+
+== 
+
+Add your content here.  Format your content with:
+  * Text in *bold* or _italic_
+  * Headings, paragraphs, and lists
+  * Automatic links to other wiki pages
