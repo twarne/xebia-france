@@ -14,8 +14,6 @@ ManagedConnectionFactory allows to monitor creation of JMS resources:
 || Sample Of Configuration || {{{test  multi ligne }}} ||
 
 
-
-
 {{{
 <beans ...>
 
