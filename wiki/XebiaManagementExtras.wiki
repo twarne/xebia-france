@@ -6,9 +6,9 @@ Extras on top of Java SE (e.g. Thread Pool) and Spring Framework (e.g. JMS Liste
 
 = JMS Connection Factory =
 
-ManagedConnectionFactory allows to monitor JMS resources. Exceptions ratios will help you to diagnose failures of the JMS Broker, increase of the send duration will help you to see saturation of the JMS Broker and changes of the creation rates will indicate changes in the usage of your application.
+{{{ManagedConnectionFactory}}} allows to monitor JMS resources. Exceptions ratios will help you to diagnose failures of the JMS Broker, increase of the send duration will help you to see saturation of the JMS Broker and changes of the creation rates will indicate changes in the usage of your application.
 
-Please note that this ManagedConnectionFactory is not intended to help you do diagnoseJMS resources leaks and thus does not monitor resource's {{{close()}}}.
+Please note that this {{{ManagedConnectionFactory}}} is not intended to help you do diagnose JMS resources leaks and thus does not monitor resource's {{{close()}}} calls.
 
  * JMX Object Name: {{{"javax.jms:type=ConnectionFactory,name=${spring-bean-name}"}}} where {{{"${spring-bean-name}"}}} is the name of the spring object
  * Metrics:
@@ -31,7 +31,34 @@ Please note that this ManagedConnectionFactory is not intended to help you do di
    ...
 </beans>
 }}} 
+ * {{{ManagedConnectionFactory}}} is a wrapper of a JMS 1.1 {{{javax.jms.ConnectionFactory}}}. It has been tested with Active MQ 5.3.2 and WebSphere MQ 7.0.1.2.
+ * A non Spring enabled version is available with {{{fr.xebia.management.jms.ManagedConnectionFactory}}}.
  * Hyperic plugin: [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/hyperic/tomcat-extras-jms-plugin.xml tomcat-extras-jms-plugin.xml] (1)
+
+= Jakarta Commons DBCP JDBC Data Source =
+
+{{{ManagedBasicDataSource}}} allows to monitora [http://commons.apache.org/dbcp/ Jakarta Commons DBCP Data Source]. It is not intended to monitor JDBC resource leaks and thus it does not monitor resource's {{{close()}}}.
+
+ * JMX Object Name: {{{"javax.sql:type=DataSource,name=${spring-bean-name}"}}} where {{{"${spring-bean-name}"}}} is the name of the spring object
+ * Metrics: 
+  ** {{{NumActive}}}: number of currently borrowed jdbc connections, 
+  ** {{{NumIdle}}}: number of idle jdbc connections available in the pool,
+ * Spring configuration:
+  {{{
+<beans ...>
+   <bean id="myDataSource" class="fr.xebia.springframework.jdbc.ManagedBasicDataSource">
+      <property name="url" value="jdbc:h2:mem:jmx-demo-db" />
+      <property name="driverClassName" value="org.h2.Driver" />
+      <property name="username" value="sa" />
+      <property name="password" value="" />
+      <property name="maxActive" value="10" />
+      <property name="maxWait" value="50" />
+   </bean>
+   ...
+</beans>
+}}} 
+ * The {{{ManagedBasicDataSource}}} is a subclass of [http://commons.apache.org/dbcp/ Jakarta Commons DBCP] {{{org.apache.commons.dbcp.BasicDataSource}}}; it has been used with version 1.4,
+ * Hyperic plugin: [https://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/hyperic/tomcat-extras-dbcp-plugin.xml tomcat-extras-dbcp-plugin.xml] (1)
 
 
 ---- 
