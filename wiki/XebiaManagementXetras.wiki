@@ -6,15 +6,20 @@ Extras on top of Java SE (e.g. Thread Pool) and Spring Framework (e.g. JMS Liste
 
 = JMS Connection Factory =
 
-ManagedConnectionFactory allows to monitor creation of JMS resources: 
+ManagedConnectionFactory allows to monitor JMS resources. Exceptions ratios will help you to diagnose failures of the JMS Broker, increase of the send duration will help you to see saturation of the JMS Broker and changes of the creation rates will indicate changes in the usage of your application.
 
+Please note that this ManagedConnectionFactory is not intended to help you do diagnoseJMS resources leaks and thus does not monitor resource's {{{close()}}}.
 
-|| JMX Object Name || {{{javax.jms:type=ConnectionFactory,name=${spring-bean-name} }}} where {{{${spring-bean-name} }}} is the name of the spring object ||
-|| Metrics || {{{CreateConnectionCount}}}, {{{CreateConnectionExceptionCount}}} <br/>  {{{CreateMessageProducerCount}}}, {{{CreateMessageProducerExceptionCount}}} <br/>  {{{CreateMessageConsumerCount}}}, {{{CreateMessageConsumerExceptionCount}}} <br/>  {{{CreateSessionCount}}}, {{{CreateSessionExceptionCount}}} <br/> <br/> {{{SendMessageCount}}}, {{{SendMessageExceptionCount}}}, {{{SendMessageDurationInMillis}}} <br/>{{{ReceiveMessageCount}}}, {{{ReceiveMessageExceptionCount}}}, {{{ReceiveMessageDurationInMillis}}} ||
-|| Sample Of Configuration || {{{test  multi ligne }}} ||
-
-
-{{{
+ * JMX Object Name: "{{{javax.jms:type=ConnectionFactory,name=${spring-bean-name} }}}" where "{{{${spring-bean-name} }}}" is the name of the spring object ||
+ * Metrics:
+  * {{{CreateConnectionCount}}}, {{{CreateConnectionExceptionCount}}} : helps to diagnose JMS Broker failures or unexpected communication patterns due to change of creation rate,
+  * {{{CreateMessageProducerCount}}}, {{{CreateMessageProducerExceptionCount}}} : helps to diagnose JMS Broker failures with exceptions or unexpected communication patterns due to change of creation rate,
+  * {{{CreateMessageConsumerCount}}}, {{{CreateMessageConsumerExceptionCount}}} : helps to diagnose JMS Broker failures or unexpected communication patterns due to change of creation rate,
+  * {{{CreateSessionCount}}}, {{{CreateSessionExceptionCount}}} : helps to diagnose JMS Broker failures or unexpected communication patterns due to change of creation rate,
+  * {{{SendMessageCount}}}, {{{SendMessageExceptionCount}}}, {{{SendMessageDurationInMillis}}} : helps to diagnose JMS broker performances issues or unexpected communication patterns due to change of message send rate,
+  * {{{ReceiveMessageCount}}}, {{{ReceiveMessageExceptionCount}}}, {{{ReceiveMessageDurationInMillis}}} : helps to diagnose unexpected change of message arrival rate or unexpected communication patterns due to change of message receive rate.
+ * Spring configuration:
+  {{{
 <beans ...>
 
    <bean id="connectionFactory" class="fr.xebia.management.jms.SpringManagedConnectionFactory">
