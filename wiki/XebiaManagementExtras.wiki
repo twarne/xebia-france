@@ -10,10 +10,10 @@ ManagedConnectionFactory allows to monitor JMS resources. Exceptions ratios will
 
 Please note that this ManagedConnectionFactory is not intended to help you do diagnoseJMS resources leaks and thus does not monitor resource's {{{close()}}}.
 
- * JMX Object Name: "{{{javax.jms:type=ConnectionFactory,name=${spring-bean-name} }}}" where "{{{${spring-bean-name} }}}" is the name of the spring object ||
+ * JMX Object Name: {{{"javax.jms:type=ConnectionFactory,name=${spring-bean-name}"}}} where {{{"${spring-bean-name}"}}} is the name of the spring object
  * Metrics:
-  * {{{CreateConnectionCount}}}, {{{CreateConnectionExceptionCount}}} : helps to diagnose JMS Broker failures or unexpected communication patterns due to change of creation rate,
-  * {{{CreateMessageProducerCount}}}, {{{CreateMessageProducerExceptionCount}}} : helps to diagnose JMS Broker failures with exceptions or unexpected communication patterns due to change of creation rate,
+  * {{{CreateConnectionCount}}}, {{{CreateConnectionExceptionCount}}},
+  * {{{CreateMessageProducerCount}}}, {{{CreateMessageProducerExceptionCount}}},
   * {{{CreateMessageConsumerCount}}}, {{{CreateMessageConsumerExceptionCount}}},
   * {{{CreateSessionCount}}}, {{{CreateSessionExceptionCount}}},
   * {{{SendMessageCount}}}, {{{SendMessageExceptionCount}}}, {{{SendMessageDurationInMillis}}},
