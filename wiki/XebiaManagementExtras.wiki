@@ -1,0 +1,43 @@
+#summary JMX based extras to ease monitoring
+
+= Introduction =
+
+Extras on top of Java SE (e.g. Thread Pool) and Spring Framework (e.g. JMS Listener) to ease monitoring.
+
+= JMS Connection Factory =
+
+ManagedConnectionFactory allows to monitor JMS resources. Exceptions ratios will help you to diagnose failures of the JMS Broker, increase of the send duration will help you to see saturation of the JMS Broker and changes of the creation rates will indicate changes in the usage of your application.
+
+Please note that this ManagedConnectionFactory is not intended to help you do diagnoseJMS resources leaks and thus does not monitor resource's {{{close()}}}.
+
+ * JMX Object Name: "{{{javax.jms:type=ConnectionFactory,name=${spring-bean-name} }}}" where "{{{${spring-bean-name} }}}" is the name of the spring object ||
+ * Metrics:
+  * {{{CreateConnectionCount}}}, {{{CreateConnectionExceptionCount}}} : helps to diagnose JMS Broker failures or unexpected communication patterns due to change of creation rate,
+  * {{{CreateMessageProducerCount}}}, {{{CreateMessageProducerExceptionCount}}} : helps to diagnose JMS Broker failures with exceptions or unexpected communication patterns due to change of creation rate,
+  * {{{CreateMessageConsumerCount}}}, {{{CreateMessageConsumerExceptionCount}}},
+  * {{{CreateSessionCount}}}, {{{CreateSessionExceptionCount}}},
+  * {{{SendMessageCount}}}, {{{SendMessageExceptionCount}}}, {{{SendMessageDurationInMillis}}},
+  * {{{ReceiveMessageCount}}}, {{{ReceiveMessageExceptionCount}}}, {{{ReceiveMessageDurationInMillis}}}.
+ * Spring configuration:
+  {{{
+<beans ...>
+
+   <bean id="connectionFactory" class="fr.xebia.management.jms.SpringManagedConnectionFactory">
+      <property name="delegate">
+         <bean class="org.apache.activemq.ActiveMQConnectionFactory">
+            <property name="brokerURL" value="vm://localhost?broker.persistent=false&amp;broker.useJmx=true" />
+         </bean>
+      </property>
+   </bean>
+
+   ...
+</beans>
+}}} 
+
+
+== 
+
+Add your content here.  Format your content with:
+  * Text in *bold* or _italic_
+  * Headings, paragraphs, and lists
+  * Automatic links to other wiki pages
