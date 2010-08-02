@@ -21,7 +21,6 @@ Please note that this ManagedConnectionFactory is not intended to help you do di
  * Spring configuration:
   {{{
 <beans ...>
-
    <bean id="connectionFactory" class="fr.xebia.management.jms.SpringManagedConnectionFactory">
       <property name="delegate">
          <bean class="org.apache.activemq.ActiveMQConnectionFactory">
@@ -29,15 +28,12 @@ Please note that this ManagedConnectionFactory is not intended to help you do di
          </bean>
       </property>
    </bean>
-
    ...
 </beans>
 }}} 
+ * Hyperic plugin: [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/hyperic/tomcat-extras-jms-plugin.xml tomcat-extras-jms-plugin.xml] (1)
 
 
-== 
+---- 
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+(1) Drop the hyperic plugin xml file under {{{ ${HYPERIC_HOME}/hq-plugins }}} (e.g. next to {{{ ${HYPERIC_HOME}/agent-4.3.0 }}}
