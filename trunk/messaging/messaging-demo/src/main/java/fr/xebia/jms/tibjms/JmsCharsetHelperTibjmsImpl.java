@@ -22,8 +22,6 @@ import javax.jms.Destination;
 import javax.jms.JMSException;
 import javax.jms.Message;
 
-import com.tibco.tibjms.Tibjms;
-
 import fr.xebia.jms.JmsCharsetHelper;
 
 /**
@@ -33,41 +31,45 @@ import fr.xebia.jms.JmsCharsetHelper;
  */
 public class JmsCharsetHelperTibjmsImpl implements JmsCharsetHelper {
 
-    /**
-     * <p>
-     * Set given <code>charset</code> to given <code>TibjmsMessage</code>.
-     * </p>
-     * <p>
-     * {@link Charset} is set with {@link Tibjms#setMessageEncoding(Message, String)}
-     * </p>
-     * 
-     * @see #getMessageCharset(Message)
-     * @see Tibjms#setMessageEncoding(Message, String)
-     */
-    public void setMessageCharset(Message message, String charset) throws JMSException, UnsupportedCharsetException {
-        Tibjms.setMessageEncoding(message, charset);
-    }
+	/**
+	 * <p>
+	 * Set given <code>charset</code> to given <code>TibjmsMessage</code>.
+	 * </p>
+	 * <p>
+	 * {@link Charset} is set with
+	 * {@link Tibjms#setMessageEncoding(Message, String)}
+	 * </p>
+	 * 
+	 * @see #getMessageCharset(Message)
+	 * @see Tibjms#setMessageEncoding(Message, String)
+	 */
+	public void setMessageCharset(Message message, String charset) throws JMSException, UnsupportedCharsetException {
+		// Tibjms.setMessageEncoding(message, charset);
+	}
 
-    /**
-     * <p>
-     * Return the default charset of the given <code>destination</code>
-     * </p>
-     * <p>
-     * {@link Destination} charset is defined by {@link Tibjms#getEncoding()}.
-     * </p>
-     * 
-     * @see Tibjms#getEncoding()
-     */
-    public String getDestinationCharset(Destination destination) {
-        return Tibjms.getEncoding();
-    }
+	/**
+	 * <p>
+	 * Return the default charset of the given <code>destination</code>
+	 * </p>
+	 * <p>
+	 * {@link Destination} charset is defined by {@link Tibjms#getEncoding()}.
+	 * </p>
+	 * 
+	 * @see Tibjms#getEncoding()
+	 */
+	public String getDestinationCharset(Destination destination) {
+		throw new UnsupportedOperationException();
+		// return Tibjms.getEncoding();
+	}
 
-    /**
-     * {@link Message} charset is defined via {@link Tibjms#getMessageEncoding(Message)}.
-     * 
-     * @see Tibjms#setMessageEncoding(Message, String)
-     */
-    public String getMessageCharset(Message message) throws JMSException {
-        return Tibjms.getMessageEncoding(message);
-    }
+	/**
+	 * {@link Message} charset is defined via
+	 * {@link Tibjms#getMessageEncoding(Message)}.
+	 * 
+	 * @see Tibjms#setMessageEncoding(Message, String)
+	 */
+	public String getMessageCharset(Message message) throws JMSException {
+		throw new UnsupportedOperationException();
+		// return Tibjms.getMessageEncoding(message);
+	}
 }

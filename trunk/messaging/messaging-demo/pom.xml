@@ -234,14 +234,6 @@
          <version>2.3</version>
       </dependency>
       <dependency>
-         <!--
-				Evaluation version download : http://cf.tibco.com/eval/tibjms.cfm
-			-->
-         <groupId>com.tibco.ems</groupId>
-         <artifactId>tibjms</artifactId>
-         <version>4.1.4</version>
-      </dependency>
-      <dependency>
          <groupId>org.apache.activemq</groupId>
          <artifactId>activemq-core</artifactId>
          <version>5.3.2</version>
@@ -259,42 +251,49 @@
          <version>3.4.3</version>
       </dependency>
       <dependency>
-         <groupId>com.ibm.mq</groupId>
-         <artifactId>com.ibm.mqjms</artifactId>
-         <version>${mq.version}</version>
-      </dependency>
-      <dependency>
-         <groupId>com.ibm.mq</groupId>
-         <artifactId>com.ibm.mq</artifactId>
-         <version>${mq.version}</version>
-      </dependency>
-      <dependency>
-         <groupId>com.ibm.mq</groupId>
-         <artifactId>CL3Export</artifactId>
-         <version>${mq.version}</version>
-      </dependency>
-      <dependency>
-         <groupId>com.ibm.mq</groupId>
-         <artifactId>CL3Nonexport</artifactId>
-         <version>${mq.version}</version>
-      </dependency>
-      <dependency>
-         <groupId>com.ibm.mq</groupId>
-         <artifactId>dhbcore</artifactId>
-         <version>${mq.version}</version>
-      </dependency>
-      <dependency>
-         <groupId>com.ibm.mq</groupId>
-         <artifactId>rmm</artifactId>
-         <version>${mq.version}</version>
-      </dependency>
-      <dependency>
          <!--
-				ftp://ftp.software.ibm.com/software/websphere/appserv/support/tools/JMSclient/sibc_oeminst-o0810.09.jar
-			-->
-         <groupId>com.ibm.ws.sib</groupId>
-         <artifactId>sibc.jms</artifactId>
-         <version>o0810.09</version>
+            at least 7.0.1.2 to benefit of IZ53893: HASHCODE METHOD MISSING FOR MQDESTINATION IN WEBSPHERE MQ V7 JMSCLIENT
+         -->
+         <groupId>com.ibm.websphere.mq</groupId>
+         <artifactId>com.ibm.mqjms</artifactId>
+         <version>${websphere-mq.version}</version>
+         <scope>runtime</scope>
+      </dependency>
+      <dependency>
+         <groupId>com.ibm.websphere.mq</groupId>
+         <artifactId>com.ibm.mq</artifactId>
+         <version>${websphere-mq.version}</version>
+         <scope>runtime</scope>
+      </dependency>
+      <dependency>
+         <groupId>com.ibm.websphere.mq</groupId>
+         <artifactId>dhbcore</artifactId>
+         <version>${websphere-mq.version}</version>
+         <scope>runtime</scope>
+      </dependency>
+      <dependency>
+         <groupId>com.ibm.websphere.mq</groupId>
+         <artifactId>com.ibm.mq.jmqi</artifactId>
+         <version>${websphere-mq.version}</version>
+         <scope>runtime</scope>
+      </dependency>
+      <dependency>
+         <groupId>com.ibm.websphere.mq</groupId>
+         <artifactId>rmm</artifactId>
+         <version>${websphere-mq.version}</version>
+         <scope>runtime</scope>
+      </dependency>
+      <dependency>
+         <groupId>com.ibm.websphere.mq</groupId>
+         <artifactId>CL3Export</artifactId>
+         <version>${websphere-mq.version}</version>
+         <scope>runtime</scope>
+      </dependency>
+      <dependency>
+         <groupId>com.ibm.websphere.mq</groupId>
+         <artifactId>CL3Nonexport</artifactId>
+         <version>${websphere-mq.version}</version>
+         <scope>runtime</scope>
       </dependency>
       <dependency>
          <groupId>log4j</groupId>
@@ -329,7 +328,7 @@
       <spring.version>3.0.3.RELEASE</spring.version>
       <spring-security.version>3.0.3.RELEASE</spring-security.version>
       <spring-ws.version>1.5.9</spring-ws.version>
-      <cxf.version>2.2.8</cxf.version>
-      <mq.version>6.0.2.1</mq.version>
+      <cxf.version>2.2.9</cxf.version>
+      <websphere-mq.version>7.0.1.2</websphere-mq.version>
    </properties>
 </project>

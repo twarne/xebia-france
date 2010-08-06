@@ -14,16 +14,17 @@
    <!-- See the License for the specific language governing permissions and      -->
    <!-- limitations under the License.                                           -->
    <!--                                                                          -->
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context" xmlns:jaxws="http://cxf.apache.org/jaxws"
-   xmlns:jaxrs="http://cxf.apache.org/jaxrs" xmlns:http-conf="http://cxf.apache.org/transports/http/configuration" xmlns:security="http://cxf.apache.org/configuration/security"
-   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-   xsi:schemaLocation="
-http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
-http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
-http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
-http://cxf.apache.org/transports/http/configuration http://cxf.apache.org/schemas/configuration/http-conf.xsd
-http://cxf.apache.org/configuration/security http://cxf.apache.org/schemas/configuration/security.xsd">
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
+   xmlns:jaxws="http://cxf.apache.org/jaxws" xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+   xmlns:http-conf="http://cxf.apache.org/transports/http/configuration" xmlns:security="http://cxf.apache.org/configuration/security"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+   xsi:schemaLocation="http://cxf.apache.org/transports/http/configuration http://cxf.apache.org/schemas/configuration/http-conf.xsd
+		http://cxf.apache.org/configuration/security http://cxf.apache.org/schemas/configuration/security.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
+		http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+		http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
    <import resource="classpath:META-INF/cxf/cxf.xml" />
    <import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
    <import resource="classpath:META-INF/cxf/cxf-extension-http.xml" />
@@ -35,14 +36,13 @@ http://cxf.apache.org/configuration/security http://cxf.apache.org/schemas/confi
    <context:annotation-config />
    <context:property-placeholder location="classpath:applicationContext.properties" />
    <jaxws:endpoint implementor="fr.xebia.demo.ws.employee.EmployeeServiceImpl" address="/employee-service">
-      <jaxws:features>
+      <jaxws:features>      
          <!--
             logging is enabled/disabled setting log4j loggers to INFO : org.apache.cxf.interceptor.LoggingInInterceptor
             org.apache.cxf.interceptor.LoggingOutInterceptor
          -->
          <bean class="org.apache.cxf.feature.LoggingFeature" />
          <bean class="org.apache.cxf.management.interceptor.ResponseTimeFeature" />
-         <bean class="fr.xebia.cxf.feature.FaultEnhancerFeature" />
       </jaxws:features>
       <!--
          <jaxws:schemaLocations> <jaxws:schemaLocation>classpath:META-INF/xsd/employee-1.0.xsd</jaxws:schemaLocation>
@@ -74,13 +74,13 @@ http://cxf.apache.org/configuration/security http://cxf.apache.org/schemas/confi
    <bean id="org.apache.cxf.management.InstrumentationManager" class="org.apache.cxf.management.jmx.InstrumentationManagerImpl">
       <property name="bus" ref="cxf" />
       <property name="enabled" value="true" />
-      <property name="threaded" value="false" />
-      <property name="daemon" value="false" />
-      <!-- <property name="JMXServiceURL" value="service:jmx:rmi:///jndi/rmi://localhost:9914/jmxrmi-2" />-->
+      <property name="createMBServerConnectorFactory" value="false" />
+      <property name="server" ref="mbeanServer" />
    </bean>
 
    <!--
       <jaxrs:server id="employeeServiceJaxRs" address="/"> <jaxrs:serviceBeans> <bean class="fr.xebia.demo.ws.rs.employee.EmployeeService"
       /> </jaxrs:serviceBeans> </jaxrs:server>
    -->
+   <context:mbean-server />
 </beans>
