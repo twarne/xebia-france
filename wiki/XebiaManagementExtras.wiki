@@ -63,8 +63,6 @@ Please note that this {{{ManagedConnectionFactory}}} is not intended to help you
 
 {{{ManagedCachingConnectionFactory}}} allows to manage a Spring JMS Caching Connection Factory via JMX. 
 
-fr.xebia.springframework.jms.ManagedCachingConnectionFactory
-
  * JMX Object Name: {{{"javax.jms:type=CachingConnectionFactory,name=${spring-bean-name}"}}} where {{{"${spring-bean-name}"}}} is the name of the spring object
  * Operations:
   * {{{resetConnection}}} : close the underlying connection and its associated sessions, message producers and message consumers. 
