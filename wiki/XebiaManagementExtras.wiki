@@ -59,6 +59,31 @@ Please note that this {{{ManagedConnectionFactory}}} is not intended to help you
  * A non Spring enabled version is available with {{{fr.xebia.management.jms.ManagedConnectionFactory}}}.
  * Hyperic plugin: [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/hyperic/tomcat-extras-jms-plugin.xml tomcat-extras-jms-plugin.xml] (1)
 
+= Spring JMS Caching Connection Factory =
+
+{{{ManagedCachingConnectionFactory}}} allows to manage a Spring JMS Caching Connection Factory via JMX. 
+
+fr.xebia.springframework.jms.ManagedCachingConnectionFactory
+
+ * JMX Object Name: {{{"javax.jms:type=CachingConnectionFactory,name=${spring-bean-name}"}}} where {{{"${spring-bean-name}"}}} is the name of the spring object
+ * Operations:
+  * {{{resetConnection}}} : close the underlying connection and its associated sessions, message producers and message consumers. 
+ * Attributes:
+  * {{{CacheConsumers}}}, {{{CacheProducers}}}, {{{ReconnectOnException}}} : boolean configuration parameters
+  * {{{SessionCacheSize}}} : max size of the sessions cache.
+
+ * Spring configuration:
+  {{{
+<beans ...>
+   <bean id="cachingConnectionFactory" class="fr.xebia.springframework.jms.ManagedCachingConnectionFactory">
+      <property name="targetConnectionFactory" ref="myConnectionFactory" />
+   </bean>
+   ...
+</beans>
+}}} 
+ * {{{ManagedCachingConnectionFactory}}} is a subclass of the {{{org.springframework.jms.connection.CachingConnectionFactory}}}. It has been tested with Active MQ 5.3.2 and WebSphere MQ 7.0.1.2.
+ * Hyperic plugin: [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/hyperic/tomcat-extras-jms-plugin.xml tomcat-extras-jms-plugin.xml] (only exposes the {{{resetConnection}}} operation) (1)
+
 = Jakarta Commons DBCP JDBC Data Source =
 
 {{{ManagedBasicDataSource}}} allows to monitora [http://commons.apache.org/dbcp/ Jakarta Commons DBCP Data Source]. It is not intended to monitor JDBC resource leaks and thus it does not monitor resource's {{{close()}}}.
