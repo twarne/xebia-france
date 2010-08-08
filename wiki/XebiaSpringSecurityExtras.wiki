@@ -1,0 +1,83 @@
+#summary Spring Security extras (audit, etc)
+
+= Introduction =
+
+
+= Audit =
+
+== @Audited ==
+
+{{{@Audited}}} annotation writes an info message in the underlying SLF4J logger each time the method is invoked
+
+ * Usage pattern:
+{{{
+@Audited(message = "transferMoney(#{args[0].accountNumber}, #{args[1].accountNumber}, #{args[3].amount})")
+public void transferMoney(Account from, Account to, Amount amount) throws BusinessException { ... }
+}}}
+ * Emitted message format : {{{"$date{yyyy/MM/dd-HH:mm:ss:SSS} ${message} [throwing ${exception.toString()}] by ${spring-security.principal.name} [coming from ${spring-security.principal.ip}]"}}}
+ * Spring Framework Configuration :
+ {{{
+<beans ... >
+   <aop:aspectj-autoproxy proxy-target-class="true" />
+   <bean id="AuditAspect" class="fr.xebia.audit.AuditAspect" />
+   ...
+</beans>
+}}}
+ * This annotation relies Spring Security to get the authenticated user name and its ip address
+ * The {{{message}}} attribute uses Spring Expression Language; available variables are:
+  * {{{args}}}: the array of methods arguments,
+  * {{{invokedObject}}}: the invoked object instance,
+  * {{{throwned}}}: the exception if one has been throwned
+  * {{{returned}}}: the returned value.
+ * Logback configuration sample:
+  {{{
+<configuration scan="true">
+   ...
+   <appender name="audit-file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+      <file>${LOGS_FOLDER}/my-application-audit.log</file>
+      <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+         <fileNamePattern>${LOGS_TO_COLLECT_FOLDER}/my-application-audit.%d{yyyyMMdd-HHmm}.log.gzip</fileNamePattern>
+      </rollingPolicy>
+      <encoder>
+         <pattern>%m %throwable{0}%n</pattern>
+      </encoder>
+   </appender>
+
+   <logger name="fr.xebia.audit" additivity="false" level="TRACE">
+      <appender-ref ref="audit-file" />
+   </logger>
+   ...
+</configuration>
+}}}
+ * Log4j configuration sample:
+  {{{
+log4j.appender.auditfile=org.apache.log4j.DailyRollingFileAppender
+log4j.appender.auditfile.datePattern='-'yyyyMMdd
+log4j.appender.auditfile.file=${catalina.base}/logs/my-app-audit.log
+log4j.appender.auditfile.layout=org.apache.log4j.EnhancedPatternLayout
+log4j.appender.auditfile.layout.conversionPattern=%m %throwable{short}\n
+
+log4j.logger.fr.xebia.audit=INFO, auditfile
+}}}
+ 
+== Auditor ==
+
+
+ * Usage pattern:
+{{{
+public void transferMoney(...) throws BusinessException {
+   ...
+   Auditor.audit("Tranfer " + amount + " from " + fromAccount + " to " + toAccount);
+}
+}}}
+ * Emitted message format : {{{"$date{yyyy/MM/dd-HH:mm:ss:SSS} ${message} [throwing ${exception.toString()}] by ${spring-security.principal.name} [coming from ${spring-security.principal.ip}]"}}}
+ * Spring Framework Configuration :
+ {{{
+<beans ... >
+   <aop:aspectj-autoproxy proxy-target-class="true" />
+   <bean id="AuditAspect" class="fr.xebia.audit.AuditAspect" />
+   ...
+</beans>
+}}}
+ * This annotation relies Spring Security to get the authenticated user name and its ip address
+ * Logback and log4j configuration sample: see @Audited above
