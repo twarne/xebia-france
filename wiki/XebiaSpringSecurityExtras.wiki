@@ -71,13 +71,5 @@ public void transferMoney(...) throws BusinessException {
 }
 }}}
  * Emitted message format : {{{"$date{yyyy/MM/dd-HH:mm:ss:SSS} ${message} [throwing ${exception.toString()}] by ${spring-security.principal.name} [coming from ${spring-security.principal.ip}]"}}}
- * Spring Framework Configuration :
- {{{
-<beans ... >
-   <aop:aspectj-autoproxy proxy-target-class="true" />
-   <bean id="AuditAspect" class="fr.xebia.audit.AuditAspect" />
-   ...
-</beans>
-}}}
  * This annotation relies Spring Security to get the authenticated user name and its ip address
  * Logback and log4j configuration sample: see @Audited above
