@@ -62,7 +62,6 @@ log4j.logger.fr.xebia.audit=INFO, auditfile
  
 == Auditor ==
 
-
  * Usage pattern:
 {{{
 public void transferMoney(...) throws BusinessException {
@@ -73,3 +72,12 @@ public void transferMoney(...) throws BusinessException {
  * Emitted message format : {{{"$date{yyyy/MM/dd-HH:mm:ss:SSS} ${message} [throwing ${exception.toString()}] by ${spring-security.principal.name} [coming from ${spring-security.principal.ip}]"}}}
  * This annotation relies Spring Security to get the authenticated user name and its ip address
  * Logback and log4j configuration sample: see @Audited above
+
+= How to Integrate this library in your project =
+
+TODO : maven configuration
+
+
+= Developers =
+
+ * Source : http://xebia-france.googlecode.com/svn/springframework/xebia-spring-security-extras/trunk/
