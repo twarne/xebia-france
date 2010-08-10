@@ -1,4 +1,5 @@
 #summary Spring Security extras (audit, etc)
+#labels Featured
 
 = Introduction =
 
