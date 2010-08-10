@@ -2,6 +2,7 @@
 
 = Introduction =
 
+Spring Security addons.
 
 = Audit =
 
@@ -88,7 +89,9 @@ public void transferMoney(...) throws BusinessException {
       </dependency>
    </dependencies>
 </project>
- * Download [xebia-spring-security-extras-1.1.0.jar http://xebia-france.googlecode.com/files/xebia-spring-security-extras-1.1.0.jar]
+}}}
+ * Download [http://xebia-france.googlecode.com/files/xebia-spring-security-extras-1.1.0.jar xebia-spring-security-extras-1.1.0.jar ]
+
 = Developers =
 
  * Source : http://xebia-france.googlecode.com/svn/springframework/xebia-spring-security-extras/trunk/
