@@ -7,7 +7,7 @@
 
 == @Audited ==
 
-{{{@Audited}}} annotation writes an info message in the underlying SLF4J logger each time the method is invoked
+{{{@Audited}}} annotation writes an info message in the underlying SLF4J "{{{fr.xebia.audit}}}" logger each time the method is invoked
 
  * Usage pattern:
 {{{
