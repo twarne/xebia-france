@@ -14,7 +14,8 @@
 @Audited(message = "transferMoney(#{args[0].accountNumber}, #{args[1].accountNumber}, #{args[3].amount})")
 public void transferMoney(Account from, Account to, Amount amount) throws BusinessException { ... }
 }}}
- * Emitted message format : {{{"$date{yyyy/MM/dd-HH:mm:ss:SSS} ${message} [throwing ${exception.toString()}] by ${spring-security.principal.name} [coming from ${spring-security.principal.ip}]"}}}
+ * Emitted message format: {{{"$date{yyyy/MM/dd-HH:mm:ss:SSS} ${message} [throwing ${exception.toString()}] by ${spring-security.principal.name} [coming from ${spring-security.principal.ip}]"}}}
+ * Sample of message: {{{"2010-08-11T00:23:05.353+0200 save(John Smith, john.smith@xebia.fr): 324325 by ze-principal coming from 10.0.0.1"}}}
  * Spring Framework Configuration :
  {{{
 <beans ... >
@@ -53,7 +54,7 @@ public void transferMoney(Account from, Account to, Amount amount) throws Busine
   {{{
 log4j.appender.auditfile=org.apache.log4j.DailyRollingFileAppender
 log4j.appender.auditfile.datePattern='-'yyyyMMdd
-log4j.appender.auditfile.file=${catalina.base}/logs/my-app-audit.log
+log4j.appender.auditfile.file=${catalina.base}/logs/my-application-audit.log
 log4j.appender.auditfile.layout=org.apache.log4j.EnhancedPatternLayout
 log4j.appender.auditfile.layout.conversionPattern=%m %throwable{short}\n
 
@@ -70,14 +71,24 @@ public void transferMoney(...) throws BusinessException {
 }
 }}}
  * Emitted message format : {{{"$date{yyyy/MM/dd-HH:mm:ss:SSS} ${message} [throwing ${exception.toString()}] by ${spring-security.principal.name} [coming from ${spring-security.principal.ip}]"}}}
+ * Sample of message: {{{"2010-08-11T00:23:05.353+0200 Transfer 1000 euros from account[12345] to account[9876] by ze-principal coming from 10.0.0.1"}}}
  * This annotation relies Spring Security to get the authenticated user name and its ip address
  * Logback and log4j configuration sample: see @Audited above
 
 = How to Integrate this library in your project =
 
-TODO : maven configuration
-
-
+ * Maven integration :
+   {{{
+<project ...>
+   <dependencies>
+      <dependency>
+         <groupId>fr.xebia.springframework</groupId>
+         <artifactId>xebia-spring-security-extras</artifactId>
+         <version>1.1</version>
+      </dependency>
+   </dependencies>
+</project>
+ * Download [xebia-spring-security-extras-1.1.0.jar http://xebia-france.googlecode.com/files/xebia-spring-security-extras-1.1.0.jar]
 = Developers =
 
  * Source : http://xebia-france.googlecode.com/svn/springframework/xebia-spring-security-extras/trunk/
