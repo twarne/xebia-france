@@ -3,7 +3,7 @@
 
 = Introduction =
 
-Spring Security addons.
+Spring Security addons. This code is not provided by SpringSource nor by the Spring Framework Project.
 
 = Audit =
 
