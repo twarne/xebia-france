@@ -92,7 +92,7 @@ There are different ways to integrate these features in your project:
    </dependencies>
 </project>
 }}}
- * Download the jar [http://xebia-france.googlecode.com/files/xebia-spring-security-extras-1.1.0.jar xebia-spring-security-extras-1.1.0.jar ],
+ * Download the jar [http://xebia-france.googlecode.com/files/xebia-spring-security-extras-1.1.0.jar xebia-spring-security-extras-1.1.0.jar] ([http://xebia-france.googlecode.com/files/xebia-spring-security-extras-1.1.0-sources.jar sources]),
  * Get the source from svn, modify it if needed and add it to your project. The source is available under [http://www.apache.org/licenses/LICENSE-2.0 Apache Software Licence 2] at http://xebia-france.googlecode.com/svn/springframework/xebia-spring-security-extras/trunk/ .
 
 = Developers =
