@@ -26,6 +26,7 @@ public void transferMoney(Account from, Account to, Amount amount) throws Busine
    ...
 </beans>
 }}}
+ Setting {{{proxy-target-class="true"}}} is not always required, a test with your code.
  * This annotation relies Spring Security to get the authenticated user name and its ip address
  * The {{{message}}} attribute uses Spring Expression Language; available variables are:
   * {{{args}}}: the array of methods arguments,
@@ -62,7 +63,8 @@ log4j.appender.auditfile.layout.conversionPattern=%m %throwable{short}\n
 
 log4j.logger.fr.xebia.audit=INFO, auditfile
 }}}
- 
+ * Implementation details: this annotation works with an aspect and requires [http://static.springsource.org/spring/docs/3.0.x/spring-framework-reference/html/aop.html Spring AOP]
+
 == Auditor ==
 
  * Usage pattern:
