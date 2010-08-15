@@ -4,7 +4,7 @@
 
 Extras on top of Java SE (e.g. Thread Pool) and Spring Framework (e.g. JMS Listener) to ease monitoring.
 
-=  Java Util Concurrent Thread Pool Executor =
+=  Java Util Concurrent Thread Pool Executor Monitoring =
 
 {{{ThreadPoolExecutorFactory}}} allows to monitor a {{{java.util.concurrent.ThreadPoolExecutor}}}.
 
@@ -23,12 +23,14 @@ Extras on top of Java SE (e.g. Thread Pool) and Spring Framework (e.g. JMS Liste
       <property name="threadNamePrefix" value="my-pool" />
    </bean>
    ...
+   <!-- mbean exporter wil register the thread pool executor mbean -->
+   <context:mbean-export server="..." />
 </beans>
 }}} 
  * The {{{ThreadPoolExecutorFactory}}} is a Spring factory of a subclass of {{{java.util.concurrent.ThreadPoolExecutor}}},
  * Hyperic plugin: [https://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/hyperic/tomcat-extras-executorservice-plugin.xml tomcat-extras-executorservice-plugin.xml] (1)
 
-= JMS Connection Factory =
+= JMS Connection Factory Monitoring =
 
 {{{ManagedConnectionFactory}}} allows to monitor JMS resources. Exceptions ratios will help you to diagnose failures of the JMS Broker, increase of the send duration will help you to see saturation of the JMS Broker and changes of the creation rates will indicate changes in the usage of your application.
 
@@ -53,13 +55,15 @@ Please note that this {{{ManagedConnectionFactory}}} is not intended to help you
       </property>
    </bean>
    ...
+   <!-- mbean exporter wil register the jms connection factory mbean -->
+   <context:mbean-export server="..." />
 </beans>
 }}} 
  * {{{ManagedConnectionFactory}}} is a wrapper of a JMS 1.1 {{{javax.jms.ConnectionFactory}}}. It has been tested with Active MQ 5.3.2 and WebSphere MQ 7.0.1.2.
  * A non Spring enabled version is available with {{{fr.xebia.management.jms.ManagedConnectionFactory}}}.
  * Hyperic plugin: [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/hyperic/tomcat-extras-jms-plugin.xml tomcat-extras-jms-plugin.xml] (1)
 
-= Spring JMS Caching Connection Factory =
+= Spring JMS Caching Connection Factory Monitoring =
 
 {{{ManagedCachingConnectionFactory}}} allows to manage a Spring JMS Caching Connection Factory via JMX. 
 
@@ -77,12 +81,14 @@ Please note that this {{{ManagedConnectionFactory}}} is not intended to help you
       <property name="targetConnectionFactory" ref="myConnectionFactory" />
    </bean>
    ...
+   <!-- mbean exporter wil register the spring jms caching connection factory mbean -->
+   <context:mbean-export server="..." />
 </beans>
 }}} 
  * {{{ManagedCachingConnectionFactory}}} is a subclass of the {{{org.springframework.jms.connection.CachingConnectionFactory}}}. It has been tested with Active MQ 5.3.2 and WebSphere MQ 7.0.1.2.
  * Hyperic plugin: [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/hyperic/tomcat-extras-jms-plugin.xml tomcat-extras-jms-plugin.xml] (only exposes the {{{resetConnection}}} operation) (1)
 
-= Jakarta Commons DBCP JDBC Data Source =
+= Jakarta Commons DBCP JDBC Data Source Monitoring =
 
 {{{ManagedBasicDataSource}}} allows to monitora [http://commons.apache.org/dbcp/ Jakarta Commons DBCP Data Source]. It is not intended to monitor JDBC resource leaks and thus it does not monitor resource's {{{close()}}}.
 
@@ -102,10 +108,33 @@ Please note that this {{{ManagedConnectionFactory}}} is not intended to help you
       <property name="maxWait" value="50" />
    </bean>
    ...
+   <!-- mbean exporter wil register the dbcp mbean -->
+   <context:mbean-export server="..." />
 </beans>
 }}} 
  * The {{{ManagedBasicDataSource}}} is a subclass of [http://commons.apache.org/dbcp/ Jakarta Commons DBCP] {{{org.apache.commons.dbcp.BasicDataSource}}}; it has been used with version 1.4,
  * Hyperic plugin: [https://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/hyperic/tomcat-extras-dbcp-plugin.xml tomcat-extras-dbcp-plugin.xml] (1)
+
+= Servlet Context Aware MBean Server =
+
+A problem with MBean Servers is that they work at the JVM level and that several web applications may want to register mbeans with the same name. This is typically the case with mbeans exposed by common libraries/frameworks like  EH Cache or CXF.
+
+To ensure that deploying several web applications on the same servlet engine (Tomcat, Websphere, Weblogic, JBoss, etc), we developed a thin MBeanServer wrapper which appends to mbeans names:
+ * the web application path,
+ * if the servlet container is Tomcat, the web application host,
+ * any extra attribute defined by configuration.
+
+Spring Configuration sample:
+{{{
+<beans ...>
+   <context:mbean-server id="rawMBeanServer" />
+   <bean id="mbeanServer" class="fr.xebia.management.ServletContextAwareMBeanServerFactory">
+      <property name="mbeanServer" ref="rawMBeanServer" />
+   </bean>
+   <context:mbean-export server="mbeanServer" />
+   ...
+</beans>
+}}} 
 
 
 ---- 
