@@ -28,6 +28,7 @@ Extras on top of Java SE (e.g. Thread Pool) and Spring Framework (e.g. JMS Liste
 </beans>
 }}} 
  * The {{{ThreadPoolExecutorFactory}}} is a Spring factory of a subclass of {{{java.util.concurrent.ThreadPoolExecutor}}},
+ * JSP monitoring page : [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/webapp/jmx/thread-pool-executor.jsp thread-pool-executor.jsp (source)], <a href="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-jsp-thread-pool-executor.png" target="screenshot"><img src="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-jsp-thread-pool-executor.png" height="30"/></a>,
  * Hyperic plugin: [https://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/hyperic/tomcat-extras-executorservice-plugin.xml tomcat-extras-executorservice-plugin.xml] (1)
 
 = JMS Connection Factory Monitoring =
@@ -60,7 +61,8 @@ Please note that this {{{ManagedConnectionFactory}}} is not intended to help you
 </beans>
 }}} 
  * {{{ManagedConnectionFactory}}} is a wrapper of a JMS 1.1 {{{javax.jms.ConnectionFactory}}}. It has been tested with Active MQ 5.3.2 and WebSphere MQ 7.0.1.2.
- * A non Spring enabled version is available with {{{fr.xebia.management.jms.ManagedConnectionFactory}}}.
+ * A non Spring enabled version is available with {{{fr.xebia.management.jms.ManagedConnectionFactory}}},
+ * JSP monitoring page : [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/webapp/jmx/jms.jsp jms.jsp (source)], <a href="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-jsp-jms.png" target="screenshot"><img src="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-jsp-jms.png" height="30"/></a>,
  * Hyperic plugin: [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/hyperic/tomcat-extras-jms-plugin.xml tomcat-extras-jms-plugin.xml] (1)
 
 = Spring JMS Caching Connection Factory Monitoring =
@@ -113,6 +115,7 @@ Please note that this {{{ManagedConnectionFactory}}} is not intended to help you
 </beans>
 }}} 
  * The {{{ManagedBasicDataSource}}} is a subclass of [http://commons.apache.org/dbcp/ Jakarta Commons DBCP] {{{org.apache.commons.dbcp.BasicDataSource}}}; it has been used with version 1.4,
+ * JSP monitoring page : [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/webapp/jmx/dbcp.jsp dbcp.jsp (source)], <a href="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-jsp-dbcp.png" target="screenshot"><img src="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-jsp-dbcp.png" height="30"/></a>
  * Hyperic plugin: [https://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/hyperic/tomcat-extras-dbcp-plugin.xml tomcat-extras-dbcp-plugin.xml] (1)
 
 = Servlet Context Aware MBean Server =
