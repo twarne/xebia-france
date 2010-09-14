@@ -40,7 +40,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.style.ToStringCreator;
 import org.springframework.jms.support.converter.MessageConversionException;
 import org.springframework.jms.support.converter.MessageConverter;
-import org.springframework.oxm.jaxb.AbstractJaxbMarshaller;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.xml.transform.StringSource;
 
@@ -175,7 +174,7 @@ public class JaxbMessageConverter implements MessageConverter, InitializingBean 
      * @see javax.xml.bind.Marshaller#JAXB_SCHEMA_LOCATION
      * @see AbstractJaxbMarshaller#setMarshallerProperties(Map)
      */
-    public void setMarshallerProperties(Map<String, ?> properties) {
+    public void setMarshallerProperties(Map<String, Object> properties) {
         jaxb2Marshaller.setMarshallerProperties(properties);
         this.marshallerProperties = properties;
     }
@@ -247,7 +246,7 @@ public class JaxbMessageConverter implements MessageConverter, InitializingBean 
      * @see javax.xml.bind.Unmarshaller#setProperty(String,Object)
      * @see AbstractJaxbMarshaller#setUnmarshallerProperties(Map)
      */
-    public void setUnmarshallerProperties(Map<String, ?> properties) {
+    public void setUnmarshallerProperties(Map<String, Object> properties) {
         jaxb2Marshaller.setUnmarshallerProperties(properties);
     }
 
