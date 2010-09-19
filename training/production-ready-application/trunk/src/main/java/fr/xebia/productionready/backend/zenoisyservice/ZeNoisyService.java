@@ -43,8 +43,8 @@ public class ZeNoisyService {
 
     private final Random random = new Random();
 
-    public String doNoisyJob(String in) {
-        logger.debug("entering doNoidyJob({})", in);
+    public String doNoisyJob(long id) {
+        logger.debug("entering doNoidyJob({})", id);
 
         // POTENTIALLY LONG TASK
         long nanoTimeBefore = System.nanoTime();
@@ -57,21 +57,21 @@ public class ZeNoisyService {
         long durationInNanos = System.nanoTime() - nanoTimeBefore;
 
         if (durationInNanos > durationWarningThresholdInNanos) {
-            performanceLogger.warn("ZeNoisyService.doNoisyJob({}) took {} ms ! add query details to help diagnostic", in,
+            performanceLogger.warn("ZeNoisyService.doNoisyJob({}) took {} ms ! add query details to help diagnostic", id,
                     TimeUnit.MILLISECONDS.convert(durationInNanos, TimeUnit.NANOSECONDS));
         } else {
-            performanceLogger.info("ZeNoisyService.doNoisyJob({}) took {} ms", in, TimeUnit.MILLISECONDS.convert(durationInNanos,
+            performanceLogger.info("ZeNoisyService.doNoisyJob({}) took {} ms", id, TimeUnit.MILLISECONDS.convert(durationInNanos,
                     TimeUnit.NANOSECONDS));
         }
 
-        logger.debug("exiting doNoidyJob({}) : {}", in);
+        logger.debug("exiting doNoidyJob({}) : {}", id);
 
         // INFORMATION TO AUDIT
-        String magicStringToAudit = in + "-" + Long.toHexString(random.nextLong());
-        auditLogger.info("ZeNoisyService.doNoisyJob({}) -> {}", in);
+        String magicStringToAudit = id + "-" + Long.toHexString(random.nextLong());
+        auditLogger.info("ZeNoisyService.doNoisyJob({}) -> {}", id);
 
         String result = "noisy response " + magicStringToAudit;
-        logger.debug("exiting ZeNoisyService.doNoisyJob({}) : {}", in, result);
+        logger.debug("exiting ZeNoisyService.doNoisyJob({}) : {}", id, result);
         return result;
     }
 

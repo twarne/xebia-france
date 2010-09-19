@@ -33,9 +33,9 @@ import org.slf4j.LoggerFactory;
 
 import fr.xebia.ws.customer.v1_0.CustomerService;
 
-public class ZeNoisyServicePounder {
+public class ZeVerySlowAggregatingServicePounder {
     
-    private static Logger logger = LoggerFactory.getLogger(ZeNoisyServicePounder.class);
+    private static Logger logger = LoggerFactory.getLogger(ZeVerySlowAggregatingServicePounder.class);
     
     public static void main(String[] args) {
         try {
@@ -62,7 +62,7 @@ public class ZeNoisyServicePounder {
                 public void run() {
                     for (int j = 0; j < 10000; j++) {
                         try {
-                            customerService.zeNoisyOperation(random.nextInt(100));
+                            customerService.zeVerySlowAggregatingOperation(random.nextInt(100));
                             StressTestUtils.incrementProgressBar("-");
                         } catch (RuntimeException e) {
                             boolean isTimeOutException = ExceptionUtils.indexOfThrowable(e, SocketTimeoutException.class) != -1;

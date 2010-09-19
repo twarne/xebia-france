@@ -36,6 +36,7 @@ import fr.xebia.productionready.backend.zebuggyservice.ZeBuggyServiceException;
 import fr.xebia.productionready.backend.zenoisyservice.ZeNoisyService;
 import fr.xebia.productionready.backend.zeslowservice.ZeSlowPerson;
 import fr.xebia.productionready.backend.zeslowservice.ZeSlowService;
+import fr.xebia.productionready.service.ZeVerySlowAggregatingService;
 
 @ManagedResource(objectName = "fr.xebia:service=CustomerService,type=CustomerServiceImpl")
 public class CustomerServiceImpl implements CustomerService {
@@ -51,8 +52,10 @@ public class CustomerServiceImpl implements CustomerService {
     private ZeBuggyService zeBuggyService;
 
     private ZeNoisyService zeNoisyService;
-    
+
     private ZeSlowService zeSlowService;
+    
+    private ZeVerySlowAggregatingService zeVerySlowAggregatingService;
 
     private void doSomeWork(long id, Customer customer) throws CustomerNotFoundException {
         // RANDOMLY THROW EXCEPTION
@@ -146,6 +149,10 @@ public class CustomerServiceImpl implements CustomerService {
         this.zeSlowService = zeSlowService;
     }
 
+    public void setZeVerySlowAggregatingService(ZeVerySlowAggregatingService zeVerySlowAggregatingService) {
+        this.zeVerySlowAggregatingService = zeVerySlowAggregatingService;
+    }
+
     protected void updateCustomerWithZeBuggyServiceData(long id, Customer customer) {
         try {
             ZeBuggyPerson zeBuggyPerson = zeBuggyService.find(id);
@@ -175,8 +182,23 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public String zeNoisyOperation(String in) {
-        return zeNoisyService.doNoisyJob(in);
+    public String zeNoisyOperation(long id) {
+        return zeNoisyService.doNoisyJob(id);
     }
 
+    @Override
+    public String zeSlowOperation(long id) {
+        return zeSlowService.find(id).toString();
+    }
+
+    @Override
+    public String zeVerySlowAggregatingOperation(long id) {
+        return zeVerySlowAggregatingService.doWork(id);
+    }
+
+    @Override
+    public String zeJmsOperation(String in) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

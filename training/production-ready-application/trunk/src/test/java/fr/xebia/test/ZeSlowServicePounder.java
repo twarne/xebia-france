@@ -33,9 +33,9 @@ import org.slf4j.LoggerFactory;
 
 import fr.xebia.ws.customer.v1_0.CustomerService;
 
-public class ZeNoisyServicePounder {
+public class ZeSlowServicePounder {
     
-    private static Logger logger = LoggerFactory.getLogger(ZeNoisyServicePounder.class);
+    private static Logger logger = LoggerFactory.getLogger(ZeSlowServicePounder.class);
     
     public static void main(String[] args) {
         try {
@@ -47,7 +47,7 @@ public class ZeNoisyServicePounder {
     }
 
     private static void stressTest() throws InterruptedException {
-        StressTestUtils.setlegend("-: success \r\n*: runtime exception \r\n#: time out exception");
+        StressTestUtils.setlegend("-: success \r\n0: customer not found \r\n*: runtime exception \r\n#: time out exception");
         
         final CustomerService customerService = buildCustomerService();
 
@@ -62,7 +62,7 @@ public class ZeNoisyServicePounder {
                 public void run() {
                     for (int j = 0; j < 10000; j++) {
                         try {
-                            customerService.zeNoisyOperation(random.nextInt(100));
+                            customerService.zeSlowOperation(random.nextInt(100));
                             StressTestUtils.incrementProgressBar("-");
                         } catch (RuntimeException e) {
                             boolean isTimeOutException = ExceptionUtils.indexOfThrowable(e, SocketTimeoutException.class) != -1;

@@ -189,7 +189,16 @@
    </jaxws:endpoint>
 
    <!-- THREAD POOL -->
-   <bean id="threadPool" class="fr.xebia.springframework.concurrent.ThreadPoolExecutorFactory">
+   <bean id="helloWorldServiceListenerThreadPool" class="fr.xebia.springframework.concurrent.ThreadPoolExecutorFactory">
+      <property name="nbThreads" value="10" />
+      <property name="queueCapacity" value="15" />
+   </bean>
+
+   <bean id="zeVerySlowServiceExecutorThreadPool" class="fr.xebia.springframework.concurrent.ThreadPoolExecutorFactory">
+      <property name="nbThreads" value="10" />
+      <property name="queueCapacity" value="15" />
+   </bean>
+   <bean id="anotherVerySlowServiceExecutorThreadPool" class="fr.xebia.springframework.concurrent.ThreadPoolExecutorFactory">
       <property name="nbThreads" value="10" />
       <property name="queueCapacity" value="15" />
    </bean>
@@ -227,6 +236,22 @@
       <property name="zeSlowService" ref="zeSlowServiceImpl" />
    </bean>
 
+   <bean id="anotherVerySlowService" class="fr.xebia.productionready.backend.anotherveryslowservice.AnotherVerySlowServiceImpl"></bean>
+   <bean id="zeVerySlowService" class="fr.xebia.productionready.backend.zeveryslowservice.ZeVerySlowServiceImpl"></bean>
+
+   <bean id="zeVerySlowAggregatingServiceImpl" class="fr.xebia.productionready.service.ZeVerySlowAggregatingServiceImpl">
+      <property name="anotherVerySlowService" ref="anotherVerySlowService" />
+      <property name="zeVerylowService" ref="zeVerySlowService" />
+   </bean>
+   
+   <bean id="zeVerySlowAggregatingServiceParallelImpl" class="fr.xebia.productionready.service.ZeVerySlowAggregatingServiceParallelImpl">
+      <property name="anotherVerySlowService" ref="anotherVerySlowService" />
+      <property name="anotherVerySlowServiceExecutor" ref="anotherVerySlowServiceExecutorThreadPool" />
+      <property name="zeVerySlowService" ref="zeVerySlowService" />
+      <property name="zeVerySlowServiceExecutor" ref="zeVerySlowServiceExecutorThreadPool" />
+   </bean>
+
+
    <bean id="customerCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
       <property name="cacheManager" ref="cacheManager" />
       <property name="cacheName" value="fr.xebia.ws.customer.v1_0.Customer" />
@@ -241,6 +266,7 @@
       <property name="zeBuggyService" ref="zeBuggyService" />
       <property name="zeNoisyService" ref="zeNoisyService" />
       <property name="zeSlowService" ref="zeSlowService" />
+      <property name="zeVerySlowAggregatingService" ref="zeVerySlowAggregatingServiceParallelImpl" />
    </bean>
 
    <jaxws:endpoint id="customerService" implementor="#customerServiceImpl" address="/v1.0/customerService" endpointName="se:customerServiceSOAP"
@@ -273,7 +299,7 @@
 
    <bean id="helloWorldServiceMessageListener" class="fr.xebia.productionready.service.HelloWorldServiceMessageListener">
       <property name="dataSource" ref="dataSource" />
-      <property name="executorService" ref="threadPool" />
+      <property name="executorService" ref="helloWorldServiceListenerThreadPool" />
    </bean>
 
 </beans>

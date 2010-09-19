@@ -62,11 +62,53 @@
          <xsd:element name="zeNoisyOperation">
             <xsd:complexType>
                <xsd:sequence>
-                  <xsd:element name="in" type="xsd:string"></xsd:element>
+                  <xsd:element name="id" type="xsd:long"></xsd:element>
                </xsd:sequence>
             </xsd:complexType>
          </xsd:element>
          <xsd:element name="zeNoisyOperationResponse">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element name="out" type="xsd:string"></xsd:element>
+               </xsd:sequence>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="zeSlowOperation">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element name="id" type="xsd:long"></xsd:element>
+               </xsd:sequence>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="zeSlowOperationResponse">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element name="out" type="xsd:string"></xsd:element>
+               </xsd:sequence>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="zeVerySlowAggregatingOperation">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element name="id" type="xsd:long"></xsd:element>
+               </xsd:sequence>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="zeVerySlowAggregatingOperationResponse">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element name="out" type="xsd:string"></xsd:element>
+               </xsd:sequence>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="zeJmsOperation">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element name="in" type="xsd:string"></xsd:element>
+               </xsd:sequence>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="zeJmsOperationResponse">
             <xsd:complexType>
                <xsd:sequence>
                   <xsd:element name="out" type="xsd:string"></xsd:element>
@@ -96,6 +138,24 @@
    <wsdl:message name="zeNoisyOperationResponse">
       <wsdl:part name="parameters" element="tns:zeNoisyOperationResponse"></wsdl:part>
    </wsdl:message>
+   <wsdl:message name="zeSlowOperationRequest">
+      <wsdl:part name="parameters" element="tns:zeSlowOperation"></wsdl:part>
+   </wsdl:message>
+   <wsdl:message name="zeSlowOperationResponse">
+      <wsdl:part name="parameters" element="tns:zeSlowOperationResponse"></wsdl:part>
+   </wsdl:message>
+   <wsdl:message name="zeVerySlowAggregatingOperationRequest">
+      <wsdl:part name="parameters" element="tns:zeVerySlowAggregatingOperation"></wsdl:part>
+   </wsdl:message>
+   <wsdl:message name="zeVerySlowAggregatingOperationResponse">
+      <wsdl:part name="parameters" element="tns:zeVerySlowAggregatingOperationResponse"></wsdl:part>
+   </wsdl:message>
+   <wsdl:message name="zeJmsOperationRequest">
+      <wsdl:part name="parameters" element="tns:zeJmsOperation"></wsdl:part>
+   </wsdl:message>
+   <wsdl:message name="zeJmsOperationResponse">
+      <wsdl:part name="parameters" element="tns:zeJmsOperationResponse"></wsdl:part>
+   </wsdl:message>
    <wsdl:portType name="customerService">
       <wsdl:operation name="getCustomer">
          <wsdl:input message="tns:getCustomerRequest" />
@@ -109,6 +169,18 @@
       <wsdl:operation name="zeNoisyOperation">
          <wsdl:input message="tns:zeNoisyOperationRequest"></wsdl:input>
          <wsdl:output message="tns:zeNoisyOperationResponse"></wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="zeSlowOperation">
+         <wsdl:input message="tns:zeSlowOperationRequest"></wsdl:input>
+         <wsdl:output message="tns:zeSlowOperationResponse"></wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="zeVerySlowAggregatingOperation">
+         <wsdl:input message="tns:zeVerySlowAggregatingOperationRequest"></wsdl:input>
+         <wsdl:output message="tns:zeVerySlowAggregatingOperationResponse"></wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="zeJmsOperation">
+         <wsdl:input message="tns:zeJmsOperationRequest"></wsdl:input>
+         <wsdl:output message="tns:zeJmsOperationResponse"></wsdl:output>
       </wsdl:operation>
    </wsdl:portType>
    <wsdl:binding name="customerServiceSOAP" type="tns:customerService">
@@ -136,6 +208,33 @@
       </wsdl:operation>
       <wsdl:operation name="zeNoisyOperation">
          <soap:operation soapAction="http://ws.xebia.fr/customer/v1_0/zeNoisyOperation" />
+         <wsdl:input>
+            <soap:body use="literal" />
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal" />
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="zeSlowOperation">
+         <soap:operation soapAction="http://ws.xebia.fr/customer/v1_0/zeSlowOperation" />
+         <wsdl:input>
+            <soap:body use="literal" />
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal" />
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="zeVerySlowAggregatingOperation">
+         <soap:operation soapAction="http://ws.xebia.fr/customer/v1_0/zeVerySlowAggregatingOperation" />
+         <wsdl:input>
+            <soap:body use="literal" />
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal" />
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="zeJmsOperation">
+         <soap:operation soapAction="http://ws.xebia.fr/customer/v1_0/zeJmsOperation" />
          <wsdl:input>
             <soap:body use="literal" />
          </wsdl:input>
