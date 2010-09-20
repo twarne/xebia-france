@@ -33,42 +33,41 @@ import org.springframework.util.ClassUtils;
 @ManagedResource(objectName = "fr.xebia:service=ZeNoisyService,type=ZeNoisyServiceImpl")
 public class ZeNoisyService {
 
-    private final Logger auditLogger = LoggerFactory.getLogger("fr.xebia.audit." + ClassUtils.getShortName(ZeNoisyService.class));
+    private final Logger auditLogger = LoggerFactory.getLogger("fr.xebia.productionready." + ClassUtils.getShortName(ZeNoisyService.class));
 
     private long durationWarningThresholdInNanos = TimeUnit.NANOSECONDS.convert(200, TimeUnit.MILLISECONDS);
 
     private final Logger logger = LoggerFactory.getLogger(ZeNoisyService.class);
 
-    private final Logger performanceLogger = LoggerFactory.getLogger("fr.xebia.performances." + ClassUtils.getShortName(ZeNoisyService.class));
+    private final Logger performanceLogger = LoggerFactory.getLogger("fr.xebia.performances."
+            + ClassUtils.getShortName(ZeNoisyService.class));
 
     private final Random random = new Random();
+
+    private ZeNoisySubService zeNoisySubService = new ZeNoisySubService();
 
     public String doNoisyJob(long id) {
         logger.debug("entering doNoidyJob({})", id);
 
-        // POTENTIALLY LONG TASK
+        // INVOKE POTENTIALLY LONG WORK
         long nanoTimeBefore = System.nanoTime();
         try {
-            Thread.sleep(random.nextInt(500));
-        } catch (InterruptedException e) {
-            logger.warn("Exception sleeping", e);
-            Thread.interrupted();
-        }
-        long durationInNanos = System.nanoTime() - nanoTimeBefore;
-
-        if (durationInNanos > durationWarningThresholdInNanos) {
-            performanceLogger.warn("ZeNoisyService.doNoisyJob({}) took {} ms ! add query details to help diagnostic", id,
-                    TimeUnit.MILLISECONDS.convert(durationInNanos, TimeUnit.NANOSECONDS));
-        } else {
-            performanceLogger.info("ZeNoisyService.doNoisyJob({}) took {} ms", id, TimeUnit.MILLISECONDS.convert(durationInNanos,
-                    TimeUnit.NANOSECONDS));
+            zeNoisySubService.doPotentiallySlowWork(id);
+        } finally {
+            // LOG INVOCATION DURATION
+            long durationInNanos = System.nanoTime() - nanoTimeBefore;
+            if (durationInNanos > durationWarningThresholdInNanos) {
+                performanceLogger.warn("ZeNoisyService.doNoisyJob({}) took {} ms ! add query details to help diagnostic", id,
+                        TimeUnit.MILLISECONDS.convert(durationInNanos, TimeUnit.NANOSECONDS));
+            } else {
+                performanceLogger.info("ZeNoisyService.doNoisyJob({}) took {} ms", id, TimeUnit.MILLISECONDS.convert(durationInNanos,
+                        TimeUnit.NANOSECONDS));
+            }
         }
 
-        logger.debug("exiting doNoidyJob({}) : {}", id);
-
-        // INFORMATION TO AUDIT
+        // AUDIT 
         String magicStringToAudit = id + "-" + Long.toHexString(random.nextLong());
-        auditLogger.info("ZeNoisyService.doNoisyJob({}) -> {}", id);
+        auditLogger.info("ZeNoisyService.doNoisyJob({}) -> {}", id, magicStringToAudit);
 
         String result = "noisy response " + magicStringToAudit;
         logger.debug("exiting ZeNoisyService.doNoisyJob({}) : {}", id, result);
