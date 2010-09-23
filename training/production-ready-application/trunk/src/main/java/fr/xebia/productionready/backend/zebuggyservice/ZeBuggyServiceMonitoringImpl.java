@@ -15,12 +15,6 @@
  */
 package fr.xebia.productionready.backend.zebuggyservice;
 
-import java.net.SocketTimeoutException;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicLong;
-
-import org.apache.commons.lang.exception.ExceptionUtils;
 import org.springframework.jmx.export.annotation.ManagedAttribute;
 import org.springframework.jmx.export.annotation.ManagedResource;
 
@@ -30,50 +24,16 @@ import org.springframework.jmx.export.annotation.ManagedResource;
 @ManagedResource(objectName = "fr.xebia:service=ZeBuggyService,type=ZeBuggyServiceStatistics")
 public class ZeBuggyServiceMonitoringImpl implements ZeBuggyService {
 
-    final private AtomicInteger invocationCount = new AtomicInteger();
-
-    final private AtomicLong totalDurationInNanos = new AtomicLong();
-
-    final private AtomicInteger otherRuntimeExceptionCount = new AtomicInteger();
-
-    final private AtomicInteger zeBuggyServiceExceptionCount = new AtomicInteger();
-
-    final private AtomicInteger timeoutExceptionCount = new AtomicInteger();
-
-    final private AtomicInteger numActive = new AtomicInteger();
-
     private ZeBuggyService zeBuggyService;
 
     @Override
     public ZeBuggyPerson find(long id) throws ZeBuggyServiceException, ZeBuggyServiceRuntimeException, RuntimeException {
-        long nanoTimeAfter = System.nanoTime();
-        numActive.incrementAndGet();
-        try {
-            return zeBuggyService.find(id);
-        } catch (RuntimeException e) {
-            if (ExceptionUtils.indexOfThrowable(e, SocketTimeoutException.class) != -1) {
-                timeoutExceptionCount.incrementAndGet();
-            } else {
-                otherRuntimeExceptionCount.incrementAndGet();
-            }
-            throw e;
-        } catch (ZeBuggyServiceException e) {
-            if (ExceptionUtils.indexOfThrowable(e, SocketTimeoutException.class) != -1) {
-                timeoutExceptionCount.incrementAndGet();
-            } else {
-                zeBuggyServiceExceptionCount.incrementAndGet();
-            }
-            throw e;
-        } finally {
-            numActive.decrementAndGet();
-            invocationCount.incrementAndGet();
-            totalDurationInNanos.addAndGet(System.nanoTime() - nanoTimeAfter);
-        }
+        return zeBuggyService.find(id);
     }
 
     @ManagedAttribute(description = "Number of invocations (trendsup)")
     public int getInvocationCount() {
-        return invocationCount.get();
+        return 0;
     }
 
     /**
@@ -84,7 +44,7 @@ public class ZeBuggyServiceMonitoringImpl implements ZeBuggyService {
      */
     @ManagedAttribute(description = "Total duration of the invocations in nanos (trendsup)")
     public long getTotalDurationInNanos() {
-        return totalDurationInNanos.get();
+        return 0;
     }
 
     /**
@@ -95,27 +55,27 @@ public class ZeBuggyServiceMonitoringImpl implements ZeBuggyService {
      */
     @ManagedAttribute(description = "Total duration of the invocations in nanos (trendsup)")
     public long getTotalDurationInMillis() {
-        return TimeUnit.MILLISECONDS.convert(totalDurationInNanos.get(), TimeUnit.NANOSECONDS);
+        return 0;
     }
 
     @ManagedAttribute(description = "Number of invocations that raised unclassified runtime exceptions (trendsup)")
     public int getOtherRuntimeExceptionCount() {
-        return otherRuntimeExceptionCount.get();
+        return 0;
     }
 
     @ManagedAttribute(description = "Number of invocations that raised unclassified ZeBuggyService exceptions (trendsup)")
     public int getZeBuggyServiceExceptionCount() {
-        return zeBuggyServiceExceptionCount.get();
+        return 0;
     }
 
     @ManagedAttribute(description = "Number of invocations that raised timeout exceptions (trendsup)")
     public int getTimeoutExceptionCount() {
-        return timeoutExceptionCount.get();
+        return 0;
     }
 
     @ManagedAttribute(description = "Number of active invocations to Ze Buggy Service")
     public int getCurrentActive() {
-        return numActive.get();
+        return 0;
     }
 
     public void setZeBuggyService(ZeBuggyService zeBuggyService) {

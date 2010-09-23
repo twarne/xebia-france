@@ -15,88 +15,51 @@
  */
 package fr.xebia.productionready.backend.zeslowservice;
 
-import java.util.concurrent.Semaphore;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
-
 import org.springframework.jmx.export.annotation.ManagedAttribute;
 import org.springframework.jmx.export.annotation.ManagedResource;
 
 @ManagedResource(objectName = "fr.xebia:service=ZeSlowService,type=ZeSlowServiceBoundedImpl")
 public class ZeSlowServiceBoundedImpl implements ZeSlowService {
 
-    private AtomicInteger invocationCount = new AtomicInteger();
-
-    private int maxConcurrentInvocations = 100;
-
-    private AtomicInteger rejectedInvocationCount = new AtomicInteger();
-
-    private Semaphore semaphore = new Semaphore(maxConcurrentInvocations);
-
-    private long semaphoreAcquireTimeoutInMillis = 1000;
-
     private ZeSlowService zeSlowService;
 
     @Override
     public ZeSlowPerson find(long id) {
 
-        invocationCount.incrementAndGet();
-        try {
-            // copy the semaphore instance reference into a local reference to allow hot reconfiguration
-            Semaphore activeSemaphore = this.semaphore;
-            boolean acquired = activeSemaphore.tryAcquire(semaphoreAcquireTimeoutInMillis, TimeUnit.MILLISECONDS);
-            if (acquired) {
-                try {
-                    return zeSlowService.find(id);
-                } finally {
-                    activeSemaphore.release();
-                }
-            } else {
-                rejectedInvocationCount.incrementAndGet();
-                throw new RuntimeException("Too many concurrent access to ZeSlowService");
-            }
-        } catch (InterruptedException e) {
-            rejectedInvocationCount.incrementAndGet();
-            Thread.currentThread().interrupt();
-            throw new RuntimeException("Interrupted waiting to access to the ZeSlowService", e);        }
+        return zeSlowService.find(id);
+
     }
 
     @ManagedAttribute
     public int getAvailablePermits() {
-        return this.semaphore.availablePermits();
+        return 0;
     }
 
     @ManagedAttribute
     public int getInvocationCount() {
-        return invocationCount.get();
+        return 0;
     }
 
     @ManagedAttribute
     public int getMaxConcurrentInvocations() {
-        return maxConcurrentInvocations;
+        return 0;
     }
 
     @ManagedAttribute
     public int getRejectedInvocationCount() {
-        return rejectedInvocationCount.get();
+        return 0;
     }
 
     public long getSemaphoreAcquireTimeoutInMillis() {
-        return semaphoreAcquireTimeoutInMillis;
-    }
-
-    public ZeSlowService getZeSlowService() {
-        return zeSlowService;
+        return 0;
     }
 
     @ManagedAttribute
     public void setMaxConcurrentInvocations(int maxConcurrentInvocations) {
-        this.maxConcurrentInvocations = maxConcurrentInvocations;
-        this.semaphore = new Semaphore(maxConcurrentInvocations);
+
     }
 
     public void setSemaphoreAcquireTimeoutInMillis(long semaphoreAcquireTimeoutInMillis) {
-        this.semaphoreAcquireTimeoutInMillis = semaphoreAcquireTimeoutInMillis;
     }
 
     public void setZeSlowService(ZeSlowService zeSlowService) {

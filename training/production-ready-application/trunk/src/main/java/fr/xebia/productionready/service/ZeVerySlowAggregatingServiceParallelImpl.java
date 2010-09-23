@@ -33,50 +33,21 @@ public class ZeVerySlowAggregatingServiceParallelImpl implements ZeVerySlowAggre
 
     private AnotherVerySlowService anotherVerySlowService;
 
-    private ExecutorService anotherVerySlowServiceExecutor;
-
-    private long timeoutInMillis = 2500;
-
     private ZeVerySlowService zeVerySlowService;
-
-    private ExecutorService zeVerySlowServiceExecutor;
 
     @Override
     public String doWork(final long id) {
 
-        Callable<String> zeVerySlowCommand = new Callable<String>() {
-            @Override
-            public String call() throws Exception {
-                return zeVerySlowService.find(id);
-            }
-        };
-        Future<String> zeVerySlowResponse = zeVerySlowServiceExecutor.submit(zeVerySlowCommand);
+        String zeVerySlowResponse = zeVerySlowService.find(id);
+        String anotherVerySlowResponse = anotherVerySlowService.find(id);
 
-        Callable<String> anotherVerySlowCommand = new Callable<String>() {
-            @Override
-            public String call() throws Exception {
-                return anotherVerySlowService.find(id);
-            }
-        };
-        Future<String> anotherVerySlowResponse = anotherVerySlowServiceExecutor.submit(anotherVerySlowCommand);
-
-        String result;
-        try {
-            result = zeVerySlowResponse.get(timeoutInMillis, TimeUnit.MILLISECONDS) + "\t-\t"
-                    + anotherVerySlowResponse.get(timeoutInMillis, TimeUnit.MILLISECONDS);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        } catch (ExecutionException e) {
-            throw new RuntimeException(e);
-        } catch (TimeoutException e) {
-            throw new RuntimeException(e);
-        }
+        String result = zeVerySlowResponse + "\t-\t" + anotherVerySlowResponse;
         return result;
     }
 
     @ManagedAttribute
     public long getTimeoutInMillis() {
-        return timeoutInMillis;
+        return 0;
     }
 
     public void setAnotherVerySlowService(AnotherVerySlowService anotherVerySlowService) {
@@ -84,11 +55,11 @@ public class ZeVerySlowAggregatingServiceParallelImpl implements ZeVerySlowAggre
     }
 
     public void setAnotherVerySlowServiceExecutor(ExecutorService anotherVerySlowServiceExecutor) {
-        this.anotherVerySlowServiceExecutor = anotherVerySlowServiceExecutor;
+
     }
 
     public void setTimeoutInMillis(long timeoutInMillis) {
-        this.timeoutInMillis = timeoutInMillis;
+
     }
 
     public void setZeVerySlowService(ZeVerySlowService zeVerySlowService) {
@@ -96,6 +67,6 @@ public class ZeVerySlowAggregatingServiceParallelImpl implements ZeVerySlowAggre
     }
 
     public void setZeVerySlowServiceExecutor(ExecutorService zeVerySlowServiceExecutor) {
-        this.zeVerySlowServiceExecutor = zeVerySlowServiceExecutor;
+
     }
 }
