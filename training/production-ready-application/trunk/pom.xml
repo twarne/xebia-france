@@ -1,15 +1,14 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
    <modelVersion>4.0.0</modelVersion>
    <groupId>fr.xebia.training</groupId>
    <artifactId>production-ready-application</artifactId>
    <packaging>war</packaging>
-   <version>0.0.1-SNAPSHOT</version>
+   <version>0.0.1</version>
    <name>production-ready-application Maven Webapp</name>
    <scm>
-      <connection>scm:svn:http://xebia-france.googlecode.com/svn/training/production-ready-application/trunk/</connection>
-      <developerConnection>scm:svn:https://xebia-france.googlecode.com/svn/training/production-ready-application/trunk/</developerConnection>
+      <connection>scm:svn:http://xebia-france.googlecode.com/svn/training/production-ready-application/tags/production-ready-application-0.0.1</connection>
+      <developerConnection>scm:svn:https://xebia-france.googlecode.com/svn/training/production-ready-application/tags/production-ready-application-0.0.1</developerConnection>
    </scm>
    <dependencies>
       <!-- Spring framework -->
