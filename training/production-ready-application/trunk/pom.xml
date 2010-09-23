@@ -7,6 +7,10 @@
    <packaging>war</packaging>
    <version>0.0.1-SNAPSHOT</version>
    <name>production-ready-application Maven Webapp</name>
+   <scm>
+      <connection>scm:svn:http://xebia-france.googlecode.com/svn/training/production-ready-application/trunk/</connection>
+      <developerConnection>scm:svn:https://xebia-france.googlecode.com/svn/training/production-ready-application/trunk/</developerConnection>
+   </scm>
    <dependencies>
       <!-- Spring framework -->
       <dependency>
