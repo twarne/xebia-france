@@ -33,7 +33,7 @@ import org.springframework.util.ClassUtils;
 @ManagedResource(objectName = "fr.xebia:service=ZeNoisyService,type=ZeNoisyServiceImpl")
 public class ZeNoisyService {
 
-    private final Logger auditLogger = LoggerFactory.getLogger("fr.xebia.productionready." + ClassUtils.getShortName(ZeNoisyService.class));
+    private final Logger auditLogger = LoggerFactory.getLogger("fr.xebia.audit." + ClassUtils.getShortName(ZeNoisyService.class));
 
     private long durationWarningThresholdInNanos = TimeUnit.NANOSECONDS.convert(200, TimeUnit.MILLISECONDS);
 
