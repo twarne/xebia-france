@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+   xmlns:lang="http://www.springframework.org/schema/lang" xmlns:util="http://www.springframework.org/schema/util" xmlns:context="http://www.springframework.org/schema/context"
+   xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jaxws="http://cxf.apache.org/jaxws"
+   xmlns:http-conf="http://cxf.apache.org/transports/http/configuration" xmlns:security="http://cxf.apache.org/configuration/security"
+   xmlns:sec="http://www.springframework.org/schema/security" xmlns:jaxrs="http://cxf.apache.org/jaxrs" xmlns:mvc="http://www.springframework.org/schema/mvc"
+   xmlns:jms="http://www.springframework.org/schema/jms"
+   xsi:schemaLocation="http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
+		http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang-3.0.xsd
+		http://cxf.apache.org/configuration/security http://cxf.apache.org/schemas/configuration/security.xsd
+		http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms.xsd
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://cxf.apache.org/transports/http/configuration http://cxf.apache.org/schemas/configuration/http-conf.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
+		http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+   <aop:aspectj-autoproxy proxy-target-class="true" />
+
+   <context:annotation-config />
+   <tx:annotation-driven />
+
+   <bean id="AuditAspect" class="fr.xebia.audit.AuditAspect" />
+
+   <!-- JMX -->
+   <bean id="mbeanServer" class="fr.xebia.management.ServletContextAwareMBeanServerFactory">
+      <property name="mbeanServer" ref="rawMBeanServer" />
+   </bean>
+   <context:mbean-server id="rawMBeanServer" />
+   <context:mbean-export server="mbeanServer" />
+
+   <bean id="webApplicationMavenInformation" class="fr.xebia.management.maven.WebApplicationMavenInformation" />
+
+   <!-- SECURITY -->
+   <sec:http auto-config='true' realm="Production Ready Application">
+      <sec:intercept-url pattern="/services/**" access="ROLE_USER" />
+      <sec:http-basic />
+      <sec:anonymous />
+   </sec:http>
+
+   <sec:authentication-manager>
+      <sec:authentication-provider ref="authenticationProvider" user-service-ref="userDetailsManager" />
+   </sec:authentication-manager>
+
+   <bean id="userDetailsManager" class="fr.xebia.springframework.security.core.userdetails.jdbc.ExtendedJdbcUserDetailsManager">
+      <property name="dataSource" ref="dataSource" />
+      <property name="userCache" ref="userCache" />
+   </bean>
+   <bean id="authenticationProvider" class="fr.xebia.springframework.security.core.providers.ExtendedDaoAuthenticationProvider">
+      <property name="passwordEncoder">
+         <bean class="org.springframework.security.authentication.encoding.LdapShaPasswordEncoder" />
+      </property>
+      <property name="saltSource">
+         <bean class="org.springframework.security.authentication.dao.ReflectionSaltSource">
+            <property name="userPropertyToUse" value="getUsername" />
+         </bean>
+      </property>
+      <property name="userCache" ref="userCache" />
+      <property name="userDetailsService" ref="userDetailsManager" />
+   </bean>
+
+   <bean id="userCache" class="org.springframework.security.core.userdetails.cache.EhCacheBasedUserCache">
+      <property name="cache">
+         <bean class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+            <property name="cacheManager" ref="cacheManager" />
+            <property name="cacheName" value="org.springframework.security.userdetails.UserDetails" />
+         </bean>
+      </property>
+   </bean>
+
+   <!-- JPA / ENTITY MANAGER / HIBERNATE -->
+   <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean" depends-on="countryCache, hibernate.UpdateTimestampsCache, hibernate.StandardQueryCache">
+      <property name="persistenceUnitName" value="production-ready-application-persistence-unit" />
+      <property name="dataSource" ref="dataSource" />
+      <property name="loadTimeWeaver">
+         <bean class="org.springframework.instrument.classloading.InstrumentationLoadTimeWeaver" />
+      </property>
+      <property name="jpaVendorAdapter">
+         <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+            <property name="databasePlatform" value="org.hibernate.dialect.H2Dialect" />
+            <property name="showSql" value="true" />
+            <property name="generateDdl" value="true" />
+         </bean>
+      </property>
+      <property name="jpaProperties">
+         <props>
+            <!-- Override properties defined in /META-INF/persistence.xml -->
+            <prop key="hibernate.cache.region.factory_class">net.sf.ehcache.hibernate.SingletonEhCacheRegionFactory</prop>
+            <prop key="hibernate.cache.use_query_cache">true</prop>
+            <prop key="hibernate.cache.use_second_level_cache">true</prop>
+            <prop key="hibernate.cache.use_structured_entries">true</prop>
+            <prop key="hibernate.current_session_context_class">thread</prop>
+            <prop key="hibernate.dialect">org.hibernate.dialect.H2Dialect</prop>
+            <prop key="hibernate.format_sql">true</prop>
+            <prop key="hibernate.generate_statistics">true</prop>
+            <prop key="hibernate.use_sql_comments">true</prop>
+            <prop key="javax.persistence.transactionType">RESOURCE_LOCAL</prop>
+         </props>
+      </property>
+   </bean>
+   <bean id="hibernateStatistics" class="org.hibernate.jmx.StatisticsService">
+      <property name="statisticsEnabled" value="true" />
+      <property name="sessionFactory" ref="sessionFactory" />
+   </bean>
+
+   <bean id="sessionFactory" factory-bean="entityManagerFactory" factory-method="getSessionFactory" />
+
+   <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+      <property name="entityManagerFactory" ref="entityManagerFactory" />
+   </bean>
+
+   <!-- EH CACHE -->
+   <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+      <property name="cacheManagerName" value="productionReadyApplicationCacheManager" />
+      <property name="shared" value="true" />
+   </bean>
+   <bean id="productionReadyApplicationCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+      <property name="cacheManager" ref="cacheManager" />
+      <property name="cacheName" value="productionReadyApplicationCache" />
+      <property name="diskExpiryThreadIntervalSeconds" value="120" />
+      <property name="diskPersistent" value="false" />
+      <property name="eternal" value="false" />
+      <property name="maxElementsInMemory" value="10000" />
+      <property name="maxElementsOnDisk" value="20000" />
+      <property name="memoryStoreEvictionPolicy" value="LRU" />
+      <property name="overflowToDisk" value="true" />
+      <!-- 1800 seconds = 30 mins -->
+      <property name="timeToIdle" value="1800" />
+      <property name="timeToLive" value="1800" />
+   </bean>
+   <bean id="countryCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+      <property name="cacheManager" ref="cacheManager" />
+      <property name="cacheName" value="fr.xebia.productionready.model.Country" />
+   </bean>
+   <bean id="hibernate.UpdateTimestampsCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+      <property name="cacheManager" ref="cacheManager" />
+      <property name="cacheName" value="org.hibernate.cache.UpdateTimestampsCache" />
+   </bean>
+   <bean id="hibernate.StandardQueryCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+      <property name="cacheManager" ref="cacheManager" />
+      <property name="cacheName" value="org.hibernate.cache.StandardQueryCache" />
+   </bean>
+
+   <bean id="managementService" class="net.sf.ehcache.management.ManagementService" init-method="init" destroy-method="dispose">
+      <constructor-arg ref="mbeanServer" />
+      <constructor-arg ref="cacheManager" />
+      <constructor-arg index="2" value="true" />
+      <constructor-arg index="3" value="true" />
+      <constructor-arg index="4" value="true" />
+      <constructor-arg index="5" value="true" />
+   </bean>
+
+   <!-- CXF -->
+   <import resource="classpath:META-INF/cxf/cxf.xml" />
+   <import resource="classpath:META-INF/cxf/cxf-extension-http.xml" />
+   <import resource="classpath:META-INF/cxf/cxf-extension-jaxrs-binding.xml" />
+   <import resource="classpath:META-INF/cxf/cxf-extension-jaxws.xml" />
+   <import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
+   <import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
+
+   <bean id="cxf" class="org.apache.cxf.bus.CXFBusImpl">
+      <property name="id" value="production-ready-application-cxf-bus" />
+   </bean>
+   <bean id="org.apache.cxf.management.InstrumentationManager" class="org.apache.cxf.management.jmx.InstrumentationManagerImpl">
+      <property name="server" ref="mbeanServer" />
+      <property name="enabled" value="true" />
+      <property name="createMBServerConnectorFactory" value="false" />
+   </bean>
+   <bean id="CounterRepository" class="org.apache.cxf.management.counters.CounterRepository">
+      <property name="bus" ref="cxf" />
+   </bean>
+
+   <bean id="helloWorldServiceImpl" class="fr.xebia.productionready.service.HelloWorldServiceImpl" />
+   <jaxws:endpoint id="helloWorldService" implementor="#helloWorldServiceImpl" address="/helloWorldService" endpointName="se:helloWorldServiceSOAP"
+      serviceName="se:helloWorldService" xmlns:se="http://www.xebia.fr/productionready/webservice">
+      <jaxws:features>
+         <bean class="org.apache.cxf.feature.LoggingFeature" />
+         <bean class="org.apache.cxf.management.interceptor.ResponseTimeFeature" />
+      </jaxws:features>
+      <jaxws:properties>
+         <entry key="faultStackTraceEnabled" value="true" />
+      </jaxws:properties>
+   </jaxws:endpoint>
+
+   <!-- THREAD POOL -->
+   <bean id="helloWorldServiceListenerThreadPool" class="fr.xebia.springframework.concurrent.ThreadPoolExecutorFactory">
+      <property name="nbThreads" value="10" />
+      <property name="queueCapacity" value="15" />
+   </bean>
+
+   <bean id="zeVerySlowServiceExecutorThreadPool" class="fr.xebia.springframework.concurrent.ThreadPoolExecutorFactory">
+      <property name="nbThreads" value="10" />
+      <property name="queueCapacity" value="15" />
+   </bean>
+   <bean id="anotherVerySlowServiceExecutorThreadPool" class="fr.xebia.springframework.concurrent.ThreadPoolExecutorFactory">
+      <property name="nbThreads" value="10" />
+      <property name="queueCapacity" value="15" />
+   </bean>
+
+   <!-- DATASOURCE -->
+
+   <bean id="embeddedDataSource" class="fr.xebia.springframework.jdbc.ManagedBasicDataSource">
+      <property name="url" value="jdbc:h2:mem:production-ready-application-db" />
+      <property name="driverClassName" value="org.h2.Driver" />
+      <property name="username" value="sa" />
+      <property name="password" value="" />
+      <property name="maxActive" value="10" />
+      <property name="maxWait" value="50" />
+   </bean>
+
+   <jee:jndi-lookup id="productionReadyApplicationDataSource" jndi-name="java:comp/env/jdbc/production-ready-application-data-source" />
+
+   <alias name="embeddedDataSource" alias="dataSource" />
+
+   <!-- BUSINESS COMPONENTS -->
+   <bean class="fr.xebia.productionready.Initializer">
+      <property name="dataSource" ref="dataSource" />
+      <property name="userDetailsManager" ref="userDetailsManager" />
+   </bean>
+
+   <bean id="zeBuggyServiceImpl" class="fr.xebia.productionready.backend.zebuggyservice.ZeBuggyServiceImpl" />
+   <bean name="zeBuggyService" class="fr.xebia.productionready.backend.zebuggyservice.ZeBuggyServiceMonitoringImpl">
+      <property name="zeBuggyService" ref="zeBuggyServiceImpl" />
+   </bean>
+
+   <bean id="zeNoisyService" class="fr.xebia.productionready.backend.zenoisyservice.ZeNoisyService"></bean>
+
+   <bean id="zeSlowServiceImpl" class="fr.xebia.productionready.backend.zeslowservice.ZeSlowServiceImpl" />
+   <bean id="zeSlowService" class="fr.xebia.productionready.backend.zeslowservice.ZeSlowServiceBoundedImpl">
+      <property name="zeSlowService" ref="zeSlowServiceImpl" />
+   </bean>
+
+   <bean id="anotherVerySlowService" class="fr.xebia.productionready.backend.anotherveryslowservice.AnotherVerySlowServiceImpl"></bean>
+   <bean id="zeVerySlowService" class="fr.xebia.productionready.backend.zeveryslowservice.ZeVerySlowServiceImpl"></bean>
+
+   <bean id="zeVerySlowAggregatingServiceImpl" class="fr.xebia.productionready.service.ZeVerySlowAggregatingServiceImpl">
+      <property name="anotherVerySlowService" ref="anotherVerySlowService" />
+      <property name="zeVerylowService" ref="zeVerySlowService" />
+   </bean>
+
+   <bean id="zeVerySlowAggregatingServiceParallelImpl" class="fr.xebia.productionready.service.ZeVerySlowAggregatingServiceParallelImpl">
+      <property name="anotherVerySlowService" ref="anotherVerySlowService" />
+      <property name="anotherVerySlowServiceExecutor" ref="anotherVerySlowServiceExecutorThreadPool" />
+      <property name="zeVerySlowService" ref="zeVerySlowService" />
+      <property name="zeVerySlowServiceExecutor" ref="zeVerySlowServiceExecutorThreadPool" />
+   </bean>
+
+   <bean id="zeJmsService" class="fr.xebia.productionready.service.ZeJmsService">
+      <property name="connectionFactory" ref="connectionFactory" />
+   </bean>
+
+   <bean id="customerCache" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+      <property name="cacheManager" ref="cacheManager" />
+      <property name="cacheName" value="fr.xebia.ws.customer.v1_0.Customer" />
+      <property name="maxElementsInMemory" value="50" />
+      <property name="maxElementsOnDisk" value="50" />
+      <property name="timeToLive" value="30" />
+   </bean>
+
+   <bean id="customerServiceImpl" class="fr.xebia.ws.customer.v1_0.CustomerServiceImpl">
+      <property name="customerCache" ref="customerCache" />
+      <property name="zeBuggyService" ref="zeBuggyService" />
+      <property name="zeJmsService" ref="zeJmsService" />
+      <property name="zeNoisyService" ref="zeNoisyService" />
+      <property name="zeSlowService" ref="zeSlowService" />
+      <property name="zeVerySlowAggregatingService" ref="zeVerySlowAggregatingServiceParallelImpl" />
+   </bean>
+
+   <jaxws:endpoint id="customerService" implementor="#customerServiceImpl" address="/v1.0/customerService" endpointName="se:customerServiceSOAP"
+      serviceName="se:customerService" xmlns:se="http://ws.xebia.fr/customer/v1_0" wsdlLocation="/META-INF/wsdl/customerService-1.0.wsdl">
+      <jaxws:features>
+         <bean class="org.apache.cxf.feature.LoggingFeature" />
+         <bean class="org.apache.cxf.management.interceptor.ResponseTimeFeature" />
+      </jaxws:features>
+      <jaxws:properties>
+         <entry key="faultStackTraceEnabled" value="true" />
+      </jaxws:properties>
+   </jaxws:endpoint>
+
+   <!-- JMS -->
+   <bean id="activemqConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+      <property name="brokerURL" value="vm://localhost?broker.persistent=false&amp;broker.useJmx=true" />
+   </bean>
+
+   <bean id="cachingConnectionFactory" class="fr.xebia.springframework.jms.ManagedCachingConnectionFactory">
+      <property name="targetConnectionFactory" ref="activemqConnectionFactory" />
+   </bean>
+   <bean id="connectionFactory" class="fr.xebia.management.jms.SpringManagedConnectionFactory">
+      <property name="delegate" ref="cachingConnectionFactory" />
+   </bean>
+
+   <jms:listener-container connection-factory="connectionFactory" concurrency="5-10"
+      container-class="fr.xebia.springframework.jms.ManagedDefaultMessageListenerContainer">
+      <jms:listener destination="hello-world-queue" ref="helloWorldServiceMessageListener" />
+   </jms:listener-container>
+
+   <bean id="helloWorldServiceMessageListener" class="fr.xebia.productionready.service.HelloWorldServiceMessageListener">
+      <property name="dataSource" ref="dataSource" />
+      <property name="executorService" ref="helloWorldServiceListenerThreadPool" />
+   </bean>
+
+</beans>
