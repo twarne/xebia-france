@@ -4,11 +4,11 @@
    <groupId>fr.xebia.training</groupId>
    <artifactId>production-ready-application</artifactId>
    <packaging>war</packaging>
-   <version>0.0.2-SNAPSHOT</version>
+   <version>0.0.2-teacher-SNAPSHOT</version>
    <name>production-ready-application Maven Webapp</name>
    <scm>
-      <connection>scm:svn:http://xebia-france.googlecode.com/svn/training/production-ready-application/trunk/</connection>
-      <developerConnection>scm:svn:https://xebia-france.googlecode.com/svn/training/production-ready-application/trunk/</developerConnection>
+      <connection>scm:svn:http://xebia-france.googlecode.com/svn/training/production-ready-application/branches/teacher-branch</connection>
+      <developerConnection>scm:svn:https://xebia-france.googlecode.com/svn/training/production-ready-application/branches/teacher-branch</developerConnection>
    </scm>
    <dependencies>
       <!-- Spring framework -->
