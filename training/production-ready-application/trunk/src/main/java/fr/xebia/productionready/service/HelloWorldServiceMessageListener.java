@@ -52,7 +52,7 @@ public class HelloWorldServiceMessageListener implements SessionAwareMessageList
     public void onMessage(TextMessage message, Session session) throws JMSException {
         String response = "Hello " + message.getText();
 
-        logger.warn("Reply '{}' to incoming message {}", response, message);
+        logger.info("Reply '{}' to incoming message {}", response, message);
 
         Destination destination = message.getJMSReplyTo();
         if (destination != null) {
