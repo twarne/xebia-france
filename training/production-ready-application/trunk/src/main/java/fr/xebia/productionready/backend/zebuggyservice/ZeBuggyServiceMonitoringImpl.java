@@ -21,8 +21,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.apache.commons.lang.exception.ExceptionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jmx.export.annotation.ManagedAttribute;
 import org.springframework.jmx.export.annotation.ManagedResource;
+import org.springframework.util.ClassUtils;
+
+import fr.xebia.productionready.backend.zeslowservice.ZeSlowServiceBoundedImpl;
 
 /**
  * @author <a href="mailto:cyrille.leclerc@pobox.com">Cyrille Le Clerc</a>
@@ -30,23 +35,34 @@ import org.springframework.jmx.export.annotation.ManagedResource;
 @ManagedResource(objectName = "fr.xebia:service=ZeBuggyService,type=ZeBuggyServiceStatistics")
 public class ZeBuggyServiceMonitoringImpl implements ZeBuggyService {
 
+    private final static Logger performanceLogger = LoggerFactory.getLogger("fr.xebia.performance."
+            + ClassUtils.getShortName(ZeSlowServiceBoundedImpl.class));
+
+    private long durationThresholdInNanos = TimeUnit.NANOSECONDS.convert(300, TimeUnit.MILLISECONDS);
+
     final private AtomicInteger invocationCount = new AtomicInteger();
-
-    final private AtomicLong totalDurationInNanos = new AtomicLong();
-
-    final private AtomicInteger otherRuntimeExceptionCount = new AtomicInteger();
-
-    final private AtomicInteger zeBuggyServiceExceptionCount = new AtomicInteger();
-
-    final private AtomicInteger timeoutExceptionCount = new AtomicInteger();
 
     final private AtomicInteger numActive = new AtomicInteger();
 
+    final private AtomicInteger otherRuntimeExceptionCount = new AtomicInteger();
+
+    final private AtomicInteger overThresholdInvocationCount = new AtomicInteger();
+
+    final private AtomicInteger timeoutExceptionCount = new AtomicInteger();
+
+    final private AtomicLong totalDurationInNanos = new AtomicLong();
+
     private ZeBuggyService zeBuggyService;
+
+    final private AtomicInteger zeBuggyServiceExceptionCount = new AtomicInteger();
 
     @Override
     public ZeBuggyPerson find(long id) throws ZeBuggyServiceException, ZeBuggyServiceRuntimeException, RuntimeException {
-        long nanoTimeAfter = System.nanoTime();
+
+        String meaningFullParameters = "";
+        String meaningFillSubDurations = "";
+
+        long nanosBefore = System.nanoTime();
         numActive.incrementAndGet();
         try {
             return zeBuggyService.find(id);
@@ -67,8 +83,26 @@ public class ZeBuggyServiceMonitoringImpl implements ZeBuggyService {
         } finally {
             numActive.decrementAndGet();
             invocationCount.incrementAndGet();
-            totalDurationInNanos.addAndGet(System.nanoTime() - nanoTimeAfter);
+
+            long durationInNanos = System.nanoTime() - nanosBefore;
+            totalDurationInNanos.addAndGet(durationInNanos);
+            if (durationInNanos >= durationThresholdInNanos) {
+                overThresholdInvocationCount.incrementAndGet();
+
+                performanceLogger.info("doJob(" + meaningFullParameters + ") " + meaningFillSubDurations + " took "
+                        + TimeUnit.MILLISECONDS.convert(durationInNanos, TimeUnit.NANOSECONDS) + " ms");
+            }
         }
+    }
+
+    @ManagedAttribute(description = "Number of active invocations to Ze Buggy Service")
+    public int getCurrentActive() {
+        return numActive.get();
+    }
+
+    @ManagedAttribute
+    public long getDurationThresholdInNanos() {
+        return durationThresholdInNanos;
     }
 
     @ManagedAttribute(description = "Number of invocations (trendsup)")
@@ -76,15 +110,19 @@ public class ZeBuggyServiceMonitoringImpl implements ZeBuggyService {
         return invocationCount.get();
     }
 
-    /**
-     * Duration in nanos, very fast to obtain as it does not require unit
-     * conversion but not human readable.
-     * 
-     * @see #getTotalDurationInMillis()
-     */
-    @ManagedAttribute(description = "Total duration of the invocations in nanos (trendsup)")
-    public long getTotalDurationInNanos() {
-        return totalDurationInNanos.get();
+    @ManagedAttribute(description = "Number of invocations that raised unclassified runtime exceptions (trendsup)")
+    public int getOtherRuntimeExceptionCount() {
+        return otherRuntimeExceptionCount.get();
+    }
+
+    @ManagedAttribute
+    public int getOverThresholdInvocationCount() {
+        return overThresholdInvocationCount.get();
+    }
+
+    @ManagedAttribute(description = "Number of invocations that raised timeout exceptions (trendsup)")
+    public int getTimeoutExceptionCount() {
+        return timeoutExceptionCount.get();
     }
 
     /**
@@ -98,9 +136,15 @@ public class ZeBuggyServiceMonitoringImpl implements ZeBuggyService {
         return TimeUnit.MILLISECONDS.convert(totalDurationInNanos.get(), TimeUnit.NANOSECONDS);
     }
 
-    @ManagedAttribute(description = "Number of invocations that raised unclassified runtime exceptions (trendsup)")
-    public int getOtherRuntimeExceptionCount() {
-        return otherRuntimeExceptionCount.get();
+    /**
+     * Duration in nanos, very fast to obtain as it does not require unit
+     * conversion but not human readable.
+     * 
+     * @see #getTotalDurationInMillis()
+     */
+    @ManagedAttribute(description = "Total duration of the invocations in nanos (trendsup)")
+    public long getTotalDurationInNanos() {
+        return totalDurationInNanos.get();
     }
 
     @ManagedAttribute(description = "Number of invocations that raised unclassified ZeBuggyService exceptions (trendsup)")
@@ -108,14 +152,8 @@ public class ZeBuggyServiceMonitoringImpl implements ZeBuggyService {
         return zeBuggyServiceExceptionCount.get();
     }
 
-    @ManagedAttribute(description = "Number of invocations that raised timeout exceptions (trendsup)")
-    public int getTimeoutExceptionCount() {
-        return timeoutExceptionCount.get();
-    }
-
-    @ManagedAttribute(description = "Number of active invocations to Ze Buggy Service")
-    public int getCurrentActive() {
-        return numActive.get();
+    public void setDurationThresholdInNanos(long durationThresholdInNanos) {
+        this.durationThresholdInNanos = durationThresholdInNanos;
     }
 
     public void setZeBuggyService(ZeBuggyService zeBuggyService) {
