@@ -15,7 +15,12 @@
  */
 package fr.xebia.productionready.service;
 
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import org.springframework.jmx.export.annotation.ManagedAttribute;
 import org.springframework.jmx.export.annotation.ManagedResource;
@@ -28,21 +33,50 @@ public class ZeVerySlowAggregatingServiceParallelImpl implements ZeVerySlowAggre
 
     private AnotherVerySlowService anotherVerySlowService;
 
+    private ExecutorService anotherVerySlowServiceExecutor;
+
+    private long timeoutInMillis = 2500;
+
     private ZeVerySlowService zeVerySlowService;
+
+    private ExecutorService zeVerySlowServiceExecutor;
 
     @Override
     public String doWork(final long id) {
 
-        String zeVerySlowResponse = zeVerySlowService.find(id);
-        String anotherVerySlowResponse = anotherVerySlowService.find(id);
+        Callable<String> zeVerySlowCommand = new Callable<String>() {
+            @Override
+            public String call() throws Exception {
+                return zeVerySlowService.find(id);
+            }
+        };
+        Future<String> zeVerySlowResponse = zeVerySlowServiceExecutor.submit(zeVerySlowCommand);
 
-        String result = zeVerySlowResponse + "\t-\t" + anotherVerySlowResponse;
+        Callable<String> anotherVerySlowCommand = new Callable<String>() {
+            @Override
+            public String call() throws Exception {
+                return anotherVerySlowService.find(id);
+            }
+        };
+        Future<String> anotherVerySlowResponse = anotherVerySlowServiceExecutor.submit(anotherVerySlowCommand);
+
+        String result;
+        try {
+            result = zeVerySlowResponse.get(timeoutInMillis, TimeUnit.MILLISECONDS) + "\t-\t"
+                    + anotherVerySlowResponse.get(timeoutInMillis, TimeUnit.MILLISECONDS);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } catch (ExecutionException e) {
+            throw new RuntimeException(e);
+        } catch (TimeoutException e) {
+            throw new RuntimeException(e);
+        }
         return result;
     }
 
     @ManagedAttribute
     public long getTimeoutInMillis() {
-        return 0;
+        return timeoutInMillis;
     }
 
     public void setAnotherVerySlowService(AnotherVerySlowService anotherVerySlowService) {
@@ -50,11 +84,11 @@ public class ZeVerySlowAggregatingServiceParallelImpl implements ZeVerySlowAggre
     }
 
     public void setAnotherVerySlowServiceExecutor(ExecutorService anotherVerySlowServiceExecutor) {
-
+        this.anotherVerySlowServiceExecutor = anotherVerySlowServiceExecutor;
     }
 
     public void setTimeoutInMillis(long timeoutInMillis) {
-
+        this.timeoutInMillis = timeoutInMillis;
     }
 
     public void setZeVerySlowService(ZeVerySlowService zeVerySlowService) {
@@ -62,6 +96,6 @@ public class ZeVerySlowAggregatingServiceParallelImpl implements ZeVerySlowAggre
     }
 
     public void setZeVerySlowServiceExecutor(ExecutorService zeVerySlowServiceExecutor) {
-
+        this.zeVerySlowServiceExecutor = zeVerySlowServiceExecutor;
     }
 }
