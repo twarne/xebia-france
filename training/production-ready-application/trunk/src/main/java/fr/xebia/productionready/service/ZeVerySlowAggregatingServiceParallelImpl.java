@@ -16,14 +16,15 @@
 package fr.xebia.productionready.service;
 
 import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
+import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 import org.springframework.jmx.export.annotation.ManagedAttribute;
 import org.springframework.jmx.export.annotation.ManagedResource;
+
+import com.google.common.util.concurrent.ValueFuture;
 
 import fr.xebia.productionready.backend.anotherveryslowservice.AnotherVerySlowService;
 import fr.xebia.productionready.backend.zeveryslowservice.ZeVerySlowService;
@@ -50,7 +51,13 @@ public class ZeVerySlowAggregatingServiceParallelImpl implements ZeVerySlowAggre
                 return zeVerySlowService.find(id);
             }
         };
-        Future<String> zeVerySlowResponse = zeVerySlowServiceExecutor.submit(zeVerySlowCommand);
+        Future<String> zeVerySlowResponse;
+        try {
+            zeVerySlowResponse = zeVerySlowServiceExecutor.submit(zeVerySlowCommand);
+        } catch (RejectedExecutionException e) {
+            zeVerySlowResponse = ValueFuture.create();
+            ((ValueFuture<String>) zeVerySlowResponse).setException(e);
+        }
 
         Callable<String> anotherVerySlowCommand = new Callable<String>() {
             @Override
@@ -60,17 +67,21 @@ public class ZeVerySlowAggregatingServiceParallelImpl implements ZeVerySlowAggre
         };
         Future<String> anotherVerySlowResponse = anotherVerySlowServiceExecutor.submit(anotherVerySlowCommand);
 
-        String result;
+        String zeVerySlowResponseReal;
         try {
-            result = zeVerySlowResponse.get(timeoutInMillis, TimeUnit.MILLISECONDS) + "\t-\t"
-                    + anotherVerySlowResponse.get(timeoutInMillis, TimeUnit.MILLISECONDS);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        } catch (ExecutionException e) {
-            throw new RuntimeException(e);
-        } catch (TimeoutException e) {
-            throw new RuntimeException(e);
+            zeVerySlowResponseReal = zeVerySlowResponse.get(timeoutInMillis, TimeUnit.MILLISECONDS);
+        } catch (Exception e) {
+            zeVerySlowResponseReal = null;
         }
+
+        String anotherVerySlowResponseReal;
+        try {
+            anotherVerySlowResponseReal = anotherVerySlowResponse.get(timeoutInMillis, TimeUnit.MILLISECONDS);
+        } catch (Exception e) {
+            anotherVerySlowResponseReal = null;
+        }
+        String result = zeVerySlowResponseReal + "\t" + anotherVerySlowResponseReal;
+
         return result;
     }
 
