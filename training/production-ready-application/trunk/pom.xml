@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
    <modelVersion>4.0.0</modelVersion>
    <groupId>fr.xebia.training</groupId>
@@ -196,13 +197,9 @@
          <artifactId>jcl-over-slf4j</artifactId>
          <version>1.6.1</version>
       </dependency>
-      <!-- enable org.slf4j:slf4j-log4j12 to use log4j as the slf4j implementation -->      
+      <!-- enable org.slf4j:slf4j-log4j12 to use log4j as the slf4j implementation -->
       <!--
-      <dependency>
-         <groupId>org.slf4j</groupId>
-         <artifactId>slf4j-log4j12</artifactId>
-         <version>1.6.1</version>
-      </dependency>
+         <dependency> <groupId>org.slf4j</groupId> <artifactId>slf4j-log4j12</artifactId> <version>1.6.1</version> </dependency>
       -->
       <!-- enable ch.qos.logback:logback-classic to use logback as the slf4j implementation -->
       <dependency>
@@ -265,6 +262,12 @@
          <groupId>org.apache.geronimo.specs</groupId>
          <artifactId>geronimo-jms_1.1_spec</artifactId>
          <version>1.1.1</version>
+      </dependency>
+
+      <dependency>
+         <groupId>com.google.guava</groupId>
+         <artifactId>guava</artifactId>
+         <version>r06</version>
       </dependency>
    </dependencies>
    <build>
