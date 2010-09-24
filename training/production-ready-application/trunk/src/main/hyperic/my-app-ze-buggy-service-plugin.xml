@@ -3,7 +3,7 @@
    <!--                                                                              -->
 <plugin name="my-app-ze-buggy-service">
 
-   <service name="My App Ze Buggy Service" server="Sun JVM" version="1.5">
+   <service name="My App Ze Buggy Service" server="Apache Tomcat" version="6.0">
 
       <property name="OBJECT_NAME" value="fr.xebia:service=ZeBuggyService,type=ZeBuggyServiceStatistics,host=*,path=*" />
 
