@@ -172,6 +172,7 @@ verified by {{{proxy1}}}.
  * Jar : Copy the jar [http://xebia-france.googlecode.com/files/xebia-tomcat-extras-1.0.0.jar xebia-tomcat-extras-1.0.0.jar] ([http://xebia-france.googlecode.com/files/xebia-tomcat-extras-1.0.0-sources.jar sources]) in Tomcat's classpath (e.g. under {{{$TOMCAT_HOME/lib}}})
  * Java class : [http://xebia-france.googlecode.com/svn/tomcat/xebia-tomcat-extras/tags/xebia-tomcat-extras-1.0.0/src/main/java/org/apache/catalina/connector/RemoteIpValve.java RemoteIpValve.java]
  * Java project : {{{svn checkout http://xebia-france.googlecode.com/svn/tomcat/xebia-tomcat-extras/tags/xebia-tomcat-extras-1.0.0/}}}
+ * A backport for Tomcat 5.5 is available at [http://xebia-france.googlecode.com/files/xebia-tomcat-extras-tc55-1.0.0.jar xebia-tomcat-extras-tc55-1.0.0.jar], [http://xebia-france.googlecode.com/files/xebia-tomcat-extras-tc55-1.0.0-sources.jar xebia-tomcat-extras-tc55-1.0.0-sources.jar], [http://xebia-france.googlecode.com/svn/tomcat/xebia-tomcat-extras/tags/xebia-tomcat-extras-tc55-1.0.0/]
 
 = Implementation Details =
 
