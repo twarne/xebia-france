@@ -1,6 +1,8 @@
 #summary ExpiresFilter is a Java Servlet API port of Apache mod_expires to add 'Expires' and 'Cache-Control: max-age=' headers to HTTP response according to its 'Content-Type'
 #labels Featured,Phase-Implementation
 
+|| *[http://tomcat.apache.org/tomcat-7.0-doc/config/filter.html#Expires_Filter ExpiresFilter has been integrated in Tomcat 7.0.2] .* ||
+
 Following documentation is inspired by {{{mod_expires}}} .
 
 = Summary =
