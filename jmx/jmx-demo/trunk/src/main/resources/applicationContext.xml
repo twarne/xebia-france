@@ -29,11 +29,16 @@
 
 
    <!-- JMX -->
-   <bean id="servletContextAwareMbeanServer" class="fr.xebia.management.ServletContextAwareMBeanServerFactory">
-      <property name="mbeanServer" ref="mbeanServer" />
+   <context:mbean-server id="rawMbeanServer" />
+   <bean id="mbeanServer" class="fr.xebia.management.ServletContextAwareMBeanServerFactory">
+      <property name="mbeanServer" ref="rawMbeanServer" />
+      <property name="objectNameExtraAttributes" >
+         <map>
+            <entry key="ze-app-id-asked-by-ze-monitoring-team" value="my-application-id" />
+         </map>
+      </property>
    </bean>
-   <context:mbean-server id="mbeanServer" />
-   <context:mbean-export server="servletContextAwareMbeanServer" />
+   <context:mbean-export server="mbeanServer" />
 
    <!-- SECURITY -->
    <sec:http auto-config='true' realm="JMX Demo">
@@ -131,7 +136,7 @@
    </bean>
 
    <bean id="managementService" class="net.sf.ehcache.management.ManagementService" init-method="init" destroy-method="dispose">
-      <constructor-arg ref="servletContextAwareMbeanServer" />
+      <constructor-arg ref="mbeanServer" />
       <constructor-arg ref="cacheManager" />
       <constructor-arg index="2" value="true" />
       <constructor-arg index="3" value="true" />
@@ -151,7 +156,7 @@
       <property name="id" value="jmx-demo-cxf-bus" />
    </bean>
    <bean id="org.apache.cxf.management.InstrumentationManager" class="org.apache.cxf.management.jmx.InstrumentationManagerImpl">
-      <property name="server" ref="servletContextAwareMbeanServer" />
+      <property name="server" ref="mbeanServer" />
       <property name="enabled" value="true" />
       <property name="createMBServerConnectorFactory" value="false" />
    </bean>
@@ -375,6 +380,10 @@
 
    <bean id="activemqConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
       <property name="brokerURL" value="vm://localhost?broker.persistent=false&amp;broker.useJmx=true" />
+   </bean>
+   
+   <bean id="cachingConnectionFactory" class="fr.xebia.springframework.jms.ManagedCachingConnectionFactory">
+      <property name="targetConnectionFactory" ref="cachingConnectionFactory" />
    </bean>
    <bean id="connectionFactory" class="fr.xebia.management.jms.SpringManagedConnectionFactory">
       <property name="delegate" ref="activemqConnectionFactory" />
