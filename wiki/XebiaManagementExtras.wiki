@@ -127,7 +127,7 @@ To ensure that deploying several web applications on the same servlet engine (To
  * if the servlet container is Tomcat, the web application host,
  * any extra attribute defined by configuration.
 
-Spring Configuration sample:
+*Spring configuration sample:*
 {{{
 <beans ...>
    <context:mbean-server id="rawMBeanServer" />
@@ -139,6 +139,17 @@ Spring Configuration sample:
 </beans>
 }}} 
 
+*Spring advanced configuration sample:*
+{{{
+<beans ...>
+   <context:mbean-server id="rawMBeanServer" />
+   <bean id="mbeanServer" class="fr.xebia.management.ServletContextAwareMBeanServerFactory">
+      <property name="mbeanServer" ref="rawMBeanServer" />
+   </bean>
+   <context:mbean-export server="mbeanServer" />
+   ...
+</beans>
+}}} 
 
 ---- 
 
