@@ -129,27 +129,37 @@ To ensure that deploying several web applications on the same servlet engine (To
 
 *Spring configuration sample:*
 {{{
-<beans ...>
-   <context:mbean-server id="rawMBeanServer" />
-   <bean id="mbeanServer" class="fr.xebia.management.ServletContextAwareMBeanServerFactory">
-      <property name="mbeanServer" ref="rawMBeanServer" />
-   </bean>
-   <context:mbean-export server="mbeanServer" />
-   ...
-</beans>
+ <beans ... >
+    <context:mbean-server id="rawMbeanServer" />
+    <bean id="mbeanServer" class="fr.xebia.management.ServletContextAwareMBeanServerFactory">
+       <property name="mbeanServer" ref="rawMbeanServer" />
+    </bean>
+    <context:mbean-export server="mbeanServer" />
+    ...
+ </beans>
 }}} 
 
 *Spring advanced configuration sample:*
+
+The `"objectNameExtraAttributes"` property allows to manually add extra attributes in addition to the `"path"` (and `"host"`) attribute that is automatically added.
+
 {{{
-<beans ...>
-   <context:mbean-server id="rawMBeanServer" />
-   <bean id="mbeanServer" class="fr.xebia.management.ServletContextAwareMBeanServerFactory">
-      <property name="mbeanServer" ref="rawMBeanServer" />
-   </bean>
-   <context:mbean-export server="mbeanServer" />
-   ...
-</beans>
+ <beans ... >
+    <context:mbean-server id="rawMbeanServer" />
+    <bean id="mbeanServer" class="fr.xebia.management.ServletContextAwareMBeanServerFactory">
+       <property name="mbeanServer" ref="rawMbeanServer" />
+       <property name="objectNameExtraAttributes" >
+          <map>
+             <entry key="ze-app-id-asked-by-ze-monitoring-team" value="my-application-id" />
+          </map>
+       </property>
+    </bean>
+    <context:mbean-export server="mbeanServer" />
+    ...
+ </beans>
 }}} 
+
+An object name `"net.sf.ehcache:CacheManager=my-cache-manager,name=my-cache,type=Cache"` will be registered as `"net.sf.ehcache:CacheManager=my-cache-manager,ze-app-id-asked-by-ze-monitoring-team=my-application-id,name=my-cache,type=Cache,host=localhost,path=/my-application"` for an application "my-application" declared in the "localhost" host of a Tomcat server: attributes `"path=/my-application"`,  `"host=localhost"`and  `"ze-app-id-asked-by-ze-monitoring-team=my-application-id"` are added to the object name.
 
 ---- 
 
