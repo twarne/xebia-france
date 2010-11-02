@@ -28,7 +28,7 @@ Extras on top of Java SE (e.g. Thread Pool) and Spring Framework (e.g. JMS Liste
 </beans>
 }}} 
  * The {{{ThreadPoolExecutorFactory}}} is a Spring factory of a subclass of {{{java.util.concurrent.ThreadPoolExecutor}}},
- * JSP monitoring page : [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/webapp/jmx/thread-pool-executor.jsp thread-pool-executor.jsp (source)], <a href="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-jsp-thread-pool-executor.png" target="screenshot"><img src="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-jsp-thread-pool-executor.png" height="30"/></a>,
+ * JSP monitoring page : [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/webapp/jmx/thread-pool-executors.jsp thread-pool-executors.jsp (source)], <a href="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-jsp-thread-pool-executor.png" target="screenshot"><img src="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-jsp-thread-pool-executor.png" height="30"/></a>,
  * Hyperic plugin: [https://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/hyperic/tomcat-extras-executorservice-plugin.xml tomcat-extras-executorservice-plugin.xml] (1)
 
 = JMS Connection Factory Monitoring =
