@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+
+<aspectj>
+
+	<weaver>
+		<include within="fr.xebia.exercice.spring..*"/>
+	</weaver>
+
+</aspectj>
