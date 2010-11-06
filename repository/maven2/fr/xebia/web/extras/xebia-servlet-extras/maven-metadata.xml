@@ -4,7 +4,7 @@
   <artifactId>xebia-servlet-extras</artifactId>
   <version>0.1</version>
   <versioning>
-    <release>1.0.3</release>
+    <release>1.0.4</release>
     <versions>
       <version>0.1</version>
       <version>0.2</version>
@@ -12,7 +12,8 @@
       <version>1.0.1</version>
       <version>1.0.2</version>
       <version>1.0.3</version>
+      <version>1.0.4</version>
     </versions>
-    <lastUpdated>20100324190543</lastUpdated>
+    <lastUpdated>20101106135153</lastUpdated>
   </versioning>
 </metadata>
