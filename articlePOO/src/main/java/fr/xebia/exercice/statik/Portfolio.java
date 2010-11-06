@@ -14,19 +14,25 @@
  * limitations under the License.
  */
 
-package fr.xebia.exercice.spring;
+package fr.xebia.exercice.statik;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-@Component
-public class WebControllerVersionSpring {
+class Portfolio {
 
-    @Autowired
-    private SpringPortfolioRepository portfolioRepository;
+    private List<Titre> titres = new ArrayList<Titre>();
 
-    public double valorisePortfolio(Integer idPortfolio) {
-        Portfolio portfolio = portfolioRepository.load(idPortfolio);
-        return portfolio.valorise();
+    public Portfolio(Titre... titres) {
+        this.titres = Arrays.asList(titres);
+    }
+
+    public double valorise() {
+        double val = 0;
+        for (Titre titre : titres) {
+            val += titre.valorise();
+        }
+        return val;
     }
 }

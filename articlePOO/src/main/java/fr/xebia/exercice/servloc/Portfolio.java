@@ -14,19 +14,25 @@
  * limitations under the License.
  */
 
-package fr.xebia.exercice;
+package fr.xebia.exercice.servloc;
 
-public class MarketdataRepository {
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-    public double getFixing(Integer idDM) {
-        return 2;
+class Portfolio {
+
+    private List<Titre> titres = new ArrayList<Titre>();
+
+    public Portfolio(Titre... titres) {
+        this.titres = Arrays.asList(titres);
     }
 
-    public double getVolatilite(Integer id) {
-        return 12.2;
-    }
-
-    public double getTaux(Integer id) {
-        return 0.244;
+    public double valorise() {
+        double val = 0;
+        for (Titre titre : titres) {
+            val += titre.valorise();
+        }
+        return val;
     }
 }

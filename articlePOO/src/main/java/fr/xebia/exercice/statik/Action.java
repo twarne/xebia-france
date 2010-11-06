@@ -14,19 +14,18 @@
  * limitations under the License.
  */
 
-package fr.xebia.exercice.spring;
+package fr.xebia.exercice.statik;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+class Action implements Titre {
 
-@Component
-public class WebControllerVersionSpring {
+    final Integer id;
 
-    @Autowired
-    private SpringPortfolioRepository portfolioRepository;
+    public Action(Integer id) {
+        this.id = id;
+    }
 
-    public double valorisePortfolio(Integer idPortfolio) {
-        Portfolio portfolio = portfolioRepository.load(idPortfolio);
-        return portfolio.valorise();
+    @Override
+    public double valorise() {
+        return StaticMarketdataRepository.getFixing(id);
     }
 }

@@ -14,19 +14,25 @@
  * limitations under the License.
  */
 
-package fr.xebia.exercice.procedural;
+package fr.xebia.exercice.statik;
+
+import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-class PortfolioRepository {
+@Repository
+class StaticPortfolioRepository {
 
     private Map<Integer, Portfolio> portfolios = new HashMap<Integer, Portfolio>() {{
         put(1, new Portfolio(new Action(1), new Option(2, 1000, new Date(), new Action(3))));
     }};
 
     public Portfolio load(Integer idPortfolio) {
-        return portfolios.get(idPortfolio);
+        return new Portfolio(new Action(1), new Option(2, 1000, new Date(), new Action(3)));
+
+        // ne marche pas. Une histoire d'ordre entre la création de ce bean et le weaving des classes
+//        return portfolios.get(idPortfolio);
     }
 }
