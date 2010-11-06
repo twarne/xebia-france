@@ -14,19 +14,22 @@
  * limitations under the License.
  */
 
-package fr.xebia.exercice.spring;
+package fr.xebia.exercice.procedural;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
-@Component
-public class WebControllerVersionSpring {
+@Repository
+class ProceduralMarketdataRepository {
 
-    @Autowired
-    private SpringPortfolioRepository portfolioRepository;
+    public double getFixing(Integer idDM) {
+        return 2;
+    }
 
-    public double valorisePortfolio(Integer idPortfolio) {
-        Portfolio portfolio = portfolioRepository.load(idPortfolio);
-        return portfolio.valorise();
+    public double getVolatilite(Integer id) {
+        return 12.2;
+    }
+
+    public double getTaux(Integer id) {
+        return 0.244;
     }
 }

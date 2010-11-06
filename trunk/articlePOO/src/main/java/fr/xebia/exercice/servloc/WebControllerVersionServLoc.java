@@ -14,19 +14,21 @@
  * limitations under the License.
  */
 
-package fr.xebia.exercice.spring;
+package fr.xebia.exercice.servloc;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.management.PersistentMBean;
+
 @Component
-public class WebControllerVersionSpring {
+public class WebControllerVersionServLoc {
 
     @Autowired
-    private SpringPortfolioRepository portfolioRepository;
+    private ServLocPortfolioRepository servLocPortfolioRepository;
 
     public double valorisePortfolio(Integer idPortfolio) {
-        Portfolio portfolio = portfolioRepository.load(idPortfolio);
+        Portfolio portfolio = servLocPortfolioRepository.load(idPortfolio);
         return portfolio.valorise();
     }
 }

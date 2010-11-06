@@ -16,7 +16,6 @@
 
 package fr.xebia.exercice.spring;
 
-import fr.xebia.exercice.MarketdataRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 
@@ -24,7 +23,7 @@ import org.springframework.beans.factory.annotation.Configurable;
 class Action implements Titre {
 
     @Autowired
-    MarketdataRepository marketdataRepository;
+    SpringMarketdataRepository marketdataRepository;
 
     final Integer id;
 

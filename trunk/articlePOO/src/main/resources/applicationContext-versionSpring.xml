@@ -20,11 +20,7 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <bean id="webControllerVersionSpring" class="fr.xebia.exercice.spring.WebControllerVersionSpring"/>
-    <bean id="marketdataRepository" class="fr.xebia.exercice.MarketdataRepository"/>
-    <bean id="portfolioRepository" class="fr.xebia.exercice.spring.PortfolioRepository"/>
-
-
+    <context:component-scan base-package="fr.xebia.exercice"/>
     <context:annotation-config/>
 
     <!--http://static.springsource.org/fr.xebia.exercice.spring/docs/3.0.x/fr.xebia.exercice.spring-framework-reference/html/aop.html#aop-using-aspectj-->

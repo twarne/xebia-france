@@ -16,18 +16,20 @@
 
 package fr.xebia.exercice.spring;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import org.springframework.stereotype.Repository;
 
-class PortfolioRepository {
+@Repository
+class SpringMarketdataRepository {
 
-    private Map<Integer, Portfolio> portfolios = new HashMap<Integer, Portfolio>() {{
-        put(1, new Portfolio(new Action(1), new Option(2, 1000, new Date(), new Action(3))));
-    }};
+    public double getFixing(Integer idDM) {
+        return 2;
+    }
 
-    public Portfolio load(Integer idPortfolio) {
-        return new Portfolio(new Action(1), new Option(2, 1000, new Date(), new Action(3)));
-//        return portfolios.get(idPortfolio);
+    public double getVolatilite(Integer id) {
+        return 12.2;
+    }
+
+    public double getTaux(Integer id) {
+        return 0.244;
     }
 }

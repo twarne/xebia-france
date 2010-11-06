@@ -16,37 +16,47 @@
 
 package fr.xebia.exercice;
 
+import fr.xebia.exercice.servloc.ServiceLocator;
+import fr.xebia.exercice.servloc.WebControllerVersionServLoc;
 import fr.xebia.exercice.spring.WebControllerVersionSpring;
+import fr.xebia.exercice.statik.WebControllerVersionStatic;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import fr.xebia.exercice.procedural.WebControllerVersionProcedurale;
 
 class Main {
     public static void main(String[] args) {
 
-        runVersionProcedurale();
-        runVersionSpring();
+        // problème si j'inverse la version spring et la version procedurale
+//        runVersionSpring();
+//        runVersionProcedurale();
+//        runVersionStatic();
+        runVersionServLoc();
     }
 
     public static void runVersionProcedurale() {
-
         ClassPathXmlApplicationContext applicationContext =
                 new ClassPathXmlApplicationContext("/applicationContext-versionProcedurale.xml", Main.class);
-
-        WebControllerVersionProcedurale webControllerVersionProcedurale =
-                applicationContext.getBean(WebControllerVersionProcedurale.class);
-
-        double valoPortfolio = webControllerVersionProcedurale.valorisePortfolio(1);
+        WebControllerVersionProcedurale webController = applicationContext.getBean(WebControllerVersionProcedurale.class);
+        double valoPortfolio = webController.valorisePortfolio(1);
         System.out.println("valoPortfolio = " + valoPortfolio);
     }
 
     public static void runVersionSpring() {
-
         ClassPathXmlApplicationContext applicationContext =
                 new ClassPathXmlApplicationContext("/applicationContext-versionSpring.xml", Main.class);
+        WebControllerVersionSpring webController = applicationContext.getBean(WebControllerVersionSpring.class);
+        double valoPortfolio = webController.valorisePortfolio(1);
+        System.out.println("valoPortfolio = " + valoPortfolio);
+    }
 
-        WebControllerVersionSpring webController =
-                applicationContext.getBean(WebControllerVersionSpring.class);
+    public static void runVersionServLoc() {
+        WebControllerVersionServLoc webController = ServiceLocator.getBean(WebControllerVersionServLoc.class);
+        double valoPortfolio = webController.valorisePortfolio(1);
+        System.out.println("valoPortfolio = " + valoPortfolio);
+    }
 
+    public static void runVersionStatic() {
+        WebControllerVersionStatic webController = new WebControllerVersionStatic();
         double valoPortfolio = webController.valorisePortfolio(1);
         System.out.println("valoPortfolio = " + valoPortfolio);
     }

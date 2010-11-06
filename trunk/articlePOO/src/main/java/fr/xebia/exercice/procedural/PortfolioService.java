@@ -16,17 +16,18 @@
 
 package fr.xebia.exercice.procedural;
 
-import fr.xebia.exercice.MarketdataRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Date;
 
+@Service
 class PortfolioService {
 
     @Autowired
-    private PortfolioRepository portfolioRepository;
+    private ProceduralePortfolioRepository portfolioRepository;
     @Autowired
-    private MarketdataRepository marketdataRepository;
+    private ProceduralMarketdataRepository marketdataRepository;
 
     public double valorise(Integer idPortfolio) {
         Portfolio portfolio = portfolioRepository.load(idPortfolio);

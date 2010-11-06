@@ -14,18 +14,11 @@
  * limitations under the License.
  */
 
-package fr.xebia.exercice.spring;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Configurable;
+package fr.xebia.exercice.servloc;
 
 import java.util.Date;
 
-@Configurable
 class Option implements Titre {
-
-    @Autowired
-    SpringMarketdataRepository marketdataRepository;
 
     final Integer id;
     final Date dateExercice;
@@ -42,8 +35,8 @@ class Option implements Titre {
     @Override
     public double valorise() {
 
-        double vol = marketdataRepository.getVolatilite(sousJacent.id);
-        double taux = marketdataRepository.getTaux(this.id);
+        double vol = ServiceLocator.getBean(ServLocMarketdataRepository.class).getVolatilite(sousJacent.id);
+        double taux = ServiceLocator.getBean(ServLocMarketdataRepository.class).getTaux(this.id);
         return valorise(dateExercice, prixExercice, sousJacent, vol, taux);
     }
 
