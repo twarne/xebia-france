@@ -188,8 +188,6 @@ The expiration configuration if elected according to the following algorithm:
 
 = Install / Download =
 
-*1.0.4 is not yet available, please build the snapshot*
-
  * Maven Project, add the following to {{{pom.xml}}}
 {{{
 <project ...>
