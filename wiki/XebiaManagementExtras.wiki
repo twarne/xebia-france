@@ -163,7 +163,8 @@ An object name `"net.sf.ehcache:CacheManager=my-cache-manager,name=my-cache,type
 
 = @Profiled Annotation =
 
-See [ProfiledAnnotation]
+See [ProfiledAnnotation] page.
+
 ---- 
 
 (1) Drop the hyperic plugin xml file under {{{ ${HYPERIC_HOME}/hq-plugins }}} (e.g. next to {{{ ${HYPERIC_HOME}/agent-4.3.0 }}}
