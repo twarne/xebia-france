@@ -41,7 +41,7 @@ public class MyService {
 <beans ...>
    <!-- enable AOP to intercept @Profiled annotation -->
    <aop:aspectj-autoproxy />
-   <!-- mbean exporter wil register the thread pool executor mbean -->
+   <!-- mbean exporter wil register the ServiceStatistics mbeans used by @Profiled -->
    <context:mbean-export server="..." />
 
    <bean id="profileAspect" class="fr.xebia.management.statistics.ProfileAspect">
