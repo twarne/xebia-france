@@ -1,0 +1,55 @@
+#summary @Profiled annotation to declaratively profile methods and expose the metrics (invocation counts, duration, exception count, slow invocations count, etc) via JMX MBeans
+
+=  @Profiled Annotation =
+
+{{{@Profiled}}} / {{{@fr.xebia.management.statistics.Profiled}}} allows to monitor methods execution declaratively.
+
+ * Basic java sample
+  {{{
+public class MyService {
+
+   @Profiled
+   public void myOperation(...) {
+      ...
+   }
+}
+}}}
+ * Advanced java sample
+  {{{
+public class MyService {
+
+   @Profiled(
+      name = "my-operation", 
+      businessExceptionsTypes = {MyBusinessException.class}, 
+      communicationExceptionsTypes = {IOException.class, ...}, 
+      slowInvocationThresholdInMillis = 100, 
+      veryInvocationThresholdInMillis = 200)
+   public void myOperation(...) throws MybusinessException {
+      ...
+   }
+}
+}}}
+ * JMX Object Name: {{{"fr.xebia:type=ServiceStatistics,name=${name}"}}} where {{{"${name}"}}} is defined declaratively ({{{@Profiled(name="my-operation")}}}) or build from the class and method name with one of the following strategies :
+  ** FULLY_QUALIFIED_NAME (e.g. {{{"com.mycompany.MyService.myMethod"}}})
+  ** COMPACT_FULLY_QUALIFIED_NAME (e.g. {{{"c.m.MyService.myMethod"}}})
+  ** SHORT_NAME (e.g. {{{"MyService.myMethod"}}})
+ * Metrics: 
+  ** {{{ActiveCount}}}: number of currently active executor threads, 
+  ** TODO
+ * Spring configuration:
+  {{{
+<beans ...>
+   <!-- enable AOP to intercept @Profiled annotation -->
+   <aop:aspectj-autoproxy />
+   <!-- mbean exporter wil register the thread pool executor mbean -->
+   <context:mbean-export server="..." />
+
+   <bean id="profileAspect" class="fr.xebia.management.statistics.ProfileAspect">
+      <property name="mbeanExporter" ref="mbeanExporter" />
+   </bean>
+   ...
+
+</beans>
+}}} 
+ * JSP monitoring page : [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/webapp/jmx/profiled-services.jsp (source)], <a href="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-jsp-profiled-service.png" target="screenshot"><img src="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-jsp-profiled-service.png" height="30"/></a>,
+ * Hyperic plugin: [https://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/hyperic/tomcat-extras-service-plugin.xml tomcat-extras-service-plugin.xml] (1)
