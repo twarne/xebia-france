@@ -23,7 +23,7 @@ public class MyService {
       businessExceptionsTypes = {MyBusinessException.class}, 
       communicationExceptionsTypes = {IOException.class, ...}, 
       slowInvocationThresholdInMillis = 100, 
-      veryInvocationThresholdInMillis = 200)
+      verySlowInvocationThresholdInMillis = 200)
    public void myOperation(...) throws MybusinessException {
       ...
    }
