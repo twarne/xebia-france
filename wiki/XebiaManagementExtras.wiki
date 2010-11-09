@@ -161,6 +161,9 @@ The `"objectNameExtraAttributes"` property allows to manually add extra attribut
 
 An object name `"net.sf.ehcache:CacheManager=my-cache-manager,name=my-cache,type=Cache"` will be registered as `"net.sf.ehcache:CacheManager=my-cache-manager,ze-app-id-asked-by-ze-monitoring-team=my-application-id,name=my-cache,type=Cache,host=localhost,path=/my-application"` for an application "my-application" declared in the "localhost" host of a Tomcat server: attributes `"path=/my-application"`,  `"host=localhost"`and  `"ze-app-id-asked-by-ze-monitoring-team=my-application-id"` are added to the object name.
 
+= @Profiled Annotation =
+
+See [ProfiledAnnotation]
 ---- 
 
 (1) Drop the hyperic plugin xml file under {{{ ${HYPERIC_HOME}/hq-plugins }}} (e.g. next to {{{ ${HYPERIC_HOME}/agent-4.3.0 }}}
