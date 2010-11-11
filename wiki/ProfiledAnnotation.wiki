@@ -6,6 +6,7 @@
 
  * Basic java sample
   {{{
+package com.mycompany;
 public class MyService {
 
    @Profiled
@@ -13,6 +14,7 @@ public class MyService {
       ...
    }
 }
+ Will create a MBean  
 }}}
  * Advanced java sample
   {{{
@@ -41,12 +43,11 @@ public class MyService {
 <beans ...>
    <!-- enable AOP to intercept @Profiled annotation -->
    <aop:aspectj-autoproxy />
-   <!-- mbean exporter wil register the ServiceStatistics mbeans used by @Profiled -->
-   <context:mbean-export server="..." />
+   <!-- mbean server wil hold the ServiceStatistics mbeans used by @Profiled -->
+    <context:mbean-server />
 
-   <bean id="profileAspect" class="fr.xebia.management.statistics.ProfileAspect">
-      <property name="mbeanExporter" ref="mbeanExporter" />
-   </bean>
+
+   <bean id="profileAspect" class="fr.xebia.management.statistics.ProfileAspect" />
    ...
 
 </beans>
