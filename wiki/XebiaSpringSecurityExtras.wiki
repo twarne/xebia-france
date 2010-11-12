@@ -20,10 +20,16 @@ public void transferMoney(Account from, Account to, Amount amount) throws Busine
  * Sample of message: {{{"2010-08-11T00:23:05.353+0200 save(John Smith, john.smith@xebia.fr): 324325 by ze-principal coming from 10.0.0.1"}}}
  * Spring Framework Configuration :
  {{{
-<beans ... >
-   <aop:aspectj-autoproxy proxy-target-class="true" />
-   <bean id="AuditAspect" class="fr.xebia.audit.AuditAspect" />
-   ...
+<beans ...
+   xmlns:security-extras="http://www.xebia.fr/schema/xebia-spring-security-extras"
+   xsi:schemaLocation="...
+        http://www.xebia.fr/schema/xebia-spring-security-extras http://xebia-france.googlecode.com/svn/schema/security/xebia-spring-security-extras.xsd
+        ">
+
+    <aop:aspectj-autoproxy/>
+    <security-extras:audit-aspect />
+    ...
+    
 </beans>
 }}}
  Setting {{{proxy-target-class="true"}}} is not always required, a test with your code.
@@ -89,21 +95,15 @@ There are different ways to integrate these features in your project:
       <dependency>
          <groupId>fr.xebia.springframework</groupId>
          <artifactId>xebia-spring-security-extras</artifactId>
-         <version>1.1.3</version>
+         <version>1.1.4</version>
       </dependency>
       ...
    </dependencies>
-   <repositories>
-      <repository>
-        <id>xebia-france-googlecode-repository</id>
-        <url>http://xebia-france.googlecode.com/svn/repository/maven2/</url>
-      </repository>
-      ...
-   </repositories>
    ...
 </project>
 }}}
- * Download the jar [http://xebia-france.googlecode.com/files/xebia-spring-security-extras-1.1.3.jar xebia-spring-security-extras-1.1.3.jar] ([http://xebia-france.googlecode.com/files/xebia-spring-security-extras-1.1.3-sources.jar sources]),
+  The artifact is deployed on [https://oss.sonatype.org/content/repositories/public/fr/xebia/springframework/xebia-spring-security-extras/1.1.4/ Sonatype OSS repo] and should soon be synced on http://repo1.maven.org/ (as of 2011/11/13).
+ * Download the jar [http://xebia-france.googlecode.com/files/xebia-spring-security-extras-1.1.4.jar xebia-spring-security-extras-1.1.4.jar] ([http://xebia-france.googlecode.com/files/xebia-spring-security-extras-1.1.4-sources.jar sources]),
  * Get the source from svn, modify it if needed and add it to your project. The source is available under the Open Source licence [http://www.apache.org/licenses/LICENSE-2.0 Apache Software Licence 2] at http://xebia-france.googlecode.com/svn/springframework/xebia-spring-security-extras/trunk/ .
 
 = Developers =
