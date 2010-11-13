@@ -61,7 +61,7 @@
          </xsd:complexContent>
       </xsd:complexType>
    </xsd:element>
-   
+
    <xsd:element name="profile-aspect">
       <xsd:annotation>
          <xsd:documentation source="java:fr.xebia.management.statistics.ProfileAspect">
@@ -89,7 +89,7 @@
                ]]></xsd:documentation>
                   </xsd:annotation>
                </xsd:attribute>
-               
+
                <xsd:attribute name="jmxDomain" type="xsd:string" default="fr.xebia">
                   <xsd:annotation>
                      <xsd:documentation><![CDATA[
@@ -100,7 +100,7 @@
                ]]></xsd:documentation>
                   </xsd:annotation>
                </xsd:attribute>
-               
+
                <xsd:attribute name="classNameStyle" default="COMPACT_FULLY_QUALIFIED_NAME">
                   <xsd:annotation>
                      <xsd:documentation><![CDATA[
@@ -126,4 +126,63 @@
       </xsd:complexType>
    </xsd:element>
 
+   <xsd:element name="application-version-mbean">
+      <xsd:annotation>
+         <xsd:documentation source="java:fr.xebia.management.maven.WebApplicationMavenInformation">
+         <![CDATA[
+   Exposes a WebApplicationMavenInformation bean which is registered as a JMX MBean to expose the version number version via JMX.
+   
+   Relies on the existence of a META-INF/maven/.../my-app.pom file.
+
+   The default bean name for the exposed WebApplicationMavenInformation is "webApplicationMavenInformation".
+   This may be customized through specifying the "id" attribute.
+         ]]></xsd:documentation>
+         <xsd:appinfo>
+            <tool:annotation>
+               <tool:exports type="fr.xebia.management.maven.WebApplicationMavenInformation" />
+            </tool:annotation>
+         </xsd:appinfo>
+      </xsd:annotation>
+      <xsd:complexType>
+         <xsd:complexContent>
+            <xsd:extension base="beans:identifiedType">
+               <xsd:attribute name="jmxDomain" type="xsd:string" default="fr.xebia">
+                  <xsd:annotation>
+                     <xsd:documentation><![CDATA[
+   Name of the domain of the registered WebApplicationMavenInformation JMX MBean.
+               ]]></xsd:documentation>
+                  </xsd:annotation>
+               </xsd:attribute>
+            </xsd:extension>
+         </xsd:complexContent>
+      </xsd:complexType>
+   </xsd:element>
+
+   <xsd:element name="jms-connection-factory-wrapper">
+      <xsd:annotation>
+         <xsd:documentation source="java:fr.xebia.management.jms.SpringManagedConnectionFactory">
+         <![CDATA[
+   Wraps a JMS ConnectionFactory to expose various metrics on an mbean named <code>javax.jms:type=ConnectionFactory,name=${bean-id}</code>
+   Where <code>${bean-id} is the id of this element.</code>
+         ]]></xsd:documentation>
+         <xsd:appinfo>
+            <tool:annotation>
+               <tool:exports type="fr.xebia.management.jms.SpringManagedConnectionFactory" />
+            </tool:annotation>
+         </xsd:appinfo>
+      </xsd:annotation>
+      <xsd:complexType>
+         <xsd:complexContent>
+            <xsd:extension base="beans:identifiedType">
+               <xsd:attribute name="connection-factory" type="xsd:string" use="required">
+                  <xsd:annotation>
+                     <xsd:documentation><![CDATA[
+   Reference of the wrapped JMS ConnectionFactory
+               ]]></xsd:documentation>
+                  </xsd:annotation>
+               </xsd:attribute>
+            </xsd:extension>
+         </xsd:complexContent>
+      </xsd:complexType>
+   </xsd:element>
 </xsd:schema>
