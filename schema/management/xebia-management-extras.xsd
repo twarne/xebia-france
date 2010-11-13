@@ -54,6 +54,11 @@
    Default is to use the platform's default MBeanServer (autodetecting
    WebLogic 9+, WebSphere 5.1+ and the JDK 1.5+ platform MBeanServer).
                ]]></xsd:documentation>
+                     <xsd:appinfo>
+                        <tool:annotation kind="ref">
+                           <tool:expected-type type="javax.management.MBeanServer" />
+                        </tool:annotation>
+                     </xsd:appinfo>
                   </xsd:annotation>
                </xsd:attribute>
 
@@ -87,6 +92,11 @@
    Default is to use the platform's default MBeanServer (autodetecting
    WebLogic 9+, WebSphere 5.1+ and the JDK 1.5+ platform MBeanServer).
                ]]></xsd:documentation>
+                     <xsd:appinfo>
+                        <tool:annotation kind="ref">
+                           <tool:expected-type type="javax.management.MBeanServer" />
+                        </tool:annotation>
+                     </xsd:appinfo>
                   </xsd:annotation>
                </xsd:attribute>
 
@@ -167,7 +177,7 @@
          ]]></xsd:documentation>
          <xsd:appinfo>
             <tool:annotation>
-               <tool:exports type="fr.xebia.management.jms.SpringManagedConnectionFactory" />
+               <tool:exports type="javax.jms.ConnectionFactory" />
             </tool:annotation>
          </xsd:appinfo>
       </xsd:annotation>
@@ -179,6 +189,11 @@
                      <xsd:documentation><![CDATA[
    Reference of the wrapped JMS ConnectionFactory
                ]]></xsd:documentation>
+                     <xsd:appinfo>
+                        <tool:annotation kind="ref">
+                           <tool:expected-type type="javax.jms.ConnectionFactory" />
+                        </tool:annotation>
+                     </xsd:appinfo>
                   </xsd:annotation>
                </xsd:attribute>
             </xsd:extension>
@@ -195,7 +210,7 @@
          ]]></xsd:documentation>
          <xsd:appinfo>
             <tool:annotation>
-               <tool:exports type="fr.xebia.springframework.jms.ManagedCachingConnectionFactory" />
+               <tool:exports type="javax.jms.ConnectionFactory" />
             </tool:annotation>
          </xsd:appinfo>
       </xsd:annotation>
@@ -207,6 +222,11 @@
                      <xsd:documentation><![CDATA[
    Reference of the wrapped JMS ConnectionFactory
                ]]></xsd:documentation>
+                     <xsd:appinfo>
+                        <tool:annotation kind="ref">
+                           <tool:expected-type type="javax.jms.ConnectionFactory" />
+                        </tool:annotation>
+                     </xsd:appinfo>
                   </xsd:annotation>
                </xsd:attribute>
 
