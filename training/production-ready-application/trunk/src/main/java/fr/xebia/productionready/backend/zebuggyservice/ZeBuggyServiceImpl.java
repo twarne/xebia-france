@@ -21,6 +21,7 @@ import java.util.Random;
 import org.springframework.jmx.export.annotation.ManagedAttribute;
 import org.springframework.jmx.export.annotation.ManagedResource;
 
+import fr.xebia.management.statistics.Profiled;
 import fr.xebia.productionready.backend.zebuggyservice.ZeBuggyPerson.Gender;
 
 /**
@@ -33,6 +34,7 @@ public class ZeBuggyServiceImpl implements ZeBuggyService {
 
     private Random random = new Random();
 
+    @Profiled
     @Override
     public ZeBuggyPerson find(long id) throws ZeBuggyServiceException, ZeBuggyServiceRuntimeException, RuntimeException {
         long sleepDuration = random.nextInt(300);

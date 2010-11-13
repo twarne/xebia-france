@@ -17,7 +17,7 @@
          <level>WARN</level>
       </filter>
       <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-         <fileNamePattern>${LOGS_TO_COLLECT_FOLDER}/my-application.%d{yyyyMMdd-HHmm}.log</fileNamePattern>
+         <fileNamePattern>${LOGS_TO_COLLECT_FOLDER}/my-application.%d{yyyyMMdd}.log</fileNamePattern>
       </rollingPolicy>
       <encoder>
          <pattern>%d{yyyy/MM/dd HH:mm:ss,SSS} [%thread] %-5level %logger{36} - %m %throwable{0}%n</pattern>
@@ -27,7 +27,7 @@
    <appender name="audit-file" class="ch.qos.logback.core.rolling.RollingFileAppender">
       <file>${LOGS_FOLDER}/my-application-audit.log</file>
       <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-         <fileNamePattern>${LOGS_TO_COLLECT_FOLDER}/my-application-audit.%d{yyyyMMdd-HHmm}.log.gzip</fileNamePattern>
+         <fileNamePattern>${LOGS_TO_COLLECT_FOLDER}/my-application-audit.%d{yyyyMMdd}.log.gzip</fileNamePattern>
       </rollingPolicy>
       <encoder>
          <pattern>%m %throwable{0}%n</pattern>
@@ -37,7 +37,7 @@
    <appender name="performances-file" class="ch.qos.logback.core.rolling.RollingFileAppender">
       <file>${LOGS_FOLDER}/my-application-performances.log</file>
       <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-         <fileNamePattern>${LOGS_TO_COLLECT_FOLDER}/my-application-performances.%d{yyyyMMdd-HHmm}.log.gzip</fileNamePattern>
+         <fileNamePattern>${LOGS_TO_COLLECT_FOLDER}/my-application-performances.%d{yyyyMMdd}.log.gzip</fileNamePattern>
       </rollingPolicy>
       <encoder>
          <pattern>%d{yyyy/MM/dd HH:mm:ss,SSS} [%thread] %-5level %logger{36} - %m %throwable{0}%n</pattern>

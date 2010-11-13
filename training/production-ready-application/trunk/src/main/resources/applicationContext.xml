@@ -1,24 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
-   xmlns:lang="http://www.springframework.org/schema/lang" xmlns:util="http://www.springframework.org/schema/util" xmlns:context="http://www.springframework.org/schema/context"
-   xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jaxws="http://cxf.apache.org/jaxws"
-   xmlns:http-conf="http://cxf.apache.org/transports/http/configuration" xmlns:security="http://cxf.apache.org/configuration/security"
-   xmlns:sec="http://www.springframework.org/schema/security" xmlns:jaxrs="http://cxf.apache.org/jaxrs" xmlns:mvc="http://www.springframework.org/schema/mvc"
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:aop="http://www.springframework.org/schema/aop" xmlns:lang="http://www.springframework.org/schema/lang"
+   xmlns:util="http://www.springframework.org/schema/util" xmlns:context="http://www.springframework.org/schema/context"
+   xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+   xmlns:jaxws="http://cxf.apache.org/jaxws" xmlns:http-conf="http://cxf.apache.org/transports/http/configuration"
+   xmlns:security="http://cxf.apache.org/configuration/security" xmlns:sec="http://www.springframework.org/schema/security"
+   xmlns:jaxrs="http://cxf.apache.org/jaxrs" xmlns:mvc="http://www.springframework.org/schema/mvc" 
+   xmlns:security-extras="http://www.xebia.fr/schema/xebia-spring-security-extras"
+   xmlns:management="http://www.xebia.fr/schema/xebia-management-extras"
    xmlns:jms="http://www.springframework.org/schema/jms"
    xsi:schemaLocation="http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
 		http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang-3.0.xsd
 		http://cxf.apache.org/configuration/security http://cxf.apache.org/schemas/configuration/security.xsd
-		http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms.xsd
+		http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms-3.0.xsd
 		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.xsd
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
-		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 		http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
-		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
 		http://cxf.apache.org/transports/http/configuration http://cxf.apache.org/schemas/configuration/http-conf.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
 		http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://www.xebia.fr/schema/xebia-spring-security-extras http://xebia-france.googlecode.com/svn/schema/security/xebia-spring-security-extras.xsd
+        http://www.xebia.fr/schema/xebia-management-extras http://xebia-france.googlecode.com/svn/schema/management/xebia-management-extras.xsd
+      ">
 
 
    <aop:aspectj-autoproxy proxy-target-class="true" />
@@ -26,13 +33,12 @@
    <context:annotation-config />
    <tx:annotation-driven />
 
-   <bean id="AuditAspect" class="fr.xebia.audit.AuditAspect" />
+   <security-extras:audit-aspect />
+   <management:profile-aspect server="mbeanServer"/>
+   <management:application-version-mbean />
 
    <!-- JMX -->
-   <bean id="mbeanServer" class="fr.xebia.management.ServletContextAwareMBeanServerFactory">
-      <property name="mbeanServer" ref="rawMBeanServer" />
-   </bean>
-   <context:mbean-server id="rawMBeanServer" />
+   <management:servlet-context-aware-mbean-server />
    <context:mbean-export server="mbeanServer" />
 
    <bean id="webApplicationMavenInformation" class="fr.xebia.management.maven.WebApplicationMavenInformation" />
@@ -147,14 +153,17 @@
       <property name="cacheName" value="org.hibernate.cache.StandardQueryCache" />
    </bean>
 
+   <management:eh-cache-management-service mbean-server="mbeanServer" cache-manager="cacheManager" />
+   <!--
    <bean id="managementService" class="net.sf.ehcache.management.ManagementService" init-method="init" destroy-method="dispose">
-      <constructor-arg ref="mbeanServer" />
       <constructor-arg ref="cacheManager" />
+      <constructor-arg ref="mbeanServer" />
       <constructor-arg index="2" value="true" />
       <constructor-arg index="3" value="true" />
       <constructor-arg index="4" value="true" />
       <constructor-arg index="5" value="true" />
    </bean>
+   -->
 
    <!-- CXF -->
    <import resource="classpath:META-INF/cxf/cxf.xml" />
@@ -291,9 +300,8 @@
    <bean id="cachingConnectionFactory" class="fr.xebia.springframework.jms.ManagedCachingConnectionFactory">
       <property name="targetConnectionFactory" ref="activemqConnectionFactory" />
    </bean>
-   <bean id="connectionFactory" class="fr.xebia.management.jms.SpringManagedConnectionFactory">
-      <property name="delegate" ref="cachingConnectionFactory" />
-   </bean>
+   
+   <management:jms-connection-factory-wrapper id="connectionFactory" connection-factory="cachingConnectionFactory"/>
 
    <jms:listener-container connection-factory="connectionFactory" concurrency="5-10"
       container-class="fr.xebia.springframework.jms.ManagedDefaultMessageListenerContainer">

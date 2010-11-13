@@ -25,6 +25,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.jmx.export.annotation.ManagedAttribute;
 import org.springframework.jmx.export.annotation.ManagedResource;
 
+import fr.xebia.management.statistics.Profiled;
+
 @ManagedResource(objectName = "fr.xebia:service=ZeVerySlowService,type=ZeVerySlowServiceImpl")
 public class ZeVerySlowServiceImpl implements ZeVerySlowService {
 
@@ -40,6 +42,7 @@ public class ZeVerySlowServiceImpl implements ZeVerySlowService {
 
     private final AtomicInteger invocationCount = new AtomicInteger();
 
+    @Profiled
     @Override
     public String find(long id) {
 

@@ -23,6 +23,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.jmx.export.annotation.ManagedAttribute;
 import org.springframework.jmx.export.annotation.ManagedResource;
 
+import fr.xebia.management.statistics.Profiled;
+
 @ManagedResource(objectName = "fr.xebia:service=ZeSlowService,type=ZeSlowServiceImpl")
 public class ZeSlowServiceImpl implements ZeSlowService {
 
@@ -34,6 +36,7 @@ public class ZeSlowServiceImpl implements ZeSlowService {
 
     private int slowInvocationsRatioInPercent = 5;
 
+    @Profiled
     @Override
     public ZeSlowPerson find(long id) {
 

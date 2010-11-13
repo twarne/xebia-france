@@ -24,6 +24,8 @@ import org.springframework.jmx.export.annotation.ManagedAttribute;
 import org.springframework.jmx.export.annotation.ManagedResource;
 import org.springframework.util.ClassUtils;
 
+import fr.xebia.management.statistics.Profiled;
+
 /**
  * A service that emits a lot of log messages (debugging, audit and perf
  * messages).
@@ -46,6 +48,7 @@ public class ZeNoisyService {
 
     private ZeNoisySubService zeNoisySubService = new ZeNoisySubService();
 
+    @Profiled
     public String doNoisyJob(long id) {
         logger.debug("entering doNoidyJob({})", id);
 

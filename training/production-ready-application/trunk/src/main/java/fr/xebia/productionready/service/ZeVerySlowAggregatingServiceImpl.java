@@ -15,6 +15,7 @@
  */
 package fr.xebia.productionready.service;
 
+import fr.xebia.management.statistics.Profiled;
 import fr.xebia.productionready.backend.anotherveryslowservice.AnotherVerySlowService;
 import fr.xebia.productionready.backend.zeveryslowservice.ZeVerySlowService;
 
@@ -24,6 +25,7 @@ public class ZeVerySlowAggregatingServiceImpl implements ZeVerySlowAggregatingSe
 
     private ZeVerySlowService zeVerylowService;
 
+    @Profiled
     @Override
     public String doWork(long id) {
 

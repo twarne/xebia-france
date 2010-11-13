@@ -23,12 +23,14 @@ import javax.xml.soap.SOAPFault;
 import javax.xml.ws.soap.SOAPFaultException;
 
 import fr.xebia.audit.Audited;
+import fr.xebia.management.statistics.Profiled;
 
 /**
  * @author <a href="mailto:cyrille.leclerc@pobox.com">Cyrille Le Clerc</a>
  */
 public class HelloWorldServiceImpl implements HelloWorldService {
 
+    @Profiled
     @RolesAllowed( { "ROLE_USER" })
     @Audited(message = "sayHi(#{args[0]})")
     @Override
