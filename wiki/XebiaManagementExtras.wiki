@@ -23,7 +23,7 @@ Extras on top of Java SE (e.g. Thread Pool) and Spring Framework (e.g. JMS Liste
       <property name="threadNamePrefix" value="my-pool" />
    </bean>
    ...
-   <!-- mbean exporter wil register the thread pool executor mbean -->
+   <!-- mbean exporter will register the thread pool executor mbean -->
    <context:mbean-export server="..." />
 </beans>
 }}} 
@@ -55,7 +55,7 @@ Please note that this {{{ManagedConnectionFactory}}} is not intended to help you
    <!-- wrap 'myConnectionFactory' in a JMX enabled connection factory -->
    <management:jms-connection-factory-wrapper id="connectionFactory" connection-factory="myConnectionFactory" />
    ...
-   <!-- mbean exporter wil register the spring jms caching connection factory mbean -->
+   <!-- mbean exporter will register the spring jms caching connection factory mbean -->
    <context:mbean-export server="..." />
 </beans>
 }}}
@@ -68,7 +68,7 @@ Please note that this {{{ManagedConnectionFactory}}} is not intended to help you
       <property name="connectionFactory" ref="myConnectionFactory" />
    </bean>
    ...
-   <!-- mbean exporter wil register the jms connection factory mbean -->
+   <!-- mbean exporter will register the jms connection factory mbean -->
    <context:mbean-export server="..." />
 </beans>
 }}} 
@@ -97,7 +97,7 @@ Please note that this {{{ManagedConnectionFactory}}} is not intended to help you
    <!-- wrap 'myConnectionFactory' in a JMX enabled caching connection factory -->
    <management:jms-caching-connection-factory id="cachingConnectionFactory" connection-factory="myConnectionFactory" />
    ...
-   <!-- mbean exporter wil register the spring jms caching connection factory mbean -->
+   <!-- mbean exporter will register the spring jms caching connection factory mbean -->
    <context:mbean-export server="..." />
 </beans>
 }}}
@@ -110,7 +110,7 @@ Please note that this {{{ManagedConnectionFactory}}} is not intended to help you
       <property name="targetConnectionFactory" ref="myConnectionFactory" />
    </bean>
    ...
-   <!-- mbean exporter wil register the spring jms caching connection factory mbean -->
+   <!-- mbean exporter will register the spring jms caching connection factory mbean -->
    <context:mbean-export server="..." />
 </beans>
 }}} 
@@ -137,7 +137,7 @@ Please note that this {{{ManagedConnectionFactory}}} is not intended to help you
       <property name="maxWait" value="50" />
    </bean>
    ...
-   <!-- mbean exporter wil register the dbcp mbean -->
+   <!-- mbean exporter will register the dbcp mbean -->
    <context:mbean-export server="..." />
 </beans>
 }}} 
