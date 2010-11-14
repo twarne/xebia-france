@@ -29,7 +29,7 @@ Extras on top of Java SE (e.g. Thread Pool) and Spring Framework (e.g. JMS Liste
 }}} 
  * The {{{ThreadPoolExecutorFactory}}} is a Spring factory of a subclass of {{{java.util.concurrent.ThreadPoolExecutor}}},
  * JSP monitoring page : [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/webapp/jmx/thread-pool-executors.jsp thread-pool-executors.jsp (source)], <a href="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-jsp-thread-pool-executor.png" target="screenshot"><img src="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-jsp-thread-pool-executor.png" height="30"/></a>,
- * Hyperic plugin: [https://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/hyperic/tomcat-extras-executorservice-plugin.xml tomcat-extras-executorservice-plugin.xml] (1)
+ * Hyperic plugin: [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/hyperic/tomcat-extras-executorservice-plugin.xml tomcat-extras-executorservice-plugin.xml] (1)
 
 = JMS Connection Factory Monitoring =
 
@@ -143,7 +143,39 @@ Please note that this {{{ManagedConnectionFactory}}} is not intended to help you
 }}} 
  * The {{{ManagedBasicDataSource}}} is a subclass of [http://commons.apache.org/dbcp/ Jakarta Commons DBCP] {{{org.apache.commons.dbcp.BasicDataSource}}}; it has been used with version 1.4,
  * JSP monitoring page : [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/webapp/jmx/dbcp.jsp dbcp.jsp (source)], <a href="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-jsp-dbcp.png" target="screenshot"><img src="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-jsp-dbcp.png" height="30"/></a>
- * Hyperic plugin: [https://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/hyperic/tomcat-extras-dbcp-plugin.xml tomcat-extras-dbcp-plugin.xml] (1)
+ * Hyperic plugin: [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/hyperic/tomcat-extras-dbcp-plugin.xml tomcat-extras-dbcp-plugin.xml] (1)
+
+= Eh Cache =
+
+Eh Cache already has all the JMX MBeans needed, we just proposed a simplified Spring configuration, a jsp page to watch the statistics and an Hyperic plugin.
+
+ * Spring namespace based configuration :
+   {{{
+<beans ...
+   xmlns:management="http://www.xebia.fr/schema/xebia-management-extras"
+   xsi:schemaLocation="...
+      http://www.xebia.fr/schema/xebia-management-extras http://xebia-france.googlecode.com/svn/schema/management/xebia-management-extras.xsd">
+   ...
+   <management:eh-cache-management-service mbean-server="mbeanServer" cache-manager="cacheManager" />
+
+</beans>
+}}}
+ * Spring raw configuration:
+  {{{
+<beans ...>
+   ...
+   <bean id="managementService" class="net.sf.ehcache.management.ManagementService" init-method="init" destroy-method="dispose">
+      <constructor-arg ref="cacheManager" />
+      <constructor-arg ref="mbeanServer" />
+      <constructor-arg index="2" value="true" />
+      <constructor-arg index="3" value="true" />
+      <constructor-arg index="4" value="true" />
+      <constructor-arg index="5" value="true" />
+   </bean>
+</beans>
+}}}
+ * JSP monitoring page : [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/webapp/jmx/ehcache.jsp ehcache.jsp (source)], <a href="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-jsp-ehcache.png" target="screenshot"><img src="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-jsp-ehcache.png" height="30"/></a>
+ * Hyperic plugin: [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/hyperic/tomcat-extras-ehcache-plugin.xml tomcat-extras-ehcache-plugin.xml] (1)
 
 = Servlet Context Aware MBean Server =
 
