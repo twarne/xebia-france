@@ -2,6 +2,10 @@
 
 =  @Profiled Annotation =
 
+{{{@Profiled}}} / {{{@fr.xebia.management.statistics.Profiled}}} allows to monitor methods execution declaratively.
+
+== @Profiled Parameters ==
+
 || *Name* || *Req'd* || *Default Value* || *Description* || 
 || {{{name}}} || N  || {{{${class.name}.${method.name} }}} || Identifier of the profiled  ||
 || {{{slowInvocationThresholdInMillis}}} || N || 500 || Lower bound of the interval of slow invocations reported under the {{{SlowInvocationCount}}} counter (the upper bound of this interval is the {{{verySlowInvocationThresholdInMillis}}} parameter) ||
@@ -11,7 +15,7 @@
 
 Note : if an exception is at the same time a communication exception and a business exception, only the {{{BusinessExceptionCount}}} counter is incremented.
 
-= Spring Configuration =   
+== Spring Configuration ==   
 
  * Spring namespace based configuration :
    {{{
@@ -42,7 +46,7 @@ Note : if an exception is at the same time a communication exception and a busin
 </beans>
 }}}
 
-= JMX MBeans=
+== JMX MBeans ==
 
 One JMX MBean is registered for each different name of {{{@Profiled}}} annotation.
 The MBean Object pattern is {{{"fr.xebia:type=ServiceStatistics,name=${name}"}}}.
@@ -52,7 +56,7 @@ The {{{"${name}"}}} is defined declaratively ({{{@Profiled(name="my-operation")}
   ** COMPACT_FULLY_QUALIFIED_NAME (e.g. {{{"c.m.MyService.myMethod"}}})
   ** SHORT_NAME (e.g. {{{"MyService.myMethod"}}})
 
-= Metrics= 
+== Metrics ==
 
 Here are the metrics monitored by the @profiled annotation.
 
@@ -66,9 +70,7 @@ Here are the metrics monitored by the @profiled annotation.
 || {{{OtherExceptionCount}}} || Trends Up ||  Number of other exceptions (invocations throwing exceptions which are not communication nor business exceptions) ||
 || {{{TotalDurationInNanos}}} || Trends Up ||  Total duration of the invocations ||
 
-= Samples =
-
-{{{@Profiled}}} / {{{@fr.xebia.management.statistics.Profiled}}} allows to monitor methods execution declaratively.
+== Samples ==
 
  * Basic java sample
   {{{
@@ -98,7 +100,7 @@ public class MyService {
 }
 }}}
 
-= JSP / VisualVM / Hyperic HQ rendering =
+== JSP / VisualVM / Hyperic HQ rendering ==
 
  * JSP monitoring page : [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/webapp/jmx/profiled-services.jsp (source)], 
    <a href="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-jsp-profiled-service.png" target="screenshot"><img src="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-jsp-profiled-service.png" height="200"/></a>,
