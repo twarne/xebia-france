@@ -2,6 +2,72 @@
 
 =  @Profiled Annotation =
 
+|| *Name* || *Req'd* || *Default Value* || *Description* || 
+|| {{{name}}} || N  || {{{${class.name}.${method.name} }}} || Identifier of the profiled  ||
+|| {{{slowInvocationThresholdInMillis}}} || N || 500 || Lower bound of the interval of slow invocations reported under the {{{SlowInvocationCount}}} counter (the upper bound of this interval is the {{{verySlowInvocationThresholdInMillis}}} parameter) ||
+|| {{{verySlowInvocationThresholdInMillis}}} || N || 1000 || Upper bound of the slow invocations counter. Invocations that are longer than this threshold are reported in the {{{VerySlowInvocationCount}}} counter ||
+|| {{{communicationExceptionsTypes}}} || N || {{{ {IOException.class} }}} || List of exceptions that must be reported in the {{{CommunicationExceptionCount}}} counter. A throwned exception is seen as a communication exception if it is an instance or one of its nested cause is an instance of one of the {{{communicationExceptionsTypes}}}. ||
+|| {{{businessExceptionsTypes}}} || N || {{{ {} }}} || List of exceptions that must be reported in the {{{BusinessExceptionCount}}}. A throwned exception is seen as a communication exception if it is an instance or one of its nested cause is an instance of one of the {{{communicationExceptionsTypes}}}. ||
+
+Note : if an exception is at the same time a communication exception and a business exception, only the {{{BusinessExceptionCount}}} counter is incremented.
+
+= Spring Configuration =   
+
+ * Spring namespace based configuration :
+   {{{
+<beans ...
+   xmlns:management="http://www.xebia.fr/schema/xebia-management-extras"
+   xsi:schemaLocation="...
+      http://www.xebia.fr/schema/xebia-management-extras http://xebia-france.googlecode.com/svn/schema/management/xebia-management-extras.xsd">
+   <!-- enable AOP to intercept @Profiled annotation -->
+   <aop:aspectj-autoproxy />
+   <!-- mbean server wil hold the ServiceStatistics mbeans used by @Profiled -->
+   <context:mbean-server />
+   
+   <management:profile-aspect server="mbeanServer" />
+   ...
+</beans>
+}}}
+ * Spring raw configuration:
+  {{{
+<beans ...>
+   <!-- enable AOP to intercept @Profiled annotation -->
+   <aop:aspectj-autoproxy />
+   <!-- mbean server wil hold the ServiceStatistics mbeans used by @Profiled -->
+   <context:mbean-server />
+
+   <bean id="profileAspect" class="fr.xebia.management.statistics.ProfileAspect" />
+   ...
+
+</beans>
+}}}
+
+= JMX MBeans=
+
+One JMX MBean is registered for each different name of {{{@Profiled}}} annotation.
+The MBean Object pattern is {{{"fr.xebia:type=ServiceStatistics,name=${name}"}}}.
+
+The {{{"${name}"}}} is defined declaratively ({{{@Profiled(name="my-operation")}}}) or build from the class and method name with one of the following strategies :
+  ** FULLY_QUALIFIED_NAME (e.g. {{{"com.mycompany.MyService.myMethod"}}})
+  ** COMPACT_FULLY_QUALIFIED_NAME (e.g. {{{"c.m.MyService.myMethod"}}})
+  ** SHORT_NAME (e.g. {{{"MyService.myMethod"}}})
+
+= Metrics= 
+
+Here are the metrics monitored by the @profiled annotation.
+
+|| *Name* || *Indicator Type* || *Description* ||
+|| {{{ActiveCount}}} || Dynamic ||  Number of currently active executor threads  ||
+|| {{{InvocationCount}}} || Trends Up ||  Number of invocations ||
+|| {{{SlowInvocationCount}}} || Trends Up ||  Number of slow invocation ({{{@Profiled.slowInvocationThreshold < invocationDuration < @Profiled.verySlowInvocationThreshold}}}) ||
+|| {{{VerySlowInvocationCount}}} || Trends Up ||  Number of very slow invocations ({{{@Profiled.verySlowInvocationThreshold < invocationDuration}}}) ||
+|| {{{BusinessExceptionCount}}} || Trends Up ||  Number of business exceptions (invocations throwing exceptions which are instances or which have a nested cause that is an instance of one of the @Profiled.businessExceptionTypes) ||
+|| {{{CommunicationExceptionCount}}} || Trends Up ||  Number of communication exceptions (invocations throwing exceptions which are instances or which have a nested cause that is an instance of one of the @Profiled.communicationExceptionTypes) ||
+|| {{{OtherExceptionCount}}} || Trends Up ||  Number of other exceptions (invocations throwing exceptions which are not communication nor business exceptions) ||
+|| {{{TotalDurationInNanos}}} || Trends Up ||  Total duration of the invocations ||
+
+= Samples =
+
 {{{@Profiled}}} / {{{@fr.xebia.management.statistics.Profiled}}} allows to monitor methods execution declaratively.
 
  * Basic java sample
@@ -31,47 +97,10 @@ public class MyService {
    }
 }
 }}}
- * JMX Object Name: {{{"fr.xebia:type=ServiceStatistics,name=${name}"}}} where {{{"${name}"}}} is defined declaratively ({{{@Profiled(name="my-operation")}}}) or build from the class and method name with one of the following strategies :
-  ** FULLY_QUALIFIED_NAME (e.g. {{{"com.mycompany.MyService.myMethod"}}})
-  ** COMPACT_FULLY_QUALIFIED_NAME (e.g. {{{"c.m.MyService.myMethod"}}})
-  ** SHORT_NAME (e.g. {{{"MyService.myMethod"}}})
- * Metrics: 
-  ** {{{ActiveCount}}}: number of currently active executor threads, 
-  ** {{{InvocationCount}}}: number of invocations
-  ** {{{SlowInvocationCount}}}: number of slow invocation (@Profiled.slowInvocationThreshold < invocationDuration < @Profiled.verySlowInvocationThreshold)
-  ** {{{VerySlowInvocationCount}}}: number of very slow invocations (@Profiled.verySlowInvocationThreshold < invocationDuration)
-  ** {{{BusinessExceptionCount}}}: number of business exceptions (invocations throwing exceptions which are instances of one of the @Profiled.businessExceptionTypes)
-  ** {{{CommunicationExceptionCount}}}: number of communication exceptions (invocations throwing exceptions which are instances of one of the @Profiled.communicationExceptionTypes)
-  ** {{{OtherExceptionCount}}}: number of other exceptions (invocations throwing exceptions which are not communication nor business exceptions)
-  ** {{{TotalDurationInNanos}}}: total duration of the invocations
 
- * Spring namespace based configuration :
-   {{{
-<beans ...
-   xmlns:management="http://www.xebia.fr/schema/xebia-management-extras"
-   xsi:schemaLocation="...
-      http://www.xebia.fr/schema/xebia-management-extras http://xebia-france.googlecode.com/svn/schema/management/xebia-management-extras.xsd">
-   <!-- enable AOP to intercept @Profiled annotation -->
-   <aop:aspectj-autoproxy />
-   <!-- mbean server wil hold the ServiceStatistics mbeans used by @Profiled -->
-   <context:mbean-server />
-   
-   <management:profile-aspect server="mbeanServer" />
-   ...
-</beans>
-}}}
- * Spring raw configuration:
-  {{{
-<beans ...>
-   <!-- enable AOP to intercept @Profiled annotation -->
-   <aop:aspectj-autoproxy />
-   <!-- mbean server wil hold the ServiceStatistics mbeans used by @Profiled -->
-   <context:mbean-server />
+= JSP / VisualVM / Hyperic HQ rendering =
 
-   <bean id="profileAspect" class="fr.xebia.management.statistics.ProfileAspect" />
-   ...
+ * JSP monitoring page : [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/webapp/jmx/profiled-services.jsp (source)], 
+   <a href="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-jsp-profiled-service.png" target="screenshot"><img src="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-jsp-profiled-service.png" height="200"/></a>,
 
-</beans>
-}}} 
- * JSP monitoring page : [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/webapp/jmx/profiled-services.jsp (source)], <a href="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-jsp-profiled-service.png" target="screenshot"><img src="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-jsp-profiled-service.png" height="30"/></a>,
  * Hyperic plugin: [https://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/hyperic/tomcat-extras-service-plugin.xml tomcat-extras-service-plugin.xml] (1)
