@@ -2,7 +2,7 @@
 
 =  @Profiled Annotation =
 
-{{{@Profiled}}} is a java annotation which allows to monitor methods execution declaratively and expose all the indicators via JMX via a MBean.
+{{{@Profiled}}} is a java annotation which allows to monitor methods execution declaratively and expose all the indicators via a JMX MBean.
 
 
 Fully qualified name of the annotation : {{{fr.xebia.management.statistics.Profiled}}}.
