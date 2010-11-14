@@ -45,15 +45,27 @@ Please note that this {{{ManagedConnectionFactory}}} is not intended to help you
   * {{{CreateSessionCount}}}, {{{CreateSessionExceptionCount}}},
   * {{{SendMessageCount}}}, {{{SendMessageExceptionCount}}}, {{{SendMessageDurationInMillis}}},
   * {{{ReceiveMessageCount}}}, {{{ReceiveMessageExceptionCount}}}, {{{ReceiveMessageDurationInMillis}}}.
- * Spring configuration:
+ * Spring namespace based configuration :
+   {{{
+<beans ...
+   xmlns:management="http://www.xebia.fr/schema/xebia-management-extras"
+   xsi:schemaLocation="...
+      http://www.xebia.fr/schema/xebia-management-extras http://xebia-france.googlecode.com/svn/schema/management/xebia-management-extras.xsd">
+   ...
+   <!-- wrap 'myConnectionFactory' in a JMX enabled connection factory -->
+   <management:jms-connection-factory-wrapper id="connectionFactory" connection-factory="myConnectionFactory" />
+   ...
+   <!-- mbean exporter wil register the spring jms caching connection factory mbean -->
+   <context:mbean-export server="..." />
+</beans>
+}}}
+ * Spring raw configuration:
   {{{
 <beans ...>
+   ...
+   <!-- wrap 'myConnectionFactory' in a JMX enabled connection factory -->
    <bean id="connectionFactory" class="fr.xebia.management.jms.SpringManagedConnectionFactory">
-      <property name="delegate">
-         <bean class="org.apache.activemq.ActiveMQConnectionFactory">
-            <property name="brokerURL" value="vm://localhost?broker.persistent=false&amp;broker.useJmx=true" />
-         </bean>
-      </property>
+      <property name="connectionFactory" ref="myConnectionFactory" />
    </bean>
    ...
    <!-- mbean exporter wil register the jms connection factory mbean -->
@@ -75,10 +87,25 @@ Please note that this {{{ManagedConnectionFactory}}} is not intended to help you
  * Attributes:
   * {{{CacheConsumers}}}, {{{CacheProducers}}}, {{{ReconnectOnException}}} : boolean configuration parameters
   * {{{SessionCacheSize}}} : max size of the sessions cache.
-
- * Spring configuration:
+ * Spring namespace based configuration :
+   {{{
+<beans ...
+   xmlns:management="http://www.xebia.fr/schema/xebia-management-extras"
+   xsi:schemaLocation="...
+      http://www.xebia.fr/schema/xebia-management-extras http://xebia-france.googlecode.com/svn/schema/management/xebia-management-extras.xsd">
+   ...
+   <!-- wrap 'myConnectionFactory' in a JMX enabled caching connection factory -->
+   <management:jms-caching-connection-factory id="cachingConnectionFactory" connection-factory="myConnectionFactory" />
+   ...
+   <!-- mbean exporter wil register the spring jms caching connection factory mbean -->
+   <context:mbean-export server="..." />
+</beans>
+}}}
+ * Spring raw configuration:
   {{{
 <beans ...>
+   ...
+   <!-- wrap 'myConnectionFactory' in a JMX enabled caching connection factory -->
    <bean id="cachingConnectionFactory" class="fr.xebia.springframework.jms.ManagedCachingConnectionFactory">
       <property name="targetConnectionFactory" ref="myConnectionFactory" />
    </bean>
@@ -127,7 +154,20 @@ To ensure that deploying several web applications on the same servlet engine (To
  * if the servlet container is Tomcat, the web application host,
  * any extra attribute defined by configuration.
 
-*Spring configuration sample:*
+ *Spring namespace based configuration:*
+   {{{
+<beans ...
+   xmlns:management="http://www.xebia.fr/schema/xebia-management-extras"
+   xsi:schemaLocation="...
+      http://www.xebia.fr/schema/xebia-management-extras http://xebia-france.googlecode.com/svn/schema/management/xebia-management-extras.xsd">
+
+   <management:servlet-context-aware-mbean-server id="mbeanServer"/>
+   <context:mbean-export server="mbeanServer" />
+
+</beans>
+}}}
+
+*Spring raw configuration sample:*
 {{{
  <beans ... >
     <context:mbean-server id="rawMbeanServer" />
