@@ -37,15 +37,36 @@ public class MyService {
   ** SHORT_NAME (e.g. {{{"MyService.myMethod"}}})
  * Metrics: 
   ** {{{ActiveCount}}}: number of currently active executor threads, 
-  ** TODO
- * Spring configuration:
+  ** {{{InvocationCount}}}: number of invocations
+  ** {{{SlowInvocationCount}}}: number of slow invocation (@Profiled.slowInvocationThreshold < invocationDuration < @Profiled.verySlowInvocationThreshold)
+  ** {{{VerySlowInvocationCount}}}: number of very slow invocations (@Profiled.verySlowInvocationThreshold < invocationDuration)
+  ** {{{BusinessExceptionCount}}}: number of business exceptions (invocations throwing exceptions which are instances of one of the @Profiled.businessExceptionTypes)
+  ** {{{CommunicationExceptionCount}}}: number of communication exceptions (invocations throwing exceptions which are instances of one of the @Profiled.communicationExceptionTypes)
+  ** {{{OtherExceptionCount}}}: number of other exceptions (invocations throwing exceptions which are not communication nor business exceptions)
+  ** {{TotalDurationInNanos}}: total duration of the invocations
+
+ * Spring namespace based configuration :
+   {{{
+<beans ...
+   xmlns:management="http://www.xebia.fr/schema/xebia-management-extras"
+   xsi:schemaLocation="...
+      http://www.xebia.fr/schema/xebia-management-extras http://xebia-france.googlecode.com/svn/schema/management/xebia-management-extras.xsd">
+   <!-- enable AOP to intercept @Profiled annotation -->
+   <aop:aspectj-autoproxy />
+   <!-- mbean server wil hold the ServiceStatistics mbeans used by @Profiled -->
+   <context:mbean-server />
+   
+   <management:profile-aspect server="mbeanServer" />
+   ...
+</beans>
+}}}
+ * Spring raw configuration:
   {{{
 <beans ...>
    <!-- enable AOP to intercept @Profiled annotation -->
    <aop:aspectj-autoproxy />
    <!-- mbean server wil hold the ServiceStatistics mbeans used by @Profiled -->
-    <context:mbean-server />
-
+   <context:mbean-server />
 
    <bean id="profileAspect" class="fr.xebia.management.statistics.ProfileAspect" />
    ...
