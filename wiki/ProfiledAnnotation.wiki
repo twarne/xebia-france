@@ -2,13 +2,32 @@
 
 =  @Profiled Annotation =
 
-{{{@Profiled}}} / {{{@fr.xebia.management.statistics.Profiled}}} allows to monitor methods execution declaratively.
+{{{@Profiled}}} is a java annotation which allows to monitor methods execution declaratively and expose all the indicators via JMX via a MBean.
 
-== @Profiled Parameters ==
+
+Fully qualified name of the annotation : {{{fr.xebia.management.statistics.Profiled}}}.
+
+== @Profiled Annotation Collected Metrics ==
+
+Here are the metrics monitored by the @profiled annotation:
+
+|| *Name* || *Indicator Type* || *Description* ||
+|| {{{ActiveCount}}} || Dynamic ||  Number of currently active invocations  ||
+|| {{{InvocationCount}}} || Trends Up ||  Number of invocations ||
+|| {{{SlowInvocationCount}}} || Trends Up ||  Number of slow invocation ({{{@Profiled.slowInvocationThreshold < invocationDuration < @Profiled.verySlowInvocationThreshold}}}) ||
+|| {{{VerySlowInvocationCount}}} || Trends Up ||  Number of very slow invocations ({{{@Profiled.verySlowInvocationThreshold < invocationDuration}}}) ||
+|| {{{BusinessExceptionCount}}} || Trends Up ||  Number of business exceptions (invocations throwing exceptions which are instances or which have a nested cause that is an instance of one of the @Profiled.businessExceptionTypes) ||
+|| {{{CommunicationExceptionCount}}} || Trends Up ||  Number of communication exceptions (invocations throwing exceptions which are instances or which have a nested cause that is an instance of one of the @Profiled.communicationExceptionTypes) ||
+|| {{{OtherExceptionCount}}} || Trends Up ||  Number of other exceptions (invocations throwing exceptions which are not communication nor business exceptions) ||
+|| {{{TotalDurationInNanos}}} || Trends Up ||  Total duration of the invocations ||
+
+Trends Up indicators are always increasing counters. The monitoring system is expected to convert these metrics into "per minute" metrics (e.g. {{{InvocationCount}}} should be exposed as {{{InvocationCountPerMinute}}}).
+
+== @Profiled Annotation Attributes ==
 
 || *Name* || *Req'd* || *Default Value* || *Description* || 
 || {{{name}}} || N  || {{{${class.name}.${method.name} }}} || Identifier of the profiled  ||
-|| {{{slowInvocationThresholdInMillis}}} || N || 500 || Lower bound of the interval of slow invocations reported under the {{{SlowInvocationCount}}} counter (the upper bound of this interval is the {{{verySlowInvocationThresholdInMillis}}} parameter) ||
+|| {{{slowInvocationThresholdInMillis}}} || N || 500 || Lower bound of the interval of slow invocations reported under the {{{SlowInvocationCount}}} counter (the upper bound of this interval is the {{{verySlowInvocationThresholdInMillis}}} attribute) ||
 || {{{verySlowInvocationThresholdInMillis}}} || N || 1000 || Upper bound of the slow invocations counter. Invocations that are longer than this threshold are reported in the {{{VerySlowInvocationCount}}} counter ||
 || {{{communicationExceptionsTypes}}} || N || {{{ {IOException.class} }}} || List of exceptions that must be reported in the {{{CommunicationExceptionCount}}} counter. A throwned exception is seen as a communication exception if it is an instance or one of its nested cause is an instance of one of the {{{communicationExceptionsTypes}}}. ||
 || {{{businessExceptionsTypes}}} || N || {{{ {} }}} || List of exceptions that must be reported in the {{{BusinessExceptionCount}}}. A throwned exception is seen as a communication exception if it is an instance or one of its nested cause is an instance of one of the {{{communicationExceptionsTypes}}}. ||
@@ -42,9 +61,10 @@ Note : if an exception is at the same time a communication exception and a busin
 
    <bean id="profileAspect" class="fr.xebia.management.statistics.ProfileAspect" />
    ...
-
 </beans>
 }}}
+
+Note : If you face a {{{IllegalArgumentException: MetadataMBeanInfoAssembler does not support JDK dynamic proxies - export the target beans directly or use CGLIB proxies instead}}}, then you need tell AspectJ to use CGLib proxies adding the attribute {{{proxy-target-class="true"}}} like {{{<aop:aspectj-autoproxy proxy-target-class="true" />}}}.
 
 == JMX MBeans ==
 
@@ -56,25 +76,14 @@ The {{{"${name}"}}} is defined declaratively ({{{@Profiled(name="my-operation")}
   ** COMPACT_FULLY_QUALIFIED_NAME (e.g. {{{"c.m.MyService.myMethod"}}})
   ** SHORT_NAME (e.g. {{{"MyService.myMethod"}}})
 
-== Metrics ==
 
-Here are the metrics monitored by the @profiled annotation.
-
-|| *Name* || *Indicator Type* || *Description* ||
-|| {{{ActiveCount}}} || Dynamic ||  Number of currently active executor threads  ||
-|| {{{InvocationCount}}} || Trends Up ||  Number of invocations ||
-|| {{{SlowInvocationCount}}} || Trends Up ||  Number of slow invocation ({{{@Profiled.slowInvocationThreshold < invocationDuration < @Profiled.verySlowInvocationThreshold}}}) ||
-|| {{{VerySlowInvocationCount}}} || Trends Up ||  Number of very slow invocations ({{{@Profiled.verySlowInvocationThreshold < invocationDuration}}}) ||
-|| {{{BusinessExceptionCount}}} || Trends Up ||  Number of business exceptions (invocations throwing exceptions which are instances or which have a nested cause that is an instance of one of the @Profiled.businessExceptionTypes) ||
-|| {{{CommunicationExceptionCount}}} || Trends Up ||  Number of communication exceptions (invocations throwing exceptions which are instances or which have a nested cause that is an instance of one of the @Profiled.communicationExceptionTypes) ||
-|| {{{OtherExceptionCount}}} || Trends Up ||  Number of other exceptions (invocations throwing exceptions which are not communication nor business exceptions) ||
-|| {{{TotalDurationInNanos}}} || Trends Up ||  Total duration of the invocations ||
 
 == Samples ==
 
  * Basic java sample
   {{{
 package com.mycompany;
+
 public class MyService {
 
    @Profiled
@@ -106,3 +115,47 @@ public class MyService {
    <a href="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-jsp-profiled-service.png" target="screenshot"><img src="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-jsp-profiled-service.png" height="200"/></a>,
 
  * Hyperic plugin: [https://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/hyperic/tomcat-extras-service-plugin.xml tomcat-extras-service-plugin.xml] (1)
+
+== Raw usage of the {{{ServiceStatistics}}} bean ==
+
+You can directly use the underlying {{{ServiceStatistics}}} bean without the {{{@Profiled}}} annotation. It can be particularly useful if the profiled code can not elegantly be isolated in a dedicated method.
+
+{{{ServiceStatistics}}} usage demo:
+{{{
+long nanosBefore = System.nanoTime();
+serviceStatistics.incrementCurrentActiveCount();
+try {
+    // ... do profiled job
+} catch (Throwable t) {
+    serviceStatistics.incrementExceptionCount(t);
+    throw t;
+} finally {
+    serviceStatistics.decrementCurrentActiveCount();
+    serviceStatistics.incrementInvocationCounterAndTotalDurationWithNanos(System.nanoTime() - nanosBefore);
+}
+}}}
+
+Spring configuration based {{{ServiceStatistics}}} initialization demo:
+{{{
+<beans ...>
+   <!-- mbean exporter is in charge of registering the ServiceStatistics MBean -->
+   <context:mbean-export />
+
+   <bean id="my-backend-statistics" class="fr.xebia.management.statistics.ServiceStatistics">
+      <property name="name" value="my-service" />
+      <property name="communicationExceptionsTypes">
+         <array>
+            <value>java.io.IOException</value>
+            <value>com.mycompany.mybackend.CommunicationException</value>
+         </array>
+      </property>
+      <property name="businessExceptionsTypes">
+         <array>
+            <value>com.mycompany.mybackend.BusinessException</value>
+         </array>
+      </property>
+      <property name="slowInvocationThresholdInMillis" value="75" />
+      <property name="verySlowInvocationThresholdInMillis" value="150" />
+   </bean>
+</beans>
+}}}
