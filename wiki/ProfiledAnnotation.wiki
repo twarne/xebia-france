@@ -43,7 +43,7 @@ public class MyService {
   ** {{{BusinessExceptionCount}}}: number of business exceptions (invocations throwing exceptions which are instances of one of the @Profiled.businessExceptionTypes)
   ** {{{CommunicationExceptionCount}}}: number of communication exceptions (invocations throwing exceptions which are instances of one of the @Profiled.communicationExceptionTypes)
   ** {{{OtherExceptionCount}}}: number of other exceptions (invocations throwing exceptions which are not communication nor business exceptions)
-  ** {{TotalDurationInNanos}}: total duration of the invocations
+  ** {{{TotalDurationInNanos}}}: total duration of the invocations
 
  * Spring namespace based configuration :
    {{{
