@@ -316,19 +316,6 @@
          </plugin>
       </plugins>
    </build>
-
-   <repositories>
-      <repository>
-         <id>xebia-france-repository</id>
-         <url>http://xebia-france.googlecode.com/svn/repository/maven2/</url>
-         <releases>
-            <enabled>true</enabled>
-         </releases>
-         <snapshots>
-            <enabled>true</enabled>
-         </snapshots>
-      </repository>
-   </repositories>
    <properties>
       <springframework.version>3.0.5.RELEASE</springframework.version>
       <springframework-security.version>3.0.4.RELEASE</springframework-security.version>
