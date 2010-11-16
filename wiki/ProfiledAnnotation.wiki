@@ -7,7 +7,7 @@
 
 Fully qualified name of the annotation : {{{fr.xebia.management.statistics.Profiled}}}.
 
-== @Profiled Annotation Collected Metrics ==
+== @Profiled Annotation Collected Metrics / JMX MBeans attributes ==
 
 Here are the metrics monitored by the @profiled annotation:
 
