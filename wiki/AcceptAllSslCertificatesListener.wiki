@@ -1,5 +1,4 @@
 #summary Tomcat Listener to accept all HTTPS / X509 certificates with HttpsURLConnection (self-signed, untrusted, expired or with mismatching hostname certificates)
-#labels Featured
 
 = Description =
 
