@@ -2,10 +2,18 @@
 
 =  @Profiled Annotation =
 
-{{{@Profiled}}} is a java annotation which allows to monitor methods execution declaratively and expose all the indicators via a JMX MBean.
+{{{@Profiled}}} is a java annotation which allows to monitor methods execution declaratively and expose all the indicators via a JMX MBean simply like this: 
+  {{{
+public class MyService {
 
+   @Profiled
+   public void myOperation(...) {
+      ...
+   }
+}
+}}}
 
-Fully qualified name of the annotation : {{{fr.xebia.management.statistics.Profiled}}}.
+The fully qualified name of the annotation is {{{fr.xebia.management.statistics.Profiled}}}.
 
 == @Profiled Annotation Collected Metrics / JMX MBeans attributes ==
 
