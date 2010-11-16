@@ -2,9 +2,9 @@
 
 = Managed Executor Service / Thread Pool Executor =
 
-The {{{<management:executor-service />}}} is a JMX MBean enabled implementation of a {{{java.util.concurrent.ExecutorService}}} / {{{java.util.concurrent.ThreadPoolExecutor}}} configurable via a Spring namespace.
+The {{{<management:executor-service />}}} is a JMX MBean enabled implementation of a {{{java.util.concurrent}}}'s {{{ExecutorService}}} / {{{ThreadPoolExecutor}}} configurable via a Spring namespace.
 
-The {{{<management:executor-service />}}} is very similar to Spring Framework's [http://static.springsource.org/spring/docs/3.0.x/spring-framework-reference/html/scheduling.html#scheduling-task-namespace-executor <task:executor />]; the main difference is that the {{{<management:executor-service />}}} exposes its metrics via a JMX MBean.
+It is very similar to Spring Framework's [http://static.springsource.org/spring/docs/3.0.x/spring-framework-reference/html/scheduling.html#scheduling-task-namespace-executor <task:executor />]; the main difference is that the {{{<management:executor-service />}}} exposes its metrics via a JMX MBean.
 
 == Spring Configuration ==
 
