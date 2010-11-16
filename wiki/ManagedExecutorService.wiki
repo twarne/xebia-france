@@ -49,7 +49,7 @@ It is very similar to Spring Framework's [http://static.springsource.org/spring/
 || {{{pool-size}}} || No || 1-∞ (Integer.MAX_VALUE) || Size of the thread pool. Expressed as a single number for both min and max sizes or as a range like {{{1-5}}} expressing the min and max number of threads ||
 || {{{queue-capacity}}} || No || ∞ (Integer.MAX_VALUE) || Size of the blocking queue at the entrance of the thread pool ||
 || {{{keep-alive}}} || No || 0 || Timeout in seconds after which the created threads exceeding the core pool size are destroyed ||
-|| {{{rejection-policy}}} ||  No || {{{ABORT}}} || Strategy when all the threads are busy and the queue is full. Possible values are: <br/>* {{{ABORT}}}: a {{{RejectedExecutionException}}} is throwned, <br/>* {{{CALLER_RUNS}}}: the offered {{{Runnable}}} is executed in the calling thread,<br/>* {{{DISCARD}}}: the offered {{{Runnable}}} is discarded, <br/>* {{{DISCARD}}}: the oldest {{{Runnable}}} is discarded.||
+|| {{{rejection-policy}}} ||  No || {{{ABORT}}} || Strategy when all the threads are busy and the queue is full. Possible values are: <br/> - {{{ABORT}}}: a {{{RejectedExecutionException}}} is throwned, <br/> - {{{CALLER_RUNS}}}: the offered {{{Runnable}}} is executed in the calling thread,<br/> - {{{DISCARD}}}: the offered {{{Runnable}}} is discarded, <br/> - {{{DISCARD}}}: the oldest {{{Runnable}}} is discarded.||
 
 == JMX MBean Object Name ==
 
