@@ -4,32 +4,9 @@
 
 Extras on top of Java SE (e.g. Thread Pool) and Spring Framework (e.g. JMS Listener) to ease monitoring.
 
-=  Java Util Concurrent Thread Pool Executor Monitoring =
+=  Java Util Concurrent Executor Service / Thread Pool Executor Monitoring =
 
-{{{ThreadPoolExecutorFactory}}} allows to monitor a {{{java.util.concurrent.ThreadPoolExecutor}}}.
-
- * JMX Object Name: {{{"java.util.concurrent:type=ThreadPoolExecutor,name=${spring-bean-name}"}}} where {{{"${spring-bean-name}"}}} is the name of the spring object
- * Metrics: 
-  ** {{{ActiveCount}}}: number of currently active executor threads, 
-  ** {{{QueueRemainingCapacity}}}: slots available on the executor queue,
-  ** {{{RejectedExecutionCount}}}: number of tasks that have been rejected because the executor was full,
-  ** {{{TaskCount}}}: number of tasks that have been submitted to this executor, including the rejected ones,
- * Spring configuration:
-  {{{
-<beans ...>
-   <bean id="threadPool" class="fr.xebia.springframework.concurrent.ThreadPoolExecutorFactory">
-      <property name="nbThreads" value="10" />
-      <property name="queueCapacity" value="15" />
-      <property name="threadNamePrefix" value="my-pool" />
-   </bean>
-   ...
-   <!-- mbean exporter will register the thread pool executor mbean -->
-   <context:mbean-export server="..." />
-</beans>
-}}} 
- * The {{{ThreadPoolExecutorFactory}}} is a Spring factory of a subclass of {{{java.util.concurrent.ThreadPoolExecutor}}},
- * JSP monitoring page : [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/webapp/jmx/thread-pool-executors.jsp thread-pool-executors.jsp (source)], <a href="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-jsp-thread-pool-executor.png" target="screenshot"><img src="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-jsp-thread-pool-executor.png" height="30"/></a>,
- * Hyperic plugin: [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/hyperic/tomcat-extras-executorservice-plugin.xml tomcat-extras-executorservice-plugin.xml] (1)
+See [ManagedExecutorService]
 
 = JMS Connection Factory Monitoring =
 
