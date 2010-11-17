@@ -4,6 +4,15 @@
 
 Hyperic plugins for xebia-management-extras mbeans.
 
+= Plugins list =
+
+ * [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/hyperic/tomcat-extras-ehcache-plugin.xml tomcat-extras-ehcache-plugin.xml]
+ * [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/hyperic/tomcat-extras-jms-plugin.xml tomcat-extras-jms-plugin.xml]: see [ManagedJmsConnectionFactory]
+ * [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/hyperic/tomcat-extras-executorservice-plugin.xml tomcat-extras-executorservice-plugin.xml]:see [ManagedExecutorService]
+ * [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/hyperic/tomcat-extras-dbcp-plugin.xml tomcat-extras-dbcp-plugin.xml]: see TODO
+ * [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/hyperic/tomcat-extras-ehcache-plugin.xml tomcat-extras-ehcache-plugin.xml]: see TODO
+ * [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/hyperic/tomcat-extras-plugin.xml tomcat-extras-plugin.xml]: extras for two Tomcat 6 components that have been forgotten by Hyperic tomcat-plugin : global data sources and executors.
+
 = Installation notes =
 
 Copy the hyperic plugin xml file under {{{ ${HYPERIC_HOME}/hq-plugins }}} (e.g. next to {{{ ${HYPERIC_HOME}/agent-4.5.0 }}}
