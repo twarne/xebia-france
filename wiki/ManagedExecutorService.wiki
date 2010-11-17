@@ -79,4 +79,4 @@ Trends Up indicators are always increasing counters. The monitoring system is ex
  * Visual VM / JConsole view:
    <a href="https://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-visualvm-thread-pool-executor.png"><img src="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-visualvm-thread-pool-executor.png" height="200"/></a>
 
- * Hyperic plugin: [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/hyperic/tomcat-extras-executorservice-plugin.xml tomcat-extras-executorservice-plugin.xml] (1)
+ * Hyperic plugin: [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/hyperic/tomcat-extras-executorservice-plugin.xml tomcat-extras-executorservice-plugin.xml], see [XebiaManagementExtrasHypericPlugins]
