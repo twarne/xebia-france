@@ -1,10 +1,8 @@
-#summary One-sentence summary of this page.
+#summary <management:jms-connection-factory-wrapper /> allows to expose the metrics of a JMS ConnectionFactory via a JMX MBean.
 
 = JMS Connection Factory Monitoring =
 
 {{{ManagedConnectionFactory}}} allows to monitor JMS resources. Exceptions ratios will help you to diagnose failures of the JMS Broker, increase of the send duration will help you to see saturation of the JMS Broker and changes of the creation rates will indicate changes in the usage of your application.
-
-Please note that this {{{ManagedConnectionFactory}}} is not intended to help you do diagnose JMS resources leaks and thus does not monitor resource's {{{close()}}} calls.
 
 == Spring Configuration ==
 
@@ -15,7 +13,7 @@ Please note that this {{{ManagedConnectionFactory}}} is not intended to help you
    xsi:schemaLocation="
 		http://www.xebia.fr/schema/xebia-management-extras http://xebia-france.googlecode.com/svn/schema/management/xebia-management-extras.xsd">
 
-     <!-- Wrap the 'rawConnectionFactory to expose its metrics via a JMX MBean --> 
+     <!-- Wrap the 'rawConnectionFactory' to expose its metrics via a JMX MBean --> 
      <management:jms-connection-factory-wrapper 
              id="connectionFactory" 
              connection-factory="rawConnectionFactory" />
@@ -80,7 +78,8 @@ Trends Up indicators are always increasing counters. The monitoring system is ex
 == Implementation details ==
 
  * {{{ManagedConnectionFactory}}} is a wrapper of a JMS 1.1 {{{javax.jms.ConnectionFactory}}}. It has been tested with Active MQ 5.3.2 and WebSphere MQ 7.0.1.2.
- * A non Spring enabled version is available with {{{fr.xebia.management.jms.ManagedConnectionFactory}}}.
+ * A non Spring enabled version is available with {{{fr.xebia.management.jms.ManagedConnectionFactory}}},
+ * This {{{ManagedConnectionFactory}}} is not intended to help you to diagnose JMS resources leaks and thus does not monitor resource's {{{close()}}} calls.
 
 == JSP / VisualVM / Hyperic HQ rendering ==
 
