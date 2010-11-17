@@ -1,59 +1,48 @@
-#summary JMX based extras to ease monitoring
+#summary JMX based extras to ease monitoring.
 #labels Featured
 
 = Introduction =
 
 Extras on top of Java SE (e.g. Thread Pool) and Spring Framework (e.g. JMS Listener) to ease monitoring.
 
+= @Profiled Annotation =
+
+See [ProfiledAnnotation] page. Monitor methods invocations via JMX MBeans declaring:
+  {{{
+public class MyService {
+
+   @Profiled
+   public void myOperation(...) {
+      ...
+   }
+}
+}}}
+
 =  Java Util Concurrent Executor Service / Thread Pool Executor Monitoring =
 
-See [ManagedExecutorService]
+See [ManagedExecutorService]. Declare a fully managed Executor Service with a JMX Mbean declaring:
+   {{{
+<beans ...>
+   <management:executor-service 
+       id="my-executor" 
+       pool-size="1-10" 
+       queue-capacity="5" />
+   ...
+</beans>
+}}}
 
 = JMS Connection Factory Monitoring =
 
-{{{ManagedConnectionFactory}}} allows to monitor JMS resources. Exceptions ratios will help you to diagnose failures of the JMS Broker, increase of the send duration will help you to see saturation of the JMS Broker and changes of the creation rates will indicate changes in the usage of your application.
-
-Please note that this {{{ManagedConnectionFactory}}} is not intended to help you do diagnose JMS resources leaks and thus does not monitor resource's {{{close()}}} calls.
-
- * JMX Object Name: {{{"javax.jms:type=ConnectionFactory,name=${spring-bean-name}"}}} where {{{"${spring-bean-name}"}}} is the name of the spring object
- * Metrics:
-  * {{{CreateConnectionCount}}}, {{{CreateConnectionExceptionCount}}},
-  * {{{CreateMessageProducerCount}}}, {{{CreateMessageProducerExceptionCount}}},
-  * {{{CreateMessageConsumerCount}}}, {{{CreateMessageConsumerExceptionCount}}},
-  * {{{CreateSessionCount}}}, {{{CreateSessionExceptionCount}}},
-  * {{{SendMessageCount}}}, {{{SendMessageExceptionCount}}}, {{{SendMessageDurationInMillis}}},
-  * {{{ReceiveMessageCount}}}, {{{ReceiveMessageExceptionCount}}}, {{{ReceiveMessageDurationInMillis}}}.
- * Spring namespace based configuration :
+See [ManagedJmsConnectionFactory]. Expose metrics of a JMS ConnectionFactory via a JMX MBean with
    {{{
-<beans ...
-   xmlns:management="http://www.xebia.fr/schema/xebia-management-extras"
-   xsi:schemaLocation="...
-      http://www.xebia.fr/schema/xebia-management-extras http://xebia-france.googlecode.com/svn/schema/management/xebia-management-extras.xsd">
-   ...
+<beans ...>
    <!-- wrap 'myConnectionFactory' in a JMX enabled connection factory -->
-   <management:jms-connection-factory-wrapper id="connectionFactory" connection-factory="myConnectionFactory" />
+   <management:jms-connection-factory-wrapper 
+      id="connectionFactory" 
+      connection-factory="myConnectionFactory" />
    ...
-   <!-- mbean exporter will register the spring jms caching connection factory mbean -->
-   <context:mbean-export server="..." />
 </beans>
 }}}
- * Spring raw configuration:
-  {{{
-<beans ...>
-   ...
-   <!-- wrap 'myConnectionFactory' in a JMX enabled connection factory -->
-   <bean id="connectionFactory" class="fr.xebia.management.jms.SpringManagedConnectionFactory">
-      <property name="connectionFactory" ref="myConnectionFactory" />
-   </bean>
-   ...
-   <!-- mbean exporter will register the jms connection factory mbean -->
-   <context:mbean-export server="..." />
-</beans>
-}}} 
- * {{{ManagedConnectionFactory}}} is a wrapper of a JMS 1.1 {{{javax.jms.ConnectionFactory}}}. It has been tested with Active MQ 5.3.2 and WebSphere MQ 7.0.1.2.
- * A non Spring enabled version is available with {{{fr.xebia.management.jms.ManagedConnectionFactory}}},
- * JSP monitoring page : [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/webapp/jmx/jms.jsp jms.jsp (source)], <a href="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-jsp-jms.png" target="screenshot"><img src="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-jsp-jms.png" height="30"/></a>,
- * Hyperic plugin: [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/hyperic/tomcat-extras-jms-plugin.xml tomcat-extras-jms-plugin.xml] (1)
 
 = Spring JMS Caching Connection Factory Monitoring =
 
@@ -211,9 +200,6 @@ The `"objectNameExtraAttributes"` property allows to manually add extra attribut
 
 An object name `"net.sf.ehcache:CacheManager=my-cache-manager,name=my-cache,type=Cache"` will be registered as `"net.sf.ehcache:CacheManager=my-cache-manager,ze-app-id-asked-by-ze-monitoring-team=my-application-id,name=my-cache,type=Cache,host=localhost,path=/my-application"` for an application "my-application" declared in the "localhost" host of a Tomcat server: attributes `"path=/my-application"`,  `"host=localhost"`and  `"ze-app-id-asked-by-ze-monitoring-team=my-application-id"` are added to the object name.
 
-= @Profiled Annotation =
-
-See [ProfiledAnnotation] page.
 
 ---- 
 
