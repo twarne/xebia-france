@@ -11,7 +11,9 @@ Hyperic plugins for xebia-management-extras mbeans.
  * [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/hyperic/tomcat-extras-executorservice-plugin.xml tomcat-extras-executorservice-plugin.xml]:see [ManagedExecutorService]
  * [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/hyperic/tomcat-extras-dbcp-plugin.xml tomcat-extras-dbcp-plugin.xml]: see TODO
  * [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/hyperic/tomcat-extras-ehcache-plugin.xml tomcat-extras-ehcache-plugin.xml]: see TODO
- * [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/hyperic/tomcat-extras-plugin.xml tomcat-extras-plugin.xml]: extras for two Tomcat 6 components that have been forgotten by Hyperic tomcat-plugin : global data sources and executors.
+ * [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/hyperic/tomcat-extras-plugin.xml tomcat-extras-plugin.xml]: extras for two Tomcat 6 components that have been forgotten by Hyperic tomcat-plugin : global data sources and executors,
+ * [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/hyperic/tomcat-extras-cxf-plugin.xml tomcat-extras-cxf-plugin.xml]: monitoring of CXF endpoints and clients,
+ * [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/hyperic/tomcat-extras-hibernate-plugin.xml tomcat-extras-hibernate-plugin.xml]: Hibernate monitoring.
 
 = Installation notes =
 
