@@ -124,7 +124,7 @@ public class MyService {
  * Visual VM / JConsole view:
    <a href="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-visualvm-profiled-service.png" target="screenshot"><img src="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-visualvm-profiled-service.png" height="200"/></a>
 
- * Hyperic plugin: [https://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/hyperic/tomcat-extras-service-plugin.xml tomcat-extras-service-plugin.xml] (1)
+ * Hyperic plugin: [https://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/hyperic/tomcat-extras-service-plugin.xml tomcat-extras-service-plugin.xml], see [XebiaManagementExtrasHypericPlugins].
 
 == Raw usage of the {{{ServiceStatistics}}} bean ==
 
