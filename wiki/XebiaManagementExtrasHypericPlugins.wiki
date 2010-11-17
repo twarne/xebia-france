@@ -24,6 +24,11 @@ The idea to deal with other servers than Tomcat is to migrate them and create ve
 
 *How to ensure Hyperic Server has discovered the added plugins ?*
 
+In Hyperic GUI, "Administration / Monitoring Defaults", verify that your plugins appear under the "Apache Tomcat 6.0" server type.
+
+   <a href="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/hyperic-administration.png" target="screenshot"><img src="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/hyperic-administration.png" height="200"/></a>
+   <a href="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/hyperic-administration-xebia-plugins.png" target="screenshot"><img src="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/hyperic-administration-xebia-plugins.png" height="200"/></a>
+
 Search in {{{${HYPERIC_HOME}/server-4.5/logs/server.log}}} for a message like:
 <code>
 2010-11-12 00:54:28,395 INFO  [main] [org.hyperic.hq.product.server.session.ProductManagerImpl@284] tomcat-extras-cxf unknown -- registering
