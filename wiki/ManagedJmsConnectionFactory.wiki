@@ -1,0 +1,91 @@
+#summary One-sentence summary of this page.
+
+= JMS Connection Factory Monitoring =
+
+{{{ManagedConnectionFactory}}} allows to monitor JMS resources. Exceptions ratios will help you to diagnose failures of the JMS Broker, increase of the send duration will help you to see saturation of the JMS Broker and changes of the creation rates will indicate changes in the usage of your application.
+
+Please note that this {{{ManagedConnectionFactory}}} is not intended to help you do diagnose JMS resources leaks and thus does not monitor resource's {{{close()}}} calls.
+
+== Spring Configuration ==
+
+ * Spring namespace based configuration:
+   {{{
+<beans ...
+   xmlns:management="http://www.xebia.fr/schema/xebia-management-extras" 
+   xsi:schemaLocation="
+		http://www.xebia.fr/schema/xebia-management-extras http://xebia-france.googlecode.com/svn/schema/management/xebia-management-extras.xsd">
+
+     <!-- Wrap the 'rawConnectionFactory to expose its metrics via a JMX MBean --> 
+     <management:jms-connection-factory-wrapper 
+             id="connectionFactory" 
+             connection-factory="rawConnectionFactory" />
+
+
+   <!-- mbean exporter will register the spring jms caching connection factory mbean -->
+   <context:mbean-export />
+
+</beans>
+}}}
+ * Spring raw configuration
+  {{{
+<beans ...>
+   ...
+   <!-- Wrap the 'rawConnectionFactory to expose its metrics via a JMX MBean -->
+   <bean id="connectionFactory" class="fr.xebia.management.jms.SpringManagedConnectionFactory">
+      <property name="connectionFactory" ref="rawConnectionFactory" />
+   </bean>
+   ...
+   <!-- mbean exporter will register the jms connection factory mbean -->
+   <context:mbean-export server="..." />
+</beans>
+}}} 
+
+== Configuration attributes ==
+
+|| *Name* || *Req'd* || *Default Value* ||  *Description* ||
+|| {{{id}}} || Yes || N/A || Id of the bean, used to build the object name as {{{"java.util.concurrent:type=ThreadPoolExecutor,name=${id}"}}} ||
+|| {{{pool-size}}} || Yes || N/A || name of the wrapped JMS ConnectionFactory ||
+
+== JMX MBean Object Name ==
+
+ * JMX Object Name: {{{"javax.jms:type=ConnectionFactory,name=${spring-bean-name}"}}} where {{{"${spring-bean-name}"}}} is the name of the spring object.
+
+== Managed Jms Connection Factory Collected Metrics / JMX MBeans attributes ==
+
+Here are the metrics monitored by the ManagedJmsConnectionFactory:
+
+|| *Name* || *Indicator Type* || *Description* ||
+|| {{{SendMessageCount}}} || Trends Up ||  Number of sent JMS messages ||
+|| {{{SendMessageExceptionCount}}} || Trends Up || Number of exceptions sending messages  ||
+|| {{{SendMessageDurationInMillis}}} || Trends Up || Duration spent sending messages ||
+|| {{{ReceiveMessageCount}}} || Trends Up ||  Number of received JMS messages ||
+|| {{{ReceiveMessageExceptionCount}}} || Trends Up ||  Number of exceptions receiving JMS messages ||
+|| {{{ReceiveMessageDurationInMillis}}} || Trends Up ||  Duration spent receiving JMS messages,  ||
+|| {{{CreateConnectionCount}}} || Trends Up ||  Number of created JMS connections ||
+|| {{{CreateConnectionExceptionCount}}} || Trends Up || Number of exceptions creating connections  ||
+|| {{{CreateMessageProducerCount}}} || Trends Up || Number of created JMS message producers  ||
+|| {{{CreateMessageProducerExceptionCount}}} || Trends Up || Number of exceptions creating message producers  ||
+|| {{{CreateMessageConsumerCount}}} || Trends Up || Number of created JMS message consumers ||
+|| {{{CreateMessageConsumerExceptionCount}}} || Trends Up || Number of exceptions creating message consumers  ||
+|| {{{CreateSessionCount}}} || Trends Up ||  Number of created JMS sessions ||
+|| {{{CreateSessionExceptionCount}}} || Trends Up ||  Number of exceptions creating sessions ||
+
+Key metrics are usually:
+ * {{{SendMessageCount}}} and {{{ReceiveMessageCount}}} to monitor the flow of messages,
+ * {{{SendMessageExceptionCount}}} and {{{ReceiveMessageExceptionCount}}} to detect problems in the flow of messages,
+ * {{{SendMessageDurationInMillis}}} to detect slowness in the JMS layer.
+
+Trends Up indicators are always increasing counters. The monitoring system is expected to convert these metrics into "per minute" metrics (e.g. {{{TaskCount}}} should be exposed as {{{TaskCountPerMinute}}}).
+
+== Implementation details ==
+
+ * {{{ManagedConnectionFactory}}} is a wrapper of a JMS 1.1 {{{javax.jms.ConnectionFactory}}}. It has been tested with Active MQ 5.3.2 and WebSphere MQ 7.0.1.2.
+ * A non Spring enabled version is available with {{{fr.xebia.management.jms.ManagedConnectionFactory}}}.
+
+== JSP / VisualVM / Hyperic HQ rendering ==
+
+ * JSP monitoring page : [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/webapp/jmx/jms.jsp jms.jsp (source)], 
+   <a href="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-jsp-jms.png" target="screenshot"><img src="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-jsp-jms.png" height="200"/></a>
+ * Visual VM / JConsole view:
+   <a href="https://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-visualvm-jms.png"><img src="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-visualvm-thread-pool-executor.png" height="200"/></a>
+ * Hyperic plugin: [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/hyperic/tomcat-extras-jms-plugin.xml tomcat-extras-jms-plugin.xml] (1)
