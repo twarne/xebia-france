@@ -33,7 +33,7 @@ See [ManagedExecutorService]. Declare a fully managed Executor Service with a JM
 
 = JMS Connection Factory Monitoring =
 
-See [ManagedJmsConnectionFactory]. Expose metrics of a JMS ConnectionFactory via a JMX MBean with
+See [ManagedJmsConnectionFactory]. Expose metrics of a JMS ConnectionFactory via a JMX MBean with:
    {{{
 <beans ...>
    <!-- wrap 'myConnectionFactory' in a JMX enabled connection factory -->
