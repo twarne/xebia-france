@@ -4,7 +4,7 @@
 
 == Spring Configuration ==
 
-* Spring namespace based configuration:
+ * Spring namespace based configuration:
    {{{
 <beans ...
    xmlns:management="http://www.xebia.fr/schema/xebia-management-extras" 
