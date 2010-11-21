@@ -76,37 +76,20 @@ See [ManagedCachingConnectionFactory]. Expose your Spring JMS CachingConnectionF
 </beans>
 }}}
 
-= Eh Cache =
+= EhCache JMX MBeans =
 
-Eh Cache already has all the JMX MBeans needed, we just proposed a simplified Spring configuration, a jsp page to watch the statistics and an Hyperic plugin.
-
- * Spring namespace based configuration :
+[http://ehcache.org/ EhCache] already has all the JMX MBeans needed to monitor caches, Simply expose these JMX MBeans declaring:
    {{{
-<beans ...
-   xmlns:management="http://www.xebia.fr/schema/xebia-management-extras"
-   xsi:schemaLocation="...
-      http://www.xebia.fr/schema/xebia-management-extras http://www.xebia.fr/schema/management/xebia-management-extras.xsd">
-   ...
-   <management:eh-cache-management-service mbean-server="mbeanServer" cache-manager="cacheManager" />
-
-</beans>
-}}}
- * Spring raw configuration:
-  {{{
 <beans ...>
    ...
-   <bean id="managementService" class="net.sf.ehcache.management.ManagementService" init-method="init" destroy-method="dispose">
-      <constructor-arg ref="cacheManager" />
-      <constructor-arg ref="mbeanServer" />
-      <constructor-arg index="2" value="true" />
-      <constructor-arg index="3" value="true" />
-      <constructor-arg index="4" value="true" />
-      <constructor-arg index="5" value="true" />
-   </bean>
+   <management:eh-cache-management-service 
+      mbean-server="mbeanServer" 
+      cache-manager="cacheManager" />
+
 </beans>
 }}}
- * JSP monitoring page : [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/webapp/jmx/ehcache.jsp ehcache.jsp (source)], <a href="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-jsp-ehcache.png" target="screenshot"><img src="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-jsp-ehcache.png" height="30"/></a>
- * Hyperic plugin: [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/hyperic/tomcat-extras-ehcache-plugin.xml tomcat-extras-ehcache-plugin.xml] (1)
+
+
 
 = Servlet Context Aware MBean Server =
 
