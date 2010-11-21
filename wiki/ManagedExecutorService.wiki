@@ -57,7 +57,7 @@ It is very similar to Spring Framework's [http://static.springsource.org/spring/
 
 == ExecutorService Collected Metrics / JMX MBeans attributes ==
 
-Here are the metrics monitored by the @profiled annotation:
+Here are the metrics monitored by the Managed ExecutorService / ThreadPool:
 
 || *Name* || *Indicator Type* || *Description* ||
 || {{{ActiveCount}}} || Dynamic ||  Number of currently active threads  ||
