@@ -63,43 +63,18 @@ See [ManagedJmsConnectionFactory]. Expose metrics of a JMS ConnectionFactory via
 
 = Spring JMS Caching Connection Factory Monitoring =
 
-{{{ManagedCachingConnectionFactory}}} allows to manage a Spring JMS Caching Connection Factory via JMX. 
+See [ManagedCachingConnectionFactory]. Expose your Spring JMS CachingConnectionFactory via a JMX MBean (reset connections via JMX, etc) declaring:
 
- * JMX Object Name: {{{"javax.jms:type=CachingConnectionFactory,name=${spring-bean-name}"}}} where {{{"${spring-bean-name}"}}} is the name of the spring object
- * Operations:
-  * {{{resetConnection}}} : close the underlying connection and its associated sessions, message producers and message consumers. 
- * Attributes:
-  * {{{CacheConsumers}}}, {{{CacheProducers}}}, {{{ReconnectOnException}}} : boolean configuration parameters
-  * {{{SessionCacheSize}}} : max size of the sessions cache.
- * Spring namespace based configuration :
    {{{
-<beans ...
-   xmlns:management="http://www.xebia.fr/schema/xebia-management-extras"
-   xsi:schemaLocation="...
-      http://www.xebia.fr/schema/xebia-management-extras http://www.xebia.fr/schema/management/xebia-management-extras.xsd">
+<beans ...>
+   <!-- wrap 'rawConnectionFactory' in a JMX enabled caching connection factory -->
+   <management:jms-caching-connection-factory 
+         id="connectionFactory" 
+         connection-factory="rawConnectionFactory" />
    ...
-   <!-- wrap 'myConnectionFactory' in a JMX enabled caching connection factory -->
-   <management:jms-caching-connection-factory id="cachingConnectionFactory" connection-factory="myConnectionFactory" />
-   ...
-   <!-- mbean exporter will register the spring jms caching connection factory mbean -->
-   <context:mbean-export server="..." />
+
 </beans>
 }}}
- * Spring raw configuration:
-  {{{
-<beans ...>
-   ...
-   <!-- wrap 'myConnectionFactory' in a JMX enabled caching connection factory -->
-   <bean id="cachingConnectionFactory" class="fr.xebia.springframework.jms.ManagedCachingConnectionFactory">
-      <property name="targetConnectionFactory" ref="myConnectionFactory" />
-   </bean>
-   ...
-   <!-- mbean exporter will register the spring jms caching connection factory mbean -->
-   <context:mbean-export server="..." />
-</beans>
-}}} 
- * {{{ManagedCachingConnectionFactory}}} is a subclass of the {{{org.springframework.jms.connection.CachingConnectionFactory}}}. It has been tested with Active MQ 5.3.2 and WebSphere MQ 7.0.1.2.
- * Hyperic plugin: [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/hyperic/tomcat-extras-jms-plugin.xml tomcat-extras-jms-plugin.xml] (only exposes the {{{resetConnection}}} operation) (1)
 
 
 
