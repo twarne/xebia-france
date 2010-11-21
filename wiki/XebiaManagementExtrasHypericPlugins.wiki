@@ -18,7 +18,9 @@ Hyperic plugins for xebia-management-extras mbeans.
 
 = Installation notes =
 
-Copy the hyperic plugin xml file under {{{ ${HYPERIC_HOME}/hq-plugins }}} (e.g. next to {{{ ${HYPERIC_HOME}/agent-4.5.0 }}}
+Copy the hyperic plugin xml file under {{{ ${HYPERIC_HOME}/hq-plugins }}} (e.g. next to {{{ ${HYPERIC_HOME}/agent-4.5.0 }}}.
+
+These Hyperic Hq plugin assume that the JMX MBeans are declared through the [ServletContextAwareMbeanServer <management:servlet-context-aware-mbean-server />] and thus require the presence of the {{{path}}} and {{{path}}} attributes in the ObjectNames of the mbeans. 
 
 = Why are these plugins extensions of tomcat-plugin ?=
 
