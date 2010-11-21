@@ -1,9 +1,10 @@
-
 #summary <management:jms-caching-connection-factory /> allows to manage a Spring JMS Caching ConnectionFactory via a JMX MBean.
 
 = Managed Spring JMS Connection Factory =
 
 {{{ManagedCachingConnectionFactory}}} allows to manage a Spring JMS Caching Connection Factory via JMX. 
+
+It notably allows you to reset the jms connections, sessions, consumers and producers at runtime via a JMX operation without having to restart your server.
 
 == Spring Configuration ==
 
