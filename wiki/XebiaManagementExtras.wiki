@@ -69,16 +69,12 @@ See [ManagedCachingConnectionFactory]. Expose your Spring JMS CachingConnectionF
 <beans ...>
    <!-- wrap 'rawConnectionFactory' in a JMX enabled caching connection factory -->
    <management:jms-caching-connection-factory 
-         id="connectionFactory" 
-         connection-factory="rawConnectionFactory" />
+      id="connectionFactory" 
+      connection-factory="rawConnectionFactory" />
    ...
 
 </beans>
 }}}
-
-
-
-
 
 = Eh Cache =
 
