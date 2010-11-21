@@ -1,8 +1,10 @@
-#summary Spring XML Namespace based JMX configuration for EhCache.
+#summary Spring XML Namespace based JMX configuration for EhCache JMX MBeans.
 
-Eh Cache already has all the JMX MBeans needed to monitor caches, we just proposed a simplified Spring configuration, a jsp page to watch the statistics and an Hyperic plugin.
+[http://ehcache.org/ EhCache] already has all the JMX MBeans needed to monitor caches, we just proposed a simplified Spring configuration, a jsp page to watch the statistics and an Hyperic plugin.
 
 == Spring Configuration ==
+
+Spring configuration to expose EhCache JMX MBeans:
 
  * Spring namespace based configuration :
    {{{
