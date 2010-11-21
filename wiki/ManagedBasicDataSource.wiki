@@ -4,6 +4,8 @@
 
 Extension of the [http://commons.apache.org/dbcp/ Jakarta Commons DBCP] DataSource monitorable with a JMX MBean and configurable with a Spring Namespace.
 
+It is not intended to monitor JDBC resource leaks and thus it does not monitor resource's {{{close()}}}.
+
 == Spring Configuration ==
 
  * Spring namespace based configuration:
