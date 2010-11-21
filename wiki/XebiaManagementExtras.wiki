@@ -59,7 +59,7 @@ See [ManagedJmsConnectionFactory]. Expose metrics of a JMS ConnectionFactory via
 <beans ...
    xmlns:management="http://www.xebia.fr/schema/xebia-management-extras"
    xsi:schemaLocation="...
-      http://www.xebia.fr/schema/xebia-management-extras http://xebia-france.googlecode.com/svn/schema/management/xebia-management-extras.xsd">
+      http://www.xebia.fr/schema/xebia-management-extras http://www.xebia.fr/schema/management/xebia-management-extras.xsd">
    ...
    <!-- wrap 'myConnectionFactory' in a JMX enabled caching connection factory -->
    <management:jms-caching-connection-factory id="cachingConnectionFactory" connection-factory="myConnectionFactory" />
@@ -121,7 +121,7 @@ Eh Cache already has all the JMX MBeans needed, we just proposed a simplified Sp
 <beans ...
    xmlns:management="http://www.xebia.fr/schema/xebia-management-extras"
    xsi:schemaLocation="...
-      http://www.xebia.fr/schema/xebia-management-extras http://xebia-france.googlecode.com/svn/schema/management/xebia-management-extras.xsd">
+      http://www.xebia.fr/schema/xebia-management-extras http://www.xebia.fr/schema/management/xebia-management-extras.xsd">
    ...
    <management:eh-cache-management-service mbean-server="mbeanServer" cache-manager="cacheManager" />
 
@@ -158,7 +158,7 @@ To ensure that deploying several web applications on the same servlet engine (To
 <beans ...
    xmlns:management="http://www.xebia.fr/schema/xebia-management-extras"
    xsi:schemaLocation="...
-      http://www.xebia.fr/schema/xebia-management-extras http://xebia-france.googlecode.com/svn/schema/management/xebia-management-extras.xsd">
+      http://www.xebia.fr/schema/xebia-management-extras http://www.xebia.fr/schema/management/xebia-management-extras.xsd">
 
    <management:servlet-context-aware-mbean-server id="mbeanServer"/>
    <context:mbean-export server="mbeanServer" />

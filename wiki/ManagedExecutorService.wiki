@@ -13,7 +13,7 @@ It is very similar to Spring Framework's [http://static.springsource.org/spring/
 <beans ...
    xmlns:management="http://www.xebia.fr/schema/xebia-management-extras" 
    xsi:schemaLocation="
-		http://www.xebia.fr/schema/xebia-management-extras http://xebia-france.googlecode.com/svn/schema/management/xebia-management-extras.xsd">
+		http://www.xebia.fr/schema/xebia-management-extras http://www.xebia.fr/schema/management/xebia-management-extras.xsd">
 
    <!-- MBeanExporter is in charge of registering the ExecutorService MBean -->
    <context:mbean-export />

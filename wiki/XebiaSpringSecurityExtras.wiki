@@ -23,7 +23,7 @@ public void transferMoney(Account from, Account to, Amount amount) throws Busine
 <beans ...
    xmlns:security-extras="http://www.xebia.fr/schema/xebia-spring-security-extras"
    xsi:schemaLocation="...
-        http://www.xebia.fr/schema/xebia-spring-security-extras http://xebia-france.googlecode.com/svn/schema/security/xebia-spring-security-extras.xsd
+        http://www.xebia.fr/schema/xebia-spring-security-extras http://www.xebia.fr/schema/security/xebia-spring-security-extras.xsd
         ">
 
     <aop:aspectj-autoproxy/>

@@ -11,7 +11,7 @@
 <beans ...
    xmlns:management="http://www.xebia.fr/schema/xebia-management-extras" 
    xsi:schemaLocation="
-		http://www.xebia.fr/schema/xebia-management-extras http://xebia-france.googlecode.com/svn/schema/management/xebia-management-extras.xsd">
+		http://www.xebia.fr/schema/xebia-management-extras http://www.xebia.fr/schema/management/xebia-management-extras.xsd">
 
      <!-- Wrap the 'rawConnectionFactory' to expose its metrics via a JMX MBean --> 
      <management:jms-connection-factory-wrapper 
