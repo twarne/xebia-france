@@ -2,9 +2,11 @@
 
 = Managed Jakarta Commons DBCP Basic DataSource =
 
+Extension of the [http://commons.apache.org/dbcp/ Jakarta Commons DBCP] DataSource monitorable with a JMX MBean and configurable with a Spring Namespace.
+
 == Spring Configuration ==
 
- * Spring namespace based configuration:
+* Spring namespace based configuration:
    {{{
 <beans ...
    xmlns:management="http://www.xebia.fr/schema/xebia-management-extras" 
@@ -53,16 +55,16 @@
 || *{{{default-read-only}}}* || boolean || false || 'false' || 'defaultReadonly' property. ||
 || *{{{default-transaction-isolation}}}* || null || false || Nothing specified || Default transaction isolation state for returned connections. ||
 || *{{{default-catalog}}}* || string || false ||  || Default catalog. ||
-|| *{{{max-active}}}* || int || false || 8 || Maximum number of active connections that can be allocated at<br/>the same time. Use a negative value for no limit. ||
+|| *{{{max-active}}}* || int || false || 8 || Maximum number of active connections that can be allocated at the same time. Use a negative value for no limit. ||
 || *{{{max-idle}}}* || int || false || 8 || Maximum number of connections that can remain idle in the pool. ||
 || *{{{min-idle}}}* || int || false || 0 || Minimum number of idle connections in the pool. ||
 || *{{{initial-size}}}* || int || false || 0 || Initial number of connections that are created when the pool is started. ||
-|| *{{{max-wait}}}* || long || false || -1 || Maximum number of milliseconds that the pool will wait (when there are no available connections) for a<br/>connection to be returned before throwing an exception, or <= 0 to wait indefinitely. ||
-|| *{{{pool-prepared-statements}}}* || boolean || false || 'false' || Prepared statement pooling for this pool. When this property is set to 'true'<br/>both PreparedStatements and CallableStatements are pooled. ||
-|| *{{{max-open-prepared-statements}}}* || int || false || -1 || Maximum number of open statements that can be allocated<br/>from the statement pool at the same time, or non-positive for no limit.  Since  a connection<br/>usually only uses one or two statements at a time, this is mostly used to help detect resource leaks. ||
+|| *{{{max-wait}}}* || long || false || -1 || Maximum number of milliseconds that the pool will wait (when there are no available connections) for a connection to be returned before throwing an exception, or <= 0 to wait indefinitely. ||
+|| *{{{pool-prepared-statements}}}* || boolean || false || 'false' || Prepared statement pooling for this pool. When this property is set to 'true' both PreparedStatements and CallableStatements are pooled. ||
+|| *{{{max-open-prepared-statements}}}* || int || false || -1 || Maximum number of open statements that can be allocated from the statement pool at the same time, or non-positive for no limit.  Since  a connection usually only uses one or two statements at a time, this is mostly used to help detect resource leaks. ||
 || *{{{test-on-borrow}}}* || boolean || false || 'true' || Indication of whether objects will be validated before being borrowed from the pool.  If the object fails to validate, it will be dropped from the pool, and we will attempt to borrow another. ||
 || *{{{test-on-return}}}* || boolean || false || 'false' || Indication of whether objects will be validated before being returned to the pool. ||
-|| *{{{time-between-eviction-runs-millis}}}* || long || false ||  || Number of milliseconds to sleep between runs of the idle object evictor thread.  When non-positive, no idle object evictor thread will be run.<br/>Default is '-1' ||
+|| *{{{time-between-eviction-runs-millis}}}* || long || false || -1 || Number of milliseconds to sleep between runs of the idle object evictor thread.  When non-positive, no idle object evictor thread will be run. ||
 || *{{{num-tests-per-eviction-run}}}* || int || false || 3 || Number of objects to examine during each run of the idle object evictor thread (if any). ||
 || *{{{min-evictable-idle-time-millis}}}* || long || false || '1800000' (30 mins) || The minimum amount of time an object may sit idle in the pool before it is eligable for eviction by the idle object evictor (if any). ||
 || *{{{test-while-idle}}}* || boolean || false || 'false' || The indication of whether objects will be validated by the idle object evictor (if any).  If an object fails to validate, it will be dropped from the pool. ||
@@ -73,3 +75,38 @@
 || *{{{remove-abandoned-timeout}}}* || int || false || '300' seconds || Timeout in seconds before an abandoned connection can be removed. ||
 || *{{{log-abandoned}}}* || boolean || false || 'false' || Determines whether or not to log stack traces for application code which abandoned a Statement or Connection. ||
 || *{{{connection-properties}}}* || string || false ||  || The connection properties that will be sent to our JDBC driver when establishing new connections.  <strong>NOTE</strong> - The "user" and "password" properties will be passed explicitly, so they do not need to be included here. ||
+
+== JMX MBean Object Name ==
+
+ * JMX Object Name: {{{"javax.sql:type=DataSource,name=${spring-bean-name}"}}} where {{{"${spring-bean-name}"}}} is the name of the spring object
+
+== DBCP DataSource Collected Metrics / JMX MBeans attributes ==
+
+Here are the metrics monitored by the Managed DBCP DataSource:
+
+|| *Name* || *Indicator Type* || *Description* ||
+|| {{{NumActive}}} || Dynamic ||  Number of currently active connections  ||
+|| {{{NumIdle}}} || Dynamic ||  Number of currently idle connections  ||
+|| {{{MaxActive}}} || Configuration parameter ||  Maximum number of active connections that can be allocated at the same time. Use a negative value for no limit (read/write attribute) ||
+|| {{{MaxIdle}}} || Configuration parameter ||  Maximum number of connections that can remain idle in the pool (read/write attribute) ||
+|| {{{MinIdle}}} || Configuration parameter ||  Minimum number of idle connections in the pool (read/write attribute) ||
+|| {{{MaxWait}}} || Configuration parameter ||   Maximum number of milliseconds that the pool will wait (when there are no available connections) for a connection to be returned before throwing an exception, or <= 0 to wait indefinitely (read/write attribute) ||
+|| {{{username}}} || Configuration parameter ||  Connection 'username' to be passed to our JDBC driver to establish a connection (read only attribute) ||
+|| {{{url}}} || Configuration parameter || Jdbc 'url' (read only attribute) ||
+|| {{{defaultAutoCommit}}} || Configuration parameter || Default auto-commit state of connections returned by this datasource (read only attribute) ||
+
+Trends Up indicators are always increasing counters. The monitoring system is expected to convert these metrics into "per minute" metrics (e.g. {{{TaskCount}}} should be exposed as {{{TaskCountPerMinute}}}).
+
+== Implementation details ==
+
+ * The {{{fr.xebia.springframework.jdbc.ManagedBasicDataSource}}} is a subclass of Jakarta Commons DBCP {{{org.apache.commons.dbcp.BasicDataSource}}}.
+
+
+== JSP / VisualVM / Hyperic HQ rendering ==
+
+ * JSP monitoring page : [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/webapp/jmx/dbcp.jsp.jsp (source)], 
+   <a href="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-jsp-dbcp.png" target="screenshot"><img src="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-jsp-dbcp.png" height="200"/></a>
+ * Visual VM / JConsole view:
+   <a href="https://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-visualvm-dbcp.png"><img src="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-visualvm-dbcp.png" height="200"/></a>
+
+ * Hyperic plugin: [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/hyperic/tomcat-extras-dbcp-plugin.xml tomcat-extras-dbcp-plugin.xml], see [XebiaManagementExtrasHypericPlugins]
