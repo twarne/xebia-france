@@ -112,3 +112,7 @@ Trends Up indicators are always increasing counters. The monitoring system is ex
    <a href="https://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-visualvm-dbcp.png"><img src="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-visualvm-dbcp.png" height="200"/></a>
 
  * Hyperic plugin: [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/hyperic/tomcat-extras-dbcp-plugin.xml tomcat-extras-dbcp-plugin.xml], see [XebiaManagementExtrasHypericPlugins]
+
+== Todo list ==
+
+Add a JMX operation to test the datasource.
