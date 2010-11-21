@@ -41,8 +41,8 @@
 == Configuration attributes ==
 
 || *Name* || *Req'd* || *Default Value* ||  *Description* ||
-|| {{{id}}} || Yes || N/A || Id of the bean, used to build the object name as {{{"java.util.concurrent:type=ThreadPoolExecutor,name=${id}"}}} ||
-|| {{{pool-size}}} || Yes || N/A || name of the wrapped JMS ConnectionFactory ||
+|| {{{id}}} || Yes || N/A || Id of the bean, used to build the object name as {{{"javax.jms:type=ConnectionFactory,name=${id}"}}} ||
+|| {{{connection-factory}}} || Yes || N/A || name of the wrapped JMS ConnectionFactory ||
 
 == JMX MBean Object Name ==
 
@@ -86,5 +86,5 @@ Trends Up indicators are always increasing counters. The monitoring system is ex
  * JSP monitoring page : [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/webapp/jmx/jms.jsp jms.jsp (source)], 
    <a href="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-jsp-jms.png" target="screenshot"><img src="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-jsp-jms.png" height="200"/></a>
  * Visual VM / JConsole view:
-   <a href="https://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-visualvm-jms.png"><img src="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-visualvm-thread-pool-executor.png" height="200"/></a>
+   <a href="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-visualvm-jms.png"><img src="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-visualvm-thread-pool-executor.png" height="200"/></a>
  * Hyperic plugin: [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/hyperic/tomcat-extras-jms-plugin.xml tomcat-extras-jms-plugin.xml] (1)
