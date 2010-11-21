@@ -7,31 +7,31 @@
 == Configuration attributes ==
 
 || *{{{Attribute}}}* || *Type* || *Req'd* || *Default Value* ||  *Description*  ||
-|| *{{{url}}}* || string || true || N/A ||  Jdbc 'url'.  ||
-|| *{{{username}}}* || string || true || N/A ||  Connection 'username' to be passed to our JDBC driver to establish a connection.  ||
-|| *{{{password}}}* || string || true || N/A ||  Connection 'password' to be passed to our JDBC driver to establish a connection.  ||
-|| *{{{driver-class-name}}}* || string || true || N/A ||  Jdbc driver class name.  ||
-|| *{{{default-auto-commit}}}* || boolean || true || N/A ||  Default auto-commit state of connections returned by this datasource.<br/> Default is 'true'.  ||
-|| *{{{default-read-only}}}* || boolean || true || N/A ||  'defaultReadonly' property.<br/> Default is 'false'.  ||
-|| *{{{default-transaction-isolation}}}* || N/A || true || N/A ||  Default transaction isolation state for returned connections.<br/> Nothing specified by default.  ||
-|| *{{{default-catalog}}}* || string || true || N/A ||  Default catalog.  ||
-|| *{{{max-active}}}* || int || true || N/A ||  Maximum number of active connections that can be allocated at <br/> the same time. Use a negative value for no limit.<br/> Default is '8'.  ||
-|| *{{{max-idle}}}* || int || true || N/A ||  Maximum number of connections that can remain idle in the pool.<br/> Default is '8'  ||
-|| *{{{min-idle}}}* || int || true || N/A ||  Minimum number of idle connections in the pool.<br/> Default is '0'.  ||
-|| *{{{initial-size}}}* || int || true || N/A ||  Initial number of connections that are created when the pool is started.<br/> Default is '0'.  ||
-|| *{{{max-wait}}}* || long || true || N/A ||  Maximum number of milliseconds that the pool will wait (when there are no available connections) for a <br/> connection to be returned before throwing an exception, or <= 0 to wait indefinitely.<br/> Default '-1'  ||
-|| *{{{pool-prepared-statements}}}* || boolean || true || N/A ||  Prepared statement pooling for this pool. When this property is set to 'true' <br/> both PreparedStatements and CallableStatements are pooled.<br/> Default is 'false'.  ||
-|| *{{{max-open-prepared-statements}}}* || int || true || N/A ||  Maximum number of open statements that can be allocated <br/> from the statement pool at the same time, or non-positive for no limit. Since a connection <br/> usually only uses one or two statements at a time, this is mostly used to help detect resource leaks.<br/> Default is '-1'.  ||
-|| *{{{test-on-borrow}}}* || boolean || true || N/A ||  Indication of whether objects will be validated before being borrowed from the pool. If the object fails to validate, it will be dropped from the pool, and we will attempt to borrow another.<br/> Default is 'true'.  ||
-|| *{{{test-on-return}}}* || boolean || true || N/A ||  Indication of whether objects will be validated before being returned to the pool.<br/> Default is 'false'  ||
-|| *{{{time-between-eviction-runs-millis}}}* || long || true || N/A ||  Number of milliseconds to sleep between runs of the idle object evictor thread. When non-positive, no idle object evictor thread will be run.<br/> Default is '-1'  ||
-|| *{{{num-tests-per-eviction-run}}}* || int || true || N/A ||  Number of objects to examine during each run of the idle object evictor thread (if any).<br/> Default is '3'.  ||
-|| *{{{min-evictable-idle-time-millis}}}* || long || true || N/A ||  The minimum amount of time an object may sit idle in the pool before it is eligable for eviction by the idle object evictor (if any).<br/> Default is '1800000' (30 mins).  ||
-|| *{{{test-while-idle}}}* || boolean || true || N/A ||  The indication of whether objects will be validated by the idle object evictor (if any). If an object fails to validate, it will be dropped from the pool.<br/> Default is 'false'.  ||
-|| *{{{validation-query}}}* || string || true || N/A ||  The SQL query that will be used to validate connections from this pool before returning them to the caller. If specified, this query <strong>MUST</strong> be an SQL SELECT statement that returns at least one row.<br/> Default is 'null'.  ||
-|| *{{{validation-query-timeout}}}* || int || true || N/A ||  Timeout in seconds before connection validation queries fail. <br/> Default is '-1'  ||
-|| *{{{access-to-underlying-connection-allowed}}}* || boolean || true || N/A ||  Controls access to the underlying connection.<br/> Default is 'false'.  ||
-|| *{{{remove-abandoned}}}* || boolean || true || N/A ||  Whether or not a connection is considered abandoned and eligible for removal if it has been idle longer than the removeAbandonedTimeout.<br/> <br/> Default is 'false'.  ||
-|| *{{{remove-abandoned-timeout}}}* || int || true || N/A ||  Timeout in seconds before an abandoned connection can be removed.<br/> <br/> Default is '300' seconds.  ||
-|| *{{{log-abandoned}}}* || boolean || true || N/A ||  Determines whether or not to log stack traces for application code which abandoned a Statement or Connection.<br/> <br/> Default is 'false'.  ||
-|| *{{{connection-properties}}}* || string || true || N/A ||  The connection properties that will be sent to our JDBC driver when establishing new connections. <strong>NOTE</strong> - The "user" and "password" properties will be passed explicitly, so they do not need to be included here.  ||
+|| *{{{url}}}* || string || true ||  || Jdbc 'url'. ||
+|| *{{{username}}}* || string || true ||  || Connection 'username' to be passed to our JDBC driver to establish a connection. ||
+|| *{{{password}}}* || string || true ||  || Connection 'password' to be passed to our JDBC driver to establish a connection. ||
+|| *{{{driver-class-name}}}* || string || true ||  || Jdbc driver class name. ||
+|| *{{{default-auto-commit}}}* || ParameterizedBoolean || false ||  || Default auto-commit state of connections returned by this datasource.<br/>Default is 'true'. ||
+|| *{{{default-read-only}}}* || ParameterizedBoolean || false ||  || 'defaultReadonly' property.<br/>Default is 'false'. ||
+|| *{{{default-transaction-isolation}}}* || null || false ||  || Default transaction isolation state for returned connections.<br/>Nothing specified by default. ||
+|| *{{{default-catalog}}}* || string || false ||  || Default catalog. ||
+|| *{{{max-active}}}* || ParameterizedInt || false ||  || Maximum number of active connections that can be allocated at<br/>the same time. Use a negative value for no limit.<br/>Default is '8'. ||
+|| *{{{max-idle}}}* || ParameterizedInt || false ||  || Maximum number of connections that can remain idle in the pool.<br/>Default is '8' ||
+|| *{{{min-idle}}}* || ParameterizedInt || false ||  || Minimum number of idle connections in the pool.<br/>Default is '0'. ||
+|| *{{{initial-size}}}* || ParameterizedInt || false ||  || Initial number of connections that are created when the pool is started.<br/>Default is '0'. ||
+|| *{{{max-wait}}}* || ParameterizedLong || false ||  || Maximum number of milliseconds that the pool will wait (when there are no available connections) for a<br/>connection to be returned before throwing an exception, or <= 0 to wait indefinitely.<br/>Default '-1' ||
+|| *{{{pool-prepared-statements}}}* || ParameterizedBoolean || false ||  || Prepared statement pooling for this pool. When this property is set to 'true'<br/>both PreparedStatements and CallableStatements are pooled.<br/>Default is 'false'. ||
+|| *{{{max-open-prepared-statements}}}* || ParameterizedInt || false ||  || Maximum number of open statements that can be allocated<br/>from the statement pool at the same time, or non-positive for no limit.  Since  a connection<br/>usually only uses one or two statements at a time, this is mostly used to help detect resource leaks.<br/>Default is '-1'. ||
+|| *{{{test-on-borrow}}}* || ParameterizedBoolean || false ||  || Indication of whether objects will be validated before being borrowed from the pool.  If the object fails to validate, it will be dropped from the pool, and we will attempt to borrow another.<br/>Default is 'true'. ||
+|| *{{{test-on-return}}}* || ParameterizedBoolean || false ||  || Indication of whether objects will be validated before being returned to the pool.<br/>Default is 'false' ||
+|| *{{{time-between-eviction-runs-millis}}}* || ParameterizedLong || false ||  || Number of milliseconds to sleep between runs of the idle object evictor thread.  When non-positive, no idle object evictor thread will be run.<br/>Default is '-1' ||
+|| *{{{num-tests-per-eviction-run}}}* || ParameterizedInt || false ||  || Number of objects to examine during each run of the idle object evictor thread (if any).<br/>Default is '3'. ||
+|| *{{{min-evictable-idle-time-millis}}}* || ParameterizedLong || false ||  || The minimum amount of time an object may sit idle in the pool before it is eligable for eviction by the idle object evictor (if any).<br/>Default is '1800000' (30 mins). ||
+|| *{{{test-while-idle}}}* || ParameterizedBoolean || false ||  || The indication of whether objects will be validated by the idle object evictor (if any).  If an object fails to validate, it will be dropped from the pool.<br/>Default is 'false'. ||
+|| *{{{validation-query}}}* || string || false ||  || The SQL query that will be used to validate connections from this pool before returning them to the caller.  If specified, this query <strong>MUST</strong> be an SQL SELECT statement that returns at least one row.<br/>Default is 'null'. ||
+|| *{{{validation-query-timeout}}}* || ParameterizedInt || false ||  || Timeout in seconds before connection validation queries fail.<br/>Default is '-1' ||
+|| *{{{access-to-underlying-connection-allowed}}}* || ParameterizedBoolean || false ||  || Controls access to the underlying connection.<br/>Default is 'false'. ||
+|| *{{{remove-abandoned}}}* || ParameterizedBoolean || false ||  || Whether or not a connection is considered abandoned and eligible for removal if it has been idle longer than the removeAbandonedTimeout.<br/><br/>Default is 'false'. ||
+|| *{{{remove-abandoned-timeout}}}* || ParameterizedInt || false ||  || Timeout in seconds before an abandoned connection can be removed.<br/><br/>Default is '300' seconds. ||
+|| *{{{log-abandoned}}}* || ParameterizedBoolean || false ||  || Determines whether or not to log stack traces for application code which abandoned a Statement or Connection.<br/><br/>Default is 'false'. ||
+|| *{{{connection-properties}}}* || string || false ||  || The connection properties that will be sent to our JDBC driver when establishing new connections.  <strong>NOTE</strong> - The "user" and "password" properties will be passed explicitly, so they do not need to be included here. ||
