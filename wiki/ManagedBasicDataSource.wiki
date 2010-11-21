@@ -6,7 +6,7 @@ Extension of the [http://commons.apache.org/dbcp/ Jakarta Commons DBCP] DataSour
 
 == Spring Configuration ==
 
-* Spring namespace based configuration:
+ * Spring namespace based configuration:
    {{{
 <beans ...
    xmlns:management="http://www.xebia.fr/schema/xebia-management-extras" 
