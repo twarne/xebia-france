@@ -2,7 +2,45 @@
 
 = Managed Jakarta Commons DBCP Basic DataSource =
 
+== Spring Configuration ==
 
+* Spring namespace based configuration:
+   {{{
+<beans ...
+   xmlns:management="http://www.xebia.fr/schema/xebia-management-extras" 
+   xsi:schemaLocation="
+		http://www.xebia.fr/schema/xebia-management-extras http://www.xebia.fr/schema/management/xebia-management-extras.xsd">
+
+   <!-- MBeanExporter is in charge of registering the ExecutorService MBean -->
+   <context:mbean-export />
+
+   <management:dbcp-datasource id="myDataSource">
+      <management:url value="jdbc:h2:mem:dbcp-test" />
+      <management:driver-class-name value="org.h2.Driver" />
+      <management:username value="sa" />
+      <management:password value="" />
+      <management:max-active value="10" />
+      <!-- ... any other useful configuration param -->
+   </management:dbcp-datasource>
+
+</beans>
+}}}
+ * Spring raw configuration
+  {{{
+<beans ...>
+   <bean id="myDataSource" class="fr.xebia.springframework.jdbc.ManagedBasicDataSource">
+      <property name="url" value="jdbc:h2:mem:dbcp-test" />
+      <property name="driverClassName" value="org.h2.Driver" />
+      <property name="username" value="sa" />
+      <property name="password" value="" />
+      <property name="maxActive" value="10" />
+      <!-- ... any other useful configuration param -->
+   </bean>
+   ...
+   <!-- mbean exporter will register the thread pool executor mbean -->
+   <context:mbean-export server="..." />
+</beans>
+}}} 
 
 == Configuration attributes ==
 
