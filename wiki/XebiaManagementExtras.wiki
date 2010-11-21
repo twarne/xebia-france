@@ -3,7 +3,7 @@
 
 = Introduction =
 
-Extras on top of Java SE (e.g. Thread Pool) and Spring Framework (e.g. JMS Listener) to ease monitoring.
+Extras on top of Java SE (e.g. Thread Pool) and Spring Framework (e.g. JMS Listener) to ease monitoring. This library provides simple Spring XML namespace based configuration to expose JMX MBeans as well as jsp pages and [http://www.hyperic.com/ Hyperic HQ] plugin to monitor these JMX MBeans.
 
 = @Profiled Annotation =
 
