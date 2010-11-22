@@ -24,7 +24,7 @@ public class MyService {
 }
 }}}
 
-== Jakarta Commons DBCP JDBC `DataSource` JMX monitoring ==
+== Jakarta Commons DBCP `DataSource` JMX monitoring ==
 
 See [ManagedBasicDataSource]. Offer to your [http://commons.apache.org/dbcp/ Jakarta Commons DBCP Data Source] JMX MBean based monitoring and Spring XML namespace based configuration declaring :
    {{{
