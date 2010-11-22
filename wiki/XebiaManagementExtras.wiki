@@ -67,7 +67,7 @@ See [ManagedExecutorService]. Declare a fully managed `ExecutorService`/ `Thread
 </beans>
 }}}
 
-== JMS ConnectionFactory Monitoring ==
+== JMS `ConnectionFactory` Monitoring ==
 
 See [ManagedJmsConnectionFactory]. Expose metrics of a JMS `ConnectionFactory` via a JMX MBean with:
    {{{
