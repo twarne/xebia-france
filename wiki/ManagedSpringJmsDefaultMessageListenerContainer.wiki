@@ -17,9 +17,9 @@
 </beans>
 }}}
 
-The {{{ManagedDefaultMessageListenerContainer}}} is declared as the clas implementation of the {{{<jms:listener-container />}}}.
+The {{{ManagedDefaultMessageListenerContainer}}} is declared as the class implementation of the {{{<jms:listener-container />}}}.
 
-== @Profiled Annotation Collected Metrics / JMX MBeans attributes ==
+== JMS Listener Container collected metrics / JMX MBeans attributes ==
 
 Here are the metrics monitored by the @profiled annotation:
 
