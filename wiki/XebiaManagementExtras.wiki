@@ -5,6 +5,10 @@
 
 Extras on top of Java SE (e.g. Thread Pool) and Spring Framework (e.g. JMS Listener) to ease monitoring. This library provides simple Spring XML namespace based configuration to expose JMX MBeans as well as jsp pages and [http://www.hyperic.com/ Hyperic HQ] plugin to monitor these JMX MBeans.
 
+= Table of Content =
+
+<wiki:toc max_depth="2" />
+
 = Monitoring JMX MBeans =
 
 == @Profiled Annotation ==
@@ -94,14 +98,15 @@ See [ManagedCachingConnectionFactory]. Expose your Spring JMS CachingConnectionF
 = JMX helpers =
 
 == Servlet Context Aware MBean Server ==
+See [ServletContextAwareMbeanServer]. Prevent collision of JMX MBeans of collocated web application suffixing ObjectNames with attributes uniquely identifying your web application ( {{{servletContext.contextPath}}} , {{{tomcatServletContext.hostName}}} , etc) replacing the {{{<context:mbean-server />}}} by:
 
-See [ServletContextAwareMbeanServer]. Prevent collision of JMX MBeans of collocated web application suffixing ObjectNames with attributes uniquely identifying your web application ({{{servletContext.contextPath}}}, {{{tomcatServletContext.hostName}}}, etc) replacing the {{{<context:mbean-server />}}} by:
    {{{
 <beans ...>
 
    <management:servlet-context-aware-mbean-server id="mbeanServer"/>
    ...
 </beans>
+}}}
 
 = How to Integrate this library in your project / Download = 
 
@@ -120,6 +125,7 @@ There are different ways to integrate these features in your project:
    ...
 </project>
 }}}
+
   The artifact is deployed on [https://oss.sonatype.org/content/repositories/releases/fr/xebia/management/xebia-management-extras/1.0.0/ Sonatype OSS repo] and should soon be synced on http://repo1.maven.org/ (as of 2011/11/22).
  * Download the jar [http://xebia-france.googlecode.com/files/xebia-management-extras-1.0.0.jar xebia-management-extras-1.0.0.jar] ([http://xebia-france.googlecode.com/files/xebia-management-extras-1.0.0-sources.jar sources]),
  * Get the source from svn, modify it if needed and add it to your project. The source is available under the Open Source licence [http://www.apache.org/licenses/LICENSE-2.0 Apache Software Licence 2] at http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/ .
