@@ -24,7 +24,7 @@ public class MyService {
 }
 }}}
 
-== JMX MBean enabled Jakarta Commons DBCP JDBC DataSource ==
+== JMX MBean enabled Jakarta Commons DBCP JDBC `DataSource` ==
 
 See [ManagedBasicDataSource]. Offer JMX MBean based monitoring and Spring XML namespace based configuration to your [http://commons.apache.org/dbcp/ Jakarta Commons DBCP Data Source] declaring :
    {{{
@@ -41,7 +41,7 @@ See [ManagedBasicDataSource]. Offer JMX MBean based monitoring and Spring XML na
 </beans>
 }}}
 
-== EhCache JMX MBeans ==
+== `EhCache` JMX MBeans ==
 
 [http://ehcache.org/ EhCache] already has all the JMX MBeans needed to monitor caches, simply expose these JMX MBeans declaring:
    {{{
@@ -56,7 +56,7 @@ See [ManagedBasicDataSource]. Offer JMX MBean based monitoring and Spring XML na
 
 ==  Java Util Concurrent Executor Service / Thread Pool Executor Monitoring ==
 
-See [ManagedExecutorService]. Declare a fully managed Executor Service with JMX Mbean monitoring declaring:
+See [ManagedExecutorService]. Declare a fully managed `ExecutorService`/ `ThreadPoolExecutor` with a JMX Mbean monitoring declaring:
    {{{
 <beans ...>
    <management:executor-service 
@@ -67,9 +67,9 @@ See [ManagedExecutorService]. Declare a fully managed Executor Service with JMX 
 </beans>
 }}}
 
-== JMS Connection Factory Monitoring ==
+== JMS ConnectionFactory Monitoring ==
 
-See [ManagedJmsConnectionFactory]. Expose metrics of a JMS ConnectionFactory via a JMX MBean with:
+See [ManagedJmsConnectionFactory]. Expose metrics of a JMS `ConnectionFactory` via a JMX MBean with:
    {{{
 <beans ...>
    <!-- wrap 'myConnectionFactory' in a JMX enabled connection factory -->
@@ -82,7 +82,7 @@ See [ManagedJmsConnectionFactory]. Expose metrics of a JMS ConnectionFactory via
 
 == Spring JMS Caching Connection Factory Monitoring ==
 
-See [ManagedCachingConnectionFactory]. Expose your Spring JMS CachingConnectionFactory via a JMX MBean (reset connections via JMX, etc) declaring:
+See [ManagedCachingConnectionFactory]. Expose your Spring JMS `CachingConnectionFactory` via a JMX MBean (reset connections via JMX, etc) declaring:
 
    {{{
 <beans ...>
@@ -95,9 +95,9 @@ See [ManagedCachingConnectionFactory]. Expose your Spring JMS CachingConnectionF
 </beans>
 }}}
 
-== Managed Spring JMS DefaultMessageListenerContainer ==
+== Managed Spring JMS `DefaultMessageListenerContainer` ==
 
-See [ManagedSpringJmsDefaultMessageListenerContainer]. ManagedDefaultMessageListenerContainer adds JMX based monitoring (active consumers count, etc) and control (start and stop) to Spring's JMS Listener Container (DefaultMessageListenerContainer). Simply define the {{{container-class}}} like:
+See [ManagedSpringJmsDefaultMessageListenerContainer]. {{{ManagedDefaultMessageListenerContainer}}} adds JMX based monitoring (active consumers count, etc) and control (start and stop) to Spring's JMS Listener Container (DefaultMessageListenerContainer). Simply define the {{{container-class}}} like:
   {{{
 <beans ...>
    <jms:listener-container 
@@ -114,6 +114,7 @@ See [ManagedSpringJmsDefaultMessageListenerContainer]. ManagedDefaultMessageList
 = JMX helpers =
 
 == Servlet Context Aware MBean Server ==
+
 See [ServletContextAwareMbeanServer]. Prevent collision of JMX MBeans of collocated web application suffixing ObjectNames with attributes uniquely identifying your web application ( {{{servletContext.contextPath}}} , {{{tomcatServletContext.hostName}}} , etc) replacing the {{{<context:mbean-server />}}} by:
 
    {{{
@@ -142,7 +143,7 @@ There are different ways to integrate these features in your project:
 </project>
 }}}
 
-  The artifact is deployed on [https://oss.sonatype.org/content/repositories/releases/fr/xebia/management/xebia-management-extras/1.0.0/ Sonatype OSS repo] and should soon be synced on http://repo1.maven.org/ (as of 2011/11/22).
+  The artifact is deployed on [http://repo1.maven.org/maven2/ Maven Central Repository].
  * Download the jar [http://xebia-france.googlecode.com/files/xebia-management-extras-1.0.0.jar xebia-management-extras-1.0.0.jar] ([http://xebia-france.googlecode.com/files/xebia-management-extras-1.0.0-sources.jar sources]),
  * Get the source from svn, modify it if needed and add it to your project. The source is available under the Open Source licence [http://www.apache.org/licenses/LICENSE-2.0 Apache Software Licence 2] at http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/ .
 
