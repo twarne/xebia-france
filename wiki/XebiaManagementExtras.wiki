@@ -100,7 +100,3 @@ See [ServletContextAwareMbeanServer]. Prevent collision of JMX MBeans of colloca
    <management:servlet-context-aware-mbean-server id="mbeanServer"/>
    ...
 </beans>
-
----- 
-
-(1) See [XebiaManagementExtrasHypericPlugins]
