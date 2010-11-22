@@ -11,7 +11,7 @@ Extras on top of Java SE (e.g. Thread Pool) and Spring Framework (e.g. JMS Liste
 
 = Monitoring JMX MBeans =
 
-== @Profiled Annotation ==
+== @Profiled Annotation JMX monitoring ==
 
 See [ProfiledAnnotation] page. Monitor methods invocations via JMX MBeans declaring:
   {{{
@@ -24,7 +24,7 @@ public class MyService {
 }
 }}}
 
-== JMX MBean enabled Jakarta Commons DBCP JDBC `DataSource` ==
+== Jakarta Commons DBCP JDBC `DataSource` JMX monitoring ==
 
 See [ManagedBasicDataSource]. Offer to your [http://commons.apache.org/dbcp/ Jakarta Commons DBCP Data Source] JMX MBean based monitoring and Spring XML namespace based configuration declaring :
    {{{
@@ -41,7 +41,7 @@ See [ManagedBasicDataSource]. Offer to your [http://commons.apache.org/dbcp/ Jak
 </beans>
 }}}
 
-== `EhCache` JMX MBeans ==
+== `EhCache` JMX monitoring ==
 
 [http://ehcache.org/ EhCache] already has all the JMX MBeans needed to monitor caches, simply expose them declaring:
    {{{
@@ -54,7 +54,7 @@ See [ManagedBasicDataSource]. Offer to your [http://commons.apache.org/dbcp/ Jak
 </beans>
 }}}
 
-==  Java Util Concurrent Executor Service / Thread Pool Executor Monitoring ==
+==  Java Util Concurrent Executor Service / Thread Pool Executor JMX Monitoring ==
 
 See [ManagedExecutorService]. Declare a fully managed `ExecutorService`/ `ThreadPoolExecutor` with JMX MBean based monitoring declaring:
    {{{
@@ -67,7 +67,7 @@ See [ManagedExecutorService]. Declare a fully managed `ExecutorService`/ `Thread
 </beans>
 }}}
 
-== JMS `ConnectionFactory` Monitoring ==
+== JMS `ConnectionFactory` JMX monitoring ==
 
 See [ManagedJmsConnectionFactory]. Expose metrics of a JMS `ConnectionFactory` via a JMX MBean with:
    {{{
@@ -80,7 +80,7 @@ See [ManagedJmsConnectionFactory]. Expose metrics of a JMS `ConnectionFactory` v
 </beans>
 }}}
 
-== Spring JMS Caching Connection Factory Monitoring ==
+== Spring JMS Caching Connection Factory JMX monitoring ==
 
 See [ManagedCachingConnectionFactory]. Expose your Spring JMS `CachingConnectionFactory` via a JMX MBean (reset connections via JMX, etc) declaring:
 
@@ -95,7 +95,7 @@ See [ManagedCachingConnectionFactory]. Expose your Spring JMS `CachingConnection
 </beans>
 }}}
 
-== Managed Spring JMS `DefaultMessageListenerContainer` ==
+== Spring JMS `DefaultMessageListenerContainer` JMX monitoring ==
 
 See [ManagedSpringJmsDefaultMessageListenerContainer]. {{{ManagedDefaultMessageListenerContainer}}} adds JMX based monitoring (active consumers count, etc) and control (start and stop) to Spring's JMS Listener Container (DefaultMessageListenerContainer). Simply define the {{{container-class}}} like:
   {{{
