@@ -1,6 +1,6 @@
 #summary Managed Spring JMS DefaultMessageListenerContainer is a extension of Spring listener container which offer JMX MBeans to monitor and to start and stop the container.
 
-=  Managed Spring JMS DefaultMessageListenerContainer =
+=  Managed Spring JMS `DefaultMessageListenerContainer` =
 
 {{{ManagedDefaultMessageListenerContainer}}} adds JMX based monitoring and control (start and stop) to Spring's JMS Listener Container ({{{DefaultMessageListenerContainer}}}).
 
@@ -21,7 +21,7 @@ The {{{ManagedDefaultMessageListenerContainer}}} is declared as the class implem
 
 == JMS Listener Container collected metrics / JMX MBeans attributes ==
 
-Here are the metrics monitored by the @profiled annotation:
+Here are the metrics, configuration parameters and operations exposed by the {{{ManagedDefaultMessageListenerContainer}}}:
 
 || *Name* || *Indicator Type* || *Description* ||
 || {{{ActiveConsumerCount}}} || Dynamic ||  Number of currently active message consumers  ||
