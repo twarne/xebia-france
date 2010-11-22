@@ -1,4 +1,4 @@
-#summary Extension of Jakarta Commons DBCP DataSource monitorable with a JMX MBean and configurable with a Spring Namespace
+#summary JMX MBean enabled Jakarta Commons DBCP DataSource monitorable with a JMX MBean configurable with a Spring Namespace
 
 = Managed Jakarta Commons DBCP Basic DataSource =
 
