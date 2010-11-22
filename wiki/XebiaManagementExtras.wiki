@@ -95,6 +95,22 @@ See [ManagedCachingConnectionFactory]. Expose your Spring JMS CachingConnectionF
 </beans>
 }}}
 
+== Managed Spring JMS DefaultMessageListenerContainer ==
+
+See [ManagedSpringJmsDefaultMessageListenerContainer]. ManagedDefaultMessageListenerContainer adds JMX based monitoring (active consumers count, etc) and control (start and stop) to Spring's JMS Listener Container (DefaultMessageListenerContainer). Simply define the {{{container-class}}} like:
+  {{{
+<beans ...>
+   <jms:listener-container 
+      connection-factory="connectionFactory" 
+      concurrency="5-10"
+      container-class="fr.xebia.springframework.jms.ManagedDefaultMessageListenerContainer">
+      <jms:listener destination="my-queue" ref="myMessageListener" />
+      
+   </jms:listener-container>
+   ...
+</beans>
+}}}
+
 = JMX helpers =
 
 == Servlet Context Aware MBean Server ==
