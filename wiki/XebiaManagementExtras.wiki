@@ -26,7 +26,7 @@ public class MyService {
 
 == JMX MBean enabled Jakarta Commons DBCP JDBC `DataSource` ==
 
-See [ManagedBasicDataSource]. Offer JMX MBean based monitoring and Spring XML namespace based configuration to your [http://commons.apache.org/dbcp/ Jakarta Commons DBCP Data Source] declaring :
+See [ManagedBasicDataSource]. Offer to your [http://commons.apache.org/dbcp/ Jakarta Commons DBCP Data Source] JMX MBean based monitoring and Spring XML namespace based configuration declaring :
    {{{
 <beans ...>
    <management:dbcp-datasource id="myDataSource">
@@ -43,7 +43,7 @@ See [ManagedBasicDataSource]. Offer JMX MBean based monitoring and Spring XML na
 
 == `EhCache` JMX MBeans ==
 
-[http://ehcache.org/ EhCache] already has all the JMX MBeans needed to monitor caches, simply expose these JMX MBeans declaring:
+[http://ehcache.org/ EhCache] already has all the JMX MBeans needed to monitor caches, simply expose them declaring:
    {{{
 <beans ...>
    ...
@@ -56,7 +56,7 @@ See [ManagedBasicDataSource]. Offer JMX MBean based monitoring and Spring XML na
 
 ==  Java Util Concurrent Executor Service / Thread Pool Executor Monitoring ==
 
-See [ManagedExecutorService]. Declare a fully managed `ExecutorService`/ `ThreadPoolExecutor` with a JMX Mbean monitoring declaring:
+See [ManagedExecutorService]. Declare a fully managed `ExecutorService`/ `ThreadPoolExecutor` with JMX MBean based monitoring declaring:
    {{{
 <beans ...>
    <management:executor-service 
