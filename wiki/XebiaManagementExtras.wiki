@@ -24,7 +24,7 @@ public class MyService {
 }
 }}}
 
-== Jakarta Commons DBCP JDBC Data Source Monitoring ==
+== JMX MBean enabled Jakarta Commons DBCP JDBC DataSource ==
 
 See [ManagedBasicDataSource]. Offer JMX MBean based monitoring and Spring XML namespace based configuration to your [http://commons.apache.org/dbcp/ Jakarta Commons DBCP Data Source] declaring :
    {{{
