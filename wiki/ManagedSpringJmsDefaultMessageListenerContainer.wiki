@@ -49,4 +49,6 @@ The MBean Object pattern is {{{"javax.jms:type=MessageListenerContainer,name=${s
    <a href="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-visualvm-jms-listener.png"><img src="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-visualvm-jms-listener.png" height="200"/></a>
  * Hyperic plugin: [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/hyperic/tomcat-extras-jms-plugin.xml tomcat-extras-jms-plugin.xml], see XebiaManagementExtrasHypericPlugins.
  
- 
+== How to integrate the xebia-management-extras` library in your project ? ==
+
+See [XebiaManagementExtrasInstallation].

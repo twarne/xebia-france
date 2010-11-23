@@ -126,6 +126,10 @@ public class MyService {
 
  * Hyperic plugin: [https://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/hyperic/tomcat-extras-service-plugin.xml tomcat-extras-service-plugin.xml], see [XebiaManagementExtrasHypericPlugins].
 
+== How to integrate the xebia-management-extras` library in your project ? ==
+
+See [XebiaManagementExtrasInstallation].
+
 == Raw usage of the {{{ServiceStatistics}}} bean ==
 
 You can directly use the underlying {{{ServiceStatistics}}} bean without the {{{@Profiled}}} annotation. It can be particularly useful if the profiled code can not elegantly be isolated in a dedicated method.

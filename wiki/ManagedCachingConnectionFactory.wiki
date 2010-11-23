@@ -72,3 +72,8 @@ Here are the configuration parameters exposed by the ManagedCachingConnectionFac
  <a href="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-visualvm-jms-caching-connection-factory.png"><img src="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-visualvm-jms-caching-connection-factory.png" height="200"/></a>
  <a href="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-visualvm-jms-caching-connection-factory-operations.png"><img src="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-visualvm-jms-caching-connection-factory-operations.png" height="200"/></a>
  * Hyperic plugin: [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/hyperic/tomcat-extras-jms-plugin.xml tomcat-extras-jms-plugin.xml], see [XebiaManagementExtrasHypericPlugins]
+
+== How to integrate the xebia-management-extras` library in your project ? ==
+
+See [XebiaManagementExtrasInstallation].
+ 

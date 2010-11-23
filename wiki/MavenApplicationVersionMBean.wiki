@@ -60,3 +60,8 @@ WARN: Folder .../META-INF/maven/ not found. Application probably in development 
    <a href="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-jsp-application-version.png" target="screenshot"><img src="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-jsp-application-version.png" height="150" /></a>
  * Visual VM / JConsole view:
    <a href="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-visualvm-application-version.png" target="screenshot"><img src="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-visualvm-application-version.png" height="200"/></a>
+   
+== How to integrate the xebia-management-extras` library in your project ? ==
+
+See [XebiaManagementExtrasInstallation].
+  

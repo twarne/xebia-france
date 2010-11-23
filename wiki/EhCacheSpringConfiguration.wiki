@@ -38,3 +38,7 @@ Spring configuration to expose `EhCache` JMX MBeans:
    <a href="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-jsp-ehcache.png" target="screenshot"><img src="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-jsp-ehcache.png" height="200"/></a>
 
  * Hyperic plugin: [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/hyperic/tomcat-extras-ehcache-plugin.xml tomcat-extras-ehcache-plugin.xml], see XebiaManagementExtrasHypericPlugins.
+ 
+== How to integrate the xebia-management-extras` library in your project ? ==
+
+See [XebiaManagementExtrasInstallation].
