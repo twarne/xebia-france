@@ -26,7 +26,7 @@ To ensure that colocating several web applications on the same servlet engine (T
 </beans>
 }}}
 
-The <management:servlet-context-aware-mbean-server/>  auto-detects WebLogic 9+, WebSphere 5.1+ and the JDK 1.5+ platform MBeanServer and wrap it to add the {{{path}}} and {{{host}}} attributes.
+   The <management:servlet-context-aware-mbean-server/>  auto-detects `WebLogic` 9+, `WebSphere` 5.1+ and the JDK 1.5+ platform MBeanServer and wrap it to add the {{{path}}} and {{{host}}} attributes.
 
  * Spring raw configuration:
    {{{
