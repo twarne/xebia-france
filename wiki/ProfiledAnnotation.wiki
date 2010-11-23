@@ -15,6 +15,17 @@ public class MyService {
 
 The fully qualified name of the annotation is {{{fr.xebia.management.statistics.Profiled}}}.
 
+== @Profiled Annotation Attributes ==
+
+|| *Name* || *Req'd* || *Default Value* || *Description* || 
+|| {{{name}}} || N  || {{{${class.name}.${method.name} }}} || Identifier of the profiled method. This identifier can be plain text or use Spring Expression Language with parameters {{{args}}} and {{{invokedObject}}}.<br/>Sample : {{{@Profiled(name = "my-invocation(#{args[0]}-#{args[1]})") }}} ||
+|| {{{slowInvocationThresholdInMillis}}} || N || 500 || Lower bound of the interval of slow invocations reported under the {{{SlowInvocationCount}}} counter (the upper bound of this interval is the {{{verySlowInvocationThresholdInMillis}}} attribute) ||
+|| {{{verySlowInvocationThresholdInMillis}}} || N || 1000 || Upper bound of the slow invocations counter. Invocations that are longer than this threshold are reported in the {{{VerySlowInvocationCount}}} counter ||
+|| {{{communicationExceptionsTypes}}} || N || {{{ {IOException.class} }}} || List of exceptions that must be reported in the {{{CommunicationExceptionCount}}} counter. A throwned exception is seen as a communication exception if it is an instance or one of its nested cause is an instance of one of the {{{communicationExceptionsTypes}}}. ||
+|| {{{businessExceptionsTypes}}} || N || {{{ {} }}} || List of exceptions that must be reported in the {{{BusinessExceptionCount}}}. A throwned exception is seen as a communication exception if it is an instance or one of its nested cause is an instance of one of the {{{communicationExceptionsTypes}}}. ||
+
+Note : if an exception is at the same time a communication exception and a business exception, only the {{{BusinessExceptionCount}}} counter is incremented.
+
 == @Profiled Annotation Collected Metrics / JMX MBeans attributes ==
 
 Here are the metrics monitored by the @profiled annotation:
@@ -31,16 +42,6 @@ Here are the metrics monitored by the @profiled annotation:
 
 Trends Up indicators are always increasing counters. The monitoring system is expected to convert these metrics into "per minute" metrics (e.g. {{{InvocationCount}}} should be exposed as {{{InvocationCountPerMinute}}}).
 
-== @Profiled Annotation Attributes ==
-
-|| *Name* || *Req'd* || *Default Value* || *Description* || 
-|| {{{name}}} || N  || {{{${class.name}.${method.name} }}} || Identifier of the profiled  ||
-|| {{{slowInvocationThresholdInMillis}}} || N || 500 || Lower bound of the interval of slow invocations reported under the {{{SlowInvocationCount}}} counter (the upper bound of this interval is the {{{verySlowInvocationThresholdInMillis}}} attribute) ||
-|| {{{verySlowInvocationThresholdInMillis}}} || N || 1000 || Upper bound of the slow invocations counter. Invocations that are longer than this threshold are reported in the {{{VerySlowInvocationCount}}} counter ||
-|| {{{communicationExceptionsTypes}}} || N || {{{ {IOException.class} }}} || List of exceptions that must be reported in the {{{CommunicationExceptionCount}}} counter. A throwned exception is seen as a communication exception if it is an instance or one of its nested cause is an instance of one of the {{{communicationExceptionsTypes}}}. ||
-|| {{{businessExceptionsTypes}}} || N || {{{ {} }}} || List of exceptions that must be reported in the {{{BusinessExceptionCount}}}. A throwned exception is seen as a communication exception if it is an instance or one of its nested cause is an instance of one of the {{{communicationExceptionsTypes}}}. ||
-
-Note : if an exception is at the same time a communication exception and a business exception, only the {{{BusinessExceptionCount}}} counter is incremented.
 
 == Spring Configuration ==   
 
