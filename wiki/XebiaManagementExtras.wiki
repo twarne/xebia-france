@@ -136,10 +136,9 @@ Expose the version of your Maven application in a JMX MBean declaring:
 </beans>
 }}}
  
-= How to Integrate this library in your project / Download = 
+= How to Integrate the `xebia-management-extras` library in your project / Download = 
 
-There are different ways to integrate these features in your project:
- * Maven integration :
+Integration / download details are described on [XebiaManagementExtrasInstallation]. The simplest way is to declare the following Maven dependency:
    {{{
 <project ...>
    <dependencies>
@@ -153,10 +152,7 @@ There are different ways to integrate these features in your project:
    ...
 </project>
 }}}
-
-  The artifact is deployed on [http://repo1.maven.org/maven2/ Maven Central Repository].
- * Download the jar [http://xebia-france.googlecode.com/files/xebia-management-extras-1.0.0.jar xebia-management-extras-1.0.0.jar] ([http://xebia-france.googlecode.com/files/xebia-management-extras-1.0.0-sources.jar sources]),
- * Get the source from svn, modify it if needed and add it to your project. The source is available under the Open Source licence [http://www.apache.org/licenses/LICENSE-2.0 Apache Software Licence 2] at http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/ .
+  The artifact is available on [http://repo1.maven.org/maven2/ Maven Central Repository], no special {{{<repository />}}} declaration is needed.
 
 = Developers =
 
