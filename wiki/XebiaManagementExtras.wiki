@@ -127,7 +127,7 @@ See [ServletContextAwareMbeanServer]. Prevent collision of JMX MBeans of colloca
 
 == Application Version JMX MBean ==
 
-Expose the version of your Maven application in a JMX MBean declaring:
+See [MavenApplicationVersionMBean]. Expose the version of your Maven application in a JMX MBean declaring:
 {{{
 <beans ...>
 
