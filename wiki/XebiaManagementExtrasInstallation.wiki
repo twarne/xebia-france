@@ -18,7 +18,6 @@ There are different ways to integrate these features in your project:
    ...
 </project>
 }}}
-
-  The artifact is deployed on [http://repo1.maven.org/maven2/ Maven Central Repository].
+  The artifact is available on [http://repo1.maven.org/maven2/ Maven Central Repository], no special {{{<repository />}}} declaration is needed in your {{{pom.xml}}} file.
  * Download the jar [http://xebia-france.googlecode.com/files/xebia-management-extras-1.0.0.jar xebia-management-extras-1.0.0.jar] ([http://xebia-france.googlecode.com/files/xebia-management-extras-1.0.0-sources.jar sources]),
  * Get the source from svn, modify it if needed and add it to your project. The source is available under the Open Source licence [http://www.apache.org/licenses/LICENSE-2.0 Apache Software Licence 2] at http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/ .
