@@ -7,8 +7,8 @@
 A problem with MBean Servers is that they work at the JVM level and that several web applications may want to register mbeans with the same name. This is typically the case with mbeans exposed by common libraries/frameworks like  EH Cache or CXF.
 
 To ensure that colocating several web applications on the same servlet engine (Tomcat, Websphere, Weblogic, JBoss, etc), we developed a thin MBeanServer wrapper which appends to mbeans names the following attributes:
- * *{{{path}}}*: the web application path ({{{servletContext.contextPath}}}),
- * if the servlet container is Tomcat, *{{{host}}}*: the web application hostname,
+ * *{{{"path"}}}*: the web application path ({{{servletContext.contextPath}}}),
+ * if the servlet container is Tomcat, *{{{"host"}}}*: the web application hostname,
  * any extra attribute defined by configuration.
 
 == Spring Configuration ==
