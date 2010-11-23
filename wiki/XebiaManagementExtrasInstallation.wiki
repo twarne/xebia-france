@@ -1,0 +1,24 @@
+#summary How to Integrate the `xebia-management-extras` library in your project ? How to download it ?
+#labels Phase-Deploy
+
+= How to integrate the `xebia-management-extras` library in your project = 
+
+There are different ways to integrate these features in your project:
+ * Maven integration :
+   {{{
+<project ...>
+   <dependencies>
+      <dependency>
+         <groupId>fr.xebia.management</groupId>
+         <artifactId>xebia-management-extras</artifactId>
+         <version>1.0.0</version>
+      </dependency>
+      ...
+   </dependencies>
+   ...
+</project>
+}}}
+
+  The artifact is deployed on [http://repo1.maven.org/maven2/ Maven Central Repository].
+ * Download the jar [http://xebia-france.googlecode.com/files/xebia-management-extras-1.0.0.jar xebia-management-extras-1.0.0.jar] ([http://xebia-france.googlecode.com/files/xebia-management-extras-1.0.0-sources.jar sources]),
+ * Get the source from svn, modify it if needed and add it to your project. The source is available under the Open Source licence [http://www.apache.org/licenses/LICENSE-2.0 Apache Software Licence 2] at http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/ .
