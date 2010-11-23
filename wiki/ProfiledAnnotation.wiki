@@ -51,6 +51,7 @@ Trends Up indicators are always increasing counters. The monitoring system is ex
    xmlns:management="http://www.xebia.fr/schema/xebia-management-extras"
    xsi:schemaLocation="...
       http://www.xebia.fr/schema/xebia-management-extras http://www.xebia.fr/schema/management/xebia-management-extras.xsd">
+
    <!-- enable AOP to intercept @Profiled annotation -->
    <aop:aspectj-autoproxy />
    <!-- mbean server wil hold the ServiceStatistics mbeans used by @Profiled -->
@@ -63,6 +64,7 @@ Trends Up indicators are always increasing counters. The monitoring system is ex
  * Spring raw configuration:
   {{{
 <beans ...>
+
    <!-- enable AOP to intercept @Profiled annotation -->
    <aop:aspectj-autoproxy />
    <!-- mbean server wil hold the ServiceStatistics mbeans used by @Profiled -->
