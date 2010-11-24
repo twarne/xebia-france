@@ -7,6 +7,7 @@
 == Usage pattern ==
 
 Decorate the method you want to audit with a {{{@Audited}}} annotation like this:
+
 {{{
 @Audited(message = "transferMoney(#{args[0].accountNumber}, #{args[1].accountNumber}, #{args[3].amount})")
 public void transferMoney(Account from, Account to, Amount amount) throws BusinessException { ... }
@@ -49,7 +50,9 @@ For more details about Spring Security configuration, please refer to the [http:
 == Generated Audit Messages ==
 
 Audit messages are generated in the SLF4J logger named {{{fr.xebia.audit}}} with the pattern: 
-{{{"$date{yyyy/MM/dd-HH:mm:ss:SSS} ${message} [throwing ${exception.toString()}] by ${spring-security.principal.name} [coming from ${spring-security.principal.ip}]"}}}.
+{{{
+$date{yyyy/MM/dd-HH:mm:ss:SSS} ${message} [threw ${exception.toString()}] by ${spring-security.principal.name} [coming from ${spring-security.principal.ip}]
+}}}
 
 If an exception is throwned, the log message is emitted at the {{{WARN}}} level ; otherwise, the {{{INFO}}} level is used.
 
@@ -131,7 +134,7 @@ public void transferMoney(...) throws BusinessException {
  * This annotation relies Spring Security to get the authenticated user name and its ip address
  * Logback and log4j configuration sample: see @Audited above
 
-= How to Integrate this library in your project =
+== How to Integrate this library in your project ==
 
 There are different ways to integrate these features in your project:
  * Maven integration :
