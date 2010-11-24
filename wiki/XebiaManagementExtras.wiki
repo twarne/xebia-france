@@ -43,7 +43,7 @@ See [ManagedBasicDataSource]. Offer to your [http://commons.apache.org/dbcp/ Jak
 
 == `EhCache` JMX monitoring ==
 
-[http://ehcache.org/ EhCache] already has all the JMX MBeans needed to monitor caches, simply expose them declaring:
+See [EhCacheSpringConfiguration]. [http://ehcache.org/ EhCache] already has all the JMX MBeans needed to monitor caches, simply expose them declaring:
    {{{
 <beans ...>
    ...
@@ -110,6 +110,10 @@ See [ManagedSpringJmsDefaultMessageListenerContainer]. {{{ManagedDefaultMessageL
    ...
 </beans>
 }}}
+
+== CXF JMX monitoring ==
+
+See [CxfMonitoring]. [http://cxf.apache.org/ CXF] already has all the JMX MBeans needed to [http://cxf.apache.org/docs/jmx-management.html monitor web services]. Here is a Hyperic HQ plugin to integrate these web service in your monitoring system.
 
 = JMX helpers =
 
