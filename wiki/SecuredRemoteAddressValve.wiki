@@ -1,5 +1,5 @@
 #summary SecuredRemoteAddressValve is a Tomcat Valve to set "ServletRequest.isSecure() == true" for predefined remote addresses even if "ServletRequest.getScheme() == 'http'".
-#labels Phase-Implementation,Featured
+#labels Phase-Implementation
 
 = Description =
 
