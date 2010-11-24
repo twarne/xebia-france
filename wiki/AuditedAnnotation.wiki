@@ -12,16 +12,16 @@ Decorate the method you want to audit with a {{{@Audited}}} annotation like this
 public void transferMoney(Account from, Account to, Amount amount) throws BusinessException { ... }
 }}}
 
- * The {{{message}}} attribute uses Spring Expression Language; available variables are:
-  * {{{args}}}: the array of methods arguments,
-  * {{{invokedObject}}}: the invoked object instance,
-  * {{{throwned}}}: the exception if one has been throwned,
-  * {{{returned}}}: the returned value.
+The {{{message}}} attribute uses Spring Expression Language; available variables are:
+ * {{{args}}}: the array of methods arguments,
+ * {{{invokedObject}}}: the invoked object instance,
+ * {{{throwned}}}: the exception if one has been throwned,
+ * {{{returned}}}: the returned value.
 
 
 == Spring Framework Configuration ==
 
-The {{{@Audited}}} annotation relies on Spring AOP to intercept the method calls and uses Spring XML namespace configuration to ease its integration with a simple {{{<security-extras:audit-aspect />}}} in your Spring configuration file.
+The {{{@Audited}}} annotation uses Spring AOP to intercept the method calls and uses Spring XML namespace configuration to ease its integration with a simple {{{<security-extras:audit-aspect />}}} in your Spring configuration file.
 
  {{{
 <beans ...
@@ -30,8 +30,11 @@ The {{{@Audited}}} annotation relies on Spring AOP to intercept the method calls
         http://www.xebia.fr/schema/xebia-spring-security-extras http://www.xebia.fr/schema/security/xebia-spring-security-extras.xsd
         ">
 
-    <aop:aspectj-autoproxy/>
-    <security-extras:audit-aspect />
+   <!-- enable Spring AOP --> 
+   <aop:aspectj-autoproxy/>
+
+  <!-- activate the AutitAspect --> 
+  <security-extras:audit-aspect />
     ...
 </beans>
 }}}
@@ -43,12 +46,33 @@ It simply uses {{{SecurityContextHolder.getContext().getAuthentication()}}} and 
 
 For more details about Spring Security configuration, please refer to the [http://static.springsource.org/spring-security/site/docs/3.0.x/reference/ns-config.html#ns-getting-started official documentation]. 
 
-== Generated Log Message ==
+== Generated Audit Messages ==
 
- * Emitted message format: {{{"$date{yyyy/MM/dd-HH:mm:ss:SSS} ${message} [throwing ${exception.toString()}] by ${spring-security.principal.name} [coming from ${spring-security.principal.ip}]"}}}
- * Sample of message: {{{"2010-08-11T00:23:05.353+0200 save(John Smith, john.smith@xebia.fr): 324325 by ze-principal coming from 10.0.0.1"}}}
+Audit messages are generated in the SLF4J logger named {{{fr.xebia.audit}}} with the pattern: 
+{{{"$date{yyyy/MM/dd-HH:mm:ss:SSS} ${message} [throwing ${exception.toString()}] by ${spring-security.principal.name} [coming from ${spring-security.principal.ip}]"}}}.
 
- * Logback configuration sample:
+If an exception is throwned, the log message is emitted at the {{{WARN}}} level ; otherwise, the {{{INFO}}} level is used.
+
+Sample of message for a {{{@Audited(message = "save(#{args[0].name}, #{args[0].email}): #{returned?.id}")}}}: 
+ * In case of successful invocation
+   {{{
+2010-08-11T00:23:05.353+0200 save(John Smith, john.smith@xebia.fr): 324325 by ze-principal coming from 10.0.0.1
+}}}
+ * In the method invocation throwned anexception
+   {{{
+2010-08-11T00:23:05.353+0200 save(John Smith, john.smith_at_xebia.fr): threw 'java.lang.IllegalArgumentException: invalid email' by ze-principal coming from 10.0.0.1
+}}}
+
+== Logging Framework Configuration ==
+
+The {{{@Audited}}} annotation relies on [http://www.slf4j.org/ SLF4J] to generate its audit messages. We like very much using the [http://logback.qos.ch/ LogBack] implementation with its powerful feature of moving _rolled backed_ files in another folder but [http://logging.apache.org/log4j/1.2/index.html Log4j] is also well suited for this task.
+
+Note that the appender is not configured to append the date, the thread name or the log level, the audit aspect already appends the date and the thread and level are usually not necessary for auditing.
+
+=== Logback configuration sample ===
+
+This Logback configuration fragment shows how to log "{{{fr.xebia.audit}}}" audit messages in a file named  "{{{my-application-audit.log}}}" that is rolled and zipped every night to a collect folder ({{{${LOGS_TO_COLLECT_FOLDER} }}}).
+
   {{{
 <configuration scan="true">
    ...
@@ -68,7 +92,11 @@ For more details about Spring Security configuration, please refer to the [http:
    ...
 </configuration>
 }}}
- * Log4j configuration sample:
+
+=== Log4j configuration sample ===
+
+This Log4j configuration fragment shows how to log "{{{fr.xebia.audit}}}" audit messages in a file named  "{{{my-application-audit.log}}}" that is rolled every night.
+
   {{{
 log4j.appender.auditfile=org.apache.log4j.DailyRollingFileAppender
 log4j.appender.auditfile.datePattern='-'yyyyMMdd
@@ -78,10 +106,19 @@ log4j.appender.auditfile.layout.conversionPattern=%m %throwable{short}\n
 
 log4j.logger.fr.xebia.audit=INFO, auditfile
 }}}
- * Implementation details: this annotation works with an aspect and requires [http://static.springsource.org/spring/docs/3.0.x/spring-framework-reference/html/aop.html Spring AOP]
 
-== Auditor ==
+== Implementation details ==
 
+Method interception is performed thanks to [http://static.springsource.org/spring/docs/3.0.x/spring-framework-reference/html/aop.html Spring AOP] and [http://www.eclipse.org/aspectj/ AspectJ]'s [http://www.eclipse.org/aspectj/doc/released/aspectj5rt-api/org/aspectj/lang/annotation/Around.html @Around] annotation (see [http://xebia-france.googlecode.com/svn/springframework/xebia-spring-security-extras/trunk/src/main/java/fr/xebia/audit/AuditAspect.java AuditAspect.java]).
+
+Expression language based audit message is performed using [http://static.springsource.org/spring/docs/3.0.0.M3/spring-framework-reference/html/ch07.html Spring Expression Language]'s [http://static.springsource.org/spring/docs/3.0.x/javadoc-api/org/springframework/expression/spel/standard/SpelExpressionParser.html SpelExpressionParser] (see [http://xebia-france.googlecode.com/svn/springframework/xebia-spring-security-extras/trunk/src/main/java/fr/xebia/audit/AuditAspect.java AuditAspect.java]).
+
+Spring XML namespace based configuration is performed thanks to Spring's [http://static.springsource.org/spring/docs/3.0.0.M3/spring-framework-reference/html/apbs04.html BeanDefinitionParser] (see [http://xebia-france.googlecode.com/svn/springframework/xebia-spring-security-extras/trunk/src/main/java/fr/xebia/springframework/security/config/AuditAspectDefinitionParser.java AuditAspectDefinitionParser.java]).
+
+
+== Auditing without the @Audited annotation ==
+
+In some cases, using the {{{@Audited}}} annotation is awkward (auditing in the middle of a method, building complex messages, etc) and it is easier to directly use the Java component like this :
  * Usage pattern:
 {{{
 public void transferMoney(...) throws BusinessException {
@@ -111,6 +148,6 @@ There are different ways to integrate these features in your project:
    ...
 </project>
 }}}
-  The artifact is deployed on [https://oss.sonatype.org/content/repositories/public/fr/xebia/springframework/xebia-spring-security-extras/1.1.5/ Sonatype OSS repo] and should soon be synced on http://repo1.maven.org/ (as of 2011/11/13).
+
  * Download the jar [http://xebia-france.googlecode.com/files/xebia-spring-security-extras-1.1.5.jar xebia-spring-security-extras-1.1.5.jar] ([http://xebia-france.googlecode.com/files/xebia-spring-security-extras-1.1.5-sources.jar sources]),
  * Get the source from svn, modify it if needed and add it to your project. The source is available under the Open Source licence [http://www.apache.org/licenses/LICENSE-2.0 Apache Software Licence 2] at http://xebia-france.googlecode.com/svn/springframework/xebia-spring-security-extras/trunk/ .
