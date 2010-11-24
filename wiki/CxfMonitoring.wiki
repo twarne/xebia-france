@@ -1,0 +1,12 @@
+#summary Monitoring extras (Hyperic HQ plugin, etc) for Apache CXF.
+
+= CXF Monitoring =
+
+[http://cxf.apache.org/ CXF] already has all the JMX MBeans needed to [http://cxf.apache.org/docs/jmx-management.html monitor web services]. Here is a Hyperic HQ plugin to integrate these web service in your monitoring system.
+
+== JSP / VisualVM / Hyperic HQ rendering ==
+
+ * JSP monitoring page : [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/webapp/jmx/cxf.jsp ehcache.jsp (source)], 
+   <a href="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-jsp-cxf.png" target="screenshot"><img src="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-jsp-cxf.png" height="200"/></a>
+
+ * Hyperic plugin: [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/hyperic/tomcat-extras-cxf-plugin.xml tomcat-extras-cxf-plugin.xml], see XebiaManagementExtrasHypericPlugins.
