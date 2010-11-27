@@ -2,7 +2,13 @@
 
 = @Audited Annotation =
 
+== Introduction ==
+
 {{{@Audited}}} annotation writes an info message in the underlying SLF4J "{{{fr.xebia.audit}}}" logger each time the method is invoked
+
+== Table of Content ==
+
+<wiki:toc max_depth="2" />
 
 == Usage pattern ==
 
@@ -110,6 +116,43 @@ log4j.appender.auditfile.layout.conversionPattern=%m %throwable{short}\n
 log4j.logger.fr.xebia.audit=INFO, auditfile
 }}}
 
+== Auditing without the @Audited annotation ==
+
+In some cases, using the {{{@Audited}}} annotation is awkward (auditing in the middle of a method, building complex messages, etc) and it is easier to directly use the Java component like this :
+ * Usage pattern:
+{{{
+public void transferMoney(...) throws BusinessException {
+   ...
+   Auditor.audit("Tranfer " + amount + " from " + fromAccount + " to " + toAccount);
+}
+}}}
+ * Emitted message format : {{{"$date{yyyy/MM/dd-HH:mm:ss:SSS} ${message} [throwing ${exception.toString()}] by ${spring-security.principal.name} [coming from ${spring-security.principal.ip}]"}}}
+ * Sample of message: {{{"2010-08-11T00:23:05.353+0200 Transfer 1000 euros from account[12345] to account[9876] by ze-principal coming from 10.0.0.1"}}}
+ * This annotation relies Spring Security to get the authenticated user name and its ip address
+ * Logback and log4j configuration sample: see @Audited above
+
+== How to Integrate this library in your project ==
+
+There are different ways to integrate these features in your project:
+ * Maven integration :
+   {{{
+<project ...>
+   <dependencies>
+      <dependency>
+         <groupId>fr.xebia.springframework</groupId>
+         <artifactId>xebia-spring-security-extras</artifactId>
+         <version>1.1.5</version>
+      </dependency>
+      ...
+   </dependencies>
+   ...
+</project>
+}}}
+
+ * Download the jar [http://xebia-france.googlecode.com/files/xebia-spring-security-extras-1.1.5.jar xebia-spring-security-extras-1.1.5.jar] ([http://xebia-france.googlecode.com/files/xebia-spring-security-extras-1.1.5-sources.jar sources]),
+ * Get the source from svn, modify it if needed and add it to your project. The source is available under the Open Source licence [http://www.apache.org/licenses/LICENSE-2.0 Apache Software Licence 2] at http://xebia-france.googlecode.com/svn/springframework/xebia-spring-security-extras/trunk/ .
+
+
 == Implementation decisions and details ==
 
 === Choosing a logging framework to handle audit messages ===
@@ -150,40 +193,3 @@ The {{{@Audited}}} annotation uses [http://static.springsource.org/spring/docs/3
 === XML Namespace based Spring configuration ===
 
 Spring XML namespace based configuration is performed thanks to Spring's [http://static.springsource.org/spring/docs/3.0.0.M3/spring-framework-reference/html/apbs04.html BeanDefinitionParser] (see [http://xebia-france.googlecode.com/svn/springframework/xebia-spring-security-extras/trunk/src/main/java/fr/xebia/springframework/security/config/AuditAspectDefinitionParser.java AuditAspectDefinitionParser.java]).
-
-
-== Auditing without the @Audited annotation ==
-
-In some cases, using the {{{@Audited}}} annotation is awkward (auditing in the middle of a method, building complex messages, etc) and it is easier to directly use the Java component like this :
- * Usage pattern:
-{{{
-public void transferMoney(...) throws BusinessException {
-   ...
-   Auditor.audit("Tranfer " + amount + " from " + fromAccount + " to " + toAccount);
-}
-}}}
- * Emitted message format : {{{"$date{yyyy/MM/dd-HH:mm:ss:SSS} ${message} [throwing ${exception.toString()}] by ${spring-security.principal.name} [coming from ${spring-security.principal.ip}]"}}}
- * Sample of message: {{{"2010-08-11T00:23:05.353+0200 Transfer 1000 euros from account[12345] to account[9876] by ze-principal coming from 10.0.0.1"}}}
- * This annotation relies Spring Security to get the authenticated user name and its ip address
- * Logback and log4j configuration sample: see @Audited above
-
-== How to Integrate this library in your project ==
-
-There are different ways to integrate these features in your project:
- * Maven integration :
-   {{{
-<project ...>
-   <dependencies>
-      <dependency>
-         <groupId>fr.xebia.springframework</groupId>
-         <artifactId>xebia-spring-security-extras</artifactId>
-         <version>1.1.5</version>
-      </dependency>
-      ...
-   </dependencies>
-   ...
-</project>
-}}}
-
- * Download the jar [http://xebia-france.googlecode.com/files/xebia-spring-security-extras-1.1.5.jar xebia-spring-security-extras-1.1.5.jar] ([http://xebia-france.googlecode.com/files/xebia-spring-security-extras-1.1.5-sources.jar sources]),
- * Get the source from svn, modify it if needed and add it to your project. The source is available under the Open Source licence [http://www.apache.org/licenses/LICENSE-2.0 Apache Software Licence 2] at http://xebia-france.googlecode.com/svn/springframework/xebia-spring-security-extras/trunk/ .
