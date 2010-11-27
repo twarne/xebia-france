@@ -159,17 +159,17 @@ There are different ways to integrate these features in your project:
 
 Audit messages are outputted to a logging framework. Here are the pros and cons we evaluated :
  * Cons :
- ** From a theoretical standpoint, audit and log are different things and should be isolated,
- ** From a practical standpoint, it is dangerous to say to mix audit and logs configurations. Someone could mistakenly disable all the audit misconfiguring the logging framework ; this could occur during a troubleshooting session during which the ops team would have to enable/disable log messages.
+  * From a theoretical standpoint, audit and log are different things and should be isolated,
+  * From a practical standpoint, it is dangerous to say to mix audit and logs configurations. Someone could mistakenly disable all the audit misconfiguring the logging framework ; this could occur during a troubleshooting session during which the ops team would have to enable/disable log messages.
  * Pros :
- ** Auditing in files is simple, stupid and efficient ; much more than doing it in a database or any other sophisticated system,
- ** Auditing can involve writing a large volume of messages (> 1 Go / day / server) and logging frameworks are very well suited for these write-intensive tasks,
- ** Logging frameworks offer sophisticated file management mechanisms (safe rolling, compression, moving, etc),
- ** Despite the risk of misconfiguring the logging framework and loosing the audit messages, we have never seen such a mistake ; logging framework configuration file can be simple enough to prevent such mistake.
+  * Auditing in files is simple, stupid and efficient ; much more than doing it in a database or any other sophisticated system,
+  * Auditing can involve writing a large volume of messages (> 1 Go / day / server) and logging frameworks are very well suited for these write-intensive tasks,
+  * Logging frameworks offer sophisticated file management mechanisms (safe rolling, compression, moving, etc),
+  * Despite the risk of misconfiguring the logging framework and loosing the audit messages, we have never seen such a mistake ; logging framework configuration file can be simple enough to prevent such mistake.
 
 As a Java logging framework, we chose the [http://www.slf4j.org/ SLF4J] facade for the following reasons :
- * it works with LogBack which is our preferred logging framework,
- * it works with Log4j that is very frequently used and is well suited for auditing.
+ * it works with [http://logback.qos.ch/ LogBack] which is our preferred logging framework,
+ * it works with [http://logging.apache.org/log4j/ Log4j] that is very frequently used and is well suited for auditing.
 
 === Declarative approach and AOP ===
 
