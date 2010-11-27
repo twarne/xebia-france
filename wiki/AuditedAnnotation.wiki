@@ -110,11 +110,44 @@ log4j.appender.auditfile.layout.conversionPattern=%m %throwable{short}\n
 log4j.logger.fr.xebia.audit=INFO, auditfile
 }}}
 
-== Implementation details ==
+== Implementation decisions and details ==
 
-Method interception is performed thanks to [http://static.springsource.org/spring/docs/3.0.x/spring-framework-reference/html/aop.html Spring AOP] and [http://www.eclipse.org/aspectj/ AspectJ]'s [http://www.eclipse.org/aspectj/doc/released/aspectj5rt-api/org/aspectj/lang/annotation/Around.html @Around] annotation (see [http://xebia-france.googlecode.com/svn/springframework/xebia-spring-security-extras/trunk/src/main/java/fr/xebia/audit/AuditAspect.java AuditAspect.java]).
+=== Choosing a logging framework to handle audit messages ===
 
-Expression language based audit message is performed using [http://static.springsource.org/spring/docs/3.0.0.M3/spring-framework-reference/html/ch07.html Spring Expression Language]'s [http://static.springsource.org/spring/docs/3.0.x/javadoc-api/org/springframework/expression/spel/standard/SpelExpressionParser.html SpelExpressionParser] (see [http://xebia-france.googlecode.com/svn/springframework/xebia-spring-security-extras/trunk/src/main/java/fr/xebia/audit/AuditAspect.java AuditAspect.java]).
+Audit messages are outputted to a logging framework. Here are the pros and cons we evaluated :
+ * Cons :
+ ** From a theoretical standpoint, audit and log are different things and should be isolated,
+ ** From a practical standpoint, it is dangerous to say to mix audit and logs configurations. Someone could mistakenly disable all the audit misconfiguring the logging framework ; this could occur during a troubleshooting session during which the ops team would have to enable/disable log messages.
+ * Pros :
+ ** Auditing in files is simple, stupid and efficient ; much more than doing it in a database or any other sophisticated system,
+ ** Auditing can involve writing a large volume of messages (> 1 Go / day / server) and logging frameworks are very well suited for these write-intensive tasks,
+ ** Logging frameworks offer sophisticated file management mechanisms (safe rolling, compression, moving, etc),
+ ** Despite the risk of misconfiguring the logging framework and loosing the audit messages, we have never seen such a mistake ; logging framework configuration file can be simple enough to prevent such mistake.
+
+As a Java logging framework, we chose the [http://www.slf4j.org/ SLF4J] facade for the following reasons :
+ * it works with LogBack which is our preferred logging framework,
+ * it works with Log4j that is very frequently used and is well suited for auditing.
+
+=== Declarative approach and AOP ===
+
+We decided to use an annotation based declarative approach that would be homogeneous with the Spring 2.5+ & Java EE 5+ programming styles with all their annotations (security - {{{@RolesAllowed}}}), transaction - {{{@Transactional}}}), etc ).
+
+Developers would just have to decorate their methods with a {{{@Audited}}} annotation.
+
+{{{@Profiled}}} annotated methods are intercepted at runtime thanks to [http://static.springsource.org/spring/docs/3.0.x/spring-framework-reference/html/aop.html Spring AOP] and [http://www.eclipse.org/aspectj/ AspectJ]'s [http://www.eclipse.org/aspectj/doc/released/aspectj5rt-api/org/aspectj/lang/annotation/Around.html @Around] annotation (see [http://xebia-france.googlecode.com/svn/springframework/xebia-spring-security-extras/trunk/src/main/java/fr/xebia/audit/AuditAspect.java AuditAspect.java]).
+
+=== Expression language based messages ===
+
+The smoothest technique we found to allow developer to build audit messages composed with parameters/returned-value/throwned-exception of audited methods was to exposed these in an expression language. This approach was consistent with the increasing role of expression languages in java frameworks (see Spring Expression Language, etc).
+An other approach would have been to follow the [https://github.com/dima767/inspektr Inspektr] way and ask developers to develop one "message builder class" per audited method.
+
+The performance impact of the expression language evaluation at each invocation proved to be negligible trying with both [http://commons.apache.org/jexl/ Apache Commons JEXL] and [http://static.springsource.org/spring/docs/3.0.5.RELEASE/spring-framework-reference/html/ch07.html Spring Expression Language]. 
+
+The first versions of the @Audited annotations (2008) used JEXL, when we decided to put the version 3 of Spring Framework as a pre requisite, we could then switch to Spring Expression Language to offer a more homogeneous integration with the Spring Framework and lower the number of dependencies.
+
+The {{{@Audited}}} annotation uses [http://static.springsource.org/spring/docs/3.0.0.M3/spring-framework-reference/html/ch07.html Spring Expression Language]'s [http://static.springsource.org/spring/docs/3.0.x/javadoc-api/org/springframework/expression/spel/standard/SpelExpressionParser.html SpelExpressionParser] (see [http://xebia-france.googlecode.com/svn/springframework/xebia-spring-security-extras/trunk/src/main/java/fr/xebia/audit/AuditAspect.java AuditAspect.java]).
+
+=== XML Namespace based Spring configuration ===
 
 Spring XML namespace based configuration is performed thanks to Spring's [http://static.springsource.org/spring/docs/3.0.0.M3/spring-framework-reference/html/apbs04.html BeanDefinitionParser] (see [http://xebia-france.googlecode.com/svn/springframework/xebia-spring-security-extras/trunk/src/main/java/fr/xebia/springframework/security/config/AuditAspectDefinitionParser.java AuditAspectDefinitionParser.java]).
 
