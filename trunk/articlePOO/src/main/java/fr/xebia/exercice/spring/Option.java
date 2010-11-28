@@ -16,6 +16,8 @@
 
 package fr.xebia.exercice.spring;
 
+import fr.xebia.exercice.ActionValorisateur;
+import fr.xebia.exercice.OptionValorisateur;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 
@@ -26,6 +28,10 @@ class Option implements Titre {
 
     @Autowired
     SpringMarketdataRepository marketdataRepository;
+    @Autowired
+    OptionValorisateur optionValorisateur;
+    @Autowired
+    ActionValorisateur actionValorisateur;
 
     final Integer id;
     final Date dateExercice;
@@ -41,14 +47,12 @@ class Option implements Titre {
 
     @Override
     public double valorise() {
+        double prixAction = marketdataRepository.getFixing(sousJacent.id);
+        double valoAction = actionValorisateur.valoriseAction(prixAction);
 
         double vol = marketdataRepository.getVolatilite(sousJacent.id);
-        double taux = marketdataRepository.getTaux(this.id);
-        return valorise(dateExercice, prixExercice, sousJacent, vol, taux);
+        double taux = marketdataRepository.getTaux(id);
+        return optionValorisateur.valorise(dateExercice, prixExercice, valoAction, vol, taux);
     }
 
-    private double valorise(Date dateExercice, double prixExercice, Action sousJacent, double vol, double taux) {
-        // implementation de la valo
-        return 0;
-    }
 }

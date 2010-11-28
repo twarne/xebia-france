@@ -23,12 +23,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Repository
-class ProceduralePortfolioRepository {
+class ProceduralePortfolioRepository implements PortfolioRepository {
 
-    private Map<Integer, Portfolio> portfolios = new HashMap<Integer, Portfolio>() {{
-        put(1, new Portfolio(new Action(1), new Option(2, 1000, new Date(), new Action(3))));
+    private HashMap<Titre,Integer> titres = new HashMap<Titre, Integer>() {{
+        put(new Action(1), 1000);
+        put(new Option(2, 1000, new Date(), new Action(3)), 500);
     }};
 
+    private Map<Integer, Portfolio> portfolios = new HashMap<Integer, Portfolio>() {{
+        put(1, new Portfolio(titres));
+    }};
+
+    @Override
     public Portfolio load(Integer idPortfolio) {
         return portfolios.get(idPortfolio);
     }

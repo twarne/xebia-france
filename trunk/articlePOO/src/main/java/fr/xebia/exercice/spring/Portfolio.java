@@ -16,23 +16,24 @@
 
 package fr.xebia.exercice.spring;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 class Portfolio {
 
-    private List<Titre> titres = new ArrayList<Titre>();
+    private Map<Titre, Integer> titres = new HashMap<Titre, Integer>();
 
-    public Portfolio(Titre... titres) {
-        this.titres = Arrays.asList(titres);
+    public Portfolio(Map<Titre, Integer> titres) {
+        this.titres = titres;
     }
 
     public double valorise() {
-        double val = 0;
-        for (Titre titre : titres) {
-            val += titre.valorise();
+        double valoPortfolio = 0;
+        for (Map.Entry<Titre, Integer> entry : titres.entrySet()) {
+            Titre titre = entry.getKey();
+            Integer nb = entry.getValue();
+            valoPortfolio += nb * titre.valorise();
         }
-        return val;
+        return valoPortfolio;
     }
 }

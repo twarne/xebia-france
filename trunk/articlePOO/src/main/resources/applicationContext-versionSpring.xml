@@ -25,5 +25,5 @@
 
     <!--http://static.springsource.org/fr.xebia.exercice.spring/docs/3.0.x/fr.xebia.exercice.spring-framework-reference/html/aop.html#aop-using-aspectj-->
     <context:spring-configured/>
-    <context:load-time-weaver/>
+    <!--<context:load-time-weaver/>-->
 </beans>

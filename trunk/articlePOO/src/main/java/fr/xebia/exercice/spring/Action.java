@@ -16,6 +16,7 @@
 
 package fr.xebia.exercice.spring;
 
+import fr.xebia.exercice.ActionValorisateur;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 
@@ -24,6 +25,8 @@ class Action implements Titre {
 
     @Autowired
     SpringMarketdataRepository marketdataRepository;
+    @Autowired
+    ActionValorisateur actionValorisateur;
 
     final Integer id;
 
@@ -33,6 +36,7 @@ class Action implements Titre {
 
     @Override
     public double valorise() {
-        return marketdataRepository.getFixing(id);
+        double fixing = marketdataRepository.getFixing(id);
+        return actionValorisateur.valoriseAction(fixing);
     }
 }

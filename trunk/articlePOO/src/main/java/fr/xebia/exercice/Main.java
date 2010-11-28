@@ -26,11 +26,10 @@ import fr.xebia.exercice.procedural.WebControllerVersionProcedurale;
 class Main {
     public static void main(String[] args) {
 
-        // problème si j'inverse la version spring et la version procedurale
-//        runVersionSpring();
-//        runVersionProcedurale();
+        runVersionProcedurale();
+        runVersionSpring();
 //        runVersionStatic();
-        runVersionServLoc();
+//        runVersionServLoc();
     }
 
     public static void runVersionProcedurale() {
