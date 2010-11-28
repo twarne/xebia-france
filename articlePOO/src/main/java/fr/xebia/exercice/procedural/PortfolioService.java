@@ -16,27 +16,38 @@
 
 package fr.xebia.exercice.procedural;
 
+import fr.xebia.exercice.ActionValorisateur;
+import fr.xebia.exercice.OptionValorisateur;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.util.Map;
 
 @Service
 class PortfolioService {
 
+    private final PortfolioRepository portfolioRepository;
+    private final ProceduralMarketdataRepository marketdataRepository;
+    private final ActionValorisateur actionValorisateur;
+    private final OptionValorisateur optionValorisateur;
+
     @Autowired
-    private ProceduralePortfolioRepository portfolioRepository;
-    @Autowired
-    private ProceduralMarketdataRepository marketdataRepository;
+    PortfolioService(PortfolioRepository portfolioRepository, ProceduralMarketdataRepository marketdataRepository, ActionValorisateur actionValorisateur, OptionValorisateur optionValorisateur) {
+        this.portfolioRepository = portfolioRepository;
+        this.marketdataRepository = marketdataRepository;
+        this.actionValorisateur = actionValorisateur;
+        this.optionValorisateur = optionValorisateur;
+    }
 
     public double valorise(Integer idPortfolio) {
         Portfolio portfolio = portfolioRepository.load(idPortfolio);
 
         double valoPortfolio = 0;
-        for (Titre titre : portfolio.getTitres()) {
-            valoPortfolio += valorise(titre);
+        for (Map.Entry<Titre, Integer> entry : portfolio.getTitres().entrySet()) {
+            Titre titre = entry.getKey();
+            Integer nb = entry.getValue();
+            valoPortfolio += nb * valorise(titre);
         }
-
         return valoPortfolio;
     }
 
@@ -53,17 +64,16 @@ class PortfolioService {
     }
 
     private double valoriseOption(Option option) {
+        double prixAction = marketdataRepository.getFixing(option.sousJacent.id);
+        double valoAction = actionValorisateur.valoriseAction(prixAction);
+
         double vol = marketdataRepository.getVolatilite(option.sousJacent.id);
         double taux = marketdataRepository.getTaux(option.id);
-        return valoriseOption(option.dateExercice, option.prixExercice, option.sousJacent, vol, taux);
-    }
-
-    private double valoriseOption(Date dateExercice, double prixExercice, Action sousJacent, double vol, double taux) {
-        // implementation de la valo
-        return 0;
+        return optionValorisateur.valorise(option.dateExercice, option.prixExercice, valoAction, vol, taux);
     }
 
     private double valoriseAction(Action action) {
-        return marketdataRepository.getFixing(action.id);
+        double prixAction = marketdataRepository.getFixing(action.id);
+        return actionValorisateur.valoriseAction(prixAction);
     }
 }

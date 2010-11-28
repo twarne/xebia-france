@@ -25,14 +25,27 @@ import java.util.Map;
 @Repository
 class SpringPortfolioRepository {
 
-    private Map<Integer, Portfolio> portfolios = new HashMap<Integer, Portfolio>() {{
-        put(1, new Portfolio(new Action(1), new Option(2, 1000, new Date(), new Action(3))));
+    private HashMap<Titre,Integer> titres = new HashMap<Titre, Integer>() {{
+        put(new Action(1), 1000);
+        put(new Option(2, 1000, new Date(), new Action(3)), 500);
     }};
 
+    private Map<Integer, Portfolio> portfolios = new HashMap<Integer, Portfolio>() {{
+        put(1, new Portfolio(titres));
+    }};
+
+
     public Portfolio load(Integer idPortfolio) {
-        return new Portfolio(new Action(1), new Option(2, 1000, new Date(), new Action(3)));
+        final HashMap<Titre,Integer> titres = new HashMap<Titre, Integer>() {{
+            put(new Action(1), 1000);
+            put(new Option(2, 1000, new Date(), new Action(3)), 500);
+        }};
+
+        Map<Integer, Portfolio> portfolios = new HashMap<Integer, Portfolio>() {{
+            put(1, new Portfolio(titres));
+        }};
 
         // ne marche pas. Une histoire d'ordre entre la création de ce bean et le weaving des classes, je pense
-//        return portfolios.get(idPortfolio);
+        return portfolios.get(idPortfolio);
     }
 }

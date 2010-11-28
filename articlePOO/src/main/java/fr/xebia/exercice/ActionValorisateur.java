@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *       http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,20 +14,14 @@
  * limitations under the License.
  */
 
-package fr.xebia.exercice.procedural;
+package fr.xebia.exercice;
 
-import java.util.HashMap;
-import java.util.Map;
+import org.springframework.stereotype.Service;
 
-class Portfolio {
+@Service
+public class ActionValorisateur {
 
-    private Map<Titre, Integer> titres = new HashMap<Titre, Integer>();
-
-    public Portfolio(Map<Titre, Integer> titres) {
-        this.titres = titres;
-    }
-
-    public Map<Titre, Integer> getTitres() {
-        return titres;
+    public double valoriseAction(double prix) {
+        return prix;
     }
 }
