@@ -168,12 +168,12 @@
       <dependency>
          <groupId>fr.xebia.management</groupId>
          <artifactId>xebia-management-extras</artifactId>
-         <version>0.0.8-SNAPSHOT</version>
+         <version>1.0.0</version>
       </dependency>
       <dependency>
          <groupId>fr.xebia.springframework</groupId>
          <artifactId>xebia-spring-security-extras</artifactId>
-         <version>1.1.4</version>
+         <version>1.1.5</version>
       </dependency>
       <dependency>
          <groupId>commons-logging</groupId>
@@ -267,7 +267,7 @@
       <dependency>
          <groupId>com.google.guava</groupId>
          <artifactId>guava</artifactId>
-         <version>r06</version>
+         <version>r07</version>
       </dependency>
    </dependencies>
    <build>
