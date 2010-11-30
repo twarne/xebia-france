@@ -113,9 +113,32 @@ Trends Up indicators are always increasing counters. The monitoring system is ex
 
  * Hyperic plugin: [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/hyperic/tomcat-extras-dbcp-plugin.xml tomcat-extras-dbcp-plugin.xml], see [XebiaManagementExtrasHypericPlugins]
 
-== How to integrate the xebia-management-extras` library in your project ? ==
+== How to integrate the xebia-management-extras library in your project ? ==
 
 See [XebiaManagementExtrasInstallation].
+
+== Implementation decisions and details ==
+
+=== MBean exposition technique ===
+
+This JMX enabled version of DBCP data source is a subclass a the [http://commons.apache.org/dbcp/apidocs/org/apache/commons/dbcp/BasicDataSource.html BasicDataSource] implementation instead of wrapping it. The benefits are:
+ * it does not hide `BasicDataSource`,
+ * the code is very compact and is not coupled to the version of JDBC API and of DBCP.
+
+The [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/tags/xebia-management-extras-1.0.0/src/main/java/fr/xebia/springframework/jdbc/ManagedBasicDataSource.java ManagedBasicDataSource] simply does the following:
+* implement [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/tags/xebia-management-extras-1.0.0/src/main/java/fr/xebia/springframework/jdbc/ManagedBasicDataSourceMBean.java ManagedBasicDataSourceMBean] interface which is the `xxxMBean` interface that declares all the exposed JMX attributes and operations,
+* implement Spring [http://static.springsource.org/spring/docs/3.0.x/javadoc-api/org/springframework/jmx/export/naming/SelfNaming.html SelfNaming] to build a meaningful object name using the Spring bean name,
+
+Please note that this JMX exposition of DBCP did not rely on any Spring JMX annotation (`@ManagedResource`, `@ManagedAttribute`, etc). The benefit of using Spring annotations would have been to expose the attributes descriptions in JMX tools like JConsole / VisualVM. However, the drawback would have been to add a lot of code and to use the dirty trick of overriding the exposed getters/setters/methods just to annotate them. This trick gets even more _dirty_ when methods are `final` and require to be slightly renamed (e.g. Spring JMS' `DefaultMessageListenerContainer.getActiveConsumerCount()`).  
+
+=== XML Namespace based Spring configuration ===
+
+Spring XML namespace based configuration is performed thanks to Spring's [http://static.springsource.org/spring/docs/3.0.0.M3/spring-framework-reference/html/apbs04.html BeanDefinitionParser] (see [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/tags/xebia-management-extras-1.0.0/src/main/java/fr/xebia/management/config/ManagedBasicDataSourceBeanDefinitionParser.java ManagedBasicDataSourceBeanDefinitionParser.java]).
+
+As the number of configurable attributes was very important on the `BasicDataSource`, we decided to expose them as optional sub elements of `<management:dbcp-datasource id="...">` rather than as attributes.
+
+To allow developers to configure numeric attributes with Spring property placeholder (e.g. `<management:max-active value="${jdbc.max-active}" />`) or Spring Expression Language (e.g. `<management:max-active value="#{ T(java.lang.Integer).parseInt(systemProperties['tomcat.thread-pool.size']) / 2 }" />`), we declared numeric attributes as parameterizables is the same way as CXF does. Integers are parameterized integers (`ParameterizedInt`) : integer or `${my-var}` or `#{ my expression}`. It is the same for longs and booleans. This feature is enabled in version 1.0.1.
+
 
 == Todo list ==
 
