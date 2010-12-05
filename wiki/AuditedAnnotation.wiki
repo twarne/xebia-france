@@ -177,7 +177,7 @@ We decided to use an annotation based declarative approach that would be homogen
 
 Developers would just have to decorate their methods with a {{{@Audited}}} annotation.
 
-{{{@Profiled}}} annotated methods are intercepted at runtime thanks to [http://static.springsource.org/spring/docs/3.0.x/spring-framework-reference/html/aop.html Spring AOP] and [http://www.eclipse.org/aspectj/ AspectJ]'s [http://www.eclipse.org/aspectj/doc/released/aspectj5rt-api/org/aspectj/lang/annotation/Around.html @Around] annotation (see [http://xebia-france.googlecode.com/svn/springframework/xebia-spring-security-extras/trunk/src/main/java/fr/xebia/audit/AuditAspect.java AuditAspect.java]).
+{{{@Audited}}} annotated methods are intercepted at runtime thanks to [http://static.springsource.org/spring/docs/3.0.x/spring-framework-reference/html/aop.html Spring AOP] and [http://www.eclipse.org/aspectj/ AspectJ]'s [http://www.eclipse.org/aspectj/doc/released/aspectj5rt-api/org/aspectj/lang/annotation/Around.html @Around] annotation (see [http://xebia-france.googlecode.com/svn/springframework/xebia-spring-security-extras/trunk/src/main/java/fr/xebia/audit/AuditAspect.java AuditAspect.java]).
 
 === Expression language based messages ===
 

@@ -127,7 +127,7 @@ public class MyService {
  * Visual VM / JConsole view:
    <a href="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-visualvm-profiled-service.png" target="screenshot"><img src="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-visualvm-profiled-service.png" height="200"/></a>
 
- * Hyperic plugin: [https://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/hyperic/tomcat-extras-service-plugin.xml tomcat-extras-service-plugin.xml], see [XebiaManagementExtrasHypericPlugins].
+ * Hyperic plugin: [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/hyperic/tomcat-extras-service-plugin.xml tomcat-extras-service-plugin.xml], see [XebiaManagementExtrasHypericPlugins].
 
 == How to integrate the xebia-management-extras` library in your project ? ==
 
@@ -176,3 +176,31 @@ Spring configuration based {{{ServiceStatistics}}} initialization demo:
    </bean>
 </beans>
 }}}
+
+== Implementation decisions and details ==
+
+=== Declarative approach and AOP ===
+
+We decided to use an annotation based declarative approach that would be homogeneous with the Spring 2.5+ & Java EE 5+ programming styles with all their annotations (security - {{{@RolesAllowed}}}), transaction - {{{@Transactional}}}), etc ).
+
+Developers would just have to decorate their methods with a {{{@Profiled}}} annotation.
+
+This annotation based technique is the easiest to integrate but it comes with constraints:
+ * profiling granularity is at the method scope when we sometime need to profile smaller blocks of code,
+ * AOP interceptor and expression language can introduce of performance overhead that is not suited for the duration of the profiled block of code.
+If such constraint is a problem for your use case, you can use the raw {{{ServiceStatistics}}} or directly use a bunch of {{{AtomicInteger}}} and {{{AtomicLong}}} for profiling.
+
+{{{@Profiled}}} annotated methods are intercepted at runtime thanks to [http://static.springsource.org/spring/docs/3.0.x/spring-framework-reference/html/aop.html Spring AOP] and [http://www.eclipse.org/aspectj/ AspectJ]'s [http://www.eclipse.org/aspectj/doc/released/aspectj5rt-api/org/aspectj/lang/annotation/Around.html @Around] annotation (see [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/java/fr/xebia/management/statistics/ProfileAspect.java ProfileAspect.java]).
+
+=== Expression language based messages ===
+
+The smoothest technique we found to allow developer to build a name of the profiler composed with method parameters and invoked object attributes was to exposed these in an expression language. This approach was consistent with the increasing role of expression languages in java frameworks (see Spring Expression Language, etc).
+An other approach would have been to follow the [https://github.com/dima767/inspektr Inspektr] way and ask developers to develop one "name builder class" per profiled method.
+
+The performance impact of the expression language evaluation at each invocation proved to be negligible trying with both [http://commons.apache.org/jexl/ Apache Commons JEXL] and [http://static.springsource.org/spring/docs/3.0.5.RELEASE/spring-framework-reference/html/ch07.html Spring Expression Language]. 
+
+The {{{@Profiled}}} annotation uses [http://static.springsource.org/spring/docs/3.0.0.M3/spring-framework-reference/html/ch07.html Spring Expression Language]'s [http://static.springsource.org/spring/docs/3.0.x/javadoc-api/org/springframework/expression/spel/standard/SpelExpressionParser.html SpelExpressionParser] (see [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/java/fr/xebia/management/statistics/ProfileAspect.java ProfileAspect.java]).
+
+=== XML Namespace based Spring configuration ===
+
+Spring XML namespace based configuration is performed thanks to Spring's [http://static.springsource.org/spring/docs/3.0.0.M3/spring-framework-reference/html/apbs04.html BeanDefinitionParser] (see [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/java/fr/xebia/management/config/ProfileAspectDefinitionParser.java ProfileAspectDefinitionParser.java]).
