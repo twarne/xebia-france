@@ -1,0 +1,64 @@
+#summary <management:servlet-context-aware-mbean-server /> permet de prévenir les collisions entre MBeans JMX d'applications wev collocalisées sur le même serveur.
+
+= Servlet Context Aware MBean Server =
+
+<management:servlet-context-aware-mbean-server /> permet de prévenir les collisions entre MBeans JMX d'applications wev collocalisées sur le même serveur.
+
+Un problème avec les MBean Servers est qu'ils gèrent les MBeans au niveau de la JVM et que plusieurs applications web peuvent enregistrer des mbeans qui ont le même nom. C'est typiquement le cas avec les mbeans exposés par des libraries communément comme EhCache ou CXF.
+
+Pour garantir la colocalisation de plusieurs applications sur le même moteur de servlet (Tomcat, Websphere, Weblogic, JBoss, etc), nous avons dévelopé un _wrapper_ (décorateur) de MBeanServer qui ajoute à chaque nom de mbean les attributs suivants :
+ * *{{{"path"}}}*: le _path_ de l'application web ({{{servletContext.contextPath}}}),
+ * si le moteur de servlet est Tomcat, *{{{"host"}}}*: le _hostname_ de l'application web,
+ * any extra attribute defined by configuration.
+
+== Configuration Spring ==
+
+ * Configuration Spring avec un _namespace_ xml :
+   {{{
+<beans ...
+   xmlns:management="http://www.xebia.fr/schema/xebia-management-extras"
+   xsi:schemaLocation="...
+      http://www.xebia.fr/schema/xebia-management-extras http://www.xebia.fr/schema/management/xebia-management-extras.xsd">
+
+   <!-- namespace based servlet-context-aware-mbean-server automatically locate the mbean server -->
+   <management:servlet-context-aware-mbean-server id="mbeanServer"/>
+
+</beans>
+}}}
+
+   Le <management:servlet-context-aware-mbean-server/>  détecte automatiquement `WebLogic` 9+, `WebSphere` 5.1+ et le platform MBeanServer des JDK 1.5+ et les _wrap_ (décore) pour ajouterles attributs {{{path}}} et {{{host}}}.
+
+ * Configuration Spring 'classique':
+   {{{
+ <beans ... >
+    <context:mbean-server id="rawMbeanServer" />
+    <bean id="mbeanServer" class="fr.xebia.management.ServletContextAwareMBeanServerFactory">
+       <property name="server" ref="rawMbeanServer" />
+    </bean>
+    ...
+ </beans>
+}}}
+
+Le {{{ServletContextAwareMBeanServerFactory}}} est un peu moins _astucieux_ que le <management:servlet-context-aware-mbean-server/> : il faut lui injecter le mbeanServer qu'il doit _wrapper_ (décorer) ; il ne peut pas l'auto-découvrir (pour être consistent avec le comportement du MBeanServerFactoryBean Spring et du <context:mbean-server/>).
+
+== Configuration avancée ==
+
+La propriété `"objectNameExtraAttributes"` permet d'ajouter manuellement des attributs en complément des attributs `"path"` (et `"host"`) qui sont automatiquement ajoutés.
+
+{{{
+ <beans ... >
+    <context:mbean-server id="rawMbeanServer" />
+    <bean id="mbeanServer" class="fr.xebia.management.ServletContextAwareMBeanServerFactory">
+       <property name="mbeanServer" ref="rawMbeanServer" />
+       <property name="objectNameExtraAttributes" >
+          <map>
+             <entry key="ze-app-id-asked-by-ze-monitoring-team" value="my-application-id" />
+          </map>
+       </property>
+    </bean>
+    <context:mbean-export server="mbeanServer" />
+    ...
+ </beans>
+}}} 
+
+L'object name `"net.sf.ehcache:CacheManager=my-cache-manager,name=my-cache,type=Cache"` sera enregistré en `"net.sf.ehcache:CacheManager=my-cache-manager,ze-app-id-asked-by-ze-monitoring-team=my-application-id,name=my-cache,type=Cache,host=localhost,path=/my-application"` pour une application "my-application" déclarée dans le host "localhost" d'un serveur Tomcat : les attributs `"path=/my-application"`, `"host=localhost"` et  `"ze-app-id-asked-by-ze-monitoring-team=my-application-id"` sont ajoutés à l'object name.

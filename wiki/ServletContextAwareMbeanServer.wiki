@@ -39,7 +39,7 @@ To ensure that colocating several web applications on the same servlet engine (T
  </beans>
 }}}
 
-The {{{ServletContextAwareMBeanServerFactory}}} is slightly less smarter than the <management:servlet-context-aware-mbean-server/>: you need to define the mbeanServer to wrap ; it cannot auto detect it (by consistency with Spring MBeanExporter and <context:mbean-export /> behavior).
+The {{{ServletContextAwareMBeanServerFactory}}} is slightly less smarter than the <management:servlet-context-aware-mbean-server/>: you need to define the mbeanServer to wrap ; it cannot auto detect it (by consistency with Spring MBeanServerFactoryBean and <context:mbean-server /> behavior).
 
 == Advanced Configuration ==
 
@@ -61,4 +61,4 @@ The `"objectNameExtraAttributes"` property allows to manually add extra attribut
  </beans>
 }}} 
 
-An object name `"net.sf.ehcache:CacheManager=my-cache-manager,name=my-cache,type=Cache"` will be registered as `"net.sf.ehcache:CacheManager=my-cache-manager,ze-app-id-asked-by-ze-monitoring-team=my-application-id,name=my-cache,type=Cache,host=localhost,path=/my-application"` for an application "my-application" declared in the "localhost" host of a Tomcat server: attributes `"path=/my-application"`,  `"host=localhost"`and  `"ze-app-id-asked-by-ze-monitoring-team=my-application-id"` are added to the object name.
+An object name `"net.sf.ehcache:CacheManager=my-cache-manager,name=my-cache,type=Cache"` will be registered as `"net.sf.ehcache:CacheManager=my-cache-manager,ze-app-id-asked-by-ze-monitoring-team=my-application-id,name=my-cache,type=Cache,host=localhost,path=/my-application"` for an application "my-application" declared in the "localhost" host of a Tomcat server: attributes `"path=/my-application"`,  `"host=localhost"` and `"ze-app-id-asked-by-ze-monitoring-team=my-application-id"` are added to the object name.
