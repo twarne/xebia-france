@@ -1,0 +1,212 @@
+#summary Annotation @Profiled pour déclarativement profiler les méthodes et exposer les metriques (nombre d'invocations, durée, nombre d'exceptions, d'invocations lentes, etc) avec des MBeans JMX
+
+=  Annotation @Profiled =
+
+{{{@Profiled}}} est une annotation java qui permet de monitorer déclarativement l'éxécution des méthodes et expose les indicateurs avec un MBean JMX : 
+  {{{
+public class MyService {
+
+   @Profiled
+   public void myOperation(...) {
+      ...
+   }
+}
+}}}
+
+== Attributs de configuration ==
+
+|| *Nom* || *Obligatoire* || *Valeur dpar défaut* || *Description* || 
+|| {{{name}}} || N  || {{{${class.name}.${method.name} }}} || Identifieur de la méthode profilée. Cet identifieur peut être du texte simple ou utiliser le Spring Expression Language avec les paramètres {{{args}}} et {{{invokedObject}}}.<br/>Exemple : {{{@Profiled(name = "my-invocation(#{args[0]}-#{args[1]})") }}} ||
+|| {{{slowInvocationThresholdInMillis}}} || N || 500 || Borne inférieure de l'interval des invocations lentes comptées par l'indicateur {{{SlowInvocationCount}}} (la borne supérieure de l'interval est définie par l'attribut {{{verySlowInvocationThresholdInMillis}}} ) ||
+|| {{{verySlowInvocationThresholdInMillis}}} || N || 1000 || Borne supérieure de l'interval du compteur des invocations lentes. Les invocations dont la durée dépasse ce seuil sont compatibilisées par l'indicateur {{{VerySlowInvocationCount}}} ||
+|| {{{communicationExceptionsTypes}}} || N || {{{ {IOException.class} }}} || Liste des types d'exceptions compatibilisés par l'indicateur {{{CommunicationExceptionCount}}}. Une exception est compatibilisée comme une exception de communication si elle est une instance ou si une de ses causes est une instance d'un des {{{communicationExceptionsTypes}}}. ||
+|| {{{businessExceptionsTypes}}} || N || {{{ {} }}} || Liste des types d'exceptions compatibilisés par l'indicateur {{{BusinessExceptionCount}}}. Une exception est compatibilisée comme une exception de communication si elle est une instance ou si une de ses causes est une instance d'un des {{{businessExceptionsTypes}}}. ||
+
+Note : si une exception est à la fois une exception de communication et une exception _business_, seul le l'indicateur {{{BusinessExceptionCount}}} est incrémenté.
+
+== Métriques collectées / attributs des MBeans JMX ==
+
+Métriques monitorée par l'annotation @Profiled :
+
+|| *Name* || *Indicator Type* || *Description* ||
+|| {{{ActiveCount}}} || Dynamic ||  Nombre d'invocations actuellement en cours d'éxécution  ||
+|| {{{InvocationCount}}} || Trends Up ||  Nombre total d'invocations ||
+|| {{{SlowInvocationCount}}} || Trends Up ||  Nombre total d'invocations lentes ({{{@Profiled.slowInvocationThreshold < invocationDuration < @Profiled.verySlowInvocationThreshold}}}) ||
+|| {{{VerySlowInvocationCount}}} || Trends Up || Nombre total d'invocations très lentes ({{{@Profiled.verySlowInvocationThreshold < invocationDuration}}}) ||
+|| {{{BusinessExceptionCount}}} || Trends Up ||  Nombre total d'exceptions _business_ (invocations qui lèvent des exceptions qui sont des instances ou dont une cause est une instance d'un des @Profiled.businessExceptionTypes) ||
+|| {{{CommunicationExceptionCount}}} || Trends Up ||  Nombre total d'exceptions de communication (invocations qui lèvent des exceptions qui sont des instances ou dont une cause est une instance d'un des @Profiled.communicationExceptionTypes) ||
+|| {{{OtherExceptionCount}}} || Trends Up || Nombre total des autres exceptions (invocations levant des exceptions qui ne sont ni de communication ni _business_) ||
+|| {{{TotalDurationInNanos}}} || Trends Up ||  Durée totale des invocations en nano secondes ||
+
+Notes :
+ * Les indicateurs _Trends Up_ sont des indicateurs qui s'incrémentent tout le temps. Le système de monitoring doit convertir ces métriques en "métriques par minute" (e.g. {{{InvocationCount}}} doit être exposé en {{{InvocationCountPerMinute}}}).
+
+
+== Configuration Spring ==   
+
+ * Configuration Spring avec namespace xml :
+   {{{
+<beans ...
+   xmlns:management="http://www.xebia.fr/schema/xebia-management-extras"
+   xsi:schemaLocation="...
+      http://www.xebia.fr/schema/xebia-management-extras http://www.xebia.fr/schema/management/xebia-management-extras.xsd">
+
+   <!-- enable AOP to intercept @Profiled annotation -->
+   <aop:aspectj-autoproxy />
+   <!-- mbean server wil hold the ServiceStatistics mbeans used by @Profiled -->
+   <context:mbean-server />
+   
+   <management:profile-aspect server="mbeanServer" />
+   ...
+</beans>
+}}}
+ * Configuration Spring 'classique' :
+  {{{
+<beans ...>
+
+   <!-- enable AOP to intercept @Profiled annotation -->
+   <aop:aspectj-autoproxy />
+   <!-- mbean server wil hold the ServiceStatistics mbeans used by @Profiled -->
+   <context:mbean-server />
+
+   <bean id="profileAspect" class="fr.xebia.management.statistics.ProfileAspect" />
+   ...
+</beans>
+}}}
+
+Note : En cas de {{{IllegalArgumentException: MetadataMBeanInfoAssembler does not support JDK dynamic proxies - export the target beans directly or use CGLIB proxies instead}}}, il faut configurer l'utilisation de proxies CGLib par AspectJ en ajoutant l'attribut {{{proxy-target-class="true"}}} : {{{<aop:aspectj-autoproxy proxy-target-class="true" />}}}.
+
+== JMX MBeans ==
+
+Un MBean JMX est enregistré pour chaque nom différent d'annotation {{{@Profiled}}}.
+Le pattern de l'Object Name du MBean est {{{"fr.xebia:type=ServiceStatistics,name=${name}"}}}.
+
+Le {{{"${name}"}}} est défini déclarativement ({{{@Profiled(name="my-operation")}}}) ou construit à partir des noms de la classe et de la méthode invoquée suivant une des stratégie suivantes :
+  ** FULLY_QUALIFIED_NAME (e.g. {{{"com.mycompany.MyService.myMethod"}}}), c'est la stratégie par défaut,
+  ** COMPACT_FULLY_QUALIFIED_NAME (e.g. {{{"c.m.MyService.myMethod"}}}),
+  ** SHORT_NAME (e.g. {{{"MyService.myMethod"}}}).
+
+
+
+== Exemples ==
+
+ * Exemple java simple :
+  {{{
+package com.mycompany;
+import fr.xebia.management.statistics.Profiled;
+
+public class MyService {
+
+   @Profiled
+   public void myOperation(...) {
+      ...
+   }
+}
+ Créera un MBean avec l'Object Name "{{{fr.xebia:name=com.mycompany.MyService.myOperation,type=ServiceStatistics}}}".
+}}}
+ * Advanced java sample :
+  {{{
+public class MyService {
+
+   @Profiled(
+      name = "myOperation(customerType-#{args[0]}-country-#{invokedObject.countryCode})", 
+      businessExceptionsTypes = {MyBusinessException.class}, 
+      communicationExceptionsTypes = {IOException.class, ...}, 
+      slowInvocationThresholdInMillis = 100, 
+      verySlowInvocationThresholdInMillis = 200)
+   public void myOperation(String customerType, ...) throws MybusinessException {
+      ...
+   }
+   
+   public String getCountryCode() {...}
+}
+}}}
+
+ Créera un MBean avec l'Object Name "{{{fr.xebia:type=ServiceStatistics,name=myOperation(customerType-VIP-country-FR)}}}" pour des invocations avec le paramètre {{{customerType=FR}}} et pour {{{countryCode=FR}}}.
+
+
+== Rendu JSP / VisualVM / Hyperic HQ ==
+
+ * Page JSP de monitoring : [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/webapp/jmx/profiled-services.jsp (source)], 
+   <a href="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-jsp-profiled-service.png" target="screenshot"><img src="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-jsp-profiled-service.png" height="200"/></a>
+ * Vue Visual VM / JConsole :
+   <a href="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-visualvm-profiled-service.png" target="screenshot"><img src="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-visualvm-profiled-service.png" height="200"/></a>
+
+ * Plugin Hyperic : [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/hyperic/tomcat-extras-service-plugin.xml tomcat-extras-service-plugin.xml], voir [XebiaManagementExtrasHypericPlugins].
+
+== Comment intégrer la librarie xebia-management-extras dans votre projet ? ==
+
+Voir [XebiaManagementExtrasInstallation].
+
+== Utilisation directe du bean {{{ServiceStatistics}}} ==
+
+Vous pouvez utiliser directemment le bean {{{ServiceStatistics}}} sans l'annotation {{{@Profiled}}}. Cela peut être utilie si le code profilé ne peut pas e^tre élégament isolé dans une méthode dédiée.
+
+Exemple d'utilisation de {{{ServiceStatistics}}} :
+{{{
+long nanosBefore = System.nanoTime();
+serviceStatistics.incrementCurrentActiveCount();
+try {
+    // ... do profiled job
+} catch (Throwable t) {
+    serviceStatistics.incrementExceptionCount(t);
+    throw t;
+} finally {
+    serviceStatistics.decrementCurrentActiveCount();
+    serviceStatistics.incrementInvocationCounterAndTotalDurationWithNanos(System.nanoTime() - nanosBefore);
+}
+}}}
+
+Exemple de configuration Spring d'initialization du {{{ServiceStatistics}}} :
+{{{
+<beans ...>
+   <!-- mbean exporter is in charge of registering the ServiceStatistics MBean -->
+   <context:mbean-export />
+
+   <bean id="my-backend-statistics" class="fr.xebia.management.statistics.ServiceStatistics">
+      <property name="name" value="my-service" />
+      <property name="communicationExceptionsTypes">
+         <array>
+            <value>java.io.IOException</value>
+            <value>com.mycompany.mybackend.CommunicationException</value>
+         </array>
+      </property>
+      <property name="businessExceptionsTypes">
+         <array>
+            <value>com.mycompany.mybackend.BusinessException</value>
+         </array>
+      </property>
+      <property name="slowInvocationThresholdInMillis" value="75" />
+      <property name="verySlowInvocationThresholdInMillis" value="150" />
+   </bean>
+</beans>
+}}}
+
+== Choix et détails d'implémentation ==
+
+=== Approche déclarative et AOP ===
+
+Nous avons décidé d'utiliser une approche déclarative à base d'annotation qui serait homogène avec les styles de programmations de Spring 2.5+ et Java EE 5+ avec leurs nombreuses annotations (sécurité - {{{@RolesAllowed}}}), transactions - {{{@Transactional}}}), etc ).
+
+Les dévelopeurs auraient juste à décorer leurs méthodes avec une annotation {{{@Profiled}}}.
+
+Cette approche par annotation est la plus simple à intégrer mais elle apporte quelques contraintes :
+ * la granularité du profiling est au niveau de la méthode alors que nous devons parfois profiler des blocs de code plus petits,
+ * Les intercepteurs AOP et un langage d'expression peuvent introduire un surcoût en perfomance qui n'est pas adapté à la durée passée dans le code profilé. Ces coûts en performance sont complètement négligeables pour profiler l'appel à des backends (jdbc, http, rmi/iiop, ldap, etc).
+
+Si ces contraintes sont des problèmes pour votre cas d'utilisation, vous pouvez utiliser le bean de moins haut niveau d'abstraction {{{ServiceStatistics}}} ou directemment utiliser quelques  {{{AtomicInteger}}} et {{{AtomicLong}}} pour profiler.
+
+Les méthodes annotées avec {{{@Profiled}}} sont interceptées à l'exécution par [http://static.springsource.org/spring/docs/3.0.x/spring-framework-reference/html/aop.html Spring AOP] et l'annotation  [http://www.eclipse.org/aspectj/ AspectJ] [http://www.eclipse.org/aspectj/doc/released/aspectj5rt-api/org/aspectj/lang/annotation/Around.html @Around] (voir [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/java/fr/xebia/management/statistics/ProfileAspect.java ProfileAspect.java]).
+
+=== Identifieur basés sur un Expression language ===
+
+The smoothest technique we found to allow developer to build a name of the profiler composed with method parameters and invoked object attributes was to exposed these in an expression language. This approach was consistent with the increasing role of expression languages in java frameworks (see Spring Expression Language, etc).
+An other approach would have been to follow the [https://github.com/dima767/inspektr Inspektr] way and ask developers to develop one "name builder class" per profiled method.
+
+The performance impact of the expression language evaluation at each invocation proved to be negligible trying with both [http://commons.apache.org/jexl/ Apache Commons JEXL] and [http://static.springsource.org/spring/docs/3.0.5.RELEASE/spring-framework-reference/html/ch07.html Spring Expression Language]. 
+
+The {{{@Profiled}}} annotation uses [http://static.springsource.org/spring/docs/3.0.0.M3/spring-framework-reference/html/ch07.html Spring Expression Language]'s [http://static.springsource.org/spring/docs/3.0.x/javadoc-api/org/springframework/expression/spel/standard/SpelExpressionParser.html SpelExpressionParser] (see [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/java/fr/xebia/management/statistics/ProfileAspect.java ProfileAspect.java]).
+
+=== XML Namespace based Spring configuration ===
+
+Spring XML namespace based configuration is performed thanks to Spring's [http://static.springsource.org/spring/docs/3.0.0.M3/spring-framework-reference/html/apbs04.html BeanDefinitionParser] (see [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/java/fr/xebia/management/config/ProfileAspectDefinitionParser.java ProfileAspectDefinitionParser.java]).

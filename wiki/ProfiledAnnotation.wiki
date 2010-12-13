@@ -13,34 +13,35 @@ public class MyService {
 }
 }}}
 
-The fully qualified name of the annotation is {{{fr.xebia.management.statistics.Profiled}}}.
-
 == @Profiled Annotation Attributes ==
 
 || *Name* || *Req'd* || *Default Value* || *Description* || 
 || {{{name}}} || N  || {{{${class.name}.${method.name} }}} || Identifier of the profiled method. This identifier can be plain text or use Spring Expression Language with parameters {{{args}}} and {{{invokedObject}}}.<br/>Sample : {{{@Profiled(name = "my-invocation(#{args[0]}-#{args[1]})") }}} ||
 || {{{slowInvocationThresholdInMillis}}} || N || 500 || Lower bound of the interval of slow invocations reported under the {{{SlowInvocationCount}}} counter (the upper bound of this interval is the {{{verySlowInvocationThresholdInMillis}}} attribute) ||
 || {{{verySlowInvocationThresholdInMillis}}} || N || 1000 || Upper bound of the slow invocations counter. Invocations that are longer than this threshold are reported in the {{{VerySlowInvocationCount}}} counter ||
-|| {{{communicationExceptionsTypes}}} || N || {{{ {IOException.class} }}} || List of exceptions that must be reported in the {{{CommunicationExceptionCount}}} counter. A throwned exception is seen as a communication exception if it is an instance or one of its nested cause is an instance of one of the {{{communicationExceptionsTypes}}}. ||
-|| {{{businessExceptionsTypes}}} || N || {{{ {} }}} || List of exceptions that must be reported in the {{{BusinessExceptionCount}}}. A throwned exception is seen as a communication exception if it is an instance or one of its nested cause is an instance of one of the {{{communicationExceptionsTypes}}}. ||
+|| {{{communicationExceptionsTypes}}} || N || {{{ {IOException.class} }}} || List of types of exceptions reported by the {{{CommunicationExceptionCount}}} counter. An exception is seen as a communication exception if it is an instance or one of its nested cause is an instance of one of the {{{communicationExceptionsTypes}}}. ||
+|| {{{businessExceptionsTypes}}} || N || {{{ {} }}} || List of types of exceptions reported by the {{{BusinessExceptionCount}}}. An exception is seen as a communication exception if it is an instance or one of its nested cause is an instance of one of the {{{businessExceptionsTypes}}}. ||
 
 Note : if an exception is at the same time a communication exception and a business exception, only the {{{BusinessExceptionCount}}} counter is incremented.
 
 == @Profiled Annotation Collected Metrics / JMX MBeans attributes ==
 
-Here are the metrics monitored by the @profiled annotation:
+Here are the metrics monitored by the @Profiled annotation:
 
 || *Name* || *Indicator Type* || *Description* ||
 || {{{ActiveCount}}} || Dynamic ||  Number of currently active invocations  ||
-|| {{{InvocationCount}}} || Trends Up ||  Number of invocations ||
-|| {{{SlowInvocationCount}}} || Trends Up ||  Number of slow invocation ({{{@Profiled.slowInvocationThreshold < invocationDuration < @Profiled.verySlowInvocationThreshold}}}) ||
-|| {{{VerySlowInvocationCount}}} || Trends Up ||  Number of very slow invocations ({{{@Profiled.verySlowInvocationThreshold < invocationDuration}}}) ||
-|| {{{BusinessExceptionCount}}} || Trends Up ||  Number of business exceptions (invocations throwing exceptions which are instances or which have a nested cause that is an instance of one of the @Profiled.businessExceptionTypes) ||
-|| {{{CommunicationExceptionCount}}} || Trends Up ||  Number of communication exceptions (invocations throwing exceptions which are instances or which have a nested cause that is an instance of one of the @Profiled.communicationExceptionTypes) ||
-|| {{{OtherExceptionCount}}} || Trends Up ||  Number of other exceptions (invocations throwing exceptions which are not communication nor business exceptions) ||
-|| {{{TotalDurationInNanos}}} || Trends Up ||  Total duration of the invocations ||
+|| {{{InvocationCount}}} || Trends Up || Total number of invocations ||
+|| {{{SlowInvocationCount}}} || Trends Up || Total number of slow invocation ({{{@Profiled.slowInvocationThreshold < invocationDuration < @Profiled.verySlowInvocationThreshold}}}) ||
+|| {{{VerySlowInvocationCount}}} || Trends Up || Total number of very slow invocations ({{{@Profiled.verySlowInvocationThreshold < invocationDuration}}}) ||
+|| {{{BusinessExceptionCount}}} || Trends Up || Total number of business exceptions (invocations throwing exceptions which are instances or which have a nested cause that is an instance of one of the @Profiled.businessExceptionTypes) ||
+|| {{{CommunicationExceptionCount}}} || Trends Up || Total number of communication exceptions (invocations throwing exceptions which are instances or which have a nested cause that is an instance of one of the @Profiled.communicationExceptionTypes) ||
+|| {{{OtherExceptionCount}}} || Trends Up || Total number of other exceptions (invocations throwing exceptions which are not communication nor business exceptions) ||
+|| {{{TotalDurationInNanos}}} || Trends Up ||  Total duration of the invocations in nano seconds ||
+|| {{{TotalDurationInMillis}}} || Trends Up ||  Total duration of the invocations in milli seconds ||
 
-Trends Up indicators are always increasing counters. The monitoring system is expected to convert these metrics into "per minute" metrics (e.g. {{{InvocationCount}}} should be exposed as {{{InvocationCountPerMinute}}}).
+Notes :
+ * Trends Up indicators are always increasing counters. The monitoring system is expected to convert these metrics into "per minute" metrics (e.g. {{{InvocationCount}}} should be exposed as {{{InvocationCountPerMinute}}}).
+ * Duration in millis is provided to be more human friendly but duration in nanos is less expensive to compute and thus should be preferred by monitoring tools
 
 
 == Spring Configuration ==   
@@ -75,12 +76,12 @@ Trends Up indicators are always increasing counters. The monitoring system is ex
 </beans>
 }}}
 
-Note : If you face a {{{IllegalArgumentException: MetadataMBeanInfoAssembler does not support JDK dynamic proxies - export the target beans directly or use CGLIB proxies instead}}}, then you need tell AspectJ to use CGLib proxies adding the attribute {{{proxy-target-class="true"}}} like {{{<aop:aspectj-autoproxy proxy-target-class="true" />}}}.
+Note : If you face a {{{IllegalArgumentException: MetadataMBeanInfoAssembler does not support JDK dynamic proxies - export the target beans directly or use CGLIB proxies instead}}}, then you need configure CGLib proxies in AspectJ adding the attribute {{{proxy-target-class="true"}}} like {{{<aop:aspectj-autoproxy proxy-target-class="true" />}}}.
 
 == JMX MBeans ==
 
 One JMX MBean is registered for each different name of {{{@Profiled}}} annotation.
-The MBean Object pattern is {{{"fr.xebia:type=ServiceStatistics,name=${name}"}}}.
+The MBean Object Name pattern is {{{"fr.xebia:type=ServiceStatistics,name=${name}"}}}.
 
 The {{{"${name}"}}} is defined declaratively ({{{@Profiled(name="my-operation")}}}) or build from the class and method name with one of the following strategies :
   ** FULLY_QUALIFIED_NAME (e.g. {{{"com.mycompany.MyService.myMethod"}}})
@@ -91,9 +92,11 @@ The {{{"${name}"}}} is defined declaratively ({{{@Profiled(name="my-operation")}
 
 == Samples ==
 
- * Basic java sample
+ * Basic java sample:
   {{{
 package com.mycompany;
+
+import fr.xebia.management.statistics.Profiled;
 
 public class MyService {
 
@@ -102,23 +105,30 @@ public class MyService {
       ...
    }
 }
- Will create a MBean  
+
+Will create a MBean with Object Name : "{{{fr.xebia:type=ServiceStatistics,name=com.mycompany.MyService.myOperation}}}".
+ 
 }}}
- * Advanced java sample
+ * Advanced java sample:
   {{{
 public class MyService {
 
    @Profiled(
-      name = "my-operation", 
+      name = "myOperation(customerType-#{args[0]}-country-#{invokedObject.countryCode})", 
       businessExceptionsTypes = {MyBusinessException.class}, 
       communicationExceptionsTypes = {IOException.class, ...}, 
       slowInvocationThresholdInMillis = 100, 
       verySlowInvocationThresholdInMillis = 200)
-   public void myOperation(...) throws MybusinessException {
+   public void myOperation(String customerType, ...) throws MybusinessException {
       ...
    }
+   
+   public String getCountryCode() {...}
 }
 }}}
+
+Will create a MBean with Object Name "{{{fr.xebia:type=ServiceStatistics,name=myOperation(customerType-VIP-country-FR)}}}" for invocations with parameter {{{customerType=FR}}} and for {{{countryCode=FR}}}.
+
 
 == JSP / VisualVM / Hyperic HQ rendering ==
 
@@ -129,7 +139,7 @@ public class MyService {
 
  * Hyperic plugin: [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/hyperic/tomcat-extras-service-plugin.xml tomcat-extras-service-plugin.xml], see [XebiaManagementExtrasHypericPlugins].
 
-== How to integrate the xebia-management-extras` library in your project ? ==
+== How to integrate the xebia-management-extras library in your project ? ==
 
 See [XebiaManagementExtrasInstallation].
 
@@ -181,18 +191,18 @@ Spring configuration based {{{ServiceStatistics}}} initialization demo:
 
 === Declarative approach and AOP ===
 
-We decided to use an annotation based declarative approach that would be homogeneous with the Spring 2.5+ & Java EE 5+ programming styles with all their annotations (security - {{{@RolesAllowed}}}), transaction - {{{@Transactional}}}), etc ).
+We decided to use an annotation based declarative approach that would be homogeneous with the Spring 2.5+ & Java EE 5+ programming styles with all their annotations (security - {{{@RolesAllowed}}}), transactions - {{{@Transactional}}}), etc ).
 
 Developers would just have to decorate their methods with a {{{@Profiled}}} annotation.
 
 This annotation based technique is the easiest to integrate but it comes with constraints:
  * profiling granularity is at the method scope when we sometime need to profile smaller blocks of code,
- * AOP interceptor and expression language can introduce of performance overhead that is not suited for the duration of the profiled block of code.
-If such constraint is a problem for your use case, you can use the raw {{{ServiceStatistics}}} or directly use a bunch of {{{AtomicInteger}}} and {{{AtomicLong}}} for profiling.
+ * AOP interceptor and expression language can introduce of performance overhead that is not suited for the duration of the profiled block of code. These performance impacts are completely negligible to profile calls to backends (e.g. jdbc, http, rmi/iiop, ldap, etc).
+If such constraint is a problem for your use case, you can use the raw {{{ServiceStatistics}}} or directly use a bunch of {{{AtomicInteger}}} and {{{AtomicLong}}} for profiling. 
 
 {{{@Profiled}}} annotated methods are intercepted at runtime thanks to [http://static.springsource.org/spring/docs/3.0.x/spring-framework-reference/html/aop.html Spring AOP] and [http://www.eclipse.org/aspectj/ AspectJ]'s [http://www.eclipse.org/aspectj/doc/released/aspectj5rt-api/org/aspectj/lang/annotation/Around.html @Around] annotation (see [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/java/fr/xebia/management/statistics/ProfileAspect.java ProfileAspect.java]).
 
-=== Expression language based messages ===
+=== Expression language based identifiers ===
 
 The smoothest technique we found to allow developer to build a name of the profiler composed with method parameters and invoked object attributes was to exposed these in an expression language. This approach was consistent with the increasing role of expression languages in java frameworks (see Spring Expression Language, etc).
 An other approach would have been to follow the [https://github.com/dima767/inspektr Inspektr] way and ask developers to develop one "name builder class" per profiled method.

@@ -34,7 +34,7 @@ The {{{@Audited}}} annotation uses Spring AOP to intercept the method calls and 
 <beans ...
    xmlns:security-extras="http://www.xebia.fr/schema/xebia-spring-security-extras"
    xsi:schemaLocation="...
-        http://www.xebia.fr/schema/xebia-spring-security-extras http://www.xebia.fr/schema/security/xebia-spring-security-extras.xsd
+        http://www.xebia.fr/schema/xebia-spring-security-extras http://www.xebia.com/schema/security/xebia-spring-security-extras.xsd
         ">
 
    <!-- enable Spring AOP --> 
