@@ -1,0 +1,10 @@
+#summary Release notes of xebia-management-extras
+
+= Version 1.1.0 (2011/03/03) =
+
+  * Fix [http://code.google.com/p/xebia-france/issues/detail?id=8&can=1 Issue 8 - NullPointerException in <management:executor-service /> with mono valued "pool-size"]
+  * Allow to use SpEL expressions in {{{<management:dbcp-datasource .../>}}} configuration attributes
+
+= Version 1.0.0 (2010/12/07) =
+ 
+First release
