@@ -163,3 +163,8 @@ Manual download is available at [http://code.google.com/p/xebia-france/downloads
 = Developers =
 
  * Source : http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/
+ 
+ = Release Notes =
+ 
+ See [XebiaManagementExtrasReleaseNotes release notes]
+ 

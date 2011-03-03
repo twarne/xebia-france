@@ -137,7 +137,7 @@ Spring XML namespace based configuration is performed thanks to Spring's [http:/
 
 As the number of configurable attributes was very important on the `BasicDataSource`, we decided to expose them as optional sub elements of `<management:dbcp-datasource id="...">` rather than as attributes.
 
-To allow developers to configure numeric attributes with Spring property placeholder (e.g. `<management:max-active value="${jdbc.max-active}" />`) or Spring Expression Language (e.g. `<management:max-active value="#{ T(java.lang.Integer).parseInt(systemProperties['tomcat.thread-pool.size']) / 2 }" />`), we declared numeric attributes as parameterizables is the same way as CXF does. Integers are parameterized integers (`ParameterizedInt`) : integer or `${my-var}` or `#{ my expression}`. It is the same for longs and booleans. This feature is enabled in version 1.0.1.
+To allow developers to configure numeric attributes with Spring property placeholder (e.g. `<management:max-active value="${jdbc.max-active}" />`) or Spring Expression Language (e.g. `<management:max-active value="#{ T(java.lang.Integer).parseInt(systemProperties['tomcat.thread-pool.size']) / 2 }" />`), we declared numeric attributes as parameterizables is the same way as CXF does. Integers are parameterized integers (`ParameterizedInt`) : integer or `${my-var}` or `#{ my expression}`. It is the same for longs and booleans. This feature is enabled in version 1.1.0.
 
 
 == Todo list ==
