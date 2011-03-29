@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>org.springframework</groupId>
+  <artifactId>spring-mapper</artifactId>
+  <version>1.0.0.SNAPSHOT</version>
+  <versioning>
+    <versions>
+      <version>1.0.0.SNAPSHOT</version>
+    </versions>
+    <lastUpdated>20110329222848</lastUpdated>
+  </versioning>
+</metadata>
