@@ -18,8 +18,6 @@ package fr.xebia.monitoring.demo.payment;
 import java.lang.reflect.Constructor;
 import java.util.Random;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.jmx.export.annotation.ManagedAttribute;
 import org.springframework.jmx.export.annotation.ManagedResource;
 import org.springframework.payment.common.money.MonetaryAmount;
@@ -43,9 +41,19 @@ import org.springframework.payment.creditcard.CreditCardService;
 @ManagedResource
 public class ZeRandmolySlowAndBuggyCreditCardService implements CreditCardService {
 
-    private int invalidCardExceptionRatioInPercent = 0;
+    private int threeDSecureVerificationExceptionRatioInPercent = 0;
 
-    private final Logger logger = LoggerFactory.getLogger(getClass());
+    @ManagedAttribute
+    public int getThreeDSecureVerificationExceptionRatioInPercent() {
+        return threeDSecureVerificationExceptionRatioInPercent;
+    }
+
+    @ManagedAttribute
+    public void setThreeDSecureVerificationExceptionRatioInPercent(int threeDSecureVerificationExceptionRatioInPercent) {
+        this.threeDSecureVerificationExceptionRatioInPercent = threeDSecureVerificationExceptionRatioInPercent;
+    }
+
+    private int invalidCardExceptionRatioInPercent = 0;
 
     private int lostOrStolenCardExceptionRatioInPercent = 0;
 
@@ -126,6 +134,7 @@ public class ZeRandmolySlowAndBuggyCreditCardService implements CreditCardServic
     }
 
     protected void randmolyThrowException() throws PaymentTransactionException {
+        randomlyThrowException(this.threeDSecureVerificationExceptionRatioInPercent, ThreeDSecureVerificationException.class);
         randomlyThrowException(this.invalidCardExceptionRatioInPercent, InvalidCardException.class);
         randomlyThrowException(this.missingOrInvalidDataExceptionRatioInPercent, MissingOrInvalidDataException.class);
         randomlyThrowException(this.lostOrStolenCardExceptionRatioInPercent, LostOrStolenCardException.class);

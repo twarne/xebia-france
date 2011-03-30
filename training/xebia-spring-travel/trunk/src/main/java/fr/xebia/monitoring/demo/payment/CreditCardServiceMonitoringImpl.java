@@ -35,6 +35,8 @@ import org.springframework.payment.creditcard.CreditCardService;
 @ManagedResource
 public class CreditCardServiceMonitoringImpl implements CreditCardService {
 
+    private final AtomicInteger activeInvocationCounter = new AtomicInteger();
+
     private CreditCardService creditCardService;
 
     private final AtomicInteger invalidCardExceptionCounter = new AtomicInteger();
@@ -52,6 +54,8 @@ public class CreditCardServiceMonitoringImpl implements CreditCardService {
     private final AtomicInteger slowRequestCounter = new AtomicInteger();
 
     private AtomicLong slowRequestThresholdInNanos = new AtomicLong(TimeUnit.NANOSECONDS.convert(1, TimeUnit.SECONDS));
+
+    private final AtomicInteger threeDSecureVerificationExceptionCounter = new AtomicInteger();
 
     private final AtomicInteger timeoutExceptionCounter = new AtomicInteger();
 
@@ -74,6 +78,11 @@ public class CreditCardServiceMonitoringImpl implements CreditCardService {
     @Override
     public PaymentTransaction capture(MonetaryAmount total, PaymentTransaction authTransaction) {
         return creditCardService.capture(total, authTransaction);
+    }
+
+    @ManagedAttribute
+    public int getActiveInvocationCount() {
+        return activeInvocationCounter.get();
     }
 
     public CreditCardService getCreditCardService() {
@@ -129,6 +138,11 @@ public class CreditCardServiceMonitoringImpl implements CreditCardService {
     }
 
     @ManagedAttribute
+    public int getThreeDSecureVerificationExceptionCount() {
+        return threeDSecureVerificationExceptionCounter.get();
+    }
+
+    @ManagedAttribute
     public int getTimeoutExceptionCount() {
         return timeoutExceptionCounter.get();
     }
@@ -143,9 +157,13 @@ public class CreditCardServiceMonitoringImpl implements CreditCardService {
 
         long nanosBefore = System.nanoTime();
 
+        activeInvocationCounter.incrementAndGet();
         PaymentTransaction paymentTransaction;
         try {
             paymentTransaction = creditCardService.purchase(total, order, requestId);
+        } catch (ThreeDSecureVerificationException e) {
+            threeDSecureVerificationExceptionCounter.incrementAndGet();
+            throw e;
         } catch (LostOrStolenCardException e) {
             lostOrStolenCardExceptionCounter.incrementAndGet();
             throw e;
@@ -165,6 +183,7 @@ public class CreditCardServiceMonitoringImpl implements CreditCardService {
             transactionAmountExceptionCounter.incrementAndGet();
             throw e;
         } finally {
+            activeInvocationCounter.decrementAndGet();
             purchaseInvocationCounter.incrementAndGet();
             long durationInNanos = System.nanoTime() - nanosBefore;
             purchaseInvocationDurationInNanosCounter.addAndGet(durationInNanos);

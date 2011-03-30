@@ -169,6 +169,13 @@
             <enabled>false</enabled>
          </snapshots>
       </repository>
+      <repository>
+         <id>xebia-france.googlecode.com</id>
+         <url>http://xebia-france.googlecode.com/svn/repository/maven2/</url>
+         <releases>
+            <enabled>false</enabled>
+         </releases>
+      </repository>
    </repositories>
    <pluginRepositories>
       <pluginRepository>
