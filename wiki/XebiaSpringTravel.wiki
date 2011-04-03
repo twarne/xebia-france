@@ -1,11 +1,6 @@
 #summary Customization of Xebia Spring Travel to demo monitoring
 
-= Introduction =
-
-Add your content here.
-
 
 = TODO =
 
-* use a real datasource
-* develop the anti-fraud system
+ * develop the anti-fraud system
