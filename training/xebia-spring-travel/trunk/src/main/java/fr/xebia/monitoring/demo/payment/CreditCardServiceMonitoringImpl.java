@@ -110,13 +110,18 @@ public class CreditCardServiceMonitoringImpl implements CreditCardService {
     }
 
     @ManagedAttribute
-    public int getPurchaseInvocationCounter() {
+    public int getPurchaseInvocationCount() {
         return purchaseInvocationCounter.get();
     }
 
     @ManagedAttribute
-    public long getPurchaseInvocationDurationInNanosCounter() {
+    public long getPurchaseInvocationDurationInNanos() {
         return purchaseInvocationDurationInNanosCounter.get();
+    }
+
+    @ManagedAttribute
+    public long getPurchaseInvocationDurationInMillis() {
+        return TimeUnit.MILLISECONDS.convert(getPurchaseInvocationDurationInNanos(), TimeUnit.NANOSECONDS);
     }
 
     @ManagedAttribute

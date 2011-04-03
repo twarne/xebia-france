@@ -30,7 +30,7 @@
           <collectionProp name="Arguments.arguments">
             <elementProp name="CONTEXT_PATH" elementType="Argument">
               <stringProp name="Argument.name">CONTEXT_PATH</stringProp>
-              <stringProp name="Argument.value">/xebia-spring-travel-1.0.0.SNAPSHOT</stringProp>
+              <stringProp name="Argument.value">/xebia-spring-travel</stringProp>
               <stringProp name="Argument.metadata">=</stringProp>
             </elementProp>
           </collectionProp>

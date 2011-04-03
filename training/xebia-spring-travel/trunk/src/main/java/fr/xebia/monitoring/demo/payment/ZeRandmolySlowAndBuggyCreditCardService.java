@@ -168,6 +168,7 @@ public class ZeRandmolySlowAndBuggyCreditCardService implements CreditCardServic
                 Constructor<? extends PaymentTransactionException> constructor = exceptionType.getConstructor(String.class,
                         PaymentTransaction.class);
                 exception = constructor.newInstance("Exception processing transaction", new PaymentTransaction());
+                exception.fillInStackTrace();
             } catch (Exception e) {
                 throw new IllegalStateException(e);
             }

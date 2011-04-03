@@ -24,7 +24,9 @@ public class BookingFlowHandler extends AbstractFlowHandler {
 
     @Override
     public String handleException(FlowException e, HttpServletRequest request, HttpServletResponse response) {
-        logger.warn("exception processing '" + request.getRequestURL() + "'", e);
+        if (logger.isInfoEnabled()) {
+            logger.info("exception processing '" + request.getRequestURL() + "'", e);
+        }
         if (e instanceof NoSuchFlowExecutionException) {
             return DEFAULT_URL;
         } else {

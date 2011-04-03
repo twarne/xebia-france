@@ -2,11 +2,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:management="http://www.xebia.fr/schema/xebia-management-extras" 
        xsi:schemaLocation="
-           http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-           http://www.springframework.org/schema/tx
-           http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+           http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+           http://www.xebia.fr/schema/xebia-management-extras http://www.xebia.fr/schema/management/xebia-management-extras.xsd">
 
 	<!-- Instructs Spring to perfrom declarative transaction management on annotated classes -->
 	<tx:annotation-driven />
@@ -24,12 +24,12 @@
 		</property>
 	</bean>
 
-	<!-- Deploys a in-memory "booking" datasource populated -->
-	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<property name="driverClassName" value="org.hsqldb.jdbcDriver" />
-		<property name="url" value="jdbc:hsqldb:mem:booking" />
-		<property name="username" value="sa" />
-		<property name="password" value="" />
-	</bean>
-	
+   <!-- Deploys a in-memory "booking" datasource populated -->
+    <management:dbcp-datasource id="dataSource">
+        <management:default-auto-commit value="false"/>
+        <management:driver-class-name value="org.hsqldb.jdbcDriver"/>
+        <management:url value="jdbc:hsqldb:mem:booking"/>
+        <management:username value="sa"/>
+        <management:password value=""/>
+    </management:dbcp-datasource>	
 </beans>

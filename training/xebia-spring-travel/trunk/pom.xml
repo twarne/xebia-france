@@ -60,6 +60,11 @@
          <artifactId>spring-webmvc</artifactId>
          <version>${org.springframework-version}</version>
       </dependency>
+      <dependency>
+         <groupId>fr.xebia.management</groupId>
+         <artifactId>xebia-management-extras</artifactId>
+         <version>1.1.0</version>
+      </dependency>
       <!-- Hibernate JPA 2 Provider -->
       <dependency>
          <groupId>org.hibernate</groupId>
@@ -72,6 +77,11 @@
          <artifactId>hsqldb</artifactId>
          <version>2.0.0</version>
          <scope>runtime</scope>
+      </dependency>
+      <dependency>
+         <groupId>commons-dbcp</groupId>
+         <artifactId>commons-dbcp</artifactId>
+         <version>1.4</version>
       </dependency>
       <!-- Servlet, JSTL, Tiles -->
       <dependency>
@@ -170,6 +180,7 @@
          </snapshots>
       </repository>
       <repository>
+         <!-- for spring-payment -->
          <id>xebia-france.googlecode.com</id>
          <url>http://xebia-france.googlecode.com/svn/repository/maven2/</url>
          <releases>
