@@ -54,7 +54,7 @@ public class BookingAction extends MultiAction {
     }
 
     private Event processException(RequestContext context, Throwable t, String message) {
-        logger.error(t.getMessage());
+        logger.error(t.getMessage(), t);
         context.getMessageContext().addMessage(new MessageBuilder().error().defaultText(message).build());
         return error();
     }
