@@ -1,4 +1,4 @@
-#summary Customization of Xebia Spring Travel to demo monitoring
+#summary Customization of Spring Travel to demo monitoring
 
 
 = TODO =
