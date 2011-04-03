@@ -17,7 +17,7 @@
 <div class="span-10 append-2 last">
 	<c:if test="${not empty param.login_error}">
 		<div class="error">
-			Your login attempt was not successful, try again.<br /><br />
+			Your login attempt was not successful, try again.<!-- error-hidden-marker --><br /><br />
 			Reason: <%= ((AuthenticationException) session.getAttribute(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_LAST_EXCEPTION_KEY)).getMessage() %>
 		</div>
 	</c:if>
