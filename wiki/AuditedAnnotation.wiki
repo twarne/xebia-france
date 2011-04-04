@@ -57,7 +57,7 @@ For more details about Spring Security configuration, please refer to the [http:
 
 Audit messages are generated in the SLF4J logger named {{{fr.xebia.audit}}} with the pattern: 
 {{{
-$date{yyyy/MM/dd-HH:mm:ss:SSS} ${message} [threw ${exception.toString()}] by ${spring-security.principal.name} [coming from ${spring-security.principal.ip}]
+$date{yyyy/MM/dd-HH:mm:ss:SSS} ${message} [threw ${exception.toString()}] by ${spring-security.principal.name} [coming from ${spring-security.principal.ip}] in ${duration} ms
 }}}
 
 If an exception is throwned, the log message is emitted at the {{{WARN}}} level ; otherwise, the {{{INFO}}} level is used.
