@@ -65,11 +65,11 @@ If an exception is throwned, the log message is emitted at the {{{WARN}}} level 
 Sample of message for a {{{@Audited(message = "save(#{args[0].name}, #{args[0].email}): #{returned?.id}")}}}: 
  * In case of successful invocation
    {{{
-2010-08-11T00:23:05.353+0200 save(John Smith, john.smith@xebia.fr): 324325 by ze-principal coming from 10.0.0.1
+2010-08-11T00:23:05.353+0200 save(John Smith, john.smith@xebia.fr): 324325 by ze-principal coming from 10.0.0.1 in 21 ms
 }}}
  * In the method invocation throwned anexception
    {{{
-2010-08-11T00:23:05.353+0200 save(John Smith, john.smith_at_xebia.fr): threw 'java.lang.IllegalArgumentException: invalid email' by ze-principal coming from 10.0.0.1
+2010-08-11T00:23:05.353+0200 save(John Smith, john.smith_at_xebia.fr): threw 'java.lang.IllegalArgumentException: invalid email' by ze-principal coming from 10.0.0.1 in 32 ms
 }}}
 
 == Logging Framework Configuration ==
@@ -141,7 +141,7 @@ There are different ways to integrate these features in your project:
       <dependency>
          <groupId>fr.xebia.springframework</groupId>
          <artifactId>xebia-spring-security-extras</artifactId>
-         <version>1.1.5</version>
+         <version>1.1.6</version>
       </dependency>
       ...
    </dependencies>
@@ -149,7 +149,7 @@ There are different ways to integrate these features in your project:
 </project>
 }}}
 
- * Download the jar [http://xebia-france.googlecode.com/files/xebia-spring-security-extras-1.1.5.jar xebia-spring-security-extras-1.1.5.jar] ([http://xebia-france.googlecode.com/files/xebia-spring-security-extras-1.1.5-sources.jar sources]),
+ * Download the jar [http://xebia-france.googlecode.com/files/xebia-spring-security-extras-1.1.6.jar xebia-spring-security-extras-1.1.6.jar] ([http://xebia-france.googlecode.com/files/xebia-spring-security-extras-1.1.6-sources.jar sources]),
  * Get the source from svn, modify it if needed and add it to your project. The source is available under the Open Source licence [http://www.apache.org/licenses/LICENSE-2.0 Apache Software Licence 2] at http://xebia-france.googlecode.com/svn/springframework/xebia-spring-security-extras/trunk/ .
 
 
