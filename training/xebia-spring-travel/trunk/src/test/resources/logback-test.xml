@@ -9,10 +9,11 @@
 
    <logger name="fr.xebia.audit" level="TRACE" />
    <logger name="fr.xebia.performances" level="TRACE" />
+   
    <logger name="org.springframework.jmx" level="WARN"/>
-   <logger name="org.hibernate.SQL" level="TRACE"/>
-   <logger name="org.hibernate.type" level="TRACE"/>
-   <logger name="org.hibernate.tool.hbm2ddl.SchemaExport" level="TRACE"/>
+   <logger name="org.hibernate.SQL" level="WARN"/>
+   <logger name="org.hibernate.type" level="WARN"/>
+   <logger name="org.hibernate.tool.hbm2ddl.SchemaExport" level="WARN"/>
 
    <root level="WARN">
       <appender-ref ref="console" />
