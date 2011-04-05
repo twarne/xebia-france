@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:MXDataGridItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+						  xmlns:s="library://ns.adobe.com/flex/spark" 
+						  xmlns:mx="library://ns.adobe.com/flex/mx" 
+						  focusEnabled="true">
+	<fx:Script>
+		<![CDATA[
+			import utils.IconUtils;
+			
+			[Bindable]
+			private var icon:Class;
+			
+			override public function set data(object:Object):void {
+				 var priority:Number = new Number(object.priority); 
+				// Exercice 7-a : Ajouter des icônes pour les priorités dans la colonne priorité 
+				// - priority3 : de 10 à 7 
+				// - priority2 : de 6 à 4 
+				// - priority1 : de 3 à 0 
+				
+				
+ 			}
+		]]>
+	</fx:Script>
+	<mx:Image source="{icon}" />
+</s:MXDataGridItemRenderer>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<todos>
+	<todo>
+		<title>Faire la vaiselle</title>
+		<description></description>
+		<priority>1</priority>
+	</todo>
+	<todo>
+		<title>Faire les courses</title>
+		<description>Fromage, Pain, Huile, Pâtes</description>
+		<priority>3</priority>
+	</todo>
+	<todo>
+		<title>Laver le linge</title>
+		<description>Séparer le blanc des couleurs !</description>
+		<priority>4</priority>
+	</todo>
+	<todo>
+		<title>Préparer le Hands-On Flex</title>
+		<description>Prévoir des exercices</description>
+		<priority>10</priority>
+	</todo>
+	<todo>
+		<title>Regarder la pré-release Flex</title>
+		<description>Installer le nouveau Flash Builder Burrito</description>
+		<priority>8</priority>
+	</todo>
+	<todo>
+		<title>Repasser les vêtements</title>
+		<description></description>
+		<priority>12</priority>
+	</todo>
+</todos>
