@@ -72,8 +72,6 @@
       <appender-ref ref="performances-file" />
    </logger>
 
-   <logger name="org.springframework.jmx" level="TRACE"/>
-
    <root level="WARN">
       <appender-ref ref="console" />
       <appender-ref ref="log-file" />
