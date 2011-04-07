@@ -18,6 +18,5 @@ public class Home extends Activity {
     public void listCategories(View view) {
 		Intent myIntent = new Intent(Home.this, ListCategories.class);
 		Home.this.startActivity(myIntent);
-
 	}
 }
