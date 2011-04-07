@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>com.appdynamics.apm</groupId>
+  <artifactId>agent-api</artifactId>
+  <version>3.2.0.0</version>
+  <versioning>
+    <versions>
+      <version>3.2.0.0</version>
+    </versions>
+    <lastUpdated>20110407230937</lastUpdated>
+  </versioning>
+</metadata>
