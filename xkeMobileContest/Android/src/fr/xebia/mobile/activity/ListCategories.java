@@ -12,23 +12,19 @@ import android.widget.ListView;
 import fr.xebia.mobile.R;
 import fr.xebia.mobile.adapter.CategoryAdapter;
 import fr.xebia.mobile.domain.Category;
+import fr.xebia.mobile.service.JsonService;
 
 public class ListCategories extends ListActivity  {
 	
+	private JsonService service = new JsonService();
 	 /** Called when the activity is first created. */
-    @Override
+    
+	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_categories);
         
-        // Here call JSon to list Categories
-        
-        // Mock
-        List<Category> categories=new ArrayList<Category>();
-        
-        // Test purpose
-        Category category =  new Category();
-        categories.add(category);
+        List<Category> categories = service.getCategories();
         
         ListAdapter adapter =  new CategoryAdapter(ListCategories.this, R.layout.list_categories_item, categories);
         this.setListAdapter(adapter);

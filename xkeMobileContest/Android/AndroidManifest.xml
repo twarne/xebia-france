@@ -12,7 +12,7 @@
             </intent-filter>
         </activity>
         
-        <activity android:name=".ListCategories"
+        <activity android:name=".activity.ListCategories"
                   android:label="ListCategories">
         </activity>
 
