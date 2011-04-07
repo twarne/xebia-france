@@ -25,7 +25,7 @@ public class JsonService {
 		 HttpClient httpClient = new DefaultHttpClient();
 	        HttpHost targetHost = new HttpHost("blog.xebia.fr", 80, "http");
 	        HttpContext context = new BasicHttpContext();
-	        HttpGet httpget = new HttpGet("wp-json-api/get_category_index/");
+	        HttpGet httpget = new HttpGet("/wp-json-api/get_category_index/");
 			try {
 				HttpResponse response = httpClient.execute(targetHost, httpget, context);
 				BasicResponseHandler responseHandler = new BasicResponseHandler();
