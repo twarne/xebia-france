@@ -1,6 +1,5 @@
 package fr.xebia.mobile.adapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
@@ -14,11 +13,12 @@ import fr.xebia.mobile.domain.Category;
 
 public class CategoryAdapter extends ArrayAdapter<Category> {
 	
-	private ArrayList<Category> values;
+	private List<Category> values;
 
 	public CategoryAdapter(Context context, int textViewResourceId,
 			List<Category> objects) {
 		super(context, textViewResourceId, objects);
+		this.values = (List<Category>) objects;
 		
 	}
 
@@ -35,11 +35,11 @@ public class CategoryAdapter extends ArrayAdapter<Category> {
 			TextView articleCountTV = (TextView) convertView.findViewById(R.id.CategoryArticlesCount);
 			
 			// TODO
-			titleTV.setText(category.getClass().toString());
-			articleCountTV.setText(category.getClass().toString());
+			titleTV.setText(category.getTitle());
+			articleCountTV.setText(category.getPostCount());
 		}
 		
-		return super.getView(position, convertView, parent);
+		return convertView;
 	}
 	
 	
