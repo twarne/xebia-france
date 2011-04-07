@@ -130,6 +130,14 @@
          <artifactId>guava</artifactId>
          <version>r08</version>
       </dependency>
+
+      <dependency>
+         <groupId>com.appdynamics.apm</groupId>
+         <artifactId>agent-api</artifactId>
+         <version>3.2.0.0</version>
+      </dependency>
+      
+      
       <!-- Logging -->
       <dependency>
          <groupId>org.slf4j</groupId>
@@ -186,12 +194,9 @@
          </snapshots>
       </repository>
       <repository>
-         <!-- for spring-payment -->
+         <!-- for spring-payment and appdynamics:agent-api -->
          <id>xebia-france.googlecode.com</id>
          <url>http://xebia-france.googlecode.com/svn/repository/maven2/</url>
-         <releases>
-            <enabled>false</enabled>
-         </releases>
       </repository>
    </repositories>
    <pluginRepositories>
