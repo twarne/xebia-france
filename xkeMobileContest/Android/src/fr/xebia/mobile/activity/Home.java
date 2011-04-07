@@ -1,5 +1,7 @@
-package fr.xebia.mobile;
+package fr.xebia.mobile.activity;
 
+import fr.xebia.mobile.R;
+import fr.xebia.mobile.R.layout;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
