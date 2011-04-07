@@ -36,6 +36,7 @@ public class JsonService {
 				for (int i = 0; i < categoriesJson.length(); i++) {
 					Category cat = new Category();
 					cat.setTitle(categoriesJson.getJSONObject(i).getString("title"));
+					cat.setPostCount(categoriesJson.getJSONObject(i).getInt("post_count"));
 					categories.add(cat);
 				}
 				return categories;

@@ -36,7 +36,7 @@ public class CategoryAdapter extends ArrayAdapter<Category> {
 			
 			// TODO
 			titleTV.setText(category.getTitle());
-			articleCountTV.setText(category.getPostCount());
+			articleCountTV.setText(String.valueOf(category.getPostCount()));
 		}
 		
 		return convertView;
