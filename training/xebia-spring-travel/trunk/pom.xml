@@ -236,6 +236,7 @@
       </pluginRepository>
    </pluginRepositories>
    <modules>
+      <module>xebia-spring-travel-common</module>
       <module>xebia-spring-travel-antifraud</module>
       <module>xebia-spring-travel-ecommerce</module>
    </modules>
