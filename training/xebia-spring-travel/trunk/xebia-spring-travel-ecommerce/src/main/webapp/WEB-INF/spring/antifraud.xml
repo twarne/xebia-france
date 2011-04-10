@@ -15,7 +15,6 @@
    <!-- CXF -->
    <import resource="classpath:META-INF/cxf/cxf.xml" />
    <import resource="classpath:META-INF/cxf/cxf-extension-http.xml" />
-   <import resource="classpath:META-INF/cxf/cxf-extension-jaxrs-binding.xml" />
    <import resource="classpath:META-INF/cxf/cxf-extension-jaxws.xml" />
    <import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
    <import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
@@ -32,7 +31,7 @@
       <property name="bus" ref="cxf" />
    </bean>
 
-    <jaxws:client id="antiFraudService" serviceClass="fr.xebia.ws.travel.antifraud.v1_0.AntiFraudService" address="${userprofileservice.baseurl}/services/2.0/userProfileService">
+    <jaxws:client id="antiFraudService" serviceClass="fr.xebia.ws.travel.antifraud.v1_0.AntiFraudService" address="${antifraudservice.baseurl}/services/1.0/antiFraudService">
         <jaxws:features>
             <bean class="org.apache.cxf.feature.LoggingFeature" />
         </jaxws:features>

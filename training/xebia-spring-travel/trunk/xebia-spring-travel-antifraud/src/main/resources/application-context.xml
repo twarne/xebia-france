@@ -20,7 +20,6 @@
    <!-- CXF -->
    <import resource="classpath:META-INF/cxf/cxf.xml" />
    <import resource="classpath:META-INF/cxf/cxf-extension-http.xml" />
-   <import resource="classpath:META-INF/cxf/cxf-extension-jaxrs-binding.xml" />
    <import resource="classpath:META-INF/cxf/cxf-extension-jaxws.xml" />
    <import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
    <import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
@@ -38,7 +37,7 @@
    </bean>
 
    <bean id="antiFraudServiceImpl" class="fr.xebia.ws.travel.antifraud.v1_0.AntiFraudServiceImpl" />
-   <jaxws:endpoint id="antiFraudService" implementor="#antiFraudServiceImpl" address="/antiFraudService" endpointName="se:antiFraudServiceSOAP"
+   <jaxws:endpoint id="antiFraudService" implementor="#antiFraudServiceImpl" address="/1.0/antiFraudService" endpointName="se:antiFraudServiceSOAP"
       serviceName="se:antiFraudService" xmlns:se="http://www.xebia.fr/xebia-spring-travel-antifraud/webservice">
       <jaxws:features>
          <bean class="org.apache.cxf.feature.LoggingFeature" />

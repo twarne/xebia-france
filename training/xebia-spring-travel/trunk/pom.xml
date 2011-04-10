@@ -25,7 +25,7 @@
             <artifactId>xebia-spring-travel-common</artifactId>
             <version>${project.version}</version>
          </dependency>
-      
+
          <!-- Spring -->
          <dependency>
             <groupId>org.springframework</groupId>
@@ -80,6 +80,19 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
             <version>${org.springframework-version}</version>
+         </dependency>
+
+         <dependency>
+            <!-- used by spring -->
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+            <version>1.6.8</version>
+         </dependency>
+         <dependency>
+            <!-- used by spring -->
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.6.8</version>
          </dependency>
 
          <!-- CXF -->
