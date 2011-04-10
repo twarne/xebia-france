@@ -1,5 +1,6 @@
 package org.springframework.webflow.samples.booking;
 
+import java.io.StringWriter;
 import java.util.Currency;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,12 +22,16 @@ import org.springframework.payment.core.InvalidCardException;
 import org.springframework.payment.core.PaymentTransactionException;
 import org.springframework.payment.creditcard.CreditCardService;
 import org.springframework.stereotype.Component;
-import org.springframework.util.ObjectUtils;
 import org.springframework.webflow.action.MultiAction;
 import org.springframework.webflow.context.ExternalContextHolder;
 import org.springframework.webflow.context.servlet.ServletExternalContext;
 import org.springframework.webflow.execution.Event;
 import org.springframework.webflow.execution.RequestContext;
+
+import com.appdynamics.apm.appagent.api.AgentDelegate;
+import com.appdynamics.apm.appagent.api.ITransactionDemarcator;
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.CompactWriter;
 
 import fr.xebia.ws.travel.antifraud.v1_0.AntiFraudService;
 import fr.xebia.ws.travel.antifraud.v1_0.CreditCard;
@@ -37,7 +42,8 @@ import fr.xebia.ws.travel.antifraud.v1_0.SuspiciousBookingException;
 @Component
 public class BookingAction extends MultiAction {
 
-    private Logger logger = LoggerFactory.getLogger(BookingAction.class);
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+    private final Logger auditLogger = LoggerFactory.getLogger("fr.xebia.audit.Booking");
 
     private CreditCardService creditCardService;
 
@@ -46,6 +52,10 @@ public class BookingAction extends MultiAction {
     private boolean enableAntiFraudService;
 
     private Map<String, CreditCardType> creditCardTypeByName = new HashMap<String, CreditCardType>();
+
+    private ITransactionDemarcator appDynamicsTransactionDemarcator = AgentDelegate.getTransactionDemarcator();
+
+    private XStream xstream = new XStream();
 
     @Autowired
     public BookingAction(@Qualifier("CreditCardService") CreditCardService creditCardService, AntiFraudService antiFraudService) {
@@ -66,25 +76,25 @@ public class BookingAction extends MultiAction {
 
         try {
             if (enableAntiFraudService) {
-                Order order = booking.createOrder();
-                fr.xebia.ws.travel.antifraud.v1_0.Booking antiFraudBooking = new fr.xebia.ws.travel.antifraud.v1_0.Booking();
-                antiFraudBooking.setBeds(booking.getBeds());
-                CreditCard creditCard = new CreditCard();
-                PaymentCard paymentCard = order.getPaymentMethod().getPaymentCard();
-                creditCard.setExpirationMonth(paymentCard.getExpiration().getMonth());
-                creditCard.setExpirationYear(paymentCard.getExpiration().getYear());
-                creditCard.setHolderName(paymentCard.getCardName());
-                creditCard.setNumber(paymentCard.getNumber());
-                creditCard.setType(creditCardTypeByName.get(paymentCard.getCardType().getType()));
-                antiFraudBooking.setCreditCard(creditCard);
-                antiFraudBooking.setHotel(booking.getHotel().getName());
-
                 try {
-                    antiFraudService.checkBooking(antiFraudBooking);
+                    antiFraudService.checkBooking(toAntiFraudBooking(booking));
+
+                    auditLogger.info(appDynamicsTransactionDemarcator.getUniqueIdentifierForTransaction() + " - AntiFraud granted booking "
+                            + toXmlString(booking));
+
                 } catch (SuspiciousBookingException e) {
+                    auditLogger.error(appDynamicsTransactionDemarcator.getUniqueIdentifierForTransaction()
+                            + " - AntiFraud rejected booking "
+                            + toXmlString(booking));
+
                     return processException(context, e,
                             "Suspicious order.");
 
+                } catch (RuntimeException e) {
+                    auditLogger.error(appDynamicsTransactionDemarcator.getUniqueIdentifierForTransaction()
+                            + " - Exception invoking AntiFraud on booking "
+                            + toXmlString(booking));
+                    throw e;
                 }
             }
 
@@ -109,11 +119,28 @@ public class BookingAction extends MultiAction {
 
     }
 
+    fr.xebia.ws.travel.antifraud.v1_0.Booking toAntiFraudBooking(Booking booking) {
+        Order order = booking.createOrder();
+        fr.xebia.ws.travel.antifraud.v1_0.Booking antiFraudBooking = new fr.xebia.ws.travel.antifraud.v1_0.Booking();
+        antiFraudBooking.setBeds(booking.getBeds());
+        CreditCard creditCard = new CreditCard();
+        PaymentCard paymentCard = order.getPaymentMethod().getPaymentCard();
+        creditCard.setExpirationMonth(paymentCard.getExpiration().getMonth());
+        creditCard.setExpirationYear(paymentCard.getExpiration().getYear());
+        creditCard.setHolderName(paymentCard.getCardName());
+        creditCard.setNumber(paymentCard.getNumber());
+        creditCard.setType(creditCardTypeByName.get(paymentCard.getCardType().getType()));
+        antiFraudBooking.setCreditCard(creditCard);
+        antiFraudBooking.setHotel(booking.getHotel().getName());
+        return antiFraudBooking;
+    }
+
     private Event processException(RequestContext context, Throwable t, String message) {
         HttpServletResponse response = (HttpServletResponse) ((ServletExternalContext) ExternalContextHolder.getExternalContext())
                 .getNativeResponse();
         if (!response.isCommitted()) {
-            response.setHeader("exception.type", ObjectUtils.nullSafeClassName(t));
+            response.setHeader("exception.type", t.getClass().getName());
+            response.setHeader("exception.message", t.getMessage());
         }
         logger.error(t.getMessage(), t);
         context.getMessageContext().addMessage(new MessageBuilder().error().defaultText(message).build());
@@ -128,5 +155,11 @@ public class BookingAction extends MultiAction {
     @ManagedAttribute
     public void setEnableAntiFraudService(boolean enableAntiFraudService) {
         this.enableAntiFraudService = enableAntiFraudService;
+    }
+
+    protected String toXmlString(Object o) {
+        StringWriter writer = new StringWriter();
+        xstream.marshal(o, new CompactWriter(writer));
+        return writer.toString();
     }
 }

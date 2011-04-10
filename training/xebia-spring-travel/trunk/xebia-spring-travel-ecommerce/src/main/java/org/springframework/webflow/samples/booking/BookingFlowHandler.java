@@ -30,6 +30,9 @@ public class BookingFlowHandler extends AbstractFlowHandler {
         if (e instanceof NoSuchFlowExecutionException) {
             return DEFAULT_URL;
         } else {
+            response.setHeader("exception.type", e.getClass().getName());
+            response.setHeader("exception.message", e.getMessage());
+
             throw e;
         }
     }

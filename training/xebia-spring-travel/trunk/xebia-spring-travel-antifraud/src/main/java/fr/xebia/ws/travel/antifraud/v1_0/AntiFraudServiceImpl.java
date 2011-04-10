@@ -15,28 +15,61 @@
  */
 package fr.xebia.ws.travel.antifraud.v1_0;
 
+import java.io.StringWriter;
 import java.util.Random;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jmx.export.annotation.ManagedAttribute;
 import org.springframework.jmx.export.annotation.ManagedResource;
+
+import com.appdynamics.apm.appagent.api.AgentDelegate;
+import com.appdynamics.apm.appagent.api.ITransactionDemarcator;
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.CompactWriter;
+
+import fr.xebia.management.statistics.Profiled;
 
 @ManagedResource
 public class AntiFraudServiceImpl implements AntiFraudService {
 
+    private ITransactionDemarcator appDynamicsTransactionDemarcator = AgentDelegate.getTransactionDemarcator();
+
+    private final Logger auditLogger = LoggerFactory.getLogger("fr.xebia.audit.AntiFraudService");
+
     private final Random random = new Random();
+
     private int slowRequestMinimumDurationInMillis = 2000;
 
     private int slowRequestRatioInPercent = 0;
 
     private int suspiciousBookingRatioInPercent = 0;
 
+    private XStream xstream = new XStream();
+
+    @Profiled(slowInvocationThresholdInMillis = 1000, verySlowInvocationThresholdInMillis = 2000)
     @Override
     public String checkBooking(Booking booking) throws SuspiciousBookingException {
-        randomlySlowRequest();
-        randomlyThrowException();
-        return "check-" + random.nextLong();
-    }
+        try {
+            randomlySlowRequest();
+            randomlyThrowException();
+            String result = "txid-" + Math.abs(random.nextLong());
 
+            auditLogger.info(appDynamicsTransactionDemarcator.getUniqueIdentifierForTransaction() + " - Authorize booking "
+                    + toXmlString(booking) + " " + result);
+
+            return result;
+        } catch (SuspiciousBookingException e) {
+            auditLogger.error(appDynamicsTransactionDemarcator.getUniqueIdentifierForTransaction() + " - Reject booking "
+                    + toXmlString(booking) + " " + e);
+            throw e;
+        } catch (RuntimeException e) {
+            auditLogger.error(appDynamicsTransactionDemarcator.getUniqueIdentifierForTransaction() + " - Exception checking booking "
+                    + toXmlString(booking) + " " + e);
+            throw e;
+        }
+    }
+    
     @ManagedAttribute
     public int getSlowRequestMinimumDurationInMillis() {
         return slowRequestMinimumDurationInMillis;
@@ -91,5 +124,11 @@ public class AntiFraudServiceImpl implements AntiFraudService {
     @ManagedAttribute
     public void setSuspiciousBookingRatioInPercent(int suspiciousBookingRatio) {
         this.suspiciousBookingRatioInPercent = suspiciousBookingRatio;
+    }
+
+    protected String toXmlString(Object o) {
+        StringWriter writer = new StringWriter();
+        xstream.marshal(o, new CompactWriter(writer));
+        return writer.toString();
     }
 }

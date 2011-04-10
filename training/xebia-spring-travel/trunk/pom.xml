@@ -94,7 +94,13 @@
             <artifactId>aspectjweaver</artifactId>
             <version>1.6.8</version>
          </dependency>
-
+         <dependency>
+            <!-- used by spring -->
+            <groupId>cglib</groupId>
+            <artifactId>cglib-nodep</artifactId>
+            <version>2.2</version>
+         </dependency>
+         
          <!-- CXF -->
          <dependency>
             <groupId>org.apache.cxf</groupId>
@@ -183,7 +189,11 @@
             <artifactId>guava</artifactId>
             <version>r09</version>
          </dependency>
-
+         <dependency>
+            <groupId>com.thoughtworks.xstream</groupId>
+            <artifactId>xstream</artifactId>
+            <version>1.3.1</version>
+         </dependency>
          <dependency>
             <groupId>com.appdynamics.apm</groupId>
             <artifactId>agent-api</artifactId>
@@ -284,8 +294,6 @@
                <version>${cxf.version}</version>
             </plugin>
          </plugins>
-
-
       </pluginManagement>
       <plugins>
          <plugin>

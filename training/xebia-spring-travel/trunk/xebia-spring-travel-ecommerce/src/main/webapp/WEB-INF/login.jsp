@@ -1,9 +1,17 @@
+<%@page import="org.springframework.util.ClassUtils"%>
+<%@page import="org.springframework.util.StringUtils"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <%@ page import="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter" %>
 <%@ page import="org.springframework.security.core.AuthenticationException" %>
-
+<%
+    if (StringUtils.hasLength(request.getParameter("login_error"))) {
+        AuthenticationException authenticationException = (AuthenticationException) session
+                .getAttribute(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_LAST_EXCEPTION_KEY);
+        response.setHeader("exception.type", authenticationException.getClass().getName());
+    }
+%>
 <div class="span-5">
 	<p>Valid username/passwords are:</p>
 	<ul>
@@ -18,7 +26,8 @@
 	<c:if test="${not empty param.login_error}">
 		<div class="error">
 			Your login attempt was not successful, try again.<!-- error-hidden-marker --><br /><br />
-			Reason: <%= ((AuthenticationException) session.getAttribute(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_LAST_EXCEPTION_KEY)).getMessage() %>
+			Reason: <%=((AuthenticationException) session
+                        .getAttribute(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_LAST_EXCEPTION_KEY)).getMessage()%>
 		</div>
 	</c:if>
 	<form name="f" action="<c:url value="/loginProcess" />" method="post">

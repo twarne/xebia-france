@@ -36,7 +36,7 @@
          <fileNamePattern>${LOGS_TO_COLLECT_FOLDER}/xebia-spring-travel-anti-fraud-audit.%d{yyyyMMdd}.log.gzip</fileNamePattern>
       </rollingPolicy>
       <encoder>
-         <pattern>%m %throwable{0}%n</pattern>
+         <pattern>%d{yyyy/MM/dd HH:mm:ss,SSS} %-5level %logger{36} - %m %throwable{0}%n</pattern>
       </encoder>
    </appender>
 
