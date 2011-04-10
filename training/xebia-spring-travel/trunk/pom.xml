@@ -6,7 +6,7 @@
    <groupId>fr.xebia.demo.travel</groupId>
    <artifactId>xebia-spring-travel</artifactId>
    <name>xebia-spring-travel</name>
-   <version>1.0.0.SNAPSHOT</version>
+   <version>1.0.0-SNAPSHOT</version>
    <packaging>pom</packaging>
 
    <properties>
