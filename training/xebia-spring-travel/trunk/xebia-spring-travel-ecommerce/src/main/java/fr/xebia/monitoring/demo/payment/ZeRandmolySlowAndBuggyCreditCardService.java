@@ -134,12 +134,12 @@ public class ZeRandmolySlowAndBuggyCreditCardService implements CreditCardServic
     }
 
     protected void randmolyThrowException() throws PaymentTransactionException {
+        randomlyThrowException(this.timeoutExceptionRatioInPercent, TimeoutPaymentException.class);
         randomlyThrowException(this.threeDSecureVerificationExceptionRatioInPercent, ThreeDSecureVerificationException.class);
         randomlyThrowException(this.invalidCardExceptionRatioInPercent, InvalidCardException.class);
         randomlyThrowException(this.missingOrInvalidDataExceptionRatioInPercent, MissingOrInvalidDataException.class);
         randomlyThrowException(this.lostOrStolenCardExceptionRatioInPercent, LostOrStolenCardException.class);
         randomlyThrowException(this.paymentProcessingExceptionRatioInPercent, PaymentProcessingException.class);
-        randomlyThrowException(this.timeoutExceptionRatioInPercent, TimeoutPaymentException.class);
         randomlyThrowException(this.transactionAmountExceptionRatioInPercent, TransactionAmountException.class);
     }
 

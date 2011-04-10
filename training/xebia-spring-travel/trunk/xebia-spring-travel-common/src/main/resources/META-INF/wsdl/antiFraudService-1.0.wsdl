@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://ws.xebia.fr/travel/antifraud/v1_0"
-   xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="antiFraudService" targetNamespace="http://ws.xebia.fr/travel/antifraud/v1_0">
+   xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="antiFraudService"
+   targetNamespace="http://ws.xebia.fr/travel/antifraud/v1_0">
    <wsdl:types>
       <xsd:schema targetNamespace="http://ws.xebia.fr/travel/antifraud/v1_0" elementFormDefault="qualified">
          <xsd:complexType name="CreditCard">
@@ -25,6 +26,10 @@
                <xsd:enumeration value="VISA" />
                <xsd:enumeration value="MASTER_CARD" />
                <xsd:enumeration value="AMERICAN_EXPRESS" />
+               <xsd:enumeration value="DISCOVER" />
+               <xsd:enumeration value="DINERS_CLUB" />
+               <xsd:enumeration value="CARTE_BLANCHE" />
+               <xsd:enumeration value="JCB" />
             </xsd:restriction>
          </xsd:simpleType>
 
@@ -39,7 +44,7 @@
          <xsd:element name="CheckBooking">
             <xsd:complexType>
                <xsd:sequence>
-                  <xsd:element name="in" type="tns:Booking" />
+                  <xsd:element name="booking" type="tns:Booking" />
                </xsd:sequence>
             </xsd:complexType>
          </xsd:element>
@@ -47,6 +52,13 @@
             <xsd:complexType>
                <xsd:sequence>
                   <xsd:element name="out" type="xsd:string" />
+               </xsd:sequence>
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element name="SuspiciousBookingFault">
+            <xsd:complexType>
+               <xsd:sequence>
+                  <xsd:element name="message" type="xsd:string" />
                </xsd:sequence>
             </xsd:complexType>
          </xsd:element>
@@ -59,11 +71,15 @@
    <wsdl:message name="CheckBookingResponse">
       <wsdl:part name="parameters" element="tns:CheckBookingResponse" />
    </wsdl:message>
+   <wsdl:message name="SuspiciousBookingException">
+      <wsdl:part name="SuspiciousBookingException" element="tns:SuspiciousBookingFault"/>
+   </wsdl:message>
    <wsdl:portType name="antiFraudService">
 
       <wsdl:operation name="CheckBooking">
          <wsdl:input message="tns:CheckBookingRequest" />
          <wsdl:output message="tns:CheckBookingResponse" />
+         <wsdl:fault name="SuspiciousBookingException" message="tns:SuspiciousBookingException"/>
       </wsdl:operation>
    </wsdl:portType>
    <wsdl:binding name="antiFraudServiceSOAP" type="tns:antiFraudService">

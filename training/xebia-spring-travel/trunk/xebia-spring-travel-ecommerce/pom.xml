@@ -14,6 +14,10 @@
    <packaging>war</packaging>
 
    <dependencies>
+      <dependency>
+         <groupId>fr.xebia.demo.travel</groupId>
+         <artifactId>xebia-spring-travel-common</artifactId>
+      </dependency>
       <!-- Spring -->
       <dependency>
          <groupId>org.springframework</groupId>
@@ -53,6 +57,25 @@
          <groupId>fr.xebia.management</groupId>
          <artifactId>xebia-management-extras</artifactId>
       </dependency>
+
+      <!-- CXF -->
+      <dependency>
+         <groupId>org.apache.cxf</groupId>
+         <artifactId>cxf-rt-core</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>org.apache.cxf</groupId>
+         <artifactId>cxf-rt-management</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>org.apache.cxf</groupId>
+         <artifactId>cxf-rt-frontend-jaxws</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>org.apache.cxf</groupId>
+         <artifactId>cxf-rt-transports-http</artifactId>
+      </dependency>
+
       <!-- Hibernate JPA 2 Provider -->
       <dependency>
          <groupId>org.hibernate</groupId>
