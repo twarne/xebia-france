@@ -41,18 +41,6 @@ import org.springframework.payment.creditcard.CreditCardService;
 @ManagedResource
 public class ZeRandmolySlowAndBuggyCreditCardService implements CreditCardService {
 
-    private int threeDSecureVerificationExceptionRatioInPercent = 0;
-
-    @ManagedAttribute
-    public int getThreeDSecureVerificationExceptionRatioInPercent() {
-        return threeDSecureVerificationExceptionRatioInPercent;
-    }
-
-    @ManagedAttribute
-    public void setThreeDSecureVerificationExceptionRatioInPercent(int threeDSecureVerificationExceptionRatioInPercent) {
-        this.threeDSecureVerificationExceptionRatioInPercent = threeDSecureVerificationExceptionRatioInPercent;
-    }
-
     private int invalidCardExceptionRatioInPercent = 0;
 
     private int lostOrStolenCardExceptionRatioInPercent = 0;
@@ -66,6 +54,8 @@ public class ZeRandmolySlowAndBuggyCreditCardService implements CreditCardServic
     private int slowRequestMinimumDurationInMillis = 2000;
 
     private int slowRequestRatioInPercent = 0;
+
+    private int threeDSecureVerificationExceptionRatioInPercent = 0;
 
     private int timeoutExceptionRatioInPercent = 0;
 
@@ -109,6 +99,11 @@ public class ZeRandmolySlowAndBuggyCreditCardService implements CreditCardServic
     @ManagedAttribute
     public int getSlowRequestRatioInPercent() {
         return slowRequestRatioInPercent;
+    }
+
+    @ManagedAttribute
+    public int getThreeDSecureVerificationExceptionRatioInPercent() {
+        return threeDSecureVerificationExceptionRatioInPercent;
     }
 
     @ManagedAttribute
@@ -205,6 +200,11 @@ public class ZeRandmolySlowAndBuggyCreditCardService implements CreditCardServic
     @ManagedAttribute
     public void setSlowRequestRatioInPercent(int slowRequestRatioInPercent) {
         this.slowRequestRatioInPercent = slowRequestRatioInPercent;
+    }
+
+    @ManagedAttribute
+    public void setThreeDSecureVerificationExceptionRatioInPercent(int threeDSecureVerificationExceptionRatioInPercent) {
+        this.threeDSecureVerificationExceptionRatioInPercent = threeDSecureVerificationExceptionRatioInPercent;
     }
 
     @ManagedAttribute
