@@ -51,6 +51,8 @@ public class CreditCardServiceMonitoringImpl implements CreditCardService {
 
     private final AtomicLong purchaseInvocationDurationInNanosCounter = new AtomicLong();
 
+    private final AtomicLong purchaseRevenueInUsdCounter = new AtomicLong();
+
     private final AtomicInteger slowRequestCounter = new AtomicInteger();
 
     private AtomicLong slowRequestThresholdInNanos = new AtomicLong(TimeUnit.NANOSECONDS.convert(1, TimeUnit.SECONDS));
@@ -115,13 +117,18 @@ public class CreditCardServiceMonitoringImpl implements CreditCardService {
     }
 
     @ManagedAttribute
+    public long getPurchaseInvocationDurationInMillis() {
+        return TimeUnit.MILLISECONDS.convert(getPurchaseInvocationDurationInNanos(), TimeUnit.NANOSECONDS);
+    }
+
+    @ManagedAttribute
     public long getPurchaseInvocationDurationInNanos() {
         return purchaseInvocationDurationInNanosCounter.get();
     }
 
     @ManagedAttribute
-    public long getPurchaseInvocationDurationInMillis() {
-        return TimeUnit.MILLISECONDS.convert(getPurchaseInvocationDurationInNanos(), TimeUnit.NANOSECONDS);
+    public long getPurchaseTotalRevenueInUsd() {
+        return purchaseRevenueInUsdCounter.get();
     }
 
     @ManagedAttribute
@@ -166,6 +173,8 @@ public class CreditCardServiceMonitoringImpl implements CreditCardService {
         PaymentTransaction paymentTransaction;
         try {
             paymentTransaction = creditCardService.purchase(total, order, requestId);
+
+            purchaseRevenueInUsdCounter.addAndGet(total.getBigDecimal().longValue());
         } catch (ThreeDSecureVerificationException e) {
             threeDSecureVerificationExceptionCounter.incrementAndGet();
             throw e;

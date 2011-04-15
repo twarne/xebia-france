@@ -25,22 +25,25 @@ public class DataGenerator {
         Md5PasswordEncoder md5PasswordEncoder = new Md5PasswordEncoder();
         Random random = new Random();
 
-        for (int i = 1; i <= 100; i++) {
+        for (int i = 101; i <= 1000; i++) {
             String username = "user-" + i;
             String password = md5PasswordEncoder.encodePassword("password-" + i, "");
             String firstName = "first-name-" + i;
             String lastName = "last-name-" + i;
             String email = firstName + "." + lastName + "@springtravel.com";
-            System.out.println("insert into users (username, password, enabled) values ('" + username + "', '" + password + "', true)");
-            System.out.println("insert into authorities (username, authority) values ('" + username + "', 'ROLE_USER')");
+            System.out.println("insert into users (username, password, enabled) values ('" + username + "', '" + password + "', true);");
+            System.out.println("insert into authorities (username, authority) values ('" + username + "', 'ROLE_USER');");
             System.out.println("insert into Customer (username, first, last, email) values ('" + username + "', '" + firstName + "', '"
-                    + lastName + "', '" + email + "')");
+                    + lastName + "', '" + email + "');");
         }
         System.out.println();
         System.out.println();
         System.out.println();
         System.out.println();
-        for (int i = 1; i <= 100; i++) {
+        if (true) {
+            return;
+        }
+        for (int i = 101; i <= 1000; i++) {
             String username = "user-" + i;
             String password = "password-" + i;
             String firstName = "first-name-" + i;

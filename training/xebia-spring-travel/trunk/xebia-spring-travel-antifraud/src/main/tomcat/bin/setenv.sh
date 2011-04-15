@@ -3,9 +3,9 @@ export JAVA_HOME
 
 APPDYNAMICS_CONTROLLER_HOST_NAME=app-dynamics-server-1921191298.eu-west-1.elb.amazonaws.com
 APPDYNAMICS_CONTROLLER_PORT=80
-APPDYNAMICS_AGENT_APPLICATION_NAME=xebia-spring-travel
+APPDYNAMICS_AGENT_APPLICATION_NAME=xebia-spring-travel-antifraud
 APPDYNAMICS_AGENT_NODE_NAME=xebia-spring-travel-$HOSTNAME
-APPDYNAMICS_AGENT_TIER_NAME=e-commerce
+APPDYNAMICS_AGENT_TIER_NAME=antifraud
 
 export APPDYNAMICS_CONTROLLER_HOST_NAME APPDYNAMICS_CONTROLLER_PORT APPDYNAMICS_AGENT_APPLICATION_NAME APPDYNAMICS_AGENT_NODE_NAME APPDYNAMICS_AGENT_TIER_NAME
 
@@ -21,12 +21,11 @@ CATALINA_OPTS_JMX=" \
 CATALINA_OPTS_APP_DYNAMICS="-javaagent:/home/ec2-user/appdynamics-app-server-agent/javaagent.jar"
 
 CATALINA_OPTS_JVM=" \
-	-server \
-	-XX:MaxPermSize=128m -Xmx350m \
-	-XX:+HeapDumpOnOutOfMemoryError \
-	-XX:HeapDumpPath=$CATALINA_BASE/logs/ \
-	-Djava.awt.headless=true"
-	
+        -XX:MaxPermSize=128m -Xmx350m \
+        -XX:+HeapDumpOnOutOfMemoryError \
+        -XX:HeapDumpPath=$CATALINA_BASE/logs/ \
+        -Djava.awt.headless=true"
+
 CATALINA_OPTS="
    -server $CATALINA_OPTS \
    $CATALINA_OPTS_JMX \

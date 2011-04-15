@@ -73,7 +73,6 @@
    </logger>
 
    <root level="WARN">
-      <appender-ref ref="console" />
       <appender-ref ref="log-file" />
       <appender-ref ref="troubleshooting-file" />
    </root>
