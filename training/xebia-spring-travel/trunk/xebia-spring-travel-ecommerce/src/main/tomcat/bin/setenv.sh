@@ -14,7 +14,6 @@ export PUBLIC_IP_ADDRESS
 
 CATALINA_OPTS_JMX=" \
    -Djava.rmi.server.hostname=$PUBLIC_IP_ADDRESS \
-   -Dcom.sun.management.jmxremote.port=6969 \
    -Dcom.sun.management.jmxremote.ssl=false \
    -Dcom.sun.management.jmxremote.authenticate=false"
 
