@@ -38,7 +38,7 @@ Don't forget to specify the "{{{id}}}" property of the bus (e.g. "my-cxf-bus") ;
 
 == JSP / VisualVM / Hyperic HQ rendering ==
 
- * JSP monitoring page : [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/webapp/jmx/cxf.jsp ehcache.jsp (source)], 
+ * JSP monitoring page : [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/webapp/jmx/cxf.jsp cxf.jsp (source)], 
    <a href="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-jsp-cxf.png" target="screenshot"><img src="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-jsp-cxf.png" height="200"/></a>
 
  * Hyperic plugin: [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/main/hyperic/tomcat-extras-cxf-plugin.xml tomcat-extras-cxf-plugin.xml], see XebiaManagementExtrasHypericPlugins.
