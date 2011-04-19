@@ -63,9 +63,17 @@ Here are the metrics monitored by the Managed ExecutorService / ThreadPool:
 || {{{ActiveCount}}} || Dynamic ||  Number of currently active threads  ||
 || {{{QueueRemainingCapacity}}} || Dynamic ||  Number of slots available on the executor queue ||
 || {{{RejectedExecutionCount}}} || Trends Up ||  Number of slow rejected tasks ||
-|| {{{TaskCount}}} || Trends Up ||  Number of tasks that have been submitted to this executor, including the rejected ones ||
+|| {{{TaskCount}}} || Trends Up || Number of tasks that have been submitted to this executor, including the rejected ones ||
+|| {{{CompletedTaskCount}}} || Trends Up || Approximate total number of tasks that have completed execution (since 1.1.2) ||
+|| {{{LargestPoolSize}}} || N/A || Largest number of threads that have ever simultaneously been in the pool (since 1.1.2) ||
 
 Trends Up indicators are always increasing counters. The monitoring system is expected to convert these metrics into "per minute" metrics (e.g. {{{TaskCount}}} should be exposed as {{{TaskCountPerMinute}}}).
+
+== ExecutorService runtime JMX based configuration attributes ==
+
+|| *Name* || *Access* || *Description* ||
+|| {{{CorePoolSize}}} || read/write || Sets the core number of threads. If the new value is smaller than the current value, excess existing threads will be terminated when they next become idle. If larger, new threads will, if needed, be started to execute any queued tasks (since 1.1.2) ||
+|| {{{MaximumPoolSize}}} || read/write || Sets the maximum allowed number of threads. If the new value is smaller than the current value, excess existing threads will be terminated when they next become idle (since 1.1.2) ||
 
 == Implementation details ==
 
