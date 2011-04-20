@@ -82,6 +82,7 @@ public class ZeNoisyService {
         return TimeUnit.MILLISECONDS.convert(durationWarningThresholdInNanos, TimeUnit.NANOSECONDS);
     }
 
+    @ManagedAttribute
     public void setDurationWarningThresholdInMillis(long durationInMillis) {
         this.durationWarningThresholdInNanos = TimeUnit.NANOSECONDS.convert(durationInMillis, TimeUnit.MILLISECONDS);
     }

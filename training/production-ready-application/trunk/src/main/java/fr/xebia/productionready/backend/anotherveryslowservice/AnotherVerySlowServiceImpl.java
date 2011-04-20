@@ -102,10 +102,12 @@ public class AnotherVerySlowServiceImpl implements AnotherVerySlowService {
         return slowInvocationsRatioInPercent;
     }
 
+    @ManagedAttribute
     public void setSlowInvocationMinDurationInMillis(long slowInvocationMinDurationInMillis) {
         this.slowInvocationMinDurationInMillis = slowInvocationMinDurationInMillis;
     }
 
+    @ManagedAttribute
     public void setSlowInvocationsRatioInPercent(int slowInvocationsRatioInPercent) {
         this.slowInvocationsRatioInPercent = slowInvocationsRatioInPercent;
     }

@@ -168,7 +168,7 @@
       <dependency>
          <groupId>fr.xebia.management</groupId>
          <artifactId>xebia-management-extras</artifactId>
-         <version>1.0.0</version>
+         <version>1.1.2-SNAPSHOT</version>
       </dependency>
       <dependency>
          <groupId>fr.xebia.springframework</groupId>
@@ -265,9 +265,15 @@
       </dependency>
 
       <dependency>
+         <groupId>org.quartz-scheduler</groupId>
+         <artifactId>quartz</artifactId>
+         <version>1.8.4</version>
+      </dependency>
+      
+      <dependency>
          <groupId>com.google.guava</groupId>
          <artifactId>guava</artifactId>
-         <version>r07</version>
+         <version>r08</version>
       </dependency>
    </dependencies>
    <build>
