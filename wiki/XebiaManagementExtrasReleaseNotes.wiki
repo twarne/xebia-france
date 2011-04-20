@@ -1,6 +1,11 @@
 #summary Release notes of xebia-management-extras
 
+= Version 1.1.1 (2011/04/20) =
+
+ * {{{<management:executor-service />}}} : expose JMX counter {{{CompletedTaskCount}}} and configuration attributes {{{MaximumPoolSize}}}, {{{CorePoolSize}}} and indicator {{{LargestPoolSize}}}
+
 = Version 1.1.1 (2011/04/19) =
+
  * Fix [http://code.google.com/p/xebia-france/issues/detail?id=10 Issue 10 - attribute jmxDomain of spring config <management:profile-aspect ... /> is ignored]
  
 = Version 1.1.0 (2011/03/03) =
