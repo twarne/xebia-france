@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
 			   xmlns:s="library://ns.adobe.com/flex/spark" 
-			   xmlns:mx="library://ns.adobe.com/flex/mx" width="600" height="600" xmlns:component="component.*"
-			   skinClass="XebiaSkin">
+			   xmlns:mx="library://ns.adobe.com/flex/mx" width="600" height="600" xmlns:component="component.*">
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
+	
+	<!-- Exercice 10-a : Configurer le style des boutons pour qu'il prenne XebiaButtonSkin par défaut -->
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		@namespace mx "library://ns.adobe.com/flex/mx";
+		@namespace component "component.*";
+	</fx:Style>
 	
 	<fx:Script>
 		<![CDATA[
