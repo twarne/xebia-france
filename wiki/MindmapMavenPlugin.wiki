@@ -1,12 +1,1 @@
-This plugin generates a MindMap from the project dependencies. 
-
-The mindmap file (with the '.mm' extension) can be viewed with Freeplane (free tool).
-
-By default, the mindmap shows the full dependency tree.
-
-You can filter this tree at generation time by artifact's group id, by providing a parameter
-'groupIdsFilteringREGEXMatch' setted with a groupId name fragment (a startswith will be performed).
-
-Usage is (for exemple) : mvn fr.xebia.maven.plugins:mindmap-maven-plugin:1.0.0:mindmap
-
-with filtering : mvn fr.xebia.maven.plugins:mindmap-maven-plugin:1.0.0:mindmap -DgroupIdsFilteringREGEXMatch=fr.xebia
+Maven dependency :: mindmap-maven-plugin maven-plugin Last Published: 2011-05-23  | Version: 1.0.1-SNAPSHOT Maven dependency :: mindmap-maven-plugin maven-plugin Parent Project • Sonatype OSS Parent Project Documentation • Project Information ◦ About ◦ Continuous Integration ◦ Dependencies ◦ Distribution Management ◦ Issue Tracking ◦ Mailing Lists ◦ Plugin Management ◦ Project License ◦ Project Plugins ◦ Project Summary ◦ Project Team ◦ Source Repository • Project Reports About Maven dependency :: mindmap-maven-plugin maven-plugin This plugin generates a MindMap from the project dependencies. The mindmap file (with the '.mm' extension) can be viewed with Freeplane (free tool). By default, the mindmap shows the full dependency tree. You can filter this tree at generation time by artifact's group id, by providing a parameter 'groupIdsFilteringREGEXMatch' setted with a groupId name fragment (a startswith will be performed). Usage is (for exemple) : mvn fr.xebia.maven.plugins:mindmap-maven-plugin:1.0.0-SNAPSHOT:mindmap with filtering : mvn fr.xebia.maven.plugins:mindmap-maven-plugin:1.0.0-SNAPSHOT:mindmap -DgroupIdsFilteringREGEXMatch=fr.xebia Copyright © 2011. All Rights Reserved.
