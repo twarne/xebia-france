@@ -10,6 +10,6 @@ This plugin generates a mind map from the project dependencies. The mind map fil
 
  * Maven Site: http://xebia-france.googlecode.com/svn/docs/mindmap-maven-plugin/index.html
 
-= Developers =
+= Developers=
 
  * Source : http://xebia-france.googlecode.com/svn/maven/plugins/mindmap-maven-plugin/trunk/
