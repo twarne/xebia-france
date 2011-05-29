@@ -1,4 +1,4 @@
-#summary generates a MindMap artefact from a maven project's dependencies
+#summary generates a mind map artefact from a maven project's dependencies
 
 = Introduction =
 
