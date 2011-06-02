@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>org.springframework.payment</groupId>
+  <artifactId>spring-payment-parent</artifactId>
+  <versioning>
+    <release>0.5.0.20110326</release>
+    <versions>
+      <version>0.5.0.20110326</version>
+    </versions>
+    <lastUpdated>20110602201339</lastUpdated>
+  </versioning>
+</metadata>
