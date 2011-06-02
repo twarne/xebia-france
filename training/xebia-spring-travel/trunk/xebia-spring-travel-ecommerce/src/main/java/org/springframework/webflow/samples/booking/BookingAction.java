@@ -28,8 +28,6 @@ import org.springframework.webflow.context.servlet.ServletExternalContext;
 import org.springframework.webflow.execution.Event;
 import org.springframework.webflow.execution.RequestContext;
 
-import com.appdynamics.apm.appagent.api.AgentDelegate;
-import com.appdynamics.apm.appagent.api.ITransactionDemarcator;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.CompactWriter;
 
@@ -52,8 +50,6 @@ public class BookingAction extends MultiAction {
     private boolean enableAntiFraudService;
 
     private Map<String, CreditCardType> creditCardTypeByName = new HashMap<String, CreditCardType>();
-
-    private ITransactionDemarcator appDynamicsTransactionDemarcator = AgentDelegate.getTransactionDemarcator();
 
     private XStream xstream = new XStream();
 
@@ -79,33 +75,26 @@ public class BookingAction extends MultiAction {
                 try {
                     antiFraudService.checkBooking(toAntiFraudBooking(booking));
 
-                    auditLogger.info(appDynamicsTransactionDemarcator.getUniqueIdentifierForTransaction() + " - AntiFraud granted booking "
-                            + toXmlString(booking));
+                    auditLogger.info("AntiFraud granted booking " + toXmlString(booking));
 
                 } catch (SuspiciousBookingException e) {
-                    auditLogger.error(appDynamicsTransactionDemarcator.getUniqueIdentifierForTransaction()
-                            + " - AntiFraud rejected booking "
-                            + toXmlString(booking));
+                    auditLogger.error("AntiFraud rejected booking " + toXmlString(booking));
 
-                    return processException(context, e,
-                            "Suspicious order.");
+                    return processException(context, e, "Suspicious order.");
 
                 } catch (RuntimeException e) {
-                    auditLogger.error(appDynamicsTransactionDemarcator.getUniqueIdentifierForTransaction()
-                            + " - Exception invoking AntiFraud on booking "
-                            + toXmlString(booking));
+                    auditLogger.error("Exception invoking AntiFraud on booking " + toXmlString(booking));
                     throw e;
                 }
             }
 
-            creditCardService.purchase(new MonetaryAmount(booking.getTotal(), Currency.getInstance("USD")),
-                    booking.createOrder(), booking.getId().toString());
+            creditCardService.purchase(new MonetaryAmount(booking.getTotal(), Currency.getInstance("USD")), booking.createOrder(), booking
+                    .getId().toString());
 
             return success();
 
         } catch (InvalidCardException e) {
-            return processException(context, e,
-                    "The transaction failed using the credit card information you provided.");
+            return processException(context, e, "The transaction failed using the credit card information you provided.");
 
         } catch (PaymentTransactionException e) {
             return processException(context, e, "You payment was not processed. Please contact customer service.");

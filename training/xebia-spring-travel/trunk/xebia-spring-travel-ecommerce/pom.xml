@@ -149,10 +149,6 @@
       </dependency>
 
       <dependency>
-         <groupId>com.appdynamics.apm</groupId>
-         <artifactId>agent-api</artifactId>
-      </dependency>
-      <dependency>
          <groupId>com.thoughtworks.xstream</groupId>
          <artifactId>xstream</artifactId>
       </dependency>

@@ -23,8 +23,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.jmx.export.annotation.ManagedAttribute;
 import org.springframework.jmx.export.annotation.ManagedResource;
 
-import com.appdynamics.apm.appagent.api.AgentDelegate;
-import com.appdynamics.apm.appagent.api.ITransactionDemarcator;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.CompactWriter;
 
@@ -32,8 +30,6 @@ import fr.xebia.management.statistics.Profiled;
 
 @ManagedResource
 public class AntiFraudServiceImpl implements AntiFraudService {
-
-    private ITransactionDemarcator appDynamicsTransactionDemarcator = AgentDelegate.getTransactionDemarcator();
 
     private final Logger auditLogger = LoggerFactory.getLogger("fr.xebia.audit.AntiFraudService");
 
@@ -55,21 +51,21 @@ public class AntiFraudServiceImpl implements AntiFraudService {
             randomlyThrowException();
             String result = "txid-" + Math.abs(random.nextLong());
 
-            auditLogger.info(appDynamicsTransactionDemarcator.getUniqueIdentifierForTransaction() + " - Authorize booking "
+            auditLogger.info("Authorize booking "
                     + toXmlString(booking) + " " + result);
 
             return result;
         } catch (SuspiciousBookingException e) {
-            auditLogger.error(appDynamicsTransactionDemarcator.getUniqueIdentifierForTransaction() + " - Reject booking "
+            auditLogger.error("Reject booking "
                     + toXmlString(booking) + " " + e);
             throw e;
         } catch (RuntimeException e) {
-            auditLogger.error(appDynamicsTransactionDemarcator.getUniqueIdentifierForTransaction() + " - Exception checking booking "
+            auditLogger.error("Exception checking booking "
                     + toXmlString(booking) + " " + e);
             throw e;
         }
     }
-    
+
     @ManagedAttribute
     public int getSlowRequestMinimumDurationInMillis() {
         return slowRequestMinimumDurationInMillis;

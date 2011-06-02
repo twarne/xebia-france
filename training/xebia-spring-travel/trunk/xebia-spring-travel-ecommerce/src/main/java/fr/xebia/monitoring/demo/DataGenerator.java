@@ -40,9 +40,7 @@ public class DataGenerator {
         System.out.println();
         System.out.println();
         System.out.println();
-        if (true) {
-            return;
-        }
+
         for (int i = 101; i <= 1000; i++) {
             String username = "user-" + i;
             String password = "password-" + i;
