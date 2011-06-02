@@ -69,7 +69,7 @@ public class Initializer implements InitializingBean {
 
         ExtendedUser user = new ExtendedUser("admin", "admin", true, true, true, true, authorities);
         user.setComments("my first comment");
-        user.setAllowedRemoteAddresses("10\\..*, 127\\..*");
+        user.setAllowedRemoteAddresses("10\\..*, 127\\..*, 0:0:0:0:0:0:0:1%0");
 
         userDetailsManager.createUser(user);
 

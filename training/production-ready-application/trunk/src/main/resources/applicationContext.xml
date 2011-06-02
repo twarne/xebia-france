@@ -5,7 +5,7 @@
    xmlns:http-conf="http://cxf.apache.org/transports/http/configuration" xmlns:security="http://cxf.apache.org/configuration/security"
    xmlns:sec="http://www.springframework.org/schema/security" xmlns:jaxrs="http://cxf.apache.org/jaxrs" xmlns:mvc="http://www.springframework.org/schema/mvc"
    xmlns:security-extras="http://www.xebia.fr/schema/xebia-spring-security-extras" xmlns:jms="http://www.springframework.org/schema/jms"
-   xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:management="http://www.xebia.fr/schema/xebia-management-extras"
+   xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:management="http://www.xebia.fr/schema/xebia-management-extras" xmlns:amq="http://activemq.apache.org/schema/core"
    xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
 		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
 		http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang-3.0.xsd
@@ -22,7 +22,8 @@
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
 		http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
 		http://www.xebia.fr/schema/xebia-spring-security-extras http://www.xebia.com/schema/security/xebia-spring-security-extras.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core-5.5.0.xsd">
 
 
    <aop:aspectj-autoproxy proxy-target-class="true" />
@@ -33,7 +34,6 @@
    <security-extras:audit-aspect />
    <management:profile-aspect server="mbeanServer" />
    <management:application-version-mbean />
-   <!-- <bean id="webApplicationMavenInformation" class="fr.xebia.management.maven.WebApplicationMavenInformation" /> -->
 
    <!-- JMX -->
    <management:servlet-context-aware-mbean-server id="mbeanServer" />
@@ -198,10 +198,10 @@
 
    <management:dbcp-datasource id="embeddedDataSource">
       <management:url value="jdbc:h2:mem:production-ready-application-db" />
-      <management:driver-class-name value="org.h2.Driver"/>
-      <management:username value="sa"/>
-      <management:password value=""/>
-      <management:max-active value="7"/>
+      <management:driver-class-name value="org.h2.Driver" />
+      <management:username value="sa" />
+      <management:password value="" />
+      <management:max-active value="7" />
    </management:dbcp-datasource>
 
    <jee:jndi-lookup id="productionReadyApplicationDataSource" jndi-name="java:comp/env/jdbc/production-ready-application-data-source" />
@@ -274,15 +274,21 @@
    </jaxws:endpoint>
 
    <!-- JMS -->
-   <bean id="activemqConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
-      <property name="brokerURL" value="vm://localhost?broker.persistent=false&amp;broker.useJmx=true" />
-   </bean>
+   <amq:broker useJmx="true" persistent="false">
+      <amq:transportConnectors>
+         <amq:transportConnector uri="tcp://localhost:61616" />
+         <amq:transportConnector uri="vm://localhost" />
+      </amq:transportConnectors>
+   </amq:broker>
+
+   <amq:connectionFactory id="activemqConnectionFactory" brokerURL="vm://localhost" />
 
    <management:jms-caching-connection-factory id="cachingConnectionFactory" connection-factory="activemqConnectionFactory" />
 
+   <management:jms-connection-factory-wrapper id="nonCachingConnectionFactory" connection-factory="activemqConnectionFactory" />
    <management:jms-connection-factory-wrapper id="connectionFactory" connection-factory="cachingConnectionFactory" />
 
-   <jms:listener-container connection-factory="connectionFactory" concurrency="5-10"
+   <jms:listener-container connection-factory="nonCachingConnectionFactory" concurrency="5-10" cache="consumer"
       container-class="fr.xebia.springframework.jms.ManagedDefaultMessageListenerContainer">
       <jms:listener destination="hello-world-queue" ref="helloWorldServiceMessageListener" />
    </jms:listener-container>

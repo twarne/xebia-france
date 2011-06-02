@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit;
 import org.springframework.jmx.export.annotation.ManagedAttribute;
 import org.springframework.jmx.export.annotation.ManagedResource;
 
-import com.google.common.util.concurrent.ValueFuture;
+import com.google.common.util.concurrent.Futures;
 
 import fr.xebia.productionready.backend.anotherveryslowservice.AnotherVerySlowService;
 import fr.xebia.productionready.backend.zeveryslowservice.ZeVerySlowService;
@@ -55,8 +55,7 @@ public class ZeVerySlowAggregatingServiceParallelImpl implements ZeVerySlowAggre
         try {
             zeVerySlowResponse = zeVerySlowServiceExecutor.submit(zeVerySlowCommand);
         } catch (RejectedExecutionException e) {
-            zeVerySlowResponse = ValueFuture.create();
-            ((ValueFuture<String>) zeVerySlowResponse).setException(e);
+            zeVerySlowResponse = Futures.immediateFailedCheckedFuture(e);
         }
 
         Callable<String> anotherVerySlowCommand = new Callable<String>() {
