@@ -59,6 +59,10 @@ Here are the metrics monitored by the ManagedJmsConnectionFactory:
 || {{{ReceiveMessageCount}}} || Trends Up ||  Number of received JMS messages ||
 || {{{ReceiveMessageExceptionCount}}} || Trends Up ||  Number of exceptions receiving JMS messages ||
 || {{{ReceiveMessageDurationInMillis}}} || Trends Up ||  Duration spent receiving JMS messages,  ||
+|| {{{ActiveConnectionCount}}} || Dynamic ||  Number of active JMS connections ||
+|| {{{ActiveMessageProducerCount}}} || Dynamic || Number of active JMS message producers  ||
+|| {{{ActiveMessageConsumerCount}}} || Dynamic || Number of active JMS message consumers ||
+|| {{{ActiveSessionCount}}} || Dynamic ||  Number of active JMS sessions ||
 || {{{CreateConnectionCount}}} || Trends Up ||  Number of created JMS connections ||
 || {{{CreateConnectionExceptionCount}}} || Trends Up || Number of exceptions creating connections  ||
 || {{{CreateMessageProducerCount}}} || Trends Up || Number of created JMS message producers  ||
@@ -67,8 +71,13 @@ Here are the metrics monitored by the ManagedJmsConnectionFactory:
 || {{{CreateMessageConsumerExceptionCount}}} || Trends Up || Number of exceptions creating message consumers  ||
 || {{{CreateSessionCount}}} || Trends Up ||  Number of created JMS sessions ||
 || {{{CreateSessionExceptionCount}}} || Trends Up ||  Number of exceptions creating sessions ||
+|| {{{CloseConnectionCount}}} || Trends Up ||  Number of closed JMS connections ||
+|| {{{CloseMessageProducerCount}}} || Trends Up || Number of closed JMS message producers  ||
+|| {{{CloseMessageConsumerCount}}} || Trends Up || Number of closed JMS message consumers ||
+|| {{{CloseSessionCount}}} || Trends Up ||  Number of closed JMS sessions ||
 
 Key metrics are usually:
+ * {{{ActiveConnectionCount}}}, {{{ActiveSessionCount}}}, {{{ActiveMessageConsumerCount}}} and {{{ActiveMessageProducerCount}}} to monitor the flow of messages,
  * {{{SendMessageCount}}} and {{{ReceiveMessageCount}}} to monitor the flow of messages,
  * {{{SendMessageExceptionCount}}} and {{{ReceiveMessageExceptionCount}}} to detect problems in the flow of messages,
  * {{{SendMessageDurationInMillis}}} to detect slowness in the JMS layer.
