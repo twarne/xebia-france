@@ -2,10 +2,10 @@
 
 = Version 1.1.3 (2011/04/20) =
 
-* [ManagedJmsConnectionFactory]: Add JMX metrics 
-** {{{ActiveConnectionCount}}}, {{{ActiveSessionCount}}}, {{{ActiveMessageConsumerCount}}} and {{{ActiveMessageProducerCount}}} to monitor the flow of messages,
-** {{{CloseConnectionCount}}}, {{{CloseMessageProducerCount}}}, {{{CloseMessageConsumerCount}}}, {{{CloseSessionCount}}} to help diagnosing leaks (comparing to {{{CreateXxxCount}}} indicator) and internally used to process {{{ActiveXxxCount}}}
-* [ProfiledAnnotation]: Add {{{maxActive}}} and {{{maxActiveExpression}}} to {{{@Profiled}}}
+ * [ManagedJmsConnectionFactory]: Add JMX metrics 
+  * {{{ActiveConnectionCount}}}, {{{ActiveSessionCount}}}, {{{ActiveMessageConsumerCount}}} and {{{ActiveMessageProducerCount}}} to monitor the flow of messages,
+  * {{{CloseConnectionCount}}}, {{{CloseMessageProducerCount}}}, {{{CloseMessageConsumerCount}}}, {{{CloseSessionCount}}} to help diagnosing leaks (comparing to {{{CreateXxxCount}}} indicator) and internally used to process {{{ActiveXxxCount}}},
+ * [ProfiledAnnotation]: Add "{{{maxActive}}}" and "{{{maxActiveExpression}}}" attributes to {{{@Profiled}}} annotation.
 
 
 = Version 1.1.2 (2011/04/20) =
