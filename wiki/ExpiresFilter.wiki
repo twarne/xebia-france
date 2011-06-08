@@ -191,16 +191,7 @@ The expiration configuration if elected according to the following algorithm:
  * Maven Project, add the following to {{{pom.xml}}}
 {{{
 <project ...>
-   ...
-   <repositories>
-      <repository>
-      	<id>xebia-france-googlecode-repository</id>
-      	<url>http://xebia-france.googlecode.com/svn/repository/maven2/</url>
-      </repository>
-   </repositories>
-   ...
    <dependencies>
-      ...
       <dependency>
          <groupId>fr.xebia.web.extras</groupId>
          <artifactId>xebia-servlet-extras</artifactId>
