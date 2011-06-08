@@ -204,7 +204,7 @@ The expiration configuration if elected according to the following algorithm:
       <dependency>
          <groupId>fr.xebia.web.extras</groupId>
          <artifactId>xebia-servlet-extras</artifactId>
-         <version>1.0.4</version>
+         <version>1.0.5</version>
          <scope>runtime</scope>
       </dependency>
       ...
@@ -212,9 +212,9 @@ The expiration configuration if elected according to the following algorithm:
    ...
 </project>
 }}}
- * Jar : Drop the jar [http://xebia-france.googlecode.com/files/xebia-servlet-extras-1.0.4.jar xebia-servlet-extras-1.0.4.jar] ([http://xebia-france.googlecode.com/files/xebia-servlet-extras-1.0.4-sources.jar sources]) in your web application classpath.
- * Java class : [http://xebia-france.googlecode.com/svn/web/xebia-servlet-extras/tags/xebia-servlet-extras-1.0.4/src/main/java/fr/xebia/servlet/filter/ExpiresFilter.java ExpiresFilter.java]
- * Java project : {{{svn checkout http://xebia-france.googlecode.com/svn/web/xebia-servlet-extras/tags/xebia-servlet-extras-1.0.4/}}}
+ * Jar : Drop the jar [http://xebia-france.googlecode.com/files/xebia-servlet-extras-1.0.5.jar xebia-servlet-extras-1.0.5.jar] ([http://xebia-france.googlecode.com/files/xebia-servlet-extras-1.0.5-sources.jar sources]) in your web application classpath.
+ * Java class : [http://xebia-france.googlecode.com/svn/web/xebia-servlet-extras/tags/xebia-servlet-extras-1.0.5/src/main/java/fr/xebia/servlet/filter/ExpiresFilter.java ExpiresFilter.java]
+ * Java project : {{{svn checkout http://xebia-france.googlecode.com/svn/web/xebia-servlet-extras/tags/xebia-servlet-extras-1.0.5/}}}
 
 
 = Implementation Details =
