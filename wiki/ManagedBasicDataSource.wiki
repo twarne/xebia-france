@@ -41,7 +41,7 @@ It is not intended to monitor JDBC resource leaks and thus it does not monitor r
       <!-- ... any other useful configuration param -->
    </bean>
    ...
-   <!-- mbean exporter will register the thread pool executor mbean -->
+   <!-- mbean exporter will register the datasource mbean -->
    <context:mbean-export server="..." />
 </beans>
 }}} 
