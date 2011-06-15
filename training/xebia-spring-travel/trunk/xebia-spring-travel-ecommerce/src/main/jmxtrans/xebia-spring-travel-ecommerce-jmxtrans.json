@@ -28,7 +28,7 @@
             }],
     	"obj": "travel-ecommerce:name=bookingAction,type=BookingAction,host=localhost,path=/xebia-spring-travel-ecommerce",
     	"resultAlias" : "BookingAction",
-    	"attr":["BookingCount", "BookedNightCount"]
+    	"attr":["BookingCount", "BookedNightCount", "TotalDurationInNanos"]
     }
     ],
     "numQueryThreads" : 2

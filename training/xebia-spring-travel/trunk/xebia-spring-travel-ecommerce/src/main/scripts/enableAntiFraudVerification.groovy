@@ -25,8 +25,8 @@ jmxClient.connect()
 
 def server = jmxClient.getMBeanServerConnection()
 
-// expected JMX object name  travel-ecommerce:name=bookingAction,type=BookingAction,host=localhost,path=/xebia-spring-travel-ecommerce
-server.queryNames(new ObjectName('travel-ecommerce:name=bookingAction,type=BookingAction,host=localhost,path=/xebia-spring-travel-ecommerce'), null).each { name ->
+// expected JMX object name  travel-ecommerce:name=AntiFraudService,type=AntiFraudService,host=localhost,path=/xebia-spring-travel-ecommerce
+server.queryNames(new ObjectName('travel-ecommerce:name=AntiFraudService,type=AntiFraudService,host=localhost,path=/xebia-spring-travel-ecommerce'), null).each { name ->
     GroovyMBean bookingAction = new GroovyMBean(server, name)
     bookingAction.EnableAntiFraudService = true
 

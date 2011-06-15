@@ -184,11 +184,12 @@ public class CreditCardServiceMonitoringImpl implements CreditCardService, SelfN
         long nanosBefore = System.nanoTime();
 
         activeInvocationCounter.incrementAndGet();
-        PaymentTransaction paymentTransaction;
         try {
-            paymentTransaction = creditCardService.purchase(total, order, requestId);
+            PaymentTransaction paymentTransaction = creditCardService.purchase(total, order, requestId);
 
             purchaseRevenueInUsdCounter.addAndGet(total.getBigDecimal().longValue());
+            return paymentTransaction;
+
         } catch (ThreeDSecureVerificationException e) {
             threeDSecureVerificationExceptionCounter.incrementAndGet();
             throw e;
@@ -220,7 +221,6 @@ public class CreditCardServiceMonitoringImpl implements CreditCardService, SelfN
                 slowRequestCounter.incrementAndGet();
             }
         }
-        return paymentTransaction;
     }
 
     @Override

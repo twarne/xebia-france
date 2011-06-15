@@ -4,7 +4,9 @@ import java.io.StringWriter;
 import java.util.Currency;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
@@ -48,6 +50,7 @@ import fr.xebia.ws.travel.antifraud.v1_0.SuspiciousBookingException;
 public class BookingAction extends MultiAction implements SelfNaming, BeanNameAware {
 
     private AntiFraudService antiFraudService;
+
     private final Logger auditLogger = LoggerFactory.getLogger("fr.xebia.audit.Booking");
 
     private String beanName;
@@ -60,14 +63,15 @@ public class BookingAction extends MultiAction implements SelfNaming, BeanNameAw
 
     private Map<String, CreditCardType> creditCardTypeByName = new HashMap<String, CreditCardType>();
 
-    private boolean enableAntiFraudService;
-
     private final Logger logger = LoggerFactory.getLogger(getClass());
+
+    private final AtomicLong totalDurationInNanos = new AtomicLong();
 
     private XStream xstream = new XStream();
 
     @Autowired
-    public BookingAction(@Qualifier("CreditCardService") CreditCardService creditCardService, AntiFraudService antiFraudService) {
+    public BookingAction(@Qualifier("CreditCardService") CreditCardService creditCardService,
+            @Qualifier("AntiFraudService") AntiFraudService antiFraudService) {
         this.creditCardService = creditCardService;
         this.antiFraudService = antiFraudService;
 
@@ -97,8 +101,13 @@ public class BookingAction extends MultiAction implements SelfNaming, BeanNameAw
     }
 
     @ManagedAttribute
-    public boolean isEnableAntiFraudService() {
-        return enableAntiFraudService;
+    public long getTotalDurationInMillis() {
+        return TimeUnit.MILLISECONDS.convert(getTotalDurationInNanos(), TimeUnit.NANOSECONDS);
+    }
+
+    @ManagedAttribute
+    public long getTotalDurationInNanos() {
+        return totalDurationInNanos.get();
     }
 
     private Event processException(RequestContext context, Throwable t, String message) {
@@ -118,30 +127,25 @@ public class BookingAction extends MultiAction implements SelfNaming, BeanNameAw
         this.beanName = name;
     }
 
-    @ManagedAttribute
-    public void setEnableAntiFraudService(boolean enableAntiFraudService) {
-        this.enableAntiFraudService = enableAntiFraudService;
-    }
-
     @Profiled()
     public Event submitPayment(RequestContext context, Booking booking) throws Exception {
 
+        long nanosBefore = System.nanoTime();
+
         try {
-            if (enableAntiFraudService) {
-                try {
-                    antiFraudService.checkBooking(toAntiFraudBooking(booking));
+            try {
+                antiFraudService.checkBooking(toAntiFraudBooking(booking));
 
-                    auditLogger.info("AntiFraud granted booking " + toXmlString(booking));
+                auditLogger.info("AntiFraud granted booking " + toXmlString(booking));
 
-                } catch (SuspiciousBookingException e) {
-                    auditLogger.error("AntiFraud rejected booking " + toXmlString(booking));
+            } catch (SuspiciousBookingException e) {
+                auditLogger.error("AntiFraud rejected booking " + toXmlString(booking));
 
-                    return processException(context, e, "Suspicious order.");
+                return processException(context, e, "Suspicious order.");
 
-                } catch (RuntimeException e) {
-                    auditLogger.error("Exception invoking AntiFraud on booking " + toXmlString(booking));
-                    throw e;
-                }
+            } catch (RuntimeException e) {
+                auditLogger.error("Exception invoking AntiFraud on booking " + toXmlString(booking));
+                throw e;
             }
 
             creditCardService.purchase(new MonetaryAmount(booking.getTotal(), Currency.getInstance("USD")), booking.createOrder(), booking
@@ -163,6 +167,8 @@ public class BookingAction extends MultiAction implements SelfNaming, BeanNameAw
 
         } catch (Throwable t) {
             return processException(context, t, "Unexpected error. Please contact customer service.");
+        } finally {
+            this.totalDurationInNanos.addAndGet(System.nanoTime() - nanosBefore);
         }
 
     }
