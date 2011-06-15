@@ -101,11 +101,35 @@
          <groupId>org.codehaus.janino</groupId>
          <artifactId>janino</artifactId>
       </dependency>
+
+      <dependency>
+         <groupId>org.apache.activemq</groupId>
+         <artifactId>activemq-core</artifactId>
+         <scope>runtime</scope>
+      </dependency>
+      <dependency>
+         <!-- for activemq -->
+         <groupId>org.apache.xbean</groupId>
+         <artifactId>xbean-spring</artifactId>
+         <scope>runtime</scope>
+      </dependency>
+      <dependency>
+         <groupId>org.apache.geronimo.specs</groupId>
+         <artifactId>geronimo-jms_1.1_spec</artifactId>
+      </dependency>
+
       <!-- Test -->
       <dependency>
          <groupId>org.easymock</groupId>
          <artifactId>easymock</artifactId>
          <scope>test</scope>
+      </dependency>
+      
+      <!-- Groovy -->
+      <dependency>
+      	<groupId>org.codehaus.groovy</groupId>
+      	<artifactId>groovy-all</artifactId>
+      	<scope>provided</scope>
       </dependency>
    </dependencies>
 </project>

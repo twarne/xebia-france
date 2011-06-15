@@ -19,9 +19,14 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
+import javax.management.MalformedObjectNameException;
+import javax.management.ObjectName;
+
+import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.jmx.export.annotation.ManagedAttribute;
 import org.springframework.jmx.export.annotation.ManagedResource;
+import org.springframework.jmx.export.naming.SelfNaming;
 import org.springframework.payment.common.money.MonetaryAmount;
 import org.springframework.payment.common.order.Order;
 import org.springframework.payment.core.InvalidCardException;
@@ -32,10 +37,14 @@ import org.springframework.payment.core.PaymentTransaction;
 import org.springframework.payment.core.TransactionAmountException;
 import org.springframework.payment.creditcard.CreditCardService;
 
+import fr.xebia.monitoring.demo.Monitoring;
+
 @ManagedResource
-public class CreditCardServiceMonitoringImpl implements CreditCardService {
+public class CreditCardServiceMonitoringImpl implements CreditCardService, SelfNaming, BeanNameAware {
 
     private final AtomicInteger activeInvocationCounter = new AtomicInteger();
+
+    private String beanName;
 
     private CreditCardService creditCardService;
 
@@ -104,6 +113,11 @@ public class CreditCardServiceMonitoringImpl implements CreditCardService {
     @ManagedAttribute
     public int getMissingOrInvalidDataExceptionCount() {
         return missingOrInvalidDataExceptionCounter.get();
+    }
+
+    @Override
+    public ObjectName getObjectName() throws MalformedObjectNameException {
+        return new ObjectName(Monitoring.JMX_DOMAIN + ":type=CreditCardService,name=" + beanName);
     }
 
     @ManagedAttribute
@@ -207,6 +221,11 @@ public class CreditCardServiceMonitoringImpl implements CreditCardService {
             }
         }
         return paymentTransaction;
+    }
+
+    @Override
+    public void setBeanName(String name) {
+        this.beanName = name;
     }
 
     @Required

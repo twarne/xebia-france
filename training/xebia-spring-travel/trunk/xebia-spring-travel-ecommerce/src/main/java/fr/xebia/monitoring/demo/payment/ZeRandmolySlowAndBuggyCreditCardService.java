@@ -18,8 +18,13 @@ package fr.xebia.monitoring.demo.payment;
 import java.lang.reflect.Constructor;
 import java.util.Random;
 
+import javax.management.MalformedObjectNameException;
+import javax.management.ObjectName;
+
+import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.jmx.export.annotation.ManagedAttribute;
 import org.springframework.jmx.export.annotation.ManagedResource;
+import org.springframework.jmx.export.naming.SelfNaming;
 import org.springframework.payment.common.money.MonetaryAmount;
 import org.springframework.payment.common.order.Order;
 import org.springframework.payment.core.InvalidCardException;
@@ -33,13 +38,17 @@ import org.springframework.payment.core.PaymentTransactionException;
 import org.springframework.payment.core.TransactionAmountException;
 import org.springframework.payment.creditcard.CreditCardService;
 
+import fr.xebia.monitoring.demo.Monitoring;
+
 /**
  * InvalidCardException
  * 
  * @author <a href="mailto:cyrille@cyrilleleclerc.com">Cyrille Le Clerc</a>
  */
 @ManagedResource
-public class ZeRandmolySlowAndBuggyCreditCardService implements CreditCardService {
+public class ZeRandmolySlowAndBuggyCreditCardService implements CreditCardService, SelfNaming, BeanNameAware {
+
+    private String beanName;
 
     private int invalidCardExceptionRatioInPercent = 0;
 
@@ -47,17 +56,17 @@ public class ZeRandmolySlowAndBuggyCreditCardService implements CreditCardServic
 
     private int missingOrInvalidDataExceptionRatioInPercent = 0;
 
-    private int paymentProcessingExceptionRatioInPercent = 0;
+    private int paymentProcessingExceptionRatioInPercent = 1;
 
     private final Random random = new Random();
 
     private int slowRequestMinimumDurationInMillis = 2000;
 
-    private int slowRequestRatioInPercent = 0;
+    private int slowRequestRatioInPercent = 5;
 
-    private int threeDSecureVerificationExceptionRatioInPercent = 0;
+    private int threeDSecureVerificationExceptionRatioInPercent = 10;
 
-    private int timeoutExceptionRatioInPercent = 0;
+    private int timeoutExceptionRatioInPercent = 2;
 
     private int transactionAmountExceptionRatioInPercent = 0;
 
@@ -84,6 +93,11 @@ public class ZeRandmolySlowAndBuggyCreditCardService implements CreditCardServic
     @ManagedAttribute
     public int getMissingOrInvalidDataExceptionRatioInPercent() {
         return missingOrInvalidDataExceptionRatioInPercent;
+    }
+
+    @Override
+    public ObjectName getObjectName() throws MalformedObjectNameException {
+        return new ObjectName(Monitoring.JMX_DOMAIN + ":type=RandmolySlowAndBuggyCreditCardService,name=" + beanName);
     }
 
     @ManagedAttribute
@@ -170,6 +184,11 @@ public class ZeRandmolySlowAndBuggyCreditCardService implements CreditCardServic
 
             throw exception;
         }
+    }
+
+    @Override
+    public void setBeanName(String name) {
+        this.beanName = name;
     }
 
     @ManagedAttribute
