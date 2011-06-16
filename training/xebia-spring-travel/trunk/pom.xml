@@ -247,7 +247,7 @@
             <artifactId>easymock</artifactId>
             <version>3.0</version>
          </dependency>
-         
+
          <!-- Groovy -->
          <dependency>
             <groupId>org.codehaus.groovy</groupId>
@@ -335,4 +335,8 @@
          </plugin>
       </plugins>
    </build>
+   <scm>
+      <connection>scm:svn:http://xebia-france.googlecode.com/svn/training/xebia-spring-travel/</connection>
+      <developerConnection>scm:svn:http://xebia-france.googlecode.com/svn/training/xebia-spring-travel/</developerConnection>
+   </scm>
 </project>
