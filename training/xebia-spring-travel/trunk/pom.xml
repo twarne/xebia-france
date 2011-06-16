@@ -336,6 +336,6 @@
    </build>
    <scm>
       <connection>scm:svn:http://xebia-france.googlecode.com/svn/training/xebia-spring-travel/tags/xebia-spring-travel-1.0.0</connection>
-      <developerConnection>scm:svn:http://xebia-france.googlecode.com/svn/training/xebia-spring-travel/tags/xebia-spring-travel-1.0.0</developerConnection>
+      <developerConnection>scm:svn:https://xebia-france.googlecode.com/svn/training/xebia-spring-travel/tags/xebia-spring-travel-1.0.0</developerConnection>
    </scm>
 </project>
