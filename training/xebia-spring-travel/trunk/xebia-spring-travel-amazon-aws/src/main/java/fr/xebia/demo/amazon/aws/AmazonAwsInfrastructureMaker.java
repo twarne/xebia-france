@@ -20,6 +20,7 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,11 +37,13 @@ import com.amazonaws.services.ec2.model.Tag;
 import com.amazonaws.services.elasticloadbalancing.AmazonElasticLoadBalancing;
 import com.amazonaws.services.elasticloadbalancing.AmazonElasticLoadBalancingClient;
 import com.amazonaws.services.elasticloadbalancing.model.ConfigureHealthCheckRequest;
+import com.amazonaws.services.elasticloadbalancing.model.CreateLBCookieStickinessPolicyRequest;
 import com.amazonaws.services.elasticloadbalancing.model.CreateLoadBalancerRequest;
 import com.amazonaws.services.elasticloadbalancing.model.CreateLoadBalancerResult;
 import com.amazonaws.services.elasticloadbalancing.model.HealthCheck;
 import com.amazonaws.services.elasticloadbalancing.model.Listener;
 import com.amazonaws.services.elasticloadbalancing.model.RegisterInstancesWithLoadBalancerRequest;
+import com.amazonaws.services.elasticloadbalancing.model.SetLoadBalancerPoliciesOfListenerRequest;
 import com.amazonaws.services.rds.AmazonRDS;
 import com.amazonaws.services.rds.AmazonRDSClient;
 import com.amazonaws.services.rds.model.CreateDBInstanceRequest;
@@ -49,8 +52,6 @@ import com.amazonaws.services.rds.model.DescribeDBInstancesRequest;
 import com.amazonaws.services.rds.model.DescribeDBInstancesResult;
 import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
-import com.google.common.base.Strings;
-import com.google.common.collect.Collections2;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -59,16 +60,8 @@ public class AmazonAwsInfrastructureMaker {
 
     public static void main(String[] args) throws Exception {
         AmazonAwsInfrastructureMaker infrastructureMaker = new AmazonAwsInfrastructureMaker();
-        DBInstance dbInstance = infrastructureMaker.createDatabaseInstance();
-        if (Strings.isNullOrEmpty(dbInstance.getAvailabilityZone()) //
-                || dbInstance.getEndpoint() == null //
-                || Strings.isNullOrEmpty(dbInstance.getEndpoint().getAddress())) {
+        infrastructureMaker.createAll();
 
-            System.err.println("Describe DbInstance " + dbInstance);
-
-        }
-
-        System.out.println(dbInstance);
     }
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
@@ -79,8 +72,17 @@ public class AmazonAwsInfrastructureMaker {
 
     private AmazonElasticLoadBalancing elb;
 
+    public void createAll() {
+        DBInstance dbInstance = createDatabaseInstance();
+        dbInstance = awaitForDbInstanceCreation(dbInstance);
+        System.out.println(dbInstance);
+        List<Instance> travelEcommerceInstances = createTravelEcommerceTomcatServers(dbInstance);
+        CreateLoadBalancerResult elasticLoadBalancer = createElasticLoadBalancer(travelEcommerceInstances);
+    }
+
     public AmazonAwsInfrastructureMaker() throws IOException {
         InputStream credentialsAsStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("AwsCredentials.properties");
+        Preconditions.checkNotNull(credentialsAsStream, "File 'AwsCredentials.properties' NOT found in the classpath");
         AWSCredentials credentials = new PropertiesCredentials(credentialsAsStream);
         ec2 = new AmazonEC2Client(credentials);
         ec2.setEndpoint("ec2.eu-west-1.amazonaws.com");
@@ -103,7 +105,7 @@ public class AmazonAwsInfrastructureMaker {
         while (!"available".equals(dbInstance.getDBInstanceStatus())) {
             if (counter > 0) {
                 try {
-                    Thread.sleep(5 * 1000);
+                    Thread.sleep(20 * 1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -128,7 +130,6 @@ public class AmazonAwsInfrastructureMaker {
                 .withDBInstanceClass("db.m1.small") //
                 .withMasterUsername("root") //
                 .withMasterUserPassword("root") //
-                .withAvailabilityZone(availabilityZone) //
                 .withAllocatedStorage(5) //
                 .withBackupRetentionPeriod(0) //
                 .withDBSecurityGroups("default") //
@@ -136,6 +137,7 @@ public class AmazonAwsInfrastructureMaker {
         ;
 
         DBInstance dbInstance = rds.createDBInstance(createDBInstanceRequest);
+        logger.info("Created {}", dbInstance);
         return dbInstance;
     }
 
@@ -152,7 +154,7 @@ public class AmazonAwsInfrastructureMaker {
                 .withSecurityGroupIds("tomcat") //
                 .withPlacement(new Placement(dbInstance.getAvailabilityZone())) //
                 .withKeyName("xebia-france") //
-                .withUserData(jdbcUrl) //
+                .withUserData(Base64.encodeBase64String(jdbcUrl.getBytes())) //
 
         ;
 
@@ -166,7 +168,11 @@ public class AmazonAwsInfrastructureMaker {
                     .withTags(new Tag("Name", "travel-ecommerce-" + idx));
             ec2.createTags(createTagsRequest);
 
+            idx++;
         }
+
+        logger.info("Created {}", instances);
+
         return instances;
     }
 
@@ -195,19 +201,35 @@ public class AmazonAwsInfrastructureMaker {
 
         // HEALTH CHECK
         HealthCheck helsathCheck = new HealthCheck() //
-                .withTarget("/")//
+                .withTarget("HTTP:8080/") //
                 .withHealthyThreshold(2) //
-                .withUnhealthyThreshold(2);
+                .withUnhealthyThreshold(2) //
+                .withInterval(30) //
+                .withTimeout(2);
         ConfigureHealthCheckRequest configureHealthCheckRequest = new ConfigureHealthCheckRequest(
                 createLoadBalancerRequest.getLoadBalancerName(), //
                 helsathCheck);
         elb.configureHealthCheck(configureHealthCheckRequest);
 
-        // TODO CREATE COOKIE STICKYNESS
+        // COOKIE STICKINESS
+        CreateLBCookieStickinessPolicyRequest createLbCookieStickinessPolicy = new CreateLBCookieStickinessPolicyRequest() //
+                .withLoadBalancerName(createLoadBalancerRequest.getLoadBalancerName())//
+                .withPolicyName("travel-ecommerce-stickiness-policy");
+        elb.createLBCookieStickinessPolicy(createLbCookieStickinessPolicy);
+
+        SetLoadBalancerPoliciesOfListenerRequest setLoadBalancerPoliciesOfListenerRequest = new SetLoadBalancerPoliciesOfListenerRequest() //
+                .withLoadBalancerName(createLoadBalancerRequest.getLoadBalancerName()) //
+                .withLoadBalancerPort(80) //
+                .withPolicyNames(createLbCookieStickinessPolicy.getPolicyName())//
+        ;
+        elb.setLoadBalancerPoliciesOfListener(setLoadBalancerPoliciesOfListenerRequest);
 
         // INSTANCES
-        elb.registerInstancesWithLoadBalancer(new RegisterInstancesWithLoadBalancerRequest(createLoadBalancerRequest.getLoadBalancerName(),
-                elbInstances));
+        RegisterInstancesWithLoadBalancerRequest registerInstancesWithLoadBalancerRequest = new RegisterInstancesWithLoadBalancerRequest(
+                createLoadBalancerRequest.getLoadBalancerName(), elbInstances);
+        elb.registerInstancesWithLoadBalancer(registerInstancesWithLoadBalancerRequest);
+
+        logger.info("Created {}", createLoadBalancerResult);
 
         return createLoadBalancerResult;
     }

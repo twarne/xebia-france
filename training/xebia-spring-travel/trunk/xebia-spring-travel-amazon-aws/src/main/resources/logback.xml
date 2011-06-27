@@ -7,8 +7,7 @@
    </appender>
 
 
-   <logger name="fr.xebia.audit" level="TRACE" />
-   <logger name="fr.xebia.performances" level="TRACE" />
+   <logger name="fr.xebia.demo.amazon.aws.AmazonAwsInfrastructureMaker" level="INFO" />
 
    <root level="WARN">
       <appender-ref ref="console" />
