@@ -146,6 +146,7 @@ public class AmazonAwsInfrastructureMaker {
         String jdbcUrl = "jdbc:mysql://" + dbInstance.getEndpoint().getAddress() + ":" + dbInstance.getEndpoint().getPort() + "/"
                 + dbInstance.getDBName();
 
+        // CREATE EC2 INSTANCES
         RunInstancesRequest runInstancesRequest = new RunInstancesRequest() //
                 .withInstanceType("t1.micro") //
                 .withImageId("ami-62201116") //
@@ -160,6 +161,7 @@ public class AmazonAwsInfrastructureMaker {
 
         RunInstancesResult runInstances = ec2.runInstances(runInstancesRequest);
 
+        // TAG EC2 INSTANCES
         List<Instance> instances = runInstances.getReservation().getInstances();
         int idx = 1;
         for (Instance instance : instances) {
