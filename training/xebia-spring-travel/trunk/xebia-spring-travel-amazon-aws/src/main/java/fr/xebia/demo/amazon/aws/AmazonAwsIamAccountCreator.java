@@ -101,14 +101,14 @@ public class AmazonAwsIamAccountCreator {
 
         URL emailsToVerifyURL = Thread.currentThread().getContextClassLoader().getResource("accounts-to-create.txt");
         Preconditions.checkNotNull(emailsToVerifyURL, "File 'accounts-to-create.txt' NOT found in the classpath");
-        List<String> xebiaFranceEmails;
+        List<String> userNamesToCreate;
         try {
-            xebiaFranceEmails = Resources.readLines(emailsToVerifyURL, Charsets.ISO_8859_1);
+            userNamesToCreate = Resources.readLines(emailsToVerifyURL, Charsets.ISO_8859_1);
         } catch (IOException e) {
             throw Throwables.propagate(e);
         }
 
-        return Sets.difference(Sets.newHashSet(xebiaFranceEmails), Sets.newHashSet(existingUserNames));
+        return Sets.difference(Sets.newHashSet(userNamesToCreate), Sets.newHashSet(existingUserNames));
 
     }
 
