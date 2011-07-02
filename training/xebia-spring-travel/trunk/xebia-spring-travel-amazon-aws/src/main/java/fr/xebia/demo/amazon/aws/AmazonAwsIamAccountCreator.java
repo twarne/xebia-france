@@ -177,6 +177,24 @@ public class AmazonAwsIamAccountCreator {
         }
     }
 
+    /**
+     * Send email with Amazon Simple Email Service.
+     * <p/>
+     * 
+     * Please note that the sender (ie 'from') must be a verified address (see
+     * {@link AmazonSimpleEmailService#verifyEmailAddress(com.amazonaws.services.simpleemail.model.VerifyEmailAddressRequest)}
+     * ).
+     * <p/>
+     * 
+     * Please note that the sender is a CC of the meail to ease support.
+     * <p/>
+     * 
+     * @param subject
+     * @param body
+     * @param from
+     * @param toAddresses
+     */
+
     public void sendEmail(String subject, String body, String from, String... toAddresses) {
 
         SendEmailRequest sendEmailRequest = new SendEmailRequest( //
