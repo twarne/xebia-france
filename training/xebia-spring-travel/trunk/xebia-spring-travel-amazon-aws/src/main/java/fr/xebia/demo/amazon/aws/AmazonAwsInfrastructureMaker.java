@@ -44,6 +44,8 @@ import com.amazonaws.services.elasticloadbalancing.model.HealthCheck;
 import com.amazonaws.services.elasticloadbalancing.model.Listener;
 import com.amazonaws.services.elasticloadbalancing.model.RegisterInstancesWithLoadBalancerRequest;
 import com.amazonaws.services.elasticloadbalancing.model.SetLoadBalancerPoliciesOfListenerRequest;
+import com.amazonaws.services.identitymanagement.AmazonIdentityManagement;
+import com.amazonaws.services.identitymanagement.AmazonIdentityManagementClient;
 import com.amazonaws.services.rds.AmazonRDS;
 import com.amazonaws.services.rds.AmazonRDSClient;
 import com.amazonaws.services.rds.model.CreateDBInstanceRequest;
@@ -70,6 +72,8 @@ public class AmazonAwsInfrastructureMaker {
 
     private AmazonRDS rds;
 
+    private AmazonIdentityManagement iam;
+
     private AmazonElasticLoadBalancing elb;
 
     public void createAll() {
@@ -77,7 +81,8 @@ public class AmazonAwsInfrastructureMaker {
         dbInstance = awaitForDbInstanceCreation(dbInstance);
         System.out.println(dbInstance);
         List<Instance> travelEcommerceInstances = createTravelEcommerceTomcatServers(dbInstance);
-        CreateLoadBalancerResult elasticLoadBalancer = createElasticLoadBalancer(travelEcommerceInstances);
+        CreateLoadBalancerResult createLoadBalancerResult = createElasticLoadBalancer(travelEcommerceInstances);
+        System.out.println("Load Balancer DNS name: " + createLoadBalancerResult.getDNSName());
     }
 
     public AmazonAwsInfrastructureMaker() throws IOException {
@@ -90,6 +95,8 @@ public class AmazonAwsInfrastructureMaker {
         rds.setEndpoint("rds.eu-west-1.amazonaws.com");
         elb = new AmazonElasticLoadBalancingClient(credentials);
         elb.setEndpoint("elasticloadbalancing.eu-west-1.amazonaws.com");
+        
+        iam = new AmazonIdentityManagementClient(credentials);
     }
 
     public void listDbInstances() {
