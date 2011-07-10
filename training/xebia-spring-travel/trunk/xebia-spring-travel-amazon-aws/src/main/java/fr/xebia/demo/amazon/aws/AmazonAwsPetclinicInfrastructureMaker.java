@@ -1,5 +1,5 @@
 /*
- * Copyright 2008-2010 Xebia and the original author or authors.
+ * Copyright 2008-2011 Xebia and the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -44,8 +44,6 @@ import com.amazonaws.services.elasticloadbalancing.model.HealthCheck;
 import com.amazonaws.services.elasticloadbalancing.model.Listener;
 import com.amazonaws.services.elasticloadbalancing.model.RegisterInstancesWithLoadBalancerRequest;
 import com.amazonaws.services.elasticloadbalancing.model.SetLoadBalancerPoliciesOfListenerRequest;
-import com.amazonaws.services.identitymanagement.AmazonIdentityManagement;
-import com.amazonaws.services.identitymanagement.AmazonIdentityManagementClient;
 import com.amazonaws.services.rds.AmazonRDS;
 import com.amazonaws.services.rds.AmazonRDSClient;
 import com.amazonaws.services.rds.model.CreateDBInstanceRequest;
@@ -58,10 +56,10 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
-public class AmazonAwsInfrastructureMaker {
+public class AmazonAwsPetclinicInfrastructureMaker {
 
     public static void main(String[] args) throws Exception {
-        AmazonAwsInfrastructureMaker infrastructureMaker = new AmazonAwsInfrastructureMaker();
+        AmazonAwsPetclinicInfrastructureMaker infrastructureMaker = new AmazonAwsPetclinicInfrastructureMaker();
         infrastructureMaker.createAll();
 
     }
@@ -72,20 +70,18 @@ public class AmazonAwsInfrastructureMaker {
 
     private AmazonRDS rds;
 
-    private AmazonIdentityManagement iam;
-
     private AmazonElasticLoadBalancing elb;
 
     public void createAll() {
         DBInstance dbInstance = createDatabaseInstance();
         dbInstance = awaitForDbInstanceCreation(dbInstance);
         System.out.println(dbInstance);
-        List<Instance> travelEcommerceInstances = createTravelEcommerceTomcatServers(dbInstance);
-        CreateLoadBalancerResult createLoadBalancerResult = createElasticLoadBalancer(travelEcommerceInstances);
+        List<Instance> petclinicInstances = createPetclinicTomcatServers(dbInstance);
+        CreateLoadBalancerResult createLoadBalancerResult = createElasticLoadBalancer(petclinicInstances);
         System.out.println("Load Balancer DNS name: " + createLoadBalancerResult.getDNSName());
     }
 
-    public AmazonAwsInfrastructureMaker() throws IOException {
+    public AmazonAwsPetclinicInfrastructureMaker() throws IOException {
         InputStream credentialsAsStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("AwsCredentials.properties");
         Preconditions.checkNotNull(credentialsAsStream, "File 'AwsCredentials.properties' NOT found in the classpath");
         AWSCredentials credentials = new PropertiesCredentials(credentialsAsStream);
@@ -94,9 +90,7 @@ public class AmazonAwsInfrastructureMaker {
         rds = new AmazonRDSClient(credentials);
         rds.setEndpoint("rds.eu-west-1.amazonaws.com");
         elb = new AmazonElasticLoadBalancingClient(credentials);
-        elb.setEndpoint("elasticloadbalancing.eu-west-1.amazonaws.com");
-        
-        iam = new AmazonIdentityManagementClient(credentials);
+        elb.setEndpoint("elasticloadbalancing.eu-west-1.amazonaws.com");        
     }
 
     public void listDbInstances() {
@@ -110,6 +104,7 @@ public class AmazonAwsInfrastructureMaker {
     public DBInstance awaitForDbInstanceCreation(DBInstance dbInstance) {
         int counter = 0;
         while (!"available".equals(dbInstance.getDBInstanceStatus())) {
+            System.out.println("Instance " + dbInstance.getDBInstanceIdentifier() + "/" + dbInstance.getDBName() + " not yet available");
             if (counter > 0) {
                 try {
                     Thread.sleep(20 * 1000);
@@ -130,8 +125,8 @@ public class AmazonAwsInfrastructureMaker {
 
     public DBInstance createDatabaseInstance() {
         CreateDBInstanceRequest createDBInstanceRequest = new CreateDBInstanceRequest() //
-                .withDBInstanceIdentifier("travel") //
-                .withDBName("travel") //
+                .withDBInstanceIdentifier("petclinic") //
+                .withDBName("petclinic") //
                 .withEngine("MySQL") //
                 .withEngineVersion("5.1.57") //
                 .withDBInstanceClass("db.m1.small") //
@@ -148,7 +143,7 @@ public class AmazonAwsInfrastructureMaker {
         return dbInstance;
     }
 
-    public List<Instance> createTravelEcommerceTomcatServers(DBInstance dbInstance) {
+    public List<Instance> createPetclinicTomcatServers(DBInstance dbInstance) {
 
         String jdbcUrl = "jdbc:mysql://" + dbInstance.getEndpoint().getAddress() + ":" + dbInstance.getEndpoint().getPort() + "/"
                 + dbInstance.getDBName();
@@ -156,7 +151,7 @@ public class AmazonAwsInfrastructureMaker {
         // CREATE EC2 INSTANCES
         RunInstancesRequest runInstancesRequest = new RunInstancesRequest() //
                 .withInstanceType("t1.micro") //
-                .withImageId("ami-2ea3925a") //
+                .withImageId("ami-96a392e2") // ami-2ea3925a
                 .withMinCount(2) //
                 .withMaxCount(2) //
                 .withSecurityGroupIds("tomcat") //
@@ -174,7 +169,7 @@ public class AmazonAwsInfrastructureMaker {
         for (Instance instance : instances) {
             CreateTagsRequest createTagsRequest = new CreateTagsRequest();
             createTagsRequest.withResources(instance.getInstanceId()) //
-                    .withTags(new Tag("Name", "travel-ecommerce-" + idx));
+                    .withTags(new Tag("Name", "petclinic-" + idx));
             ec2.createTags(createTagsRequest);
 
             idx++;
@@ -202,7 +197,7 @@ public class AmazonAwsInfrastructureMaker {
                 });
 
         CreateLoadBalancerRequest createLoadBalancerRequest = new CreateLoadBalancerRequest() //
-                .withLoadBalancerName("travel-ecommerce") //
+                .withLoadBalancerName("petclinic") //
                 .withListeners(new Listener("HTTP", 80, 8080)) //
                 .withAvailabilityZones(availabilityZones) //
         ;
@@ -223,7 +218,7 @@ public class AmazonAwsInfrastructureMaker {
         // COOKIE STICKINESS
         CreateLBCookieStickinessPolicyRequest createLbCookieStickinessPolicy = new CreateLBCookieStickinessPolicyRequest() //
                 .withLoadBalancerName(createLoadBalancerRequest.getLoadBalancerName())//
-                .withPolicyName("travel-ecommerce-stickiness-policy");
+                .withPolicyName("petclinic-stickiness-policy");
         elb.createLBCookieStickinessPolicy(createLbCookieStickinessPolicy);
 
         SetLoadBalancerPoliciesOfListenerRequest setLoadBalancerPoliciesOfListenerRequest = new SetLoadBalancerPoliciesOfListenerRequest() //
