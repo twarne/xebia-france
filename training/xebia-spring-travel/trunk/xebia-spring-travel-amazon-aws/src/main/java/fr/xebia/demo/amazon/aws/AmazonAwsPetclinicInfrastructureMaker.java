@@ -15,10 +15,17 @@
  */
 package fr.xebia.demo.amazon.aws;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Properties;
 import java.util.Set;
+
+import javax.mail.Session;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
@@ -52,9 +59,11 @@ import com.amazonaws.services.rds.model.DescribeDBInstancesRequest;
 import com.amazonaws.services.rds.model.DescribeDBInstancesResult;
 import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
+import com.google.common.base.Throwables;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.google.common.io.ByteStreams;
 
 public class AmazonAwsPetclinicInfrastructureMaker {
 
@@ -90,7 +99,7 @@ public class AmazonAwsPetclinicInfrastructureMaker {
         rds = new AmazonRDSClient(credentials);
         rds.setEndpoint("rds.eu-west-1.amazonaws.com");
         elb = new AmazonElasticLoadBalancingClient(credentials);
-        elb.setEndpoint("elasticloadbalancing.eu-west-1.amazonaws.com");        
+        elb.setEndpoint("elasticloadbalancing.eu-west-1.amazonaws.com");
     }
 
     public void listDbInstances() {
@@ -148,6 +157,9 @@ public class AmazonAwsPetclinicInfrastructureMaker {
         String jdbcUrl = "jdbc:mysql://" + dbInstance.getEndpoint().getAddress() + ":" + dbInstance.getEndpoint().getPort() + "/"
                 + dbInstance.getDBName();
 
+        String userData = buildUserData();
+        userData = Base64.encodeBase64String(jdbcUrl.getBytes());
+
         // CREATE EC2 INSTANCES
         RunInstancesRequest runInstancesRequest = new RunInstancesRequest() //
                 .withInstanceType("t1.micro") //
@@ -157,7 +169,7 @@ public class AmazonAwsPetclinicInfrastructureMaker {
                 .withSecurityGroupIds("tomcat") //
                 .withPlacement(new Placement(dbInstance.getAvailabilityZone())) //
                 .withKeyName("xebia-france") //
-                .withUserData(Base64.encodeBase64String(jdbcUrl.getBytes())) //
+                .withUserData(userData) //
 
         ;
 
@@ -178,6 +190,28 @@ public class AmazonAwsPetclinicInfrastructureMaker {
         logger.info("Created {}", instances);
 
         return instances;
+    }
+
+    protected String buildUserData() {
+        try {
+            Thread.currentThread().getContextClassLoader().getResourceAsStream("provision_tomcat.py");
+            byte[] bytes = ByteStreams.toByteArray(Thread.currentThread().getContextClassLoader()
+                    .getResourceAsStream("provision_tomcat.py"));
+
+            MimeBodyPart userDataScriptPart = new MimeBodyPart();
+            userDataScriptPart.setText(new String(bytes), "us-ascii", "x-shellscript");
+            userDataScriptPart.setFileName("provision_tomcat.py");
+            MimeMultipart userData = new MimeMultipart();
+            userData.addBodyPart(userDataScriptPart);
+
+            MimeMessage msg = new MimeMessage(Session.getDefaultInstance(new Properties()));
+            msg.setContent(userData);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            msg.writeTo(baos);
+            return new String(baos.toByteArray());
+        } catch (Exception e) {
+            throw Throwables.propagate(e);
+        }
     }
 
     public CreateLoadBalancerResult createElasticLoadBalancer(List<Instance> ec2Instances) {
