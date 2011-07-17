@@ -88,5 +88,12 @@
          <artifactId>junit</artifactId>
          <scope>test</scope>
       </dependency>
+
+      <!-- Groovy -->
+      <dependency>
+         <groupId>org.codehaus.groovy</groupId>
+         <artifactId>groovy-all</artifactId>
+         <scope>provided</scope>
+      </dependency>
    </dependencies>
 </project>

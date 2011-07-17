@@ -1,7 +1,7 @@
-Content-Type: multipart/mixed; boundary="===============7760840742314021999=="
+Content-Type: multipart/mixed; boundary="===============3368047838066160523=="
 MIME-Version: 1.0
 
---===============7760840742314021999==
+--===============3368047838066160523==
 Content-Type: text/x-shellscript; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -10,10 +10,10 @@ Content-Disposition: attachment; filename="provision_tomcat.py"
 #!/usr/bin/env python
 from urllib import urlretrieve, URLopener
 from io import open
-catalinaBase = '/opt/apache-tomcat'
-
 import shutil
 from time import gmtime, strftime
+
+catalinaBase = '/opt/apache-tomcat'
 
 # BACKUP catalina.properties
 src = catalinaBase + '/conf/catalina.properties'
@@ -47,4 +47,4 @@ filename = catalinaBase + '/webapps/test-webapp-rfc2616-7.0.2.RC0.war'
 URLopener(proxies).retrieve(url, filename)
 
 print('Downloaded ' + filename)
---===============7760840742314021999==--
+--===============3368047838066160523==--

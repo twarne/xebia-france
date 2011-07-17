@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 from urllib import urlretrieve, URLopener
 from io import open
-catalinaBase = '/opt/apache-tomcat'
-
 import shutil
 from time import gmtime, strftime
+
+catalinaBase = '/opt/apache-tomcat'
 
 # BACKUP catalina.properties
 src = catalinaBase + '/conf/catalina.properties'
