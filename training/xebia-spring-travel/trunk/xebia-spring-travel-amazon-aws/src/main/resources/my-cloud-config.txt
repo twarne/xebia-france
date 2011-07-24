@@ -1,0 +1,16 @@
+#cloud-config
+ssh_import_id: [cleclerc]
+
+byobu_by_default: system
+
+ 
+packages:
+- wget
+- build-essential
+- openjdk-6-jdk
+- sun-java6-jdk
+- tomcat7 
+- tomcat7-admin 
+- tomcat7-docs 
+- tomcat7-examples
+- tomcat7-user
