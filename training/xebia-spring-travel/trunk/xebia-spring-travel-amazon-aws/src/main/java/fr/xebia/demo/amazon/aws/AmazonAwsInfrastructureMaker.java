@@ -51,7 +51,6 @@ import com.amazonaws.services.rds.model.CreateDBInstanceRequest;
 import com.amazonaws.services.rds.model.DBInstance;
 import com.amazonaws.services.rds.model.DescribeDBInstancesRequest;
 import com.amazonaws.services.rds.model.DescribeDBInstancesResult;
-import com.amazonaws.services.rds.model.Endpoint;
 import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;
@@ -190,6 +189,16 @@ public class AmazonAwsInfrastructureMaker {
         return dbInstance;
     }
 
+    /**
+     * Returns a base-64 version of the mime-multi-part user-data file.
+     * 
+     * @param distribution
+     * @param dbInstance
+     * @param jdbcUsername
+     * @param jdbcPassword
+     * @param warUrl
+     * @return
+     */
     protected String buildUserData(Distribution distribution, DBInstance dbInstance, String jdbcUsername, String jdbcPassword, String warUrl) {
 
         // USER DATA SHELL SCRIPT
@@ -228,25 +237,16 @@ public class AmazonAwsInfrastructureMaker {
         String jdbcPassword = "travel";
         String warUrl = "http://mirrors.ibiblio.org/pub/mirrors/maven2/org/eclipse/jetty/tests/test-webapp-rfc2616/7.0.2.RC0/test-webapp-rfc2616-7.0.2.RC0.war";
 
-        // DBInstance dbInstance = createDatabaseInstance(jdbcUsername,
-        // jdbcPassword);
-        DBInstance dbInstance = new DBInstance() //
-                .withAvailabilityZone("eu-west-1c") //
-                .withEndpoint(new Endpoint().withAddress("travel.cccb4ickfoh9.eu-west-1.rds.amazonaws.com").withPort(3306)) //
-        ;
+        DBInstance dbInstance = createDatabaseInstance(jdbcUsername, jdbcPassword);
 
-        // dbInstance = awaitForDbInstanceCreation(dbInstance);
+        dbInstance = awaitForDbInstanceCreation(dbInstance);
         System.out.println(dbInstance);
 
-        // Distribution distribution = Distribution.AMZN_LINUX;
-        for (Distribution distribution : Distribution.values()) {
-            List<Instance> travelEcommerceInstances = createTravelEcommerceTomcatServers(distribution, dbInstance, jdbcUsername,
-                    jdbcPassword, warUrl);
-        }
-        // CreateLoadBalancerResult createLoadBalancerResult =
-        // createElasticLoadBalancer(travelEcommerceInstances);
-        // System.out.println("Load Balancer DNS name: " +
-        // createLoadBalancerResult.getDNSName());
+        Distribution distribution = Distribution.AMZN_LINUX;
+        List<Instance> travelEcommerceInstances = createTravelEcommerceTomcatServers(distribution, dbInstance, jdbcUsername, jdbcPassword,
+                warUrl);
+        CreateLoadBalancerResult createLoadBalancerResult = createElasticLoadBalancer(travelEcommerceInstances);
+        System.out.println("Load Balancer DNS name: " + createLoadBalancerResult.getDNSName());
     }
 
     public DBInstance createDatabaseInstance(String jdbcUserName, String jdbcPassword) {

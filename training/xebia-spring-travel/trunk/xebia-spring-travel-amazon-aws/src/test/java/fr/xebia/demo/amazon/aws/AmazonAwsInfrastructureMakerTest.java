@@ -15,11 +15,13 @@
  */
 package fr.xebia.demo.amazon.aws;
 
-import static org.junit.Assert.*;
+import java.util.List;
 
 import org.apache.commons.codec.binary.Base64;
+import org.junit.Ignore;
 import org.junit.Test;
 
+import com.amazonaws.services.ec2.model.Instance;
 import com.amazonaws.services.rds.model.DBInstance;
 import com.amazonaws.services.rds.model.Endpoint;
 
@@ -56,5 +58,23 @@ public class AmazonAwsInfrastructureMakerTest {
 
         System.out.println(distribution);
         System.out.println(new String(Base64.decodeBase64(userData)));
+    }
+    
+    @Ignore
+    @SuppressWarnings("unused")
+    public void create_amazon_linux_instance() throws Exception {
+        if(true) {
+            throw new IllegalStateException("Should not be called");
+        }
+        AmazonAwsInfrastructureMaker maker = new AmazonAwsInfrastructureMaker();
+        List<Instance> instances = maker.createTravelEcommerceTomcatServers( //
+                Distribution.AMZN_LINUX, //
+                new DBInstance() //
+                .withAvailabilityZone("eu-west-1c") //
+                .withEndpoint(new Endpoint().withAddress("travel-db-hostname").withPort(3306)), //
+                "travel-username", //
+                "travel-password", //
+                "http://mirrors.ibiblio.org/pub/mirrors/maven2/org/eclipse/jetty/tests/test-webapp-rfc2616/7.0.2.RC0/test-webapp-rfc2616-7.0.2.RC0.war");
+        System.out.println("created " + instances);
     }
 }
