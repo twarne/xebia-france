@@ -4,7 +4,8 @@ from io import open
 import shutil
 from time import gmtime, strftime
 
-catalinaBase = '/var/lib/tomcat7'
+ 
+catalinaBase = '${catalinaBase}'
 
 # BACKUP catalina.properties
 src = catalinaBase + '/conf/catalina.properties'
@@ -21,6 +22,7 @@ f.write('\n')
 
 <#list systemProperties?keys as property>
 f.write('${property}=${systemProperties[property]}')
+
 </#list>
 
 f.write('\n')

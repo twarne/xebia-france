@@ -17,15 +17,32 @@ package fr.xebia.demo.amazon.aws;
 
 import static org.junit.Assert.*;
 
+import org.apache.commons.codec.binary.Base64;
 import org.junit.Test;
 
 import com.amazonaws.services.rds.model.DBInstance;
 import com.amazonaws.services.rds.model.Endpoint;
 
+import fr.xebia.demo.amazon.aws.AmazonAwsInfrastructureMaker.Distribution;
+
 public class AmazonAwsInfrastructureMakerTest {
 
     @Test
-    public void test() {
+    public void test_generate_ubuntu_10_10_user_data() {
+        test_generate_user_data(Distribution.UBUNTU_10_10);
+    }
+
+    @Test
+    public void test_generate_ubuntu_10_04_user_data() {
+        test_generate_user_data(Distribution.UBUNTU_10_04);
+    }
+
+    @Test
+    public void test_generate_amzn_linux_user_data() {
+        test_generate_user_data(Distribution.AMZN_LINUX);
+    }
+
+    void test_generate_user_data(Distribution distribution) {
         AmazonAwsInfrastructureMaker maker = new AmazonAwsInfrastructureMaker();
         DBInstance dbInstance = new DBInstance() //
                 .withEndpoint(new Endpoint() //
@@ -34,8 +51,10 @@ public class AmazonAwsInfrastructureMakerTest {
                 ) //
                 .withMasterUsername("travel");
 
-        String userData = maker.buildUserData(dbInstance, "travel", "travel", "http://example.com/the/path/to/my/test-war-1.2.3.war");
-        
-        System.out.println(userData);
+        String userData = maker.buildUserData(distribution, dbInstance, "travel", "travel",
+                "http://example.com/the/path/to/my/test-war-1.2.3.war");
+
+        System.out.println(distribution);
+        System.out.println(new String(Base64.decodeBase64(userData)));
     }
 }

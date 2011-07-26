@@ -66,11 +66,73 @@ import fr.xebia.cloud.cloudinit.FreemarkerUtils;
 
 public class AmazonAwsInfrastructureMaker {
 
-    /**
-     * see <a href="http://cloud.ubuntu.com/ami/">Ubuntu Cloud Portal - AMI
-     * Locator</a>
-     */
-    protected final static String AMI_UBUNTU_ONEIRIC_I386_EBS_EU_WEST_1 = "ami-0aa7967e";
+    enum Distribution {
+        AMZN_LINUX("ami-47cefa33", "cloud-config-redhat-5.txt", "/usr/share/tomcat6", "t1.micro"), //
+        UBUNTU_10_04("ami-359ea941", "cloud-config-ubuntu-10.04.txt", "/var/lib/tomcat6", "m1.small"), //
+        UBUNTU_10_10("ami-0aa7967e", "cloud-config-ubuntu-10.10.txt", "/var/lib/tomcat7", "m1.small");
+
+        /**
+         * see <a href="http://cloud.ubuntu.com/ami/">Ubuntu Cloud Portal - AMI
+         * Locator</a>
+         */
+        private final String amiId;
+
+        private final String catalinaBase;
+
+        private final String cloudConfigFilePath;
+
+        private final String instanceType;
+
+        private Distribution(String amiId, String cloudConfigFilePath, String catalinaBase, String instanceType) {
+            this.amiId = amiId;
+            this.cloudConfigFilePath = cloudConfigFilePath;
+            this.catalinaBase = catalinaBase;
+            this.instanceType = instanceType;
+        }
+
+        public String getInstanceType() {
+            return instanceType;
+        }
+
+        /**
+         * ID of the AMI in the eu-west-1 region.
+         */
+        public String getAmiId() {
+            return amiId;
+        }
+
+        /**
+         * <p>
+         * "catalina_base" folder.
+         * </p>
+         * <p>
+         * Differs between redhat/ubuntu and between versions.
+         * </p>
+         * <p>
+         * e.g."/var/lib/tomcat7", "/usr/share/tomcat6".
+         * </p>
+         */
+        public String getCatalinaBase() {
+            return catalinaBase;
+        }
+
+        /**
+         * <p>
+         * Classpath relative path to the "cloud-config" file.
+         * </p>
+         * <p>
+         * "cloud-config" files differ between distributions due to the
+         * different name of the packages and the different versions available.
+         * </p>
+         * <p>
+         * e.g."cloud-config-ubuntu-10.04.txt", "cloud-config-redhat-5.txt".
+         * </p>
+         */
+        public String getCloudConfigFilePath() {
+            return cloudConfigFilePath;
+        }
+
+    }
 
     protected final static String AMI_CUSTOM_LINUX_SUN_JDK6_TOMCAT7 = "ami-44506030";
 
@@ -80,32 +142,13 @@ public class AmazonAwsInfrastructureMaker {
 
     }
 
-    protected final Logger logger = LoggerFactory.getLogger(getClass());
-
     private AmazonEC2 ec2;
-
-    private AmazonRDS rds;
 
     private AmazonElasticLoadBalancing elb;
 
-    public void createAll() {
-        String jdbcUsername = "travel";
-        String jdbcPassword = "travel";
-        String warUrl = "http://mirrors.ibiblio.org/pub/mirrors/maven2/org/eclipse/jetty/tests/test-webapp-rfc2616/7.0.2.RC0/test-webapp-rfc2616-7.0.2.RC0.war";
+    protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-        // DBInstance dbInstance = createDatabaseInstance(jdbcUsername,
-        // jdbcPassword);
-        DBInstance dbInstance = new DBInstance() //
-                .withAvailabilityZone("eu-west-1c") //
-                .withEndpoint(new Endpoint().withAddress("travel.cccb4ickfoh9.eu-west-1.rds.amazonaws.com").withPort(3306)) //
-        ;
-
-        // dbInstance = awaitForDbInstanceCreation(dbInstance);
-        System.out.println(dbInstance);
-        List<Instance> travelEcommerceInstances = createTravelEcommerceTomcatServers(dbInstance, jdbcUsername, jdbcPassword, warUrl);
-        // CreateLoadBalancerResult createLoadBalancerResult = createElasticLoadBalancer(travelEcommerceInstances);
-        // System.out.println("Load Balancer DNS name: " + createLoadBalancerResult.getDNSName());
-    }
+    private AmazonRDS rds;
 
     public AmazonAwsInfrastructureMaker() {
         try {
@@ -121,14 +164,6 @@ public class AmazonAwsInfrastructureMaker {
             elb.setEndpoint("elasticloadbalancing.eu-west-1.amazonaws.com");
         } catch (IOException e) {
             throw Throwables.propagate(e);
-        }
-    }
-
-    public void listDbInstances() {
-        DescribeDBInstancesResult describeDBInstancesResult = rds.describeDBInstances();
-        System.out.println(describeDBInstancesResult);
-        for (DBInstance dbInstance : describeDBInstancesResult.getDBInstances()) {
-            System.out.println(dbInstance);
         }
     }
 
@@ -155,6 +190,65 @@ public class AmazonAwsInfrastructureMaker {
         return dbInstance;
     }
 
+    protected String buildUserData(Distribution distribution, DBInstance dbInstance, String jdbcUsername, String jdbcPassword, String warUrl) {
+
+        // USER DATA SHELL SCRIPT
+        Map<String, Object> rootMap = Maps.newHashMap();
+        rootMap.put("catalinaBase", distribution.getCatalinaBase());
+        rootMap.put("warUrl", warUrl);
+        String warName = Iterables.getLast(Splitter.on("/").split(warUrl));
+        rootMap.put("warName", warName);
+
+        Map<String, String> systemProperties = Maps.newHashMap();
+        rootMap.put("systemProperties", systemProperties);
+        String jdbcUrl = "jdbc:mysql://" + dbInstance.getEndpoint().getAddress() + ":" + dbInstance.getEndpoint().getPort() + "/"
+                + dbInstance.getDBName();
+        systemProperties.put("jdbc.url", jdbcUrl);
+        systemProperties.put("jdbc.username", jdbcUsername);
+        systemProperties.put("jdbc.password", jdbcPassword);
+
+        String shellScript = FreemarkerUtils.generate(rootMap, "/provision_tomcat.py.fmt");
+
+        // USER DATA CLOUD CONFIG
+        InputStream cloudConfigAsStream = Thread.currentThread().getContextClassLoader()
+                .getResourceAsStream(distribution.getCloudConfigFilePath());
+        Preconditions.checkNotNull(cloudConfigAsStream, "'" + distribution.getCloudConfigFilePath() + "' not found in path");
+        Readable cloudConfig = new InputStreamReader(cloudConfigAsStream);
+
+        return CloudInitUserDataBuilder.start() //
+                .addShellScript(shellScript) //
+                .addCloudConfig(cloudConfig) //
+                .buildBase64UserData();
+
+    }
+
+    public void createAll() {
+
+        String jdbcUsername = "travel";
+        String jdbcPassword = "travel";
+        String warUrl = "http://mirrors.ibiblio.org/pub/mirrors/maven2/org/eclipse/jetty/tests/test-webapp-rfc2616/7.0.2.RC0/test-webapp-rfc2616-7.0.2.RC0.war";
+
+        // DBInstance dbInstance = createDatabaseInstance(jdbcUsername,
+        // jdbcPassword);
+        DBInstance dbInstance = new DBInstance() //
+                .withAvailabilityZone("eu-west-1c") //
+                .withEndpoint(new Endpoint().withAddress("travel.cccb4ickfoh9.eu-west-1.rds.amazonaws.com").withPort(3306)) //
+        ;
+
+        // dbInstance = awaitForDbInstanceCreation(dbInstance);
+        System.out.println(dbInstance);
+
+        // Distribution distribution = Distribution.AMZN_LINUX;
+        for (Distribution distribution : Distribution.values()) {
+            List<Instance> travelEcommerceInstances = createTravelEcommerceTomcatServers(distribution, dbInstance, jdbcUsername,
+                    jdbcPassword, warUrl);
+        }
+        // CreateLoadBalancerResult createLoadBalancerResult =
+        // createElasticLoadBalancer(travelEcommerceInstances);
+        // System.out.println("Load Balancer DNS name: " +
+        // createLoadBalancerResult.getDNSName());
+    }
+
     public DBInstance createDatabaseInstance(String jdbcUserName, String jdbcPassword) {
         CreateDBInstanceRequest createDBInstanceRequest = new CreateDBInstanceRequest() //
                 .withDBInstanceIdentifier("travel") //
@@ -173,72 +267,6 @@ public class AmazonAwsInfrastructureMaker {
         DBInstance dbInstance = rds.createDBInstance(createDBInstanceRequest);
         logger.info("Created {}", dbInstance);
         return dbInstance;
-    }
-
-    protected String buildUserData(DBInstance dbInstance, String jdbcUsername, String jdbcPassword, String warUrl) {
-
-        // USER DATA SHELL SCRIPT
-        Map<String, Object> rootMap = Maps.newHashMap();
-        Map<String, String> systemProperties = Maps.newHashMap();
-        String jdbcUrl = "jdbc:mysql://" + dbInstance.getEndpoint().getAddress() + ":" + dbInstance.getEndpoint().getPort() + "/"
-                + dbInstance.getDBName();
-        systemProperties.put("jdbc.url", jdbcUrl);
-        systemProperties.put("jdbc.username", jdbcUsername);
-        systemProperties.put("jdbc.password", jdbcPassword);
-
-        rootMap.put("systemProperties", systemProperties);
-        rootMap.put("warUrl", warUrl);
-        String warName = Iterables.getLast(Splitter.on("/").split(warUrl));
-        rootMap.put("warName", warName);
-        rootMap.put("warUrl", warUrl);
-        String shellScript = FreemarkerUtils.generate(rootMap, "/provision_tomcat.py.fmt");
-
-        // USER DATA CLOUD CONFIG
-        InputStream cloudConfigAsStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("cloud-config.txt");
-        Preconditions.checkNotNull(cloudConfigAsStream, "'cloud-config.txt' not found in path");
-        Readable cloudConfig = new InputStreamReader(cloudConfigAsStream);
-
-        return CloudInitUserDataBuilder.start() //
-                .addShellScript(shellScript) //
-                .addCloudConfig(cloudConfig) //
-                .buildBase64UserData();
-
-    }
-
-    public List<Instance> createTravelEcommerceTomcatServers(DBInstance dbInstance, String jdbcUsername, String jdbcPassword, String warUrl) {
-
-        String userData = buildUserData(dbInstance, jdbcUsername, jdbcPassword, warUrl);
-
-        // CREATE EC2 INSTANCES
-        RunInstancesRequest runInstancesRequest = new RunInstancesRequest() //
-                .withInstanceType("m1.small") //
-                .withImageId(AMI_UBUNTU_ONEIRIC_I386_EBS_EU_WEST_1) //
-                .withMinCount(1) //
-                .withMaxCount(1) //
-                .withSecurityGroupIds("tomcat") //
-                .withPlacement(new Placement(dbInstance.getAvailabilityZone())) //
-                .withKeyName("xebia-france") //
-                .withUserData(userData) //
-
-        ;
-
-        RunInstancesResult runInstances = ec2.runInstances(runInstancesRequest);
-
-        // TAG EC2 INSTANCES
-        List<Instance> instances = runInstances.getReservation().getInstances();
-        int idx = 1;
-        for (Instance instance : instances) {
-            CreateTagsRequest createTagsRequest = new CreateTagsRequest();
-            createTagsRequest.withResources(instance.getInstanceId()) //
-                    .withTags(new Tag("Name", "travel-ecommerce-" + idx));
-            ec2.createTags(createTagsRequest);
-
-            idx++;
-        }
-
-        logger.info("Created {}", instances);
-
-        return instances;
     }
 
     public CreateLoadBalancerResult createElasticLoadBalancer(List<Instance> ec2Instances) {
@@ -297,5 +325,52 @@ public class AmazonAwsInfrastructureMaker {
         logger.info("Created {}", createLoadBalancerResult);
 
         return createLoadBalancerResult;
+    }
+
+    public List<Instance> createTravelEcommerceTomcatServers(Distribution distribution, DBInstance dbInstance, String jdbcUsername,
+            String jdbcPassword, String warUrl) {
+
+        String userData = buildUserData(distribution, dbInstance, jdbcUsername, jdbcPassword, warUrl);
+
+        // CREATE EC2 INSTANCES
+        RunInstancesRequest runInstancesRequest = new RunInstancesRequest() //
+                .withInstanceType(distribution.getInstanceType()) //
+                .withImageId(distribution.getAmiId()) //
+                .withMinCount(1) //
+                .withMaxCount(1) //
+                .withSecurityGroupIds("tomcat") //
+                .withPlacement(new Placement(dbInstance.getAvailabilityZone())) //
+                .withKeyName("xebia-france") //
+                .withUserData(userData) //
+
+        ;
+
+        RunInstancesResult runInstances = ec2.runInstances(runInstancesRequest);
+
+        // TAG EC2 INSTANCES
+        List<Instance> instances = runInstances.getReservation().getInstances();
+        int idx = 1;
+        for (Instance instance : instances) {
+            CreateTagsRequest createTagsRequest = new CreateTagsRequest();
+            createTagsRequest.withResources(instance.getInstanceId()) //
+                    .withTags(//
+                            new Tag("Name", "travel-ecommerce-" + idx), //
+                            new Tag("Type", distribution.name().toLowerCase()));
+            ec2.createTags(createTagsRequest);
+
+            idx++;
+        }
+
+        logger.info("Created {}", instances);
+
+        return instances;
+    }
+
+    public void listDbInstances() {
+        DescribeDBInstancesResult describeDBInstancesResult = rds.describeDBInstances();
+        System.out.println(describeDBInstancesResult);
+        for (DBInstance dbInstance : describeDBInstancesResult.getDBInstances()) {
+            System.out.println(dbInstance);
+        }
     }
 }
