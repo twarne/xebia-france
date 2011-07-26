@@ -63,17 +63,40 @@ import com.google.common.collect.Sets;
 import fr.xebia.cloud.cloudinit.CloudInitUserDataBuilder;
 import fr.xebia.cloud.cloudinit.FreemarkerUtils;
 
+/**
+ * <p>
+ * Builds a java petclinic infrastructure on Amazon EC2.
+ * </p>
+ * <p>
+ * creates:
+ * <ul>
+ * <li>1 MySQL database</li>
+ * <li>2 Tomcat / xebia-pet-clinic servers connected to the mysql database
+ * (connected via the injection of the jdbc parameters in catalina.properties
+ * via cloud-init)</li>
+ * <li>1 load balancer</li>
+ * </ul>
+ * </p>
+ * 
+ * @author <a href="mailto:cyrille@cyrilleleclerc.com">Cyrille Le Clerc</a>
+ */
 public class AmazonAwsInfrastructureMaker {
 
     enum Distribution {
-        AMZN_LINUX("ami-47cefa33", "cloud-config-redhat-5.txt", "/usr/share/tomcat6", "t1.micro"), //
-        UBUNTU_10_04("ami-359ea941", "cloud-config-ubuntu-10.04.txt", "/var/lib/tomcat6", "m1.small"), //
-        UBUNTU_10_10("ami-0aa7967e", "cloud-config-ubuntu-10.10.txt", "/var/lib/tomcat7", "m1.small");
-
         /**
-         * see <a href="http://cloud.ubuntu.com/ami/">Ubuntu Cloud Portal - AMI
-         * Locator</a>
+         * <a href="http://aws.amazon.com/amazon-linux-ami/">Amazon Linux
+         * AMI</a>
          */
+        AMZN_LINUX("ami-47cefa33", "cloud-config-redhat-5.txt", "/usr/share/tomcat6", "t1.micro"), //
+        /**
+         * <a href="http://cloud.ubuntu.com/ami/">Ubuntu Natty (11.04) AMI</a>
+         */
+        UBUNTU_11_04("ami-359ea941", "cloud-config-ubuntu-11.04.txt", "/var/lib/tomcat6", "m1.small"), //
+        /**
+         * <a href="http://cloud.ubuntu.com/ami/">Ubuntu Oneiric (11.10) AMI</a>
+         */
+        UBUNTU_11_10("ami-0aa7967e", "cloud-config-ubuntu-11.10.txt", "/var/lib/tomcat7", "m1.small");
+
         private final String amiId;
 
         private final String catalinaBase;
@@ -137,7 +160,7 @@ public class AmazonAwsInfrastructureMaker {
 
     public static void main(String[] args) throws Exception {
         AmazonAwsInfrastructureMaker infrastructureMaker = new AmazonAwsInfrastructureMaker();
-        infrastructureMaker.createAll();
+        infrastructureMaker.createAmznLinuxBasedInfrastructure();
 
     }
 
@@ -231,18 +254,25 @@ public class AmazonAwsInfrastructureMaker {
 
     }
 
-    public void createAll() {
+    public void createAmznLinuxBasedInfrastructure() {
+        createInfrastructure(Distribution.AMZN_LINUX);
+    }
 
+    public void createUbuntuOneiricBasedInfrastructure() {
+        createInfrastructure(Distribution.UBUNTU_11_10);
+    }
+
+    void createInfrastructure(Distribution distribution) {
         String jdbcUsername = "travel";
         String jdbcPassword = "travel";
         String warUrl = "http://mirrors.ibiblio.org/pub/mirrors/maven2/org/eclipse/jetty/tests/test-webapp-rfc2616/7.0.2.RC0/test-webapp-rfc2616-7.0.2.RC0.war";
+        System.err.println("TODO: wire to the adequate war, not to " + warUrl);
 
         DBInstance dbInstance = createDatabaseInstance(jdbcUsername, jdbcPassword);
 
         dbInstance = awaitForDbInstanceCreation(dbInstance);
         System.out.println(dbInstance);
 
-        Distribution distribution = Distribution.AMZN_LINUX;
         List<Instance> travelEcommerceInstances = createTravelEcommerceTomcatServers(distribution, dbInstance, jdbcUsername, jdbcPassword,
                 warUrl);
         CreateLoadBalancerResult createLoadBalancerResult = createElasticLoadBalancer(travelEcommerceInstances);
@@ -336,8 +366,8 @@ public class AmazonAwsInfrastructureMaker {
         RunInstancesRequest runInstancesRequest = new RunInstancesRequest() //
                 .withInstanceType(distribution.getInstanceType()) //
                 .withImageId(distribution.getAmiId()) //
-                .withMinCount(1) //
-                .withMaxCount(1) //
+                .withMinCount(2) //
+                .withMaxCount(2) //
                 .withSecurityGroupIds("tomcat") //
                 .withPlacement(new Placement(dbInstance.getAvailabilityZone())) //
                 .withKeyName("xebia-france") //
