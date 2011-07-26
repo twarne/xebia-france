@@ -21,8 +21,7 @@ f.write('# BEGIN OF ADDED BY CLOUD-INIT ' + strftime('%Y/%m/%d-%H:%M:%S', gmtime
 f.write('\n')
 
 <#list systemProperties?keys as property>
-f.write('${property}=${systemProperties[property]}')
-
+f.write('${property}=${systemProperties[property]}\n')
 </#list>
 
 f.write('\n')
