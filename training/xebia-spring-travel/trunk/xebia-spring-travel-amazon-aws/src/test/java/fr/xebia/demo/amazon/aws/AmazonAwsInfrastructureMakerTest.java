@@ -30,12 +30,12 @@ import fr.xebia.demo.amazon.aws.AmazonAwsInfrastructureMaker.Distribution;
 public class AmazonAwsInfrastructureMakerTest {
 
     @Test
-    public void test_generate_ubuntu_10_10_user_data() {
+    public void test_generate_ubuntu_11_10_user_data() {
         test_generate_user_data(Distribution.UBUNTU_11_10);
     }
 
     @Test
-    public void test_generate_ubuntu_10_04_user_data() {
+    public void test_generate_ubuntu_11_04_user_data() {
         test_generate_user_data(Distribution.UBUNTU_11_04);
     }
 

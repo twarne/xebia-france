@@ -1,0 +1,69 @@
+Message-ID: <188642725.1.1311641321045.JavaMail.cyrilleleclerc@cyrille-le-clercs-macbook-pro.local>
+MIME-Version: 1.0
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_0_1991377746.1311641321011"
+
+------=_Part_0_1991377746.1311641321011
+Content-Type: text/x-shellscript; charset=UTF-8; 
+	name=cloudinit-userdata-script.txt
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename=cloudinit-userdata-script.txt
+
+#!/usr/bin/env python
+from urllib import urlretrieve, URLopener
+from io import open
+import shutil
+from time import gmtime, strftime
+
+ 
+catalinaBase = '/var/lib/tomcat7'
+
+# BACKUP catalina.properties
+src = catalinaBase + '/conf/catalina.properties'
+dst = catalinaBase + '/conf/catalina-' + strftime('%Y%m%d-%H%M%S', gmtime()) + '.properties'
+shutil.copy(src, dst)
+
+print('Created backup ' + dst)
+
+f = open(src, 'ab')
+
+f.write('\n\n')
+f.write('# BEGIN OF ADDED BY CLOUD-INIT ' + strftime('%Y/%m/%d-%H:%M:%S', gmtime()) + '#\n')
+f.write('\n')
+
+f.write('jdbc.url=jdbc:mysql://my-db-host:3306/null\n')
+f.write('jdbc.username=travel\n')
+f.write('jdbc.password=travel\n')
+
+f.write('\n')
+f.write('# END OF ADDED BY CLOUD-INIT #\n')
+f.write('\n')
+f.close()
+
+print('Updated ' + src)
+
+# DOWNLOAD WAR
+proxies = {}
+url = 'http://example.com/the/path/to/my/test-war-1.2.3.war'
+filename = catalinaBase + '/webapps/test-war-1.2.3.war'
+URLopener(proxies).retrieve(url, filename)
+
+print('Downloaded ' + filename)
+------=_Part_0_1991377746.1311641321011
+Content-Type: text/cloud-config; charset=UTF-8; 
+	name=cloudinit-cloud-config.txt
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename=cloudinit-cloud-config.txt
+
+#cloud-config
+
+timezone: Europe/Paris
+
+ssh_authorized_keys:
+ - ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEArFjBWJ4AVaH9XJ1pgsl/8xtr2T7gZeGLpkuo6dgnFFFPu7Gn8fZXMXfhkIRXNhtnhe5pXNDXFDhSRx7TK5HPHTyGQtiKuyK1DD0mQXxqcoIFP1bIptuKWT0sgU6eHdloTw3kTVVh+wDHrBSj2siaU8eqIEym89MBOUoAaFErDTvDJXZboHLyBHbl40HreVy6JdeVHv0yZ00Mc27rIH1tw47RH53vOGTAWvPP8OjP8v8q3H4+Qew5hASyv/U+vvW7s49TIncweAsgEoWaAQxNq9Bm+oi2g0sJrNumGHWVViRtw3BweYvKf6TFJGkINbvsd6XSPWhcSaZmAAqCrnEb6w== cyrille@cyrilleleclerc.com
+ 
+packages:
+- openjdk-7-jdk
+- tomcat7
+------=_Part_0_1991377746.1311641321011--
+
