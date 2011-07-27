@@ -96,7 +96,7 @@ Detect {{{Connection}}}, {{{Session}}}, {{{MessageProducer}}}, {{{MessageConsume
 List of open resources is available via JMX with the creation context (time, thread name and stack trace).
 
 
-Sample of {{{dumpAllOpenedResources()}}} called on an application using a Spring {{{DefaultMessageListenerContainer}}}:
+Sample of "{{{dumpAllOpenedResources()}}}" call on an application using a Spring {{{DefaultMessageListenerContainer}}}:
 
 <a href="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-visualvm-jms-operations.png"><img src="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-visualvm-jms-operations.png" height="150"/></a>
 
