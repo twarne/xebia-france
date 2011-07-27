@@ -18,9 +18,12 @@ package fr.xebia.demo.amazon.aws;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import javax.annotation.Nonnull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,7 +56,6 @@ import com.amazonaws.services.rds.model.DescribeDBInstancesRequest;
 import com.amazonaws.services.rds.model.DescribeDBInstancesResult;
 import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
-import com.google.common.base.Splitter;
 import com.google.common.base.Throwables;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -82,7 +84,7 @@ import fr.xebia.cloud.cloudinit.FreemarkerUtils;
  */
 public class AmazonAwsPetclinicInfrastructureMaker {
 
-    enum Distribution {
+    public enum Distribution {
         /**
          * <a href="http://aws.amazon.com/amazon-linux-ami/">Amazon Linux
          * AMI</a>
@@ -97,6 +99,21 @@ public class AmazonAwsPetclinicInfrastructureMaker {
          */
         UBUNTU_11_10("ami-0aa7967e", "cloud-config-ubuntu-11.10.txt", "/var/lib/tomcat7", "m1.small");
 
+        private final static Map<String, Distribution> DISTRIBUTIONS_BY_AMI_ID = Maps.uniqueIndex(Arrays.asList(Distribution.values()),
+                new Function<Distribution, String>() {
+                    @Override
+                    public String apply(Distribution distribution) {
+                        return distribution.getAmiId();
+                    }
+                });
+
+        @Nonnull
+        public static Distribution fromAmiId(@Nonnull String amiId) throws NullPointerException, IllegalArgumentException {
+            Distribution distribution = DISTRIBUTIONS_BY_AMI_ID.get(Preconditions.checkNotNull(amiId, "amiId is null"));
+            Preconditions.checkArgument(distribution != null, "No distribution found for amiId '%s'", amiId);
+            return distribution;
+        }
+
         private final String amiId;
 
         private final String catalinaBase;
@@ -110,10 +127,6 @@ public class AmazonAwsPetclinicInfrastructureMaker {
             this.cloudConfigFilePath = cloudConfigFilePath;
             this.catalinaBase = catalinaBase;
             this.instanceType = instanceType;
-        }
-
-        public String getInstanceType() {
-            return instanceType;
         }
 
         /**
@@ -154,13 +167,17 @@ public class AmazonAwsPetclinicInfrastructureMaker {
             return cloudConfigFilePath;
         }
 
+        public String getInstanceType() {
+            return instanceType;
+        }
+
     }
 
     protected final static String AMI_CUSTOM_LINUX_SUN_JDK6_TOMCAT7 = "ami-44506030";
 
     public static void main(String[] args) throws Exception {
         AmazonAwsPetclinicInfrastructureMaker infrastructureMaker = new AmazonAwsPetclinicInfrastructureMaker();
-        infrastructureMaker.createAmznLinuxBasedInfrastructure();
+        infrastructureMaker.createInfrastructure(Distribution.AMZN_LINUX, Distribution.UBUNTU_11_10, Distribution.UBUNTU_11_04);
 
     }
 
@@ -190,6 +207,8 @@ public class AmazonAwsPetclinicInfrastructureMaker {
     }
 
     public DBInstance awaitForDbInstanceCreation(DBInstance dbInstance) {
+        System.out.println("Get Instance " + dbInstance.getDBInstanceIdentifier() + "/" + dbInstance.getDBName() + " status");
+
         int counter = 0;
         while (!"available".equals(dbInstance.getDBInstanceStatus())) {
             if (counter > 0) {
@@ -222,14 +241,14 @@ public class AmazonAwsPetclinicInfrastructureMaker {
      * @param warUrl
      * @return
      */
-    protected String buildUserData(Distribution distribution, DBInstance dbInstance, String jdbcUsername, String jdbcPassword, String warUrl) {
+    protected String buildUserData(Distribution distribution, DBInstance dbInstance, String jdbcUsername, String jdbcPassword,
+            String warUrl, String warFileName) {
 
         // USER DATA SHELL SCRIPT
         Map<String, Object> rootMap = Maps.newHashMap();
         rootMap.put("catalinaBase", distribution.getCatalinaBase());
         rootMap.put("warUrl", warUrl);
-        String warName = Iterables.getLast(Splitter.on("/").split(warUrl));
-        rootMap.put("warName", warName);
+        rootMap.put("warName", warFileName);
 
         Map<String, String> systemProperties = Maps.newHashMap();
         rootMap.put("systemProperties", systemProperties);
@@ -256,27 +275,6 @@ public class AmazonAwsPetclinicInfrastructureMaker {
 
     public void createAmznLinuxBasedInfrastructure() {
         createInfrastructure(Distribution.AMZN_LINUX);
-    }
-
-    public void createUbuntuOneiricBasedInfrastructure() {
-        createInfrastructure(Distribution.UBUNTU_11_10);
-    }
-
-    void createInfrastructure(Distribution distribution) {
-        String jdbcUsername = "petclinic";
-        String jdbcPassword = "petclinic";
-        String warUrl = "http://mirrors.ibiblio.org/pub/mirrors/maven2/org/eclipse/jetty/tests/test-webapp-rfc2616/7.0.2.RC0/test-webapp-rfc2616-7.0.2.RC0.war";
-        System.err.println("TODO: wire to the adequate war, not to " + warUrl);
-
-        DBInstance dbInstance = createDatabaseInstance(jdbcUsername, jdbcPassword);
-
-        dbInstance = awaitForDbInstanceCreation(dbInstance);
-        System.out.println(dbInstance);
-
-        List<Instance> petclinicInstances = createPetclinicTomcatServers(distribution, dbInstance, jdbcUsername, jdbcPassword,
-                warUrl);
-        CreateLoadBalancerResult createLoadBalancerResult = createElasticLoadBalancer(petclinicInstances);
-        System.out.println("Load Balancer DNS name: " + createLoadBalancerResult.getDNSName());
     }
 
     public DBInstance createDatabaseInstance(String jdbcUserName, String jdbcPassword) {
@@ -357,35 +355,55 @@ public class AmazonAwsPetclinicInfrastructureMaker {
         return createLoadBalancerResult;
     }
 
-    public List<Instance> createPetclinicTomcatServers(Distribution distribution, DBInstance dbInstance, String jdbcUsername,
-            String jdbcPassword, String warUrl) {
+    void createInfrastructure(Distribution... distributions) {
+        String jdbcUsername = "petclinic";
+        String jdbcPassword = "petclinic";
+        String warUrl = "http://xebia-france.googlecode.com/svn/repository/maven2/fr/xebia/demo/xebia-petclinic/1.0.0/xebia-petclinic-1.0.0.war";
+        String warFileName = "petclinic.war";
 
-        String userData = buildUserData(distribution, dbInstance, jdbcUsername, jdbcPassword, warUrl);
+        DBInstance dbInstance = createDatabaseInstance(jdbcUsername, jdbcPassword);
+        // DBInstance dbInstance = new DBInstance().withDBInstanceIdentifier("petclinic");
+        dbInstance = awaitForDbInstanceCreation(dbInstance);
+        System.out.println("MySQL instance: " + dbInstance);
 
-        // CREATE EC2 INSTANCES
-        RunInstancesRequest runInstancesRequest = new RunInstancesRequest() //
-                .withInstanceType(distribution.getInstanceType()) //
-                .withImageId(distribution.getAmiId()) //
-                .withMinCount(2) //
-                .withMaxCount(2) //
-                .withSecurityGroupIds("tomcat") //
-                .withPlacement(new Placement(dbInstance.getAvailabilityZone())) //
-                .withKeyName("xebia-france") //
-                .withUserData(userData) //
+        List<Instance> petclinicInstances = createPetclinicTomcatServers(dbInstance, jdbcUsername, jdbcPassword, warUrl, warFileName,
+                distributions);
+        System.out.println("EC2 instances: " + petclinicInstances);
+        CreateLoadBalancerResult createLoadBalancerResult = createElasticLoadBalancer(petclinicInstances);
+        System.out.println("Load Balancer DNS name: " + createLoadBalancerResult.getDNSName());
+    }
 
-        ;
+    public List<Instance> createPetclinicTomcatServers(DBInstance dbInstance, String jdbcUsername, String jdbcPassword, String warUrl,
+            String warFileName, Distribution... distributions) {
 
-        RunInstancesResult runInstances = ec2.runInstances(runInstancesRequest);
+        List<Instance> instances = Lists.newArrayList();
+        for (Distribution distribution : distributions) {
+            String userData = buildUserData(distribution, dbInstance, jdbcUsername, jdbcPassword, warUrl, warFileName);
+
+            // CREATE EC2 INSTANCES
+            RunInstancesRequest runInstancesRequest = new RunInstancesRequest() //
+                    .withInstanceType(distribution.getInstanceType()) //
+                    .withImageId(distribution.getAmiId()) //
+                    .withMinCount(1) //
+                    .withMaxCount(1) //
+                    .withSecurityGroupIds("tomcat") //
+                    .withPlacement(new Placement(dbInstance.getAvailabilityZone())) //
+                    .withKeyName("xebia-france") //
+                    .withUserData(userData) //
+
+            ;
+            RunInstancesResult runInstances = ec2.runInstances(runInstancesRequest);
+            instances.addAll(runInstances.getReservation().getInstances());
+        }
 
         // TAG EC2 INSTANCES
-        List<Instance> instances = runInstances.getReservation().getInstances();
         int idx = 1;
         for (Instance instance : instances) {
             CreateTagsRequest createTagsRequest = new CreateTagsRequest();
             createTagsRequest.withResources(instance.getInstanceId()) //
                     .withTags(//
                             new Tag("Name", "petclinic-" + idx), //
-                            new Tag("Type", distribution.name().toLowerCase()));
+                            new Tag("Type", Distribution.fromAmiId(instance.getImageId()).name().toLowerCase()));
             ec2.createTags(createTagsRequest);
 
             idx++;
@@ -394,6 +412,10 @@ public class AmazonAwsPetclinicInfrastructureMaker {
         logger.info("Created {}", instances);
 
         return instances;
+    }
+
+    public void createUbuntuOneiricBasedInfrastructure() {
+        createInfrastructure(Distribution.UBUNTU_11_10);
     }
 
     public void listDbInstances() {
