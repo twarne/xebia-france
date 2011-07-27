@@ -40,10 +40,10 @@
 
 == Configuration attributes ==
 
-|| *Name* || *Req'd* || *Default Value* ||  *Description* ||
-|| {{{id}}} || Yes || N/A || Id of the bean, used to build the object name as {{{"javax.jms:type=ConnectionFactory,name=${id}"}}} ||
-|| {{{connection-factory}}} || Yes || N/A || name of the wrapped JMS ConnectionFactory ||
-|| {{{track-leaks}}} || No || {{{false}}} || Enable leaks detector (*WARNING*: not for use in production) ||
+|| *Name* || *Req'd* || Type || *Default Value* ||  *Description* ||
+|| {{{id}}} || Yes || String / bean-id || N/A || Id of the bean, used to build the object name as {{{"javax.jms:type=ConnectionFactory,name=${id}"}}} ||
+|| {{{connection-factory}}} || String / bean-id || Yes || N/A || name of the wrapped JMS ConnectionFactory ||
+|| {{{track-leaks}}} || boolean or property placeholder  || No || {{{false}}} || Enable leaks detector (*WARNING*: not for use in production) ||
 
 == JMX MBean Object Name ==
 
@@ -76,6 +76,7 @@ Here are the metrics monitored by the ManagedJmsConnectionFactory:
 || {{{CloseMessageProducerCount}}} || Trends Up || Number of closed JMS message producers  ||
 || {{{CloseMessageConsumerCount}}} || Trends Up || Number of closed JMS message consumers ||
 || {{{CloseSessionCount}}} || Trends Up ||  Number of closed JMS sessions ||
+|| {{{dumpAllOpenedResources()}}} || Operation ||  List of created resource as string (name + creation date, thread-name, thread dump) ||
 
 Key metrics are usually:
  * {{{ActiveConnectionCount}}}, {{{ActiveSessionCount}}}, {{{ActiveMessageConsumerCount}}} and {{{ActiveMessageProducerCount}}} to monitor the flow of messages,
