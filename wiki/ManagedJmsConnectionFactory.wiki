@@ -102,7 +102,7 @@ Sample of {{{dumpAllOpenedResources()}}} called on an application using a Spring
 
 <a href="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-visualvm-jms-dump-open-resources-result.png"><img src="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-visualvm-jms-dump-open-resources-result.png" height="150"/></a>
 
-Full logs [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-visualvm-jms-dump-open-resources-result.log|detailed-logs.log]
+Full logs [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-visualvm-jms-dump-open-resources-result.log dump-all-opened-resources.log]
 
 == Implementation details ==
 
