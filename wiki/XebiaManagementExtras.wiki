@@ -80,6 +80,8 @@ See [ManagedJmsConnectionFactory]. Expose metrics of a JMS `ConnectionFactory` v
 </beans>
 }}}
 
+Also offer leaks detection (connection, session, message producer and message consumer).
+
 == Spring JMS Caching Connection Factory JMX monitoring ==
 
 See [ManagedCachingConnectionFactory]. Expose your Spring JMS `CachingConnectionFactory` via a JMX MBean (reset connections via JMX, etc) declaring:
