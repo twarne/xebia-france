@@ -43,6 +43,7 @@
 || *Name* || *Req'd* || *Default Value* ||  *Description* ||
 || {{{id}}} || Yes || N/A || Id of the bean, used to build the object name as {{{"javax.jms:type=ConnectionFactory,name=${id}"}}} ||
 || {{{connection-factory}}} || Yes || N/A || name of the wrapped JMS ConnectionFactory ||
+|| {{{track-leaks}}} || No || {{{false}}} || Enable leaks detector (*WARNING*: not for use in production) ||
 
 == JMX MBean Object Name ==
 
@@ -83,6 +84,24 @@ Key metrics are usually:
  * {{{SendMessageDurationInMillis}}} to detect slowness in the JMS layer.
 
 Trends Up indicators are always increasing counters. The monitoring system is expected to convert these metrics into "per minute" metrics (e.g. {{{TaskCount}}} should be exposed as {{{TaskCountPerMinute}}}).
+
+== Leaks Detector ==
+
+
+Detect {{{Connection}}}, {{{Session}}}, {{{MessageProducer}}}, {{{MessageConsumer}}} and {{{Topicsubscriber}}} leaks.
+
+*WARNING: enabling the leak detector should be avoided on production because it has a performance and memory impact generating an exception at each resource creation to collect a thread dump.*
+
+List of open resources is available via JMX with the creation context (time, thread name and stack trace).
+
+
+Sample of {{{dumpAllOpenedResources()}}} called on an application using a Spring {{{DefaultMessageListenerContainer}}}:
+
+<a href="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-visualvm-jms-operations.png"><img src="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-visualvm-jms-operations.png" height="150"/></a>
+
+<a href="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-visualvm-jms-dump-open-resources-result.png"><img src="http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-visualvm-jms-dump-open-resources-result.png" height="150"/></a>
+
+Full logs [http://xebia-france.googlecode.com/svn/management/xebia-management-extras/trunk/src/site/monitoring-visualvm-jms-dump-open-resources-result.log|detailed-logs.log]
 
 == Implementation details ==
 
