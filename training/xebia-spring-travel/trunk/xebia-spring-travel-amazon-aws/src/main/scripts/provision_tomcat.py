@@ -4,6 +4,7 @@ from io import open
 import shutil
 from time import gmtime, strftime
 
+ 
 catalinaBase = '/opt/apache-tomcat'
 
 # BACKUP catalina.properties
@@ -13,19 +14,32 @@ shutil.copy(src, dst)
 
 print('Created backup ' + dst)
 
-properties = {'jdbc.url':'jdbc:mysql://myhost:3306/mydb', 'jdbc.username':'root', 'jdbc.password':'root'}
-
 f = open(src, 'ab')
 
 f.write('\n\n')
-f.write('# BEGIN OF MODIFIED BY CLOUD-INIT ' + strftime('%Y/%m/%d-%H:%M:%S', gmtime()) + '#\n')
+f.write('# BEGIN OF ADDED BY CLOUD-INIT ' + strftime('%Y/%m/%d-%H:%M:%S', gmtime()) + ' #\n')
 f.write('\n')
 
-for key, value in sorted(properties.iteritems()):
-    f.write(key + '=' + value + '\n')
-    
+f.write('jdbc.url=jdbc:mysql://my-db-host:3306/null\n')
+f.write('jdbc.username=travel\n')
+f.write('jdbc.password=travel\n')
+
 f.write('\n')
-f.write('# END OF MODIFIED BY CLOUD-INIT #\n')
+f.write('jdbc.driverClassName=com.mysql.jdbc.Driver\n')
+f.write('\n')
+f.write('# Properties that control the population of schema and data for a new data source\n')
+f.write('jdbc.initLocation=classpath:db/mysql/initDB.txt\n')
+f.write('jdbc.dataLocation=classpath:db/mysql/populateDB.txt\n')
+f.write('\n')
+f.write('# Property that determines which Hibernate dialect to use\n')
+f.write('# (only applied with "applicationContext-hibernate.xml")\n')
+f.write('hibernate.dialect=org.hibernate.dialect.MySQLDialect\n')
+f.write('\n')
+f.write('# Property that determines which database to use with an AbstractJpaVendorAdapter\n')
+f.write('jpa.database=MYSQL')
+
+f.write('\n')
+f.write('# END OF ADDED BY CLOUD-INIT #\n')
 f.write('\n')
 f.close()
 
@@ -33,8 +47,14 @@ print('Updated ' + src)
 
 # DOWNLOAD WAR
 proxies = {}
-url = 'http://mirrors.ibiblio.org/pub/mirrors/maven2/org/eclipse/jetty/tests/test-webapp-rfc2616/7.0.2.RC0/test-webapp-rfc2616-7.0.2.RC0.war'
-filename = catalinaBase + '/webapps/test-webapp-rfc2616-7.0.2.RC0.war'
-URLopener(proxies).retrieve(url, filename)
+url = 'http://xebia-france.googlecode.com/svn/repository/maven2/fr/xebia/demo/xebia-petclinic/1.0.0/xebia-petclinic-1.0.0.war'
+temporaryfilename = '/tmp/petclinic.war'
 
-print('Downloaded ' + filename)
+print('Download ' + url + ' ...')
+URLopener(proxies).retrieve(url, temporaryfilename)
+print('Downloaded ' + temporaryfilename)
+
+# DEPLOY WAR
+filename = catalinaBase + '/webapps/petclinic.war'
+shutil.move(temporaryfilename, filename)
+print('Deployed ' + filename)
