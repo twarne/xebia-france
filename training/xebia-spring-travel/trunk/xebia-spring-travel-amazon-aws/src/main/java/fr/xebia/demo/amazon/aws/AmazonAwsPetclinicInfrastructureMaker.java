@@ -358,7 +358,7 @@ public class AmazonAwsPetclinicInfrastructureMaker {
     void createInfrastructure(Distribution... distributions) {
         String jdbcUsername = "petclinic";
         String jdbcPassword = "petclinic";
-        String warUrl = "http://xebia-france.googlecode.com/svn/repository/maven2/fr/xebia/demo/xebia-petclinic/1.0.0/xebia-petclinic-1.0.0.war";
+        String warUrl = "http://xebia-france.googlecode.com/svn/repository/maven2/fr/xebia/demo/xebia-petclinic/1.0.1/xebia-petclinic-1.0.1.war";
         String warFileName = "petclinic.war";
 
         DBInstance dbInstance = createDatabaseInstance(jdbcUsername, jdbcPassword);
