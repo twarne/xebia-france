@@ -5,10 +5,20 @@ import javax.management.Query;
 
 import groovy.jmx.builder.JmxBuilder;
 
+def cli = new CliBuilder( usage: 'groovy startJmsMessageListenerContainers [-h] -s servername -p port')
+cli.h(longOpt:'help', 'usage information')
+cli.s(argName:'servername', longOpt:'server', args:1, required:true, type:GString, 'Hostname of the server to connect to (e.g. localhost)')
+cli.p(argName:'port', longOpt:'port', args:1, required:true, 'Port of the server to connect to (e.g. 6969)')
+
+def opt = cli.parse(args)
+
+if (!opt) return
+
+if (opt.h) cli.usage()
 
 def jmx = new JmxBuilder()
 
-def jmxClient = jmx.connectorClient (host:"localhost",port:6969)
+def jmxClient = jmx.connectorClient (host:opt.s ,port:opt.p)
 println("Stop JMS message listeners on $jmxClient")
 
 jmxClient.connect()
