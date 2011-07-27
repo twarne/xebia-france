@@ -41,9 +41,9 @@
 == Configuration attributes ==
 
 || *Name* || *Req'd* || Type || *Default Value* ||  *Description* ||
-|| {{{id}}} || Yes || String / bean-id || N/A || Id of the bean, used to build the object name as {{{"javax.jms:type=ConnectionFactory,name=${id}"}}} ||
-|| {{{connection-factory}}} || String / bean-id || Yes || N/A || name of the wrapped JMS ConnectionFactory ||
-|| {{{track-leaks}}} || boolean or property placeholder  || No || {{{false}}} || Enable leaks detector (*WARNING*: not for use in production) ||
+|| {{{id}}} || Yes || string / bean-id || N/A || Id of the bean, used to build the object name as {{{"javax.jms:type=ConnectionFactory,name=${id}"}}} ||
+|| {{{connection-factory}}} || string / bean-id || Yes || N/A || name of the wrapped JMS ConnectionFactory ||
+|| {{{track-leaks}}} || boolean or property placeholder  || No || {{{false}}} || Enable leaks detector (*WARNING*: avoid on production du to performance and memory impact) ||
 
 == JMX MBean Object Name ==
 
