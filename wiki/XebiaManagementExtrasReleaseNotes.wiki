@@ -1,5 +1,9 @@
 #summary Release notes of xebia-management-extras
 
+= Version 1.2.0 (2011/07/27) =
+
+ * [ManagedJmsConnectionFactory]: Add leaks detector. 
+
 = Version 1.1.3 (2011/06/08) =
 
  * [ManagedJmsConnectionFactory]: Add JMX metrics 
