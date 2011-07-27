@@ -7,6 +7,14 @@
    <packaging>war</packaging>
    <version>0.0.2-SNAPSHOT</version>
    <name>production-ready-application Maven Webapp</name>
+   <developers>
+   	<developer>
+   		<id>cleclerc</id>
+   		<name>Cyrille Le Clerc</name>
+   		<email>cleclerc@xebia.fr</email>
+   		<organization>Xebia France</organization>
+   	</developer>
+   </developers>
    <scm>
       <connection>scm:svn:http://xebia-france.googlecode.com/svn/training/production-ready-application/trunk/</connection>
       <developerConnection>scm:svn:https://xebia-france.googlecode.com/svn/training/production-ready-application/trunk/</developerConnection>
@@ -168,7 +176,7 @@
       <dependency>
          <groupId>fr.xebia.management</groupId>
          <artifactId>xebia-management-extras</artifactId>
-         <version>1.1.3-SNAPSHOT</version>
+         <version>1.2.0</version>
       </dependency>
       <dependency>
          <groupId>fr.xebia.springframework</groupId>
@@ -197,13 +205,10 @@
          <artifactId>jcl-over-slf4j</artifactId>
          <version>1.6.1</version>
       </dependency>
-      <!-- enable org.slf4j:slf4j-log4j12 to use log4j as the slf4j implementation -->
-      <!-- <dependency> <groupId>org.slf4j</groupId> <artifactId>slf4j-log4j12</artifactId> <version>1.6.1</version> </dependency> -->
-      <!-- enable ch.qos.logback:logback-classic to use logback as the slf4j implementation -->
       <dependency>
          <groupId>ch.qos.logback</groupId>
          <artifactId>logback-classic</artifactId>
-         <version>0.9.24</version>
+         <version>0.9.28</version>
       </dependency>
       <dependency>
          <groupId>org.codehaus.janino</groupId>
