@@ -77,4 +77,22 @@ public class AmazonAwsInfrastructureMakerTest {
                 "http://mirrors.ibiblio.org/pub/mirrors/maven2/org/eclipse/jetty/tests/test-webapp-rfc2616/7.0.2.RC0/test-webapp-rfc2616-7.0.2.RC0.war");
         System.out.println("created " + instances);
     }
+
+    @Ignore
+    // @SuppressWarnings("unused")
+    public void test_update_load_balancer() throws Exception {
+        if(true) {
+       //      throw new IllegalStateException("Should not be called");
+        }
+        AmazonAwsInfrastructureMaker maker = new AmazonAwsInfrastructureMaker();
+        List<Instance> instances = maker.createTravelEcommerceTomcatServers( //
+                Distribution.AMZN_LINUX, //
+                new DBInstance() //
+                .withAvailabilityZone("eu-west-1c") //
+                .withEndpoint(new Endpoint().withAddress("travel-db-hostname").withPort(3306)), //
+                "travel-username", //
+                "travel-password", //
+                "http://mirrors.ibiblio.org/pub/mirrors/maven2/org/eclipse/jetty/tests/test-webapp-rfc2616/7.0.2.RC0/test-webapp-rfc2616-7.0.2.RC0.war");
+        System.out.println("created " + instances);
+    }
 }

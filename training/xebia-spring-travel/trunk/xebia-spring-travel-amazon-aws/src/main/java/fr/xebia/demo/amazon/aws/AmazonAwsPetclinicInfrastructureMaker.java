@@ -18,10 +18,14 @@ package fr.xebia.demo.amazon.aws;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.sql.Timestamp;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.annotation.Nonnull;
 
@@ -33,8 +37,12 @@ import com.amazonaws.auth.PropertiesCredentials;
 import com.amazonaws.services.ec2.AmazonEC2;
 import com.amazonaws.services.ec2.AmazonEC2Client;
 import com.amazonaws.services.ec2.model.CreateTagsRequest;
+import com.amazonaws.services.ec2.model.DescribeInstancesRequest;
+import com.amazonaws.services.ec2.model.DescribeInstancesResult;
+import com.amazonaws.services.ec2.model.Filter;
 import com.amazonaws.services.ec2.model.Instance;
 import com.amazonaws.services.ec2.model.Placement;
+import com.amazonaws.services.ec2.model.Reservation;
 import com.amazonaws.services.ec2.model.RunInstancesRequest;
 import com.amazonaws.services.ec2.model.RunInstancesResult;
 import com.amazonaws.services.ec2.model.Tag;
@@ -43,20 +51,28 @@ import com.amazonaws.services.elasticloadbalancing.AmazonElasticLoadBalancingCli
 import com.amazonaws.services.elasticloadbalancing.model.ConfigureHealthCheckRequest;
 import com.amazonaws.services.elasticloadbalancing.model.CreateLBCookieStickinessPolicyRequest;
 import com.amazonaws.services.elasticloadbalancing.model.CreateLoadBalancerRequest;
-import com.amazonaws.services.elasticloadbalancing.model.CreateLoadBalancerResult;
+import com.amazonaws.services.elasticloadbalancing.model.DescribeLoadBalancersRequest;
+import com.amazonaws.services.elasticloadbalancing.model.DescribeLoadBalancersResult;
+import com.amazonaws.services.elasticloadbalancing.model.DisableAvailabilityZonesForLoadBalancerRequest;
+import com.amazonaws.services.elasticloadbalancing.model.EnableAvailabilityZonesForLoadBalancerRequest;
 import com.amazonaws.services.elasticloadbalancing.model.HealthCheck;
 import com.amazonaws.services.elasticloadbalancing.model.Listener;
+import com.amazonaws.services.elasticloadbalancing.model.LoadBalancerDescription;
+import com.amazonaws.services.elasticloadbalancing.model.LoadBalancerNotFoundException;
 import com.amazonaws.services.elasticloadbalancing.model.RegisterInstancesWithLoadBalancerRequest;
 import com.amazonaws.services.elasticloadbalancing.model.SetLoadBalancerPoliciesOfListenerRequest;
 import com.amazonaws.services.rds.AmazonRDS;
 import com.amazonaws.services.rds.AmazonRDSClient;
 import com.amazonaws.services.rds.model.CreateDBInstanceRequest;
 import com.amazonaws.services.rds.model.DBInstance;
+import com.amazonaws.services.rds.model.DBInstanceNotFoundException;
 import com.amazonaws.services.rds.model.DescribeDBInstancesRequest;
 import com.amazonaws.services.rds.model.DescribeDBInstancesResult;
 import com.google.common.base.Function;
+import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Throwables;
+import com.google.common.collect.Collections2;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -177,7 +193,7 @@ public class AmazonAwsPetclinicInfrastructureMaker {
 
     public static void main(String[] args) throws Exception {
         AmazonAwsPetclinicInfrastructureMaker infrastructureMaker = new AmazonAwsPetclinicInfrastructureMaker();
-        infrastructureMaker.createInfrastructure(Distribution.AMZN_LINUX, Distribution.UBUNTU_11_10, Distribution.UBUNTU_11_04);
+        infrastructureMaker.createInfrastructure(Distribution.AMZN_LINUX);
 
     }
 
@@ -209,11 +225,11 @@ public class AmazonAwsPetclinicInfrastructureMaker {
     public DBInstance awaitForDbInstanceCreation(DBInstance dbInstance) {
         System.out.println("Get Instance " + dbInstance.getDBInstanceIdentifier() + "/" + dbInstance.getDBName() + " status");
 
-        int counter = 0;
+        AtomicInteger counter = new AtomicInteger();
         while (!"available".equals(dbInstance.getDBInstanceStatus())) {
-            if (counter > 0) {
-                System.out
-                        .println("Instance " + dbInstance.getDBInstanceIdentifier() + "/" + dbInstance.getDBName() + " not yet available");
+            if (counter.incrementAndGet() > 1) {
+                System.out.println("Instance " + dbInstance.getDBInstanceIdentifier() + "/" + dbInstance.getDBName()
+                        + " not yet available, sleep...");
                 try {
                     Thread.sleep(20 * 1000);
                 } catch (InterruptedException e) {
@@ -222,7 +238,10 @@ public class AmazonAwsPetclinicInfrastructureMaker {
             }
             DescribeDBInstancesRequest describeDbInstanceRequest = new DescribeDBInstancesRequest().withDBInstanceIdentifier(dbInstance
                     .getDBInstanceIdentifier());
+            System.out.println(new Timestamp(System.currentTimeMillis()) + " -  Enter describeInstance");
             DescribeDBInstancesResult describeDBInstancesResult = rds.describeDBInstances(describeDbInstanceRequest);
+            System.out.println(new Timestamp(System.currentTimeMillis()) + " -  Return describeInstance");
+
             List<DBInstance> dbInstances = describeDBInstancesResult.getDBInstances();
             Preconditions.checkState(dbInstances.size() == 1, "Exactly 1 db instance expected : %S", dbInstances);
             dbInstance = Iterables.getFirst(dbInstances, null);
@@ -278,6 +297,21 @@ public class AmazonAwsPetclinicInfrastructureMaker {
     }
 
     public DBInstance createDatabaseInstance(String jdbcUserName, String jdbcPassword) {
+
+        DescribeDBInstancesRequest describeDbInstanceRequest = new DescribeDBInstancesRequest().withDBInstanceIdentifier("petclinic");
+        try {
+            DescribeDBInstancesResult describeDBInstances = rds.describeDBInstances(describeDbInstanceRequest);
+            if (describeDBInstances.getDBInstances().isEmpty()) {
+                // good, db does not exist
+            } else {
+                DBInstance dbInstance = Iterables.getFirst(describeDBInstances.getDBInstances(), null);
+                System.out.println("Database already exists! Skip creation" + dbInstance);
+                return dbInstance;
+            }
+        } catch (DBInstanceNotFoundException e) {
+            // good, db does not exist
+        }
+
         CreateDBInstanceRequest createDBInstanceRequest = new CreateDBInstanceRequest() //
                 .withDBInstanceIdentifier("petclinic") //
                 .withDBName("petclinic") //
@@ -297,80 +331,202 @@ public class AmazonAwsPetclinicInfrastructureMaker {
         return dbInstance;
     }
 
-    public CreateLoadBalancerResult createElasticLoadBalancer(List<Instance> ec2Instances) {
-        Set<String> availabilityZones = Sets.newHashSet(Lists.transform(ec2Instances, new Function<Instance, String>() {
-            @Override
-            public String apply(Instance instance) {
-                return instance.getPlacement().getAvailabilityZone();
-            }
-        }));
+    public static final Function<Instance, String> EC2_INSTANCE_TO_AVAILABILITY_ZONE = new Function<Instance, String>() {
+        @Override
+        public String apply(Instance instance) {
+            return instance.getPlacement().getAvailabilityZone();
+        }
+    };
+    public final static Function<com.amazonaws.services.elasticloadbalancing.model.Instance, String> ELB_INSTANCE_TO_INSTANCE_ID = new Function<com.amazonaws.services.elasticloadbalancing.model.Instance, String>() {
 
-        List<com.amazonaws.services.elasticloadbalancing.model.Instance> elbInstances = Lists.transform(ec2Instances,
-                new Function<Instance, com.amazonaws.services.elasticloadbalancing.model.Instance>() {
+        @Override
+        public String apply(com.amazonaws.services.elasticloadbalancing.model.Instance instance) {
+            return instance.getInstanceId();
+        }
+    };
+
+    public final static Function<String, com.amazonaws.services.elasticloadbalancing.model.Instance> INSTANCE_ID_TO_ELB_INSTANCE = new Function<String, com.amazonaws.services.elasticloadbalancing.model.Instance>() {
+
+        @Override
+        public com.amazonaws.services.elasticloadbalancing.model.Instance apply(String instanceId) {
+            return new com.amazonaws.services.elasticloadbalancing.model.Instance(instanceId);
+        }
+    };
+
+    public final static Function<Instance, String> EC2_INSTANCE_TO_INSTANCE_ID = new Function<Instance, String>() {
+        @Override
+        public String apply(Instance instance) {
+            return instance.getInstanceId();
+        }
+    };
+
+    /**
+     * 
+     * @param healthCheckUri
+     *            start with slash. E.g. "/petclinic/healthcheck.jsp
+     * @param instanceTypeTag
+     * @return created load balancer description
+     */
+    @Nonnull
+    public LoadBalancerDescription createOrUpdateElasticLoadBalancer(@Nonnull String healthCheckUri, @Nonnull String instanceTypeTag) {
+
+        DescribeInstancesResult petclinicInstancesResult = ec2.describeInstances(new DescribeInstancesRequest().withFilters(new Filter(
+                "tag:Type", Arrays.asList(instanceTypeTag))));
+
+        Collection<List<Instance>> petClinicInstancesListOfLists = Collections2.transform(petclinicInstancesResult.getReservations(),
+                new Function<Reservation, List<Instance>>() {
                     @Override
-                    public com.amazonaws.services.elasticloadbalancing.model.Instance apply(Instance ec2Instance) {
-                        return new com.amazonaws.services.elasticloadbalancing.model.Instance(ec2Instance.getInstanceId());
+                    public List<Instance> apply(Reservation reservation) {
+                        return reservation.getInstances();
                     }
                 });
+        Iterable<Instance> expectedPetclinicInstances = Iterables.concat(petClinicInstancesListOfLists);
 
-        CreateLoadBalancerRequest createLoadBalancerRequest = new CreateLoadBalancerRequest() //
-                .withLoadBalancerName("petclinic") //
-                .withListeners(new Listener("HTTP", 80, 8080)) //
-                .withAvailabilityZones(availabilityZones) //
-        ;
-        CreateLoadBalancerResult createLoadBalancerResult = elb.createLoadBalancer(createLoadBalancerRequest);
+        Set<String> expectedAvailabilityZones = Sets.newHashSet(Iterables.transform(expectedPetclinicInstances,
+                EC2_INSTANCE_TO_AVAILABILITY_ZONE));
+
+        String loadBalancerName = "petclinic";
+
+        LoadBalancerDescription actualLoadBalancerDescription;
+        try {
+            DescribeLoadBalancersResult describeLoadBalancers = elb.describeLoadBalancers(new DescribeLoadBalancersRequest(Arrays
+                    .asList(loadBalancerName)));
+            if (describeLoadBalancers.getLoadBalancerDescriptions().isEmpty()) {
+                actualLoadBalancerDescription = null;
+            } else {
+                // re-query to get updated config
+
+                actualLoadBalancerDescription = Iterables.getFirst(describeLoadBalancers.getLoadBalancerDescriptions(), null);
+            }
+        } catch (LoadBalancerNotFoundException e) {
+            actualLoadBalancerDescription = null;
+        }
+
+        Set<String> actualAvailabilityZones;
+        Set<String> actualInstanceIds;
+        HealthCheck actualHealthCheck;
+        if (actualLoadBalancerDescription == null) {
+            CreateLoadBalancerRequest createLoadBalancerRequest = new CreateLoadBalancerRequest() //
+                    .withLoadBalancerName(loadBalancerName) //
+                    .withAvailabilityZones(expectedAvailabilityZones) //
+                    .withListeners(new Listener("HTTP", 80, 8080));
+            elb.createLoadBalancer(createLoadBalancerRequest);
+
+            actualAvailabilityZones = expectedAvailabilityZones;
+            actualInstanceIds = Collections.emptySet();
+            actualHealthCheck = new HealthCheck();
+
+            // COOKIE STICKINESS
+            CreateLBCookieStickinessPolicyRequest createLbCookieStickinessPolicy = new CreateLBCookieStickinessPolicyRequest() //
+                    .withLoadBalancerName(loadBalancerName)//
+                    .withPolicyName("petclinic-stickiness-policy");
+            elb.createLBCookieStickinessPolicy(createLbCookieStickinessPolicy);
+
+            SetLoadBalancerPoliciesOfListenerRequest setLoadBalancerPoliciesOfListenerRequest = new SetLoadBalancerPoliciesOfListenerRequest() //
+                    .withLoadBalancerName(loadBalancerName) //
+                    .withLoadBalancerPort(80) //
+                    .withPolicyNames(createLbCookieStickinessPolicy.getPolicyName());
+            elb.setLoadBalancerPoliciesOfListener(setLoadBalancerPoliciesOfListenerRequest);
+        } else {
+            actualAvailabilityZones = Sets.newHashSet(actualLoadBalancerDescription.getAvailabilityZones());
+            actualInstanceIds = Sets.newHashSet(Iterables.transform(actualLoadBalancerDescription.getInstances(),
+                    ELB_INSTANCE_TO_INSTANCE_ID));
+
+            actualHealthCheck = actualLoadBalancerDescription.getHealthCheck();
+        }
 
         // HEALTH CHECK
-        HealthCheck helsathCheck = new HealthCheck() //
-                .withTarget("HTTP:8080/") //
+        if (!healthCheckUri.startsWith("/")) {
+            healthCheckUri = "/" + healthCheckUri;
+        }
+
+        HealthCheck expectedHealthCheck = new HealthCheck() //
+                .withTarget("HTTP:8080" + healthCheckUri) //
                 .withHealthyThreshold(2) //
                 .withUnhealthyThreshold(2) //
                 .withInterval(30) //
                 .withTimeout(2);
-        ConfigureHealthCheckRequest configureHealthCheckRequest = new ConfigureHealthCheckRequest(
-                createLoadBalancerRequest.getLoadBalancerName(), //
-                helsathCheck);
-        elb.configureHealthCheck(configureHealthCheckRequest);
+        if (Objects.equal(expectedHealthCheck.getTarget(), actualHealthCheck.getTarget()) && //
+                Objects.equal(expectedHealthCheck.getHealthyThreshold(), actualHealthCheck.getHealthyThreshold()) && //
+                Objects.equal(expectedHealthCheck.getInterval(), actualHealthCheck.getInterval()) && //
+                Objects.equal(expectedHealthCheck.getTimeout(), actualHealthCheck.getTimeout()) && //
+                Objects.equal(expectedHealthCheck.getUnhealthyThreshold(), actualHealthCheck.getHealthyThreshold())) {
 
-        // COOKIE STICKINESS
-        CreateLBCookieStickinessPolicyRequest createLbCookieStickinessPolicy = new CreateLBCookieStickinessPolicyRequest() //
-                .withLoadBalancerName(createLoadBalancerRequest.getLoadBalancerName())//
-                .withPolicyName("petclinic-stickiness-policy");
-        elb.createLBCookieStickinessPolicy(createLbCookieStickinessPolicy);
+        } else {
+            System.out.println("Set Healthcheck: " + expectedHealthCheck);
+            elb.configureHealthCheck(new ConfigureHealthCheckRequest(loadBalancerName, expectedHealthCheck));
+        }
 
-        SetLoadBalancerPoliciesOfListenerRequest setLoadBalancerPoliciesOfListenerRequest = new SetLoadBalancerPoliciesOfListenerRequest() //
-                .withLoadBalancerName(createLoadBalancerRequest.getLoadBalancerName()) //
-                .withLoadBalancerPort(80) //
-                .withPolicyNames(createLbCookieStickinessPolicy.getPolicyName())//
-        ;
-        elb.setLoadBalancerPoliciesOfListener(setLoadBalancerPoliciesOfListenerRequest);
+        // AVAILABILITY ZONES
+        // enable
+        Iterable<String> availabilityZonesToEnable = Sets.difference(expectedAvailabilityZones, actualAvailabilityZones);
+        System.out.println("Enable availability zones: " + availabilityZonesToEnable);
+        if (!Iterables.isEmpty(availabilityZonesToEnable)) {
+            elb.enableAvailabilityZonesForLoadBalancer(new EnableAvailabilityZonesForLoadBalancerRequest(loadBalancerName, Lists
+                    .newArrayList(availabilityZonesToEnable)));
+        }
+
+        // disable
+        Iterable<String> availabilityZonesToDisable = Sets.difference(actualAvailabilityZones, expectedAvailabilityZones);
+        System.out.println("Disable availability zones: " + availabilityZonesToDisable);
+        if (!Iterables.isEmpty(availabilityZonesToDisable)) {
+            elb.disableAvailabilityZonesForLoadBalancer(new DisableAvailabilityZonesForLoadBalancerRequest(loadBalancerName, Lists
+                    .newArrayList(availabilityZonesToDisable)));
+        }
 
         // INSTANCES
-        RegisterInstancesWithLoadBalancerRequest registerInstancesWithLoadBalancerRequest = new RegisterInstancesWithLoadBalancerRequest(
-                createLoadBalancerRequest.getLoadBalancerName(), elbInstances);
-        elb.registerInstancesWithLoadBalancer(registerInstancesWithLoadBalancerRequest);
+        Set<String> expectedPetclinicInstanceIds = Sets.newHashSet(Iterables.transform(expectedPetclinicInstances,
+                EC2_INSTANCE_TO_INSTANCE_ID));
+        // enable
+        Iterable<String> instanceIdsToEnable = Sets.difference(expectedPetclinicInstanceIds, actualInstanceIds);
+        System.out.println("Enable petclinic instances: " + instanceIdsToEnable);
+        if (!Iterables.isEmpty(instanceIdsToEnable)) {
+            elb.registerInstancesWithLoadBalancer(new RegisterInstancesWithLoadBalancerRequest(loadBalancerName, Lists
+                    .newArrayList(Iterables.transform(instanceIdsToEnable, INSTANCE_ID_TO_ELB_INSTANCE))));
+        }
 
-        logger.info("Created {}", createLoadBalancerResult);
+        // disable
+        Iterable<String> instanceIdsToDisable = Sets.difference(actualInstanceIds, expectedPetclinicInstanceIds);
+        System.out.println("Disable petclinic instances: " + instanceIdsToDisable);
+        if (!Iterables.isEmpty(instanceIdsToDisable)) {
+            elb.registerInstancesWithLoadBalancer(new RegisterInstancesWithLoadBalancerRequest(loadBalancerName, Lists
+                    .newArrayList(Iterables.transform(instanceIdsToDisable, INSTANCE_ID_TO_ELB_INSTANCE))));
+        }
 
-        return createLoadBalancerResult;
+        // QUERY TO GET UP TO DATE LOAD BALANCER DESCRIPTION
+        LoadBalancerDescription elasticLoadBalancerDescription = Iterables.getOnlyElement(elb.describeLoadBalancers(
+                new DescribeLoadBalancersRequest(Arrays.asList(loadBalancerName))).getLoadBalancerDescriptions());
+
+        System.out.println("URLs");
+        for(Instance instance:expectedPetclinicInstances) {
+            System.out.println("http://" + instance.getPublicDnsName() + ":8080" + healthCheckUri);
+        }
+        System.out.println("http://" + elasticLoadBalancerDescription.getDNSName() + ":80" + healthCheckUri);
+
+        logger.info("Created {}", elasticLoadBalancerDescription);
+
+        return elasticLoadBalancerDescription;
     }
 
-    void createInfrastructure(Distribution... distributions) {
+    public void createInfrastructure(Distribution... distributions) {
+
+        String rootContext = "/petclinic";
+        String healthCheckUri = rootContext + "/healthcheck.jsp";
+
         String jdbcUsername = "petclinic";
         String jdbcPassword = "petclinic";
         String warUrl = "http://xebia-france.googlecode.com/svn/repository/maven2/fr/xebia/demo/xebia-petclinic/1.0.1/xebia-petclinic-1.0.1.war";
-        String warFileName = "petclinic.war";
+        String warFileName = rootContext + ".war";
 
         DBInstance dbInstance = createDatabaseInstance(jdbcUsername, jdbcPassword);
-        // DBInstance dbInstance = new DBInstance().withDBInstanceIdentifier("petclinic");
         dbInstance = awaitForDbInstanceCreation(dbInstance);
         System.out.println("MySQL instance: " + dbInstance);
 
         List<Instance> petclinicInstances = createPetclinicTomcatServers(dbInstance, jdbcUsername, jdbcPassword, warUrl, warFileName,
                 distributions);
         System.out.println("EC2 instances: " + petclinicInstances);
-        CreateLoadBalancerResult createLoadBalancerResult = createElasticLoadBalancer(petclinicInstances);
-        System.out.println("Load Balancer DNS name: " + createLoadBalancerResult.getDNSName());
+        LoadBalancerDescription loadBalancerDescription = createOrUpdateElasticLoadBalancer(healthCheckUri, "petclinic-tomcat");
+        System.out.println("Load Balancer DNS name: " + loadBalancerDescription.getDNSName());
     }
 
     public List<Instance> createPetclinicTomcatServers(DBInstance dbInstance, String jdbcUsername, String jdbcPassword, String warUrl,
@@ -403,7 +559,8 @@ public class AmazonAwsPetclinicInfrastructureMaker {
             createTagsRequest.withResources(instance.getInstanceId()) //
                     .withTags(//
                             new Tag("Name", "petclinic-" + idx), //
-                            new Tag("Type", Distribution.fromAmiId(instance.getImageId()).name().toLowerCase()));
+                            new Tag("Type", "petclinic-tomcat"), //
+                            new Tag("Distribution", Distribution.fromAmiId(instance.getImageId()).name()));
             ec2.createTags(createTagsRequest);
 
             idx++;
