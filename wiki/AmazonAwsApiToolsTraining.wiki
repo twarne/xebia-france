@@ -117,6 +117,8 @@ ec2-run-instances
 
 == Tag instances (ie add meta-data) ==
 
+<img src="http://www.clker.com/cliparts/9/1/4/0/11954322131712176739question_mark_naught101_02.svg.med.png" width="30" /> *Give a name 'petclinic-my-tri-gram' to your Amazon instances with the "Name" tag*
+
 Docs [http://docs.amazonwebservices.com/AWSEC2/latest/CommandLineReference/index.html?ApiReference-cmd-CreateTags.html Amazon EC2 > Command Line Reference > API Tools Reference > ec2-create-tags]
 
 {{{
