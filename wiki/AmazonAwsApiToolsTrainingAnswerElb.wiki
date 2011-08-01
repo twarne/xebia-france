@@ -4,7 +4,7 @@
 
 *Command*
 {{{
-./elb-create-lb petclinic-clc --availability-zones eu-west-1b --listener "protocol=HTTP, lb-port=80, instance-port=8080"
+./elb-create-lb petclinic-clc --availability-zones eu-west-1a,eu-west-1b,eu-west-1c --listener "protocol=HTTP, lb-port=80, instance-port=8080"
 }}}
 
 *Output*
