@@ -1,0 +1,38 @@
+#summary Discover Amazon Aws API Tools
+
+
+= Amazon Relational Data Service (RDS) =
+
+[http://awsdocs.s3.amazonaws.com/RDS/latest/rds-qrc.pdf|Amazon Relational Database Service Quick Reference Card (pdf)]
+
+== Create a MySQL Database ==
+
+<img src="http://www.clker.com/cliparts/9/1/4/0/11954322131712176739question_mark_naught101_02.svg.med.png" width="30" /> *Create a MySQL database with:*
+    * {{{DBInstanceIdentifier}}}: petclinic-my-tri-gram
+    * {{{db-name}}}: petclinic
+    * {{{db-instance-class}}}: db.m1.small
+    * {{{engine}}}: MySQL
+    * {{{license-model}}}: general-public-license
+    * {{{master-user-password}}}: petclinic
+    * {{{master-username}}}: petclinic
+    * {{{allocated-storage}}}: 5 Go
+    * {{{backup-retention-period}}}: 0
+ 
+Docs [http://docs.amazonwebservices.com/AmazonRDS/latest/CommandLineReference/index.html?CLIReference-cmd-CreateDBInstance.html|Amazon Relational Database Service (RDS) > Command Line Reference > API Command Line Tools Reference > rds-create-db-instance]
+
+{{{
+rds-create-db-instance 
+	petclinic-my-tri-gram
+	-s 5
+	-c db.m1.small
+	-e MySQL
+	-lm general-public-license
+	-p petclinic
+	-u petclinic
+	--db-security-groups default
+	--db-name petclinic
+	--port 3306
+	--backup-retention-period 0
+}}}
+
+}}}
