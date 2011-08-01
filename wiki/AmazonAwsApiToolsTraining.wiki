@@ -16,7 +16,11 @@ export EC2_HOME=/opt/amazon-aws/ec2
 export AWS_RDS_HOME=/opt/amazon-aws/rds
 export AWS_ELB_HOME=/opt/amazon-aws/elb
 
+# EC2_REGION works for rds tools and elb tools but not for ec2 tools
 export EC2_REGION=eu-west-1
+# for ec2 tools
+export EC2_URL=https://ec2.eu-west-1.amazonaws.com
+
 export AWS_CREDENTIAL_FILE=~/.aws/aws-credentials.txt
 export EC2_CERT=~/.aws/cert-AWVCG4HIN5C6I6ZY5JFHU7XQW3BZF7OK.pem
 export EC2_PRIVATE_KEY=~/.aws/pk-AWVCG4HIN5C6I6ZY5JFHU7XQW3BZF7OK.pem
