@@ -40,7 +40,7 @@ export EC2_PRIVATE_KEY=~/.aws/pk-AWVCG4HIN5C6I6ZY5JFHU7XQW3BZF7OK.pem
     * {{{engine}}}: MySQL
     * {{{master-user-password}}}: petclinic
     * {{{master-username}}}: petclinic
-    * {{db-security-groups}}: default
+    * {{{db-security-groups}}}: default
     * {{{allocated-storage}}}: 5 Go
     * {{{backup-retention-period}}}: 0
  
@@ -145,6 +145,8 @@ ec2-create-tags
 
 [http://docs.amazonwebservices.com/ElasticLoadBalancing/latest/APIReference/ ELB Documentation > Elastic Load Balancing API Reference > Actions > CreateLoadBalancer]
 
+<img src="http://www.clker.com/cliparts/9/1/4/0/11954322131712176739question_mark_naught101_02.svg.med.png" width="30" /> *Create a load balancer named "petclinic-my-tri-gram" handking HTTP from 80 to 8080*
+
 {{{
 elb-create-lb 
    LoadBalancerName 
@@ -153,7 +155,11 @@ elb-create-lb
    [--listener "protocol=value,lb-port=value,instance-port=value [,certid=value]"...]
 }}}
 
+Answer [AmazonAwsApiToolsTrainingAnswerElb]
+
 == Configure health check ==
+
+<img src="http://www.clker.com/cliparts/9/1/4/0/11954322131712176739question_mark_naught101_02.svg.med.png" width="30" /> *Configure a simple healthcheck targetting "HTTP:8080/" *
 
 [http://docs.amazonwebservices.com/ElasticLoadBalancing/latest/APIReference/index.html?API_ConfigureHealthCheck.html ELB Documentation > Elastic Load Balancing API Reference > Actions > ConfigureHealthCheck]
 
