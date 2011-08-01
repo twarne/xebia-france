@@ -28,6 +28,18 @@ export EC2_PRIVATE_KEY=~/.aws/pk-AWVCG4HIN5C6I6ZY5JFHU7XQW3BZF7OK.pem
 
 == Create a MySQL Database ==
 
+<img src="http://www.clker.com/cliparts/9/1/4/0/11954322131712176739question_mark_naught101_02.svg.med.png" width="30" /> Create a MySQL database with :
+ * {{{DBInstanceIdentifier}}}: petclinic-<trigram>
+ * {{{db-name}}}: petclinic
+ * {{{db-instance-class}}}: db.m1.small
+ * {{{engine}}}: MySQL
+ * {{{license-model}}}: general-public-license
+ * {{{master-user-password}}}: petclinic
+ * {{{master-username}}}: petclinic
+ * {{{allocated-storage}}}: 5 Go
+ 
+ * {{{backup-retention-period}}}: 
+ 
 Docs [http://docs.amazonwebservices.com/AmazonRDS/latest/CommandLineReference/index.html?CLIReference-cmd-CreateDBInstance.html|Amazon Relational Database Service (RDS) > Command Line Reference > API Command Line Tools Reference > rds-create-db-instance]
 
 {{{
