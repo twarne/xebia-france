@@ -7,10 +7,27 @@
 ./rds-create-db-instance petclinic-clc -s 5 -c db.m1.small -e MySQL -p petclinic -u petclinic --db-security-groups default --db-name petclinic --port 3306 --backup-retention-period 0
 }}}
 
-Output
+*Output*
 {{{
 DBINSTANCE  petclinic-clc  db.m1.small  mysql  5  petclinic  creating  0  ****  n  5.1.57
       SECGROUP  default  active
       PARAMGRP  default.mysql5.1  in-sync
 }}}
 Please note that the server ip address is not yet known !
+
+
+== Describe Instances ==
+
+*Command*
+{{{
+./rds-describe-db-instances petclinic-clc
+}}}
+
+*Output*
+{{{
+DBINSTANCE  petclinic-clc  2011-08-01T21:09:42.403Z  db.m1.small  mysql  5  petclinic  available  petclinic-clc.cccb4ickfoh9.eu-west-1.rds.amazonaws.com  3306  eu-west-1b  0  n  5.1.57
+      SECGROUP  default  active
+      PARAMGRP  default.mysql5.1  in-sync
+}}}
+
+The IP address is {{{petclinic-clc.cccb4ickfoh9.eu-west-1.rds.amazonaws.com}}}

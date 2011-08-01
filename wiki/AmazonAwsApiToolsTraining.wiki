@@ -66,6 +66,20 @@ rds-create-db-instance
 
 Answer [AmazonAwsApiToolsTrainingAnswerRds].
 
+== Describe MySQL Instance ==
+
+<img src="http://www.clker.com/cliparts/9/1/4/0/11954322131712176739question_mark_naught101_02.svg.med.png" width="30" /> *Retrieve the IP address of your database*
+
+[http://docs.amazonwebservices.com/AmazonRDS/latest/CommandLineReference/index.html?CLIReference-cmd-DescribeDBInstances.html Amazon Relational Database Service (RDS) > Command Line Reference > API Command Line Tools Reference > rds-describe-instances]
+
+{{{
+rds-describe-db-instances 
+	[DBInstanceIdentifier ]
+	[--max-records ] value
+}}}
+
+Answer [AmazonAwsApiToolsTrainingAnswerRds].
+
 = Amazon EC2 =
 
 [http://awsdocs.s3.amazonaws.com/EC2/latest/ec2-qrc.pdf Amazon EC2 Quick Reference Card (pdf)]
