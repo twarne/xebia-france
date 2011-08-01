@@ -7,6 +7,8 @@ packages:
 - java-1.6.0-openjdk
 - tomcat6
 - tomcat6-webapps
+- tomcat6-docs-webapp
+- tomcat6-admin-webapps
 
 runcmd:
  - [service, tomcat6, restart ]
