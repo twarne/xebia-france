@@ -1,0 +1,31 @@
+= AmazonEC2 =
+
+== Create Linux instances ==
+
+*Command*
+{{{
+./ec2-run-instances ami-47cefa33 -n 2 -g tomcat -k xebia-france --instance-type t1.micro  -f user_data_file
+}}}
+
+
+
+*Output*
+{{{
+./ec2-run-instances ami-47cefa33 -n 2 -g tomcat -k xebia-france --instance-type t1.micro
+RESERVATION	r-ac7f18da	010154155802	tomcat
+INSTANCE	i-fc022b8a	ami-47cefa33			pending	xebia-france	0		t1.micro	2011-08-01T21:37:24+0000	eu-west-1b	aki-4deec439			monitoring-disabled					ebs					paravirtual	xen		sg-18838c6c	default
+INSTANCE	i-fa022b8c	ami-47cefa33			pending	xebia-france	1		t1.micro	2011-08-01T21:37:24+0000	eu-west-1b	aki-4deec439			monitoring-disabled					ebs					paravirtual	xen		sg-18838c6c	default
+}}}
+
+
+== Describe Instances ==
+
+*Command*
+{{{
+}}}
+
+*Output*
+{{{
+
+}}}
+
