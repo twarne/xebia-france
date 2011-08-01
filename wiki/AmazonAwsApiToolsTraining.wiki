@@ -1,0 +1,93 @@
+#summary Discover Amazon Aws API Tools
+
+= Install =
+
+== Download ==
+ 
+ * [http://aws.amazon.com/developertools/351|Amazon EC2 API Tools]
+ * [http://aws.amazon.com/developertools/2536|Elastic Load Balancing API Tools]
+ * [http://aws.amazon.com/developertools/Amazon-RDS/2928|Amazon RDS Command Line Toolkit]
+
+== Configure ==
+
+Sample extract from {{{.profile}}}
+{{{
+export EC2_HOME=/opt/amazon-aws/ec2
+export AWS_RDS_HOME=/opt/amazon-aws/rds
+export AWS_ELB_HOME=/opt/amazon-aws/elb
+
+export EC2_REGION=eu-west-1
+export AWS_CREDENTIAL_FILE=~/.aws/aws-credentials.txt
+export EC2_CERT=~/.aws/cert-AWVCG4HIN5C6I6ZY5JFHU7XQW3BZF7OK.pem
+export EC2_PRIVATE_KEY=~/.aws/pk-AWVCG4HIN5C6I6ZY5JFHU7XQW3BZF7OK.pem
+}}}
+
+= Amazon Relational Data Service (RDS) =
+
+== Create a MySQL Database ==
+
+Docs [http://docs.amazonwebservices.com/AmazonRDS/latest/CommandLineReference/index.html?CLIReference-cmd-CreateDBInstance.html|AWS Documentation » Amazon Relational Database Service (RDS) » Command Line Reference » API Command Line Tools Reference » rds-create-db-instance]
+
+{{{
+rds-create-db-instance 
+	DBInstanceIdentifier
+	-s (--allocated-storage) value
+	-c (--db-instance-class) value
+	-e (--engine) value
+	-lm (--license model) value
+	-p (--master-user-password) value
+	-u (--master-username) value
+	[-au (--auto-minor-version-upgrade) value ]
+	[-v (--engine-version) value ]
+	[-z (--availability-zone) value ]
+	[--db-name value ]
+	[-g (--db-parameter-group) value]
+	[-m (--multi-az) value]
+	[-a (--db-security-groups) value[,value...] ]
+	[--port value ]
+	[-w (--preferred-maintenance-window) value ]
+	[-r (--backup-retention-period) value ]
+	[-b (--preferred-backup-window) value ]
+	[General Options]
+}}}
+
+= Amazon EC2 =
+
+== Create Linux instances ==
+
+Docs [http://docs.amazonwebservices.com/AWSEC2/latest/CommandLineReference/index.html?ApiReference-cmd-RunInstances.html|AWS Documentation > Amazon EC2 > Command Line Reference > API Tools Reference > ec2-run-instances]
+
+{{{
+ec2-run-instances 
+   ami_id 
+   [-n instance_count] 
+   [-g group [-g group ...]] 
+   [-k keypair] 
+   [-d user_data |-f user_data_file] 
+   [--addressing addressing_type] 
+   [--instance-type instance_type] 
+   [--availability-zone zone] 
+   [--kernel kernel_id] 
+   [--ramdisk ramdisk_id] 
+   [--block-device-mapping block_device_mapping] 
+   [--monitor] 
+   [--disable-api-termination] 
+   [--instance-initiated-shutdown-behavior behavior] 
+   [--placement-group placement-group] 
+   [--tenancy tenancy] 
+   [--subnet subnet] 
+   [--private-ip-address ip_address] 
+   [--client-token token]
+}}}
+
+== Tag instances (ie add meta-data) ==
+
+Docs [http://docs.amazonwebservices.com/AWSEC2/latest/CommandLineReference/index.html?ApiReference-cmd-CreateTags.html|AWS Documentation » Amazon EC2 » Command Line Reference » API Tools Reference » ec2-create-tags]
+
+{{{
+ec2-create-tags 
+   resource_id [resource_id ...] 
+   --tag key[=value] [--tag key[=value] ...]
+}}}
+
+= Amazon RDS
