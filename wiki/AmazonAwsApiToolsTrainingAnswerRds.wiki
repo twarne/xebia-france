@@ -9,7 +9,7 @@
 
 *Output*
 {{{
-DBINSTANCE  petclinic-clc  db.m1.small  mysql  5  petclinic  creating  0  ****  n  5.1.57
+DBINSTANCE  petclinic-clc  db.m1.small  mysql  5  petclinic  creating  0  ****  n  5.1.57 general-public-license
       SECGROUP  default  active
       PARAMGRP  default.mysql5.1  in-sync
 }}}
