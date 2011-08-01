@@ -64,6 +64,8 @@ rds-create-db-instance
 	[General Options]
 }}}
 
+Answer [AmazonAwsApiToolsTrainingAnswerRds].
+
 = Amazon EC2 =
 
 [http://awsdocs.s3.amazonaws.com/EC2/latest/ec2-qrc.pdf Amazon EC2 Quick Reference Card (pdf)]
