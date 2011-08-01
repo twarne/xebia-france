@@ -38,7 +38,7 @@ INSTANCE_ID  i-fc022b8a
 INSTANCE_ID  i-fa022b8c
 }}}
 
-== Register instances ==
+== Load balancer stickiness ==
 
 *Command*
 {{{
