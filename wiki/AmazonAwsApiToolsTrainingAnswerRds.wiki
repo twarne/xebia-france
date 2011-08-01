@@ -21,18 +21,11 @@
 Docs [http://docs.amazonwebservices.com/AmazonRDS/latest/CommandLineReference/index.html?CLIReference-cmd-CreateDBInstance.html|Amazon Relational Database Service (RDS) > Command Line Reference > API Command Line Tools Reference > rds-create-db-instance]
 
 {{{
-rds-create-db-instance 
-	petclinic-my-tri-gram
-	-s 5
-	-c db.m1.small
-	-e MySQL
-	-lm general-public-license
-	-p petclinic
-	-u petclinic
-	--db-security-groups default
-	--db-name petclinic
-	--port 3306
-	--backup-retention-period 0
+./rds-create-db-instance petclinic-clc -s 5 -c db.m1.small -e MySQL -p petclinic -u petclinic --db-security-groups default --db-name petclinic --port 3306 --backup-retention-period 0
+
+DBINSTANCE  petclinic-clc  db.m1.small  mysql  5  petclinic  creating  0  ****  n  5.1.57
+      SECGROUP  default  active
+      PARAMGRP  default.mysql5.1  in-sync
 }}}
 
 }}}

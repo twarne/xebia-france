@@ -33,9 +33,9 @@ export EC2_PRIVATE_KEY=~/.aws/pk-AWVCG4HIN5C6I6ZY5JFHU7XQW3BZF7OK.pem
     * {{{db-name}}}: petclinic
     * {{{db-instance-class}}}: db.m1.small
     * {{{engine}}}: MySQL
-    * {{{license-model}}}: general-public-license
     * {{{master-user-password}}}: petclinic
     * {{{master-username}}}: petclinic
+    * {{db-security-groups}}: default
     * {{{allocated-storage}}}: 5 Go
     * {{{backup-retention-period}}}: 0
  
