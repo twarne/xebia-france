@@ -23,6 +23,8 @@ Please note that the server ip address is not yet known !
 ./rds-describe-db-instances petclinic-clc
 }}}
 
+<img src="http://www.clker.com/cliparts/9/1/4/0/11954322131712176739question_mark_naught101_02.svg.med.png" width="30" /> Warning! You won't get the same output as far the DB is in "creating" process
+
 *Output*
 {{{
 DBINSTANCE  petclinic-clc  2011-08-01T21:09:42.403Z  db.m1.small  mysql  5  petclinic  available  petclinic-clc.cccb4ickfoh9.eu-west-1.rds.amazonaws.com  3306  eu-west-1b  0  n  5.1.57
