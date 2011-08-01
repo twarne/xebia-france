@@ -22,10 +22,22 @@ INSTANCE	i-fa022b8c	ami-47cefa33			pending	xebia-france	1		t1.micro	2011-08-01T2
 
 *Command*
 {{{
+./ec2-describe-instances
 }}}
 
 *Output*
 {{{
-
+RESERVATION	r-106f0866	010154155802	tomcat
+INSTANCE	i-d23f16a4	ami-44506030	ec2-79-125-29-108.eu-west-1.compute.amazonaws.com	ip-10-234-191-111.eu-west-1.compute.internal	running	cblonde	0		t1.micro	2011-08-01T19:47:44+0000	eu-west-1a	aki-4deec439			monitoring-enabled	79.125.29.108	10.234.191.111			ebs					paravirtual	xen		sg-18838c6c	default
+BLOCKDEVICE	/dev/sda1	vol-414e0f28	2011-08-01T19:48:08.000Z	
+TAG	instance	i-d23f16a4	Name	tomcat_cbl
+RESERVATION	r-4c6c0b3a	010154155802	tomcat
+INSTANCE	i-6a331a1c	ami-44506030			terminated	xebia-france	0		t1.micro	2011-08-01T20:04:05+0000	eu-west-1a	aki-4deec439			monitoring-enabled					ebs					paravirtual	xen		sg-18838c6c	default
+TAG	instance	i-6a331a1c	Name	BertrandDechouxAMIInstance
+RESERVATION	r-ac7f18da	010154155802	tomcat
+INSTANCE	i-fc022b8a	ami-47cefa33	ec2-46-51-165-131.eu-west-1.compute.amazonaws.com	ip-10-227-129-115.eu-west-1.compute.internal	running	xebia-france	0		t1.micro	2011-08-01T21:37:24+0000	eu-west-1b	aki-4deec439			monitoring-disabled	46.51.165.131	10.227.129.115			ebs					paravirtual	xen		sg-18838c6c	default
+BLOCKDEVICE	/dev/sda1	vol-df5918b6	2011-08-01T21:37:46.000Z	
+INSTANCE	i-fa022b8c	ami-47cefa33	ec2-46-137-143-37.eu-west-1.compute.amazonaws.com	ip-10-48-7-56.eu-west-1.compute.internal	running	xebia-france	1		t1.micro	2011-08-01T21:37:24+0000	eu-west-1b	aki-4deec439			monitoring-disabled	46.137.143.37	10.48.7.56			ebs					paravirtual	xen		sg-18838c6c	default
+BLOCKDEVICE	/dev/sda1	vol-dd5918b4	2011-08-01T21:37:45.000Z	
 }}}
 
