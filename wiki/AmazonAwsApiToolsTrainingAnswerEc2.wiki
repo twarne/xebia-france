@@ -34,7 +34,7 @@ INSTANCE	i-fa022b8c	ami-47cefa33	ec2-46-137-143-37.eu-west-1.compute.amazonaws.c
 BLOCKDEVICE	/dev/sda1	vol-dd5918b4	2011-08-01T21:37:45.000Z	
 }}}
 
-= Tag instances / give them a name =
+== Tag instances / give them a name ==
 
 *Command*
 {{{
