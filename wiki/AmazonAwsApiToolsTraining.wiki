@@ -24,7 +24,7 @@ export EC2_PRIVATE_KEY=~/.aws/pk-AWVCG4HIN5C6I6ZY5JFHU7XQW3BZF7OK.pem
 
 = Amazon Relational Data Service (RDS) =
 
-[http://awsdocs.s3.amazonaws.com/RDS/latest/rds-qrc.pdf|Amazon Relational Database Service Quick Reference Card (pdf)]
+[http://awsdocs.s3.amazonaws.com/RDS/latest/rds-qrc.pdf Amazon Relational Database Service Quick Reference Card (pdf)]
 
 == Create a MySQL Database ==
 
@@ -39,7 +39,7 @@ export EC2_PRIVATE_KEY=~/.aws/pk-AWVCG4HIN5C6I6ZY5JFHU7XQW3BZF7OK.pem
     * {{{allocated-storage}}}: 5 Go
     * {{{backup-retention-period}}}: 0
  
-Docs [http://docs.amazonwebservices.com/AmazonRDS/latest/CommandLineReference/index.html?CLIReference-cmd-CreateDBInstance.html|Amazon Relational Database Service (RDS) > Command Line Reference > API Command Line Tools Reference > rds-create-db-instance]
+Docs [http://docs.amazonwebservices.com/AmazonRDS/latest/CommandLineReference/index.html?CLIReference-cmd-CreateDBInstance.html Amazon Relational Database Service (RDS) > Command Line Reference > API Command Line Tools Reference > rds-create-db-instance]
 
 {{{
 rds-create-db-instance 
@@ -66,11 +66,11 @@ rds-create-db-instance
 
 = Amazon EC2 =
 
-[http://awsdocs.s3.amazonaws.com/EC2/latest/ec2-qrc.pdf|Amazon EC2 Quick Reference Card (pdf)]
+[http://awsdocs.s3.amazonaws.com/EC2/latest/ec2-qrc.pdf Amazon EC2 Quick Reference Card (pdf)]
 
 == Create Linux instances ==
 
-Docs [http://docs.amazonwebservices.com/AWSEC2/latest/CommandLineReference/index.html?ApiReference-cmd-RunInstances.html|Amazon EC2 > Command Line Reference > API Tools Reference > ec2-run-instances]
+Docs [http://docs.amazonwebservices.com/AWSEC2/latest/CommandLineReference/index.html?ApiReference-cmd-RunInstances.html Amazon EC2 > Command Line Reference > API Tools Reference > ec2-run-instances]
 
 {{{
 ec2-run-instances 
@@ -97,7 +97,7 @@ ec2-run-instances
 
 == Tag instances (ie add meta-data) ==
 
-Docs [http://docs.amazonwebservices.com/AWSEC2/latest/CommandLineReference/index.html?ApiReference-cmd-CreateTags.html|Amazon EC2 > Command Line Reference > API Tools Reference > ec2-create-tags]
+Docs [http://docs.amazonwebservices.com/AWSEC2/latest/CommandLineReference/index.html?ApiReference-cmd-CreateTags.html Amazon EC2 > Command Line Reference > API Tools Reference > ec2-create-tags]
 
 {{{
 ec2-create-tags 
@@ -107,11 +107,11 @@ ec2-create-tags
 
 = Amazon Elastic Load Balancing API =
 
-[http://awsdocs.s3.amazonaws.com/ElasticLoadBalancing/latest/elb-qrc.pdf|Elastic Load Balancing Quick Reference Card (pdf)]
+[http://awsdocs.s3.amazonaws.com/ElasticLoadBalancing/latest/elb-qrc.pdf Elastic Load Balancing Quick Reference Card (pdf)]
 
 == Create Load Balancer ==
 
-[http://docs.amazonwebservices.com/ElasticLoadBalancing/latest/APIReference/|ELB Documentation > Elastic Load Balancing API Reference > Actions > CreateLoadBalancer]
+[http://docs.amazonwebservices.com/ElasticLoadBalancing/latest/APIReference/ ELB Documentation > Elastic Load Balancing API Reference > Actions > CreateLoadBalancer]
 
 {{{
 elb-create-lb 
@@ -123,7 +123,7 @@ elb-create-lb
 
 == Configure health check ==
 
-[http://docs.amazonwebservices.com/ElasticLoadBalancing/latest/APIReference/index.html?API_ConfigureHealthCheck.html|ELB Documentation > Elastic Load Balancing API Reference > Actions > ConfigureHealthCheck]
+[http://docs.amazonwebservices.com/ElasticLoadBalancing/latest/APIReference/index.html?API_ConfigureHealthCheck.html ELB Documentation > Elastic Load Balancing API Reference > Actions > ConfigureHealthCheck]
 
 {{{
 elb-configure-healthcheck 
@@ -137,7 +137,7 @@ elb-configure-healthcheck
 
 == Register instances with load balancer ==
 
-[http://docs.amazonwebservices.com/ElasticLoadBalancing/latest/APIReference/index.html?API_RegisterInstancesWithLoadBalancer.html|ELB Documentation > Elastic Load Balancing API Reference > Actions > RegisterInstancesWithLoadBalancer]
+[http://docs.amazonwebservices.com/ElasticLoadBalancing/latest/APIReference/index.html?API_RegisterInstancesWithLoadBalancer.html ELB Documentation > Elastic Load Balancing API Reference > Actions > RegisterInstancesWithLoadBalancer]
 
 {{{
 elb-register-instances-with-lb 
@@ -147,7 +147,7 @@ elb-register-instances-with-lb
 
 == Configure Load Balancer managed cookie stickiness ==
 
-[http://docs.amazonwebservices.com/ElasticLoadBalancing/latest/APIReference/index.html?API_CreateLBCookieStickinessPolicy.html|ELB Documentation > Elastic Load Balancing API Reference > Actions > CreateLBCookieStickinessPolicy]
+[http://docs.amazonwebservices.com/ElasticLoadBalancing/latest/APIReference/index.html?API_CreateLBCookieStickinessPolicy.html ELB Documentation > Elastic Load Balancing API Reference > Actions > CreateLBCookieStickinessPolicy]
 
 {{{
 elb-create-lb-cookie-stickiness-policy 
