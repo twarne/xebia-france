@@ -26,7 +26,7 @@ public class AmazonAwsPetclinicInfrastructureMakerTest {
     public void test_update_existing_load_balancer() {
         AmazonAwsPetclinicInfrastructureMaker maker = new AmazonAwsPetclinicInfrastructureMaker();
         
-        maker.createOrUpdateElasticLoadBalancer("/petclinic", "petclinic-tomcat");
+        maker.createOrUpdateElasticLoadBalancer("/petclinic/", "petclinic-tomcat");
 
     }
 

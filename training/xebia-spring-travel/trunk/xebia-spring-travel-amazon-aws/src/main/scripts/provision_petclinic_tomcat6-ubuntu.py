@@ -5,7 +5,7 @@ import shutil
 from time import gmtime, strftime
 
  
-catalinaBase = '/opt/apache-tomcat'
+catalinaBase = '/var/lib/tomcat6'
 
 # BACKUP catalina.properties
 src = catalinaBase + '/conf/catalina.properties'
@@ -20,9 +20,9 @@ f.write('\n\n')
 f.write('# BEGIN OF ADDED BY CLOUD-INIT ' + strftime('%Y/%m/%d-%H:%M:%S', gmtime()) + ' #\n')
 f.write('\n')
 
-f.write('jdbc.url=jdbc:mysql://my-db-host:3306/null\n')
-f.write('jdbc.username=travel\n')
-f.write('jdbc.password=travel\n')
+f.write('jdbc.url=jdbc:mysql://my-db-host:3306/petclinic\n')
+f.write('jdbc.username=petclinic\n')
+f.write('jdbc.password=petclinic\n')
 
 f.write('\n')
 f.write('jdbc.driverClassName=com.mysql.jdbc.Driver\n')

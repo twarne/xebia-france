@@ -24,11 +24,30 @@ import org.junit.Test;
 public class CloudInitUserDataBuilderTest {
 
     @Test
-    public void test() {
+    public void generate_user_data_for_tomcat6_amzn_linux() {
+        System.out.println("\n\n");
+        System.out.println("tomcat6-amzn-linux");
+        System.out.println("###############");
         InputStreamReader cloudConfigReader = new InputStreamReader(Thread.currentThread().getContextClassLoader()
-                .getResourceAsStream("cloud-config-sample.txt"));
+                .getResourceAsStream("cloud-config-amzn-linux.txt"));
         InputStreamReader shellScriptReader = new InputStreamReader(Thread.currentThread().getContextClassLoader()
-                .getResourceAsStream("provision_tomcat.py"));
+                .getResourceAsStream("provision_petclinic_tomcat6-amzn-linux.py"));
+
+        String userData = CloudInitUserDataBuilder.start() //
+                .addCloudConfig(cloudConfigReader) //
+                .addShellScript(shellScriptReader) //
+                .buildUserData();
+        System.out.println(userData);
+    }
+    @Test
+    public void generate_user_data_for_tomcat6_ubuntu() {
+        System.out.println("\n\n");
+        System.out.println("tomcat6-ubuntu");
+        System.out.println("###############");
+        InputStreamReader cloudConfigReader = new InputStreamReader(Thread.currentThread().getContextClassLoader()
+                .getResourceAsStream("cloud-config-ubuntu-11.04.txt"));
+        InputStreamReader shellScriptReader = new InputStreamReader(Thread.currentThread().getContextClassLoader()
+                .getResourceAsStream("provision_petclinic_tomcat6-ubuntu.py"));
 
         String userData = CloudInitUserDataBuilder.start() //
                 .addCloudConfig(cloudConfigReader) //

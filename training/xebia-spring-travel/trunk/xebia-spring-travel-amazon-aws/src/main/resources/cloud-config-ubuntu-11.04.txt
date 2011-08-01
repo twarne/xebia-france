@@ -2,9 +2,8 @@
 
 timezone: Europe/Paris
 
-ssh_authorized_keys:
- - ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEArFjBWJ4AVaH9XJ1pgsl/8xtr2T7gZeGLpkuo6dgnFFFPu7Gn8fZXMXfhkIRXNhtnhe5pXNDXFDhSRx7TK5HPHTyGQtiKuyK1DD0mQXxqcoIFP1bIptuKWT0sgU6eHdloTw3kTVVh+wDHrBSj2siaU8eqIEym89MBOUoAaFErDTvDJXZboHLyBHbl40HreVy6JdeVHv0yZ00Mc27rIH1tw47RH53vOGTAWvPP8OjP8v8q3H4+Qew5hASyv/U+vvW7s49TIncweAsgEoWaAQxNq9Bm+oi2g0sJrNumGHWVViRtw3BweYvKf6TFJGkINbvsd6XSPWhcSaZmAAqCrnEb6w== cyrille@cyrilleleclerc.com
- 
 packages:
 - openjdk-6-jdk
 - tomcat6
+- tomcat6-docs
+- tomcat6-examples

@@ -1,36 +1,3 @@
-Message-ID: <479450812.1.1312225669254.JavaMail.cyrilleleclerc@cyrille-le-clercs-macbook-pro.local>
-MIME-Version: 1.0
-Content-Type: multipart/mixed; 
-	boundary="----=_Part_0_2019524978.1312225669034"
-
-------=_Part_0_2019524978.1312225669034
-Content-Type: text/cloud-config; charset=UTF-8; 
-	name=cloudinit-cloud-config.txt
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename=cloudinit-cloud-config.txt
-
-#cloud-config
-
-timezone: Europe/Paris
-
-
-packages:
-- yum-utils
-- java-1.6.0-openjdk
-- tomcat6
-- tomcat6-webapps
-
-runcmd:
- - [chkconfig, --levels, 235, tomcat6, on ]
- - [service, tomcat6, restart ]
- 
- 
-------=_Part_0_2019524978.1312225669034
-Content-Type: text/x-shellscript; charset=UTF-8; 
-	name=cloudinit-userdata-script.txt
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename=cloudinit-userdata-script.txt
-
 #!/usr/bin/env python
 from urllib import urlretrieve, URLopener
 from io import open
@@ -91,6 +58,3 @@ print('Downloaded ' + temporaryfilename)
 filename = catalinaBase + '/webapps/petclinic.war'
 shutil.move(temporaryfilename, filename)
 print('Deployed ' + filename)
-
-------=_Part_0_2019524978.1312225669034--
-

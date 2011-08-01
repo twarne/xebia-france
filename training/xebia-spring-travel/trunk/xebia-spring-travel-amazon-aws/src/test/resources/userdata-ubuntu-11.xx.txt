@@ -1,9 +1,9 @@
-Message-ID: <479450812.1.1312225669254.JavaMail.cyrilleleclerc@cyrille-le-clercs-macbook-pro.local>
+Message-ID: <1352618001.3.1312226815911.JavaMail.cyrilleleclerc@cyrille-le-clercs-macbook-pro.local>
 MIME-Version: 1.0
 Content-Type: multipart/mixed; 
-	boundary="----=_Part_0_2019524978.1312225669034"
+	boundary="----=_Part_2_363211825.1312226815904"
 
-------=_Part_0_2019524978.1312225669034
+------=_Part_2_363211825.1312226815904
 Content-Type: text/cloud-config; charset=UTF-8; 
 	name=cloudinit-cloud-config.txt
 Content-Transfer-Encoding: 7bit
@@ -13,19 +13,13 @@ Content-Disposition: attachment; filename=cloudinit-cloud-config.txt
 
 timezone: Europe/Paris
 
-
 packages:
-- yum-utils
-- java-1.6.0-openjdk
+- openjdk-6-jdk
 - tomcat6
-- tomcat6-webapps
+- tomcat6-docs
+- tomcat6-examples
 
-runcmd:
- - [chkconfig, --levels, 235, tomcat6, on ]
- - [service, tomcat6, restart ]
- 
- 
-------=_Part_0_2019524978.1312225669034
+------=_Part_2_363211825.1312226815904
 Content-Type: text/x-shellscript; charset=UTF-8; 
 	name=cloudinit-userdata-script.txt
 Content-Transfer-Encoding: 7bit
@@ -38,7 +32,7 @@ import shutil
 from time import gmtime, strftime
 
  
-catalinaBase = '/usr/share/tomcat6'
+catalinaBase = '/var/lib/tomcat6'
 
 # BACKUP catalina.properties
 src = catalinaBase + '/conf/catalina.properties'
@@ -92,5 +86,4 @@ filename = catalinaBase + '/webapps/petclinic.war'
 shutil.move(temporaryfilename, filename)
 print('Deployed ' + filename)
 
-------=_Part_0_2019524978.1312225669034--
-
+------=_Part_2_363211825.1312226815904--
