@@ -24,6 +24,8 @@ export EC2_PRIVATE_KEY=~/.aws/pk-AWVCG4HIN5C6I6ZY5JFHU7XQW3BZF7OK.pem
 
 = Amazon Relational Data Service (RDS) =
 
+[http://awsdocs.s3.amazonaws.com/RDS/latest/rds-qrc.pdf|Amazon Relational Database Service Quick Reference Card (pdf)]
+
 == Create a MySQL Database ==
 
 Docs [http://docs.amazonwebservices.com/AmazonRDS/latest/CommandLineReference/index.html?CLIReference-cmd-CreateDBInstance.html|AWS Documentation » Amazon Relational Database Service (RDS) » Command Line Reference » API Command Line Tools Reference » rds-create-db-instance]
@@ -52,6 +54,8 @@ rds-create-db-instance
 }}}
 
 = Amazon EC2 =
+
+[http://awsdocs.s3.amazonaws.com/EC2/latest/ec2-qrc.pdf|Amazon EC2 Quick Reference Card (pdf)]
 
 == Create Linux instances ==
 
@@ -90,4 +94,53 @@ ec2-create-tags
    --tag key[=value] [--tag key[=value] ...]
 }}}
 
-= Amazon RDS
+= Amazon Elastic Load Balancing API =
+
+[http://awsdocs.s3.amazonaws.com/ElasticLoadBalancing/latest/elb-qrc.pdf|Elastic Load Balancing Quick Reference Card (pdf)]
+
+== Create Load Balancer ==
+
+[http://docs.amazonwebservices.com/ElasticLoadBalancing/latest/APIReference/|AWS Documentation » Elastic Load Balancing Documentation » Elastic Load Balancing API Reference » Actions » CreateLoadBalancer]
+
+{{{
+elb-create-lb 
+   LoadBalancerName 
+   --availability-zones value [, value...] 
+   --listener “protocol=value,lb-port=value,instance-port=value [,certid=value]”
+   [--listener “protocol=value,lb-port=value,instance-port=value [,certid=value]”...]
+}}}
+
+== Configure health check ==
+
+[http://docs.amazonwebservices.com/ElasticLoadBalancing/latest/APIReference/index.html?API_ConfigureHealthCheck.html|AWS Documentation » Elastic Load Balancing Documentation » Elastic Load Balancing API Reference » Actions » ConfigureHealthCheck]
+
+{{{
+elb-configure-healthcheck 
+	LoadBalancerName
+	--target value 
+	--healthy-threshold value 
+	--unhealthy-threshold value 
+	--interval value 
+	--timeout value
+}}}
+
+== Register instances with load balancer ==
+
+[http://docs.amazonwebservices.com/ElasticLoadBalancing/latest/APIReference/index.html?API_RegisterInstancesWithLoadBalancer.html|AWS Documentation » Elastic Load Balancing Documentation » Elastic Load Balancing API Reference » Actions » RegisterInstancesWithLoadBalancer]
+
+{{{
+elb-register-instances-with-lb 
+   LoadBalancerName
+   --instances value [, value...]
+}}}
+
+== Configure Load Balancer managed cookie stickiness ==
+
+[http://docs.amazonwebservices.com/ElasticLoadBalancing/latest/APIReference/index.html?API_CreateLBCookieStickinessPolicy.html|AWS Documentation » Elastic Load Balancing Documentation » Elastic Load Balancing API Reference » Actions » CreateLBCookieStickinessPolicy]
+
+{{{
+elb-create-lb-cookie-stickiness-policy 
+   LoadBalancerName
+   --policy-name value 
+   [--expiration-period value]
+}}}
