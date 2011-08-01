@@ -139,8 +139,8 @@ ec2-create-tags
 elb-create-lb 
    LoadBalancerName 
    --availability-zones value [, value...] 
-   --listener “protocol=value,lb-port=value,instance-port=value [,certid=value]”
-   [--listener “protocol=value,lb-port=value,instance-port=value [,certid=value]”...]
+   --listener "protocol=value,lb-port=value,instance-port=value [,certid=value]"
+   [--listener "protocol=value,lb-port=value,instance-port=value [,certid=value]"...]
 }}}
 
 == Configure health check ==
