@@ -39,29 +39,19 @@ export EC2_PRIVATE_KEY=~/.aws/pk-AWVCG4HIN5C6I6ZY5JFHU7XQW3BZF7OK.pem
     * {{{allocated-storage}}}: 5 Go
     * {{{backup-retention-period}}}: 0
  
-Docs [http://docs.amazonwebservices.com/AmazonRDS/latest/CommandLineReference/index.html?CLIReference-cmd-CreateDBInstance.html|Amazon Relational Database Service (RDS) > Command Line Reference > API Command Line Tools Reference > rds-create-db-instance]
+Docs [http://docs.amazonwebservices.com/AmazonRDS/latest/CommandLineReference/index.html?CLIReference-cmd-CreateDBInstance.html Amazon Relational Database Service (RDS) > Command Line Reference > API Command Line Tools Reference > rds-create-db-instance]
 
+Example:
 {{{
 rds-create-db-instance 
-	DBInstanceIdentifier
-	-s (--allocated-storage) value
-	-c (--db-instance-class) value
-	-e (--engine) value
-	-lm (--license model) value
-	-p (--master-user-password) value
-	-u (--master-username) value
-	[-au (--auto-minor-version-upgrade) value ]
-	[-v (--engine-version) value ]
-	[-z (--availability-zone) value ]
-	[--db-name value ]
-	[-g (--db-parameter-group) value]
-	[-m (--multi-az) value]
-	[-a (--db-security-groups) value[,value...] ]
-	[--port value ]
-	[-w (--preferred-maintenance-window) value ]
-	[-r (--backup-retention-period) value ]
-	[-b (--preferred-backup-window) value ]
-	[General Options]
+	petclinic-BBO
+	--db-name petclinic
+	-s 5
+	-c db.m1.small
+	-e MySQL
+	-lm general-public-license
+	-p petclinic
+	-u petclinic
 }}}
 
 = Amazon EC2 =
