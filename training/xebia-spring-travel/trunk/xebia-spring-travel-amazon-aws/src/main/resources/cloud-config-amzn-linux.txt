@@ -2,7 +2,6 @@
 
 timezone: Europe/Paris
 
-
 packages:
 - yum-utils
 - java-1.6.0-openjdk
@@ -10,7 +9,4 @@ packages:
 - tomcat6-webapps
 
 runcmd:
- - [chkconfig, --levels, 235, tomcat6, on ]
  - [service, tomcat6, restart ]
- 
- 
