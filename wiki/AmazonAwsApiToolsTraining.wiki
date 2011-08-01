@@ -159,7 +159,7 @@ Answer [AmazonAwsApiToolsTrainingAnswerElb]
 
 == Configure health check ==
 
-<img src="http://www.clker.com/cliparts/9/1/4/0/11954322131712176739question_mark_naught101_02.svg.med.png" width="30" /> *Configure a simple healthcheck targetting "HTTP:8080/" *
+<img src="http://www.clker.com/cliparts/9/1/4/0/11954322131712176739question_mark_naught101_02.svg.med.png" width="30" /> *Configure a healthcheck targeting "HTTP:8080/" with threshold "2" and timeout "2" and interval "30"*
 
 [http://docs.amazonwebservices.com/ElasticLoadBalancing/latest/APIReference/index.html?API_ConfigureHealthCheck.html ELB Documentation > Elastic Load Balancing API Reference > Actions > ConfigureHealthCheck]
 
@@ -175,6 +175,8 @@ elb-configure-healthcheck
 
 == Register instances with load balancer ==
 
+<img src="http://www.clker.com/cliparts/9/1/4/0/11954322131712176739question_mark_naught101_02.svg.med.png" width="30" /> *Register your linux instances*
+
 [http://docs.amazonwebservices.com/ElasticLoadBalancing/latest/APIReference/index.html?API_RegisterInstancesWithLoadBalancer.html ELB Documentation > Elastic Load Balancing API Reference > Actions > RegisterInstancesWithLoadBalancer]
 
 {{{
@@ -184,6 +186,8 @@ elb-register-instances-with-lb
 }}}
 
 == Configure Load Balancer managed cookie stickiness ==
+
+<img src="http://www.clker.com/cliparts/9/1/4/0/11954322131712176739question_mark_naught101_02.svg.med.png" width="30" /> *Configure cookie based stickiness giving policyname "petclinic-policy-my-tri-gram"*
 
 [http://docs.amazonwebservices.com/ElasticLoadBalancing/latest/APIReference/index.html?API_CreateLBCookieStickinessPolicy.html ELB Documentation > Elastic Load Balancing API Reference > Actions > CreateLBCookieStickinessPolicy]
 
