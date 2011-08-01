@@ -2,6 +2,8 @@
 
 == Create Load Balancer ==
 
+Note: to simplify, we register all the availability zones.
+
 *Command*
 {{{
 ./elb-create-lb petclinic-clc --availability-zones eu-west-1a,eu-west-1b,eu-west-1c --listener "protocol=HTTP, lb-port=80, instance-port=8080"

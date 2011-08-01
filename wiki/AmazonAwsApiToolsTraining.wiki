@@ -143,9 +143,9 @@ ec2-create-tags
 
 == Create Load Balancer ==
 
-[http://docs.amazonwebservices.com/ElasticLoadBalancing/latest/APIReference/ ELB Documentation > Elastic Load Balancing API Reference > Actions > CreateLoadBalancer]
+[http://docs.amazonwebservices.com/ElasticLoadBalancing/latest/APIReference/index.html?API_CreateLoadBalancer.html ELB Documentation > Elastic Load Balancing API Reference > Actions > CreateLoadBalancer]
 
-<img src="http://www.clker.com/cliparts/9/1/4/0/11954322131712176739question_mark_naught101_02.svg.med.png" width="30" /> *Create a load balancer named "petclinic-my-tri-gram" handking HTTP from 80 to 8080*
+<img src="http://www.clker.com/cliparts/9/1/4/0/11954322131712176739question_mark_naught101_02.svg.med.png" width="30" /> *Create a load balancer named "petclinic-my-tri-gram" handking HTTP from 80 to 8080. To ease the setup, associate it with all the availability zones "eu-west-1a,eu-west-1b,eu-west-1c"*
 
 {{{
 elb-create-lb 
