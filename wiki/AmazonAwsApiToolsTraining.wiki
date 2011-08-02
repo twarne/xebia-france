@@ -93,7 +93,7 @@ rds-create-db-instance
 }}}
 
 <img src="http://www.clker.com/cliparts/3/d/e/4/12428083851546739178Symbol_OK.svg.med.png" width="20" />
-Answer [AmazonAwsApiToolsTrainingAnswerRds].
+Answer [AmazonAwsApiToolsTrainingAnswerRds#Create_a_MySQL_Database].
 
 <br/>
 == Describe MySQL Instance ==
