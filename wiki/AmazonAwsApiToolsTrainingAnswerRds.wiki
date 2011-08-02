@@ -1,6 +1,7 @@
-= Amazon Relational Data Service (RDS) =
+=Amazon Relational Data Service (RDS)=
 
-== Create a MySQL Database ==
+<br/>
+==Create a MySQL Database==
 
 *Command*
 {{{
@@ -15,8 +16,8 @@ DBINSTANCE  petclinic-clc  db.m1.small  mysql  5  petclinic  creating  0  ****  
 }}}
 Please note that the server ip address is not yet known !
 
-
-== Describe Instances ==
+<br/>
+==Describe Instances==
 
 *Command*
 {{{
