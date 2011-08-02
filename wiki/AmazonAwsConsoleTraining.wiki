@@ -1,0 +1,13 @@
+#summary Discover Amazon Aws Console
+
+<wiki:toc max_depth="2" />
+= Access = 
+ 
+ https://xebia-france.signin.aws.amazon.com/console
+ 
+= Create EC2 Instance =
+
+* Select the region
+
+<img src="" />
+ 
