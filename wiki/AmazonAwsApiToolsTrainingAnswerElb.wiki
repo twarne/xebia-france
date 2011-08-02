@@ -1,5 +1,6 @@
 = Amazon ELB =
 
+<br/>
 == Create Load Balancer ==
 
 Note: to simplify, we register all the availability zones.
@@ -14,6 +15,7 @@ Note: to simplify, we register all the availability zones.
 DNS_NAME  petclinic-clc-214905302.eu-west-1.elb.amazonaws.com
 }}}
 
+<br/>
 == Configure health check ==
 
 *Command*
@@ -26,6 +28,7 @@ DNS_NAME  petclinic-clc-214905302.eu-west-1.elb.amazonaws.com
 HEALTH_CHECK  HTTP:8080/  30  2  2  2
 }}}
 
+<br/>
 == Register instances ==
 
 *Command*
@@ -40,6 +43,7 @@ INSTANCE_ID  i-fc022b8a
 INSTANCE_ID  i-fa022b8c
 }}}
 
+<br/>
 == Load balancer stickiness ==
 
 *Command*
@@ -52,6 +56,7 @@ INSTANCE_ID  i-fa022b8c
 OK-Creating LB Stickiness Policy
 }}}
 
+<br/>
 == Set up policy  ==
 
 *Command*
