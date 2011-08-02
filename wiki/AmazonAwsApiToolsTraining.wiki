@@ -29,6 +29,11 @@ export EC2_CERT=~/.aws/cert-AWVCG4HIN5C6I6ZY5JFHU7XQW3BZF7OK.pem
 export EC2_PRIVATE_KEY=~/.aws/pk-AWVCG4HIN5C6I6ZY5JFHU7XQW3BZF7OK.pem
 }}}
 
+Rechargement du profile
+{{{
+source ~/.profile
+}}}
+
 = Amazon Relational Data Service (RDS) =
 
 [http://awsdocs.s3.amazonaws.com/RDS/latest/rds-qrc.pdf Amazon Relational Database Service Quick Reference Card (pdf)]
