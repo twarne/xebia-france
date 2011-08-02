@@ -51,3 +51,15 @@ INSTANCE_ID  i-fa022b8c
 {{{
 OK-Creating LB Stickiness Policy
 }}}
+
+== Set up policy  ==
+
+*Command*
+{{{
+./elb-set-lb-policies-of-listener petclinic-clc --lb-port 80 --policy-names petclinic-policy-clc
+}}}
+
+*Output*
+{{{
+OK-Setting Policies
+}}}
