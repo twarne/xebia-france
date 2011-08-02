@@ -137,6 +137,8 @@ ec2-run-instances
    [--client-token token]
 }}}
 
+Pensez à noter les nom des instances créées.
+
 == Name your instances with the "Name" tag ==
 
 <img src="http://www.clker.com/cliparts/9/1/4/0/11954322131712176739question_mark_naught101_02.svg.med.png" width="30" /> *Give a name 'petclinic-my-tri-gram' to your Amazon instances with the "Name" tag*
