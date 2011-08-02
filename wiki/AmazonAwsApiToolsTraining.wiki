@@ -204,7 +204,7 @@ elb-create-lb
 }}}
 
 <img src="http://www.clker.com/cliparts/3/d/e/4/12428083851546739178Symbol_OK.svg.med.png" width="20" />
-Answer [AmazonAwsApiToolsTrainingAnswerElb]
+Answer [AmazonAwsApiToolsTrainingAnswerElb#Create_Load_Balancer]
 
 <br/>
 == Configure health check ==
@@ -224,6 +224,9 @@ elb-configure-healthcheck
 	--timeout value
 }}}
 
+<img src="http://www.clker.com/cliparts/3/d/e/4/12428083851546739178Symbol_OK.svg.med.png" width="20" />
+Answer [AmazonAwsApiToolsTrainingAnswerElb#Configure_health_check]
+
 <br/>
 == Register instances with load balancer ==
 
@@ -238,8 +241,11 @@ elb-register-instances-with-lb
    --instances value [, value...]
 }}}
 
+<img src="http://www.clker.com/cliparts/3/d/e/4/12428083851546739178Symbol_OK.svg.med.png" width="20" />
+Answer [AmazonAwsApiToolsTrainingAnswerElb#Register_instances]
+
 <br/>
-== Configure Load Balancer managed cookie stickiness ==
+== Create load balancer stickiness policy ==
 
 <img src="http://www.clker.com/cliparts/9/1/4/0/11954322131712176739question_mark_naught101_02.svg.med.png" width="20" /> *Configure cookie based stickiness giving policyname "petclinic-policy-my-tri-gram"*
 
@@ -252,6 +258,9 @@ elb-create-lb-cookie-stickiness-policy
    --policy-name value 
    [--expiration-period value]
 }}}
+
+<img src="http://www.clker.com/cliparts/3/d/e/4/12428083851546739178Symbol_OK.svg.med.png" width="20" />
+Answer [AmazonAwsApiToolsTrainingAnswerElb#Create_load_balancer _tickiness_policy]
 
 <br/>
 == Set Created Policy To Load Balancer ==
@@ -268,3 +277,6 @@ elb-set-lb-policies-of-listener
         --policy-names  value[,value...]
         [General Options]
 }}}
+
+<img src="http://www.clker.com/cliparts/3/d/e/4/12428083851546739178Symbol_OK.svg.med.png" width="20" />
+Answer [AmazonAwsApiToolsTrainingAnswerElb#Set_up_policy]
