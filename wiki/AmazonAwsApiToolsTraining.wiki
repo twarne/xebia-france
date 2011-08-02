@@ -128,7 +128,7 @@ Answer [AmazonAwsApiToolsTrainingAnswerRds#Describe_Instances].
     * {{{group}}}: tomcat
     * {{{keypair}}}: xebia-france
     * {{{instance-type}}}: t1.micro
-    * {{{user-data-file}}}: <chemin vers votre fichier CloudInit> (cf section Download)
+    * {{{user-data-file}}}: <chemin vers [http://xebia-france.googlecode.com/svn/training/xebia-spring-travel/trunk/xebia-spring-travel-amazon-aws/src/main/resources/cloud-config-amzn-linux.txt votre fichier CloudInit]>
 
 <img src="http://www.clker.com/cliparts/w/x/4/3/m/V/blue-information-glossy-button-md.png" width="20" />  [http://docs.amazonwebservices.com/AWSEC2/latest/CommandLineReference/index.html?ApiReference-cmd-RunInstances.html Amazon EC2 > Command Line Reference > API Tools Reference > ec2-run-instances]
 
