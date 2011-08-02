@@ -44,7 +44,7 @@ INSTANCE_ID  i-fa022b8c
 }}}
 
 <br/>
-== Load balancer stickiness ==
+== Create load balancer stickiness policy ==
 
 *Command*
 {{{
