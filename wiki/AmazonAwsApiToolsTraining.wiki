@@ -131,6 +131,8 @@ Answer [AmazonAwsApiToolsTrainingAnswerRds#Describe_Instances].
     * {{{user-data-file}}}: <chemin vers votre fichier CloudInit> (cf section Download)
 
 <img src="http://www.clker.com/cliparts/w/x/4/3/m/V/blue-information-glossy-button-md.png" width="20" />  [http://docs.amazonwebservices.com/AWSEC2/latest/CommandLineReference/index.html?ApiReference-cmd-RunInstances.html Amazon EC2 > Command Line Reference > API Tools Reference > ec2-run-instances]
+
+<img src="http://www.clker.com/cliparts/w/x/4/3/m/V/blue-information-glossy-button-md.png" width="20" />  
 Docs AMI [http://aws.amazon.com/amazon-linux-ami/]
 
 {{{
@@ -158,6 +160,9 @@ ec2-run-instances
 
 Pensez à noter les nom des instances créées (i-XXXXXXXX).
 
+<img src="http://www.clker.com/cliparts/3/d/e/4/12428083851546739178Symbol_OK.svg.med.png" width="20" />
+Answer [AmazonAwsApiToolsTrainingAnswerEc2#Create_Linux_instances].
+
 <br/>
 == Name your instances with the "Name" tag ==
 
@@ -171,6 +176,9 @@ ec2-create-tags
    resource_id [resource_id ...] 
    --tag key[=value] [--tag key[=value] ...]
 }}}
+
+<img src="http://www.clker.com/cliparts/3/d/e/4/12428083851546739178Symbol_OK.svg.med.png" width="20" />
+Answer [AmazonAwsApiToolsTrainingAnswerEc2#Tag_instances_/_give_them_a_name].
 
 <br/>
 ----
