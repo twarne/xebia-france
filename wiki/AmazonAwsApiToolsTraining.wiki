@@ -84,7 +84,7 @@ Answer [AmazonAwsApiToolsTrainingAnswerRds].
 
 == Describe MySQL Instance ==
 
-<img src="http://www.clker.com/cliparts/9/1/4/0/11954322131712176739question_mark_naught101_02.svg.med.png" width="30" /> *Retrieve the IP address of your database*
+<img src="http://www.clker.com/cliparts/9/1/4/0/11954322131712176739question_mark_naught101_02.svg.med.png" width="30" /> *Retrieve the Hostname (xyz.eu-west-1.rds.amazonaws.com) of your database*
 
 [http://docs.amazonwebservices.com/AmazonRDS/latest/CommandLineReference/index.html?CLIReference-cmd-DescribeDBInstances.html Amazon Relational Database Service (RDS) > Command Line Reference > API Command Line Tools Reference > rds-describe-instances]
 
