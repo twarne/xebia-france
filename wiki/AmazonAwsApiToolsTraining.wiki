@@ -137,7 +137,7 @@ ec2-run-instances
    [--client-token token]
 }}}
 
-Pensez à noter les nom des instances créées.
+Pensez à noter les nom des instances créées (i-XXXXXXXX).
 
 == Name your instances with the "Name" tag ==
 
@@ -173,7 +173,7 @@ Answer [AmazonAwsApiToolsTrainingAnswerElb]
 
 == Configure health check ==
 
-<img src="http://www.clker.com/cliparts/9/1/4/0/11954322131712176739question_mark_naught101_02.svg.med.png" width="30" /> *Configure a healthcheck targeting "HTTP:8080/" with threshold "2" and timeout "2" and interval "30"*
+<img src="http://www.clker.com/cliparts/9/1/4/0/11954322131712176739question_mark_naught101_02.svg.med.png" width="30" /> *Configure a healthcheck targeting "HTTP:8080/" with threshold (healthy & unhealthy) "2" and timeout "2" and interval "30"*
 
 [http://docs.amazonwebservices.com/ElasticLoadBalancing/latest/APIReference/index.html?API_ConfigureHealthCheck.html ELB Documentation > Elastic Load Balancing API Reference > Actions > ConfigureHealthCheck]
 
