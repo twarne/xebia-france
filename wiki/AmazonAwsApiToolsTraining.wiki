@@ -112,6 +112,7 @@ Answer [AmazonAwsApiToolsTrainingAnswerRds].
 
 
 Docs [http://docs.amazonwebservices.com/AWSEC2/latest/CommandLineReference/index.html?ApiReference-cmd-RunInstances.html Amazon EC2 > Command Line Reference > API Tools Reference > ec2-run-instances]
+Docs AMI [http://aws.amazon.com/amazon-linux-ami/]
 
 {{{
 ec2-run-instances 
