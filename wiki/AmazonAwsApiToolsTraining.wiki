@@ -1,5 +1,7 @@
 #summary Discover Amazon Aws API Tools
 
+<wiki:toc max_depth="2" />
+
 = Install =
 
 == Download ==
