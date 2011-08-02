@@ -9,5 +9,5 @@
 
 * Select the region
 
-<img src="" />
+<img src="http://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-select-eu-west-region.png" />
  
