@@ -260,7 +260,7 @@ elb-create-lb-cookie-stickiness-policy
 }}}
 
 <img src="http://www.clker.com/cliparts/3/d/e/4/12428083851546739178Symbol_OK.svg.med.png" width="20" />
-Answer [AmazonAwsApiToolsTrainingAnswerElb#Create_load_balancer _tickiness_policy]
+Answer [AmazonAwsApiToolsTrainingAnswerElb#Create_load_balancer_stickiness_policy]
 
 <br/>
 == Set Created Policy To Load Balancer ==
