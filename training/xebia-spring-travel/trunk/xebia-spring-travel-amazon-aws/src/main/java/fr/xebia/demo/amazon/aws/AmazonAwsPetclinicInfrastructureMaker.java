@@ -48,17 +48,21 @@ import com.amazonaws.services.ec2.model.RunInstancesResult;
 import com.amazonaws.services.ec2.model.Tag;
 import com.amazonaws.services.elasticloadbalancing.AmazonElasticLoadBalancing;
 import com.amazonaws.services.elasticloadbalancing.AmazonElasticLoadBalancingClient;
+import com.amazonaws.services.elasticloadbalancing.model.AppCookieStickinessPolicy;
 import com.amazonaws.services.elasticloadbalancing.model.ConfigureHealthCheckRequest;
 import com.amazonaws.services.elasticloadbalancing.model.CreateLBCookieStickinessPolicyRequest;
 import com.amazonaws.services.elasticloadbalancing.model.CreateLoadBalancerRequest;
+import com.amazonaws.services.elasticloadbalancing.model.DeleteLoadBalancerPolicyRequest;
 import com.amazonaws.services.elasticloadbalancing.model.DescribeLoadBalancersRequest;
 import com.amazonaws.services.elasticloadbalancing.model.DescribeLoadBalancersResult;
 import com.amazonaws.services.elasticloadbalancing.model.DisableAvailabilityZonesForLoadBalancerRequest;
 import com.amazonaws.services.elasticloadbalancing.model.EnableAvailabilityZonesForLoadBalancerRequest;
 import com.amazonaws.services.elasticloadbalancing.model.HealthCheck;
+import com.amazonaws.services.elasticloadbalancing.model.LBCookieStickinessPolicy;
 import com.amazonaws.services.elasticloadbalancing.model.Listener;
 import com.amazonaws.services.elasticloadbalancing.model.LoadBalancerDescription;
 import com.amazonaws.services.elasticloadbalancing.model.LoadBalancerNotFoundException;
+import com.amazonaws.services.elasticloadbalancing.model.Policies;
 import com.amazonaws.services.elasticloadbalancing.model.RegisterInstancesWithLoadBalancerRequest;
 import com.amazonaws.services.elasticloadbalancing.model.SetLoadBalancerPoliciesOfListenerRequest;
 import com.amazonaws.services.rds.AmazonRDS;
@@ -71,6 +75,8 @@ import com.amazonaws.services.rds.model.DescribeDBInstancesResult;
 import com.google.common.base.Function;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
+import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
 import com.google.common.base.Throwables;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Iterables;
@@ -105,7 +111,7 @@ public class AmazonAwsPetclinicInfrastructureMaker {
          * <a href="http://aws.amazon.com/amazon-linux-ami/">Amazon Linux
          * AMI</a>
          */
-        AMZN_LINUX("ami-47cefa33", "cloud-config-redhat-5.txt", "/usr/share/tomcat6", "t1.micro"), //
+        AMZN_LINUX("ami-47cefa33", "cloud-config-amzn-linux.txt", "/usr/share/tomcat6", "t1.micro"), //
         /**
          * <a href="http://cloud.ubuntu.com/ami/">Ubuntu Natty (11.04) AMI</a>
          */
@@ -404,6 +410,7 @@ public class AmazonAwsPetclinicInfrastructureMaker {
 
         Set<String> actualAvailabilityZones;
         Set<String> actualInstanceIds;
+        Policies actualPolicies;
         HealthCheck actualHealthCheck;
         if (actualLoadBalancerDescription == null) {
             CreateLoadBalancerRequest createLoadBalancerRequest = new CreateLoadBalancerRequest() //
@@ -415,24 +422,15 @@ public class AmazonAwsPetclinicInfrastructureMaker {
             actualAvailabilityZones = expectedAvailabilityZones;
             actualInstanceIds = Collections.emptySet();
             actualHealthCheck = new HealthCheck();
-
-            // COOKIE STICKINESS
-            CreateLBCookieStickinessPolicyRequest createLbCookieStickinessPolicy = new CreateLBCookieStickinessPolicyRequest() //
-                    .withLoadBalancerName(loadBalancerName)//
-                    .withPolicyName("petclinic-stickiness-policy");
-            elb.createLBCookieStickinessPolicy(createLbCookieStickinessPolicy);
-
-            SetLoadBalancerPoliciesOfListenerRequest setLoadBalancerPoliciesOfListenerRequest = new SetLoadBalancerPoliciesOfListenerRequest() //
-                    .withLoadBalancerName(loadBalancerName) //
-                    .withLoadBalancerPort(80) //
-                    .withPolicyNames(createLbCookieStickinessPolicy.getPolicyName());
-            elb.setLoadBalancerPoliciesOfListener(setLoadBalancerPoliciesOfListenerRequest);
+            actualPolicies = new Policies();
         } else {
             actualAvailabilityZones = Sets.newHashSet(actualLoadBalancerDescription.getAvailabilityZones());
             actualInstanceIds = Sets.newHashSet(Iterables.transform(actualLoadBalancerDescription.getInstances(),
                     ELB_INSTANCE_TO_INSTANCE_ID));
 
             actualHealthCheck = actualLoadBalancerDescription.getHealthCheck();
+
+            actualPolicies = actualLoadBalancerDescription.getPolicies();
         }
 
         // HEALTH CHECK
@@ -474,6 +472,50 @@ public class AmazonAwsPetclinicInfrastructureMaker {
                     .newArrayList(availabilityZonesToDisable)));
         }
 
+        // STICKINESS
+        List<AppCookieStickinessPolicy> appCookieStickinessPoliciesToDelete = actualPolicies.getAppCookieStickinessPolicies();
+        System.out.println("Delete app cookie stickiness policies:" + appCookieStickinessPoliciesToDelete);
+        for (AppCookieStickinessPolicy appCookieStickinessPolicyToDelete : appCookieStickinessPoliciesToDelete) {
+            elb.deleteLoadBalancerPolicy(new DeleteLoadBalancerPolicyRequest(loadBalancerName, appCookieStickinessPolicyToDelete
+                    .getPolicyName()));
+        }
+
+        final LBCookieStickinessPolicy expectedLbCookieStickinessPolicy = new LBCookieStickinessPolicy("petclinic-stickiness-policy", null);
+        Predicate<LBCookieStickinessPolicy> isExpectedPolicyPredicate = new Predicate<LBCookieStickinessPolicy>() {
+            @Override
+            public boolean apply(LBCookieStickinessPolicy lbCookieStickinessPolicy) {
+                return Objects.equal(expectedLbCookieStickinessPolicy.getPolicyName(), lbCookieStickinessPolicy.getPolicyName()) && //
+                        Objects.equal(expectedLbCookieStickinessPolicy.getCookieExpirationPeriod(),
+                                lbCookieStickinessPolicy.getCookieExpirationPeriod());
+            }
+        };
+        Collection<LBCookieStickinessPolicy> lbCookieStickinessPoliciesToDelete = Collections2.filter(
+                actualPolicies.getLBCookieStickinessPolicies(), Predicates.not(isExpectedPolicyPredicate));
+        System.out.println("Delete lb cookie stickiness policies: " + lbCookieStickinessPoliciesToDelete);
+        for (LBCookieStickinessPolicy lbCookieStickinessPolicy : lbCookieStickinessPoliciesToDelete) {
+            elb.deleteLoadBalancerPolicy(new DeleteLoadBalancerPolicyRequest(loadBalancerName, lbCookieStickinessPolicy.getPolicyName()));
+        }
+
+        Collection<LBCookieStickinessPolicy> matchingLbCookieStyckinessPolicy = Collections2.filter(
+                actualPolicies.getLBCookieStickinessPolicies(), isExpectedPolicyPredicate);
+        if (matchingLbCookieStyckinessPolicy.isEmpty()) {
+            // COOKIE STICKINESS
+            CreateLBCookieStickinessPolicyRequest createLbCookieStickinessPolicy = new CreateLBCookieStickinessPolicyRequest() //
+                    .withLoadBalancerName(loadBalancerName) //
+                    .withPolicyName(expectedLbCookieStickinessPolicy.getPolicyName()) //
+                    .withCookieExpirationPeriod(expectedLbCookieStickinessPolicy.getCookieExpirationPeriod());
+            System.out.println("Create LBCookieStickinessPolicy: " + createLbCookieStickinessPolicy);
+            elb.createLBCookieStickinessPolicy(createLbCookieStickinessPolicy);
+
+            SetLoadBalancerPoliciesOfListenerRequest setLoadBalancerPoliciesOfListenerRequest = new SetLoadBalancerPoliciesOfListenerRequest() //
+                    .withLoadBalancerName(loadBalancerName) //
+                    .withLoadBalancerPort(80) //
+                    .withPolicyNames(createLbCookieStickinessPolicy.getPolicyName());
+            elb.setLoadBalancerPoliciesOfListener(setLoadBalancerPoliciesOfListenerRequest);
+        } else {
+            // todo verify load balancer policy is set
+        }
+
         // INSTANCES
         Set<String> expectedPetclinicInstanceIds = Sets.newHashSet(Iterables.transform(expectedPetclinicInstances,
                 EC2_INSTANCE_TO_INSTANCE_ID));
@@ -498,7 +540,7 @@ public class AmazonAwsPetclinicInfrastructureMaker {
                 new DescribeLoadBalancersRequest(Arrays.asList(loadBalancerName))).getLoadBalancerDescriptions());
 
         System.out.println("URLs");
-        for(Instance instance:expectedPetclinicInstances) {
+        for (Instance instance : expectedPetclinicInstances) {
             System.out.println("http://" + instance.getPublicDnsName() + ":8080" + healthCheckUri);
         }
         System.out.println("http://" + elasticLoadBalancerDescription.getDNSName() + ":80" + healthCheckUri);
