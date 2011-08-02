@@ -2,6 +2,10 @@
 
 <wiki:toc max_depth="2" />
 
+<br/>
+----
+<br/>
+
 = Install =
 
 == Download ==
@@ -11,6 +15,7 @@
  * [http://aws.amazon.com/developertools/Amazon-RDS/2928 Amazon RDS Command Line Toolkit]
  * [http://xebia-france.googlecode.com/svn/training/xebia-spring-travel/trunk/xebia-spring-travel-amazon-aws/src/main/resources/cloud-config-amzn-linux.txt Fichier CloudInit]
 
+<br/>
 == Configure ==
 
 Sample extract from {{{.profile}}}
@@ -40,13 +45,17 @@ Rechargement du profile
 source ~/.profile
 }}}
 
+<br/>
+----
+<br/>
+
 = Amazon Relational Data Service (RDS) =
 
 [http://awsdocs.s3.amazonaws.com/RDS/latest/rds-qrc.pdf Amazon Relational Database Service Quick Reference Card (pdf)]
 
 == Create a MySQL Database ==
 
-<img src="http://www.clker.com/cliparts/9/1/4/0/11954322131712176739question_mark_naught101_02.svg.med.png" width="30" />
+<img src="http://www.clker.com/cliparts/9/1/4/0/11954322131712176739question_mark_naught101_02.svg.med.png" width="20" />
 *Create a MySQL database with:*
     * {{{DBInstanceIdentifier}}}: petclinic-my-tri-gram
     * {{{db-name}}}: petclinic
@@ -58,7 +67,7 @@ source ~/.profile
     * {{{allocated-storage}}}: 5 Go
     * {{{backup-retention-period}}}: 0
  
-Docs [http://docs.amazonwebservices.com/AmazonRDS/latest/CommandLineReference/index.html?CLIReference-cmd-CreateDBInstance.html Amazon Relational Database Service (RDS) > Command Line Reference > API Command Line Tools Reference > rds-create-db-instance]
+<img src="http://www.clker.com/cliparts/w/x/4/3/m/V/blue-information-glossy-button-md.png" width="20" /> [http://docs.amazonwebservices.com/AmazonRDS/latest/CommandLineReference/index.html?CLIReference-cmd-CreateDBInstance.html Amazon RDS > Command Line Reference > API Command Line Tools Reference > rds-create-db-instance]
 
 {{{
 rds-create-db-instance 
@@ -83,14 +92,16 @@ rds-create-db-instance
 	[General Options]
 }}}
 
-<img src="http://www.clker.com/cliparts/3/d/e/4/12428083851546739178Symbol_OK.svg.med.png" width="30" />
+<img src="http://www.clker.com/cliparts/3/d/e/4/12428083851546739178Symbol_OK.svg.med.png" width="20" />
 Answer [AmazonAwsApiToolsTrainingAnswerRds].
 
+<br/>
 == Describe MySQL Instance ==
 
-<img src="http://www.clker.com/cliparts/9/1/4/0/11954322131712176739question_mark_naught101_02.svg.med.png" width="30" /> *Retrieve the Hostname (xyz.eu-west-1.rds.amazonaws.com) of your database*
+<img src="http://www.clker.com/cliparts/9/1/4/0/11954322131712176739question_mark_naught101_02.svg.med.png" width="20" /> *Retrieve the Hostname (xyz.eu-west-1.rds.amazonaws.com) of your database*
 
-[http://docs.amazonwebservices.com/AmazonRDS/latest/CommandLineReference/index.html?CLIReference-cmd-DescribeDBInstances.html Amazon Relational Database Service (RDS) > Command Line Reference > API Command Line Tools Reference > rds-describe-instances]
+<img src="http://www.clker.com/cliparts/w/x/4/3/m/V/blue-information-glossy-button-md.png" width="20" /> 
+[http://docs.amazonwebservices.com/AmazonRDS/latest/CommandLineReference/index.html?CLIReference-cmd-DescribeDBInstances.html Amazon RDS > Command Line Reference > API Command Line Tools Reference > rds-describe-instances]
 
 {{{
 rds-describe-db-instances 
@@ -98,8 +109,12 @@ rds-describe-db-instances
 	[--max-records ] value
 }}}
 
-<img src="http://www.clker.com/cliparts/3/d/e/4/12428083851546739178Symbol_OK.svg.med.png" width="30" />
+<img src="http://www.clker.com/cliparts/3/d/e/4/12428083851546739178Symbol_OK.svg.med.png" width="20" />
 Answer [AmazonAwsApiToolsTrainingAnswerRds].
+
+<br/>
+----
+<br/>
 
 = Amazon EC2 =
 
@@ -107,7 +122,7 @@ Answer [AmazonAwsApiToolsTrainingAnswerRds].
 
 == Create Linux instances ==
 
-<img src="http://www.clker.com/cliparts/9/1/4/0/11954322131712176739question_mark_naught101_02.svg.med.png" width="30" /> *Create two EC2 instances*
+<img src="http://www.clker.com/cliparts/9/1/4/0/11954322131712176739question_mark_naught101_02.svg.med.png" width="20" /> *Create two EC2 instances*
     * {{{ami_id}}}: ami-47cefa33
     * {{{instance-count}}}: 2
     * {{{group}}}: tomcat
@@ -115,8 +130,7 @@ Answer [AmazonAwsApiToolsTrainingAnswerRds].
     * {{{instance-type}}}: t1.micro
     * {{{user-data-file}}}: <chemin vers votre fichier CloudInit> (cf section Download)
 
-
-Docs [http://docs.amazonwebservices.com/AWSEC2/latest/CommandLineReference/index.html?ApiReference-cmd-RunInstances.html Amazon EC2 > Command Line Reference > API Tools Reference > ec2-run-instances]
+<img src="http://www.clker.com/cliparts/w/x/4/3/m/V/blue-information-glossy-button-md.png" width="20" />  [http://docs.amazonwebservices.com/AWSEC2/latest/CommandLineReference/index.html?ApiReference-cmd-RunInstances.html Amazon EC2 > Command Line Reference > API Tools Reference > ec2-run-instances]
 Docs AMI [http://aws.amazon.com/amazon-linux-ami/]
 
 {{{
@@ -144,11 +158,13 @@ ec2-run-instances
 
 Pensez à noter les nom des instances créées (i-XXXXXXXX).
 
+<br/>
 == Name your instances with the "Name" tag ==
 
-<img src="http://www.clker.com/cliparts/9/1/4/0/11954322131712176739question_mark_naught101_02.svg.med.png" width="30" /> *Give a name 'petclinic-my-tri-gram' to your Amazon instances with the "Name" tag*
+<img src="http://www.clker.com/cliparts/9/1/4/0/11954322131712176739question_mark_naught101_02.svg.med.png" width="20" /> *Give a name 'petclinic-my-tri-gram' to your Amazon instances with the "Name" tag*
 
-Docs [http://docs.amazonwebservices.com/AWSEC2/latest/CommandLineReference/index.html?ApiReference-cmd-CreateTags.html Amazon EC2 > Command Line Reference > API Tools Reference > ec2-create-tags]
+<img src="http://www.clker.com/cliparts/w/x/4/3/m/V/blue-information-glossy-button-md.png" width="20" />
+[http://docs.amazonwebservices.com/AWSEC2/latest/CommandLineReference/index.html?ApiReference-cmd-CreateTags.html Amazon EC2 > Command Line Reference > API Tools Reference > ec2-create-tags]
 
 {{{
 ec2-create-tags 
@@ -156,15 +172,20 @@ ec2-create-tags
    --tag key[=value] [--tag key[=value] ...]
 }}}
 
+<br/>
+----
+<br/>
+
 = Amazon Elastic Load Balancing API =
 
 [http://awsdocs.s3.amazonaws.com/ElasticLoadBalancing/latest/elb-qrc.pdf Elastic Load Balancing Quick Reference Card (pdf)]
 
 == Create Load Balancer ==
 
-[http://docs.amazonwebservices.com/ElasticLoadBalancing/latest/APIReference/index.html?API_CreateLoadBalancer.html ELB Documentation > Elastic Load Balancing API Reference > Actions > CreateLoadBalancer]
+<img src="http://www.clker.com/cliparts/9/1/4/0/11954322131712176739question_mark_naught101_02.svg.med.png" width="20" /> *Create a load balancer named "petclinic-my-tri-gram" handking HTTP from 80 to 8080. To ease the setup, associate it with all the availability zones "eu-west-1a,eu-west-1b,eu-west-1c"*
 
-<img src="http://www.clker.com/cliparts/9/1/4/0/11954322131712176739question_mark_naught101_02.svg.med.png" width="30" /> *Create a load balancer named "petclinic-my-tri-gram" handking HTTP from 80 to 8080. To ease the setup, associate it with all the availability zones "eu-west-1a,eu-west-1b,eu-west-1c"*
+<img src="http://www.clker.com/cliparts/w/x/4/3/m/V/blue-information-glossy-button-md.png" width="20" /> 
+[http://docs.amazonwebservices.com/ElasticLoadBalancing/latest/APIReference/index.html?API_CreateLoadBalancer.html ELB > Elastic Load Balancing API Reference > Actions > CreateLoadBalancer]
 
 {{{
 elb-create-lb 
@@ -174,14 +195,16 @@ elb-create-lb
    [--listener "protocol=value,lb-port=value,instance-port=value [,certid=value]"...]
 }}}
 
-<img src="http://www.clker.com/cliparts/3/d/e/4/12428083851546739178Symbol_OK.svg.med.png" width="30" />
+<img src="http://www.clker.com/cliparts/3/d/e/4/12428083851546739178Symbol_OK.svg.med.png" width="20" />
 Answer [AmazonAwsApiToolsTrainingAnswerElb]
 
+<br/>
 == Configure health check ==
 
-<img src="http://www.clker.com/cliparts/9/1/4/0/11954322131712176739question_mark_naught101_02.svg.med.png" width="30" /> *Configure a healthcheck targeting "HTTP:8080/" with threshold (healthy & unhealthy) "2" and timeout "2" and interval "30"*
+<img src="http://www.clker.com/cliparts/9/1/4/0/11954322131712176739question_mark_naught101_02.svg.med.png" width="20" /> *Configure a healthcheck targeting "HTTP:8080/" with threshold (healthy & unhealthy) "2" and timeout "2" and interval "30"*
 
-[http://docs.amazonwebservices.com/ElasticLoadBalancing/latest/APIReference/index.html?API_ConfigureHealthCheck.html ELB Documentation > Elastic Load Balancing API Reference > Actions > ConfigureHealthCheck]
+<img src="http://www.clker.com/cliparts/w/x/4/3/m/V/blue-information-glossy-button-md.png" width="20" /> 
+[http://docs.amazonwebservices.com/ElasticLoadBalancing/latest/APIReference/index.html?API_ConfigureHealthCheck.html ELB > Elastic Load Balancing API Reference > Actions > ConfigureHealthCheck]
 
 {{{
 elb-configure-healthcheck 
@@ -193,11 +216,13 @@ elb-configure-healthcheck
 	--timeout value
 }}}
 
+<br/>
 == Register instances with load balancer ==
 
-<img src="http://www.clker.com/cliparts/9/1/4/0/11954322131712176739question_mark_naught101_02.svg.med.png" width="30" /> *Register your linux instances*
+<img src="http://www.clker.com/cliparts/9/1/4/0/11954322131712176739question_mark_naught101_02.svg.med.png" width="20" /> *Register your linux instances*
 
-[http://docs.amazonwebservices.com/ElasticLoadBalancing/latest/APIReference/index.html?API_RegisterInstancesWithLoadBalancer.html ELB Documentation > Elastic Load Balancing API Reference > Actions > RegisterInstancesWithLoadBalancer]
+<img src="http://www.clker.com/cliparts/w/x/4/3/m/V/blue-information-glossy-button-md.png" width="20" /> 
+[http://docs.amazonwebservices.com/ElasticLoadBalancing/latest/APIReference/index.html?API_RegisterInstancesWithLoadBalancer.html ELB > Elastic Load Balancing API Reference > Actions > RegisterInstancesWithLoadBalancer]
 
 {{{
 elb-register-instances-with-lb 
@@ -205,11 +230,13 @@ elb-register-instances-with-lb
    --instances value [, value...]
 }}}
 
+<br/>
 == Configure Load Balancer managed cookie stickiness ==
 
-<img src="http://www.clker.com/cliparts/9/1/4/0/11954322131712176739question_mark_naught101_02.svg.med.png" width="30" /> *Configure cookie based stickiness giving policyname "petclinic-policy-my-tri-gram"*
+<img src="http://www.clker.com/cliparts/9/1/4/0/11954322131712176739question_mark_naught101_02.svg.med.png" width="20" /> *Configure cookie based stickiness giving policyname "petclinic-policy-my-tri-gram"*
 
-[http://docs.amazonwebservices.com/ElasticLoadBalancing/latest/APIReference/index.html?API_CreateLBCookieStickinessPolicy.html ELB Documentation > Elastic Load Balancing API Reference > Actions > CreateLBCookieStickinessPolicy]
+<img src="http://www.clker.com/cliparts/w/x/4/3/m/V/blue-information-glossy-button-md.png" width="20" /> 
+[http://docs.amazonwebservices.com/ElasticLoadBalancing/latest/APIReference/index.html?API_CreateLBCookieStickinessPolicy.html ELB > Elastic Load Balancing API Reference > Actions > CreateLBCookieStickinessPolicy]
 
 {{{
 elb-create-lb-cookie-stickiness-policy 
@@ -218,11 +245,13 @@ elb-create-lb-cookie-stickiness-policy
    [--expiration-period value]
 }}}
 
+<br/>
 == Set Created Policy To Load Balancer ==
 
-<img src="http://www.clker.com/cliparts/9/1/4/0/11954322131712176739question_mark_naught101_02.svg.med.png" width="30" /> *Set Created Policy To Load Balancer*
+<img src="http://www.clker.com/cliparts/9/1/4/0/11954322131712176739question_mark_naught101_02.svg.med.png" width="20" /> *Set Created Policy To Load Balancer*
 
-[http://docs.amazonwebservices.com/ElasticLoadBalancing/latest/APIReference/index.html?API_CreateLBCookieStickinessPolicy.html?API_CreateLBCookieStickinessPolicy.html ELB Documentation > Elastic Load Balancing API Reference > Actions > SetLoadBalancerPoliciesOfListener]
+<img src="http://www.clker.com/cliparts/w/x/4/3/m/V/blue-information-glossy-button-md.png" width="20" /> 
+[http://docs.amazonwebservices.com/ElasticLoadBalancing/latest/APIReference/index.html?API_CreateLBCookieStickinessPolicy.html?API_CreateLBCookieStickinessPolicy.html ELB > Elastic Load Balancing API Reference > Actions > SetLoadBalancerPoliciesOfListener]
 
 {{{
 elb-set-lb-policies-of-listener
