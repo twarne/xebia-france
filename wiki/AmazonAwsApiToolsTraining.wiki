@@ -17,6 +17,8 @@ export EC2_HOME=~/aws-tools/ec2
 export AWS_RDS_HOME=~/aws-tools/rds
 export AWS_ELB_HOME=~/aws-tools/elb
 
+export PATH=$PATH:$EC2_HOME/bin:$AWS_RDS_HOME/bin:$AWS_ELB_HOME/bin
+
 # EC2_REGION works for rds tools and elb tools but not for ec2 tools
 export EC2_REGION=eu-west-1
 # for ec2 tools
