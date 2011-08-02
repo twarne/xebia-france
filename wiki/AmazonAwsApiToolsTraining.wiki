@@ -110,7 +110,7 @@ rds-describe-db-instances
 }}}
 
 <img src="http://www.clker.com/cliparts/3/d/e/4/12428083851546739178Symbol_OK.svg.med.png" width="20" />
-Answer [AmazonAwsApiToolsTrainingAnswerRds].
+Answer [AmazonAwsApiToolsTrainingAnswerRds#Describe_Instances].
 
 <br/>
 ----
