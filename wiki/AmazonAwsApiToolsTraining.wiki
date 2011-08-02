@@ -211,3 +211,17 @@ elb-create-lb-cookie-stickiness-policy
    --policy-name value 
    [--expiration-period value]
 }}}
+
+== Set Created Policy To Load Balancer ==
+
+<img src="http://www.clker.com/cliparts/9/1/4/0/11954322131712176739question_mark_naught101_02.svg.med.png" width="30" /> *Set Created Policy To Load Balancer*
+
+[http://docs.amazonwebservices.com/ElasticLoadBalancing/latest/APIReference/index.html?API_CreateLBCookieStickinessPolicy.html?API_CreateLBCookieStickinessPolicy.html ELB Documentation > Elastic Load Balancing API Reference > Actions > SetLoadBalancerPoliciesOfListener]
+
+{{{
+elb-set-lb-policies-of-listener
+        LoadBalancerName
+        --lb-port  value
+        --policy-names  value[,value...]
+        [General Options]
+}}}
