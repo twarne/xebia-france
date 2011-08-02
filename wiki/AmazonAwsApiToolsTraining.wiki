@@ -13,9 +13,9 @@
 
 Sample extract from {{{.profile}}}
 {{{
-export EC2_HOME=/opt/amazon-aws/ec2
-export AWS_RDS_HOME=/opt/amazon-aws/rds
-export AWS_ELB_HOME=/opt/amazon-aws/elb
+export EC2_HOME=~/aws-tools/ec2
+export AWS_RDS_HOME=~/aws-tools/rds
+export AWS_ELB_HOME=~/aws-tools/elb
 
 # EC2_REGION works for rds tools and elb tools but not for ec2 tools
 export EC2_REGION=eu-west-1
