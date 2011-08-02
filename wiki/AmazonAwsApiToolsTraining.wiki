@@ -104,11 +104,11 @@ Answer [AmazonAwsApiToolsTrainingAnswerRds].
 
 <img src="http://www.clker.com/cliparts/9/1/4/0/11954322131712176739question_mark_naught101_02.svg.med.png" width="30" /> *Create two EC2 instances*
     * {{{ami_id}}}: ami-47cefa33
-    * {{{instance_count}}}: 2
+    * {{{instance-count}}}: 2
     * {{{group}}}: tomcat
     * {{{keypair}}}: xebia-france
-    * {{{instance_type}}}: t1.micro
-    * {{{user_data_file}}}: <chemin vers votre fichier CloudInit> (cf section Download)
+    * {{{instance-type}}}: t1.micro
+    * {{{user-data-file}}}: <chemin vers votre fichier CloudInit> (cf section Download)
 
 
 Docs [http://docs.amazonwebservices.com/AWSEC2/latest/CommandLineReference/index.html?ApiReference-cmd-RunInstances.html Amazon EC2 > Command Line Reference > API Tools Reference > ec2-run-instances]
