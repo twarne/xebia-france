@@ -303,6 +303,7 @@ public class AmazonAwsPetclinicInfrastructureMaker {
     }
 
     public DBInstance createDatabaseInstance(String jdbcUserName, String jdbcPassword) {
+        System.out.println("\nENFORCE DATABASE");
 
         DescribeDBInstancesRequest describeDbInstanceRequest = new DescribeDBInstancesRequest().withDBInstanceIdentifier("petclinic");
         try {
@@ -375,6 +376,7 @@ public class AmazonAwsPetclinicInfrastructureMaker {
      */
     @Nonnull
     public LoadBalancerDescription createOrUpdateElasticLoadBalancer(@Nonnull String healthCheckUri, @Nonnull String instanceTypeTag) {
+        System.out.println("\nENFORCE LOAD BALANCER");
 
         DescribeInstancesResult petclinicInstancesResult = ec2.describeInstances(new DescribeInstancesRequest().withFilters(new Filter(
                 "tag:Type", Arrays.asList(instanceTypeTag))));
@@ -557,7 +559,7 @@ public class AmazonAwsPetclinicInfrastructureMaker {
 
         String jdbcUsername = "petclinic";
         String jdbcPassword = "petclinic";
-        String warUrl = "http://xebia-france.googlecode.com/svn/repository/maven2/fr/xebia/demo/xebia-petclinic/1.0.1/xebia-petclinic-1.0.1.war";
+        String warUrl = "http://xebia-france.googlecode.com/svn/repository/maven2/fr/xebia/demo/xebia-petclinic/1.0.2/xebia-petclinic-1.0.2.war";
         String warFileName = rootContext + ".war";
 
         DBInstance dbInstance = createDatabaseInstance(jdbcUsername, jdbcPassword);
@@ -573,6 +575,7 @@ public class AmazonAwsPetclinicInfrastructureMaker {
 
     public List<Instance> createPetclinicTomcatServers(DBInstance dbInstance, String jdbcUsername, String jdbcPassword, String warUrl,
             String warFileName, Distribution... distributions) {
+        System.out.println("\nENFORCE TOMCAT SERVERS");
 
         List<Instance> instances = Lists.newArrayList();
         for (Distribution distribution : distributions) {
