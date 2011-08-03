@@ -11,4 +11,5 @@ packages:
 - tomcat6-admin-webapps
 
 runcmd:
+ - [chkconfig, tomcat6, on]
  - [service, tomcat6, restart ]
