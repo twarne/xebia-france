@@ -18,7 +18,6 @@ package fr.xebia.demo.amazon.aws;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -197,6 +196,36 @@ public class AmazonAwsPetclinicInfrastructureEnforcer {
 
     protected final static String AMI_CUSTOM_LINUX_SUN_JDK6_TOMCAT7 = "ami-44506030";
 
+    public static final Function<Instance, String> EC2_INSTANCE_TO_AVAILABILITY_ZONE = new Function<Instance, String>() {
+        @Override
+        public String apply(Instance instance) {
+            return instance.getPlacement().getAvailabilityZone();
+        }
+    };
+
+    public final static Function<Instance, String> EC2_INSTANCE_TO_INSTANCE_ID = new Function<Instance, String>() {
+        @Override
+        public String apply(Instance instance) {
+            return instance.getInstanceId();
+        }
+    };
+
+    public final static Function<com.amazonaws.services.elasticloadbalancing.model.Instance, String> ELB_INSTANCE_TO_INSTANCE_ID = new Function<com.amazonaws.services.elasticloadbalancing.model.Instance, String>() {
+
+        @Override
+        public String apply(com.amazonaws.services.elasticloadbalancing.model.Instance instance) {
+            return instance.getInstanceId();
+        }
+    };
+
+    public final static Function<String, com.amazonaws.services.elasticloadbalancing.model.Instance> INSTANCE_ID_TO_ELB_INSTANCE = new Function<String, com.amazonaws.services.elasticloadbalancing.model.Instance>() {
+
+        @Override
+        public com.amazonaws.services.elasticloadbalancing.model.Instance apply(String instanceId) {
+            return new com.amazonaws.services.elasticloadbalancing.model.Instance(instanceId);
+        }
+    };
+
     public static void main(String[] args) throws Exception {
         AmazonAwsPetclinicInfrastructureEnforcer infrastructureMaker = new AmazonAwsPetclinicInfrastructureEnforcer();
         infrastructureMaker.createInfrastructure(Distribution.AMZN_LINUX);
@@ -244,9 +273,7 @@ public class AmazonAwsPetclinicInfrastructureEnforcer {
             }
             DescribeDBInstancesRequest describeDbInstanceRequest = new DescribeDBInstancesRequest().withDBInstanceIdentifier(dbInstance
                     .getDBInstanceIdentifier());
-            System.out.println(new Timestamp(System.currentTimeMillis()) + " -  Enter describeInstance");
             DescribeDBInstancesResult describeDBInstancesResult = rds.describeDBInstances(describeDbInstanceRequest);
-            System.out.println(new Timestamp(System.currentTimeMillis()) + " -  Return describeInstance");
 
             List<DBInstance> dbInstances = describeDBInstancesResult.getDBInstances();
             Preconditions.checkState(dbInstances.size() == 1, "Exactly 1 db instance expected : %S", dbInstances);
@@ -255,7 +282,6 @@ public class AmazonAwsPetclinicInfrastructureEnforcer {
         }
         return dbInstance;
     }
-
     /**
      * Returns a base-64 version of the mime-multi-part user-data file.
      * 
@@ -338,34 +364,26 @@ public class AmazonAwsPetclinicInfrastructureEnforcer {
         return dbInstance;
     }
 
-    public static final Function<Instance, String> EC2_INSTANCE_TO_AVAILABILITY_ZONE = new Function<Instance, String>() {
-        @Override
-        public String apply(Instance instance) {
-            return instance.getPlacement().getAvailabilityZone();
-        }
-    };
-    public final static Function<com.amazonaws.services.elasticloadbalancing.model.Instance, String> ELB_INSTANCE_TO_INSTANCE_ID = new Function<com.amazonaws.services.elasticloadbalancing.model.Instance, String>() {
+    public void createInfrastructure(Distribution... distributions) {
 
-        @Override
-        public String apply(com.amazonaws.services.elasticloadbalancing.model.Instance instance) {
-            return instance.getInstanceId();
-        }
-    };
+        String rootContext = "/petclinic";
+        String healthCheckUri = rootContext + "/healthcheck.jsp";
 
-    public final static Function<String, com.amazonaws.services.elasticloadbalancing.model.Instance> INSTANCE_ID_TO_ELB_INSTANCE = new Function<String, com.amazonaws.services.elasticloadbalancing.model.Instance>() {
+        String jdbcUsername = "petclinic";
+        String jdbcPassword = "petclinic";
+        String warUrl = "http://xebia-france.googlecode.com/svn/repository/maven2/fr/xebia/demo/xebia-petclinic/1.0.2/xebia-petclinic-1.0.2.war";
+        String warFileName = rootContext + ".war";
 
-        @Override
-        public com.amazonaws.services.elasticloadbalancing.model.Instance apply(String instanceId) {
-            return new com.amazonaws.services.elasticloadbalancing.model.Instance(instanceId);
-        }
-    };
+        DBInstance dbInstance = createDatabaseInstance(jdbcUsername, jdbcPassword);
+        dbInstance = awaitForDbInstanceCreation(dbInstance);
+        System.out.println("MySQL instance: " + dbInstance);
 
-    public final static Function<Instance, String> EC2_INSTANCE_TO_INSTANCE_ID = new Function<Instance, String>() {
-        @Override
-        public String apply(Instance instance) {
-            return instance.getInstanceId();
-        }
-    };
+        List<Instance> petclinicInstances = createPetclinicTomcatServers(dbInstance, jdbcUsername, jdbcPassword, warUrl, warFileName,
+                distributions);
+        System.out.println("EC2 instances: " + petclinicInstances);
+        LoadBalancerDescription loadBalancerDescription = createOrUpdateElasticLoadBalancer(healthCheckUri, "petclinic-tomcat");
+        System.out.println("Load Balancer DNS name: " + loadBalancerDescription.getDNSName());
+    }
 
     /**
      * 
@@ -550,27 +568,6 @@ public class AmazonAwsPetclinicInfrastructureEnforcer {
         logger.info("Created {}", elasticLoadBalancerDescription);
 
         return elasticLoadBalancerDescription;
-    }
-
-    public void createInfrastructure(Distribution... distributions) {
-
-        String rootContext = "/petclinic";
-        String healthCheckUri = rootContext + "/healthcheck.jsp";
-
-        String jdbcUsername = "petclinic";
-        String jdbcPassword = "petclinic";
-        String warUrl = "http://xebia-france.googlecode.com/svn/repository/maven2/fr/xebia/demo/xebia-petclinic/1.0.2/xebia-petclinic-1.0.2.war";
-        String warFileName = rootContext + ".war";
-
-        DBInstance dbInstance = createDatabaseInstance(jdbcUsername, jdbcPassword);
-        dbInstance = awaitForDbInstanceCreation(dbInstance);
-        System.out.println("MySQL instance: " + dbInstance);
-
-        List<Instance> petclinicInstances = createPetclinicTomcatServers(dbInstance, jdbcUsername, jdbcPassword, warUrl, warFileName,
-                distributions);
-        System.out.println("EC2 instances: " + petclinicInstances);
-        LoadBalancerDescription loadBalancerDescription = createOrUpdateElasticLoadBalancer(healthCheckUri, "petclinic-tomcat");
-        System.out.println("Load Balancer DNS name: " + loadBalancerDescription.getDNSName());
     }
 
     public List<Instance> createPetclinicTomcatServers(DBInstance dbInstance, String jdbcUsername, String jdbcPassword, String warUrl,
