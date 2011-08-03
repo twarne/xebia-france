@@ -66,6 +66,11 @@ import com.google.common.io.CharStreams;
  * RunInstancesResult runInstances = ec2.runInstances(runInstancesRequest);
  * </code>
  * </pre>
+ * <p>
+ * Inspired by ubuntu-on-ec2 cloud-utils <a href=
+ * "http://bazaar.launchpad.net/~ubuntu-on-ec2/ubuntu-on-ec2/cloud-utils/view/head:/write-mime-multipart"
+ * >write-mime-multipart</a> python script.
+ * </p>
  * 
  * @see com.amazonaws.services.ec2.model.RunInstancesRequest#withUserData(String)
  * @see com.amazonaws.services.ec2.AmazonEC2.runInstances(RunInstancesRequest)
