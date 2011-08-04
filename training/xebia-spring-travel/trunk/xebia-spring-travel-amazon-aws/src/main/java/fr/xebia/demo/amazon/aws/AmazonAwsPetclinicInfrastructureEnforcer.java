@@ -40,6 +40,8 @@ import com.amazonaws.services.ec2.model.DescribeInstancesRequest;
 import com.amazonaws.services.ec2.model.DescribeInstancesResult;
 import com.amazonaws.services.ec2.model.Filter;
 import com.amazonaws.services.ec2.model.Instance;
+import com.amazonaws.services.ec2.model.InstanceStateName;
+import com.amazonaws.services.ec2.model.InstanceType;
 import com.amazonaws.services.ec2.model.Placement;
 import com.amazonaws.services.ec2.model.Reservation;
 import com.amazonaws.services.ec2.model.RunInstancesRequest;
@@ -110,15 +112,15 @@ public class AmazonAwsPetclinicInfrastructureEnforcer {
          * <a href="http://aws.amazon.com/amazon-linux-ami/">Amazon Linux
          * AMI</a>
          */
-        AMZN_LINUX("ami-47cefa33", "cloud-config-amzn-linux.txt", "/usr/share/tomcat6", "t1.micro"), //
+        AMZN_LINUX("ami-47cefa33", "cloud-config-amzn-linux.txt", "/usr/share/tomcat6", InstanceType.T1Micro), //
         /**
          * <a href="http://cloud.ubuntu.com/ami/">Ubuntu Natty (11.04) AMI</a>
          */
-        UBUNTU_11_04("ami-359ea941", "cloud-config-ubuntu-11.04.txt", "/var/lib/tomcat6", "m1.small"), //
+        UBUNTU_11_04("ami-359ea941", "cloud-config-ubuntu-11.04.txt", "/var/lib/tomcat6", InstanceType.M1Small), //
         /**
          * <a href="http://cloud.ubuntu.com/ami/">Ubuntu Oneiric (11.10) AMI</a>
          */
-        UBUNTU_11_10("ami-0aa7967e", "cloud-config-ubuntu-11.10.txt", "/var/lib/tomcat7", "m1.small");
+        UBUNTU_11_10("ami-0aa7967e", "cloud-config-ubuntu-11.10.txt", "/var/lib/tomcat7", InstanceType.M1Small);
 
         private final static Map<String, Distribution> DISTRIBUTIONS_BY_AMI_ID = Maps.uniqueIndex(Arrays.asList(Distribution.values()),
                 new Function<Distribution, String>() {
@@ -141,9 +143,13 @@ public class AmazonAwsPetclinicInfrastructureEnforcer {
 
         private final String cloudConfigFilePath;
 
-        private final String instanceType;
+        private final InstanceType instanceType;
 
-        private Distribution(String amiId, String cloudConfigFilePath, String catalinaBase, String instanceType) {
+        /**
+         * ID of the AMI in the eu-west-1 region.
+         */
+        private Distribution(@Nonnull String amiId, @Nonnull String cloudConfigFilePath, @Nonnull String catalinaBase,
+                @Nonnull InstanceType instanceType) {
             this.amiId = amiId;
             this.cloudConfigFilePath = cloudConfigFilePath;
             this.catalinaBase = catalinaBase;
@@ -153,6 +159,7 @@ public class AmazonAwsPetclinicInfrastructureEnforcer {
         /**
          * ID of the AMI in the eu-west-1 region.
          */
+        @Nonnull
         public String getAmiId() {
             return amiId;
         }
@@ -168,6 +175,7 @@ public class AmazonAwsPetclinicInfrastructureEnforcer {
          * e.g."/var/lib/tomcat7", "/usr/share/tomcat6".
          * </p>
          */
+        @Nonnull
         public String getCatalinaBase() {
             return catalinaBase;
         }
@@ -184,11 +192,13 @@ public class AmazonAwsPetclinicInfrastructureEnforcer {
          * e.g."cloud-config-ubuntu-10.04.txt", "cloud-config-redhat-5.txt".
          * </p>
          */
+        @Nonnull
         public String getCloudConfigFilePath() {
             return cloudConfigFilePath;
         }
 
-        public String getInstanceType() {
+        @Nonnull
+        public InstanceType getInstanceType() {
             return instanceType;
         }
 
@@ -257,6 +267,21 @@ public class AmazonAwsPetclinicInfrastructureEnforcer {
         }
     }
 
+    /**
+     * <p>
+     * Wait for the database creation and returns a {@link DBInstance} with up
+     * to date values.
+     * </p>
+     * <p>
+     * Note: some information are missing of the {@link DBInstance} returned by
+     * {@link AmazonRDS#describeDBInstances(DescribeDBInstancesRequest)} as long
+     * as the instance is not "available" (e.g. {@link DBInstance#getEndpoint()}
+     * that holds the ip address).
+     * </p>
+     * 
+     * @param dbInstance
+     * @return up to date dbInstance
+     */
     public DBInstance awaitForDbInstanceCreation(DBInstance dbInstance) {
         System.out.println("Get Instance " + dbInstance.getDBInstanceIdentifier() + "/" + dbInstance.getDBName() + " status");
 
@@ -282,6 +307,38 @@ public class AmazonAwsPetclinicInfrastructureEnforcer {
         }
         return dbInstance;
     }
+
+    /**
+     * <p>
+     * Wait for the ec2 instance creation and returns a {@link Instance} with up
+     * to date values.
+     * </p>
+     * <p>
+     * Note: some information are missing of the {@link Instance} returned by
+     * {@link AmazonEC2#describeInstances(DescribeInstancesRequest)} as long as
+     * the instance is not "running" (e.g. {@link Instance#getPublicDnsName()}).
+     * </p>
+     * 
+     * @param instance
+     * @return up to date instance
+     */
+    @Nonnull
+    public Instance awaitForEc2Instance(@Nonnull Instance instance) {
+
+        while (InstanceStateName.Pending.equals(instance.getState())) {
+            try {
+                Thread.sleep(5 * 1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            DescribeInstancesResult describeInstances = ec2.describeInstances(new DescribeInstancesRequest().withInstanceIds(instance
+                    .getImageId()));
+
+            instance = Iterables.getOnlyElement(toEc2Instances(describeInstances.getReservations()));
+        }
+        return instance;
+    }
+
     /**
      * Returns a base-64 version of the mime-multi-part user-data file.
      * 
@@ -385,6 +442,18 @@ public class AmazonAwsPetclinicInfrastructureEnforcer {
         System.out.println("Load Balancer DNS name: " + loadBalancerDescription.getDNSName());
     }
 
+    @Nonnull
+    public static Iterable<Instance> toEc2Instances(@Nonnull List<Reservation> reservations) {
+        Collection<List<Instance>> petClinicInstancesListOfLists = Collections2.transform(reservations,
+                new Function<Reservation, List<Instance>>() {
+                    @Override
+                    public List<Instance> apply(Reservation reservation) {
+                        return reservation.getInstances();
+                    }
+                });
+        return Iterables.concat(petClinicInstancesListOfLists);
+    }
+
     /**
      * 
      * @param healthCheckUri
@@ -399,14 +468,7 @@ public class AmazonAwsPetclinicInfrastructureEnforcer {
         DescribeInstancesResult petclinicInstancesResult = ec2.describeInstances(new DescribeInstancesRequest().withFilters(new Filter(
                 "tag:Type", Arrays.asList(instanceTypeTag))));
 
-        Collection<List<Instance>> petClinicInstancesListOfLists = Collections2.transform(petclinicInstancesResult.getReservations(),
-                new Function<Reservation, List<Instance>>() {
-                    @Override
-                    public List<Instance> apply(Reservation reservation) {
-                        return reservation.getInstances();
-                    }
-                });
-        Iterable<Instance> expectedPetclinicInstances = Iterables.concat(petClinicInstancesListOfLists);
+        Iterable<Instance> expectedPetclinicInstances = toEc2Instances(petclinicInstancesResult.getReservations());
 
         Set<String> expectedAvailabilityZones = Sets.newHashSet(Iterables.transform(expectedPetclinicInstances,
                 EC2_INSTANCE_TO_AVAILABILITY_ZONE));
@@ -580,7 +642,7 @@ public class AmazonAwsPetclinicInfrastructureEnforcer {
 
             // CREATE EC2 INSTANCES
             RunInstancesRequest runInstancesRequest = new RunInstancesRequest() //
-                    .withInstanceType(distribution.getInstanceType()) //
+                    .withInstanceType(distribution.getInstanceType().toString()) //
                     .withImageId(distribution.getAmiId()) //
                     .withMinCount(1) //
                     .withMaxCount(1) //
