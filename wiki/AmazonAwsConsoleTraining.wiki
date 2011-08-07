@@ -37,7 +37,7 @@ How to instantiate a new Amazon Linux server ?
  	http://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-select-eu-west-region.png
  # On "EC2 Dashboard", click on "Launch new instance" 	
  # Select your AMI (e.g. "Basic 32-bit Amazon Linux AMI 2011.02.1 Beta")
- 	http://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-launch-linux-instance-1-instance-details.png
+ 	http://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-launch-linux-instance-1.png
  # Select the instance size (e.g. "Micro")
  	http://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-launch-linux-instance-2-instance-details.png
  # Type the name of your server (e.g. "petclinic-(my-trigram)-1")
