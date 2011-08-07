@@ -81,9 +81,9 @@
  # Repeat this steps on the second instance
  
  == Install Petclinic web app ==
-  # Download WAR on Amazon S3
+ # Download WAR on Amazon S3
   	<pre>wget --no-check-certificate https://s3-eu-west-1.amazonaws.com/java-infra-as-code-on-amzn-ec2-1/petclinic.war</pre>
-  # Modify catalina.properties to add MySQL support to petclinic
+ # Modify catalina.properties to add MySQL support to petclinic
   	<pre>vi /usr/share/tomcat6/conf/catalina.properties</pre>
   	Add the following lines :
   	{{{
@@ -104,6 +104,6 @@ hibernate.dialect=org.hibernate.dialect.MySQLDialect
 # Property that determines which database to use with an AbstractJpaVendorAdapter
 jpa.database=MYSQL
   	}}}
-  # Install the webapp
+ # Install the webapp
   	<pre>cp petclinic.war /usr/share/tomcat6/webapps/</pre>
-  # Repeat on each EC2 Tomcat instance
+ # Repeat on each EC2 Tomcat instance
