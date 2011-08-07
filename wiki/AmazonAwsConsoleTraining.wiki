@@ -69,9 +69,9 @@
  	<pre>ssh -i xebia-france.pem ec2-user@<hostname>.compute.amazonaws.com</pre>
  # Login as root
  	<pre>sudo -s</pre>
- # Connect to an EC2 instance
+ # Install Java 6
  	<pre>yum install java-1.6.0-openjdk</pre>
- # Install Tomcat 6
+ # Install Tomcat 6. Tomcat will be installed in /usr/share/tomcat6
  	<pre>yum install tomcat6 tomcat6-admin-webapps tomcat6-webapps</pre>
  # Install MySQL JDBC Driver 
  	<pre>yum install mysql-connector-java</pre>
