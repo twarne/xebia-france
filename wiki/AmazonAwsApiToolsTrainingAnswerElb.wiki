@@ -7,7 +7,10 @@ Note: to simplify, we register all the availability zones.
 
 *Command*
 {{{
-./elb-create-lb petclinic-clc --availability-zones eu-west-1a,eu-west-1b,eu-west-1c --listener "protocol=HTTP, lb-port=80, instance-port=8080"
+./elb-create-lb \
+	petclinic-clc \
+	--availability-zones eu-west-1a,eu-west-1b,eu-west-1c \
+	--listener "protocol=HTTP, lb-port=80, instance-port=8080"
 }}}
 
 *Output*
@@ -20,7 +23,13 @@ DNS_NAME  petclinic-clc-214905302.eu-west-1.elb.amazonaws.com
 
 *Command*
 {{{
-./elb-configure-healthcheck petclinic-clc --target HTTP:8080/ --healthy-threshold 2 --unhealthy-threshold 2 --interval 30 --timeout 2
+./elb-configure-healthcheck \
+	petclinic-clc \
+	--target HTTP:8080/ \
+	--healthy-threshold 2 \
+	--unhealthy-threshold 2 \
+	--interval 30 \
+	--timeout 2
 }}}
 
 *Output*
