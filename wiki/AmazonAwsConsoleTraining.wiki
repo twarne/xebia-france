@@ -1,7 +1,12 @@
 #summary Discover Amazon Aws Console
 
 <wiki:toc max_depth="2" />
-= Access = 
+
+= Goal =
+
+The goal is to deploy the Petclinic Web-app on two Amazon EC2 instances and add a load balancer between them.
+
+= Access the AWS Web console = 
  
  https://xebia-france.signin.aws.amazon.com/console
  
@@ -112,7 +117,7 @@ jpa.database=MYSQL
 
  # In the EC2 tab, click on the "Load Balancers" menu under "NETWORK & SECURITY"
  # Click on "Create Load Balancer"
- # Remove the default rule and a new one with 8080 as the "EC2 Instance Port"
+ # Remove the default rule and create a new one with 8080 as the "EC2 Instance Port"
  	http://xebia-france.googlecode.com/svn/wiki/aws-img/elb-1.png
  # Let the default options
  	http://xebia-france.googlecode.com/svn/wiki/aws-img/elb-2.png
