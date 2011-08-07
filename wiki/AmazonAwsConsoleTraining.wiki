@@ -104,4 +104,6 @@ jpa.database=MYSQL
   	}}}
  # Install the webapp
   	<pre>sudo cp petclinic.war /usr/share/tomcat6/webapps/</pre>
+ # Restart Tomcat
+ 	<pre>sudo /etc/init.d/tomcat6 restart</pre>
  # Repeat on each EC2 Tomcat instance
