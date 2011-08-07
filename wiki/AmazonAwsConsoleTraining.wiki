@@ -107,3 +107,22 @@ jpa.database=MYSQL
  # Restart Tomcat
  	<pre>sudo /etc/init.d/tomcat6 restart</pre>
  # Repeat on each EC2 Tomcat instance
+
+= Create a Load Balancer =
+
+ # In the EC2 tab, click on the "Load Balancers" menu under "NETWORK & SECURITY"
+ # Click on "Create Load Balancer"
+ # Remove the default rule and a new one with 8080 as the "EC2 Instance Port"
+ 	http://xebia-france.googlecode.com/svn/wiki/aws-img/elb-1.png
+ # Let the default options
+ 	http://xebia-france.googlecode.com/svn/wiki/aws-img/elb-2.png
+ # Choose your instances
+ 	http://xebia-france.googlecode.com/svn/wiki/aws-img/elb-3.png
+ # Create the load balancer
+ 	http://xebia-france.googlecode.com/svn/wiki/aws-img/elb-4.png
+ # Select your load balancer in the list and change the stickiness configuration on clicking on the edit button under "Port Configuration".
+ 	http://xebia-france.googlecode.com/svn/wiki/aws-img/elb-5.png
+ # Choose "Enable Load Balancer Generated Cookie Stickiness" and let the duration field blank
+ 	http://xebia-france.googlecode.com/svn/wiki/aws-img/elb-6.png
+ # Open your browser on the load balancer "A Record"
+ 	http://xebia-france.googlecode.com/svn/wiki/aws-img/result.png
