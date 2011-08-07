@@ -28,9 +28,7 @@
  	http://xebia-france.googlecode.com/svn/wiki/aws-img/rds-8.png
  
  
-= Create EC2 Instance =
-
-How to instantiate a new Amazon Linux server ?
+= Create EC2 Instances =
 
  # Connect to AWS console 	
  # On "EC2" tab, select your region (e.g. "EU West (Ireland)")
@@ -49,3 +47,15 @@ How to instantiate a new Amazon Linux server ?
  # Review the configuration and click on "Launch"
  	http://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-launch-linux-instance-7-review.png
  # Redo steps 3 to 9 and create a second EC2 instance
+
+ = Connect to an Amazon Linux Server =
+
+ # Go to AWS EC2 tab
+ # Click on your server
+ # Drop down the "Instance Action" list
+ # Select "Connect"
+ 	http://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-connect-instance.png
+ # Copy paste the command line
+ 	http://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-connect-instance-2.png
+ # SSH connect to the server as "ec2-user"
+ 	<pre>ssh -i xebia-france.pem ec2-user@ec2-46-137-58-156.eu-west-1.compute.amazonaws.com</pre> 
