@@ -11,9 +11,15 @@
  
  * Select RDS
  
-<img src="http://xebia-france.googlecode.com/svn/wiki/aws-img/rds-1.png" width="300px"/>
-  
- 
+<img src="http://xebia-france.googlecode.com/svn/wiki/aws-img/rds-1.png" width="400px"/>
+
+http://xebia-france.googlecode.com/svn/wiki/aws-img/rds-1.png
+
+ * Select the region
+
+<img src="http://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-select-eu-west-region.png" />
+
+
 = Create EC2 Instance =
 
 * Select the region
