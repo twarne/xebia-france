@@ -5,7 +5,13 @@
 
 *Command*
 {{{
-./ec2-run-instances ami-47cefa33 -n 2 -g tomcat -k xebia-france --instance-type t1.micro  -f user_data_file
+./ec2-run-instances \
+	ami-47cefa33 \
+ 	-n 2 \
+	-g tomcat \
+	-k xebia-france \
+	--instance-type t1.micro  \
+	-f user_data_file
 }}}
 
 
