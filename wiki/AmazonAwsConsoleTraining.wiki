@@ -85,7 +85,7 @@
   # Modify catalina.properties to add MySQL support to petclinic
   	<pre>vi /usr/share/tomcat6/conf/catalina.properties</pre>
   	Add the following lines :
-  	<pre>
+  	{{{
 # PETCLINIC ENVIRONMENT VARIABLES
 jdbc.driverClassName=com.mysql.jdbc.Driver
 jdbc.url=jdbc:mysql://<rds-endpoint>:3306/petclinic
@@ -102,4 +102,4 @@ hibernate.dialect=org.hibernate.dialect.MySQLDialect
 
 # Property that determines which database to use with an AbstractJpaVendorAdapter
 jpa.database=MYSQL
-  	</pre>
+  	}}}
