@@ -209,7 +209,7 @@ Answer [AmazonAwsApiToolsTrainingAnswerEc2#Tag_instances_/_give_them_a_name].
 <font size="1">
 <pre>
 elb-create-lb 
-   LoadBalancerName 
+   !LoadBalancerName 
    --availability-zones value `[`, value...`]` 
    --listener "protocol=value,lb-port=value,instance-port=value `[`,certid=value`]`" 
    `[`--listener "protocol=value,lb-port=value,instance-port=value `[`,certid=value`]`"...`]` 
@@ -230,7 +230,7 @@ Answer [AmazonAwsApiToolsTrainingAnswerElb#Create_Load_Balancer]
 <font size="1">
 <pre>
 elb-configure-healthcheck 
-	LoadBalancerName 
+	!LoadBalancerName 
 	--target value 
 	--healthy-threshold value 
 	--unhealthy-threshold value 
@@ -253,7 +253,7 @@ Answer [AmazonAwsApiToolsTrainingAnswerElb#Configure_health_check]
 <font size="1">
 <pre>
 elb-register-instances-with-lb 
-   LoadBalancerName 
+   !LoadBalancerName 
    --instances value `[`, value...`]` 
 </pre>
 </font>
@@ -272,7 +272,7 @@ Answer [AmazonAwsApiToolsTrainingAnswerElb#Register_instances]
 <font size="1">
 <pre>
 elb-create-lb-cookie-stickiness-policy 
-   LoadBalancerName 
+   !LoadBalancerName 
    --policy-name value 
    `[`--expiration-period value`]` 
 </pre>
@@ -292,7 +292,7 @@ Answer [AmazonAwsApiToolsTrainingAnswerElb#Create_load_balancer_stickiness_polic
 <font size="1">
 <pre>
 elb-set-lb-policies-of-listener 
-        LoadBalancerName 
+        !LoadBalancerName 
         --lb-port  value 
         --policy-names  value`[`,value...`]` 
         `[`General Options`]` 
