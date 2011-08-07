@@ -5,6 +5,15 @@
  
  https://xebia-france.signin.aws.amazon.com/console
  
+ = Create Database instance =
+ 
+ Amazon AWS propose Relational Database Service (RDS) to create ready to use database
+ 
+ * Select RDS
+ 
+<img src="http://xebia-france.googlecode.com/svn/wiki/aws-img/rds-1.png" />
+  
+ 
 = Create EC2 Instance =
 
 * Select the region
