@@ -44,7 +44,8 @@ How to instantiate a new Amazon Linux server ?
  	http://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-launch-linux-instance-4-instance-details.png 	
  # Select a key-pair that will be used for SSH connection (e.g. "xebia-france.pem")
  	http://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-launch-linux-instance-5-key-pair.png
- # Select the "tomcat" security group. This security group allow SSh (22) and Tomcat (8080) communication
+ # Select the "tomcat" security group. This security group allow SSH (22) and Tomcat (8080) communication
  	http://xebia-france.googlecode.com/svn/wiki/aws-img/ec2-security-group.png
  # Review the configuration and click on "Launch"
- 	http://xebia-france.googlecode.com/svn/wiki/aws-ec2-launch-linux-instance-7-review.png
+ 	http://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-launch-linux-instance-7-review.png
+ # Redo steps 3 to 9 and create a second EC2 instance
