@@ -9,15 +9,33 @@
  
  Amazon AWS propose Relational Database Service (RDS) to create ready to use database
  
- * Select RDS
- 
-<img src="http://xebia-france.googlecode.com/svn/wiki/aws-img/rds-1.png" width="400px"/>
+ # Select RDS
 
 http://xebia-france.googlecode.com/svn/wiki/aws-img/rds-1.png
 
- * Select the region
+ # Select the region
 
 <img src="http://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-select-eu-west-region.png" />
+
+ # Click on "Launch DB Instance" and select MYSQL
+ 
+ http://xebia-france.googlecode.com/svn/wiki/aws-img/rds-2.png
+ 
+ # Configure Database - database
+ 
+ http://xebia-france.googlecode.com/svn/wiki/aws-img/rds-3.png
+ 
+ # Configure Database - instance
+ 
+ http://xebia-france.googlecode.com/svn/wiki/aws-img/rds-4.png
+ 
+ # Configure Database - backup
+ 
+ http://xebia-france.googlecode.com/svn/wiki/aws-img/rds-5.png
+ 
+ # Maunch DB Instance
+ 
+ http://xebia-france.googlecode.com/svn/wiki/aws-img/rds-6.png
 
 
 = Create EC2 Instance =
