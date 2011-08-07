@@ -33,4 +33,4 @@ DBINSTANCE  petclinic-clc  2011-08-01T21:09:42.403Z  db.m1.small  mysql  5  petc
       PARAMGRP  default.mysql5.1  in-sync
 }}}
 
-The IP address is {{{petclinic-clc.cccb4ickfoh9.eu-west-1.rds.amazonaws.com}}}
+The hostname is {{{petclinic-clc.cccb4ickfoh9.eu-west-1.rds.amazonaws.com}}}
