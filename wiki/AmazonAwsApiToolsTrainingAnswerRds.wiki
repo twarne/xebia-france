@@ -14,7 +14,7 @@ DBINSTANCE  petclinic-clc  db.m1.small  mysql  5  petclinic  creating  0  ****  
       SECGROUP  default  active
       PARAMGRP  default.mysql5.1  in-sync
 }}}
-Please note that the server ip address is not yet known !
+<img src="http://www.clker.com/cliparts/d/b/d/3/1194998844557242824messagebox_warning.svg.med.png" width="20" /> Please note that the server ip address is not yet known !
 
 <br/>
 ==Describe Instances==
@@ -24,7 +24,7 @@ Please note that the server ip address is not yet known !
 ./rds-describe-db-instances petclinic-clc
 }}}
 
-<img src="http://www.clker.com/cliparts/9/1/4/0/11954322131712176739question_mark_naught101_02.svg.med.png" width="30" /> Warning! You won't get the same output as far the DB is in "creating" process. The db create may take few minutes, be patient!
+<img src="http://www.clker.com/cliparts/d/b/d/3/1194998844557242824messagebox_warning.svg.med.png" width="20" /> Warning! You won't get the same output as far the DB is in "creating" process. The db create may take few minutes, be patient!
 
 *Output*
 {{{
