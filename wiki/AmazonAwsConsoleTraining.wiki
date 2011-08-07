@@ -10,37 +10,41 @@
  Amazon AWS propose Relational Database Service (RDS) to create ready to use database
  
  # Select RDS
-
-http://xebia-france.googlecode.com/svn/wiki/aws-img/rds-1.png
-
+	http://xebia-france.googlecode.com/svn/wiki/aws-img/rds-1.png
  # Select the region
-
-<img src="http://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-select-eu-west-region.png" />
-
+	<img src="http://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-select-eu-west-region.png" />
  # Click on "Launch DB Instance" and select MYSQL
- 
- http://xebia-france.googlecode.com/svn/wiki/aws-img/rds-2.png
- 
+ 	http://xebia-france.googlecode.com/svn/wiki/aws-img/rds-2.png
  # Configure Database - database
- 
- http://xebia-france.googlecode.com/svn/wiki/aws-img/rds-3.png
- 
+ 	http://xebia-france.googlecode.com/svn/wiki/aws-img/rds-3.png
  # Configure Database - instance
- 
- http://xebia-france.googlecode.com/svn/wiki/aws-img/rds-4.png
- 
+ 	http://xebia-france.googlecode.com/svn/wiki/aws-img/rds-4.png
  # Configure Database - backup
+ 	http://xebia-france.googlecode.com/svn/wiki/aws-img/rds-5.png
+ # Launch DB Instance
+ 	http://xebia-france.googlecode.com/svn/wiki/aws-img/rds-6.png
+ # Note the DB instance hostname (endpoint)
+ 	! The database will be available in a few minutes.
+ 	http://xebia-france.googlecode.com/svn/wiki/aws-img/rds-8.png
  
- http://xebia-france.googlecode.com/svn/wiki/aws-img/rds-5.png
  
- # Maunch DB Instance
- 
- http://xebia-france.googlecode.com/svn/wiki/aws-img/rds-6.png
-
-
 = Create EC2 Instance =
 
-* Select the region
+How to instantiate a new Amazon Linux server ?
 
-<img src="http://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-select-eu-west-region.png" />
- 
+ # Connect to AWS console 	
+ # On "EC2" tab, select your region (e.g. "EU West (Ireland)")
+ 	http://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-select-eu-west-region.png
+ # On "EC2 Dashboard", click on "Launch new instance" 	
+ # Select your AMI (e.g. "Basic 32-bit Amazon Linux AMI 2011.02.1 Beta")
+ 	http://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-launch-linux-instance-1-instance-details.png
+ # Select the instance size (e.g. "Micro")
+ 	http://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-launch-linux-instance-2-instance-details.png
+ # Type the name of your server (e.g. "petclinic-(my-trigram)-1")
+ 	http://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-launch-linux-instance-4-instance-details.png 	
+ # Select a key-pair that will be used for SSH connection (e.g. "xebia-france.pem")
+ 	http://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-launch-linux-instance-5-key-pair.png
+ # Select the "tomcat" security group. This security group allow SSh (22) and Tomcat (8080) communication
+ 	http://xebia-france.googlecode.com/svn/wiki/aws-img/ec2-security-group.png
+ # Review the configuration and click on "Launch"
+ 	http://xebia-france.googlecode.com/svn/wiki/aws-ec2-launch-linux-instance-7-review.png
