@@ -11,7 +11,7 @@
  
  * Select RDS
  
-<img src="http://xebia-france.googlecode.com/svn/wiki/aws-img/rds-1.png" />
+<img src="http://xebia-france.googlecode.com/svn/wiki/aws-img/rds-1.png" style="width:300px;"/>
   
  
 = Create EC2 Instance =
