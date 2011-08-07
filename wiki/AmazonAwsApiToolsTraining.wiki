@@ -69,7 +69,8 @@ source ~/.profile
  
 <img src="http://www.clker.com/cliparts/w/x/4/3/m/V/blue-information-glossy-button-md.png" width="20" /> [http://docs.amazonwebservices.com/AmazonRDS/latest/CommandLineReference/index.html?CLIReference-cmd-CreateDBInstance.html Amazon RDS > Command Line Reference > API Command Line Tools Reference > rds-create-db-instance]
 
-{{{
+<font size="1">
+<pre>
 rds-create-db-instance 
 	DBInstanceIdentifier
 	-s (--allocated-storage) value
@@ -78,19 +79,20 @@ rds-create-db-instance
 	-lm (--license model) value
 	-p (--master-user-password) value
 	-u (--master-username) value
-	[-au (--auto-minor-version-upgrade) value ]
-	[-v (--engine-version) value ]
-	[-z (--availability-zone) value ]
-	[--db-name value ]
-	[-g (--db-parameter-group) value]
-	[-m (--multi-az) value]
-	[-a (--db-security-groups) value[,value...] ]
-	[--port value ]
-	[-w (--preferred-maintenance-window) value ]
-	[-r (--backup-retention-period) value ]
-	[-b (--preferred-backup-window) value ]
-	[General Options]
-}}}
+	`[`-au (--auto-minor-version-upgrade) value `]` 
+	`[`-v (--engine-version) value `]` 
+	`[`-z (--availability-zone) value `]` 
+	`[`--db-name value `]` 
+	`[`-g (--db-parameter-group) value`]` 
+	`[`-m (--multi-az) value`]` 
+	`[`-a (--db-security-groups) value`[`,value...`]` `]` 
+	`[`--port value `]` 
+	`[`-w (--preferred-maintenance-window) value `]` 
+	`[`-r (--backup-retention-period) value `]` 
+	`[`-b (--preferred-backup-window) value `]` 
+	`[`General Options`]`
+</pre>
+</font>
 
 <img src="http://www.clker.com/cliparts/3/d/e/4/12428083851546739178Symbol_OK.svg.med.png" width="20" />
 Answer [AmazonAwsApiToolsTrainingAnswerRds#Create_a_MySQL_Database].
@@ -103,11 +105,13 @@ Answer [AmazonAwsApiToolsTrainingAnswerRds#Create_a_MySQL_Database].
 <img src="http://www.clker.com/cliparts/w/x/4/3/m/V/blue-information-glossy-button-md.png" width="20" /> 
 [http://docs.amazonwebservices.com/AmazonRDS/latest/CommandLineReference/index.html?CLIReference-cmd-DescribeDBInstances.html Amazon RDS > Command Line Reference > API Command Line Tools Reference > rds-describe-instances]
 
-{{{
+<font size="1">
+<pre>
 rds-describe-db-instances 
-	[DBInstanceIdentifier ]
-	[--max-records ] value
-}}}
+	`[`DBInstanceIdentifier `]` 
+	`[`--max-records `]` value
+</pre>
+</font>
 
 <img src="http://www.clker.com/cliparts/3/d/e/4/12428083851546739178Symbol_OK.svg.med.png" width="20" />
 Answer [AmazonAwsApiToolsTrainingAnswerRds#Describe_Instances].
@@ -135,28 +139,30 @@ Answer [AmazonAwsApiToolsTrainingAnswerRds#Describe_Instances].
 <img src="http://www.clker.com/cliparts/w/x/4/3/m/V/blue-information-glossy-button-md.png" width="20" />  
 Docs AMI [http://aws.amazon.com/amazon-linux-ami/]
 
-{{{
+<font size="1">
+<pre>
 ec2-run-instances 
    ami_id 
-   [-n instance_count] 
-   [-g group [-g group ...]] 
-   [-k keypair] 
-   [-d user_data |-f user_data_file] 
-   [--addressing addressing_type] 
-   [--instance-type instance_type] 
-   [--availability-zone zone] 
-   [--kernel kernel_id] 
-   [--ramdisk ramdisk_id] 
-   [--block-device-mapping block_device_mapping] 
-   [--monitor] 
-   [--disable-api-termination] 
-   [--instance-initiated-shutdown-behavior behavior] 
-   [--placement-group placement-group] 
-   [--tenancy tenancy] 
-   [--subnet subnet] 
-   [--private-ip-address ip_address] 
-   [--client-token token]
-}}}
+   `[`-n instance_count`]`  
+   `[`-g group `[`-g group ...`]``]`  
+   `[`-k keypair`]` 
+   `[`-d user_data |-f user_data_file`]` 
+   `[`--addressing addressing_type`]` 
+   `[`--instance-type instance_type`]` 
+   `[`--availability-zone zone`]` 
+   `[`--kernel kernel_id`]` 
+   `[`--ramdisk ramdisk_id`]` 
+   `[`--block-device-mapping block_device_mapping`]` 
+   `[`--monitor`]` 
+   `[`--disable-api-termination`]` 
+   `[`--instance-initiated-shutdown-behavior behavior`]` 
+   `[`--placement-group placement-group`]` 
+   `[`--tenancy tenancy`]` 
+   `[`--subnet subnet`]` 
+   `[`--private-ip-address ip_address`]` 
+   `[`--client-token token`]` 
+</pre>
+</font>
 
 Pensez à noter les nom des instances créées (i-XXXXXXXX).
 
@@ -171,11 +177,13 @@ Answer [AmazonAwsApiToolsTrainingAnswerEc2#Create_Linux_instances].
 <img src="http://www.clker.com/cliparts/w/x/4/3/m/V/blue-information-glossy-button-md.png" width="20" />
 [http://docs.amazonwebservices.com/AWSEC2/latest/CommandLineReference/index.html?ApiReference-cmd-CreateTags.html Amazon EC2 > Command Line Reference > API Tools Reference > ec2-create-tags]
 
-{{{
+<font size="1">
+<pre>
 ec2-create-tags 
-   resource_id [resource_id ...] 
-   --tag key[=value] [--tag key[=value] ...]
-}}}
+   resource_id `[`resource_id ...`]` 
+   --tag key`[`=value`]` `[`--tag key`[`=value`]` ...`]` 
+</pre>
+</font>
 
 <img src="http://www.clker.com/cliparts/3/d/e/4/12428083851546739178Symbol_OK.svg.med.png" width="20" />
 Answer [AmazonAwsApiToolsTrainingAnswerEc2#Tag_instances_/_give_them_a_name].
@@ -195,13 +203,15 @@ Answer [AmazonAwsApiToolsTrainingAnswerEc2#Tag_instances_/_give_them_a_name].
 <img src="http://www.clker.com/cliparts/w/x/4/3/m/V/blue-information-glossy-button-md.png" width="20" /> 
 [http://docs.amazonwebservices.com/ElasticLoadBalancing/latest/APIReference/index.html?API_CreateLoadBalancer.html ELB > Elastic Load Balancing API Reference > Actions > CreateLoadBalancer]
 
-{{{
+<font size="1">
+<pre>
 elb-create-lb 
    LoadBalancerName 
-   --availability-zones value [, value...] 
-   --listener "protocol=value,lb-port=value,instance-port=value [,certid=value]"
-   [--listener "protocol=value,lb-port=value,instance-port=value [,certid=value]"...]
-}}}
+   --availability-zones value `[`, value...`]` 
+   --listener "protocol=value,lb-port=value,instance-port=value `[`,certid=value`]`" 
+   `[`--listener "protocol=value,lb-port=value,instance-port=value `[`,certid=value`]`"...`]` 
+</pre>
+</font>
 
 <img src="http://www.clker.com/cliparts/3/d/e/4/12428083851546739178Symbol_OK.svg.med.png" width="20" />
 Answer [AmazonAwsApiToolsTrainingAnswerElb#Create_Load_Balancer]
@@ -214,15 +224,17 @@ Answer [AmazonAwsApiToolsTrainingAnswerElb#Create_Load_Balancer]
 <img src="http://www.clker.com/cliparts/w/x/4/3/m/V/blue-information-glossy-button-md.png" width="20" /> 
 [http://docs.amazonwebservices.com/ElasticLoadBalancing/latest/APIReference/index.html?API_ConfigureHealthCheck.html ELB > Elastic Load Balancing API Reference > Actions > ConfigureHealthCheck]
 
-{{{
+<font size="1">
+<pre>
 elb-configure-healthcheck 
-	LoadBalancerName
+	LoadBalancerName 
 	--target value 
 	--healthy-threshold value 
 	--unhealthy-threshold value 
 	--interval value 
-	--timeout value
-}}}
+	--timeout value 
+</pre>
+</font>
 
 <img src="http://www.clker.com/cliparts/3/d/e/4/12428083851546739178Symbol_OK.svg.med.png" width="20" />
 Answer [AmazonAwsApiToolsTrainingAnswerElb#Configure_health_check]
@@ -235,11 +247,13 @@ Answer [AmazonAwsApiToolsTrainingAnswerElb#Configure_health_check]
 <img src="http://www.clker.com/cliparts/w/x/4/3/m/V/blue-information-glossy-button-md.png" width="20" /> 
 [http://docs.amazonwebservices.com/ElasticLoadBalancing/latest/APIReference/index.html?API_RegisterInstancesWithLoadBalancer.html ELB > Elastic Load Balancing API Reference > Actions > RegisterInstancesWithLoadBalancer]
 
-{{{
+<font size="1">
+<pre>
 elb-register-instances-with-lb 
-   LoadBalancerName
-   --instances value [, value...]
-}}}
+   LoadBalancerName 
+   --instances value `[`, value...`]` 
+</pre>
+</font>
 
 <img src="http://www.clker.com/cliparts/3/d/e/4/12428083851546739178Symbol_OK.svg.med.png" width="20" />
 Answer [AmazonAwsApiToolsTrainingAnswerElb#Register_instances]
@@ -252,12 +266,14 @@ Answer [AmazonAwsApiToolsTrainingAnswerElb#Register_instances]
 <img src="http://www.clker.com/cliparts/w/x/4/3/m/V/blue-information-glossy-button-md.png" width="20" /> 
 [http://docs.amazonwebservices.com/ElasticLoadBalancing/latest/APIReference/index.html?API_CreateLBCookieStickinessPolicy.html ELB > Elastic Load Balancing API Reference > Actions > CreateLBCookieStickinessPolicy]
 
-{{{
+<font size="1">
+<pre>
 elb-create-lb-cookie-stickiness-policy 
-   LoadBalancerName
+   LoadBalancerName 
    --policy-name value 
-   [--expiration-period value]
-}}}
+   `[`--expiration-period value`]` 
+</pre>
+</font>
 
 <img src="http://www.clker.com/cliparts/3/d/e/4/12428083851546739178Symbol_OK.svg.med.png" width="20" />
 Answer [AmazonAwsApiToolsTrainingAnswerElb#Create_load_balancer_stickiness_policy]
@@ -270,13 +286,15 @@ Answer [AmazonAwsApiToolsTrainingAnswerElb#Create_load_balancer_stickiness_polic
 <img src="http://www.clker.com/cliparts/w/x/4/3/m/V/blue-information-glossy-button-md.png" width="20" /> 
 [http://docs.amazonwebservices.com/ElasticLoadBalancing/latest/APIReference/index.html?API_CreateLBCookieStickinessPolicy.html?API_CreateLBCookieStickinessPolicy.html ELB > Elastic Load Balancing API Reference > Actions > SetLoadBalancerPoliciesOfListener]
 
-{{{
-elb-set-lb-policies-of-listener
-        LoadBalancerName
-        --lb-port  value
-        --policy-names  value[,value...]
-        [General Options]
-}}}
+<font size="1">
+<pre>
+elb-set-lb-policies-of-listener 
+        LoadBalancerName 
+        --lb-port  value 
+        --policy-names  value`[`,value...`]` 
+        `[`General Options`]` 
+</pre>
+</font>
 
 <img src="http://www.clker.com/cliparts/3/d/e/4/12428083851546739178Symbol_OK.svg.med.png" width="20" />
 Answer [AmazonAwsApiToolsTrainingAnswerElb#Set_up_policy]
