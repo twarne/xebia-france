@@ -5,7 +5,17 @@
 
 *Command*
 {{{
-./rds-create-db-instance petclinic-clc -s 5 -c db.m1.small -e MySQL -p petclinic -u petclinic --db-security-groups default --db-name petclinic --port 3306 --backup-retention-period 0
+./rds-create-db-instance  \
+	petclinic-clc \
+	-s 5 \
+	-c db.m1.small \
+	-e MySQL \
+	-p petclinic \
+	-u petclinic \
+	--db-security-groups default \
+	--db-name petclinic \
+	--port 3306 \
+	--backup-retention-period 0
 }}}
 
 *Output*
