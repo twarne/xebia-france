@@ -73,6 +73,7 @@ public class AmazonAwsPetclinicInfrastructureMakerTest {
 	}
 	
 	@Test
+	@Ignore
 	public void test_delete_elb() {
 		AmazonAwsPetclinicInfrastructureMaker maker = new AmazonAwsPetclinicInfrastructureMaker();
 		maker.deleteExistingElasticLoadBalancer("xeb");
