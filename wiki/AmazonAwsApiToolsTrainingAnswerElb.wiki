@@ -7,7 +7,7 @@ Note: to simplify, we register all the availability zones.
 
 *Command*
 {{{
-./elb-create-lb \
+elb-create-lb \
 	petclinic-clc \
 	--availability-zones eu-west-1a,eu-west-1b,eu-west-1c \
 	--listener "protocol=HTTP, lb-port=80, instance-port=8080"
@@ -23,7 +23,7 @@ DNS_NAME  petclinic-clc-214905302.eu-west-1.elb.amazonaws.com
 
 *Command*
 {{{
-./elb-configure-healthcheck \
+elb-configure-healthcheck \
 	petclinic-clc \
 	--target HTTP:8080/ \
 	--healthy-threshold 2 \
@@ -42,7 +42,7 @@ HEALTH_CHECK  HTTP:8080/  30  2  2  2
 
 *Command*
 {{{
-./elb-register-instances-with-lb petclinic-clc --instances i-fc022b8a, i-fa022b8c
+elb-register-instances-with-lb petclinic-clc --instances i-fc022b8a, i-fa022b8c
 }}}
 
 
@@ -57,7 +57,7 @@ INSTANCE_ID  i-fa022b8c
 
 *Command*
 {{{
-./elb-create-lb-cookie-stickiness-policy petclinic-clc --policy-name petclinic-policy-clc
+elb-create-lb-cookie-stickiness-policy petclinic-clc --policy-name petclinic-policy-clc
 }}}
 
 *Output*
@@ -70,7 +70,7 @@ OK-Creating LB Stickiness Policy
 
 *Command*
 {{{
-./elb-set-lb-policies-of-listener petclinic-clc --lb-port 80 --policy-names petclinic-policy-clc
+elb-set-lb-policies-of-listener petclinic-clc --lb-port 80 --policy-names petclinic-policy-clc
 }}}
 
 *Output*
