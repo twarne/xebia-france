@@ -58,7 +58,7 @@ export JAVA_HOME=/PATH/VERS/JAVA/HOME
 extract them into your c: drive.
 
 <br/>
-== Configure ==
+=== Configure ===
 
  * Create the followings environment variables:
 {{{
