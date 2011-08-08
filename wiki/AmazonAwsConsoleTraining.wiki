@@ -105,7 +105,7 @@ hibernate.dialect=org.hibernate.dialect.MySQLDialect
 jpa.database=MYSQL
   	}}}
  # Install the webapp
-  	<pre>sudo cp petclinic.war /usr/share/tomcat6/webapps/</pre>
+  	<pre>sudo cp xebia-petclinic-1.0.2.war /usr/share/tomcat6/webapps/petclinic.war</pre>
  # Restart Tomcat
  	<pre>sudo /etc/init.d/tomcat6 restart</pre>
  # Repeat on each EC2 Tomcat instance
