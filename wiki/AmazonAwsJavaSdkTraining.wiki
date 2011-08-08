@@ -12,11 +12,9 @@ The goal is to deploy the Petclinic Web-app on two Amazon EC2 instances and add 
  
 = Get AwsCredentials from properties file =
 
-<code lanquage="java">
-InputStream credentialsAsStream = Thread.currentThread().getContextClassLoader()
+<code lanquage="java">InputStream credentialsAsStream = Thread.currentThread().getContextClassLoader()
                     .getResourceAsStream("AwsCredentials.properties");
-AWSCredentials credentials = new PropertiesCredentials(credentialsAsStream);
-</code> 
+AWSCredentials credentials = new PropertiesCredentials(credentialsAsStream);</code> 
  
  AwsCredentials.properties file looks like this :
  {{{
@@ -29,19 +27,15 @@ secretKey=xxxxx
  Amazon AWS propose Relational Database Service (RDS) to create ready to use database
 
  == Use RDS Client
- <code lanquage="java">
-private AmazonRDS rds;
+ <code lanquage="java">private AmazonRDS rds;
 rds = new AmazonRDSClient(credentials);
-rds.setEndpoint("rds.eu-west-1.amazonaws.com");
- </code> 
+rds.setEndpoint("rds.eu-west-1.amazonaws.com");</code> 
  
 = Create Tomcat instances = 
  == Use EC2 Client
- <code lanquage="java">
-private AmazonEC2 ec2;
+ <code lanquage="java">private AmazonEC2 ec2;
 ec2 = new AmazonEC2Client(credentials);
-ec2.setEndpoint("ec2.eu-west-1.amazonaws.com");
- </code> 
+ec2.setEndpoint("ec2.eu-west-1.amazonaws.com");</code> 
  
  == Create EC2 Instances ==
 
@@ -54,8 +48,6 @@ ec2.setEndpoint("ec2.eu-west-1.amazonaws.com");
  
 = Create a Load Balancer =
   == Use ELB Client
- <code lanquage="java">
-private AmazonElasticLoadBalancing elb;
+ <code lanquage="java">private AmazonElasticLoadBalancing elb;
 ec2 = new AmazonEC2Client(credentials);
-elb.setEndpoint("elasticloadbalancing.eu-west-1.amazonaws.com");
- </code>
+elb.setEndpoint("elasticloadbalancing.eu-west-1.amazonaws.com");</code>
