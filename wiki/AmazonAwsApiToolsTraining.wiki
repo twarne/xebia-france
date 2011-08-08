@@ -10,9 +10,8 @@
 
 == Download ==
  
- * [http://aws.amazon.com/developertools/351 Amazon EC2 API Tools]
- * [http://aws.amazon.com/developertools/2536 Elastic Load Balancing API Tools]
- * [http://aws.amazon.com/developertools/Amazon-RDS/2928 Amazon RDS Command Line Toolkit]
+ * [https://s3-eu-west-1.amazonaws.com/java-infra-as-code-on-amzn-ec2-1/aws-tools.tar.gz aws-tools.tar.gz]
+ * [https://s3-eu-west-1.amazonaws.com/java-infra-as-code-on-amzn-ec2-1/aws-tools.zip aws-tools.zip]
  * [http://xebia-france.googlecode.com/svn/training/xebia-spring-travel/trunk/xebia-spring-travel-amazon-aws/src/main/resources/cloud-config-amzn-linux.txt Fichier CloudInit]
 
 <br/>
