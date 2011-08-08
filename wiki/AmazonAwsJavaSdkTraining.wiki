@@ -1,5 +1,46 @@
-#summary One-sentence summary of this page.
+#summary Discover Amazon Aws Java SDK
 
-= Introduction =
+<wiki:toc max_depth="2" />
 
-TODO
+= Goal =
+
+The goal is to deploy the Petclinic Web-app on two Amazon EC2 instances and add a load balancer between them using *Amazon AWS Java SDK*.
+
+ <code lanquage="java">
+ 
+ </code> 
+ 
+= Get AwsCredentials from properties file =
+
+ <code lanquage="java">
+ InputStream credentialsAsStream = Thread.currentThread().getContextClassLoader()
+                    .getResourceAsStream("AwsCredentials.properties");
+ AWSCredentials credentials = new PropertiesCredentials(credentialsAsStream);
+ </code> 
+ 
+ AwsCredentials looks like this :
+ {{{
+ accessKey=xxxxx
+ secretKey=xxxxx
+ }}}
+
+= Create Database instance =
+ Amazon AWS propose Relational Database Service (RDS) to create ready to use database
+
+ == Use RDS Client
+ <code lanquage="java">
+ 
+ </code> 
+ 
+= Create Tomcat instances = 
+ == Create EC2 Instances ==
+
+ == Connect to an Amazon Linux Server ==
+ 
+ == Install JVM and Tomcat ==
+ 
+ == Install Petclinic web app ==
+ 
+ 
+= Create a Load Balancer =
+ 
