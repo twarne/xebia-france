@@ -82,7 +82,7 @@ The goal is to deploy the Petclinic Web-app on two Amazon EC2 instances and add 
  
  == Install Petclinic web app ==
  # Download WAR on Amazon S3
-        <pre>http://xebia-france.googlecode.com/svn/repository/maven2/fr/xebia/demo/xebia-petclinic/1.0.2/xebia-petclinic-1.0.2.war</pre>
+        <pre>wget http://xebia-france.googlecode.com/svn/repository/maven2/fr/xebia/demo/xebia-petclinic/1.0.2/xebia-petclinic-1.0.2.war</pre>
  # Modify catalina.properties to add MySQL support to petclinic
   	<pre>sudo vi /usr/share/tomcat6/conf/catalina.properties</pre>
   	Add the following lines :
