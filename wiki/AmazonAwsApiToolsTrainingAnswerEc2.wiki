@@ -5,7 +5,7 @@
 
 *Command*
 {{{
-./ec2-run-instances \
+ec2-run-instances \
 	ami-47cefa33 \
  	-n 2 \
 	-g tomcat \
@@ -28,7 +28,7 @@ INSTANCE	i-fa022b8c	ami-47cefa33			pending	xebia-france	1		t1.micro	2011-08-01T2
 
 *Command*
 {{{
-./ec2-describe-instances i-fc022b8a i-fa022b8c
+ec2-describe-instances i-fc022b8a i-fa022b8c
 }}}
 
 *Output*
@@ -45,7 +45,7 @@ BLOCKDEVICE	/dev/sda1	vol-dd5918b4	2011-08-01T21:37:45.000Z
 
 *Command*
 {{{
-./ec2-create-tags i-fc022b8a i-fa022b8c --tag Name=petclinic-clc
+ec2-create-tags i-fc022b8a i-fa022b8c --tag Name=petclinic-clc
 }}}
 
 *Output*
