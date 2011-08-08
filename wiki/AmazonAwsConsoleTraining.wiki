@@ -29,7 +29,7 @@ The goal is to deploy the Petclinic Web-app on two Amazon EC2 instances and add 
  # Launch DB Instance
  	http://xebia-france.googlecode.com/svn/wiki/aws-img/rds-6.png
  # Note the DB instance hostname (endpoint)
- 	! The database will be available in a few minutes.
+ 	<img src="http://www.clker.com/cliparts/d/b/d/3/1194998844557242824messagebox_warning.svg.med.png" width="20" /> The database will be available in a few minutes.
  	http://xebia-france.googlecode.com/svn/wiki/aws-img/rds-8.png
  
 
