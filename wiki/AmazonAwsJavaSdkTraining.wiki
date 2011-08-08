@@ -28,15 +28,69 @@ secretKey=xxxxx
 = Create Database instance =
  Amazon AWS propose Relational Database Service (RDS) to create ready to use database
 
- == Use RDS Client
+ == Use RDS Client ==
+ Use the West Europe End Point.
+ 
  {{{
  private AmazonRDS rds;
  rds = new AmazonRDSClient(credentials);
  rds.setEndpoint("rds.eu-west-1.amazonaws.com");
  }}}
  
+ == Create DB Instance and wait for availability ==
+ === Create DB Instance ===
+ {{{
+    DBInstance createDBInstance(String dbInstanceIdentifier) {
+        DBInstance createDBInstance = rds.createDBInstance( //
+                new CreateDBInstanceRequest() //
+                        .withDBInstanceIdentifier(dbInstanceIdentifier) //
+                        .withDBName("petclinic") //
+                        .withDBInstanceClass("db.m1.small") //
+                        .withEngine("MySQL") //
+                        .withMasterUsername("petclinic") //
+                        .withMasterUserPassword("petclinic") //
+                        .withDBSecurityGroups("default") //
+                        .withAllocatedStorage(5 /* Go */) //
+                        .withBackupRetentionPeriod(0));
+        return createDBInstance;
+    } 
+ }}}
+ 
+ === Find DB Instance ===
+ {{{
+    DBInstance findDBInstance(String dbInstanceIdentifier) {
+        try {
+            DescribeDBInstancesResult describeDBInstances = rds.describeDBInstances(new DescribeDBInstancesRequest()
+                    .withDBInstanceIdentifier(dbInstanceIdentifier));
+            return Iterables.getFirst(describeDBInstances.getDBInstances(), null);
+        } catch (DBInstanceNotFoundException e) {
+            return null;
+        }
+    }
+ }}}
+ 
+ === Wait for availability ===
+ {{{
+    DBInstance waitForDBInstanceAvailability(String dbInstanceIdentifier) {
+        while (true) {
+            DBInstance dbInstance = findDBInstance(dbInstanceIdentifier);
+            if (dbInstance == null) {
+                throw new DBInstanceNotFoundException("Not DBInstance " + dbInstanceIdentifier + " exists");
+            } else if ("available".equals(dbInstance.getDBInstanceStatus())) {
+                return dbInstance;
+            } else {
+                try {
+                    Thread.sleep(20000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    } 
+ }}}
+ 
 = Create Tomcat instances = 
- == Use EC2 Client
+ == Use EC2 Client ==
  {{{
  private AmazonEC2 ec2;
  ec2 = new AmazonEC2Client(credentials);
@@ -53,7 +107,7 @@ secretKey=xxxxx
  
  
 = Create a Load Balancer =
-  == Use ELB Client
+  == Use ELB Client ==
   
  {{{
  private AmazonElasticLoadBalancing elb;
