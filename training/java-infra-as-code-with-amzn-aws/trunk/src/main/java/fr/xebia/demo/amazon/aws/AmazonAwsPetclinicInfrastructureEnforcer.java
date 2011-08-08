@@ -55,6 +55,7 @@ import com.amazonaws.services.elasticloadbalancing.model.CreateLBCookieStickines
 import com.amazonaws.services.elasticloadbalancing.model.CreateLoadBalancerRequest;
 import com.amazonaws.services.elasticloadbalancing.model.DeleteLoadBalancerPolicyRequest;
 import com.amazonaws.services.elasticloadbalancing.model.DeleteLoadBalancerRequest;
+import com.amazonaws.services.elasticloadbalancing.model.DeregisterInstancesFromLoadBalancerRequest;
 import com.amazonaws.services.elasticloadbalancing.model.DescribeLoadBalancersRequest;
 import com.amazonaws.services.elasticloadbalancing.model.DescribeLoadBalancersResult;
 import com.amazonaws.services.elasticloadbalancing.model.DisableAvailabilityZonesForLoadBalancerRequest;
@@ -320,8 +321,8 @@ public class AmazonAwsPetclinicInfrastructureEnforcer {
      * <p>
      * Note: some information are missing of the {@link DBInstance} returned by
      * {@link AmazonRDS#describeDBInstances(DescribeDBInstancesRequest)} as long
-     * as the instance is not "available" (e.g. {@link DBInstance#getEndpoint()}
-     * that holds the ip address).
+     * as the instance is "creating" rather than "available" (e.g.
+     * {@link DBInstance#getEndpoint()} that holds the ip address).
      * </p>
      * 
      * @param dbInstance
@@ -534,7 +535,8 @@ public class AmazonAwsPetclinicInfrastructureEnforcer {
      * @return created load balancer description
      */
     @Nonnull
-    public LoadBalancerDescription createOrUpdateElasticLoadBalancer(@Nonnull String healthCheckUri, @Nonnull String applicationIdentifier) {        logger.info("ENFORCE LOAD BALANCER");
+    public LoadBalancerDescription createOrUpdateElasticLoadBalancer(@Nonnull String healthCheckUri, @Nonnull String applicationIdentifier) {
+        logger.info("ENFORCE LOAD BALANCER");
 
         DescribeInstancesRequest describeInstancesWithRoleRequest = new DescribeInstancesRequest(). //
                 withFilters(new Filter("tag:Role", Arrays.asList(applicationIdentifier)));
@@ -699,8 +701,9 @@ public class AmazonAwsPetclinicInfrastructureEnforcer {
 
         // TODO verify load balancer policy is associated with the listener
         List<String> expectedListenerDescriptionPolicyNames = Lists.newArrayList(expectedLbCookieStickinessPolicy.getPolicyName());
-        
-        boolean mustOverWriteListenerPolicy = ! ObjectUtils.equals(expectedListenerDescriptionPolicyNames, actualListenerDescription.getPolicyNames());
+
+        boolean mustOverWriteListenerPolicy = !ObjectUtils.equals(expectedListenerDescriptionPolicyNames,
+                actualListenerDescription.getPolicyNames());
 
         if (mustOverWriteListenerPolicy) {
 
@@ -714,20 +717,20 @@ public class AmazonAwsPetclinicInfrastructureEnforcer {
 
         // INSTANCES
         Set<String> expectedEc2InstanceIds = Sets.newHashSet(Iterables.transform(expectedEc2Instances, EC2_INSTANCE_TO_INSTANCE_ID));
-        // enable
-        Iterable<String> instanceIdsToEnable = Sets.difference(expectedEc2InstanceIds, actualInstanceIds);
-        logger.info("Enable " + applicationIdentifier + " instances: " + instanceIdsToEnable);
-        if (!Iterables.isEmpty(instanceIdsToEnable)) {
+        // register
+        Iterable<String> instanceIdsToRegister = Sets.difference(expectedEc2InstanceIds, actualInstanceIds);
+        logger.info("Register " + applicationIdentifier + " instances: " + instanceIdsToRegister);
+        if (!Iterables.isEmpty(instanceIdsToRegister)) {
             elb.registerInstancesWithLoadBalancer(new RegisterInstancesWithLoadBalancerRequest(loadBalancerName, Lists
-                    .newArrayList(Iterables.transform(instanceIdsToEnable, INSTANCE_ID_TO_ELB_INSTANCE))));
+                    .newArrayList(Iterables.transform(instanceIdsToRegister, INSTANCE_ID_TO_ELB_INSTANCE))));
         }
 
-        // disable
-        Iterable<String> instanceIdsToDisable = Sets.difference(actualInstanceIds, expectedEc2InstanceIds);
-        logger.info("Disable " + applicationIdentifier + " instances: " + instanceIdsToDisable);
-        if (!Iterables.isEmpty(instanceIdsToDisable)) {
-            elb.registerInstancesWithLoadBalancer(new RegisterInstancesWithLoadBalancerRequest(loadBalancerName, Lists
-                    .newArrayList(Iterables.transform(instanceIdsToDisable, INSTANCE_ID_TO_ELB_INSTANCE))));
+        // deregister
+        Iterable<String> instanceIdsToDeregister = Sets.difference(actualInstanceIds, expectedEc2InstanceIds);
+        logger.info("Deregister " + applicationIdentifier + " instances: " + instanceIdsToDeregister);
+        if (!Iterables.isEmpty(instanceIdsToDeregister)) {
+            elb.deregisterInstancesFromLoadBalancer(new DeregisterInstancesFromLoadBalancerRequest(loadBalancerName, Lists
+                    .newArrayList(Iterables.transform(instanceIdsToDeregister, INSTANCE_ID_TO_ELB_INSTANCE))));
         }
 
         // QUERY TO GET UP TO DATE LOAD BALANCER DESCRIPTION
