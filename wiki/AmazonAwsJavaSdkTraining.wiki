@@ -189,3 +189,81 @@ secretKey=xxxxx
  ec2 = new AmazonEC2Client(credentials);
  elb.setEndpoint("elasticloadbalancing.eu-west-1.amazonaws.com");
  }}}
+ 
+ == Create Elastic Load Balancer ==
+ {{{
+ 	public LoadBalancerDescription createElasticLoadBalancer(String trigram) {
+		String loadBalancerName = "elb-" + trigram;
+		List<Instance> ec2Instances = displayInstancesDetails(trigram);
+
+		String expectedAvailabilityZones = ec2Instances.get(0).getPlacement().getAvailabilityZone();
+		Listener expectedListener = new Listener("HTTP", 80, 8080);
+
+		CreateLoadBalancerRequest createLoadBalancerRequest = new CreateLoadBalancerRequest() //
+				.withLoadBalancerName(loadBalancerName) //
+				.withAvailabilityZones(expectedAvailabilityZones) //
+				.withListeners(expectedListener);
+
+		elb.createLoadBalancer(createLoadBalancerRequest);
+		
+		// AVAILABILITY ZONES
+		elb.enableAvailabilityZonesForLoadBalancer(new EnableAvailabilityZonesForLoadBalancerRequest(loadBalancerName, Lists.newArrayList(expectedAvailabilityZones)));
+		
+		// EC2 INSTANCES
+		List<com.amazonaws.services.elasticloadbalancing.model.Instance> elbInstances = new ArrayList<com.amazonaws.services.elasticloadbalancing.model.Instance>();
+		elbInstances.add(new com.amazonaws.services.elasticloadbalancing.model.Instance(ec2Instances.get(0).getInstanceId()));
+		elbInstances.add(new com.amazonaws.services.elasticloadbalancing.model.Instance(ec2Instances.get(1).getInstanceId()));
+
+		elb.registerInstancesWithLoadBalancer(new RegisterInstancesWithLoadBalancerRequest( //
+				loadBalancerName, //
+				elbInstances));
+		}
+ }}}
+ 
+ == Configure HealthCheck ==
+ {{{
+ 	public LoadBalancerDescription createElasticLoadBalancerHealthCheck(String trigram) {
+		String loadBalancerName = "elb-" + trigram;
+		// HEALTH CHECK
+		String healthCheckUri = "/petclinic/healthcheck.jsp";
+
+		HealthCheck expectedHealthCheck = new HealthCheck() //
+				.withTarget("HTTP:8080" + healthCheckUri) //
+				.withHealthyThreshold(2) //
+				.withUnhealthyThreshold(2) //
+				.withInterval(30) //
+				.withTimeout(2);
+
+		elb.configureHealthCheck(new ConfigureHealthCheckRequest(loadBalancerName, expectedHealthCheck));
+		}
+ }}}
+ 
+ == Cookie Stickiness ==
+ {{{
+ 	public LoadBalancerDescription createElasticLoadBalancerCookieStickiness(String trigram) {
+		String loadBalancerName = "elb-" + trigram;
+		
+		// COOKIE STICKINESS
+		final LBCookieStickinessPolicy expectedLbCookieStickinessPolicy = new LBCookieStickinessPolicy( //
+				"petclinic" + "-stickiness-policy", null);
+
+		CreateLBCookieStickinessPolicyRequest createLbCookieStickinessPolicy = new CreateLBCookieStickinessPolicyRequest() //
+				.withLoadBalancerName(loadBalancerName) //
+				.withPolicyName(expectedLbCookieStickinessPolicy.getPolicyName()) //
+				.withCookieExpirationPeriod(expectedLbCookieStickinessPolicy.getCookieExpirationPeriod());
+		elb.createLBCookieStickinessPolicy(createLbCookieStickinessPolicy);
+ 	}
+ }}}
+ 
+ == Load Balancer Policy ==
+ {{{
+ 	public LoadBalancerDescription createElasticLoadBalancerPolicy(String trigram) {
+		String loadBalancerName = "elb-" + trigram;
+		
+		SetLoadBalancerPoliciesOfListenerRequest setLoadBalancerPoliciesOfListenerRequest = new SetLoadBalancerPoliciesOfListenerRequest() //
+				.withLoadBalancerName(loadBalancerName) //
+				.withLoadBalancerPort(expectedListener.getLoadBalancerPort()) //
+				.withPolicyNames(expectedLbCookieStickinessPolicy.getPolicyName());
+		elb.setLoadBalancerPoliciesOfListener(setLoadBalancerPoliciesOfListenerRequest);
+ 	}
+ }}}
