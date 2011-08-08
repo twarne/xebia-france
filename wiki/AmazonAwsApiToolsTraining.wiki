@@ -60,7 +60,7 @@ EC2_HOME=c:\aws-tools\ec2
 AWS_RDS_HOME=c:\aws-tools\rds
 AWS_ELB_HOME=c:\aws-tools\elb
 
-PATH=$PATH:$EC2_HOME\bin:$AWS_RDS_HOME\bin:$AWS_ELB_HOME\bin
+PATH=%PATH%;%EC2_HOME%\bin;%AWS_RDS_HOME%\bin;%AWS_ELB_HOME%\bin
 
 # EC2_REGION works for rds tools and elb tools but not for ec2 tools
 EC2_REGION=eu-west-1
