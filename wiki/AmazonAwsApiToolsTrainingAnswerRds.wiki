@@ -5,7 +5,7 @@
 
 *Command*
 {{{
-./rds-create-db-instance  \
+rds-create-db-instance  \
 	petclinic-clc \
 	-s 5 \
 	-c db.m1.small \
@@ -31,7 +31,7 @@ DBINSTANCE  petclinic-clc  db.m1.small  mysql  5  petclinic  creating  0  ****  
 
 *Command*
 {{{
-./rds-describe-db-instances petclinic-clc
+rds-describe-db-instances petclinic-clc
 }}}
 
 <img src="http://www.clker.com/cliparts/d/b/d/3/1194998844557242824messagebox_warning.svg.med.png" width="20" /> Warning! You won't get the same output as far the DB is in "creating" process. The db create may take few minutes, be patient!
