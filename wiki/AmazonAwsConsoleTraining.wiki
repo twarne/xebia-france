@@ -76,16 +76,13 @@ The goal is to deploy the Petclinic Web-app on two Amazon EC2 instances and add 
  	<pre>sudo yum install java-1.6.0-openjdk</pre>
  # Install Tomcat 6. Tomcat will be installed in /usr/share/tomcat6
  	<pre>sudo yum install tomcat6 tomcat6-admin-webapps tomcat6-webapps</pre>
- # Install MySQL JDBC Driver 
- 	<pre>sudo yum install mysql-connector-java</pre>
- 	<pre>sudo ln -s /usr/share/java/mysql-connector-java.jar /usr/share/tomcat6/lib/</pre>
  # Run tomcat
  	<pre>sudo /etc/init.d/tomcat6 start</pre>
  # Repeat this steps on the second instance
  
  == Install Petclinic web app ==
  # Download WAR on Amazon S3
-  	<pre>wget --no-check-certificate https://s3-eu-west-1.amazonaws.com/java-infra-as-code-on-amzn-ec2-1/petclinic.war</pre>
+        <pre>http://xebia-france.googlecode.com/svn/repository/maven2/fr/xebia/demo/xebia-petclinic/1.0.2/xebia-petclinic-1.0.2.war</pre>
  # Modify catalina.properties to add MySQL support to petclinic
   	<pre>sudo vi /usr/share/tomcat6/conf/catalina.properties</pre>
   	Add the following lines :
