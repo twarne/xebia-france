@@ -92,34 +92,35 @@ secretKey=change me
  }}}
  
  == Create Elastic Load Balancer ==
+ Params :
  {{{
-        List<Instance> ec2Instances = displayInstancesDetails(trigram);
-
-        String expectedAvailabilityZones = ec2Instances.get(0).getPlacement().getAvailabilityZone();
-        Listener expectedListener = new Listener("HTTP", 80, 8080);
+  LoadBalancerName : elb + trigram
+  ExpectedListener : "HTTP", 80 et 8080
+  AvailabilityZones : "eu-west-1a", "eu-west-1b", "eu-west-1c"
+ }}}
+ 
+ {{{
 
         CreateLoadBalancerRequest createLoadBalancerRequest = new CreateLoadBalancerRequest() //
-                .withLoadBalancerName(loadBalancerName) //
-                .withAvailabilityZones(expectedAvailabilityZones) //
-                .withListeners(expectedListener);
-        
+                .with...
         elb.createLoadBalancer(createLoadBalancerRequest);
         
         // AVAILABILITY ZONES
-        elb.enableAvailabilityZonesForLoadBalancer(new EnableAvailabilityZonesForLoadBalancerRequest(loadBalancerName, //
-                                                                            Lists.newArrayList(expectedAvailabilityZones)));
+        EnableAvailabilityZonesForLoadBalancerRequest enableAvailabilityZonesForLoadBalancerRequest = new EnableAvailabilityZonesForLoadBalancerRequest( //
+                loadBalancerName, Lists.newArrayList("eu-west-1a", "eu-west-1b", "eu-west-1c"));
+        elb.enableAvailabilityZonesForLoadBalancer(enableAvailabilityZonesForLoadBalancerRequest);
         
         // HEALTH CHECK
         String healthCheckUri = "/petclinic/healthcheck.jsp";
-        createElasticLoadBalancerHealthCheck(loadBalancerName, healthCheckUri);
+        ...
         
         // COOKIE STICKINESS
         final LBCookieStickinessPolicy expectedLbCookieStickinessPolicy = new LBCookieStickinessPolicy( //
                 "petclinic" + "-stickiness-policy", null);
-        createElasticLoadBalancerCookieStickiness(loadBalancerName, expectedLbCookieStickinessPolicy);
+        ...
         
         // POLICY
-        createElasticLoadBalancerPolicy(loadBalancerName, expectedListener, expectedLbCookieStickinessPolicy);
+        ...
         
         // EC2 INSTANCES
         List<com.amazonaws.services.elasticloadbalancing.model.Instance> elbInstances = //
@@ -127,21 +128,26 @@ secretKey=change me
         elbInstances.add(new com.amazonaws.services.elasticloadbalancing.model.Instance(ec2Instances.get(0).getInstanceId()));
         elbInstances.add(new com.amazonaws.services.elasticloadbalancing.model.Instance(ec2Instances.get(1).getInstanceId()));
 
-        elb.registerInstancesWithLoadBalancer(new RegisterInstancesWithLoadBalancerRequest( //
+        RegisterInstancesWithLoadBalancerRequest registerInstancesWithLoadBalancerRequest = new RegisterInstancesWithLoadBalancerRequest( //
                 loadBalancerName, //
-                elbInstances));
+                elbInstances);
+        elb.registerInstancesWithLoadBalancer(registerInstancesWithLoadBalancerRequest);
  }}}
  
  == Configure !HealthCheck ==
+ Params :
  {{{
-        HealthCheck expectedHealthCheck = new HealthCheck() //
-                .withTarget("HTTP:8080" + healthCheckUri) //
-                .withHealthyThreshold(2) //
-                .withUnhealthyThreshold(2) //
-                .withInterval(30) //
-                .withTimeout(2);
-
-        elb.configureHealthCheck(new ConfigureHealthCheckRequest(loadBalancerName, expectedHealthCheck));
+   Target : HTTP:8080/petclinic/healthcheck.jsp
+   HealthyThreshold : 2
+   UnhealthyThreshold : 2
+   Interval : 30
+   Timeout : 2
+ }}}
+ 
+ {{{
+    HealthCheck expectedHealthCheck = new HealthCheck() //
+                .with...
+    elb.configureHealthCheck(new ConfigureHealthCheckRequest(loadBalancerName, expectedHealthCheck));
  }}}
  
  == Cookie Stickiness ==
@@ -150,7 +156,6 @@ secretKey=change me
                 .withLoadBalancerName(loadBalancerName) //
                 .withPolicyName(expectedLbCookieStickinessPolicy.getPolicyName()) //
                 .withCookieExpirationPeriod(expectedLbCookieStickinessPolicy.getCookieExpirationPeriod());
-        
         elb.createLBCookieStickinessPolicy(createLbCookieStickinessPolicy);
  }}}
  
@@ -160,7 +165,6 @@ secretKey=change me
                 .withLoadBalancerName(loadBalancerName) //
                 .withLoadBalancerPort(expectedListener.getLoadBalancerPort()) //
                 .withPolicyNames(expectedLbCookieStickinessPolicy.getPolicyName());
-        
         elb.setLoadBalancerPoliciesOfListener(setLoadBalancerPoliciesOfListenerRequest);
  }}}
  
