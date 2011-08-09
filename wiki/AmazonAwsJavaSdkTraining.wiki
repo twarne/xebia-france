@@ -37,8 +37,8 @@ secretKey=change me
  === Create DB Instance ===
  Params :
  {{{
- 	DBInstanceIdentifier: petclinic-xeb
-  	DBName: petclinic
+	DBInstanceIdentifier: petclinic-xeb
+	DBName: petclinic
     DBInstanceClass : db.m1.small
     Engine : MySQL
     MasterUsername : petclinic
