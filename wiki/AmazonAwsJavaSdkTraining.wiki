@@ -35,71 +35,26 @@ secretKey=change me
  
  == Create DB Instance and wait for availability ==
  === Create DB Instance ===
- 
+ Params :
  {{{
- DBInstanceIdentifier: petclinic-xeb //
-  DBName: "petclinic"
- }}}
- {{{
-    	DBInstance createDBInstance = rds.createDBInstance( //
-                new CreateDBInstanceRequest() //
-                        .with...
-        return createDBInstance;
-    } 
- }}}
- 
- <wiki:comment>
- === Find DB Instance ===
- {{{
-    DBInstance findDBInstance(String dbInstanceIdentifier) {
-        try {
-            DescribeDBInstancesResult describeDBInstances = rds.describeDBInstances( //
-                    new DescribeDBInstancesRequest()
-                        .withDBInstanceIdentifier(dbInstanceIdentifier));
-            return Iterables.getFirst(describeDBInstances.getDBInstances(), null);
-        } catch (DBInstanceNotFoundException e) {
-            return null;
-        }
-    }
+ 	DBInstanceIdentifier: petclinic-xeb
+  	DBName: petclinic
+    DBInstanceClass : db.m1.small
+    Engine : MySQL
+    MasterUsername : petclinic
+    MasterUserPassword : petclinic
+    DBSecurityGroups : default
+    AllocatedStorage : 5 (Go)
+    BackupRetentionPeriod : 0
  }}}
  
- === Wait for availability ===
+ Création de la Base de données:
  {{{
-    DBInstance waitForDBInstanceAvailability(String dbInstanceIdentifier) {
-        while (true) {
-            DBInstance dbInstance = findDBInstance(dbInstanceIdentifier);
-            if (dbInstance == null) {
-                throw new DBInstanceNotFoundException("Not DBInstance " + dbInstanceIdentifier + " exists");
-            } else if ("available".equals(dbInstance.getDBInstanceStatus())) {
-                return dbInstance;
-            } else {
-                try {
-                    Thread.sleep(20000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    } 
+ 		CreateDBInstanceRequest dbInstanceRequest = new CreateDBInstanceRequest() //
+				.with...
+    	DBInstance createDBInstance = rds.createDBInstance(dbInstanceRequest);
  }}}
- 
- == Use a Test Class to run DB Instance creation ==
- {{{
-     @Test
-    public void test_find_dbinstances_return_null_when_not_exist() {
-        AmazonAwsPetclinicInfrastructureMaker maker = new AmazonAwsPetclinicInfrastructureMaker();
-        Assert.assertNull("No DB Instance must be returned", maker.findDBInstance("notexist"));
-    }
 
-    @Test
-    public void test_create_dbinstances() {
-        AmazonAwsPetclinicInfrastructureMaker maker = new AmazonAwsPetclinicInfrastructureMaker();
-        Assert.assertNotNull("No DB Instance available", maker.createDBInstanceAndWaitForAvailability("petclinic-xeb"));
-
-    }
- }}}
- </wiki:comment>
- 
  
 = Create Tomcat instances = 
  == Use EC2 Client ==
@@ -111,74 +66,22 @@ secretKey=change me
  }}}
  
  == Create EC2 Instances ==
+ Params :
  {{{
-     List<Instance> createTwoEC2Instances() {
-
-        RunInstancesResult runInstances = ec2.runInstances( //
-                new RunInstancesRequest() //
-                        .withImageId("ami-47cefa33");
-                        .withMinCount(2) //
-                        .withMaxCount(2) //
-                        .withSecurityGroups("tomcat") //
-                        .withKeyName("xebia-france") //
-                        .withInstanceType(InstanceType.T1_MICRO) //
-                );
-        Reservation reservation = runInstances.getReservation();
-        return reservation.getInstances();
-    }
+  ImageId : ami-47cefa33
+  MinCount : 2
+  MaxCount : 2
+  SecurityGroups : tomcat
+  KeyName : xebia-france
+  InstanceType : T1_MICRO
+  UserData : buildCloudInitUserData Method
  }}}
  
- <wiki:comment>
- == Tag Instances ==
  {{{
-     void tagInstances(List<Instance> instances, String trigram) {
-        int i = 1;
-        for (Instance instance : instances) {
-            ec2.createTags(new CreateTagsRequest() //
-                    .withResources(instance.getInstanceId()) //
-                    .withTags(new Tag("Name", "petclinic-" + trigram + "-" + i), //
-                            new Tag("Owner", trigram), //
-                            new Tag("Role", "tomcat-petclinic")) //
-            );
-            i++;
-        }
-    }
+    RunInstancesRequest runInstanceRequest = new RunInstancesRequest() //
+    	.with...
+    RunInstancesResult runInstances = ec2.runInstances(runInstanceRequest);
  }}}
- 
- === Terminate already existing instances ===
- {{{
-    void terminateMyAlreadyExistingEC2Instances(String trigram) {
-        List<Instance> instances = new ArrayList<Instance>();
-        
-        DescribeInstancesResult describeInstances = ec2.describeInstances(new DescribeInstancesRequest() //
-                .withFilters(new Filter("tag:Name", Arrays.asList("petclinic-" + trigram + "-*"))));
-        for (Reservation reservation : describeInstances.getReservations()) {
-            for (Instance instance : reservation.getInstances()) {
-                instances.add(instance);
-            }
-        }
-
-        List<String> instanceIds = new ArrayList<String>();
-        for (Instance instance : instances) {
-            instanceIds.add(instance.getInstanceId());
-        }
-
-        if (!instanceIds.isEmpty()) {
-            ec2.terminateInstances(new TerminateInstancesRequest()//
-                    .withInstanceIds(instanceIds));
-        }
-    }
- }}}
- 
- == Use a Test Class to run EC2 Instances and Tag it ==
- {{{
-     @Test
-    public void test_create_ec2instances_and_tag() {
-        AmazonAwsPetclinicInfrastructureMaker maker = new AmazonAwsPetclinicInfrastructureMaker();
-        Assert.assertNotNull("No EC2 Instance created",maker.terminateExistingAndCreateNewInstance("xeb"));
-    }
- }}}
- </wiki:comment>
  
 = Create a Load Balancer =
   == Use ELB Client ==
