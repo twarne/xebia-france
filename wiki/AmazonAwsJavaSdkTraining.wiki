@@ -6,7 +6,7 @@
 
 The goal is to deploy the Petclinic Web-app on two Amazon EC2 instances and add a load balancer between them using *Amazon AWS Java SDK*.
  
-= Get AwsCredentials from properties file =
+= Get *AwsCredentials* from properties file =
 
  {{{
  InputStream credentialsAsStream = Thread.currentThread().getContextClassLoader()
@@ -14,7 +14,7 @@ The goal is to deploy the Petclinic Web-app on two Amazon EC2 instances and add 
  AWSCredentials credentials = new PropertiesCredentials(credentialsAsStream);
  }}} 
  
- AwsCredentials.properties file looks like this :
+ *AwsCredentials.properties* file looks like this :
  {{{
 #Insert your AWS Credentials from http://aws.amazon.com/security-credentials
 accessKey=change me
@@ -57,8 +57,9 @@ secretKey=change me
  {{{
     DBInstance findDBInstance(String dbInstanceIdentifier) {
         try {
-            DescribeDBInstancesResult describeDBInstances = rds.describeDBInstances(new DescribeDBInstancesRequest()
-                    .withDBInstanceIdentifier(dbInstanceIdentifier));
+            DescribeDBInstancesResult describeDBInstances = rds.describeDBInstances( //
+                    new DescribeDBInstancesRequest()
+                        .withDBInstanceIdentifier(dbInstanceIdentifier));
             return Iterables.getFirst(describeDBInstances.getDBInstances(), null);
         } catch (DBInstanceNotFoundException e) {
             return null;
@@ -194,9 +195,6 @@ secretKey=change me
  
  == Create Elastic Load Balancer ==
  {{{
-    public LoadBalancerDescription createElasticLoadBalancer(String trigram) {
-        String loadBalancerName = "elb-" + trigram;
-        
         List<Instance> ec2Instances = displayInstancesDetails(trigram);
 
         String expectedAvailabilityZones = ec2Instances.get(0).getPlacement().getAvailabilityZone();
@@ -210,7 +208,8 @@ secretKey=change me
         elb.createLoadBalancer(createLoadBalancerRequest);
         
         // AVAILABILITY ZONES
-        elb.enableAvailabilityZonesForLoadBalancer(new EnableAvailabilityZonesForLoadBalancerRequest(loadBalancerName, Lists.newArrayList(expectedAvailabilityZones)));
+        elb.enableAvailabilityZonesForLoadBalancer(new EnableAvailabilityZonesForLoadBalancerRequest(loadBalancerName, //
+                                                                            Lists.newArrayList(expectedAvailabilityZones)));
         
         // HEALTH CHECK
         String healthCheckUri = "/petclinic/healthcheck.jsp";
@@ -225,27 +224,18 @@ secretKey=change me
         createElasticLoadBalancerPolicy(loadBalancerName, expectedListener, expectedLbCookieStickinessPolicy);
         
         // EC2 INSTANCES
-        List<com.amazonaws.services.elasticloadbalancing.model.Instance> elbInstances = new ArrayList<com.amazonaws.services.elasticloadbalancing.model.Instance>();
+        List<com.amazonaws.services.elasticloadbalancing.model.Instance> elbInstances = //
+                                                    new ArrayList<com.amazonaws.services.elasticloadbalancing.model.Instance>();
         elbInstances.add(new com.amazonaws.services.elasticloadbalancing.model.Instance(ec2Instances.get(0).getInstanceId()));
         elbInstances.add(new com.amazonaws.services.elasticloadbalancing.model.Instance(ec2Instances.get(1).getInstanceId()));
 
         elb.registerInstancesWithLoadBalancer(new RegisterInstancesWithLoadBalancerRequest( //
                 loadBalancerName, //
                 elbInstances));
-
-        LoadBalancerDescription elasticLoadBalancerDescription = elb.describeLoadBalancers(new DescribeLoadBalancersRequest(Arrays.asList(loadBalancerName))).getLoadBalancerDescriptions().get(0);
-
-        System.out.println("LOAD BALANCER");
-        System.out.println("=============");
-        System.out.println("http://" + elasticLoadBalancerDescription.getDNSName() + "/petclinic");
-
-        return elasticLoadBalancerDescription;
-    }
  }}}
  
  == Configure HealthCheck ==
  {{{
-    public void createElasticLoadBalancerHealthCheck(String loadBalancerName, String healthCheckUri) {
         HealthCheck expectedHealthCheck = new HealthCheck() //
                 .withTarget("HTTP:8080" + healthCheckUri) //
                 .withHealthyThreshold(2) //
@@ -254,30 +244,26 @@ secretKey=change me
                 .withTimeout(2);
 
         elb.configureHealthCheck(new ConfigureHealthCheckRequest(loadBalancerName, expectedHealthCheck));
-    }
  }}}
  
  == Cookie Stickiness ==
  {{{
-    public void createElasticLoadBalancerCookieStickiness(String loadBalancerName, LBCookieStickinessPolicy expectedLbCookieStickinessPolicy) {
         CreateLBCookieStickinessPolicyRequest createLbCookieStickinessPolicy = new CreateLBCookieStickinessPolicyRequest() //
                 .withLoadBalancerName(loadBalancerName) //
                 .withPolicyName(expectedLbCookieStickinessPolicy.getPolicyName()) //
                 .withCookieExpirationPeriod(expectedLbCookieStickinessPolicy.getCookieExpirationPeriod());
         
         elb.createLBCookieStickinessPolicy(createLbCookieStickinessPolicy);
-
-    }
  }}}
  
  == Load Balancer Policy ==
  {{{
-    public void createElasticLoadBalancerPolicy(String loadBalancerName, Listener expectedListener, LBCookieStickinessPolicy expectedLbCookieStickinessPolicy) {
-        SetLoadBalancerPoliciesOfListenerRequest setLoadBalancerPoliciesOfListenerRequest = new SetLoadBalancerPoliciesOfListenerRequest() //
+       SetLoadBalancerPoliciesOfListenerRequest setLoadBalancerPoliciesOfListenerRequest = new SetLoadBalancerPoliciesOfListenerRequest() //
                 .withLoadBalancerName(loadBalancerName) //
                 .withLoadBalancerPort(expectedListener.getLoadBalancerPort()) //
                 .withPolicyNames(expectedLbCookieStickinessPolicy.getPolicyName());
         
         elb.setLoadBalancerPoliciesOfListener(setLoadBalancerPoliciesOfListenerRequest);
-    }
  }}}
+ 
+ 
