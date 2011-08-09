@@ -5,10 +5,6 @@
 = Goal =
 
 The goal is to deploy the Petclinic Web-app on two Amazon EC2 instances and add a load balancer between them using *Amazon AWS Java SDK*.
-
- <code lanquage="java">
- 
- </code> 
  
 = Get AwsCredentials from properties file =
 
@@ -21,8 +17,8 @@ The goal is to deploy the Petclinic Web-app on two Amazon EC2 instances and add 
  AwsCredentials.properties file looks like this :
  {{{
 #Insert your AWS Credentials from http://aws.amazon.com/security-credentials
-accessKey=xxxxx
-secretKey=xxxxx
+accessKey=change me
+secretKey=change me
  }}}
 
 = Create Database instance =
@@ -56,6 +52,7 @@ secretKey=xxxxx
     } 
  }}}
  
+ <wiki:comment>
  === Find DB Instance ===
  {{{
     DBInstance findDBInstance(String dbInstanceIdentifier) {
@@ -104,9 +101,12 @@ secretKey=xxxxx
 
     }
  }}}
+ </wiki:comment>
+ 
  
 = Create Tomcat instances = 
  == Use EC2 Client ==
+ Use the West Europe End Point.
  {{{
  private AmazonEC2 ec2;
  ec2 = new AmazonEC2Client(credentials);
@@ -131,6 +131,7 @@ secretKey=xxxxx
     }
  }}}
  
+ <wiki:comment>
  == Tag Instances ==
  {{{
      void tagInstances(List<Instance> instances, String trigram) {
@@ -180,10 +181,11 @@ secretKey=xxxxx
         Assert.assertNotNull("No EC2 Instance created",maker.terminateExistingAndCreateNewInstance("xeb"));
     }
  }}}
+ </wiki:comment>
  
 = Create a Load Balancer =
   == Use ELB Client ==
-  
+ Use the West Europe End Point.
  {{{
  private AmazonElasticLoadBalancing elb;
  ec2 = new AmazonEC2Client(credentials);
@@ -192,78 +194,90 @@ secretKey=xxxxx
  
  == Create Elastic Load Balancer ==
  {{{
- 	public LoadBalancerDescription createElasticLoadBalancer(String trigram) {
-		String loadBalancerName = "elb-" + trigram;
-		List<Instance> ec2Instances = displayInstancesDetails(trigram);
+    public LoadBalancerDescription createElasticLoadBalancer(String trigram) {
+        String loadBalancerName = "elb-" + trigram;
+        
+        List<Instance> ec2Instances = displayInstancesDetails(trigram);
 
-		String expectedAvailabilityZones = ec2Instances.get(0).getPlacement().getAvailabilityZone();
-		Listener expectedListener = new Listener("HTTP", 80, 8080);
+        String expectedAvailabilityZones = ec2Instances.get(0).getPlacement().getAvailabilityZone();
+        Listener expectedListener = new Listener("HTTP", 80, 8080);
 
-		CreateLoadBalancerRequest createLoadBalancerRequest = new CreateLoadBalancerRequest() //
-				.withLoadBalancerName(loadBalancerName) //
-				.withAvailabilityZones(expectedAvailabilityZones) //
-				.withListeners(expectedListener);
+        CreateLoadBalancerRequest createLoadBalancerRequest = new CreateLoadBalancerRequest() //
+                .withLoadBalancerName(loadBalancerName) //
+                .withAvailabilityZones(expectedAvailabilityZones) //
+                .withListeners(expectedListener);
+        
+        elb.createLoadBalancer(createLoadBalancerRequest);
+        
+        // AVAILABILITY ZONES
+        elb.enableAvailabilityZonesForLoadBalancer(new EnableAvailabilityZonesForLoadBalancerRequest(loadBalancerName, Lists.newArrayList(expectedAvailabilityZones)));
+        
+        // HEALTH CHECK
+        String healthCheckUri = "/petclinic/healthcheck.jsp";
+        createElasticLoadBalancerHealthCheck(loadBalancerName, healthCheckUri);
+        
+        // COOKIE STICKINESS
+        final LBCookieStickinessPolicy expectedLbCookieStickinessPolicy = new LBCookieStickinessPolicy( //
+                "petclinic" + "-stickiness-policy", null);
+        createElasticLoadBalancerCookieStickiness(loadBalancerName, expectedLbCookieStickinessPolicy);
+        
+        // POLICY
+        createElasticLoadBalancerPolicy(loadBalancerName, expectedListener, expectedLbCookieStickinessPolicy);
+        
+        // EC2 INSTANCES
+        List<com.amazonaws.services.elasticloadbalancing.model.Instance> elbInstances = new ArrayList<com.amazonaws.services.elasticloadbalancing.model.Instance>();
+        elbInstances.add(new com.amazonaws.services.elasticloadbalancing.model.Instance(ec2Instances.get(0).getInstanceId()));
+        elbInstances.add(new com.amazonaws.services.elasticloadbalancing.model.Instance(ec2Instances.get(1).getInstanceId()));
 
-		elb.createLoadBalancer(createLoadBalancerRequest);
-		
-		// AVAILABILITY ZONES
-		elb.enableAvailabilityZonesForLoadBalancer(new EnableAvailabilityZonesForLoadBalancerRequest(loadBalancerName, Lists.newArrayList(expectedAvailabilityZones)));
-		
-		// EC2 INSTANCES
-		List<com.amazonaws.services.elasticloadbalancing.model.Instance> elbInstances = new ArrayList<com.amazonaws.services.elasticloadbalancing.model.Instance>();
-		elbInstances.add(new com.amazonaws.services.elasticloadbalancing.model.Instance(ec2Instances.get(0).getInstanceId()));
-		elbInstances.add(new com.amazonaws.services.elasticloadbalancing.model.Instance(ec2Instances.get(1).getInstanceId()));
+        elb.registerInstancesWithLoadBalancer(new RegisterInstancesWithLoadBalancerRequest( //
+                loadBalancerName, //
+                elbInstances));
 
-		elb.registerInstancesWithLoadBalancer(new RegisterInstancesWithLoadBalancerRequest( //
-				loadBalancerName, //
-				elbInstances));
-		}
+        LoadBalancerDescription elasticLoadBalancerDescription = elb.describeLoadBalancers(new DescribeLoadBalancersRequest(Arrays.asList(loadBalancerName))).getLoadBalancerDescriptions().get(0);
+
+        System.out.println("LOAD BALANCER");
+        System.out.println("=============");
+        System.out.println("http://" + elasticLoadBalancerDescription.getDNSName() + "/petclinic");
+
+        return elasticLoadBalancerDescription;
+    }
  }}}
  
  == Configure HealthCheck ==
  {{{
- 	public LoadBalancerDescription createElasticLoadBalancerHealthCheck(String trigram) {
-		String loadBalancerName = "elb-" + trigram;
-		// HEALTH CHECK
-		String healthCheckUri = "/petclinic/healthcheck.jsp";
+    public void createElasticLoadBalancerHealthCheck(String loadBalancerName, String healthCheckUri) {
+        HealthCheck expectedHealthCheck = new HealthCheck() //
+                .withTarget("HTTP:8080" + healthCheckUri) //
+                .withHealthyThreshold(2) //
+                .withUnhealthyThreshold(2) //
+                .withInterval(30) //
+                .withTimeout(2);
 
-		HealthCheck expectedHealthCheck = new HealthCheck() //
-				.withTarget("HTTP:8080" + healthCheckUri) //
-				.withHealthyThreshold(2) //
-				.withUnhealthyThreshold(2) //
-				.withInterval(30) //
-				.withTimeout(2);
-
-		elb.configureHealthCheck(new ConfigureHealthCheckRequest(loadBalancerName, expectedHealthCheck));
-		}
+        elb.configureHealthCheck(new ConfigureHealthCheckRequest(loadBalancerName, expectedHealthCheck));
+    }
  }}}
  
  == Cookie Stickiness ==
  {{{
- 	public LoadBalancerDescription createElasticLoadBalancerCookieStickiness(String trigram) {
-		String loadBalancerName = "elb-" + trigram;
-		
-		// COOKIE STICKINESS
-		final LBCookieStickinessPolicy expectedLbCookieStickinessPolicy = new LBCookieStickinessPolicy( //
-				"petclinic" + "-stickiness-policy", null);
+    public void createElasticLoadBalancerCookieStickiness(String loadBalancerName, LBCookieStickinessPolicy expectedLbCookieStickinessPolicy) {
+        CreateLBCookieStickinessPolicyRequest createLbCookieStickinessPolicy = new CreateLBCookieStickinessPolicyRequest() //
+                .withLoadBalancerName(loadBalancerName) //
+                .withPolicyName(expectedLbCookieStickinessPolicy.getPolicyName()) //
+                .withCookieExpirationPeriod(expectedLbCookieStickinessPolicy.getCookieExpirationPeriod());
+        
+        elb.createLBCookieStickinessPolicy(createLbCookieStickinessPolicy);
 
-		CreateLBCookieStickinessPolicyRequest createLbCookieStickinessPolicy = new CreateLBCookieStickinessPolicyRequest() //
-				.withLoadBalancerName(loadBalancerName) //
-				.withPolicyName(expectedLbCookieStickinessPolicy.getPolicyName()) //
-				.withCookieExpirationPeriod(expectedLbCookieStickinessPolicy.getCookieExpirationPeriod());
-		elb.createLBCookieStickinessPolicy(createLbCookieStickinessPolicy);
- 	}
+    }
  }}}
  
  == Load Balancer Policy ==
  {{{
- 	public LoadBalancerDescription createElasticLoadBalancerPolicy(String trigram) {
-		String loadBalancerName = "elb-" + trigram;
-		
-		SetLoadBalancerPoliciesOfListenerRequest setLoadBalancerPoliciesOfListenerRequest = new SetLoadBalancerPoliciesOfListenerRequest() //
-				.withLoadBalancerName(loadBalancerName) //
-				.withLoadBalancerPort(expectedListener.getLoadBalancerPort()) //
-				.withPolicyNames(expectedLbCookieStickinessPolicy.getPolicyName());
-		elb.setLoadBalancerPoliciesOfListener(setLoadBalancerPoliciesOfListenerRequest);
- 	}
+    public void createElasticLoadBalancerPolicy(String loadBalancerName, Listener expectedListener, LBCookieStickinessPolicy expectedLbCookieStickinessPolicy) {
+        SetLoadBalancerPoliciesOfListenerRequest setLoadBalancerPoliciesOfListenerRequest = new SetLoadBalancerPoliciesOfListenerRequest() //
+                .withLoadBalancerName(loadBalancerName) //
+                .withLoadBalancerPort(expectedListener.getLoadBalancerPort()) //
+                .withPolicyNames(expectedLbCookieStickinessPolicy.getPolicyName());
+        
+        elb.setLoadBalancerPoliciesOfListener(setLoadBalancerPoliciesOfListenerRequest);
+    }
  }}}
