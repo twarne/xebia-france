@@ -35,19 +35,15 @@ secretKey=change me
  
  == Create DB Instance and wait for availability ==
  === Create DB Instance ===
+ 
  {{{
-    DBInstance createDBInstance(String dbInstanceIdentifier) {
-        DBInstance createDBInstance = rds.createDBInstance( //
+ DBInstanceIdentifier: petclinic-xeb //
+  DBName: "petclinic"
+ }}}
+ {{{
+    	DBInstance createDBInstance = rds.createDBInstance( //
                 new CreateDBInstanceRequest() //
-                        .withDBInstanceIdentifier(dbInstanceIdentifier) //
-                        .withDBName("petclinic") //
-                        .withDBInstanceClass("db.m1.small") //
-                        .withEngine("MySQL") //
-                        .withMasterUsername("petclinic") //
-                        .withMasterUserPassword("petclinic") //
-                        .withDBSecurityGroups("default") //
-                        .withAllocatedStorage(5 /* Go */) //
-                        .withBackupRetentionPeriod(0));
+                        .with...
         return createDBInstance;
     } 
  }}}
