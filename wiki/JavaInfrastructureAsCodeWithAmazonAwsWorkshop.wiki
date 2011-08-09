@@ -1,0 +1,18 @@
+#summary Discover "Java Infrastructure as Code" with Amazon AWS
+
+= Discover "Java Infrastructure as Code" with Amazon AWS Workshop =
+
+The purpose of this workshop is to 
+[https://xebia-france.googlecode.com/svn/wiki/aws-img/xebia-petclinic-on-amazon-aws.png]
+
+=== Discover Amazon AWS API with the Web Management Console ===
+
+Get familiar with Amazon AWS API playing with the Web Management Console: [AmazonAwsConsoleTraining].
+
+=== Enter Infrastructure as Code with Amazon AWS API Command Lines ===
+
+The Command Lines are a good introduction to Amazon AWS SDK and a useful tool help coding its Amazon infrastructure : [AmazonAwsApiToolsTraining].
+
+=== Code Your Insfrastructure with the Amazon AWS SDK for Java ===
+
+[AmazonAwsJavaSdkTraining]
