@@ -244,6 +244,9 @@ public class AmazonAwsPetclinicInfrastructureMaker {
 
 	@Nonnull
 	List<Instance> createTwoEC2Instances() {
+		DBInstance dbInstance = findDBInstance("petclinic-xeb");
+		String warUrl = "http://xebia-france.googlecode.com/svn/repository/maven2/fr/xebia/demo/xebia-petclinic/1.0.2/xebia-petclinic-1.0.2.war";
+
 
 		RunInstancesResult runInstances = ec2.runInstances( //
 				new RunInstancesRequest() //
@@ -253,6 +256,7 @@ public class AmazonAwsPetclinicInfrastructureMaker {
 						.withSecurityGroups("tomcat") //
 						.withKeyName("xebia-france") //
 						.withInstanceType(InstanceType.T1_MICRO) //
+						.withUserData(buildCloudInitUserData(dbInstance, warUrl)) // CloudInit Deployment
 				);
 		Reservation reservation = runInstances.getReservation();
 		return reservation.getInstances();
@@ -271,13 +275,6 @@ public class AmazonAwsPetclinicInfrastructureMaker {
 		}
 	}
 
-	void deployPetClinicWebApp() {
-		DBInstance dbInstance = findDBInstance("petclinic-xeb");
-		String warUrl = "http://xebia-france.googlecode.com/svn/repository/maven2/fr/xebia/demo/xebia-petclinic/1.0.2/xebia-petclinic-1.0.2.war";
-
-		buildCloudInitUserData(dbInstance, warUrl);
-	}
-
 	/**
 	 * Returns a base-64 version of the mime-multi-part cloud-init file to put in the user-data attribute of the ec2 instance.
 	 * 
@@ -289,7 +286,7 @@ public class AmazonAwsPetclinicInfrastructureMaker {
 	 * @return
 	 */
 	@Nonnull
-	protected String buildCloudInitUserData(DBInstance dbInstance, String warUrl) {
+	String buildCloudInitUserData(DBInstance dbInstance, String warUrl) {
 
 		// SHELL SCRIPT
 		Map<String, Object> rootMap = Maps.newHashMap();
@@ -317,8 +314,9 @@ public class AmazonAwsPetclinicInfrastructureMaker {
 				.buildBase64UserData();
 	}
 
-	public LoadBalancerDescription createElasticLoadBalancer(String trigram) {
+	LoadBalancerDescription createElasticLoadBalancer(String trigram) {
 		String loadBalancerName = "elb-" + trigram;
+		
 		List<Instance> ec2Instances = displayInstancesDetails(trigram);
 
 		String expectedAvailabilityZones = ec2Instances.get(0).getPlacement().getAvailabilityZone();
@@ -328,40 +326,24 @@ public class AmazonAwsPetclinicInfrastructureMaker {
 				.withLoadBalancerName(loadBalancerName) //
 				.withAvailabilityZones(expectedAvailabilityZones) //
 				.withListeners(expectedListener);
-
+		
 		elb.createLoadBalancer(createLoadBalancerRequest);
-
-		// HEALTH CHECK
-		String healthCheckUri = "/petclinic/healthcheck.jsp";
-
-		HealthCheck expectedHealthCheck = new HealthCheck() //
-				.withTarget("HTTP:8080" + healthCheckUri) //
-				.withHealthyThreshold(2) //
-				.withUnhealthyThreshold(2) //
-				.withInterval(30) //
-				.withTimeout(2);
-
-		elb.configureHealthCheck(new ConfigureHealthCheckRequest(loadBalancerName, expectedHealthCheck));
-
+		
 		// AVAILABILITY ZONES
 		elb.enableAvailabilityZonesForLoadBalancer(new EnableAvailabilityZonesForLoadBalancerRequest(loadBalancerName, Lists.newArrayList(expectedAvailabilityZones)));
-
+		
+		// HEALTH CHECK
+		String healthCheckUri = "/petclinic/healthcheck.jsp";
+		createElasticLoadBalancerHealthCheck(loadBalancerName, healthCheckUri);
+		
 		// COOKIE STICKINESS
 		final LBCookieStickinessPolicy expectedLbCookieStickinessPolicy = new LBCookieStickinessPolicy( //
 				"petclinic" + "-stickiness-policy", null);
-
-		CreateLBCookieStickinessPolicyRequest createLbCookieStickinessPolicy = new CreateLBCookieStickinessPolicyRequest() //
-				.withLoadBalancerName(loadBalancerName) //
-				.withPolicyName(expectedLbCookieStickinessPolicy.getPolicyName()) //
-				.withCookieExpirationPeriod(expectedLbCookieStickinessPolicy.getCookieExpirationPeriod());
-		elb.createLBCookieStickinessPolicy(createLbCookieStickinessPolicy);
-
-		SetLoadBalancerPoliciesOfListenerRequest setLoadBalancerPoliciesOfListenerRequest = new SetLoadBalancerPoliciesOfListenerRequest() //
-				.withLoadBalancerName(loadBalancerName) //
-				.withLoadBalancerPort(expectedListener.getLoadBalancerPort()) //
-				.withPolicyNames(expectedLbCookieStickinessPolicy.getPolicyName());
-		elb.setLoadBalancerPoliciesOfListener(setLoadBalancerPoliciesOfListenerRequest);
-
+		createElasticLoadBalancerCookieStickiness(loadBalancerName, expectedLbCookieStickinessPolicy);
+		
+		// POLICY
+		createElasticLoadBalancerPolicy(loadBalancerName, expectedListener, expectedLbCookieStickinessPolicy);
+		
 		// EC2 INSTANCES
 		List<com.amazonaws.services.elasticloadbalancing.model.Instance> elbInstances = new ArrayList<com.amazonaws.services.elasticloadbalancing.model.Instance>();
 		elbInstances.add(new com.amazonaws.services.elasticloadbalancing.model.Instance(ec2Instances.get(0).getInstanceId()));
@@ -380,7 +362,37 @@ public class AmazonAwsPetclinicInfrastructureMaker {
 		return elasticLoadBalancerDescription;
 	}
 
-	public void deleteExistingElasticLoadBalancer(String trigram) {
+	void createElasticLoadBalancerHealthCheck(String loadBalancerName, String healthCheckUri) {
+		HealthCheck expectedHealthCheck = new HealthCheck() //
+				.withTarget("HTTP:8080" + healthCheckUri) //
+				.withHealthyThreshold(2) //
+				.withUnhealthyThreshold(2) //
+				.withInterval(30) //
+				.withTimeout(2);
+
+		elb.configureHealthCheck(new ConfigureHealthCheckRequest(loadBalancerName, expectedHealthCheck));
+	}
+
+	void createElasticLoadBalancerCookieStickiness(String loadBalancerName, LBCookieStickinessPolicy expectedLbCookieStickinessPolicy) {
+		CreateLBCookieStickinessPolicyRequest createLbCookieStickinessPolicy = new CreateLBCookieStickinessPolicyRequest() //
+				.withLoadBalancerName(loadBalancerName) //
+				.withPolicyName(expectedLbCookieStickinessPolicy.getPolicyName()) //
+				.withCookieExpirationPeriod(expectedLbCookieStickinessPolicy.getCookieExpirationPeriod());
+		
+		elb.createLBCookieStickinessPolicy(createLbCookieStickinessPolicy);
+
+	}
+
+	void createElasticLoadBalancerPolicy(String loadBalancerName, Listener expectedListener, LBCookieStickinessPolicy expectedLbCookieStickinessPolicy) {
+		SetLoadBalancerPoliciesOfListenerRequest setLoadBalancerPoliciesOfListenerRequest = new SetLoadBalancerPoliciesOfListenerRequest() //
+				.withLoadBalancerName(loadBalancerName) //
+				.withLoadBalancerPort(expectedListener.getLoadBalancerPort()) //
+				.withPolicyNames(expectedLbCookieStickinessPolicy.getPolicyName());
+		
+		elb.setLoadBalancerPoliciesOfListener(setLoadBalancerPoliciesOfListenerRequest);
+	}
+
+	void deleteExistingElasticLoadBalancer(String trigram) {
 		String loadBalancerName = "elb-" + trigram;
 		try {
 			elb.deleteLoadBalancer(new DeleteLoadBalancerRequest() //
