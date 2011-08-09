@@ -1,4 +1,4 @@
-#summary Discover Amazon Aws Java SDK
+#summary Discover Amazon Aws SDK for Java
 
 <wiki:toc max_depth="2" />
 
