@@ -101,309 +101,255 @@ import fr.xebia.demo.amazon.aws.AmazonAwsPetclinicInfrastructureEnforcer.Distrib
  * @author <a href="mailto:cyrille@cyrilleleclerc.com">Cyrille Le Clerc</a>
  */
 public class AmazonAwsPetclinicInfrastructureMaker {
-	public static void main(String[] args) throws Exception {
-		AmazonAwsPetclinicInfrastructureMaker infrastructureMaker = new AmazonAwsPetclinicInfrastructureMaker();
+    public static void main(String[] args) throws Exception {
+        AmazonAwsPetclinicInfrastructureMaker infrastructureMaker = new AmazonAwsPetclinicInfrastructureMaker();
 
-	}
+    }
 
-	private AmazonEC2 ec2;
+    private AmazonEC2 ec2;
 
-	private AmazonElasticLoadBalancing elb;
+    private AmazonElasticLoadBalancing elb;
 
-	private AmazonRDS rds;
+    private AmazonRDS rds;
 
-	protected final Logger logger = LoggerFactory.getLogger(getClass());
+    protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-	public AmazonAwsPetclinicInfrastructureMaker() {
-		try {
-			InputStream credentialsAsStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("AwsCredentials.properties");
-			Preconditions.checkNotNull(credentialsAsStream, "File 'AwsCredentials.properties' NOT found in the classpath");
-			AWSCredentials credentials = new PropertiesCredentials(credentialsAsStream);
-			ec2 = new AmazonEC2Client(credentials);
-			ec2.setEndpoint("ec2.us-east-1.amazonaws.com");
-			rds = new AmazonRDSClient(credentials);
-			rds.setEndpoint("rds.us-east-1.amazonaws.com");
-			elb = new AmazonElasticLoadBalancingClient(credentials);
-			elb.setEndpoint("elasticloadbalancing.us-east-1.amazonaws.com");
-		} catch (IOException e) {
-			throw Throwables.propagate(e);
-		}
-	}
+    public AmazonAwsPetclinicInfrastructureMaker() {
 
-	@Nullable
-	DBInstance findDBInstance(String dbInstanceIdentifier) {
-		try {
-			DescribeDBInstancesResult describeDBInstances = rds.describeDBInstances(new DescribeDBInstancesRequest().withDBInstanceIdentifier(dbInstanceIdentifier));
-			return Iterables.getFirst(describeDBInstances.getDBInstances(), null);
-		} catch (DBInstanceNotFoundException e) {
-			return null;
-		}
-	}
+    }
 
-	@Nonnull
-	DBInstance createDBInstance(String dbInstanceIdentifier) {
-		DBInstance createDBInstance = rds.createDBInstance( //
-				new CreateDBInstanceRequest() //
-						.withDBInstanceIdentifier(dbInstanceIdentifier) //
-						.withDBName("petclinic") //
-						.withDBInstanceClass("db.m1.small") //
-						.withEngine("MySQL") //
-						.withMasterUsername("petclinic") //
-						.withMasterUserPassword("petclinic") //
-						.withDBSecurityGroups("default") //
-						.withAllocatedStorage(5 /* Go */) //
-						.withBackupRetentionPeriod(0));
-		return createDBInstance;
-	}
+    @Nullable
+    DBInstance findDBInstance(String dbInstanceIdentifier) {
+        try {
+            DescribeDBInstancesResult describeDBInstances = rds.describeDBInstances(new DescribeDBInstancesRequest().withDBInstanceIdentifier(dbInstanceIdentifier));
+            return Iterables.getFirst(describeDBInstances.getDBInstances(), null);
+        } catch (DBInstanceNotFoundException e) {
+            return null;
+        }
+    }
 
-	@Nonnull
-	DBInstance waitForDBInstanceAvailability(String dbInstanceIdentifier) {
-		while (true) {
-			DBInstance dbInstance = findDBInstance(dbInstanceIdentifier);
-			if (dbInstance == null) {
-				throw new DBInstanceNotFoundException("Not DBInstance " + dbInstanceIdentifier + " exists");
-			} else if ("available".equals(dbInstance.getDBInstanceStatus())) {
-				return dbInstance;
-			} else {
-				try {
-					Thread.sleep(20000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-	}
+    @Nonnull
+    DBInstance waitForDBInstanceAvailability(String dbInstanceIdentifier) {
+        while (true) {
+            DBInstance dbInstance = findDBInstance(dbInstanceIdentifier);
+            if (dbInstance == null) {
+                throw new DBInstanceNotFoundException("Not DBInstance " + dbInstanceIdentifier + " exists");
+            } else if ("available".equals(dbInstance.getDBInstanceStatus())) {
+                return dbInstance;
+            } else {
+                try {
+                    Thread.sleep(20000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 
-	@Nonnull
-	DBInstance createDBInstanceAndWaitForAvailability(String dbInstanceIdentifier) {
-		DBInstance dbInstance = findDBInstance(dbInstanceIdentifier);
-		if (dbInstance == null) {
-			dbInstance = createDBInstance(dbInstanceIdentifier);
-		}
-		dbInstance = waitForDBInstanceAvailability(dbInstanceIdentifier);
+    @Nonnull
+    DBInstance createDBInstanceAndWaitForAvailability(String dbInstanceIdentifier) {
+        DBInstance dbInstance = findDBInstance(dbInstanceIdentifier);
 
-		System.out.println("DB INSTANCE");
-		System.out.println("=============");
-		System.out.println("MySQL instance : " + dbInstance.getEndpoint().getAddress() + ":" + dbInstance.getEndpoint().getPort());
-		return dbInstance;
-	}
+        System.out.println("DB INSTANCE");
+        System.out.println("=============");
+        System.out.println("MySQL instance : " + dbInstance.getEndpoint().getAddress() + ":" + dbInstance.getEndpoint().getPort());
+        return dbInstance;
+    }
 
-	List<Instance> terminateExistingAndCreateNewInstance(String trigram) {
-		terminateMyAlreadyExistingEC2Instances(trigram);
-		List<Instance> instances = createTwoEC2Instances();
-		tagInstances(instances, trigram);
+    List<Instance> terminateExistingAndCreateNewInstance(String trigram) {
+        List<Instance> instances = new ArrayList<Instance>();
 
-		System.out.println("EC2 INSTANCES");
-		System.out.println("=============");
+        System.out.println("EC2 INSTANCES");
+        System.out.println("=============");
 
-		for (Instance instance : instances) {
-			while (InstanceStateName.Pending.name().toLowerCase().equals(instance.getState().getName())) {
-				try {
-					// 3s because ec2 instance creation < 10 seconds
-					Thread.sleep(5 * 1000);
-				} catch (InterruptedException e) {
-					throw Throwables.propagate(e);
-				}
-				DescribeInstancesRequest describeInstancesRequest = new DescribeInstancesRequest().withInstanceIds(instance.getInstanceId());
-				DescribeInstancesResult describeInstances = ec2.describeInstances(describeInstancesRequest);
+        for (Instance instance : instances) {
+            while (InstanceStateName.Pending.name().toLowerCase().equals(instance.getState().getName())) {
+                try {
+                    // 3s because ec2 instance creation < 10 seconds
+                    Thread.sleep(5 * 1000);
+                } catch (InterruptedException e) {
+                    throw Throwables.propagate(e);
+                }
+                DescribeInstancesRequest describeInstancesRequest = new DescribeInstancesRequest().withInstanceIds(instance.getInstanceId());
+                DescribeInstancesResult describeInstances = ec2.describeInstances(describeInstancesRequest);
 
-				instance = describeInstances.getReservations().get(0).getInstances().get(0);
-			}
-			System.out.println("http://" + instance.getPublicDnsName() + ":8080" + "/petclinic");
-		}
+                instance = describeInstances.getReservations().get(0).getInstances().get(0);
+            }
+            System.out.println("http://" + instance.getPublicDnsName() + ":8080" + "/petclinic");
+        }
 
-		return instances;
+        return instances;
 
-	}
+    }
 
-	void terminateMyAlreadyExistingEC2Instances(String trigram) {
-		List<Instance> instances = displayInstancesDetails(trigram);
+    void terminateMyAlreadyExistingEC2Instances(String trigram) {
+        List<Instance> instances = displayInstancesDetails(trigram);
 
-		List<String> instanceIds = new ArrayList<String>();
-		for (Instance instance : instances) {
-			instanceIds.add(instance.getInstanceId());
-		}
+        List<String> instanceIds = new ArrayList<String>();
+        for (Instance instance : instances) {
+            instanceIds.add(instance.getInstanceId());
+        }
 
-		if (!instanceIds.isEmpty()) {
-			ec2.terminateInstances(new TerminateInstancesRequest()//
-					.withInstanceIds(instanceIds));
-		}
-	}
+        if (!instanceIds.isEmpty()) {
+            ec2.terminateInstances(new TerminateInstancesRequest()//
+                    .withInstanceIds(instanceIds));
+        }
+    }
 
-	List<Instance> displayInstancesDetails(String trigram) {
-		DescribeInstancesResult describeInstances = ec2.describeInstances(new DescribeInstancesRequest()//
-				.withFilters(new Filter("tag:Name", Arrays.asList("petclinic-" + trigram + "-*"))));
-		List<Instance> instances = new ArrayList<Instance>();
-		for (Reservation reservation : describeInstances.getReservations()) {
-			for (Instance instance : reservation.getInstances()) {
-				instances.add(instance);
-			}
-		}
-		return instances;
-	}
+    List<Instance> displayInstancesDetails(String trigram) {
+        DescribeInstancesResult describeInstances = ec2.describeInstances(new DescribeInstancesRequest()//
+                .withFilters(new Filter("tag:Name", Arrays.asList("petclinic-" + trigram + "-*"))));
+        List<Instance> instances = new ArrayList<Instance>();
+        for (Reservation reservation : describeInstances.getReservations()) {
+            for (Instance instance : reservation.getInstances()) {
+                instances.add(instance);
+            }
+        }
+        return instances;
+    }
 
-	@Nonnull
-	List<Instance> createTwoEC2Instances() {
-		DBInstance dbInstance = findDBInstance("petclinic-xeb");
-		String warUrl = "http://xebia-france.googlecode.com/svn/repository/maven2/fr/xebia/demo/xebia-petclinic/1.0.2/xebia-petclinic-1.0.2.war";
+    void tagInstances(List<Instance> instances, String trigram) {
+        int i = 1;
+        for (Instance instance : instances) {
+            ec2.createTags(new CreateTagsRequest() //
+                    .withResources(instance.getInstanceId()) //
+                    .withTags(new Tag("Name", "petclinic-" + trigram + "-" + i), //
+                            new Tag("Owner", trigram), //
+                            new Tag("Role", "tomcat-petclinic")) //
+            );
+            i++;
+        }
+    }
 
+    /**
+     * Returns a base-64 version of the mime-multi-part cloud-init file to put in the user-data attribute of the ec2 instance.
+     * 
+     * @param distribution
+     * @param dbInstance
+     * @param jdbcUsername
+     * @param jdbcPassword
+     * @param warUrl
+     * @return
+     */
+    @Nonnull
+    String buildCloudInitUserData(DBInstance dbInstance, String warUrl) {
 
-		RunInstancesResult runInstances = ec2.runInstances( //
-				new RunInstancesRequest() //
-						.withImageId("ami-8c1fece5") // eu-west : ami-47cefa33; us-east :ami-8c1fece5
-						.withMinCount(2) //
-						.withMaxCount(2) //
-						.withSecurityGroups("tomcat") //
-						.withKeyName("xebia-france") //
-						.withInstanceType(InstanceType.T1_MICRO) //
-						.withUserData(buildCloudInitUserData(dbInstance, warUrl)) // CloudInit Deployment
-				);
-		Reservation reservation = runInstances.getReservation();
-		return reservation.getInstances();
-	}
+        // SHELL SCRIPT
+        Map<String, Object> rootMap = Maps.newHashMap();
+        rootMap.put("catalinaBase", "/usr/share/tomcat6");
+        rootMap.put("warUrl", warUrl);
+        rootMap.put("warName", "/petclinic.war");
 
-	void tagInstances(List<Instance> instances, String trigram) {
-		int i = 1;
-		for (Instance instance : instances) {
-			ec2.createTags(new CreateTagsRequest() //
-					.withResources(instance.getInstanceId()) //
-					.withTags(new Tag("Name", "petclinic-" + trigram + "-" + i), //
-							new Tag("Owner", trigram), //
-							new Tag("Role", "tomcat-petclinic")) //
-			);
-			i++;
-		}
-	}
+        Map<String, String> systemProperties = Maps.newHashMap();
+        rootMap.put("systemProperties", systemProperties);
+        String jdbcUrl = "jdbc:mysql://" + dbInstance.getEndpoint().getAddress() + ":" + dbInstance.getEndpoint().getPort() + "/" + dbInstance.getDBName();
+        systemProperties.put("jdbc.url", jdbcUrl);
+        systemProperties.put("jdbc.username", "petclinic");
+        systemProperties.put("jdbc.password", "petclinic");
 
-	/**
-	 * Returns a base-64 version of the mime-multi-part cloud-init file to put in the user-data attribute of the ec2 instance.
-	 * 
-	 * @param distribution
-	 * @param dbInstance
-	 * @param jdbcUsername
-	 * @param jdbcPassword
-	 * @param warUrl
-	 * @return
-	 */
-	@Nonnull
-	String buildCloudInitUserData(DBInstance dbInstance, String warUrl) {
+        String shellScript = FreemarkerUtils.generate(rootMap, "/provision_tomcat.py.fmt");
 
-		// SHELL SCRIPT
-		Map<String, Object> rootMap = Maps.newHashMap();
-		rootMap.put("catalinaBase", "/usr/share/tomcat6");
-		rootMap.put("warUrl", warUrl);
-		rootMap.put("warName", "/petclinic.war");
+        // CLOUD CONFIG
+        InputStream cloudConfigAsStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("cloud-config-amzn-linux.txt");
+        Preconditions.checkNotNull(cloudConfigAsStream, "'" + "cloud-config-amzn-linux.txt" + "' not found in path");
+        Readable cloudConfig = new InputStreamReader(cloudConfigAsStream);
 
-		Map<String, String> systemProperties = Maps.newHashMap();
-		rootMap.put("systemProperties", systemProperties);
-		String jdbcUrl = "jdbc:mysql://" + dbInstance.getEndpoint().getAddress() + ":" + dbInstance.getEndpoint().getPort() + "/" + dbInstance.getDBName();
-		systemProperties.put("jdbc.url", jdbcUrl);
-		systemProperties.put("jdbc.username", "petclinic");
-		systemProperties.put("jdbc.password", "petclinic");
+        return CloudInitUserDataBuilder.start() //
+                .addShellScript(shellScript) //
+                .addCloudConfig(cloudConfig) //
+                .buildBase64UserData();
+    }
 
-		String shellScript = FreemarkerUtils.generate(rootMap, "/provision_tomcat.py.fmt");
+    LoadBalancerDescription createElasticLoadBalancer(String trigram) {
+        String loadBalancerName = "elb-" + trigram;
 
-		// CLOUD CONFIG
-		InputStream cloudConfigAsStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("cloud-config-amzn-linux.txt");
-		Preconditions.checkNotNull(cloudConfigAsStream, "'" + "cloud-config-amzn-linux.txt" + "' not found in path");
-		Readable cloudConfig = new InputStreamReader(cloudConfigAsStream);
+        List<Instance> ec2Instances = displayInstancesDetails(trigram);
 
-		return CloudInitUserDataBuilder.start() //
-				.addShellScript(shellScript) //
-				.addCloudConfig(cloudConfig) //
-				.buildBase64UserData();
-	}
+        String expectedAvailabilityZones = ec2Instances.get(0).getPlacement().getAvailabilityZone();
+        Listener expectedListener = new Listener("HTTP", 80, 8080);
 
-	LoadBalancerDescription createElasticLoadBalancer(String trigram) {
-		String loadBalancerName = "elb-" + trigram;
-		
-		List<Instance> ec2Instances = displayInstancesDetails(trigram);
+        CreateLoadBalancerRequest createLoadBalancerRequest = new CreateLoadBalancerRequest() //
+                .withLoadBalancerName(loadBalancerName) //
+                .withAvailabilityZones(expectedAvailabilityZones) //
+                .withListeners(expectedListener);
 
-		String expectedAvailabilityZones = ec2Instances.get(0).getPlacement().getAvailabilityZone();
-		Listener expectedListener = new Listener("HTTP", 80, 8080);
+        elb.createLoadBalancer(createLoadBalancerRequest);
 
-		CreateLoadBalancerRequest createLoadBalancerRequest = new CreateLoadBalancerRequest() //
-				.withLoadBalancerName(loadBalancerName) //
-				.withAvailabilityZones(expectedAvailabilityZones) //
-				.withListeners(expectedListener);
-		
-		elb.createLoadBalancer(createLoadBalancerRequest);
-		
-		// AVAILABILITY ZONES
-		elb.enableAvailabilityZonesForLoadBalancer(new EnableAvailabilityZonesForLoadBalancerRequest(loadBalancerName, Lists.newArrayList(expectedAvailabilityZones)));
-		
-		// HEALTH CHECK
-		String healthCheckUri = "/petclinic/healthcheck.jsp";
-		createElasticLoadBalancerHealthCheck(loadBalancerName, healthCheckUri);
-		
-		// COOKIE STICKINESS
-		final LBCookieStickinessPolicy expectedLbCookieStickinessPolicy = new LBCookieStickinessPolicy( //
-				"petclinic" + "-stickiness-policy", null);
-		createElasticLoadBalancerCookieStickiness(loadBalancerName, expectedLbCookieStickinessPolicy);
-		
-		// POLICY
-		createElasticLoadBalancerPolicy(loadBalancerName, expectedListener, expectedLbCookieStickinessPolicy);
-		
-		// EC2 INSTANCES
-		List<com.amazonaws.services.elasticloadbalancing.model.Instance> elbInstances = new ArrayList<com.amazonaws.services.elasticloadbalancing.model.Instance>();
-		elbInstances.add(new com.amazonaws.services.elasticloadbalancing.model.Instance(ec2Instances.get(0).getInstanceId()));
-		elbInstances.add(new com.amazonaws.services.elasticloadbalancing.model.Instance(ec2Instances.get(1).getInstanceId()));
+        // AVAILABILITY ZONES
+        elb.enableAvailabilityZonesForLoadBalancer(new EnableAvailabilityZonesForLoadBalancerRequest(loadBalancerName, Lists.newArrayList(expectedAvailabilityZones)));
 
-		elb.registerInstancesWithLoadBalancer(new RegisterInstancesWithLoadBalancerRequest( //
-				loadBalancerName, //
-				elbInstances));
+        // HEALTH CHECK
+        String healthCheckUri = "/petclinic/healthcheck.jsp";
+        createElasticLoadBalancerHealthCheck(loadBalancerName, healthCheckUri);
 
-		LoadBalancerDescription elasticLoadBalancerDescription = elb.describeLoadBalancers(new DescribeLoadBalancersRequest(Arrays.asList(loadBalancerName))).getLoadBalancerDescriptions().get(0);
+        // COOKIE STICKINESS
+        final LBCookieStickinessPolicy expectedLbCookieStickinessPolicy = new LBCookieStickinessPolicy( //
+                "petclinic" + "-stickiness-policy", null);
+        createElasticLoadBalancerCookieStickiness(loadBalancerName, expectedLbCookieStickinessPolicy);
 
-		System.out.println("LOAD BALANCER");
-		System.out.println("=============");
-		System.out.println("http://" + elasticLoadBalancerDescription.getDNSName() + "/petclinic");
+        // POLICY
+        createElasticLoadBalancerPolicy(loadBalancerName, expectedListener, expectedLbCookieStickinessPolicy);
 
-		return elasticLoadBalancerDescription;
-	}
+        // EC2 INSTANCES
+        List<com.amazonaws.services.elasticloadbalancing.model.Instance> elbInstances = new ArrayList<com.amazonaws.services.elasticloadbalancing.model.Instance>();
+        elbInstances.add(new com.amazonaws.services.elasticloadbalancing.model.Instance(ec2Instances.get(0).getInstanceId()));
+        elbInstances.add(new com.amazonaws.services.elasticloadbalancing.model.Instance(ec2Instances.get(1).getInstanceId()));
 
-	void createElasticLoadBalancerHealthCheck(String loadBalancerName, String healthCheckUri) {
-		HealthCheck expectedHealthCheck = new HealthCheck() //
-				.withTarget("HTTP:8080" + healthCheckUri) //
-				.withHealthyThreshold(2) //
-				.withUnhealthyThreshold(2) //
-				.withInterval(30) //
-				.withTimeout(2);
+        elb.registerInstancesWithLoadBalancer(new RegisterInstancesWithLoadBalancerRequest( //
+                loadBalancerName, //
+                elbInstances));
 
-		elb.configureHealthCheck(new ConfigureHealthCheckRequest(loadBalancerName, expectedHealthCheck));
-	}
+        LoadBalancerDescription elasticLoadBalancerDescription = elb.describeLoadBalancers(new DescribeLoadBalancersRequest(Arrays.asList(loadBalancerName))).getLoadBalancerDescriptions().get(0);
 
-	void createElasticLoadBalancerCookieStickiness(String loadBalancerName, LBCookieStickinessPolicy expectedLbCookieStickinessPolicy) {
-		CreateLBCookieStickinessPolicyRequest createLbCookieStickinessPolicy = new CreateLBCookieStickinessPolicyRequest() //
-				.withLoadBalancerName(loadBalancerName) //
-				.withPolicyName(expectedLbCookieStickinessPolicy.getPolicyName()) //
-				.withCookieExpirationPeriod(expectedLbCookieStickinessPolicy.getCookieExpirationPeriod());
-		
-		elb.createLBCookieStickinessPolicy(createLbCookieStickinessPolicy);
+        System.out.println("LOAD BALANCER");
+        System.out.println("=============");
+        System.out.println("http://" + elasticLoadBalancerDescription.getDNSName() + "/petclinic");
 
-	}
+        return elasticLoadBalancerDescription;
+    }
 
-	void createElasticLoadBalancerPolicy(String loadBalancerName, Listener expectedListener, LBCookieStickinessPolicy expectedLbCookieStickinessPolicy) {
-		SetLoadBalancerPoliciesOfListenerRequest setLoadBalancerPoliciesOfListenerRequest = new SetLoadBalancerPoliciesOfListenerRequest() //
-				.withLoadBalancerName(loadBalancerName) //
-				.withLoadBalancerPort(expectedListener.getLoadBalancerPort()) //
-				.withPolicyNames(expectedLbCookieStickinessPolicy.getPolicyName());
-		
-		elb.setLoadBalancerPoliciesOfListener(setLoadBalancerPoliciesOfListenerRequest);
-	}
+    void createElasticLoadBalancerHealthCheck(String loadBalancerName, String healthCheckUri) {
+        HealthCheck expectedHealthCheck = new HealthCheck() //
+                .withTarget("HTTP:8080" + healthCheckUri) //
+                .withHealthyThreshold(2) //
+                .withUnhealthyThreshold(2) //
+                .withInterval(30) //
+                .withTimeout(2);
 
-	void deleteExistingElasticLoadBalancer(String trigram) {
-		String loadBalancerName = "elb-" + trigram;
-		try {
-			elb.deleteLoadBalancer(new DeleteLoadBalancerRequest() //
-					.withLoadBalancerName(loadBalancerName));
-			elb.deleteLoadBalancerListeners(new DeleteLoadBalancerListenersRequest() //
-					.withLoadBalancerName(loadBalancerName) //
-					.withLoadBalancerPorts(80, 8080));
-			elb.deleteLoadBalancerPolicy(new DeleteLoadBalancerPolicyRequest().withLoadBalancerName(loadBalancerName));
-		} catch (LoadBalancerNotFoundException e) {
-			// Nothing to delete
-		}
-	}
+        elb.configureHealthCheck(new ConfigureHealthCheckRequest(loadBalancerName, expectedHealthCheck));
+    }
+
+    void createElasticLoadBalancerCookieStickiness(String loadBalancerName, LBCookieStickinessPolicy expectedLbCookieStickinessPolicy) {
+        CreateLBCookieStickinessPolicyRequest createLbCookieStickinessPolicy = new CreateLBCookieStickinessPolicyRequest() //
+                .withLoadBalancerName(loadBalancerName) //
+                .withPolicyName(expectedLbCookieStickinessPolicy.getPolicyName()) //
+                .withCookieExpirationPeriod(expectedLbCookieStickinessPolicy.getCookieExpirationPeriod());
+
+        elb.createLBCookieStickinessPolicy(createLbCookieStickinessPolicy);
+
+    }
+
+    void createElasticLoadBalancerPolicy(String loadBalancerName, Listener expectedListener, LBCookieStickinessPolicy expectedLbCookieStickinessPolicy) {
+        SetLoadBalancerPoliciesOfListenerRequest setLoadBalancerPoliciesOfListenerRequest = new SetLoadBalancerPoliciesOfListenerRequest() //
+                .withLoadBalancerName(loadBalancerName) //
+                .withLoadBalancerPort(expectedListener.getLoadBalancerPort()) //
+                .withPolicyNames(expectedLbCookieStickinessPolicy.getPolicyName());
+
+        elb.setLoadBalancerPoliciesOfListener(setLoadBalancerPoliciesOfListenerRequest);
+    }
+
+    void deleteExistingElasticLoadBalancer(String trigram) {
+        String loadBalancerName = "elb-" + trigram;
+        try {
+            elb.deleteLoadBalancer(new DeleteLoadBalancerRequest() //
+                    .withLoadBalancerName(loadBalancerName));
+            elb.deleteLoadBalancerListeners(new DeleteLoadBalancerListenersRequest() //
+                    .withLoadBalancerName(loadBalancerName) //
+                    .withLoadBalancerPorts(80, 8080));
+            elb.deleteLoadBalancerPolicy(new DeleteLoadBalancerPolicyRequest().withLoadBalancerName(loadBalancerName));
+        } catch (LoadBalancerNotFoundException e) {
+            // Nothing to delete
+        }
+    }
 
 }
