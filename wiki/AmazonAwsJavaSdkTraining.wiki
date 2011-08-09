@@ -234,7 +234,7 @@ secretKey=change me
                 elbInstances));
  }}}
  
- == Configure HealthCheck ==
+ == Configure !HealthCheck ==
  {{{
         HealthCheck expectedHealthCheck = new HealthCheck() //
                 .withTarget("HTTP:8080" + healthCheckUri) //
