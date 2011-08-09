@@ -48,7 +48,6 @@ secretKey=change me
     BackupRetentionPeriod : 0
  }}}
  
- Création de la Base de données:
  {{{
     CreateDBInstanceRequest dbInstanceRequest = new CreateDBInstanceRequest() //
                                                     .with...
