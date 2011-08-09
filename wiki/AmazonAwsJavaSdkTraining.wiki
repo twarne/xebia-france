@@ -6,7 +6,7 @@
 
 The goal is to deploy the Petclinic Web-app on two Amazon EC2 instances and add a load balancer between them using *Amazon AWS Java SDK*.
  
-= Get *AwsCredentials* from properties file =
+= Get !AwsCredentials from properties file =
 
  {{{
  InputStream credentialsAsStream = Thread.currentThread().getContextClassLoader()
@@ -14,7 +14,7 @@ The goal is to deploy the Petclinic Web-app on two Amazon EC2 instances and add 
  AWSCredentials credentials = new PropertiesCredentials(credentialsAsStream);
  }}} 
  
- *AwsCredentials.properties* file looks like this :
+ !AwsCredentials.properties file looks like this :
  {{{
 #Insert your AWS Credentials from http://aws.amazon.com/security-credentials
 accessKey=change me
