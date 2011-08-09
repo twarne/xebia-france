@@ -319,18 +319,19 @@ public class AmazonAwsPetclinicInfrastructureMakerAnswer {
 
         List<Instance> ec2Instances = displayInstancesDetails(trigram);
 
-        String expectedAvailabilityZones = ec2Instances.get(0).getPlacement().getAvailabilityZone();
         Listener expectedListener = new Listener("HTTP", 80, 8080);
 
         CreateLoadBalancerRequest createLoadBalancerRequest = new CreateLoadBalancerRequest() //
                 .withLoadBalancerName(loadBalancerName) //
-                .withAvailabilityZones(expectedAvailabilityZones) //
+                .withAvailabilityZones("eu-west-1a", "eu-west-1b", "eu-west-1c") //
                 .withListeners(expectedListener);
 
         elb.createLoadBalancer(createLoadBalancerRequest);
 
         // AVAILABILITY ZONES
-        elb.enableAvailabilityZonesForLoadBalancer(new EnableAvailabilityZonesForLoadBalancerRequest(loadBalancerName, Lists.newArrayList(expectedAvailabilityZones)));
+        EnableAvailabilityZonesForLoadBalancerRequest enableAvailabilityZonesForLoadBalancerRequest = new EnableAvailabilityZonesForLoadBalancerRequest( //
+                loadBalancerName, Lists.newArrayList("eu-west-1a", "eu-west-1b", "eu-west-1c"));
+        elb.enableAvailabilityZonesForLoadBalancer(enableAvailabilityZonesForLoadBalancerRequest);
 
         // HEALTH CHECK
         String healthCheckUri = "/petclinic/healthcheck.jsp";
@@ -349,9 +350,10 @@ public class AmazonAwsPetclinicInfrastructureMakerAnswer {
         elbInstances.add(new com.amazonaws.services.elasticloadbalancing.model.Instance(ec2Instances.get(0).getInstanceId()));
         elbInstances.add(new com.amazonaws.services.elasticloadbalancing.model.Instance(ec2Instances.get(1).getInstanceId()));
 
-        elb.registerInstancesWithLoadBalancer(new RegisterInstancesWithLoadBalancerRequest( //
+        RegisterInstancesWithLoadBalancerRequest registerInstancesWithLoadBalancerRequest = new RegisterInstancesWithLoadBalancerRequest( //
                 loadBalancerName, //
-                elbInstances));
+                elbInstances);
+        elb.registerInstancesWithLoadBalancer(registerInstancesWithLoadBalancerRequest);
 
         LoadBalancerDescription elasticLoadBalancerDescription = elb.describeLoadBalancers(new DescribeLoadBalancersRequest(Arrays.asList(loadBalancerName))).getLoadBalancerDescriptions().get(0);
 

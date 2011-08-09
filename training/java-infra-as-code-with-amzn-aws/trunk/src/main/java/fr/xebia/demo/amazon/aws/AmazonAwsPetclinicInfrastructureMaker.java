@@ -265,39 +265,15 @@ public class AmazonAwsPetclinicInfrastructureMaker {
 
         List<Instance> ec2Instances = displayInstancesDetails(trigram);
 
-        String expectedAvailabilityZones = ec2Instances.get(0).getPlacement().getAvailabilityZone();
-        Listener expectedListener = new Listener("HTTP", 80, 8080);
-
-        CreateLoadBalancerRequest createLoadBalancerRequest = new CreateLoadBalancerRequest() //
-                .withLoadBalancerName(loadBalancerName) //
-                .withAvailabilityZones(expectedAvailabilityZones) //
-                .withListeners(expectedListener);
-
-        elb.createLoadBalancer(createLoadBalancerRequest);
-
-        // AVAILABILITY ZONES
-        elb.enableAvailabilityZonesForLoadBalancer(new EnableAvailabilityZonesForLoadBalancerRequest(loadBalancerName, Lists.newArrayList(expectedAvailabilityZones)));
-
-        // HEALTH CHECK
-        String healthCheckUri = "/petclinic/healthcheck.jsp";
-        createElasticLoadBalancerHealthCheck(loadBalancerName, healthCheckUri);
-
-        // COOKIE STICKINESS
-        final LBCookieStickinessPolicy expectedLbCookieStickinessPolicy = new LBCookieStickinessPolicy( //
-                "petclinic" + "-stickiness-policy", null);
-        createElasticLoadBalancerCookieStickiness(loadBalancerName, expectedLbCookieStickinessPolicy);
-
-        // POLICY
-        createElasticLoadBalancerPolicy(loadBalancerName, expectedListener, expectedLbCookieStickinessPolicy);
-
         // EC2 INSTANCES
         List<com.amazonaws.services.elasticloadbalancing.model.Instance> elbInstances = new ArrayList<com.amazonaws.services.elasticloadbalancing.model.Instance>();
         elbInstances.add(new com.amazonaws.services.elasticloadbalancing.model.Instance(ec2Instances.get(0).getInstanceId()));
         elbInstances.add(new com.amazonaws.services.elasticloadbalancing.model.Instance(ec2Instances.get(1).getInstanceId()));
 
-        elb.registerInstancesWithLoadBalancer(new RegisterInstancesWithLoadBalancerRequest( //
+        RegisterInstancesWithLoadBalancerRequest registerInstancesWithLoadBalancerRequest = new RegisterInstancesWithLoadBalancerRequest( //
                 loadBalancerName, //
-                elbInstances));
+                elbInstances);
+        elb.registerInstancesWithLoadBalancer(registerInstancesWithLoadBalancerRequest);
 
         LoadBalancerDescription elasticLoadBalancerDescription = elb.describeLoadBalancers(new DescribeLoadBalancersRequest(Arrays.asList(loadBalancerName))).getLoadBalancerDescriptions().get(0);
 
@@ -306,36 +282,6 @@ public class AmazonAwsPetclinicInfrastructureMaker {
         System.out.println("http://" + elasticLoadBalancerDescription.getDNSName() + "/petclinic");
 
         return elasticLoadBalancerDescription;
-    }
-
-    void createElasticLoadBalancerHealthCheck(String loadBalancerName, String healthCheckUri) {
-        HealthCheck expectedHealthCheck = new HealthCheck() //
-                .withTarget("HTTP:8080" + healthCheckUri) //
-                .withHealthyThreshold(2) //
-                .withUnhealthyThreshold(2) //
-                .withInterval(30) //
-                .withTimeout(2);
-
-        elb.configureHealthCheck(new ConfigureHealthCheckRequest(loadBalancerName, expectedHealthCheck));
-    }
-
-    void createElasticLoadBalancerCookieStickiness(String loadBalancerName, LBCookieStickinessPolicy expectedLbCookieStickinessPolicy) {
-        CreateLBCookieStickinessPolicyRequest createLbCookieStickinessPolicy = new CreateLBCookieStickinessPolicyRequest() //
-                .withLoadBalancerName(loadBalancerName) //
-                .withPolicyName(expectedLbCookieStickinessPolicy.getPolicyName()) //
-                .withCookieExpirationPeriod(expectedLbCookieStickinessPolicy.getCookieExpirationPeriod());
-
-        elb.createLBCookieStickinessPolicy(createLbCookieStickinessPolicy);
-
-    }
-
-    void createElasticLoadBalancerPolicy(String loadBalancerName, Listener expectedListener, LBCookieStickinessPolicy expectedLbCookieStickinessPolicy) {
-        SetLoadBalancerPoliciesOfListenerRequest setLoadBalancerPoliciesOfListenerRequest = new SetLoadBalancerPoliciesOfListenerRequest() //
-                .withLoadBalancerName(loadBalancerName) //
-                .withLoadBalancerPort(expectedListener.getLoadBalancerPort()) //
-                .withPolicyNames(expectedLbCookieStickinessPolicy.getPolicyName());
-
-        elb.setLoadBalancerPoliciesOfListener(setLoadBalancerPoliciesOfListenerRequest);
     }
 
     void deleteExistingElasticLoadBalancer(String trigram) {
