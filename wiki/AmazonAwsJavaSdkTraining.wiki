@@ -37,8 +37,8 @@ secretKey=change me
  === Create DB Instance ===
  Params :
  {{{
-	DBInstanceIdentifier: petclinic-xeb
-	DBName: petclinic
+    DBInstanceIdentifier: petclinic-xeb
+    DBName: petclinic
     DBInstanceClass : db.m1.small
     Engine : MySQL
     MasterUsername : petclinic
@@ -50,9 +50,9 @@ secretKey=change me
  
  Création de la Base de données:
  {{{
- 		CreateDBInstanceRequest dbInstanceRequest = new CreateDBInstanceRequest() //
-				.with...
-    	DBInstance createDBInstance = rds.createDBInstance(dbInstanceRequest);
+    CreateDBInstanceRequest dbInstanceRequest = new CreateDBInstanceRequest() //
+                                                    .with...
+    DBInstance createDBInstance = rds.createDBInstance(dbInstanceRequest);
  }}}
 
  
@@ -79,7 +79,7 @@ secretKey=change me
  
  {{{
     RunInstancesRequest runInstanceRequest = new RunInstancesRequest() //
-    	.with...
+                                               .with...
     RunInstancesResult runInstances = ec2.runInstances(runInstanceRequest);
  }}}
  
