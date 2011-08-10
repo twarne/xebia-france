@@ -8,7 +8,7 @@ The goal is to deploy the Petclinic Web-app on two Amazon EC2 instances and add 
 
 = Access the AWS Web console = 
  
- https://xebia-france.signin.aws.amazon.com/console
+Connect to Amazon AWS Console with your credentials at https://xebia-france.signin.aws.amazon.com/console
  
  = Create Database instance =
  
