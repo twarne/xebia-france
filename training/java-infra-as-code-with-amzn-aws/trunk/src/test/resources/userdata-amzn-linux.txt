@@ -1,31 +1,9 @@
-Message-ID: <479450812.1.1312225669254.JavaMail.cyrilleleclerc@cyrille-le-clercs-macbook-pro.local>
+Message-ID: <2076141737.3.1312982781589.JavaMail.cyrilleleclerc@cyrille-le-clercs-macbook-pro.local>
 MIME-Version: 1.0
 Content-Type: multipart/mixed; 
-	boundary="----=_Part_0_2019524978.1312225669034"
+	boundary="----=_Part_2_386765137.1312982781588"
 
-------=_Part_0_2019524978.1312225669034
-Content-Type: text/cloud-config; charset=UTF-8; 
-	name=cloudinit-cloud-config.txt
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename=cloudinit-cloud-config.txt
-
-#cloud-config
-
-timezone: Europe/Paris
-
-
-packages:
-- yum-utils
-- java-1.6.0-openjdk
-- tomcat6
-- tomcat6-webapps
-
-runcmd:
- - [chkconfig, --levels, 235, tomcat6, on ]
- - [service, tomcat6, restart ]
- 
- 
-------=_Part_0_2019524978.1312225669034
+------=_Part_2_386765137.1312982781588
 Content-Type: text/x-shellscript; charset=UTF-8; 
 	name=cloudinit-userdata-script.txt
 Content-Transfer-Encoding: 7bit
@@ -50,10 +28,10 @@ print('Created backup ' + dst)
 f = open(src, 'ab')
 
 f.write('\n\n')
-f.write('# BEGIN OF ADDED BY CLOUD-INIT ' + strftime('%Y/%m/%d-%H:%M:%S', gmtime()) + ' #\n')
+f.write('# BEGIN OF ADDED BY CLOUD-INIT ' + strftime('%Y/%m/%d-%H:%M:%S', gmtime()) + '#\n')
 f.write('\n')
 
-f.write('jdbc.url=jdbc:mysql://my-db-host:3306/petclinic\n')
+f.write('jdbc.url=jdbc:mysql://petclinic.cccb4ickfoh9.eu-west-1.rds.amazonaws.com:3306/petclinic\n')
 f.write('jdbc.username=petclinic\n')
 f.write('jdbc.password=petclinic\n')
 
@@ -80,17 +58,37 @@ print('Updated ' + src)
 
 # DOWNLOAD WAR
 proxies = {}
-url = 'http://xebia-france.googlecode.com/svn/repository/maven2/fr/xebia/demo/xebia-petclinic/1.0.0/xebia-petclinic-1.0.0.war'
-temporaryfilename = '/tmp/petclinic.war'
+url = 'http://xebia-france.googlecode.com/svn/repository/maven2/fr/xebia/demo/xebia-petclinic/1.0.2/xebia-petclinic-1.0.2.war'
+temporaryfilename = '/tmp//petclinic.war'
 
-print('Download ' + url + ' ...')
 URLopener(proxies).retrieve(url, temporaryfilename)
 print('Downloaded ' + temporaryfilename)
 
 # DEPLOY WAR
-filename = catalinaBase + '/webapps/petclinic.war'
+filename = catalinaBase + '/webapps//petclinic.war'
 shutil.move(temporaryfilename, filename)
 print('Deployed ' + filename)
 
-------=_Part_0_2019524978.1312225669034--
+------=_Part_2_386765137.1312982781588
+Content-Type: text/cloud-config; charset=UTF-8; 
+	name=cloudinit-cloud-config.txt
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename=cloudinit-cloud-config.txt
 
+#cloud-config
+
+timezone: Europe/Paris
+
+packages:
+- yum-utils
+- java-1.6.0-openjdk
+- tomcat6
+- tomcat6-webapps
+- tomcat6-docs-webapp
+- tomcat6-admin-webapps
+
+runcmd:
+ - [chkconfig, tomcat6, on]
+ - [service, tomcat6, restart ]
+
+------=_Part_2_386765137.1312982781588--
