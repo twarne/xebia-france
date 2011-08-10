@@ -65,6 +65,8 @@ The IAM User sign-in URL is : https://xebia-france.signin.aws.amazon.com/console
  # Drop down the "Instance Action" list
  # Select "Connect"
  	http://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-connect-instance.png
+ # Get the xebia-france.pem
+ # Change rights on xebia-france.pem : chmod 400 xebia-france.pem
  # Copy paste the command line
  	http://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-connect-instance-2.png
  # SSH connect to the server as "ec2-user"
