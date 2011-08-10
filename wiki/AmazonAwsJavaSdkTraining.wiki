@@ -102,7 +102,7 @@ AmazonEC2 ec2 = new AmazonEC2Client(credentials);
  
 Use the EU-WEST-1 endpoint.
  {{{
-AmazonElasticLoadBalancing elb = new AmazonEC2Client(credentials);
+AmazonElasticLoadBalancing elb = new AmazonElasticLoadBalancingClient(credentials);
  elb.setEndpoint("elasticloadbalancing.eu-west-1.amazonaws.com");
  }}}
  
