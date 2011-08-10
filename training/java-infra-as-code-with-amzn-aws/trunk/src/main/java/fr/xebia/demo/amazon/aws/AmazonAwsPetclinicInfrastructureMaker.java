@@ -115,7 +115,9 @@ public class AmazonAwsPetclinicInfrastructureMaker {
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     public AmazonAwsPetclinicInfrastructureMaker() {
-
+            
+        // TODO : Get credentials
+        // TODO : Declare end points
     }
 
     @Nullable
@@ -150,6 +152,8 @@ public class AmazonAwsPetclinicInfrastructureMaker {
     DBInstance createDBInstanceAndWaitForAvailability(String dbInstanceIdentifier) {
         DBInstance dbInstance = findDBInstance(dbInstanceIdentifier);
 
+        //TODO : Create DB Instance
+        
         System.out.println("DB INSTANCE");
         System.out.println("=============");
         System.out.println("MySQL instance : " + dbInstance.getEndpoint().getAddress() + ":" + dbInstance.getEndpoint().getPort());
@@ -181,6 +185,8 @@ public class AmazonAwsPetclinicInfrastructureMaker {
         return instances;
 
     }
+    
+    //TODO : Create EC2 Instances and tag them
 
     void terminateMyAlreadyExistingEC2Instances(String trigram) {
         List<Instance> instances = displayInstancesDetails(trigram);
@@ -265,6 +271,13 @@ public class AmazonAwsPetclinicInfrastructureMaker {
 
         List<Instance> ec2Instances = displayInstancesDetails(trigram);
 
+        //TODO : Create Load Balancer
+        
+        //TODO : Set Availability Zone
+        //TODO : HealthCheck
+        //TODO : Cookie Stickiness
+        //TODO : Policy
+        
         // EC2 INSTANCES
         List<com.amazonaws.services.elasticloadbalancing.model.Instance> elbInstances = new ArrayList<com.amazonaws.services.elasticloadbalancing.model.Instance>();
         elbInstances.add(new com.amazonaws.services.elasticloadbalancing.model.Instance(ec2Instances.get(0).getInstanceId()));
