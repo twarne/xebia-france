@@ -6,11 +6,13 @@
 
 The goal is to deploy the Petclinic Web-app on two Amazon EC2 instances and add a load balancer between them.
 
-= Access the AWS Web console = 
+= Access the AWS Management Console = 
  
-Connect to Amazon AWS Console with your credentials at https://xebia-france.signin.aws.amazon.com/console
+Connect to Amazon AWS Management Console with your credentials (sent in the email "Xebia France Amazon EC2 Credentials"). 
+
+The IAM User sign-in URL is : https://xebia-france.signin.aws.amazon.com/console
  
- = Create Database instance =
+= Create Database instance =
  
  Amazon AWS propose Relational Database Service (RDS) to create ready to use database
  
@@ -89,7 +91,7 @@ Connect to Amazon AWS Console with your credentials at https://xebia-france.sign
   	{{{
 # PETCLINIC ENVIRONMENT VARIABLES
 jdbc.driverClassName=com.mysql.jdbc.Driver
-jdbc.url=jdbc:mysql://<rds-endpoint>:3306/petclinic
+jdbc.url=jdbc:mysql://petclinic.cccb4ickfoh9.eu-west-1.rds.amazonaws.com:3306/petclinic
 jdbc.username=petclinic
 jdbc.password=petclinic
 
@@ -104,6 +106,9 @@ hibernate.dialect=org.hibernate.dialect.MySQLDialect
 # Property that determines which database to use with an AbstractJpaVendorAdapter
 jpa.database=MYSQL
   	}}}
+
+   Note: replace `petclinic.cccb4ickfoh9.eu-west-1.rds.amazonaws.com` by your RDS endpoint.
+
  # Install the webapp
   	<pre>sudo cp xebia-petclinic-1.0.2.war /usr/share/tomcat6/webapps/petclinic.war</pre>
  # Restart Tomcat
