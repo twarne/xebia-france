@@ -46,6 +46,8 @@ The IAM User sign-in URL is : https://xebia-france.signin.aws.amazon.com/console
  	http://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-launch-linux-instance-1.png
  # Select the instance size (e.g. "Micro")
  	http://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-launch-linux-instance-2-instance-details.png
+ # Nothing to do
+ 	http://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-launch-linux-instance-3-instance-details.png
  # Type the name of your server (e.g. "petclinic-(my-trigram)-1")
  	http://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-launch-linux-instance-4-instance-details.png 	
  # Select a key-pair that will be used for SSH connection (e.g. "xebia-france.pem")
