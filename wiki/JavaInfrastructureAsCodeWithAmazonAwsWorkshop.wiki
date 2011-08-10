@@ -2,8 +2,11 @@
 
 = Discover "Java Infrastructure as Code" with Amazon AWS Workshop =
 
-The purpose of this workshop is to 
-[https://xebia-france.googlecode.com/svn/wiki/aws-img/xebia-petclinic-on-amazon-aws.png]
+The purpose of this workshop discover "Infrastructure as Code" concept and Cloud Computing APIs.
+
+The labs will use a real life use case with a clusterized deployment of the standard Spring Petclinic web application and a MySQL database.
+
+<img height="200" src="http://xebia-france.googlecode.com/svn/wiki/aws-img/xebia-petclinic-on-amazon-aws.png"/>
 
 === Discover Amazon AWS API with the Web Management Console ===
 
@@ -16,3 +19,12 @@ The Command Lines are a good introduction to Amazon AWS SDK and a useful tool he
 === Code Your Insfrastructure with the Amazon AWS SDK for Java ===
 
 [AmazonAwsJavaSdkTraining]
+
+
+=== Code a Multi Cloud Insfrastructure Deployment with the JClouds ===
+
+TODO
+
+=== Discover Configuration Managements Systems with Chef and Puppet ===
+
+TODO
