@@ -164,8 +164,8 @@ Answer [AmazonAwsApiToolsTrainingAnswerRds#Describe_Instances].
     * {{{user-data-file}}}: <see below>
 
 <img src="http://www.clker.com/cliparts/w/x/4/3/m/V/blue-information-glossy-button-md.png" width="20" />Choose your CloudInit UserData file:
-** [http://xebia-france.googlecode.com/svn/training/java-infra-as-code-with-amzn-aws/trunk/src/main/resources/cloud-config-amzn-linux.txt cloud-config-amzn-linux.txt] Simple cloud-config to install tomcat6 RPM (don't deploy petclinic.war)
-** [http://xebia-france.googlecode.com/svn/training/java-infra-as-code-with-amzn-aws/trunk/src/test/resources/userdata-amzn-linux.txt userdata-amzn-linux.txt] Multipart cloud-config to install tomcat6 RPM (via cloud-config) and deploy petclinic.war (via a python shell script)
+  ** [http://xebia-france.googlecode.com/svn/training/java-infra-as-code-with-amzn-aws/trunk/src/main/resources/cloud-config-amzn-linux.txt cloud-config-amzn-linux.txt] Simple cloud-config to install tomcat6 RPM (don't deploy petclinic.war)
+  ** [http://xebia-france.googlecode.com/svn/training/java-infra-as-code-with-amzn-aws/trunk/src/test/resources/userdata-amzn-linux.txt userdata-amzn-linux.txt] Multipart cloud-config to install tomcat6 RPM (via cloud-config) and deploy petclinic.war (via a python shell script)
 
 
 
