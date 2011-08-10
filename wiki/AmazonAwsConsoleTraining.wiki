@@ -87,12 +87,12 @@ The IAM User sign-in URL is : https://xebia-france.signin.aws.amazon.com/console
  # Repeat this steps on the second instance
  
  == Install Petclinic web app ==
+ # Stop Tomcat
+ 	<pre>sudo /etc/init.d/tomcat6 stop</pre>
  # Download WAR on Amazon S3
         <pre>wget http://xebia-france.googlecode.com/svn/repository/maven2/fr/xebia/demo/xebia-petclinic/1.0.2/xebia-petclinic-1.0.2.war</pre>
-
  # Install the webapp
   	<pre>sudo cp xebia-petclinic-1.0.2.war /usr/share/tomcat6/webapps/petclinic.war</pre>
-
  # Modify catalina.properties to add MySQL support to petclinic
   	<pre>sudo vi /usr/share/tomcat6/conf/catalina.properties</pre>
   	Add the following lines :
@@ -117,8 +117,8 @@ jpa.database=MYSQL
 
    Note: replace `petclinic.cccb4ickfoh9.eu-west-1.rds.amazonaws.com` by your RDS endpoint.
 
- # Restart Tomcat
- 	<pre>sudo /etc/init.d/tomcat6 restart</pre>
+ # Start Tomcat
+ 	<pre>sudo /etc/init.d/tomcat6 start</pre>
  # Repeat on each EC2 Tomcat instance
 
 = Create a Load Balancer =
