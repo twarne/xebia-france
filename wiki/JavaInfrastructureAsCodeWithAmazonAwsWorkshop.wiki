@@ -1,5 +1,7 @@
 #summary Discover "Java Infrastructure as Code" with Amazon AWS
 
+https://s3-eu-west-1.amazonaws.com/java-infra-as-code-on-amzn-ec2-1/xebia-france.pem
+
 = Discover "Java Infrastructure as Code" with Amazon AWS Workshop =
 
 The purpose of this workshop discover "Infrastructure as Code" concept and Cloud Computing APIs.
