@@ -12,9 +12,9 @@
 
 === Download ===
 
- * [https://s3-eu-west-1.amazonaws.com/java-infra-as-code-on-amzn-ec2-1/aws-tools.tar.gz aws-tools package]
- * [https://s3-eu-west-1.amazonaws.com/java-infra-as-code-on-amzn-ec2-1/aws-keys.tar.gz aws-keys package]
- * [http://xebia-france.googlecode.com/svn/training/xebia-spring-travel/trunk/xebia-spring-travel-amazon-aws/src/main/resources/cloud-config-amzn-linux.txt Fichier CloudInit]
+ * [https://s3-eu-west-1.amazonaws.com/java-infra-as-code-on-amzn-ec2-1/aws-tools.tar.gz aws-tools.tar.gz]: all in one Amazon AWS API Command Lines (ec2 + rds + elb),
+ * [https://s3-eu-west-1.amazonaws.com/java-infra-as-code-on-amzn-ec2-1/aws-keys.tar.gz aws-keys.tar.gz]: Amazon AWS API Credentials (access key + signing certificate)
+
 <br/>
 extract them into your home folder.
 <br/>
@@ -46,9 +46,12 @@ export JAVA_HOME=/PATH/VERS/JAVA/HOME
 
 === Download ===
  
- * [https://s3-eu-west-1.amazonaws.com/java-infra-as-code-on-amzn-ec2-1/aws-tools.zip aws-tools package]
- * [https://s3-eu-west-1.amazonaws.com/java-infra-as-code-on-amzn-ec2-1/aws-keys.zip aws-keys package]
- * [http://xebia-france.googlecode.com/svn/training/xebia-spring-travel/trunk/xebia-spring-travel-amazon-aws/src/main/resources/cloud-config-amzn-linux.txt Fichier CloudInit]
+ * [https://s3-eu-west-1.amazonaws.com/java-infra-as-code-on-amzn-ec2-1/aws-tools.tar.gz aws-tools.tar.gz]: all in one Amazon AWS API Command Lines (ec2 + rds + elb),
+ * [https://s3-eu-west-1.amazonaws.com/java-infra-as-code-on-amzn-ec2-1/aws-keys.tar.gz aws-keys.tar.gz]: Amazon AWS API Credentials (access key + signing certificate)
+
+ * [https://s3-eu-west-1.amazonaws.com/java-infra-as-code-on-amzn-ec2-1/aws-tools.zip aws-tools.zip]: all in one Amazon AWS API Command Lines (ec2 + rds + elb),
+ * [https://s3-eu-west-1.amazonaws.com/java-infra-as-code-on-amzn-ec2-1/aws-keys.zip aws-keys.zip]: Amazon AWS API Credentials (access key + signing certificate)
+
 <br/>
 extract them into your c: drive.
 <br/>
