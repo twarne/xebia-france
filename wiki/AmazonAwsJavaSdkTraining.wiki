@@ -2,10 +2,18 @@
 
 <wiki:toc max_depth="2" />
 
-= Goal =
+= Goal of the lab =
 
-The goal is to deploy the Petclinic Web-app on two Amazon EC2 instances and add a load balancer between them using *Amazon AWS Java SDK*.
- 
+The goal of this lab is to code with Amazon AWS SDK for Java the deployment of the Petclinic application.
+
+*A skeleton is provided at {{{fr.xebia.demo.amazon.aws.AmazonAwsPetclinicInfrastructureMaker}}}*:
+ * we coded all the defensive code to prevent creation of too many instances,
+ * you will code the "create" code
+
+= Project Installation =
+
+ * Checkout https://xebia-france.googlecode.com/svn/training/java-infra-as-code-with-amzn-aws/trunk/
+
 = Get !AwsCredentials from properties file =
 
  {{{
