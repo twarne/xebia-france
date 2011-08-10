@@ -56,11 +56,12 @@ secretKey=change me
 
  
 = Create Tomcat instances = 
- == Use EC2 Client ==
- Use the West Europe End Point.
+
+ == Use `AmazonEC2Client` ==
+
+ Use the EU-WEST-1 endpoint.
  {{{
- private AmazonEC2 ec2;
- ec2 = new AmazonEC2Client(credentials);
+AmazonEC2 ec2 = new AmazonEC2Client(credentials);
  ec2.setEndpoint("ec2.eu-west-1.amazonaws.com");
  }}}
  
@@ -78,20 +79,22 @@ secretKey=change me
  
  {{{
     RunInstancesRequest runInstanceRequest = new RunInstancesRequest() //
-                                               .with...
+                                               .with...();
     RunInstancesResult runInstances = ec2.runInstances(runInstanceRequest);
  }}}
  
 = Create a Load Balancer =
-  == Use ELB Client ==
- Use the West Europe End Point.
+
+ == Use `AmazonElasticLoadBalancingClient` ==
+ 
+Use the EU-WEST-1 endpoint.
  {{{
- private AmazonElasticLoadBalancing elb;
- ec2 = new AmazonEC2Client(credentials);
+AmazonElasticLoadBalancing elb = new AmazonEC2Client(credentials);
  elb.setEndpoint("elasticloadbalancing.eu-west-1.amazonaws.com");
  }}}
  
- == Create Elastic Load Balancer ==
+ == Create an Elastic Load Balancer ==
+
  Params :
  {{{
   LoadBalancerName : elb + trigram
@@ -102,10 +105,10 @@ secretKey=change me
  {{{
 
         CreateLoadBalancerRequest createLoadBalancerRequest = new CreateLoadBalancerRequest() //
-                .with...
+                .with...();
         elb.createLoadBalancer(createLoadBalancerRequest);
         
-        // AVAILABILITY ZONES
+        // AVAILABILITY ZONES (simplify, enable everything)
         EnableAvailabilityZonesForLoadBalancerRequest enableAvailabilityZonesForLoadBalancerRequest = new EnableAvailabilityZonesForLoadBalancerRequest( //
                 loadBalancerName, Lists.newArrayList("eu-west-1a", "eu-west-1b", "eu-west-1c"));
         elb.enableAvailabilityZonesForLoadBalancer(enableAvailabilityZonesForLoadBalancerRequest);
@@ -146,7 +149,7 @@ secretKey=change me
  
  {{{
     HealthCheck expectedHealthCheck = new HealthCheck() //
-                .with...
+                .with...();
     elb.configureHealthCheck(new ConfigureHealthCheckRequest(loadBalancerName, expectedHealthCheck));
  }}}
  
