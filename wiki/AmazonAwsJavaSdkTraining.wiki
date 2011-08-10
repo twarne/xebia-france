@@ -111,7 +111,7 @@ AmazonElasticLoadBalancing elb = new AmazonElasticLoadBalancingClient(credential
  Params :
  {{{
   LoadBalancerName : elb + trigram
-  ExpectedListener : "HTTP", 80 et 8080
+  Listener : "HTTP", 80 et 8080
   AvailabilityZones : "eu-west-1a", "eu-west-1b", "eu-west-1c"
  }}}
  
