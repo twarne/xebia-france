@@ -8,6 +8,9 @@ The labs will use a real life use case with a clusterized deployment of the stan
 
 <img height="200" src="http://xebia-france.googlecode.com/svn/wiki/aws-img/xebia-petclinic-on-amazon-aws.png"/>
 
+Slides :
+ * [http://www.slideshare.net/XebiaFrance/java-infraascodewithamznaws Discover "Java Infrastructure as Code" with Amazon AWS]
+ * [http://www.slideshare.net/XebiaFrance/cloudinit-introduction Cloud Init Introduction]
 === Discover Amazon AWS API with the Web Management Console ===
 
 Get familiar with Amazon AWS API playing with the Web Management Console: [AmazonAwsConsoleTraining].
