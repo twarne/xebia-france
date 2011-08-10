@@ -323,7 +323,7 @@ Answer [AmazonAwsApiToolsTrainingAnswerElb#Create_load_balancer_stickiness_polic
 <img src="http://www.clker.com/cliparts/9/1/4/0/11954322131712176739question_mark_naught101_02.svg.med.png" width="20" /> *Set Created Policy To Load Balancer*
 
 <img src="http://www.clker.com/cliparts/w/x/4/3/m/V/blue-information-glossy-button-md.png" width="20" /> 
-[http://docs.amazonwebservices.com/ElasticLoadBalancing/latest/APIReference/index.html?API_CreateLBCookieStickinessPolicy.html?API_CreateLBCookieStickinessPolicy.html ELB > Elastic Load Balancing API Reference > Actions > SetLoadBalancerPoliciesOfListener]
+[http://docs.amazonwebservices.com/ElasticLoadBalancing/latest/APIReference/index.html?API_SetLoadBalancerPoliciesOfListener.html ELB > Elastic Load Balancing API Reference > Actions > SetLoadBalancerPoliciesOfListener]
 
 <font size="1">
 <pre>
