@@ -2,9 +2,9 @@
 
 <wiki:toc max_depth="2" />
 
-= Goal =
+= Goal of the lab =
 
-The goal is to deploy the Petclinic Web-app on two Amazon EC2 instances and add a load balancer between them.
+The goal of this lab is to deploy the Petclinic webapp on two Amazon EC2 Linux instances with one Amazon RDS MySQL database and a load balancer.
 
 = Access the AWS Management Console = 
  
