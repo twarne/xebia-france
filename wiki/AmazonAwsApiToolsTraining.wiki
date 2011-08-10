@@ -13,7 +13,7 @@
 === Download ===
 
  * [https://s3-eu-west-1.amazonaws.com/java-infra-as-code-on-amzn-ec2-1/aws-tools.tar.gz aws-tools package]
- * Link to aws certificates to add
+ * [https://s3-eu-west-1.amazonaws.com/java-infra-as-code-on-amzn-ec2-1/aws-keys.tar.gz aws-keys package]
  * [http://xebia-france.googlecode.com/svn/training/xebia-spring-travel/trunk/xebia-spring-travel-amazon-aws/src/main/resources/cloud-config-amzn-linux.txt Fichier CloudInit]
 <br/>
 extract them into your home folder.
@@ -47,7 +47,7 @@ export JAVA_HOME=/PATH/VERS/JAVA/HOME
 === Download ===
  
  * [https://s3-eu-west-1.amazonaws.com/java-infra-as-code-on-amzn-ec2-1/aws-tools.zip aws-tools package]
- * Link to aws certificates to add
+ * [https://s3-eu-west-1.amazonaws.com/java-infra-as-code-on-amzn-ec2-1/aws-keys.zip aws-keys package]
  * [http://xebia-france.googlecode.com/svn/training/xebia-spring-travel/trunk/xebia-spring-travel-amazon-aws/src/main/resources/cloud-config-amzn-linux.txt Fichier CloudInit]
 <br/>
 extract them into your c: drive.
