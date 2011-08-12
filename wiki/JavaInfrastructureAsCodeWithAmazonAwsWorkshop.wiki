@@ -11,7 +11,7 @@ Slides :
  * [http://www.slideshare.net/XebiaFrance/java-infraascodewithamznaws Workshop: Discover "Java Infrastructure as Code" with Amazon AWS]
  * [http://www.slideshare.net/XebiaFrance/cloudinit-introduction CloudInit Introduction]
 
-<img height="200" src="http://xebia-france.googlecode.com/svn/wiki/aws-img/xebia-petclinic-on-amazon-aws.png" />
+[img height="200" src="http://xebia-france.googlecode.com/svn/wiki/aws-img/xebia-petclinic-on-amazon-aws.png"]
 
 Slides :
  * [http://www.slideshare.net/XebiaFrance/java-infraascodewithamznaws Discover "Java Infrastructure as Code" with Amazon AWS]
