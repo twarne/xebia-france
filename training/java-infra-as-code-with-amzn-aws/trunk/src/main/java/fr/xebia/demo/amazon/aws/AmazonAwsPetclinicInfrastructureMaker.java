@@ -15,28 +15,20 @@
  */
 package fr.xebia.demo.amazon.aws;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import org.jclouds.ec2.domain.InstanceType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.amazonaws.auth.AWSCredentials;
-import com.amazonaws.auth.PropertiesCredentials;
 import com.amazonaws.services.ec2.AmazonEC2;
-import com.amazonaws.services.ec2.AmazonEC2Client;
 import com.amazonaws.services.ec2.model.CreateTagsRequest;
 import com.amazonaws.services.ec2.model.DescribeInstancesRequest;
 import com.amazonaws.services.ec2.model.DescribeInstancesResult;
@@ -44,33 +36,17 @@ import com.amazonaws.services.ec2.model.Filter;
 import com.amazonaws.services.ec2.model.Instance;
 import com.amazonaws.services.ec2.model.InstanceStateName;
 import com.amazonaws.services.ec2.model.Reservation;
-import com.amazonaws.services.ec2.model.RunInstancesRequest;
-import com.amazonaws.services.ec2.model.RunInstancesResult;
 import com.amazonaws.services.ec2.model.Tag;
 import com.amazonaws.services.ec2.model.TerminateInstancesRequest;
 import com.amazonaws.services.elasticloadbalancing.AmazonElasticLoadBalancing;
-import com.amazonaws.services.elasticloadbalancing.AmazonElasticLoadBalancingClient;
-import com.amazonaws.services.elasticloadbalancing.model.ConfigureHealthCheckRequest;
-import com.amazonaws.services.elasticloadbalancing.model.CreateLBCookieStickinessPolicyRequest;
-import com.amazonaws.services.elasticloadbalancing.model.CreateLoadBalancerRequest;
 import com.amazonaws.services.elasticloadbalancing.model.DeleteLoadBalancerListenersRequest;
 import com.amazonaws.services.elasticloadbalancing.model.DeleteLoadBalancerPolicyRequest;
 import com.amazonaws.services.elasticloadbalancing.model.DeleteLoadBalancerRequest;
 import com.amazonaws.services.elasticloadbalancing.model.DescribeLoadBalancersRequest;
-import com.amazonaws.services.elasticloadbalancing.model.DescribeLoadBalancersResult;
-import com.amazonaws.services.elasticloadbalancing.model.EnableAvailabilityZonesForLoadBalancerRequest;
-import com.amazonaws.services.elasticloadbalancing.model.HealthCheck;
-import com.amazonaws.services.elasticloadbalancing.model.LBCookieStickinessPolicy;
-import com.amazonaws.services.elasticloadbalancing.model.Listener;
-import com.amazonaws.services.elasticloadbalancing.model.ListenerDescription;
 import com.amazonaws.services.elasticloadbalancing.model.LoadBalancerDescription;
 import com.amazonaws.services.elasticloadbalancing.model.LoadBalancerNotFoundException;
-import com.amazonaws.services.elasticloadbalancing.model.Policies;
 import com.amazonaws.services.elasticloadbalancing.model.RegisterInstancesWithLoadBalancerRequest;
-import com.amazonaws.services.elasticloadbalancing.model.SetLoadBalancerPoliciesOfListenerRequest;
 import com.amazonaws.services.rds.AmazonRDS;
-import com.amazonaws.services.rds.AmazonRDSClient;
-import com.amazonaws.services.rds.model.CreateDBInstanceRequest;
 import com.amazonaws.services.rds.model.DBInstance;
 import com.amazonaws.services.rds.model.DBInstanceNotFoundException;
 import com.amazonaws.services.rds.model.DescribeDBInstancesRequest;
@@ -78,12 +54,10 @@ import com.amazonaws.services.rds.model.DescribeDBInstancesResult;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Throwables;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import fr.xebia.cloud.cloudinit.CloudInitUserDataBuilder;
 import fr.xebia.cloud.cloudinit.FreemarkerUtils;
-import fr.xebia.demo.amazon.aws.AmazonAwsPetclinicInfrastructureEnforcer.Distribution;
 
 /**
  * <p>
