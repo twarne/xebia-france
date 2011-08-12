@@ -7,15 +7,15 @@ The purpose of this workshop discover "Infrastructure as Code" concept and Cloud
 
 The labs will use a real life use case with a clusterized deployment of the standard Spring Petclinic web application and a MySQL database.
 
-Slides :
+*Slides:*
  * [http://www.slideshare.net/XebiaFrance/java-infraascodewithamznaws Workshop: Discover "Java Infrastructure as Code" with Amazon AWS]
  * [http://www.slideshare.net/XebiaFrance/cloudinit-introduction CloudInit Introduction]
 
-[img height="200" src="http://xebia-france.googlecode.com/svn/wiki/aws-img/xebia-petclinic-on-amazon-aws.png"]
+*PetClinic on Amazon AWS*
 
-Slides :
- * [http://www.slideshare.net/XebiaFrance/java-infraascodewithamznaws Discover "Java Infrastructure as Code" with Amazon AWS]
- * [http://www.slideshare.net/XebiaFrance/cloudinit-introduction Cloud Init Introduction]
+<a href="http://xebia-france.googlecode.com/svn/wiki/aws-img/xebia-petclinic-on-amazon-aws.png"><img src="http://xebia-france.googlecode.com/svn/wiki/aws-img/xebia-petclinic-on-amazon-aws.png" height="200" /></a>
+
+
 === Discover Amazon AWS API with the Web Management Console ===
 
 Get familiar with Amazon AWS API playing with the Web Management Console: [AmazonAwsConsoleTraining].
