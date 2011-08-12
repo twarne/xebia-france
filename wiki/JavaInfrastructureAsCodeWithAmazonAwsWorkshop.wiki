@@ -1,6 +1,5 @@
 #summary Discover "Java Infrastructure as Code" with Amazon AWS
 
-https://s3-eu-west-1.amazonaws.com/java-infra-as-code-on-amzn-ec2-1/xebia-france.pem
 
 = Discover "Java Infrastructure as Code" with Amazon AWS Workshop =
 
@@ -8,7 +7,11 @@ The purpose of this workshop discover "Infrastructure as Code" concept and Cloud
 
 The labs will use a real life use case with a clusterized deployment of the standard Spring Petclinic web application and a MySQL database.
 
-<img height="200" src="http://xebia-france.googlecode.com/svn/wiki/aws-img/xebia-petclinic-on-amazon-aws.png"/>
+Slides :
+ * [http://www.slideshare.net/XebiaFrance/java-infraascodewithamznaws Workshop: Discover "Java Infrastructure as Code" with Amazon AWS]
+ * [http://www.slideshare.net/XebiaFrance/cloudinit-introduction CloudInit Introduction]
+
+<img height="200" src="http://xebia-france.googlecode.com/svn/wiki/aws-img/xebia-petclinic-on-amazon-aws.png" />
 
 Slides :
  * [http://www.slideshare.net/XebiaFrance/java-infraascodewithamznaws Discover "Java Infrastructure as Code" with Amazon AWS]
