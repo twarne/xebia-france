@@ -1,0 +1,3 @@
+#summary cloud computing extras (related to Amazon AWS SDK for Java, CloudInit, JClouds, etc)
+
+= Introduction =
