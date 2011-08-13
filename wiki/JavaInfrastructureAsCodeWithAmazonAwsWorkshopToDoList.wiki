@@ -17,8 +17,8 @@
  * re-prepare the aws-tools.zip and aws-tools.tar.gz
 
  * finish credentials email with aws-credentials.txt + ssh private key + x509 certificate&private key
- ** fr.xebia.demo.amazon.aws.AmazonAwsIamAccountCreatorV2
- ** Note Amazon SES does not allow to attach .pem files => migrate to traditional SMTP service
+  ** fr.xebia.demo.amazon.aws.AmazonAwsIamAccountCreatorV2
+  ** Note Amazon SES does not allow to attach .pem files => migrate to traditional SMTP service
 
 
 = Amazon AWS SDK for Java =
