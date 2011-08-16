@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.xebia.demo.amazon.aws;
+package fr.xebia.cloud.amazon.aws.iam;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -41,6 +41,7 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.security.auth.x500.X500Principal;
+import javax.ws.rs.core.Response.StatusType;
 
 import org.apache.commons.lang.RandomStringUtils;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
@@ -65,16 +66,27 @@ import com.amazonaws.services.ec2.model.KeyPair;
 import com.amazonaws.services.identitymanagement.AmazonIdentityManagement;
 import com.amazonaws.services.identitymanagement.AmazonIdentityManagementClient;
 import com.amazonaws.services.identitymanagement.model.AccessKey;
+import com.amazonaws.services.identitymanagement.model.AccessKeyMetadata;
 import com.amazonaws.services.identitymanagement.model.AddUserToGroupRequest;
 import com.amazonaws.services.identitymanagement.model.CreateAccessKeyRequest;
 import com.amazonaws.services.identitymanagement.model.CreateAccessKeyResult;
 import com.amazonaws.services.identitymanagement.model.CreateLoginProfileRequest;
 import com.amazonaws.services.identitymanagement.model.CreateUserRequest;
 import com.amazonaws.services.identitymanagement.model.CreateUserResult;
+import com.amazonaws.services.identitymanagement.model.GetAccountSummaryRequest;
+import com.amazonaws.services.identitymanagement.model.GetLoginProfileRequest;
+import com.amazonaws.services.identitymanagement.model.GetLoginProfileResult;
+import com.amazonaws.services.identitymanagement.model.GetUserRequest;
+import com.amazonaws.services.identitymanagement.model.GetUserResult;
+import com.amazonaws.services.identitymanagement.model.ListAccessKeysRequest;
+import com.amazonaws.services.identitymanagement.model.ListAccessKeysResult;
+import com.amazonaws.services.identitymanagement.model.NoSuchEntityException;
 import com.amazonaws.services.identitymanagement.model.SigningCertificate;
+import com.amazonaws.services.identitymanagement.model.UpdateAccessKeyRequest;
 import com.amazonaws.services.identitymanagement.model.UploadSigningCertificateRequest;
 import com.amazonaws.services.identitymanagement.model.UploadSigningCertificateResult;
 import com.amazonaws.services.identitymanagement.model.User;
+import com.amazonaws.services.identitymanagement.model.statusType;
 import com.amazonaws.services.simpleemail.AmazonSimpleEmailService;
 import com.amazonaws.services.simpleemail.AmazonSimpleEmailServiceClient;
 import com.amazonaws.services.simpleemail.model.Body;
@@ -98,7 +110,7 @@ import com.google.common.io.Resources;
  * 
  * @author <a href="mailto:cyrille@cyrilleleclerc.com">Cyrille Le Clerc</a>
  */
-public class AmazonAwsIamAccountCreatorV2 {
+public class AmazonAwsIamAccountCreator {
 
     static {
         // adds the Bouncy castle provider to java security
@@ -107,7 +119,7 @@ public class AmazonAwsIamAccountCreatorV2 {
 
     public static void main(String[] args) throws Exception {
         try {
-            AmazonAwsIamAccountCreatorV2 amazonAwsIamAccountCreator = new AmazonAwsIamAccountCreatorV2();
+            AmazonAwsIamAccountCreator amazonAwsIamAccountCreator = new AmazonAwsIamAccountCreator();
             amazonAwsIamAccountCreator.createUsers();
         } catch (Exception e) {
             e.printStackTrace();
@@ -124,7 +136,7 @@ public class AmazonAwsIamAccountCreatorV2 {
 
     protected final AmazonSimpleEmailService ses;
 
-    public AmazonAwsIamAccountCreatorV2() {
+    public AmazonAwsIamAccountCreator() {
         try {
             InputStream credentialsAsStream = Thread.currentThread().getContextClassLoader()
                     .getResourceAsStream("AwsCredentials.properties");
@@ -224,16 +236,41 @@ public class AmazonAwsIamAccountCreatorV2 {
      */
     public void createUsers(String userName) {
 
-        CreateUserRequest createUserRequest = new CreateUserRequest(userName);
-        CreateUserResult createUserResult = iam.createUser(createUserRequest);
-        User user = createUserResult.getUser();
+        User user;
 
-        String password = RandomStringUtils.randomAlphanumeric(8);
+        try {
+            user = iam.getUser(new GetUserRequest().withUserName(userName)).getUser();
+        } catch (NoSuchEntityException e) {
+            user = iam.createUser(new CreateUserRequest(userName)).getUser();
+        }
 
-        iam.createLoginProfile(new CreateLoginProfileRequest(user.getUserName(), password));
-        iam.addUserToGroup(new AddUserToGroupRequest("Admins", user.getUserName()));
-        CreateAccessKeyResult createAccessKeyResult = iam.createAccessKey(new CreateAccessKeyRequest().withUserName(user.getUserName()));
-        AccessKey accessKey = createAccessKeyResult.getAccessKey();
+        String password;
+        try {
+            GetLoginProfileResult loginProfile = iam.getLoginProfile(new GetLoginProfileRequest(user.getUserName()));
+            password = null;
+            logger.info("login already created on the {}", loginProfile.getLoginProfile().getCreateDate());
+        } catch (NoSuchEntityException e) {
+            password = RandomStringUtils.randomAlphanumeric(8);
+            iam.createLoginProfile(new CreateLoginProfileRequest(user.getUserName(), password));
+            iam.addUserToGroup(new AddUserToGroupRequest("Admins", user.getUserName()));
+        }
+
+        AccessKey accessKey = null;
+        ListAccessKeysResult listAccessKeysResult = iam.listAccessKeys(new ListAccessKeysRequest().withUserName(user.getUserName()));
+        for (AccessKeyMetadata accessKeyMetadata : listAccessKeysResult.getAccessKeyMetadata()) {
+            statusType status = statusType.fromValue(accessKeyMetadata.getStatus());
+            if (statusType.Active.equals(status)) {
+                logger.info("Key {} ({}) is already active", accessKeyMetadata.getAccessKeyId(), accessKeyMetadata.getCreateDate());
+                accessKey = new AccessKey(user.getUserName(), accessKeyMetadata.getAccessKeyId(), statusType.Active.toString(), null);
+                break;
+            }
+        }
+
+        if (accessKey == null) {
+            CreateAccessKeyResult createAccessKeyResult = iam
+                    .createAccessKey(new CreateAccessKeyRequest().withUserName(user.getUserName()));
+            accessKey = createAccessKeyResult.getAccessKey();
+        }
 
         // SSH
         KeyPair sshKeyPair = createOrOverWriteSshKeyPair(userName);
@@ -289,8 +326,8 @@ public class AmazonAwsIamAccountCreatorV2 {
 
     KeyPair createOrOverWriteSshKeyPair(String userName) {
         String keyPairName;
-        if(userName.endsWith("@xebia.fr") || userName.endsWith("@xebia.com")) {
-            keyPairName = userName.substring(0, userName.indexOf("@xebia."));            
+        if (userName.endsWith("@xebia.fr") || userName.endsWith("@xebia.com")) {
+            keyPairName = userName.substring(0, userName.indexOf("@xebia."));
         } else {
             keyPairName = userName.replace("@", "_at_").replace(".", "_dot_").replace("+", "_plus_");
         }

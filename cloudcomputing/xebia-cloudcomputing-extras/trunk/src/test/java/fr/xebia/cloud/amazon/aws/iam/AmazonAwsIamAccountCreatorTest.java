@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.xebia.demo.amazon.aws;
+package fr.xebia.cloud.amazon.aws.iam;
 
 import static org.junit.Assert.*;
 
@@ -25,6 +25,8 @@ import org.junit.Test;
 import com.amazonaws.services.simpleemail.AmazonSimpleEmailService;
 import com.amazonaws.services.simpleemail.model.VerifyEmailAddressRequest;
 
+import fr.xebia.cloud.amazon.aws.iam.AmazonAwsIamAccountCreator;
+
 public class AmazonAwsIamAccountCreatorTest {
 
     @Ignore
@@ -33,6 +35,7 @@ public class AmazonAwsIamAccountCreatorTest {
         new AmazonAwsIamAccountCreator().createUsers("cleclerc@xebia.com");
     }
     
+    @Ignore
     @Test
     public void send_email_with_amazon_simple_email_service() throws IOException {
         
