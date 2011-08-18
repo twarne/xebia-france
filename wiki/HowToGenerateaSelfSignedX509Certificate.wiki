@@ -1,6 +1,7 @@
 #summary How to generate a self signed X509 certificate in Java with Bouncy Castle library
+#labels Phase-Design
 
-= HowTo Generate a Self Signed X509 Certificate in Java =
+= How To Generate a Self Signed X509 Certificate in Java =
 
 Here is a demo to generate a self signed x509 certificate and associated ".pem" files in Java with [http://www.bouncycastle.org/ Bouncy Castle] library.
 
