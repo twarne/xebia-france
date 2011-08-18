@@ -8,7 +8,7 @@ Here is a demo to generate a self signed x509 certificate and associated ".pem" 
 = Code Sample =
 
 Source code : 
-[http://code.google.com/p/xebia-france/source/browse/cloudcomputing/xebia-cloudcomputing-extras/trunk/src/test/java/fr/xebia/demo/amazon/aws/SelfSignedX509CertificateGeneratorDemo.java?spec=svn2038&r=2038 SelfSignedX509CertificateGeneratorDemo.java]
+[http://code.google.com/p/xebia-france/source/browse/cloudcomputing/xebia-cloudcomputing-extras/trunk/src/test/java/fr/xebia/demo/amazon/aws/SelfSignedX509CertificateGeneratorDemo.java?spec=svn2041&r=2041 SelfSignedX509CertificateGeneratorDemo.java]
 {{{
 import java.security.*;
 import java.security.cert.*;
