@@ -37,7 +37,7 @@ TODO
 
 TODO
 
-== The sessions =n France ==
+== The workshop sessions in France ==
 
  * [http://java-infra-as-code-on-amzn-ec2-1.eventbrite.com 2011/08/10 - Atelier "Java Infrastructure As Code" avec Amazon EC2 (1/2)]
  * [http://java-infra-as-code-on-amzn-ec2-1-redux.eventbrite.com 2011/08/31 - Atelier "Java Infrastructure As Code" avec Amazon EC2 (1/2) - redux] the same as Aug, the 10th with new attendees.
