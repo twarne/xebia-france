@@ -33,9 +33,9 @@ The Command Lines are a good introduction to Amazon AWS SDK and a useful tool he
 
 TODO
 
-=== Discover Configuration Managements Systems with Chef and Puppet ===
+=== Discover Configuration Managements Systems with Chef ===
 
-TODO
+We found the speaker!
 
 == The workshop sessions in France ==
 
