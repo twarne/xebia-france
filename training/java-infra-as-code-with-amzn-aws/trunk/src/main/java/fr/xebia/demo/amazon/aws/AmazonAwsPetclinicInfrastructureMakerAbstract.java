@@ -118,7 +118,10 @@ public abstract class AmazonAwsPetclinicInfrastructureMakerAbstract {
 
     List<Instance> terminateExistingAndCreateNewInstance(String trigram) {
         terminateMyAlreadyExistingEC2Instances(trigram);
-        List<Instance> instances = createTwoEC2Instances();
+        DBInstance dbInstance = findDBInstance("petclinic-xeb");
+        String warUrl = "http://xebia-france.googlecode.com/svn/repository/maven2/fr/xebia/demo/xebia-petclinic/1.0.2/xebia-petclinic-1.0.2.war";
+
+        List<Instance> instances = createTwoEC2Instances(dbInstance, warUrl);
         tagInstances(instances, trigram);
 
         System.out.println("EC2 INSTANCES");
@@ -173,7 +176,7 @@ public abstract class AmazonAwsPetclinicInfrastructureMakerAbstract {
     }
 
     @Nonnull
-    abstract List<Instance> createTwoEC2Instances() ;
+    abstract List<Instance> createTwoEC2Instances(DBInstance dbInstance, String warUrl) ;
 
     void tagInstances(List<Instance> instances, String trigram) {
         int i = 1;

@@ -96,10 +96,7 @@ public class AmazonAwsPetclinicInfrastructureMakerAnswer extends AmazonAwsPetcli
 
     @Nonnull
     @Override
-    List<Instance> createTwoEC2Instances() {
-        DBInstance dbInstance = findDBInstance("petclinic-xeb");
-        String warUrl = "http://xebia-france.googlecode.com/svn/repository/maven2/fr/xebia/demo/xebia-petclinic/1.0.2/xebia-petclinic-1.0.2.war";
-
+    List<Instance> createTwoEC2Instances(DBInstance dbInstance, String warUrl) {
         RunInstancesRequest runInstanceRequest = new RunInstancesRequest() //
                 .withImageId("ami-8c1fece5") // eu-west : ami-47cefa33; us-east :ami-8c1fece5
                 .withMinCount(2) //
@@ -109,6 +106,7 @@ public class AmazonAwsPetclinicInfrastructureMakerAnswer extends AmazonAwsPetcli
                 .withInstanceType(InstanceType.T1Micro.toString()) //
                 .withUserData(buildCloudInitUserData(dbInstance, warUrl)) // CloudInit Deployment
         ;
+        
         RunInstancesResult runInstances = ec2.runInstances(runInstanceRequest);
         Reservation reservation = runInstances.getReservation();
         return reservation.getInstances();

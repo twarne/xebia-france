@@ -56,7 +56,7 @@ public class AmazonAwsPetclinicInfrastructureMaker extends AmazonAwsPetclinicInf
     }
 
     @Override
-    List<Instance> createTwoEC2Instances() {
+    List<Instance> createTwoEC2Instances(DBInstance dbInstance, String warUrl) {
         // TODO Auto-generated method stub
         throw new NotImplementedException("TODO");
     }
