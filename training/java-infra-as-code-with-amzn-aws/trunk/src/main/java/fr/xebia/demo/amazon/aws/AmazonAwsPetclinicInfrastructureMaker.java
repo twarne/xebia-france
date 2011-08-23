@@ -15,24 +15,15 @@
  */
 package fr.xebia.demo.amazon.aws;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 
 import org.apache.commons.lang.NotImplementedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.amazonaws.auth.AWSCredentials;
-import com.amazonaws.auth.PropertiesCredentials;
-import com.amazonaws.services.ec2.AmazonEC2Client;
 import com.amazonaws.services.ec2.model.Instance;
-import com.amazonaws.services.elasticloadbalancing.AmazonElasticLoadBalancingClient;
 import com.amazonaws.services.elasticloadbalancing.model.Listener;
-import com.amazonaws.services.rds.AmazonRDSClient;
 import com.amazonaws.services.rds.model.DBInstance;
-import com.google.common.base.Preconditions;
-import com.google.common.base.Throwables;
 
 /**
  * <p>
@@ -50,10 +41,6 @@ import com.google.common.base.Throwables;
  * @author <a href="mailto:cyrille@cyrilleleclerc.com">Cyrille Le Clerc</a>
  */
 public class AmazonAwsPetclinicInfrastructureMaker extends AmazonAwsPetclinicInfrastructureMakerAbstract {
-    public static void main(String[] args) throws Exception {
-        AmazonAwsPetclinicInfrastructureMaker infrastructureMaker = new AmazonAwsPetclinicInfrastructureMaker();
-
-    }
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 

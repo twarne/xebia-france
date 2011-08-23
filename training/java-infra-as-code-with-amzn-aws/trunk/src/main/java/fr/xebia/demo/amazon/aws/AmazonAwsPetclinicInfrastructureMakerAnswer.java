@@ -56,10 +56,6 @@ import com.google.common.base.Throwables;
  * @author <a href="mailto:cyrille@cyrilleleclerc.com">Cyrille Le Clerc</a>
  */
 public class AmazonAwsPetclinicInfrastructureMakerAnswer extends AmazonAwsPetclinicInfrastructureMakerAbstract {
-    public static void main(String[] args) throws Exception {
-        AmazonAwsPetclinicInfrastructureMakerAnswer infrastructureMaker = new AmazonAwsPetclinicInfrastructureMakerAnswer();
-
-    }
 
     public AmazonAwsPetclinicInfrastructureMakerAnswer() {
         try {
@@ -68,13 +64,13 @@ public class AmazonAwsPetclinicInfrastructureMakerAnswer extends AmazonAwsPetcli
             AWSCredentials credentials = new PropertiesCredentials(credentialsAsStream);
             
             rds = new AmazonRDSClient(credentials);
-            rds.setEndpoint("rds.us-east-1.amazonaws.com");
+            rds.setEndpoint("rds.us-east-1.amazonaws.com"); // rds.eu-west-1.amazon.com
             
             ec2 = new AmazonEC2Client(credentials);
-            ec2.setEndpoint("ec2.us-east-1.amazonaws.com");
+            ec2.setEndpoint("ec2.us-east-1.amazonaws.com"); // ec2.eu-west-1.amazon.com
             
             elb = new AmazonElasticLoadBalancingClient(credentials);
-            elb.setEndpoint("elasticloadbalancing.us-east-1.amazonaws.com");
+            elb.setEndpoint("elasticloadbalancing.us-east-1.amazonaws.com"); // elasticloadbalancing.eu-west-1.amazon.com
         } catch (IOException e) {
             throw Throwables.propagate(e);
         }

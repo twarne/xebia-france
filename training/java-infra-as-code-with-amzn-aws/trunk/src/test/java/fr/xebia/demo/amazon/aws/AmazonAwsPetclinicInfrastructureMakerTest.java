@@ -22,20 +22,20 @@ public class AmazonAwsPetclinicInfrastructureMakerTest {
 
     @Test
     public void test_create_dbinstances() {
-        AmazonAwsPetclinicInfrastructureMakerAnswer maker = new AmazonAwsPetclinicInfrastructureMakerAnswer();
+        AmazonAwsPetclinicInfrastructureMaker maker = new AmazonAwsPetclinicInfrastructureMaker();
         Assert.assertNotNull("No DB Instance available", maker.createDBInstanceAndWaitForAvailability("petclinic-xeb"));
 
     }
 
     @Test
     public void test_create_ec2instances_and_tag() {
-        AmazonAwsPetclinicInfrastructureMakerAnswer maker = new AmazonAwsPetclinicInfrastructureMakerAnswer();
+        AmazonAwsPetclinicInfrastructureMaker maker = new AmazonAwsPetclinicInfrastructureMaker();
         Assert.assertNotNull("No EC2 Instance created", maker.terminateExistingAndCreateNewInstance("xeb"));
     }
 
     @Test
     public void test_create_elb() {
-        AmazonAwsPetclinicInfrastructureMakerAnswer maker = new AmazonAwsPetclinicInfrastructureMakerAnswer();
+        AmazonAwsPetclinicInfrastructureMaker maker = new AmazonAwsPetclinicInfrastructureMaker();
         Assert.assertNotNull("No ELB Instance created", maker.createElasticLoadBalancer("xeb"));
     }
     

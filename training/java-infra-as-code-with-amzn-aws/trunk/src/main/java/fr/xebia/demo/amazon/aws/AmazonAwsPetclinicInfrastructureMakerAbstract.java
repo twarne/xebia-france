@@ -1,6 +1,5 @@
 package fr.xebia.demo.amazon.aws;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -14,27 +13,19 @@ import javax.annotation.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.amazonaws.auth.AWSCredentials;
-import com.amazonaws.auth.PropertiesCredentials;
 import com.amazonaws.services.ec2.AmazonEC2;
-import com.amazonaws.services.ec2.AmazonEC2Client;
 import com.amazonaws.services.ec2.model.CreateTagsRequest;
 import com.amazonaws.services.ec2.model.DescribeInstancesRequest;
 import com.amazonaws.services.ec2.model.DescribeInstancesResult;
 import com.amazonaws.services.ec2.model.Filter;
 import com.amazonaws.services.ec2.model.Instance;
 import com.amazonaws.services.ec2.model.InstanceStateName;
-import com.amazonaws.services.ec2.model.InstanceType;
 import com.amazonaws.services.ec2.model.Reservation;
-import com.amazonaws.services.ec2.model.RunInstancesRequest;
-import com.amazonaws.services.ec2.model.RunInstancesResult;
 import com.amazonaws.services.ec2.model.Tag;
 import com.amazonaws.services.ec2.model.TerminateInstancesRequest;
 import com.amazonaws.services.elasticloadbalancing.AmazonElasticLoadBalancing;
-import com.amazonaws.services.elasticloadbalancing.AmazonElasticLoadBalancingClient;
 import com.amazonaws.services.elasticloadbalancing.model.ConfigureHealthCheckRequest;
 import com.amazonaws.services.elasticloadbalancing.model.CreateLBCookieStickinessPolicyRequest;
-import com.amazonaws.services.elasticloadbalancing.model.CreateLoadBalancerRequest;
 import com.amazonaws.services.elasticloadbalancing.model.DeleteLoadBalancerListenersRequest;
 import com.amazonaws.services.elasticloadbalancing.model.DeleteLoadBalancerPolicyRequest;
 import com.amazonaws.services.elasticloadbalancing.model.DeleteLoadBalancerRequest;
@@ -45,11 +36,8 @@ import com.amazonaws.services.elasticloadbalancing.model.LBCookieStickinessPolic
 import com.amazonaws.services.elasticloadbalancing.model.Listener;
 import com.amazonaws.services.elasticloadbalancing.model.LoadBalancerDescription;
 import com.amazonaws.services.elasticloadbalancing.model.LoadBalancerNotFoundException;
-import com.amazonaws.services.elasticloadbalancing.model.RegisterInstancesWithLoadBalancerRequest;
 import com.amazonaws.services.elasticloadbalancing.model.SetLoadBalancerPoliciesOfListenerRequest;
 import com.amazonaws.services.rds.AmazonRDS;
-import com.amazonaws.services.rds.AmazonRDSClient;
-import com.amazonaws.services.rds.model.CreateDBInstanceRequest;
 import com.amazonaws.services.rds.model.DBInstance;
 import com.amazonaws.services.rds.model.DBInstanceNotFoundException;
 import com.amazonaws.services.rds.model.DeleteDBInstanceRequest;
@@ -247,8 +235,9 @@ public abstract class AmazonAwsPetclinicInfrastructureMakerAbstract {
 
         Listener expectedListener = new Listener("HTTP", 80, 8080);
 
-        //XXX : Problem with avaibility zones : -1a has been replaced by -1d ?!? : How get all AZ?
-        List<String> expectedAvailabilityZones = Lists.newArrayList("us-east-1d", "us-east-1b", "us-east-1c");
+        //XXX : Problem with avaibility zones : -1a has been replaced by -1d ?!? : How get all corrects AZ?
+        //List<String> expectedAvailabilityZonesUS = Lists.newArrayList("us-east-1d", "us-east-1b", "us-east-1c");
+        List<String> expectedAvailabilityZones = Lists.newArrayList("eu-west-1a", "eu-west-1b", "eu-west-1c");
         
         createLoadBalancerWithListeners(loadBalancerName, expectedListener, expectedAvailabilityZones);
 
