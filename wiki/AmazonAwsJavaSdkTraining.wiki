@@ -13,25 +13,25 @@ The goal of this lab is to code with Amazon AWS SDK for Java the deployment of t
 = Project Installation =
 
  * Checkout https://xebia-france.googlecode.com/svn/training/java-infra-as-code-with-amzn-aws/trunk/
- * The goal is to create methods in the java file : /java-infra-as-code-with-amzn-aws/src/main/java/fr/xebia/demo/amazon/aws/AmazonAwsPetclinicInfrastructureMaker.java
- * You can use the test file to run methods : /java-infra-as-code-with-amzn-aws/src/test/java/fr/xebia/demo/amazon/aws/AmazonAwsPetclinicInfrastructureMakerTest.java
+ * The goal is to create methods in the java file : /java-infra-as-code-with-amzn-aws/src/main/java/fr/xebia/demo/amazon/aws/!AmazonAwsPetclinicInfrastructureMaker.java
+ * You can use the test file to run methods : /java-infra-as-code-with-amzn-aws/src/test/java/fr/xebia/demo/amazon/aws/!AmazonAwsPetclinicInfrastructureMakerTest.java
  
- * Answers are in the java file : /java-infra-as-code-with-amzn-aws/src/main/java/fr/xebia/demo/amazon/aws/AmazonAwsPetclinicInfrastructureMakerAnswer.java
+ * Answers are in the java file : /java-infra-as-code-with-amzn-aws/src/main/java/fr/xebia/demo/amazon/aws/!AmazonAwsPetclinicInfrastructureMakerAnswer.java
  
 
 = Get !AwsCredentials from properties file =
 
  {{{
- InputStream credentialsAsStream = Thread.currentThread().getContextClassLoader()
-                    .getResourceAsStream("AwsCredentials.properties");
- AWSCredentials credentials = new PropertiesCredentials(credentialsAsStream);
+    InputStream credentialsAsStream = Thread.currentThread().getContextClassLoader()
+                     .getResourceAsStream("AwsCredentials.properties");
+    AWSCredentials credentials = new PropertiesCredentials(credentialsAsStream);
  }}} 
  
  !AwsCredentials.properties file looks like this :
  {{{
-#Insert your AWS Credentials from http://aws.amazon.com/security-credentials
-accessKey=change me
-secretKey=change me
+   #Insert your AWS Credentials from http://aws.amazon.com/security-credentials
+   accessKey=change me
+   secretKey=change me
  }}}
 
 = Create Database instance =
@@ -41,9 +41,9 @@ secretKey=change me
  Use the West Europe End Point.
  
  {{{
- private AmazonRDS rds;
- rds = new AmazonRDSClient(credentials);
- rds.setEndpoint("rds.eu-west-1.amazonaws.com");
+    private AmazonRDS rds;
+    rds = new AmazonRDSClient(credentials);
+    rds.setEndpoint("rds.eu-west-1.amazonaws.com");
  }}}
  
  == Create DB Instance and wait for availability ==
@@ -74,20 +74,20 @@ secretKey=change me
 
  Use the EU-WEST-1 endpoint.
  {{{
-AmazonEC2 ec2 = new AmazonEC2Client(credentials);
- ec2.setEndpoint("ec2.eu-west-1.amazonaws.com");
+    AmazonEC2 ec2 = new AmazonEC2Client(credentials);
+    ec2.setEndpoint("ec2.eu-west-1.amazonaws.com");
  }}}
  
  == Create EC2 Instances ==
  Params :
  {{{
-  ImageId : ami-47cefa33
-  MinCount : 2
-  MaxCount : 2
-  SecurityGroups : tomcat
-  KeyName : xebia-france
-  InstanceType : T1_MICRO
-  UserData : buildCloudInitUserData Method
+    ImageId : ami-47cefa33
+    MinCount : 2
+    MaxCount : 2
+    SecurityGroups : tomcat
+    KeyName : xebia-france
+    InstanceType : T1_MICRO
+    UserData : use buildCloudInitUserData Method
  }}}
  
  {{{
@@ -102,8 +102,8 @@ AmazonEC2 ec2 = new AmazonEC2Client(credentials);
  
 Use the EU-WEST-1 endpoint.
  {{{
-AmazonElasticLoadBalancing elb = new AmazonElasticLoadBalancingClient(credentials);
- elb.setEndpoint("elasticloadbalancing.eu-west-1.amazonaws.com");
+    AmazonElasticLoadBalancing elb = new AmazonElasticLoadBalancingClient(credentials);
+    elb.setEndpoint("elasticloadbalancing.eu-west-1.amazonaws.com");
  }}}
  
  == Create an Elastic Load Balancer ==
@@ -116,72 +116,27 @@ AmazonElasticLoadBalancing elb = new AmazonElasticLoadBalancingClient(credential
  }}}
  
  {{{
-
-        CreateLoadBalancerRequest createLoadBalancerRequest = new CreateLoadBalancerRequest() //
+    CreateLoadBalancerRequest createLoadBalancerRequest = new CreateLoadBalancerRequest() //
                 .with...();
-        elb.createLoadBalancer(createLoadBalancerRequest);
-        
-        // AVAILABILITY ZONES (simplify, enable everything)
-        EnableAvailabilityZonesForLoadBalancerRequest enableAvailabilityZonesForLoadBalancerRequest = new EnableAvailabilityZonesForLoadBalancerRequest( //
-                loadBalancerName, Lists.newArrayList("eu-west-1a", "eu-west-1b", "eu-west-1c"));
-        elb.enableAvailabilityZonesForLoadBalancer(enableAvailabilityZonesForLoadBalancerRequest);
-        
-        // HEALTH CHECK
-        String healthCheckUri = "/petclinic/healthcheck.jsp";
-        ...
-        
-        // COOKIE STICKINESS
-        final LBCookieStickinessPolicy expectedLbCookieStickinessPolicy = new LBCookieStickinessPolicy( //
-                "petclinic" + "-stickiness-policy", null);
-        ...
-        
-        // POLICY
-        ...
-        
-        // EC2 INSTANCES
-        List<com.amazonaws.services.elasticloadbalancing.model.Instance> elbInstances = //
-                                                    new ArrayList<com.amazonaws.services.elasticloadbalancing.model.Instance>();
-        elbInstances.add(new com.amazonaws.services.elasticloadbalancing.model.Instance(ec2Instances.get(0).getInstanceId()));
-        elbInstances.add(new com.amazonaws.services.elasticloadbalancing.model.Instance(ec2Instances.get(1).getInstanceId()));
-
-        RegisterInstancesWithLoadBalancerRequest registerInstancesWithLoadBalancerRequest = new RegisterInstancesWithLoadBalancerRequest( //
-                loadBalancerName, //
-                elbInstances);
-        elb.registerInstancesWithLoadBalancer(registerInstancesWithLoadBalancerRequest);
+    elb.createLoadBalancer(createLoadBalancerRequest);
  }}}
  
- == Configure !HealthCheck ==
+ == Configure !Ec2Instances ==
  Params :
  {{{
-   Target : HTTP:8080/petclinic/healthcheck.jsp
-   HealthyThreshold : 2
-   UnhealthyThreshold : 2
-   Interval : 30
-   Timeout : 2
+  LoadBalancerName : elb + trigram
+  Instances : Add two ec2 Instances
  }}}
  
  {{{
-    HealthCheck expectedHealthCheck = new HealthCheck() //
-                .with...();
-    elb.configureHealthCheck(new ConfigureHealthCheckRequest(loadBalancerName, expectedHealthCheck));
- }}}
- 
- == Cookie Stickiness ==
- {{{
-        CreateLBCookieStickinessPolicyRequest createLbCookieStickinessPolicy = new CreateLBCookieStickinessPolicyRequest() //
-                .withLoadBalancerName(loadBalancerName) //
-                .withPolicyName(expectedLbCookieStickinessPolicy.getPolicyName()) //
-                .withCookieExpirationPeriod(expectedLbCookieStickinessPolicy.getCookieExpirationPeriod());
-        elb.createLBCookieStickinessPolicy(createLbCookieStickinessPolicy);
- }}}
- 
- == Load Balancer Policy ==
- {{{
-       SetLoadBalancerPoliciesOfListenerRequest setLoadBalancerPoliciesOfListenerRequest = new SetLoadBalancerPoliciesOfListenerRequest() //
-                .withLoadBalancerName(loadBalancerName) //
-                .withLoadBalancerPort(expectedListener.getLoadBalancerPort()) //
-                .withPolicyNames(expectedLbCookieStickinessPolicy.getPolicyName());
-        elb.setLoadBalancerPoliciesOfListener(setLoadBalancerPoliciesOfListenerRequest);
+    List<com.amazonaws.services.elasticloadbalancing.model.Instance> instances = new ArrayList<com.amazonaws.services.elasticloadbalancing.model.Instance>();
+    instances.add(...);
+    instances.add(...);
+        
+    RegisterInstancesWithLoadBalancerRequest registerInstancesWithLoadBalancerRequest = new RegisterInstancesWithLoadBalancerRequest( //
+                loadBalancerName, //
+                instances);
+        elb.registerInstancesWithLoadBalancer(registerInstancesWithLoadBalancerRequest);
  }}}
  
  
