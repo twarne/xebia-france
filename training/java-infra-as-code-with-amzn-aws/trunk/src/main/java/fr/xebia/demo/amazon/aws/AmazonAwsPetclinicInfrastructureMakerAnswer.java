@@ -124,13 +124,13 @@ public class AmazonAwsPetclinicInfrastructureMakerAnswer extends AmazonAwsPetcli
 
     @Override
     void configureEC2InstancesForElasticLoadBalancer(String loadBalancerName, List<Instance> ec2Instances) {
-        List<com.amazonaws.services.elasticloadbalancing.model.Instance> elbInstances = new ArrayList<com.amazonaws.services.elasticloadbalancing.model.Instance>();
-        elbInstances.add(new com.amazonaws.services.elasticloadbalancing.model.Instance(ec2Instances.get(0).getInstanceId()));
-        elbInstances.add(new com.amazonaws.services.elasticloadbalancing.model.Instance(ec2Instances.get(1).getInstanceId()));
+        List<com.amazonaws.services.elasticloadbalancing.model.Instance> instances = new ArrayList<com.amazonaws.services.elasticloadbalancing.model.Instance>();
+        instances.add(new com.amazonaws.services.elasticloadbalancing.model.Instance(ec2Instances.get(0).getInstanceId()));
+        instances.add(new com.amazonaws.services.elasticloadbalancing.model.Instance(ec2Instances.get(1).getInstanceId()));
 
         RegisterInstancesWithLoadBalancerRequest registerInstancesWithLoadBalancerRequest = new RegisterInstancesWithLoadBalancerRequest( //
                 loadBalancerName, //
-                elbInstances);
+                instances);
         elb.registerInstancesWithLoadBalancer(registerInstancesWithLoadBalancerRequest);
     }
 
