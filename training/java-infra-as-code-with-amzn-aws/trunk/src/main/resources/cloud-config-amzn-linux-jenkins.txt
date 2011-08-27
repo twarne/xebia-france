@@ -1,17 +1,22 @@
 #cloud-config
 
-timezone: Europe/Paris
+repo_additions:
+ - source: jenkins
+   filename: jenkins.repo
+   name: Jenkins
+   baseurl: http://pkg.jenkins-ci.org/redhat/
+   key: http://pkg.jenkins-ci.org/redhat/jenkins-ci.org.key
+   enabled: 1
 
 packages:
 - yum-utils
 - java-1.6.0-openjdk
+- jenkins
 
 runcmd:
  - [ sh, -xc, "echo $(date) ': cloudinit runcmd begin'" ]
- - [wget, -O, /etc/yum.repos.d/jenkins.repo, "http://pkg.jenkins-ci.org/redhat/jenkins.repo"]
- - [rpm, --import, "http://pkg.jenkins-ci.org/redhat/jenkins-ci.org.key"]
- - [yum, -y, install, jenkins]
  - [chkconfig, jenkins, on]
- - [service, jenkins, restart ]
+ - [service, jenkins, start ]
  - [usermod, -a, -G, jenkins, ec2-user]
  - [ sh, -xc, "echo $(date) ': cloudinit runcmd end'" ]
+ 
