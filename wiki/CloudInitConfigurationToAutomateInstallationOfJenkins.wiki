@@ -7,9 +7,12 @@ In the following example, Jenkins is set up in an node using a Cloud Config file
 
 = Details =
 
+In this example, Jenkins is dowloaded from the URL declared in repo_additions. Once its key imported, the package is set up. The run commands section offers a way to execute a list of commands in order. In this case, we use it to start the service. Commands must be written in a valid yaml syntax.
+
 <code>
-#cloud-config
 {{{
+#cloud-config
+
 repo_additions:
  - source: jenkins
    filename: jenkins.repo
@@ -25,7 +28,6 @@ runcmd:
  - [ sh, -xc, "echo $(date) ': cloudinit runcmd begin'" ]
  - [chkconfig, jenkins, on]
  - [service, jenkins, start ]
- - [usermod, -a, -G, jenkins, ec2-user]
  - [ sh, -xc, "echo $(date) ': cloudinit runcmd end'" ]
 }}}
 </code>
