@@ -2,8 +2,30 @@
 
 = Introduction =
 
-TODO
+Jenkins can easily be installed in Amazon EC2 with Cloud Init.
+In the following example, Jenkins is set up in an node using a Cloud Config file, one of the possible ways to do something in the first boot of a launched instance.
 
 = Details =
 
-TODO
+<code>
+#cloud-config
+{{{
+repo_additions:
+ - source: jenkins
+   filename: jenkins.repo
+   name: Jenkins
+   baseurl: http://pkg.jenkins-ci.org/redhat/
+   key: http://pkg.jenkins-ci.org/redhat/jenkins-ci.org.key
+   enabled: 1
+
+packages:
+- jenkins
+
+runcmd:
+ - [ sh, -xc, "echo $(date) ': cloudinit runcmd begin'" ]
+ - [chkconfig, jenkins, on]
+ - [service, jenkins, start ]
+ - [usermod, -a, -G, jenkins, ec2-user]
+ - [ sh, -xc, "echo $(date) ': cloudinit runcmd end'" ]
+}}}
+</code>
