@@ -8,17 +8,15 @@
 
 = Install =
 
-== Linux / MacOS X ==
+Please refer to the emails "[Xebia Amazon AWS Workshop] Credentials" and "[Xebia Amazon AWS Workshop] Tools installation procedure" that were sent to you.
 
 === Download ===
 
- * [https://s3-eu-west-1.amazonaws.com/java-infra-as-code-on-amzn-ec2-1/aws-tools.tar.gz aws-tools.tar.gz]: all in one Amazon AWS API Command Lines (ec2 + rds + elb),
- * [https://s3-eu-west-1.amazonaws.com/java-infra-as-code-on-amzn-ec2-1/aws-keys.tar.gz aws-keys.tar.gz]: Amazon AWS API Credentials (access key + signing certificate)
+ * EC2 api tools: download [http://s3.amazonaws.com/ec2-downloads/ec2-api-tools.zip ec2-api-tools.zip] and unzip it under "{{{~/aws-tools/ec2}}}" ("{{{c:\aws-tools\ec2}}}" on Windows),
+ * RDS command line tools: download [http://s3.amazonaws.com/rds-downloads/RDSCli.zip RDSCli.zip] and unzip it under "{{{~/aws-tools/rds}}}" ("{{{c:\aws-tools\rds}}}" on Windows),
+ * ElasticLoadBalancing tools: download [http://ec2-downloads.s3.amazonaws.com/ElasticLoadBalancing.zip ElasticLoadBalancing.zip] and unzip it under "{{{~/aws-tools/rds}}}" ("{{{c:\aws-tools\elb}}}" on Windows),
 
-<br/>
-extract them into your home folder.
-<br/>
-=== Configure ===
+=== Configure on Linux / MacOS X ===
 
  * Sample extract from {{{.profile}}}
 {{{
@@ -41,19 +39,10 @@ export JAVA_HOME=/PATH/VERS/JAVA/HOME
 # MacOS X
 # export JAVA_HOME=/System/Library/Frameworks/JavaVM.framework/Home/
 }}}
+
  * check that your clock is well synchronized : you might get timestamp error otherwise when using the command lines.
 
-== Windows ==
-
-=== Download ===
- 
- * [https://s3-eu-west-1.amazonaws.com/java-infra-as-code-on-amzn-ec2-1/aws-tools.zip aws-tools.zip]: all in one Amazon AWS API Command Lines (ec2 + rds + elb),
- * [https://s3-eu-west-1.amazonaws.com/java-infra-as-code-on-amzn-ec2-1/aws-keys.zip aws-keys.zip]: Amazon AWS API Credentials (access key + signing certificate)
-
-<br/>
-extract them into your c: drive.
-<br/>
-=== Configure ===
+=== Configure on Windows ===
 
  * Create the followings environment variables:
 {{{
