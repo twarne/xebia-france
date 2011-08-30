@@ -66,8 +66,7 @@ Use the EU-WEST-1 endpoint.
     rds.setEndpoint("rds.eu-west-1.amazonaws.com");
 }}}
  
- == Create DB Instance and wait for availability ==
- === Create DB Instance ===
+ == Create DB Instance ==
  Params :
 <font size="1">
 <pre>
