@@ -8,7 +8,7 @@
 
 = Install =
 
-Please refer to the emails "[Xebia Amazon AWS !Workshop] Credentials" and "[Xebia Amazon AWS !Workshop] Tools installation procedure" that were sent to you.
+Please refer to the emails "Xebia Amazon AWS Workshop Credentials" and "Xebia Amazon AWS Workshop Tools installation procedure" that were sent to you.
 
 === Download ===
 
