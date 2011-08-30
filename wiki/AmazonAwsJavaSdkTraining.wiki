@@ -36,19 +36,19 @@ The goal of this lab is to code with Amazon AWS SDK for Java the deployment of t
 
 == Get !AwsCredentials from properties file ==
 
- {{{
+{{{
     InputStream credentialsAsStream = Thread.currentThread().getContextClassLoader()
                      .getResourceAsStream("AwsCredentials.properties");
     AWSCredentials credentials = new PropertiesCredentials(credentialsAsStream);
- }}} 
+}}} 
  
  !AwsCredentials.properties file looks like this :
 
- {{{
-   #Insert your AWS Credentials from http://aws.amazon.com/security-credentials
-   accessKey=change me
-   secretKey=change me
- }}}
+{{{
+#Insert your AWS Credentials from http://aws.amazon.com/security-credentials
+accessKey=change me
+secretKey=change me
+}}}
 
 <br/>
 ----
@@ -60,33 +60,34 @@ The goal of this lab is to code with Amazon AWS SDK for Java the deployment of t
  == Use RDS Client ==
 Use the EU-WEST-1 endpoint.
  
- {{{
+{{{
     private AmazonRDS rds;
     rds = new AmazonRDSClient(credentials);
     rds.setEndpoint("rds.eu-west-1.amazonaws.com");
- }}}
+}}}
  
  == Create DB Instance and wait for availability ==
  === Create DB Instance ===
  Params :
-
- {{{
+<font size="1">
+<pre>
     DBInstanceIdentifier: petclinic-xeb
     DBName: petclinic
     DBInstanceClass : db.m1.small
     Engine : MySQL
-    MasterUsername : petclinic
-    MasterUserPassword : petclinic
+    !MasterUsername : petclinic
+    !MasterUserPassword : petclinic
     DBSecurityGroups : default
-    AllocatedStorage : 5 (Go)
-    BackupRetentionPeriod : 0
- }}}
+    !AllocatedStorage : 5 (Go)
+    !BackupRetentionPeriod : 0
+</pre>
+</font>
  
- {{{
+{{{
     CreateDBInstanceRequest dbInstanceRequest = new CreateDBInstanceRequest() //
                                                     .with...
     DBInstance createDBInstance = rds.createDBInstance(dbInstanceRequest);
- }}}
+}}}
 
 <br/>
 ----
@@ -98,29 +99,30 @@ Use the EU-WEST-1 endpoint.
 
  Use the EU-WEST-1 endpoint.
 
- {{{
+{{{
     AmazonEC2 ec2 = new AmazonEC2Client(credentials);
     ec2.setEndpoint("ec2.eu-west-1.amazonaws.com");
- }}}
+}}}
  
  == Create EC2 Instances ==
  Params :
-
- {{{
-    ImageId : ami-47cefa33
-    MinCount : 2
-    MaxCount : 2
-    SecurityGroups : tomcat
-    KeyName : xebia-france
-    InstanceType : T1_MICRO
-    UserData : use buildCloudInitUserData Method
- }}}
+ <font size="1">
+<pre>
+    !ImageId : ami-47cefa33
+    !MinCount : 2
+    !MaxCount : 2
+    !SecurityGroups : tomcat
+    !KeyName : xebia-france
+    !InstanceType : T1_MICRO
+    !UserData : use buildCloudInitUserData Method
+</pre>
+</font>
  
- {{{
+{{{
     RunInstancesRequest runInstanceRequest = new RunInstancesRequest() //
                                                .with...();
     RunInstancesResult runInstances = ec2.runInstances(runInstanceRequest);
- }}}
+}}}
 
 <br/>
 ----
@@ -132,36 +134,38 @@ Use the EU-WEST-1 endpoint.
  
 Use the EU-WEST-1 endpoint.
 
- {{{
+{{{
     AmazonElasticLoadBalancing elb = new AmazonElasticLoadBalancingClient(credentials);
     elb.setEndpoint("elasticloadbalancing.eu-west-1.amazonaws.com");
- }}}
+}}}
  
  == Create an Elastic Load Balancer ==
 
  Params :
-
- {{{
-  LoadBalancerName : elb + trigram
-  Listener : "HTTP", 80 et 8080
-  AvailabilityZones : "eu-west-1a", "eu-west-1b", "eu-west-1c"
- }}}
+<font size="1">
+<pre>
+    !LoadBalancerName : elb + trigram
+    Listener : "HTTP", 80 et 8080
+    !AvailabilityZones : "eu-west-1a", "eu-west-1b", "eu-west-1c"
+</pre>
+</font>
  
- {{{
+{{{
     CreateLoadBalancerRequest createLoadBalancerRequest = new CreateLoadBalancerRequest() //
                 .with...();
     elb.createLoadBalancer(createLoadBalancerRequest);
- }}}
+}}}
  
  == Configure !Ec2Instances ==
  Params :
-
- {{{
-  LoadBalancerName : elb + trigram
-  Instances : Add two ec2 Instances
- }}}
+<font size="1">
+<pre>
+    !LoadBalancerName : elb + trigram
+    Instances : Add two ec2 Instances
+</pre>
+</font>
  
- {{{
+{{{
     List<com.amazonaws.services.elasticloadbalancing.model.Instance> instances = new ArrayList<com.amazonaws.services.elasticloadbalancing.model.Instance>();
     instances.add(...);
     instances.add(...);
@@ -170,6 +174,4 @@ Use the EU-WEST-1 endpoint.
                 loadBalancerName, //
                 instances);
         elb.registerInstancesWithLoadBalancer(registerInstancesWithLoadBalancerRequest);
- }}}
- 
- 
+}}}
