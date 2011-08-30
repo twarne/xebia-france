@@ -8,13 +8,13 @@
 
 = Install =
 
-Please refer to the emails "[Xebia Amazon AWS Workshop] Credentials" and "[Xebia Amazon AWS Workshop] Tools installation procedure" that were sent to you.
+Please refer to the emails "[Xebia Amazon AWS !Workshop] Credentials" and "[Xebia Amazon AWS !Workshop] Tools installation procedure" that were sent to you.
 
 === Download ===
 
  * EC2 api tools: download [http://s3.amazonaws.com/ec2-downloads/ec2-api-tools.zip ec2-api-tools.zip] and unzip it under "{{{~/aws-tools/ec2}}}" ("{{{c:\aws-tools\ec2}}}" on Windows),
  * RDS command line tools: download [http://s3.amazonaws.com/rds-downloads/RDSCli.zip RDSCli.zip] and unzip it under "{{{~/aws-tools/rds}}}" ("{{{c:\aws-tools\rds}}}" on Windows),
- * ElasticLoadBalancing tools: download [http://ec2-downloads.s3.amazonaws.com/ElasticLoadBalancing.zip ElasticLoadBalancing.zip] and unzip it under "{{{~/aws-tools/rds}}}" ("{{{c:\aws-tools\elb}}}" on Windows),
+ * !ElasticLoadBalancing tools: download [http://ec2-downloads.s3.amazonaws.com/ElasticLoadBalancing.zip ElasticLoadBalancing.zip] and unzip it under "{{{~/aws-tools/rds}}}" ("{{{c:\aws-tools\elb}}}" on Windows),
 
 === Configure on Linux / MacOS X ===
 
