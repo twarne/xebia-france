@@ -5,7 +5,7 @@
 
  * Workshop intro slides
  
- * CloudInit intro slides
+ * !CloudInit intro slides
 
  * Workshop home page
   ** http://code.google.com/p/xebia-france/wiki/JavaInfrastructureAsCodeWithAmazonAwsWorkshop
