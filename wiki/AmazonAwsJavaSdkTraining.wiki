@@ -58,7 +58,7 @@ The goal of this lab is to code with Amazon AWS SDK for Java the deployment of t
  Amazon AWS propose Relational Database Service (RDS) to create ready to use database
 
  == Use RDS Client ==
- Use the West Europe End Point.
+Use the EU-WEST-1 endpoint.
  
  {{{
     private AmazonRDS rds;
