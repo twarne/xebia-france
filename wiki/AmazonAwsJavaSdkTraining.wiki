@@ -23,11 +23,14 @@ The goal of this lab is to code with Amazon AWS SDK for Java the deployment of t
 
  * Checkout https://xebia-france.googlecode.com/svn/training/java-infra-as-code-with-amzn-aws/trunk/
 
- * The goal is to create methods in the java file : /java-infra-as-code-with-amzn-aws/src/main/java/fr/xebia/demo/amazon/aws/!AmazonAwsPetclinicInfrastructureMaker.java
+ * The goal is to create methods in the java file
+  * <font size="2"><pre>/java-infra-as-code-with-amzn-aws/src/main/java/fr/xebia/demo/amazon/aws/!AmazonAwsPetclinicInfrastructureMaker.java</pre></font>
 
- * You can use the test file to run methods : /java-infra-as-code-with-amzn-aws/src/test/java/fr/xebia/demo/amazon/aws/!AmazonAwsPetclinicInfrastructureMakerTest.java
+ * You can use the test file to run methods
+  * <font size="2"><pre>/java-infra-as-code-with-amzn-aws/src/test/java/fr/xebia/demo/amazon/aws/!AmazonAwsPetclinicInfrastructureMakerTest.java</pre></font>
  
- * Answers are in the java file : /java-infra-as-code-with-amzn-aws/src/main/java/fr/xebia/demo/amazon/aws/!AmazonAwsPetclinicInfrastructureMakerAnswer.java
+ * Answers are in the java file
+  * <font size="2"><pre>/java-infra-as-code-with-amzn-aws/src/main/java/fr/xebia/demo/amazon/aws/!AmazonAwsPetclinicInfrastructureMakerAnswer.java</pre></font>
  
 <br/>
 
