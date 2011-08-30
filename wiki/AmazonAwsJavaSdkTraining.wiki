@@ -43,6 +43,7 @@ The goal of this lab is to code with Amazon AWS SDK for Java the deployment of t
  }}} 
  
  !AwsCredentials.properties file looks like this :
+
  {{{
    #Insert your AWS Credentials from http://aws.amazon.com/security-credentials
    accessKey=change me
@@ -68,6 +69,7 @@ The goal of this lab is to code with Amazon AWS SDK for Java the deployment of t
  == Create DB Instance and wait for availability ==
  === Create DB Instance ===
  Params :
+
  {{{
     DBInstanceIdentifier: petclinic-xeb
     DBName: petclinic
@@ -95,6 +97,7 @@ The goal of this lab is to code with Amazon AWS SDK for Java the deployment of t
  == Use `AmazonEC2Client` ==
 
  Use the EU-WEST-1 endpoint.
+
  {{{
     AmazonEC2 ec2 = new AmazonEC2Client(credentials);
     ec2.setEndpoint("ec2.eu-west-1.amazonaws.com");
@@ -102,6 +105,7 @@ The goal of this lab is to code with Amazon AWS SDK for Java the deployment of t
  
  == Create EC2 Instances ==
  Params :
+
  {{{
     ImageId : ami-47cefa33
     MinCount : 2
@@ -127,6 +131,7 @@ The goal of this lab is to code with Amazon AWS SDK for Java the deployment of t
  == Use `AmazonElasticLoadBalancingClient` ==
  
 Use the EU-WEST-1 endpoint.
+
  {{{
     AmazonElasticLoadBalancing elb = new AmazonElasticLoadBalancingClient(credentials);
     elb.setEndpoint("elasticloadbalancing.eu-west-1.amazonaws.com");
@@ -135,6 +140,7 @@ Use the EU-WEST-1 endpoint.
  == Create an Elastic Load Balancer ==
 
  Params :
+
  {{{
   LoadBalancerName : elb + trigram
   Listener : "HTTP", 80 et 8080
@@ -149,6 +155,7 @@ Use the EU-WEST-1 endpoint.
  
  == Configure !Ec2Instances ==
  Params :
+
  {{{
   LoadBalancerName : elb + trigram
   Instances : Add two ec2 Instances
