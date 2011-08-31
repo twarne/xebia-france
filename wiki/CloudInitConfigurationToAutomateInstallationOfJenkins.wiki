@@ -1,13 +1,19 @@
-#summary One-sentence summary of this page.
+#summary CloudInit / cloud-config script to automate creation of Jenkins instance on Amazon EC2 and cloud environments
 
 = Introduction =
 
-Jenkins can easily be installed in Amazon EC2 with Cloud Init.
-In the following example, Jenkins is set up in an node using a Cloud Config file, one of the possible ways to do something in the first boot of a launched instance.
+Jenkins can easily be installed in Amazon EC2 with [https://help.ubuntu.com/community/CloudInit Cloud Init].
+In the following example, Jenkins is set up in an [http://aws.amazon.com/amazon-linux-ami/ Amazon Linux instance] using a Cloud Config file, one of the possible ways to do something during the first boot of a launched instance.
 
 = Details =
 
-In this example, Jenkins is dowloaded from the URL declared in repo_additions. Once its key imported, the package is set up. The run commands section offers a way to execute a list of commands in order. In this case, we use it to start the service. Commands must be written in a valid yaml syntax.
+In this example:
+ * Jenkins repo is added to the list of yum repos of the server ({{{repo_additions}}} block),
+ * {{{jenkins}}} package is installed ({{{packages}}} block),
+ * {{{jenkins}}} is started ({{{runcmd}}} block),
+ * user {{{ec2-user}}} is added to the {{{jenkins}}} group({{{runcmd}}} block).
+
+Note that the {{{runcmd}}} commands must be written in a valid yaml syntax.
 
 <code>
 {{{
@@ -27,16 +33,17 @@ packages:
 runcmd:
  - [ sh, -xc, "echo $(date) ': cloudinit runcmd begin'" ]
  - [service, jenkins, start ]
+ - [usermod, -a, -G, jenkins, ec2-user]
  - [ sh, -xc, "echo $(date) ': cloudinit runcmd end'" ]
 }}}
 </code>
 
-= Debug =
+= Troubleshooting =
 
 Some tips that will help you debuggin your cloud init file :
--You can check cloud init logs in /var/log/cloud-init.log.
--In order to launch cloud-init without having to create a new instance, you can just erase the semaphores existing in /var/lib/cloud/sem/ and run cloud-init with the your new config :
+ * You can check cloud init logs in {{{/var/log/cloud-init.log}}} and {{{/var/log/messages}}}.
+ * In order to launch cloud-init without having to create a new instance, you can just erase the semaphores existing in {{{/var/lib/cloud/sem/}}} and run cloud-init with the your new config :
 {{{
- * [ec2-user@ip-10-234-133-197 sem]$ sudo rm *
+ * [ec2-user@ip-10-234-133-197 sem]$ sudo rm /var/lib/cloud/sem/*
  * [ec2-user@ip-10-234-133-197 log]$ sudo /etc/init.d/cloud-init start
 }}} 
