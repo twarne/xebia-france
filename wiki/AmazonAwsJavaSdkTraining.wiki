@@ -123,7 +123,7 @@ Use the EU-WEST-1 endpoint.
     RunInstancesResult runInstances = ec2.runInstances(runInstanceRequest);
 }}}
 <pre>
-You need to get Reservation object on RunInstancesResult and after you can return getInstances().
+You need to get Reservation object on !RunInstancesResult and after you can return getInstances().
 </pre>
 
 <br/>
