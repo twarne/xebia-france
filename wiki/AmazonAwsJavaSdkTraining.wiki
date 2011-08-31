@@ -164,7 +164,7 @@ Use the EU-WEST-1 endpoint.
 <pre>
     !LoadBalancerName : elb + trigram
     Instances : Add two ec2 Instances 
-    (Be careful, add EC2 instances of com.amazonaws.services.elasticloadbalancing.model.Instance class 
+   (Be careful, add EC2 instances of com.amazonaws.services.elasticloadbalancing.model.Instance class 
 and not com.amazonaws.services.ec2.model.Instance class)
 </pre>
 </font>
