@@ -123,7 +123,7 @@ Use the EU-WEST-1 endpoint.
     RunInstancesResult runInstances = ec2.runInstances(runInstanceRequest);
 }}}
 <pre>
-You need to get Reservation object on !RunInstancesResult and after you can return getInstances().
+You need to get Reservation object on !RunInstancesResult before returning instances.
 </pre>
 
 <br/>
@@ -163,7 +163,9 @@ Use the EU-WEST-1 endpoint.
 <font size="1">
 <pre>
     !LoadBalancerName : elb + trigram
-    Instances : Add two ec2 Instances (Be careful, the ec2 instances to add are instances of com.amazonaws.services.elasticloadbalancing.model.Instance and not com.amazonaws.services.ec2.model.Instance)
+    Instances : Add two ec2 Instances 
+    (Be careful, add EC2 instances of com.amazonaws.services.elasticloadbalancing.model.Instance class 
+and not com.amazonaws.services.ec2.model.Instance class)
 </pre>
 </font>
  
