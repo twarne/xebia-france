@@ -44,6 +44,8 @@ Some tips that will help you debuggin your cloud init file :
  * You can check cloud init logs in {{{/var/log/cloud-init.log}}} and {{{/var/log/messages}}}.
  * In order to launch cloud-init without having to create a new instance, you can just erase the semaphores existing in {{{/var/lib/cloud/sem/}}} and run cloud-init with the your new config :
 {{{
- * [ec2-user@ip-10-234-133-197 sem]$ sudo rm /var/lib/cloud/sem/*
- * [ec2-user@ip-10-234-133-197 log]$ sudo /etc/init.d/cloud-init start
+[ec2-user@ip-10-234-133-197 sem]$ sudo rm /var/lib/cloud/sem/*
+[ec2-user@ip-10-234-133-197 log]$ sudo /etc/init.d/cloud-init start
 }}} 
+
+More details on [https://forums.aws.amazon.com/thread.jspa?messageID=232183 Forum: Amazon Elastic Compute Cloud >Thread: How to debug CloudInit issues?]
