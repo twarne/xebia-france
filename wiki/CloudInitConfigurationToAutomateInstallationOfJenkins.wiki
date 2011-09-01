@@ -36,6 +36,12 @@ Details:
 
 Note that the {{{runcmd}}} commands must be written in a valid yaml syntax.
 
+[https://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-create-instance-jenkins-GUI.png]
+
+[https://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-create-instance-jenkins-aws-tools.png]
+
+
+
 = Troubleshooting CloudInit =
 
 Some tips that will help you debugging your cloud init script :
