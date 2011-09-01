@@ -45,7 +45,7 @@ You will find below two different ways of launching a node with the new configur
 [https://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-create-instance-jenkins-GUI.png]
 
 
-The second, how to do it through the command line making use of the [http://aws.amazon.com/developertools/351 aws-tool API].
+You can also do it through the command line making use of the [http://aws.amazon.com/developertools/351 aws-tool API].
 
 
 
