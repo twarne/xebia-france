@@ -36,7 +36,19 @@ Details:
 
 Note that the {{{runcmd}}} commands must be written in a valid yaml syntax.
 
+= Launching the new instance =
+
+You will find below two different ways of launching a node with the new configuration. The first one shows how to do it through the GUI Console of Amazon WS.
+
+
+ 
 [https://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-create-instance-jenkins-GUI.png]
+
+
+The second, how to it through the command line making use of the [http://aws.amazon.com/developertools/351 aws-tool API].
+
+
+
 {{{$ ec2-run-instances ami-45cefa31 -n 1 -g accept-all -k xebia-france --instance-type t1.micro -f cloud-config-amzn-linux-jenkins.txt}}}
 
 
