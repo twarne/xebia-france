@@ -37,9 +37,7 @@ Details:
 Note that the {{{runcmd}}} commands must be written in a valid yaml syntax.
 
 [https://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-create-instance-jenkins-GUI.png]
-
-[https://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-create-instance-jenkins-aws-tools.png]
-
+{{{ ec2-run-instances ami-45cefa31 -n 1 -g accept-all -k xebia-france --instance-type t1.micro -f cloud-config-amzn-linux-jenkins.txt}}}
 
 
 = Troubleshooting CloudInit =
