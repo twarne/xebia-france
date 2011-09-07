@@ -19,6 +19,7 @@ import org.jclouds.logging.slf4j.config.SLF4JLoggingModule;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.services.ec2.model.Instance;
+import com.amazonaws.services.ec2.model.InstanceState;
 import com.amazonaws.services.ec2.model.InstanceStateName;
 import com.amazonaws.services.rds.model.DBInstance;
 import com.google.common.base.Throwables;
@@ -53,7 +54,8 @@ public class AmazonAwsPetclinicInfrastructureJCloudsMakerAnswer
     private ComputeServiceContext createComputeServiceContext()
             throws IOException {
         final AWSCredentials credentials = getCredentials();
-        final Set<? extends Module> modules = Sets.newHashSet(new SLF4JLoggingModule());
+        final Set<? extends Module> modules = Sets
+                .newHashSet(new SLF4JLoggingModule());
         Properties overrides = new Properties();
         return new ComputeServiceContextFactory().createContext("aws-ec2",
                 credentials.getAWSAccessKeyId(), credentials.getAWSSecretKey(),
@@ -64,8 +66,7 @@ public class AmazonAwsPetclinicInfrastructureJCloudsMakerAnswer
             final DBInstance dbInstance, final String warUrl) {
         final Template template = context.getComputeService().templateBuilder()//
                 .hardwareId(InstanceType.T1_MICRO) //
-                .osFamily(OsFamily.UBUNTU)
-                .locationId("eu-west-1")//
+                .osFamily(OsFamily.UBUNTU).locationId("eu-west-1")//
                 .build();
         template.getOptions().blockUntilRunning(true);
         template.getOptions().as(EC2TemplateOptions.class).keyPair(KEY_PAIR);
@@ -81,14 +82,21 @@ public class AmazonAwsPetclinicInfrastructureJCloudsMakerAnswer
             Set<? extends NodeMetadata> nodes) {
         final List<Instance> instances = new ArrayList<Instance>(nodes.size());
         for (final NodeMetadata nodeMetadata : nodes) {
-            final Instance instance = new Instance();
-            instance.getState().setName(
-                    InstanceStateName.Pending.name().toLowerCase());
-            System.out.println("created "+nodeMetadata.getId());
-            instance.setInstanceId(nodeMetadata.getId());
+            final Instance instance = createInstanceFromMetadata(nodeMetadata);
             instances.add(instance);
+            System.out.println("created " + instance.getInstanceId() + " : "
+                    + nodeMetadata);
         }
         return instances;
+    }
+
+    private Instance createInstanceFromMetadata(final NodeMetadata nodeMetadata) {
+        final Instance instance = new Instance();
+        instance.setState(new InstanceState());
+        instance.getState().setName(
+                InstanceStateName.Pending.name().toLowerCase());
+        instance.setInstanceId(nodeMetadata.getProviderId());
+        return instance;
     }
 
 }
