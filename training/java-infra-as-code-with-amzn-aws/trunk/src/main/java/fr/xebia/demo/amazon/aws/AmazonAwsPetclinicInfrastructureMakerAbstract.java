@@ -241,6 +241,7 @@ public abstract class AmazonAwsPetclinicInfrastructureMakerAbstract {
         //XXX : Problem with avaibility zones : -1a has been replaced by -1d ?!? : How get all corrects AZ?
         //List<String> expectedAvailabilityZonesUS = Lists.newArrayList("us-east-1d", "us-east-1b", "us-east-1c");
         List<String> expectedAvailabilityZones = Lists.newArrayList("eu-west-1a", "eu-west-1b", "eu-west-1c");
+        // eu-west-1a not available...
         
         createLoadBalancerWithListeners(loadBalancerName, expectedListener, expectedAvailabilityZones);
 

@@ -56,12 +56,11 @@ import com.google.common.base.Throwables;
  * @author <a href="mailto:cyrille@cyrilleleclerc.com">Cyrille Le Clerc</a>
  */
 public class AmazonAwsPetclinicInfrastructureMakerAnswer extends AmazonAwsPetclinicInfrastructureMakerAbstract {
+    protected static final String KEY_PAIR="xebia-france";
 
     public AmazonAwsPetclinicInfrastructureMakerAnswer() {
         try {
-            InputStream credentialsAsStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("AwsCredentials.properties");
-            Preconditions.checkNotNull(credentialsAsStream, "File 'AwsCredentials.properties' NOT found in the classpath");
-            AWSCredentials credentials = new PropertiesCredentials(credentialsAsStream);
+            AWSCredentials credentials = getCredentials();
             
             rds = new AmazonRDSClient(credentials);
             rds.setEndpoint("rds.us-east-1.amazonaws.com"); // rds.eu-west-1.amazon.com
@@ -74,6 +73,13 @@ public class AmazonAwsPetclinicInfrastructureMakerAnswer extends AmazonAwsPetcli
         } catch (IOException e) {
             throw Throwables.propagate(e);
         }
+    }
+
+    protected AWSCredentials getCredentials() throws IOException {
+        InputStream credentialsAsStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("AwsCredentials.properties");
+        Preconditions.checkNotNull(credentialsAsStream, "File 'AwsCredentials.properties' NOT found in the classpath");
+        AWSCredentials credentials = new PropertiesCredentials(credentialsAsStream);
+        return credentials;
     }
 
     @Nonnull
@@ -102,7 +108,7 @@ public class AmazonAwsPetclinicInfrastructureMakerAnswer extends AmazonAwsPetcli
                 .withMinCount(2) //
                 .withMaxCount(2) //
                 .withSecurityGroups("tomcat") //
-                .withKeyName("xebia-france") //
+                .withKeyName(KEY_PAIR) //
                 .withInstanceType(InstanceType.T1Micro.toString()) //
                 .withUserData(buildCloudInitUserData(dbInstance, warUrl)) // CloudInit Deployment
         ;
