@@ -31,6 +31,7 @@ import org.bouncycastle.openssl.PEMWriter;
 import org.bouncycastle.x509.X509V1CertificateGenerator;
 import org.junit.Test;
 
+@SuppressWarnings("deprecation")
 public class CertificateFactoryTest {
 
     static {
@@ -39,7 +40,6 @@ public class CertificateFactoryTest {
     }
 
     @Test
-    @SuppressWarnings("deprecation")
     public void test2() throws Exception {
         Date startDate = new Date(System.currentTimeMillis() - 24 * 60 * 60 * 1000);
         Date expiryDate = new Date(System.currentTimeMillis() + 365 * 24 * 60 * 60 * 1000);

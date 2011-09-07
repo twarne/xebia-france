@@ -50,7 +50,6 @@ import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.amazonaws.AmazonClientException;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.PropertiesCredentials;
@@ -98,6 +97,7 @@ import com.google.common.io.Resources;
  * 
  * @author <a href="mailto:cyrille@cyrilleleclerc.com">Cyrille Le Clerc</a>
  */
+@SuppressWarnings("deprecation")
 public class AmazonAwsIamAccountCreatorV2 {
 
     static {
@@ -190,7 +190,6 @@ public class AmazonAwsIamAccountCreatorV2 {
         return keyPairGenerator.generateKeyPair();
     }
 
-    @SuppressWarnings("deprecation")
     public X509Certificate createX509Certificate(String userName, java.security.KeyPair keyPair) {
         try {
             DateTime startDate = new DateTime().minusDays(1);
