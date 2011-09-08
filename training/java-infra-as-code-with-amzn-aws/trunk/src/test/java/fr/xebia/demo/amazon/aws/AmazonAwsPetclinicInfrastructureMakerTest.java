@@ -20,23 +20,22 @@ import org.junit.Test;
 
 public class AmazonAwsPetclinicInfrastructureMakerTest {
 
+    private AmazonAwsPetclinicInfrastructureMakerAbstract maker = new AmazonAwsPetclinicInfrastructureMaker();
+
     @Test
     public void test_create_dbinstances() {
-        AmazonAwsPetclinicInfrastructureMaker maker = new AmazonAwsPetclinicInfrastructureMaker();
         Assert.assertNotNull("No DB Instance available",
                 maker.createDBInstanceAndWaitForAvailability("petclinic-xeb"));
     }
 
     @Test
     public void test_create_ec2instances_and_tag() {
-        AmazonAwsPetclinicInfrastructureMaker maker = new AmazonAwsPetclinicInfrastructureMaker();
         Assert.assertNotNull("No EC2 Instance created",
                 maker.terminateExistingAndCreateNewInstance("xeb"));
     }
 
     @Test
     public void test_create_elb() {
-        AmazonAwsPetclinicInfrastructureMaker maker = new AmazonAwsPetclinicInfrastructureMaker();
         Assert.assertNotNull("No ELB Instance created",
                 maker.createElasticLoadBalancer("xeb"));
     }
