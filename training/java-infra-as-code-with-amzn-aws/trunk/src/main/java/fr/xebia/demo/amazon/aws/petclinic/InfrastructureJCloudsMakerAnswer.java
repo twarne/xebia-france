@@ -40,7 +40,7 @@ public class InfrastructureJCloudsMakerAnswer extends InfrastructureMakerAnswer 
         try {
             context = createComputeServiceContext();
             Template template = createDefaultTemplate(context, dbInstance, warUrl);
-            LOGGER.info("Request creation of 2 Ec2 instances for group {}",getGroup());
+            LOGGER.debug("Request creation of 2 Ec2 instances for group {}",getGroup());
             Set<? extends NodeMetadata> nodes = context.getComputeService()
                     .createNodesInGroup(getGroup(), 2, template);
             return nodeMetadataAsInstances(nodes);
@@ -59,7 +59,7 @@ public class InfrastructureJCloudsMakerAnswer extends InfrastructureMakerAnswer 
 
     private ComputeServiceContext createComputeServiceContext()
             throws IOException {
-        LOGGER.info("Create JClouds compute service for AWS.");
+        LOGGER.debug("Create JClouds compute service for AWS.");
         AWSCredentials credentials = getCredentials();
         Set<? extends Module> modules = Sets.newHashSet(new SLF4JLoggingModule());
         Properties overrides = new Properties();
@@ -94,7 +94,7 @@ public class InfrastructureJCloudsMakerAnswer extends InfrastructureMakerAnswer 
         for (NodeMetadata nodeMetadata : nodes) {
             Instance instance = createInstanceFromMetadata(nodeMetadata);
             instances.add(instance);
-            LOGGER.info("JClouds created " + nodeMetadata);
+            LOGGER.debug("JClouds created " + nodeMetadata);
         }
         return instances;
     }
@@ -111,7 +111,7 @@ public class InfrastructureJCloudsMakerAnswer extends InfrastructureMakerAnswer 
         ComputeServiceContext context = null;
         try {
             context = createComputeServiceContext();
-            LOGGER.info("Request destruction of Ec2 instances for group {}",getGroup());
+            LOGGER.debug("Request destruction of Ec2 instances for group {}",getGroup());
             context.getComputeService().destroyNodesMatching(NodePredicates.inGroup(getGroup()));
         } catch (Exception e) {
             throw Throwables.propagate(e);

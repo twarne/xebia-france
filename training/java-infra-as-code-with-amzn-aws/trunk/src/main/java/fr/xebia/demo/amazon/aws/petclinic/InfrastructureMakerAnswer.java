@@ -61,7 +61,7 @@ public class InfrastructureMakerAnswer extends AbstractInfrastructureMaker {
     private static final Logger LOGGER = LoggerFactory.getLogger(InfrastructureMakerAnswer.class);
     
     public InfrastructureMakerAnswer() {
-        LOGGER.info("Create RDS, EC2 and ELB clients.");
+        LOGGER.debug("Create RDS, EC2 and ELB clients.");
 
         try {
             AWSCredentials credentials = getCredentials();
@@ -89,7 +89,7 @@ public class InfrastructureMakerAnswer extends AbstractInfrastructureMaker {
     @Nonnull
     @Override
     DBInstance createDBInstance(String dbInstanceIdentifier) {
-        LOGGER.info("Request creation of db instance {}", dbInstanceIdentifier);
+        LOGGER.debug("Request creation of db instance {}", dbInstanceIdentifier);
         CreateDBInstanceRequest dbInstanceRequest = new CreateDBInstanceRequest() //
                 .withDBInstanceIdentifier(dbInstanceIdentifier) //
                 .withDBName("petclinic") //
@@ -106,7 +106,7 @@ public class InfrastructureMakerAnswer extends AbstractInfrastructureMaker {
     @Nonnull
     @Override
     List<Instance> createTwoEC2Instances(DBInstance dbInstance, String warUrl) {
-        LOGGER.info("Request creation of 2 Ec2 instances.");
+        LOGGER.debug("Request creation of 2 Ec2 instances.");
         RunInstancesRequest runInstanceRequest = new RunInstancesRequest() //
                 .withImageId("ami-47cefa33") // eu-west : ami-47cefa33; us-east :ami-8c1fece5
                 .withMinCount(2) //
@@ -121,7 +121,7 @@ public class InfrastructureMakerAnswer extends AbstractInfrastructureMaker {
     
     @Override
     void createLoadBalancerWithListeners(String loadBalancerName, Listener expectedListener, List<String> expectedAvailabilityZones) {
-        LOGGER.info("Request creation load balancer {}.", loadBalancerName);
+        LOGGER.debug("Request creation load balancer {}.", loadBalancerName);
         CreateLoadBalancerRequest createLoadBalancerRequest = new CreateLoadBalancerRequest() //
                 .withLoadBalancerName(loadBalancerName) //
                 .withAvailabilityZones(expectedAvailabilityZones) //
@@ -135,13 +135,13 @@ public class InfrastructureMakerAnswer extends AbstractInfrastructureMaker {
         for (Instance instance : ec2Instances) {
             // terminated and shutting-down instances should not be used
             if(instance.getState().getName().startsWith("terminat") || instance.getState().getName().startsWith("shutting")) {
-                LOGGER.info("Ignore Ec2 instance {} due to state {}",instance.getInstanceId(), instance.getState().getName());
+                LOGGER.debug("Ignore Ec2 instance {} due to state {}",instance.getInstanceId(), instance.getState().getName());
                 continue;
             }
             instances.add(new com.amazonaws.services.elasticloadbalancing.model.Instance(instance.getInstanceId()));
         }
         
-        LOGGER.info( "Request registration of {} instances to loadbalancer {}", instances.size(), loadBalancerName);
+        LOGGER.debug("Request registration of {} instances to loadbalancer {}", instances.size(), loadBalancerName);
 
         RegisterInstancesWithLoadBalancerRequest registerInstancesWithLoadBalancerRequest = new RegisterInstancesWithLoadBalancerRequest( //
                 loadBalancerName, //

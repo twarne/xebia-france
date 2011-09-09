@@ -62,18 +62,18 @@ public abstract class AbstractInfrastructureMaker {
 
     @Nullable
     DBInstance findDBInstance(String dbInstanceIdentifier) {
-       LOGGER.info("Request description for db instance {}.", dbInstanceIdentifier);
+       LOGGER.debug("Request description for db instance {}.", dbInstanceIdentifier);
         try {
             DescribeDBInstancesResult describeDBInstances = rds.describeDBInstances(new DescribeDBInstancesRequest().withDBInstanceIdentifier(dbInstanceIdentifier));
             return Iterables.getFirst(describeDBInstances.getDBInstances(), null);
         } catch (DBInstanceNotFoundException e) {
-            LOGGER.warn("Db instance {} not found.", dbInstanceIdentifier);
+            LOGGER.trace("Db instance {} not found.", dbInstanceIdentifier);
             return null;
         }
     }
     
     void deleteDBInstance(String dbInstanceIdentifier) {
-        LOGGER.info("Request deletion of db instance {}.", dbInstanceIdentifier);
+        LOGGER.debug("Request deletion of db instance {}.", dbInstanceIdentifier);
         rds.deleteDBInstance(new DeleteDBInstanceRequest() //
         .withDBInstanceIdentifier(dbInstanceIdentifier) //
         .withSkipFinalSnapshot(true));
@@ -84,13 +84,13 @@ public abstract class AbstractInfrastructureMaker {
 
     @Nonnull
     DBInstance waitForDBInstanceAvailability(String dbInstanceIdentifier) {
-        LOGGER.info("Wait for availability of db instance {}.", dbInstanceIdentifier);
+        LOGGER.debug("Wait for availability of db instance {}.", dbInstanceIdentifier);
         while (true) {
             DBInstance dbInstance = findDBInstance(dbInstanceIdentifier);
             if (dbInstance == null) {
                 throw new DBInstanceNotFoundException("No DBInstance " + dbInstanceIdentifier + " exists");
             };
-            LOGGER.debug("Db instance {} status : {}", dbInstanceIdentifier, dbInstance.getDBInstanceStatus());
+            LOGGER.trace("Db instance {} status : {}", dbInstanceIdentifier, dbInstance.getDBInstanceStatus());
             if ("available".equals(dbInstance.getDBInstanceStatus())) {
                 return dbInstance;
             } else {
@@ -107,7 +107,7 @@ public abstract class AbstractInfrastructureMaker {
     DBInstance createDBInstanceAndWaitForAvailability(String dbInstanceIdentifier) {
         DBInstance dbInstance = findDBInstance(dbInstanceIdentifier);
         if (dbInstance == null) {
-            LOGGER.info("Db instance {} was not found, it need to be created.", dbInstanceIdentifier);
+            LOGGER.debug("Db instance {} was not found, it need to be created.", dbInstanceIdentifier);
             dbInstance = createDBInstance(dbInstanceIdentifier);
         }
         dbInstance = waitForDBInstanceAvailability(dbInstanceIdentifier);
@@ -142,9 +142,9 @@ public abstract class AbstractInfrastructureMaker {
         }
 
         if (instanceIds.isEmpty()) {
-            LOGGER.info("No existent Ec2 instances to terminate.");            
+            LOGGER.debug("No existent Ec2 instances to terminate.");            
         } else {
-            LOGGER.info("Request termination of {} Ec2 instances with trigram {}",
+            LOGGER.debug("Request termination of {} Ec2 instances with trigram {}",
                     instances.size(), trigram);
             ec2.terminateInstances(new TerminateInstancesRequest()//
                     .withInstanceIds(instanceIds));
@@ -152,14 +152,14 @@ public abstract class AbstractInfrastructureMaker {
     }
 
     List<Instance> displayInstancesDetails(String trigram) {
-        LOGGER.info("Request description of Ec2 instances with trigram {}", trigram);
+        LOGGER.debug("Request description of Ec2 instances with trigram {}", trigram);
 
         DescribeInstancesResult describeInstances = ec2.describeInstances(new DescribeInstancesRequest()//
                 .withFilters(new Filter("tag:Name", Arrays.asList("petclinic-" + trigram + "-*"))));
         List<Instance> instances = new ArrayList<Instance>();
         for (Reservation reservation : describeInstances.getReservations()) {
             for (Instance instance : reservation.getInstances()) {
-                LOGGER.info("Received description of Ec2 instance {}", instance.getInstanceId());
+                LOGGER.debug("Received description of Ec2 instance {}", instance.getInstanceId());
                 instances.add(instance);
             }
         }
@@ -172,7 +172,7 @@ public abstract class AbstractInfrastructureMaker {
     void tagInstances(List<Instance> instances, String trigram) {
         int i = 1;
         for (Instance instance : instances) {
-            LOGGER.info("Tag instance {} with trigram {}", instance.getInstanceId(), trigram);
+            LOGGER.debug("Tag instance {} with trigram {}", instance.getInstanceId(), trigram);
             ec2.createTags(new CreateTagsRequest() //
                     .withResources(instance.getInstanceId()) //
                     .withTags(new Tag("Name", "petclinic-" + trigram + "-" + i), //
@@ -184,7 +184,7 @@ public abstract class AbstractInfrastructureMaker {
     }
     
     private void waitForEc2InstancesAvailability(List<Instance> instances) {
-        LOGGER.info("Wait for availability of {} Ec2 instance.", instances.size());
+        LOGGER.debug("Wait for availability of {} Ec2 instance.", instances.size());
         for (Instance instance : instances) {
             while (InstanceStateName.Pending.name().toLowerCase().equals(instance.getState().getName())) {
                 try {
@@ -192,19 +192,20 @@ public abstract class AbstractInfrastructureMaker {
                 } catch (InterruptedException e) {
                     throw Throwables.propagate(e);
                 }
-                LOGGER.info("Request description of Ec2 instance {}", instance.getInstanceId());
+                LOGGER.debug("Request description of Ec2 instance {}", instance.getInstanceId());
                 DescribeInstancesRequest describeInstancesRequest = new DescribeInstancesRequest().withInstanceIds(instance.getInstanceId());
                 DescribeInstancesResult describeInstances = ec2.describeInstances(describeInstancesRequest);
 
                 instance = describeInstances.getReservations().get(0).getInstances().get(0);
-                LOGGER.debug("Ec2 instance {} status : {}", instance.getInstanceId(), instance.getState().getName());
+                LOGGER.trace("Ec2 instance {} status : {}", instance.getInstanceId(), instance.getState().getName());
             }
-            LOGGER.info("Ec2 instance {} available at http://{}:8080/petclinic", instance.getInstanceId(), instance.getPublicDnsName());
         }
         
         LOGGER.info(SEPARATOR);
         LOGGER.info("Ec2 instances are ready for use.");
-        LOGGER.info("See above for details.");
+        for (Instance instance : instances) {
+            LOGGER.info("Ec2 instance {} available at http://{}:8080/petclinic", instance.getInstanceId(), instance.getPublicDnsName());
+        }
         LOGGER.info(SEPARATOR);
     }
 
@@ -223,7 +224,7 @@ public abstract class AbstractInfrastructureMaker {
         Preconditions.checkNotNull(dbInstance, "DbInstance should not be null.");
         Preconditions.checkNotNull(warUrl, "WarUrl should not be null.");
         
-        LOGGER.info("Generating shell script for cloud init.");
+        LOGGER.trace("Generating shell script for cloud init.");
         Map<String, Object> rootMap = Maps.newHashMap();
         rootMap.put("catalinaBase", "/usr/share/tomcat6");
         rootMap.put("warUrl", warUrl);
@@ -238,7 +239,7 @@ public abstract class AbstractInfrastructureMaker {
 
         String shellScript = FreemarkerUtils.generate(rootMap, "/provision_tomcat.py.fmt");
 
-        LOGGER.info("Configuring cloud init generation with script.");
+        LOGGER.trace("Configuring cloud init generation with script.");
         InputStream cloudConfigAsStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("cloud-config-amzn-linux.txt");
         Preconditions.checkNotNull(cloudConfigAsStream, "'" + "cloud-config-amzn-linux.txt" + "' not found in path");
         Readable cloudConfig = new InputStreamReader(cloudConfigAsStream);
@@ -260,7 +261,7 @@ public abstract class AbstractInfrastructureMaker {
         createLoadBalancerWithListeners(loadBalancerName, expectedListener, expectedAvailabilityZones);
 
         // AVAILABILITY ZONES
-        LOGGER.info("Request setup of availability zones for load balancer {}", loadBalancerName);
+        LOGGER.debug("Request setup of availability zones for load balancer {}", loadBalancerName);
         EnableAvailabilityZonesForLoadBalancerRequest enableAvailabilityZonesForLoadBalancerRequest = new EnableAvailabilityZonesForLoadBalancerRequest( //
                 loadBalancerName, expectedAvailabilityZones);
         elb.enableAvailabilityZonesForLoadBalancer(enableAvailabilityZonesForLoadBalancerRequest);
@@ -278,7 +279,7 @@ public abstract class AbstractInfrastructureMaker {
         // EC2 INSTANCES
         registerEC2InstancesForElasticLoadBalancer(loadBalancerName, ec2Instances);
 
-        LOGGER.info("Request description of load balancer {}", loadBalancerName);
+        LOGGER.debug("Request description of load balancer {}", loadBalancerName);
         LoadBalancerDescription elasticLoadBalancerDescription = elb.describeLoadBalancers(new DescribeLoadBalancersRequest(Arrays.asList(loadBalancerName))).getLoadBalancerDescriptions().get(0);
 
         LOGGER.info(SEPARATOR);
@@ -294,7 +295,7 @@ public abstract class AbstractInfrastructureMaker {
     abstract void registerEC2InstancesForElasticLoadBalancer(String loadBalancerName, List<Instance> ec2Instances) ;
 
     void createElasticLoadBalancerHealthCheck(String loadBalancerName, String healthCheckUri) {
-        LOGGER.info("Request setup of health check for load balancer {}", loadBalancerName);
+        LOGGER.debug("Request setup of health check for load balancer {}", loadBalancerName);
         HealthCheck expectedHealthCheck = new HealthCheck() //
                 .withTarget("HTTP:8080" + healthCheckUri) //
                 .withHealthyThreshold(2) //
@@ -305,7 +306,7 @@ public abstract class AbstractInfrastructureMaker {
     }
 
     void createElasticLoadBalancerCookieStickiness(String loadBalancerName, LBCookieStickinessPolicy expectedLbCookieStickinessPolicy) {
-        LOGGER.info("Request creation of cookie stickiness policy for load balancer {}", loadBalancerName);
+        LOGGER.debug("Request creation of cookie stickiness policy for load balancer {}", loadBalancerName);
         CreateLBCookieStickinessPolicyRequest createLbCookieStickinessPolicy = new CreateLBCookieStickinessPolicyRequest() //
                 .withLoadBalancerName(loadBalancerName) //
                 .withPolicyName(expectedLbCookieStickinessPolicy.getPolicyName()) //
@@ -314,7 +315,7 @@ public abstract class AbstractInfrastructureMaker {
     }
 
     void setupElasticLoadBalancerPolicy(String loadBalancerName, Listener expectedListener, LBCookieStickinessPolicy expectedLbCookieStickinessPolicy) {
-        LOGGER.info("Request setup of policy for load balancer {}", loadBalancerName);
+        LOGGER.debug("Request setup of policy for load balancer {}", loadBalancerName);
         SetLoadBalancerPoliciesOfListenerRequest setLoadBalancerPoliciesOfListenerRequest = new SetLoadBalancerPoliciesOfListenerRequest() //
                 .withLoadBalancerName(loadBalancerName) //
                 .withLoadBalancerPort(expectedListener.getLoadBalancerPort()) //
@@ -325,16 +326,16 @@ public abstract class AbstractInfrastructureMaker {
     void deleteExistingElasticLoadBalancer(String trigram) {
         String loadBalancerName = "elb-" + trigram;
         try {
-            LOGGER.info("Request deletion of load balancer {}", loadBalancerName);
+            LOGGER.debug("Request deletion of load balancer {}", loadBalancerName);
             elb.deleteLoadBalancer(new DeleteLoadBalancerRequest() //
                     .withLoadBalancerName(loadBalancerName));
             
-            LOGGER.info("Request deletion of listeners for load balancer {}", loadBalancerName);
+            LOGGER.debug("Request deletion of listeners for load balancer {}", loadBalancerName);
             elb.deleteLoadBalancerListeners(new DeleteLoadBalancerListenersRequest() //
                     .withLoadBalancerName(loadBalancerName) //
                     .withLoadBalancerPorts(80, 8080));
             
-            LOGGER.info("Request deletion of policy for load balancer {}", loadBalancerName);
+            LOGGER.debug("Request deletion of policy for load balancer {}", loadBalancerName);
             elb.deleteLoadBalancerPolicy(new DeleteLoadBalancerPolicyRequest().withLoadBalancerName(loadBalancerName));
         } catch (LoadBalancerNotFoundException e) {
             // Nothing to delete

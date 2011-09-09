@@ -13,7 +13,7 @@
    </appender>
 
 
-   <logger name="fr.xebia" level="INFO" additivity="false">
+   <logger name="fr.xebia" level="DEBUG" additivity="false">
    	<appender-ref ref="xebia-console" />
    </logger>
 
