@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.xebia.demo.amazon.aws;
+package fr.xebia.demo.amazon.aws.petclinic;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,12 +22,14 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.PropertiesCredentials;
 import com.amazonaws.services.ec2.AmazonEC2Client;
 import com.amazonaws.services.ec2.model.Instance;
 import com.amazonaws.services.ec2.model.InstanceType;
-import com.amazonaws.services.ec2.model.Reservation;
 import com.amazonaws.services.ec2.model.RunInstancesRequest;
 import com.amazonaws.services.ec2.model.RunInstancesResult;
 import com.amazonaws.services.elasticloadbalancing.AmazonElasticLoadBalancingClient;
@@ -55,21 +57,23 @@ import com.google.common.base.Throwables;
  * 
  * @author <a href="mailto:cyrille@cyrilleleclerc.com">Cyrille Le Clerc</a>
  */
-public class AmazonAwsPetclinicInfrastructureMakerAnswer extends AmazonAwsPetclinicInfrastructureMakerAbstract {
-    protected static final String KEY_PAIR="xebia-france";
+public class InfrastructureMakerAnswer extends AbstractInfrastructureMaker {
+    private static final Logger LOGGER = LoggerFactory.getLogger(InfrastructureMakerAnswer.class);
+    
+    public InfrastructureMakerAnswer() {
+        LOGGER.info("Create RDS, EC2 and ELB clients.");
 
-    public AmazonAwsPetclinicInfrastructureMakerAnswer() {
         try {
             AWSCredentials credentials = getCredentials();
             
             rds = new AmazonRDSClient(credentials);
-            rds.setEndpoint("rds.us-east-1.amazonaws.com"); // rds.eu-west-1.amazon.com
+            rds.setEndpoint("eu-west-1.rds.amazonaws.com");
             
             ec2 = new AmazonEC2Client(credentials);
-            ec2.setEndpoint("ec2.us-east-1.amazonaws.com"); // ec2.eu-west-1.amazon.com
+            ec2.setEndpoint("eu-west-1.ec2.amazonaws.com");
             
             elb = new AmazonElasticLoadBalancingClient(credentials);
-            elb.setEndpoint("elasticloadbalancing.us-east-1.amazonaws.com"); // elasticloadbalancing.eu-west-1.amazon.com
+            elb.setEndpoint("eu-west-1.elasticloadbalancing.amazonaws.com");
         } catch (IOException e) {
             throw Throwables.propagate(e);
         }
@@ -85,6 +89,7 @@ public class AmazonAwsPetclinicInfrastructureMakerAnswer extends AmazonAwsPetcli
     @Nonnull
     @Override
     DBInstance createDBInstance(String dbInstanceIdentifier) {
+        LOGGER.info("Request creation of db instance {}", dbInstanceIdentifier);
         CreateDBInstanceRequest dbInstanceRequest = new CreateDBInstanceRequest() //
                 .withDBInstanceIdentifier(dbInstanceIdentifier) //
                 .withDBName("petclinic") //
@@ -95,44 +100,48 @@ public class AmazonAwsPetclinicInfrastructureMakerAnswer extends AmazonAwsPetcli
                 .withDBSecurityGroups("default") //
                 .withAllocatedStorage(5 /* Go */) //
                 .withBackupRetentionPeriod(0);
-        DBInstance createDBInstance = rds.createDBInstance(dbInstanceRequest);
-
-        return createDBInstance;
+        return rds.createDBInstance(dbInstanceRequest);
     }
 
     @Nonnull
     @Override
     List<Instance> createTwoEC2Instances(DBInstance dbInstance, String warUrl) {
+        LOGGER.info("Request creation of 2 Ec2 instances.");
         RunInstancesRequest runInstanceRequest = new RunInstancesRequest() //
-                .withImageId("ami-8c1fece5") // eu-west : ami-47cefa33; us-east :ami-8c1fece5
+                .withImageId("ami-47cefa33") // eu-west : ami-47cefa33; us-east :ami-8c1fece5
                 .withMinCount(2) //
                 .withMaxCount(2) //
                 .withSecurityGroups("tomcat") //
-                .withKeyName(KEY_PAIR) //
+                .withKeyName(PersonalConfig.KEY_PAIR) //
                 .withInstanceType(InstanceType.T1Micro.toString()) //
-                .withUserData(buildCloudInitUserData(dbInstance, warUrl)) // CloudInit Deployment
-        ;
-        
+                .withUserData(createCloudInitUserDataBuilder(dbInstance, warUrl).buildBase64UserData());
         RunInstancesResult runInstances = ec2.runInstances(runInstanceRequest);
-        Reservation reservation = runInstances.getReservation();
-        return reservation.getInstances();
+        return runInstances.getReservation().getInstances();
     }
     
     @Override
     void createLoadBalancerWithListeners(String loadBalancerName, Listener expectedListener, List<String> expectedAvailabilityZones) {
+        LOGGER.info("Request creation load balancer {}.", loadBalancerName);
         CreateLoadBalancerRequest createLoadBalancerRequest = new CreateLoadBalancerRequest() //
                 .withLoadBalancerName(loadBalancerName) //
                 .withAvailabilityZones(expectedAvailabilityZones) //
                 .withListeners(expectedListener);
-
         elb.createLoadBalancer(createLoadBalancerRequest);
     }
 
     @Override
-    void configureEC2InstancesForElasticLoadBalancer(String loadBalancerName, List<Instance> ec2Instances) {
+    void registerEC2InstancesForElasticLoadBalancer(String loadBalancerName, List<Instance> ec2Instances) {
         List<com.amazonaws.services.elasticloadbalancing.model.Instance> instances = new ArrayList<com.amazonaws.services.elasticloadbalancing.model.Instance>();
-        instances.add(new com.amazonaws.services.elasticloadbalancing.model.Instance(ec2Instances.get(0).getInstanceId()));
-        instances.add(new com.amazonaws.services.elasticloadbalancing.model.Instance(ec2Instances.get(1).getInstanceId()));
+        for (Instance instance : ec2Instances) {
+            // terminated and shutting-down instances should not be used
+            if(instance.getState().getName().startsWith("terminat") || instance.getState().getName().startsWith("shutting")) {
+                LOGGER.info("Ignore Ec2 instance {} due to state {}",instance.getInstanceId(), instance.getState().getName());
+                continue;
+            }
+            instances.add(new com.amazonaws.services.elasticloadbalancing.model.Instance(instance.getInstanceId()));
+        }
+        
+        LOGGER.info( "Request registration of {} instances to loadbalancer {}", instances.size(), loadBalancerName);
 
         RegisterInstancesWithLoadBalancerRequest registerInstancesWithLoadBalancerRequest = new RegisterInstancesWithLoadBalancerRequest( //
                 loadBalancerName, //

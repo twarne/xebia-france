@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.xebia.demo.amazon.aws;
+package fr.xebia.demo.amazon.aws.petclinic;
 
 import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.*;
@@ -57,7 +57,9 @@ import com.google.common.collect.Collections2;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
-public class AmazonAwsPetclinicInfrastructureEnforcerTest {
+import fr.xebia.demo.amazon.aws.petclinic.InfrastructureEnforcer;
+
+public class InfrastructureEnforcerTest {
 
     AmazonEC2 ec2 = mock(AmazonEC2.class);
     AmazonElasticLoadBalancing elb = mock(AmazonElasticLoadBalancing.class);
@@ -77,7 +79,7 @@ public class AmazonAwsPetclinicInfrastructureEnforcerTest {
         when(elb.describeLoadBalancers((DescribeLoadBalancersRequest) any())) //
                 .thenReturn(new DescribeLoadBalancersResult().withLoadBalancerDescriptions(lbDescription));
 
-        AmazonAwsPetclinicInfrastructureEnforcer infraEnforcer = new AmazonAwsPetclinicInfrastructureEnforcer(ec2, elb, rds);
+        InfrastructureEnforcer infraEnforcer = new InfrastructureEnforcer(ec2, elb, rds);
 
         infraEnforcer.createOrUpdateElasticLoadBalancer("/myapp/healsthcheck.jsp", "myapp");
 
@@ -122,7 +124,7 @@ public class AmazonAwsPetclinicInfrastructureEnforcerTest {
         when(elb.describeLoadBalancers((DescribeLoadBalancersRequest) any())) //
                 .thenReturn(new DescribeLoadBalancersResult().withLoadBalancerDescriptions(lbDescription));
 
-        AmazonAwsPetclinicInfrastructureEnforcer infraEnforcer = new AmazonAwsPetclinicInfrastructureEnforcer(ec2, elb, rds);
+        InfrastructureEnforcer infraEnforcer = new InfrastructureEnforcer(ec2, elb, rds);
 
         infraEnforcer.createOrUpdateElasticLoadBalancer("/myapp/healsthcheck.jsp", "myapp");
 
@@ -270,7 +272,7 @@ public class AmazonAwsPetclinicInfrastructureEnforcerTest {
         when(elb.describeLoadBalancers((DescribeLoadBalancersRequest) any())) //
                 .thenReturn(new DescribeLoadBalancersResult().withLoadBalancerDescriptions(lbDescription));
 
-        AmazonAwsPetclinicInfrastructureEnforcer infraEnforcer = new AmazonAwsPetclinicInfrastructureEnforcer(ec2, elb, rds);
+        InfrastructureEnforcer infraEnforcer = new InfrastructureEnforcer(ec2, elb, rds);
 
         infraEnforcer.createOrUpdateElasticLoadBalancer("/myapp/healsthcheck.jsp", "myapp");
 
@@ -282,7 +284,7 @@ public class AmazonAwsPetclinicInfrastructureEnforcerTest {
                     public boolean matches(Object argument) {
                         DeregisterInstancesFromLoadBalancerRequest req = (DeregisterInstancesFromLoadBalancerRequest) argument;
                         Collection<String> instanceIdsToUnregister = Collections2.transform(req.getInstances(),
-                                AmazonAwsPetclinicInfrastructureEnforcer.ELB_INSTANCE_TO_INSTANCE_ID);
+                                InfrastructureEnforcer.ELB_INSTANCE_TO_INSTANCE_ID);
                         if (!Arrays.asList("i-3").equals(Lists.newArrayList(instanceIdsToUnregister))) {
                             return false;
                         }
@@ -305,7 +307,7 @@ public class AmazonAwsPetclinicInfrastructureEnforcerTest {
         when(elb.describeLoadBalancers((DescribeLoadBalancersRequest) any())) //
                 .thenReturn(new DescribeLoadBalancersResult().withLoadBalancerDescriptions(lbDescription));
 
-        AmazonAwsPetclinicInfrastructureEnforcer infraEnforcer = new AmazonAwsPetclinicInfrastructureEnforcer(ec2, elb, rds);
+        InfrastructureEnforcer infraEnforcer = new InfrastructureEnforcer(ec2, elb, rds);
 
         infraEnforcer.createOrUpdateElasticLoadBalancer("/myapp/healsthcheck.jsp", "myapp");
 
@@ -338,7 +340,7 @@ public class AmazonAwsPetclinicInfrastructureEnforcerTest {
         when(elb.describeLoadBalancers((DescribeLoadBalancersRequest) any())) //
                 .thenReturn(new DescribeLoadBalancersResult().withLoadBalancerDescriptions(lbDescription));
 
-        AmazonAwsPetclinicInfrastructureEnforcer infraEnforcer = new AmazonAwsPetclinicInfrastructureEnforcer(ec2, elb, rds);
+        InfrastructureEnforcer infraEnforcer = new InfrastructureEnforcer(ec2, elb, rds);
 
         infraEnforcer.createOrUpdateElasticLoadBalancer("/myapp/healsthcheck.jsp", "myapp");
 
@@ -364,7 +366,7 @@ public class AmazonAwsPetclinicInfrastructureEnforcerTest {
 
         ArgumentMatcher<ConfigureHealthCheckRequest> configureHealthCheckMatcher = buildConfigureHealthCheckRequestMatcher();
 
-        AmazonAwsPetclinicInfrastructureEnforcer infraEnforcer = new AmazonAwsPetclinicInfrastructureEnforcer(ec2, elb, rds);
+        InfrastructureEnforcer infraEnforcer = new InfrastructureEnforcer(ec2, elb, rds);
 
         infraEnforcer.createOrUpdateElasticLoadBalancer("/myapp/healsthcheck.jsp", "myapp");
 
@@ -407,7 +409,7 @@ public class AmazonAwsPetclinicInfrastructureEnforcerTest {
         when(elb.describeLoadBalancers((DescribeLoadBalancersRequest) any())) //
                 .thenReturn(new DescribeLoadBalancersResult().withLoadBalancerDescriptions(lbDescription));
 
-        AmazonAwsPetclinicInfrastructureEnforcer infraEnforcer = new AmazonAwsPetclinicInfrastructureEnforcer(ec2, elb, rds);
+        InfrastructureEnforcer infraEnforcer = new InfrastructureEnforcer(ec2, elb, rds);
 
         infraEnforcer.createOrUpdateElasticLoadBalancer("/myapp/healsthcheck.jsp", "myapp");
 

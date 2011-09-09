@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.xebia.demo.amazon.aws;
+package fr.xebia.demo.amazon.aws.petclinic;
 
 import java.util.List;
 
@@ -40,11 +40,11 @@ import com.amazonaws.services.rds.model.DBInstance;
  * 
  * @author <a href="mailto:cyrille@cyrilleleclerc.com">Cyrille Le Clerc</a>
  */
-public class AmazonAwsPetclinicInfrastructureMaker extends AmazonAwsPetclinicInfrastructureMakerAbstract {
+public class InfrastructureMaker extends AbstractInfrastructureMaker {
+    @SuppressWarnings("unused")
+    private static final Logger LOGGER = LoggerFactory.getLogger(InfrastructureMaker.class);
 
-    protected final Logger logger = LoggerFactory.getLogger(getClass());
-
-    public AmazonAwsPetclinicInfrastructureMaker() {
+    public InfrastructureMaker() {
         // TODO : Get credentials
         // TODO : Declare end points (rds, ec2, elb)
     }
@@ -68,7 +68,7 @@ public class AmazonAwsPetclinicInfrastructureMaker extends AmazonAwsPetclinicInf
     }
 
     @Override
-    void configureEC2InstancesForElasticLoadBalancer(String loadBalancerName, List<Instance> ec2Instances) {
+    void registerEC2InstancesForElasticLoadBalancer(String loadBalancerName, List<Instance> ec2Instances) {
         // TODO Auto-generated method stub
         throw new NotImplementedException("TODO");
     }

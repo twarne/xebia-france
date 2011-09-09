@@ -13,31 +13,37 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package fr.xebia.demo.amazon.aws;
+package fr.xebia.demo.amazon.aws.petclinic;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
-public class AmazonAwsPetclinicInfrastructureMakerTest {
-
-    private AmazonAwsPetclinicInfrastructureMakerAbstract maker = new AmazonAwsPetclinicInfrastructureMaker();
+public class InfrastructureMakerTest {
+    private AbstractInfrastructureMaker maker;
+    
+    @Before
+    public void setup() {
+        System.out.println();
+        maker = new InfrastructureMaker();
+    }
 
     @Test
     public void test_create_dbinstances() {
         Assert.assertNotNull("No DB Instance available",
-                maker.createDBInstanceAndWaitForAvailability("petclinic-xeb"));
+                maker.createDBInstanceAndWaitForAvailability("petclinic-"+PersonalConfig.TRIGRAM));
     }
 
     @Test
     public void test_create_ec2instances_and_tag() {
         Assert.assertNotNull("No EC2 Instance created",
-                maker.terminateExistingAndCreateNewInstance("xeb"));
+                maker.terminateExistingAndCreateNewInstance(PersonalConfig.TRIGRAM));
     }
 
     @Test
     public void test_create_elb() {
         Assert.assertNotNull("No ELB Instance created",
-                maker.createElasticLoadBalancer("xeb"));
+                maker.createElasticLoadBalancer(PersonalConfig.TRIGRAM));
     }
 
 }
