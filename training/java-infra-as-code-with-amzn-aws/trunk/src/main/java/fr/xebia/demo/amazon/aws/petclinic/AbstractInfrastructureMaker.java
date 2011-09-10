@@ -185,6 +185,8 @@ public abstract class AbstractInfrastructureMaker {
     
     private void waitForEc2InstancesAvailability(List<Instance> instances) {
         LOGGER.debug("Wait for availability of {} Ec2 instance.", instances.size());
+        List<Instance> availableInstances = new ArrayList<Instance>(instances.size());
+        
         for (Instance instance : instances) {
             while (InstanceStateName.Pending.name().toLowerCase().equals(instance.getState().getName())) {
                 try {
@@ -197,13 +199,13 @@ public abstract class AbstractInfrastructureMaker {
                 DescribeInstancesResult describeInstances = ec2.describeInstances(describeInstancesRequest);
 
                 instance = describeInstances.getReservations().get(0).getInstances().get(0);
-                LOGGER.trace("Ec2 instance {} status : {}", instance.getInstanceId(), instance.getState().getName());
             }
+            availableInstances.add(instance);
         }
         
         LOGGER.info(SEPARATOR);
         LOGGER.info("Ec2 instances are ready for use.");
-        for (Instance instance : instances) {
+        for (Instance instance : availableInstances) {
             LOGGER.info("Ec2 instance {} available at http://{}:8080/petclinic", instance.getInstanceId(), instance.getPublicDnsName());
         }
         LOGGER.info(SEPARATOR);

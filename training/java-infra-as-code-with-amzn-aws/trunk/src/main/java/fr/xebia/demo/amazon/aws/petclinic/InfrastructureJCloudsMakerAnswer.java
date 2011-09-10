@@ -14,6 +14,7 @@ import org.jclouds.compute.ComputeServiceContextFactory;
 import org.jclouds.compute.domain.NodeMetadata;
 import org.jclouds.compute.domain.OsFamily;
 import org.jclouds.compute.domain.Template;
+import org.jclouds.compute.options.TemplateOptions.Builder;
 import org.jclouds.compute.predicates.NodePredicates;
 import org.jclouds.ec2.compute.options.EC2TemplateOptions;
 import org.jclouds.ec2.domain.InstanceType;
@@ -30,6 +31,9 @@ import com.google.common.base.Throwables;
 import com.google.common.collect.Sets;
 import com.google.inject.Module;
 
+/**
+ * @see http://code.google.com/p/jclouds/wiki/ComputeGuide
+ */
 public class InfrastructureJCloudsMakerAnswer extends InfrastructureMakerAnswer {
     private static final Logger LOGGER = LoggerFactory.getLogger(InfrastructureJCloudsMakerAnswer.class);
     
@@ -80,12 +84,10 @@ public class InfrastructureJCloudsMakerAnswer extends InfrastructureMakerAnswer 
                 .osFamily(OsFamily.AMZN_LINUX)//
                 .imageId("eu-west-1/ami-47cefa33") //
                 .locationId("eu-west-1")//
+                .options(Builder.inboundPorts(22, 8080)) //
                 .build();
         template.getOptions().blockUntilRunning(true);
-        EC2TemplateOptions ec2options = template.getOptions().as(EC2TemplateOptions.class);
-        ec2options.keyPair(PersonalConfig.KEY_PAIR);
-        ec2options.securityGroups("tomcat");
-        ec2options.userData(createCloudInitUserDataBuilder(dbInstance, warUrl).buildUserData().getBytes());
+        template.getOptions().as(EC2TemplateOptions.class).userData(createCloudInitUserDataBuilder(dbInstance, warUrl).buildUserData().getBytes());
         return template;
     }
 
