@@ -49,7 +49,7 @@ public class MakerChallengeAnswer implements MakerChallenge {
     public AmazonRDSClient createRDSClient() {
         LOGGER.debug("Create RDS client.");
         AmazonRDSClient rdsClient = new AmazonRDSClient(getCredentials());
-        rdsClient.setEndpoint("eu-west-1.rds.amazonaws.com");
+        rdsClient.setEndpoint("rds.eu-west-1.amazonaws.com");
         return rdsClient;
     }
 
@@ -75,7 +75,7 @@ public class MakerChallengeAnswer implements MakerChallenge {
     public AmazonEC2Client createEC2Client() {
         LOGGER.debug("Create EC2 client.");
         AmazonEC2Client ec2Client = new AmazonEC2Client(getCredentials());
-        ec2Client.setEndpoint("eu-west-1.ec2.amazonaws.com");
+        ec2Client.setEndpoint("ec2.eu-west-1.amazonaws.com");
         return ec2Client;
     }
 
@@ -101,7 +101,7 @@ public class MakerChallengeAnswer implements MakerChallenge {
     public AmazonElasticLoadBalancingClient createELBClient() {
         LOGGER.debug("Create ELB client.");
         AmazonElasticLoadBalancingClient elbClient = new AmazonElasticLoadBalancingClient(getCredentials());
-        elbClient.setEndpoint("eu-west-1.elasticloadbalancing.amazonaws.com");
+        elbClient.setEndpoint("elasticloadbalancing.eu-west-1.amazonaws.com");
         return elbClient;
     }
 
