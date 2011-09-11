@@ -18,35 +18,40 @@ package fr.xebia.demo.amazon.aws.petclinic;
 import org.junit.Before;
 import org.junit.Test;
 
+import fr.xebia.demo.amazon.aws.petclinic.challenge.MakerChallenge;
+import fr.xebia.demo.amazon.aws.petclinic.challenge.MakerChallengeAnswer;
+import fr.xebia.demo.amazon.aws.petclinic.challenge.MakerJCloudsChallengeAnswer;
+
 public class InfrastructureMakerDeleteTest {
+    private MakerChallenge makerChallenge;
+    private InfrastructureMaker maker;
     
     @Before
-    public void separateLogs() {
+    public void setup() {
         System.out.println();
+        makerChallenge = new MakerChallengeAnswer();
+        maker = new InfrastructureMaker(new MakerChallengeAnswer());
     }
 
     @Test
     public void test_delete_elb() {
-        InfrastructureMakerAnswer maker = new InfrastructureMakerAnswer();
-        maker.deleteExistingElasticLoadBalancer(PersonalConfig.TRIGRAM);
+        maker.deleteExistingElasticLoadBalancer(makerChallenge.getTrigram());
     }
 
     @Test
     public void test_terminate_ec2instances() {
-        InfrastructureMakerAnswer maker = new InfrastructureMakerAnswer();
-        maker.terminateMyAlreadyExistingEC2Instances(PersonalConfig.TRIGRAM);
+        maker.terminateMyAlreadyExistingEC2Instances(makerChallenge.getTrigram());
     }
     
     @Test
     public void test_delete_dbinstances() {
-        InfrastructureMakerAnswer maker = new InfrastructureMakerAnswer();
-        maker.deleteDBInstance("petclinic-"+PersonalConfig.TRIGRAM);
+        maker.deleteDBInstance("petclinic-"+makerChallenge.getTrigram());
     }
     
     @Test
     public void test_destroy_ec2_instances_by_group() {
-        InfrastructureJCloudsMakerAnswer maker = new InfrastructureJCloudsMakerAnswer();
-        maker.destroyEC2InstancesByGroup();
+        MakerJCloudsChallengeAnswer jCloudsMaker = new MakerJCloudsChallengeAnswer();
+        jCloudsMaker.destroyEC2InstancesByGroup();
     }
 
 }

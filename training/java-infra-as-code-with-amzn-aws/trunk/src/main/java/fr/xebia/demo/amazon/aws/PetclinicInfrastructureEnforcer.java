@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package fr.xebia.demo.amazon.aws.petclinic;
+package fr.xebia.demo.amazon.aws;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -109,10 +109,10 @@ import fr.xebia.cloud.cloudinit.FreemarkerUtils;
  * 
  * @author <a href="mailto:cyrille@cyrilleleclerc.com">Cyrille Le Clerc</a>
  */
-public class InfrastructureEnforcer {
+public class PetclinicInfrastructureEnforcer {
 
     private static final Logger LOGGER = LoggerFactory
-            .getLogger(InfrastructureEnforcer.class);
+            .getLogger(PetclinicInfrastructureEnforcer.class);
 
     public enum Distribution {
         /**
@@ -270,7 +270,7 @@ public class InfrastructureEnforcer {
     };
 
     public static void main(String[] args) throws Exception {
-        InfrastructureEnforcer infrastructureMaker = new InfrastructureEnforcer();
+        PetclinicInfrastructureEnforcer infrastructureMaker = new PetclinicInfrastructureEnforcer();
         infrastructureMaker
                 .createPetclinicInfrastructure(Distribution.AMZN_LINUX);
 
@@ -304,7 +304,7 @@ public class InfrastructureEnforcer {
     protected final AmazonRDS rds;
 
     @VisibleForTesting
-    protected InfrastructureEnforcer(AmazonEC2 ec2,
+    protected PetclinicInfrastructureEnforcer(AmazonEC2 ec2,
             AmazonElasticLoadBalancing elb, AmazonRDS rds) {
         super();
         this.ec2 = ec2;
@@ -312,7 +312,7 @@ public class InfrastructureEnforcer {
         this.rds = rds;
     }
 
-    public InfrastructureEnforcer() {
+    public PetclinicInfrastructureEnforcer() {
         try {
             InputStream credentialsAsStream = Thread.currentThread()
                     .getContextClassLoader()

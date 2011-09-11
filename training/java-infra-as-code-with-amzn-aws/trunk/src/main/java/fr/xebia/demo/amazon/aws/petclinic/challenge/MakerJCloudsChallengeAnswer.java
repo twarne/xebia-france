@@ -1,4 +1,4 @@
-package fr.xebia.demo.amazon.aws.petclinic;
+package fr.xebia.demo.amazon.aws.petclinic.challenge;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -31,19 +31,21 @@ import com.google.common.base.Throwables;
 import com.google.common.collect.Sets;
 import com.google.inject.Module;
 
+import fr.xebia.demo.amazon.aws.petclinic.CloudInit;
+
 /**
  * @see http://code.google.com/p/jclouds/wiki/ComputeGuide
  */
-public class InfrastructureJCloudsMakerAnswer extends InfrastructureMakerAnswer {
-    private static final Logger LOGGER = LoggerFactory.getLogger(InfrastructureJCloudsMakerAnswer.class);
+public class MakerJCloudsChallengeAnswer extends MakerChallengeAnswer {
+    private static final Logger LOGGER = LoggerFactory.getLogger(MakerJCloudsChallengeAnswer.class);
     
     @Nonnull
     @Override
-    List<Instance> createTwoEC2Instances(DBInstance dbInstance, String warUrl) {
+    public List<Instance> createTwoEC2Instances(CloudInit cloudInit, DBInstance dbInstance, String warUrl) {
         ComputeServiceContext context = null;
         try {
             context = createComputeServiceContext();
-            Template template = createDefaultTemplate(context, dbInstance, warUrl);
+            Template template = createDefaultTemplate(context, cloudInit, dbInstance, warUrl);
             LOGGER.debug("Request creation of 2 Ec2 instances for group {}",getGroup());
             Set<? extends NodeMetadata> nodes = context.getComputeService()
                     .createNodesInGroup(getGroup(), 2, template);
@@ -58,7 +60,7 @@ public class InfrastructureJCloudsMakerAnswer extends InfrastructureMakerAnswer 
     }
 
     private String getGroup() {
-        return "JClouds-" + PersonalConfig.TRIGRAM;
+        return "JClouds-" + getTrigram();
     }
 
     private ComputeServiceContext createComputeServiceContext()
@@ -76,7 +78,7 @@ public class InfrastructureJCloudsMakerAnswer extends InfrastructureMakerAnswer 
                 modules, overrides);
     }
 
-    private Template createDefaultTemplate(ComputeServiceContext context,
+    private Template createDefaultTemplate(ComputeServiceContext context, CloudInit cloudInit,
             DBInstance dbInstance, String warUrl) {
         Template template = context.getComputeService().templateBuilder()//
                 .hardwareId(InstanceType.T1_MICRO) //
@@ -87,7 +89,7 @@ public class InfrastructureJCloudsMakerAnswer extends InfrastructureMakerAnswer 
                 .options(Builder.inboundPorts(22, 8080)) //
                 .build();
         template.getOptions().blockUntilRunning(true);
-        template.getOptions().as(EC2TemplateOptions.class).userData(createCloudInitUserDataBuilder(dbInstance, warUrl).buildUserData().getBytes());
+        template.getOptions().as(EC2TemplateOptions.class).userData(cloudInit.createUserDataBuilder(dbInstance, warUrl).buildUserData().getBytes());
         return template;
     }
 
@@ -109,7 +111,7 @@ public class InfrastructureJCloudsMakerAnswer extends InfrastructureMakerAnswer 
         return instance;
     }
     
-    void destroyEC2InstancesByGroup() {
+    public void destroyEC2InstancesByGroup() {
         ComputeServiceContext context = null;
         try {
             context = createComputeServiceContext();

@@ -19,31 +19,36 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import fr.xebia.demo.amazon.aws.petclinic.challenge.MakerChallenge;
+import fr.xebia.demo.amazon.aws.petclinic.challenge.MakerChallengeAnswer;
+
 public class InfrastructureMakerTest {
-    private AbstractInfrastructureMaker maker;
+    private MakerChallenge makerChallenge;
+    private InfrastructureMaker maker;
     
     @Before
     public void setup() {
         System.out.println();
-        maker = new InfrastructureMaker();
+        makerChallenge = new MakerChallengeAnswer();
+        maker = new InfrastructureMaker(makerChallenge);
     }
 
     @Test
     public void test_create_dbinstances() {
         Assert.assertNotNull("No DB Instance available",
-                maker.createDBInstanceAndWaitForAvailability("petclinic-"+PersonalConfig.TRIGRAM));
+                maker.createDBInstanceAndWaitForAvailability("petclinic-"+makerChallenge.getTrigram()));
     }
 
     @Test
     public void test_create_ec2instances_and_tag() {
         Assert.assertNotNull("No EC2 Instance created",
-                maker.terminateExistingAndCreateNewInstance(PersonalConfig.TRIGRAM));
+                maker.terminateExistingAndCreateNewInstance(makerChallenge.getTrigram()));
     }
 
     @Test
     public void test_create_elb() {
         Assert.assertNotNull("No ELB Instance created",
-                maker.createElasticLoadBalancer(PersonalConfig.TRIGRAM));
+                maker.createElasticLoadBalancer(makerChallenge.getTrigram()));
     }
 
 }
