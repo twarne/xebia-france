@@ -22,21 +22,21 @@ import org.junit.Test;
 import fr.xebia.demo.amazon.aws.petclinic.challenge.MakerChallenge;
 import fr.xebia.demo.amazon.aws.petclinic.challenge.MakerChallengeAnswer;
 
-public class InfrastructureMakerTest {
+public class PetclinicInfrastructureMakerTest {
     private MakerChallenge makerChallenge;
-    private InfrastructureMaker maker;
+    private PetclinicInfrastructureMaker maker;
     
     @Before
     public void setup() {
         System.out.println();
         makerChallenge = new MakerChallengeAnswer();
-        maker = new InfrastructureMaker(makerChallenge);
+        maker = new PetclinicInfrastructureMaker(makerChallenge);
     }
 
     @Test
     public void test_create_dbinstances() {
         Assert.assertNotNull("No DB Instance available",
-                maker.createDBInstanceAndWaitForAvailability("petclinic-"+makerChallenge.getTrigram()));
+                maker.createDBInstanceAndWaitForAvailability(makerChallenge.getTrigram()));
     }
 
     @Test

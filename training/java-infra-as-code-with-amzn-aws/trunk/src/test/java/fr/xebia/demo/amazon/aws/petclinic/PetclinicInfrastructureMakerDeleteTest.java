@@ -22,15 +22,15 @@ import fr.xebia.demo.amazon.aws.petclinic.challenge.MakerChallenge;
 import fr.xebia.demo.amazon.aws.petclinic.challenge.MakerChallengeAnswer;
 import fr.xebia.demo.amazon.aws.petclinic.challenge.MakerJCloudsChallengeAnswer;
 
-public class InfrastructureMakerDeleteTest {
+public class PetclinicInfrastructureMakerDeleteTest {
     private MakerChallenge makerChallenge;
-    private InfrastructureMaker maker;
+    private PetclinicInfrastructureMaker maker;
     
     @Before
     public void setup() {
         System.out.println();
         makerChallenge = new MakerChallengeAnswer();
-        maker = new InfrastructureMaker(new MakerChallengeAnswer());
+        maker = new PetclinicInfrastructureMaker(new MakerChallengeAnswer());
     }
 
     @Test
@@ -45,7 +45,7 @@ public class InfrastructureMakerDeleteTest {
     
     @Test
     public void test_delete_dbinstances() {
-        maker.deleteDBInstance("petclinic-"+makerChallenge.getTrigram());
+        maker.deleteDBInstance(makerChallenge.getTrigram());
     }
     
     @Test
