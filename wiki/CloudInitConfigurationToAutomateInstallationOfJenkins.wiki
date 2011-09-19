@@ -55,7 +55,15 @@ You can also do it through the command line making use of the [http://aws.amazon
 = Troubleshooting CloudInit =
 
 Some tips that will help you debugging your cloud init script :
- * You can check cloud init logs in {{{/var/log/cloud-init.log}}} and {{{/var/log/messages}}}.
+
+== Logs ==
+
+Cloud init logs files :
+ * {{{/var/log/messages}}}
+ * {{{/var/log/cloud-init.log}}} 
+
+== How to relaunch CloudInit script ==
+
  * In order to launch cloud-init without having to create a new instance, you can just erase the semaphores existing in {{{/var/lib/cloud/sem/}}} and run cloud-init with the your new config :
 {{{
 [ec2-user@ip-10-234-133-197 sem]$ sudo rm /var/lib/cloud/sem/*
@@ -63,3 +71,23 @@ Some tips that will help you debugging your cloud init script :
 }}} 
 
 More details on [https://forums.aws.amazon.com/thread.jspa?messageID=232183 Forum: Amazon Elastic Compute Cloud >Thread: How to debug CloudInit issues?]
+
+== How to debug "Failed loading of cloud config ..." ==
+
+Sample logs in {{{/var/log/messages}}}
+{{{
+Sep 19 20:39:00 ip-10-226-234-218 [CLOUDINIT] 2011-09-19 20:39:00,754 - cloud-init-cfg[INFO]: cloud-init-cfg ['mounts']
+Sep 19 20:39:00 ip-10-226-234-218 [CLOUDINIT] 2011-09-19 20:39:00,771 - __init__.py[CRITICAL]: Failed loading of cloud config '/var/lib/cloud/data/cloud-config.txt'. Continuing with empty config
+...
+}}}
+
+To debug this kind of problem, first verify that the cloud-config.txt file is valid yaml:
+{{{
+$ python
+Python 2.6 ...
+>>> import yaml
+>>> stream = open("/path/to/cloud-config.txt", "r")}}}
+>>> yaml.load(stream)
+}}}
+
+Call to {{{yaml.load(stream)}}} validates your yaml file.
