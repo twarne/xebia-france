@@ -1,0 +1,64 @@
+#summary Discover JClouds with Amazon AWS
+
+<wiki:toc max_depth="2" />
+
+<br/>
+----
+<br/>
+
+= Goal of the lab =
+
+The goal of this lab is to code with the JClouds API the deployment of the Petclinic application with Amazon AWS.
+JClouds is a library created to be used with a lot of cloud providers Like Amazon, Azure and Rackspace.
+Jclouds not yet support feature like RDS or ELB so we'll be using Amazon SDK for the creation of the database and the loadbalancer.
+
+We'll doing the steps two times :
+ * The first one with the use of the [http://www.jclouds.org/jclouds-maven-site/1.1.0/jclouds-multi/apidocs/org/jclouds/ec2/compute/options/EC2TemplateOptions.html EC2TemplateOptions] class. This class provide Amazon EC2 only feature.
+ * For the second implementation, we'll using only portable features
+
+<br/>
+----
+<br/>
+
+= Project Installation =
+
+See AmazonAwsJavaSdkTraining for project installation.
+
+To test your implementation, you can use :
+ * <font size="2"><pre>fr.xebia.demo.amazon.aws.petclinic.!PetclinicInfrastructureJcloudsAWSMakerTest</pre></font>
+ * <font size="2"><pre>fr.xebia.demo.amazon.aws.petclinic.!PetclinicInfrastructureJcloudsMakerTest</pre></font>
+
+This two classes extends [https://xebia-france.googlecode.com/svn/training/java-infra-as-code-with-amzn-aws/trunk/src/main/java/fr/xebia/demo/amazon/aws/petclinic/challenge/MakerChallengeAnswer.java MakerChallengeAnswer] to create database and load balancer, you dont have to implement this features
+
+= Get !AwsCredentials from properties file =
+
+This class is Amazon specific but the goal is to get access key and secret key. We are able to use this file as any java properties file. 
+
+{{{
+    InputStream credentialsAsStream = Thread.currentThread().getContextClassLoader()
+                     .getResourceAsStream("AwsCredentials.properties");
+    AWSCredentials credentials = new PropertiesCredentials(credentialsAsStream);
+}}} 
+ 
+ !AwsCredentials.properties file looks like this :
+
+{{{
+#Insert your AWS Credentials from http://aws.amazon.com/security-credentials
+accessKey=change me
+secretKey=change me
+}}}
+
+<br/>
+----
+<br/>
+
+
+= With Amazon features =
+
+ * The goal is to create methods in the [https://xebia-france.googlecode.com/svn/training/java-infra-as-code-with-amzn-aws/trunk/src/main/java/fr/xebia/demo/amazon/aws/petclinic/challenge/YourMakerChallenge.java YourJCloudsAWSMakerChallenge] class
+
+ * Answers are in the [https://xebia-france.googlecode.com/svn/training/java-infra-as-code-with-amzn-aws/trunk/src/main/java/fr/xebia/demo/amazon/aws/petclinic/challenge/MakerJCloudsAWSChallengeAnswer.java MakerJCloudsAWSChallengeAnswer] class
+
+<br/>
+----
+<br/>
