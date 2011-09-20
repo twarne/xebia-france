@@ -15,23 +15,20 @@
  */
 package fr.xebia.demo.amazon.aws.petclinic;
 
-import fr.xebia.demo.amazon.aws.petclinic.challenge.MakerJCloudsChallengeAnswer;
-import fr.xebia.demo.amazon.aws.petclinic.challenge.YourMakerJCloudsChallenge;
+import fr.xebia.demo.amazon.aws.petclinic.challenge.MakerChallenge;
+import fr.xebia.demo.amazon.aws.petclinic.challenge.YourMakerJCloudsAWSChallenge;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import fr.xebia.demo.amazon.aws.petclinic.challenge.MakerChallenge;
-import fr.xebia.demo.amazon.aws.petclinic.challenge.YourMakerChallenge;
-
-public class PetclinicInfrastructureJCloudsMakerTest {
+public class PetclinicInfrastructureJCloudsAWSMakerTest {
     private MakerChallenge makerChallenge;
     private PetclinicInfrastructureMaker maker;
     
     @Before
     public void setup() {
         System.out.println();
-        makerChallenge = new YourMakerJCloudsChallenge();
+        makerChallenge = new YourMakerJCloudsAWSChallenge();
         maker = new PetclinicInfrastructureMaker(makerChallenge);
     }
 
@@ -52,5 +49,4 @@ public class PetclinicInfrastructureJCloudsMakerTest {
         Assert.assertNotNull("No ELB Instance created",
                 maker.createElasticLoadBalancer(makerChallenge.getTrigram()));
     }
-
 }

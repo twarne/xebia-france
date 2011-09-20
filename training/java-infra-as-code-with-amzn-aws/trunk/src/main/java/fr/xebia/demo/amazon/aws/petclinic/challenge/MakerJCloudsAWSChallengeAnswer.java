@@ -14,44 +14,38 @@ import org.jclouds.compute.ComputeServiceContextFactory;
 import org.jclouds.compute.domain.NodeMetadata;
 import org.jclouds.compute.domain.OsFamily;
 import org.jclouds.compute.domain.Template;
-import org.jclouds.compute.options.TemplateOptions.Builder;
-import org.jclouds.compute.predicates.NodePredicates;
+import org.jclouds.ec2.compute.options.EC2TemplateOptions;
 import org.jclouds.ec2.domain.InstanceType;
-import org.jclouds.io.Payloads;
 import org.jclouds.logging.slf4j.config.SLF4JLoggingModule;
-import org.jclouds.ssh.jsch.config.JschSshClientModule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nonnull;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
 /**
+ * Use JCloud with Amazon AWS template Option class
  * see http://code.google.com/p/jclouds/wiki/ComputeGuide
  */
-public class MakerJCloudsChallengeAnswer extends MakerChallengeAnswer {
-    private static final Logger LOGGER = LoggerFactory.getLogger(MakerJCloudsChallengeAnswer.class);
-
+public class MakerJCloudsAWSChallengeAnswer extends MakerChallengeAnswer {
+    private static final Logger LOGGER = LoggerFactory.getLogger(MakerJCloudsAWSChallengeAnswer.class);
+    
     @Nonnull
     @Override
     /**
-     * Create two EC2 instances using JClouds without using AWS Template class
+     * Create two EC2 instances using JClouds and AWS Template class
      */
     public List<Instance> createTwoEC2Instances(CloudInit cloudInit, DBInstance dbInstance, String warUrl) {
         ComputeServiceContext context = null;
         try {
             context = createComputeServiceContext();
-            Template template = createDefaultTemplate(context, dbInstance, warUrl);
+            Template template = createDefaultTemplate(context, cloudInit, dbInstance, warUrl);
             LOGGER.debug("Request creation of 2 Ec2 instances for group {}",getGroup());
             Set<? extends NodeMetadata> nodes = context.getComputeService()
                     .createNodesInGroup(getGroup(), 2, template);
-
-            writeSSHKey(nodes);
             return JCloudUtil.nodeMetadataAsEC2Instances(nodes);
         } catch (Exception e) {
             throw Throwables.propagate(e);
@@ -63,29 +57,14 @@ public class MakerJCloudsChallengeAnswer extends MakerChallengeAnswer {
     }
 
     /**
-     * Write SSH Keys on file system
-     * @param nodes The instances created
-     * @throws IOException
-     */
-    private void writeSSHKey(Set<? extends NodeMetadata> nodes) throws IOException {
-        int i = 1;
-        for(NodeMetadata node : nodes){
-            BufferedWriter out = new BufferedWriter(new FileWriter("~/"+getGroup()+"-"+i+".pem"));
-            out.write(node.getCredentials().credential);
-            out.close();
-            i++;
-        }
-    }
-
-    /**
-     * @return The group of the instances
+     * @return The name of the instances
      */
     private String getGroup() {
         return "JClouds-" + getTrigram();
     }
 
     /**
-     * Create an Amazon Context using Jclouds. We have to add the JschSshClientModule to be able to run bootstrap script
+     * Create an Amazon Context using Jclouds
      * @return An Amazon eu-west-1 context
      * @throws IOException
      */
@@ -93,7 +72,7 @@ public class MakerJCloudsChallengeAnswer extends MakerChallengeAnswer {
             throws IOException {
         LOGGER.debug("Create JClouds compute service for AWS.");
         AWSCredentials credentials = getCredentials();
-        Set<? extends Module> modules = Sets.newHashSet(new JschSshClientModule(),new SLF4JLoggingModule());
+        Set<? extends Module> modules = Sets.newHashSet(new SLF4JLoggingModule());
         Properties overrides = new Properties();
         // This filter is mandatory if you want to use
         // Template.imageId("eu-west-1/ami-47cefa33")
@@ -105,15 +84,15 @@ public class MakerJCloudsChallengeAnswer extends MakerChallengeAnswer {
     }
 
     /**
-     * Create a template for creating instances.<br/>
-     * We are opening ports 22 and 80.<br/>
-     * We use a shell script to bootstrap the instance and install Petclinic web app
+     * Create a template for creating instances. We are using EC2TemplateOptions class to help us using
+     * Amazon specific features
      * @param context The Amazon context
-     * @param dbInstance The Amazon RDS instance to configure the Shell script
+     * @param cloudInit The cloudInit class tobootstrap the instances
+     * @param dbInstance The Amazon RDS instance to configure Tomcat in the CloudInit
      * @param warUrl The URL of the Petclinic WAR file
      * @return A template for creating Tomcat Amazon instances
      */
-    private Template createDefaultTemplate(ComputeServiceContext context,
+    private Template createDefaultTemplate(ComputeServiceContext context, CloudInit cloudInit,
             DBInstance dbInstance, String warUrl) {
         Template template = context.getComputeService().templateBuilder()//
                 .hardwareId(InstanceType.T1_MICRO) //
@@ -121,27 +100,11 @@ public class MakerJCloudsChallengeAnswer extends MakerChallengeAnswer {
                 .osFamily(OsFamily.AMZN_LINUX)//
                 .imageId("eu-west-1/ami-47cefa33") //
                 .locationId("eu-west-1")//
-                .options(Builder.inboundPorts(22, 8080)) //
-                .options(Builder.runScript(Payloads.newStringPayload(JCloudUtil.bootStrapScript(dbInstance, warUrl))))
                 .build();
         template.getOptions().blockUntilRunning(true);
+        template.getOptions().as(EC2TemplateOptions.class).keyPair("xebia-france");
+        template.getOptions().as(EC2TemplateOptions.class).securityGroups("tomcat");
+        template.getOptions().as(EC2TemplateOptions.class).userData(cloudInit.createUserDataBuilder(dbInstance, warUrl).buildUserData().getBytes());
         return template;
     }
-
-    public void destroyEC2InstancesByGroup() {
-        ComputeServiceContext context = null;
-        try {
-            context = createComputeServiceContext();
-            LOGGER.debug("Request destruction of Ec2 instances for group {}",getGroup());
-            context.getComputeService().destroyNodesMatching(NodePredicates.inGroup(getGroup()));
-        } catch (Exception e) {
-            throw Throwables.propagate(e);
-        } finally {
-            if (context != null) {
-                context.close();
-            }
-        }
-    }
-
-
 }
