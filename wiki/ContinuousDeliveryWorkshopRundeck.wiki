@@ -16,11 +16,10 @@ For this purpose, we’ll use:
   * User/Password : deployment/deployment123
 
 *Jenkins as Integration Platform*
-  * URL:
-  * User/Password?
+  * URL:Your Jenkins/Rundeck instance on port 8080
 
 *A Rundeck Instance*
-  * URL : Envoyée par mail après création
+  * URL:Your Jenkins/Rundeck instance on port 4440
   * User/Password : admin/admin
 
 *A modificated version of the ‘PetClinic’ application from SpringSource*
@@ -57,15 +56,15 @@ The instance you’ve been provided has the SSH Plugin already integrated.
   # Select the right SSH Site you’ve configured before, then in *post-build script€, copy past the following script, by replacing with your artifact groupId
 
 <code language="sh">
-$CATALINA_HOME/bin/shutdown.sh
+/usr/share/tomcat6/bin/shutdown.sh
 
-cd $CATALINA_BASE/webapps/
-rm -rf  $CATALINA_BASE/webapps/xebia-petclinic
+cd /usr/share/tomcat6/webapps/
+rm -rf  /usr/share/tomcat6/webapps/xebia-petclinic
 
 #REPLACE HERE THE RIGHT GROUP ID IN THE g=PARAMETER
 curl " http://nexus.xebia-tech-event.info:8081/nexus/service/local/artifact/maven/content?g=$2&a=$xebia-petclinic&r=snapshots&v=LATEST&e=war" --silent --show-error  --output xebia-petclinic.war
 
-$CATALINA_HOME/bin/startup.sh
+/usr/share/tomcat6/bin/startup.sh
 
 sleep 10
 curl --connect-timeout 10 --retry 10 --silent --show-error --write-out "OK" -o ping http://localhost:8080/xebia-petclinic
