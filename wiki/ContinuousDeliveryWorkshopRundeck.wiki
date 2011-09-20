@@ -71,3 +71,6 @@ sleep 10
 curl --connect-timeout 10 --retry 10 --silent --show-error --write-out "OK" -o ping http://localhost:8080/xebia-petclinic
 
 </code>
+
+
+  # You can then save your job and try to run a build
