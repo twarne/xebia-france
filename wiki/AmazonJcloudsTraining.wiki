@@ -87,8 +87,9 @@ Params :
   identity   : AWS Access ID from AWSCredential
   credential : AWS secret key from AWSCredential
   modules    : Only SLF4JLoggingModule is needed
-  overrides  : You must override AWSEC2Constants.PROPERTY_EC2_AMI_QUERY ( value : "virtualization-type=paravirtual;architecture=i386;owner-id=137112412989;state=available;image-type=machine;root-device-type=ebs")
-               and AWSEC2Constants.PROPERTY_EC2_CC_REGIONS (value :  "eu-west-1")
+  overrides  : You must override :
+               AWSEC2Constants.PROPERTY_EC2_AMI_QUERY ( value : "virtualization-type=paravirtual;architecture=i386;owner-id=137112412989;state=available;image-type=machine;root-device-type=ebs")
+               AWSEC2Constants.PROPERTY_EC2_CC_REGIONS (value :  "eu-west-1")
 </pre>
 </font>
 
@@ -156,8 +157,9 @@ Params :
   identity   : AWS Access ID from AWSCredential
   credential : AWS secret key from AWSCredential
   modules    : SLF4JLoggingModule and JschSshClientModule
-  overrides  : You must override AWSEC2Constants.PROPERTY_EC2_AMI_QUERY ( value : "virtualization-type=paravirtual;architecture=i386;owner-id=137112412989;state=available;image-type=machine;root-device-type=ebs")
-               and AWSEC2Constants.PROPERTY_EC2_CC_REGIONS (value :  "eu-west-1")
+  overrides  : You must override :
+               AWSEC2Constants.PROPERTY_EC2_AMI_QUERY ( value : "virtualization-type=paravirtual;architecture=i386;owner-id=137112412989;state=available;image-type=machine;root-device-type=ebs")
+               AWSEC2Constants.PROPERTY_EC2_CC_REGIONS (value :  "eu-west-1")
 </pre>
 </font>
 
