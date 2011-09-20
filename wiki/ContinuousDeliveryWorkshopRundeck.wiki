@@ -2,12 +2,56 @@
 
 = Introduction =
 
-Add your content here.
+This workshop aims at building a complete build and delivery pipeline, from developing and pushing code in a repository, to the deployment on a server.
+
+For this purpose, we’ll use:
+
+*Github as VCS:*
+  * URL : https://github.com/xebia-france-training/
+  * User/Password ?
+  * There is one project per team
+
+*Nexus as Binaries Repository:*
+  * URL : http://nexus.xebia-tech-event.info:8081/nexus
+  * User/Password : deployment/deployment123
+
+*Jenkins as Integration Platform*
+  * URL:
+  * User/Password?
+
+*A Rundeck Instance*
+  * URL : Envoyée par mail après création
+  * User/Password : admin/admin
+
+*A modificated version of the ‘PetClinic’ application from SpringSource*
+
+To integrate the concept of Continuous Delivery, we’ll use four different tools:
+  * Jenkins with Remote SSH Plugin
+  * Rundeck, open-source project from DTO Labs with the presence of Vincent Behard
+  * maven-tomcat-plugin with the presence of Olivier Lamy
+  * DeployIt from XebiaLabs with the presence Benoît Moussaud
+
+For this hands-workshop, we’ll provide for each team:
+  * an Virtual Machine with Jenkins and Rundeck
+  * one Virtual Machine with Tomcat called ‘Dev’ and another called ‘QA’
+
+Those Virtual Machines will be created in Xebia France account Amazon EC2 Account. Your email will be requested to get the public key and the different Public IP to get access to those EC2 instance.
+
+Requirement for this workshop:
+  * One laptop with SSH access capabilites and a WebBrowser
 
 
-= Details =
-
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+= Hands on =
+== Remote SSH With Jenkins (Not fully tested yet)== 
+The instance you’ve been provided has the SSH Plugin already integrated.
+  # Connect to your *Jenkins* instance and get logged in
+  # In the *administration section* of Jenkins, go to the page *System Configuration*
+  # In the section called : *SSH Remote hosts*, enter the following information:
+  * Host (public IP of the EC2 instance)
+  * Port 23
+  * Username ec2-user
+  * Keyfile /path to the file continuous-delivery-workshop.pem
+  # *Save* the settings
+  # Create a new *Free Style Project* for Jenkins with the following parameters
+  # Activation option called *Execute shell script on remote host using SSH*
+  # Select the right SSH Site you’ve configured before, then in *post-build script€, copy past the following script, by replacing with your artifact groupId
