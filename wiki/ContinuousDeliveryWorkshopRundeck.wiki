@@ -73,4 +73,42 @@ curl --connect-timeout 10 --retry 10 --silent --show-error --write-out "OK" -o p
 </code>
 
 
-  # You can then save your job and try to run a build
+_You can then save your job and try to run a build_
+
+
+== Rundeck with Jenkins == 
+
+Rundeck is a tool that can dispatch and monitor scripts execution within workflows over several environments using SSH.
+Here is the configuration of the previous task with Rundeck.
+  # Connect using HTTP to your Rundeck instance (default credentials : admin/admin) then create a new Project.
+  # Connect to the Host of Rundeck using SSH
+  # Go into the folder *$RDECK_BASE/projects/[YOUR_PROJECT]/etc*
+  # Modify the *project.properties* to add ssh key for the workshop
+project.ssh-keypath=[PATH_TO]/continuous-delivery-workshop.pem
+
+The file *resources.xml* contains the description of your infrastructure. It contains all the IP address, users and tags that will be used in Rundeck environment. Open this file and add the following information for your two EC2 Instances
+<code language="xml">
+<node 
+	name="Xavier-Tomcat-Prod-Rundeck" 
+	description="Ec2 node instance" 
+	tags="tomcat,prod" 
+	hostname="ec2-79-125-58-67.eu-west-1.compute.amazonaws.com" 	osArch="i386" 
+	osFamily="unix" 
+	osName="Linux" 
+	osVersion="" 
+	username="ec2-user" 
+	privateIpAddress="10.234.33.147" 	privateDnsName="ip-10-234-33-147.eu-west-1.compute.internal" 	editUrl="https://console.aws.amazon.com/ec2/home#		c=EC2&amp;s=Instances"/>
+</code>
+
+Node element are contained in the existing project element.
+
+save the file and returns to Rundeck via HTTP. 
+Create a new job with the following parameters:
+  * Save this Job? YES and give it a name
+  * Cancel the default Workflow step and add a script step
+  * Copy/Paste the same a script as before for Jenkins
+  * Select Dispatch to Node
+  * Click on Name and select .*
+  * Then Create and Run
+
+TODO : LINK WITH RUNDECK (done tonight)
