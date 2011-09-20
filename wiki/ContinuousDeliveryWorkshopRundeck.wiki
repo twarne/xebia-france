@@ -81,15 +81,15 @@ Rundeck is a tool that can dispatch and monitor scripts execution within workflo
 Here is the configuration of the previous task with Rundeck.
   # Connect using HTTP to your Rundeck instance (default credentials : admin/admin) then create a new Project.
   # Connect to the Host of Rundeck using SSH
-  # Go into the folder *$RDECK_BASE/projects/(YOUR_PROJECT)/etc*
+  # Go into the folder /etc/rundeck/projects/(YOUR_PROJECT)/etc*
   # Modify the *project.properties* to add ssh key for the workshop
 project.ssh-keypath=(PATH_TO)/continuous-delivery-workshop.pem
 
 The file *resources.xml* contains the description of your infrastructure. It contains all the IP address, users and tags that will be used in Rundeck environment. Open this file and add the following information for your two EC2 Instances
 <code language="xml">
 <node 
-	name="*Xavier-Tomcat-Prod-Rundeck*" 
-	description="*Ec2 node instance*" 
+	name="*TomcatDev*" 
+	description="*Ec2 Tomcat Dev*" 
 	tags="*tomcat,prod*" 
 	hostname="*ec2-79-125-58-67.eu-west-1.compute.amazonaws.com*" 	
 	osArch="i386" 
