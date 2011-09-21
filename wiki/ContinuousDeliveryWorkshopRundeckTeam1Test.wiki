@@ -56,18 +56,18 @@ exit 0
 
 Here is the configuration of the previous task with Rundeck.
  # Connect to your Rundeck server http://ec2-46-51-149-93.eu-west-1.compute.amazonaws.com:4440/ (login=admin, password=admin)
- # Create a new project "{{{deploy-on-tomcat}}}"
+ # Create a new project "{{{deploy-petclinic-on-tomcat-valid}}}"
  # Connect via SSH to the rundeck server: 
   {{{
 ssh -i continuous-delivery-workshop.pem ec2-user@ec2-46-51-149-93.eu-west-1.compute.amazonaws.com
 }}}
-  # Update the project configuration files in "{{{/var/rundeck/projects/deploy-on-tomcat/etc/}}}":
+  # Update the project configuration files in "{{{/var/rundeck/projects/deploy-petclinic-on-tomcat-valid/etc/}}}":
    # Modify the *{{{project.properties}}}* to add ssh private key for the workshop
    {{{
-project.ssh-keypath=(PATH_TO)/continuous-delivery-workshop.pem
+project.ssh-keypath=/var/rundeck/continuous-delivery-workshop.pem
 }}}
   # Add your Valid Tomcat servers in *{{{resources.xml}}}*:
-<code language="xml">
+  <code language="xml">
 <node 
 	name="valid-tomcat-1" 
 	description="valid-tomcat-1" 
