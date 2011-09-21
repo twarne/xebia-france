@@ -24,28 +24,42 @@ Note: the [https://wiki.jenkins-ci.org/display/JENKINS/SSH+plugin Jenkins SSH Pl
  # Activation option called *Execute shell script on remote host using SSH*
  # Select the right SSH Site you’ve configured before, then in *post-build script*, copy past the following script, by replacing with your artifact groupId
 
+TODO : there are wrong exit status with shell script in Jenkins GUI:
+ ** create a shell script {{/usr/share/tomcat6/bin/redeploy-petclinic.sh}} with the following content prefixed by a shebang
+ ** just call {{/usr/share/tomcat6/bin/redeploy-petclinic.sh}} in jenkins GUI
 <code language="sh">
-# shutdown tomcat
+# shutdown tomcat 
 /usr/sbin/tomcat6 stop
+  
+# cleanup 
+if [ -f /usr/share/tomcat6/webapps/xebia-petclinic.war ]; 
+then 
+   rm -rf "/usr/share/tomcat6/webapps/xebia-petclinic.war" 
+fi 
+if [ -d /usr/share/tomcat6/webapps/xebia-petclinic ]; 
+then 
+   rm -rf "/usr/share/tomcat6/webapps/xebia-petclinic" 
+fi 
  
-# cleanup
-rm /usr/share/tomcat6/webapps/xebia-petclinic.war
-rm -rf  /usr/share/tomcat6/webapps/xebia-petclinic
+echo "petclinic removed from tomcat server" 
  
+# download new war version 
+curl "http://nexus.xebia-tech-event.info:8081/nexus/service/local/artifact/maven/content?g=fr.xebia.demo.petclinic-clc&a=xebia-petclinic&r=snapshots&v=LATEST&e=war" --silent --show-error  --output "/usr/share/tomcat6/webapps/xebia-petclinic.war" 
 
-# download new war version
-curl "http://nexus.xebia-tech-event.info:8081/nexus/service/local/artifact/maven/content?g=fr.xebia.demo.petclinic-clc&a=xebia-petclinic&r=snapshots&v=LATEST&e=war" --silent --show-error  --output "/usr/share/tomcat6/webapps/xebia-petclinic.war"
+echo "petclinic downloaded from nexus server" 
 
-# start tomcat
+# start tomcat 
 /usr/sbin/tomcat6 start
 
-# test started webapp
-# TODO: should return error in case of wrong http response
-sleep 30
-curl --connect-timeout 10 --retry 10 --silent --show-error --write-out "OK" -o ping http://localhost:8080/xebia-petclinic 
+echo "petclinic tomcat started" 
+ 
+# test started webapp 
+# TODO: should return error in case of wrong http response 
+sleep 30 
+curl --connect-timeout 10 --retry 10 --silent --show-error --write-out "OK" -o ping http://localhost:8080/xebia-petclinic  
+echo ""
 
-# FIXME protect against unexpected "exit-status: 6"
-exit 0
+echo "petclinic redeployed and available on tomcat server" 
 </code>
 
 = Automated Tomcat Deployment with Rundeck = 
