@@ -2,19 +2,19 @@
 
  * SSH:
  {{{
-ssh -i continuous-delivery-workshop.pem ec2-user@ec2-79-125-58-67-jenkins.eu-west-1.compute.amazonaws.com
+ssh -i continuous-delivery-workshop.pem ec2-user@ec2-46-137-9-148.eu-west-1.compute.amazonaws.com
 }}}
- * HTTP: [http://ec2-79-125-58-67-jenkins.eu-west-1.compute.amazonaws.com:8080] (no login/password required)
+ * HTTP: [http://ec2-46-137-9-148.eu-west-1.compute.amazonaws.com:8080/] (no login/password required)
 
 
 = Automated Tomcat Deployment with Jenkins SSH Plugin = 
 
 Note: the [https://wiki.jenkins-ci.org/display/JENKINS/SSH+plugin Jenkins SSH Plugin] is already installed on your jenkins server.
 
- # Connect to your *Jenkins* server [http://ec2-79-125-58-67-jenkins.eu-west-1.compute.amazonaws.com:8080]
+ # Connect to your *Jenkins* server [http://ec2-46-137-9-148.eu-west-1.compute.amazonaws.com:8080/]
  # In the *administration section* of Jenkins, go to the page *System Configuration*
  # In the section called : *SSH Remote hosts*, enter the following information:
-  * Host: {{{ec2-79-125-53-61-devtomcat.eu-west-1.compute.amazonaws.com}}} (the Dev Tomcat)
+  * Host: {{{ec2-46-137-1-205.eu-west-1.compute.amazonaws.com}}} (the Dev Tomcat)
   * Port: {{{23}}}
   * Username: {{{ec2-user}}} the ec2-user
   * Keyfile /path to the file continuous-delivery-workshop.pem TODO
@@ -32,7 +32,7 @@ rm /usr/share/tomcat6/webapps/xebia-petclinic.war
 rm -rf  /usr/share/tomcat6/webapps/xebia-petclinic
 
 # download new war version
-curl " http://nexus.xebia-tech-event.info:8081/nexus/service/local/artifact/maven/content?g=fr.xebia.demo.petclinic-3&a=xebia-petclinic&r=snapshots&v=LATEST&e=war" --silent --show-error  --output /usr/share/tomcat6/webapps/xebia-petclinic.war
+curl " http://nexus.xebia-tech-event.info:8081/nexus/service/local/artifact/maven/content?g=fr.xebia.demo.petclinic-clc&a=xebia-petclinic&r=snapshots&v=LATEST&e=war" --silent --show-error  --output /usr/share/tomcat6/webapps/xebia-petclinic.war
 
 # start tomcat
 /usr/share/tomcat6/bin/startup.sh
@@ -46,14 +46,14 @@ curl --connect-timeout 10 --retry 10 --silent --show-error --write-out "OK" -o p
 = Automated Tomcat Deployment with Rundeck = 
  * SSH:
 
- * HTTP: [http://ec2-79-125-58-67-jenkins.eu-west-1.compute.amazonaws.com:4440] (login=admin, password=admin)
+ * HTTP: [http://ec2-46-137-9-148.eu-west-1.compute.amazonaws.com:4440/] (login=admin, password=admin)
 
 Here is the configuration of the previous task with Rundeck.
- # Connect to your Rundeck server http://ec2-79-125-58-67-jenkins.eu-west-1.compute.amazonaws.com:4440 (login=admin, password=admin)
+ # Connect to your Rundeck server http://ec2-46-137-9-148.eu-west-1.compute.amazonaws.com:4440/ (login=admin, password=admin)
  # Create a new project "{{{deploy-on-tomcat-valid}}}"
  # Connect via SSH to the rundeck server: 
   {{{
-ssh -i continuous-delivery-workshop.pem ec2-user@ec2-79-125-58-67-jenkins.eu-west-1.compute.amazonaws.com
+ssh -i continuous-delivery-workshop.pem ec2-user@ec2-46-137-9-148.eu-west-1.compute.amazonaws.com
 }}}
   # Update the project configuration files in "{{{/etc/rundeck/projects/deploy-on-tomcat-valid/etc/}}}":
    # Modify the *{{{project.properties}}}* to add ssh private key for the workshop
@@ -66,28 +66,28 @@ project.ssh-keypath=(PATH_TO)/continuous-delivery-workshop.pem
 	name="valid-tomcat-1" 
 	description="valid-tomcat-1" 
 	tags="tomcat,valid" 
-	hostname="ec2-79-011-33-55-validtomcat.eu-west-1.compute.amazonaws.com" 	
+	hostname="ec2-79-125-61-230.eu-west-1.compute.amazonaws.com" 	
 	osArch="i386" 
 	osFamily="unix" 
 	osName="Linux" 
 	osVersion="" 
 	username="ec2-user" 
-	privateIpAddress="10.01.03.05" 	
-	privateDnsName="ip-10-01-03-05.eu-west-1.compute.internal"
+	privateIpAddress="10.235.42.162" 	
+	privateDnsName="ip-10-235-42-162.eu-west-1.compute.internal"
 	editUrl="https://console.aws.amazon.com/ec2/home#c=EC2&amp;s=Instances"/>
 <node 
 	name="valid-tomcat-2" 
 	description="valid-tomcat-2" 
 	tags="tomcat,valid" 
-	hostname="ec2-80-022-44-66-validtomcat.eu-west-1.compute.amazonaws.com" 	
+	hostname="ec2-46-137-143-247.eu-west-1.compute.amazonaws.com" 	
 	osArch="i386" 
 	osFamily="unix" 
 	osName="Linux" 
 	osVersion="" 
 	username="ec2-user" 
-	privateIpAddress="10.02.04.06" 	
-	privateDnsName="ip-10-02-04-04.eu-west-1.compute.internal"
-	editUrl="https://console.aws.amazon.com/ec2/home#c=EC2&amp;s=Instances"/>
+	privateIpAddress="10.228.63.46" 	
+	privateDnsName="ip-10-228-63-46.eu-west-1.compute.internal"
+	editUrl="https://console.aws.amazon.com/ec2/home?region=eu-west-1&#s=Instances"/>
 </code>
  # Go back to Rundeck web admin console
  # Create a new job with the following parameters:
@@ -99,4 +99,3 @@ project.ssh-keypath=(PATH_TO)/continuous-delivery-workshop.pem
   * Then Create and Run
 
 _TODO : LINK WITH RUNDECK (done tonight)_
- 
