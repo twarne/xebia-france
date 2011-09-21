@@ -76,7 +76,7 @@ project.ssh-keypath=/var/rundeck/continuous-delivery-workshop.pem
 	osFamily="unix" 
 	osName="Linux" 
 	osVersion="" 
-	username="ec2-user" 
+	username="tomcat" 
 	privateIpAddress="10.235.41.152" 	
 	privateDnsName="ip-10-235-41-152.eu-west-1.compute.internal"
 	editUrl="https://console.aws.amazon.com/ec2/home?region=eu-west-1"/>
@@ -89,7 +89,7 @@ project.ssh-keypath=/var/rundeck/continuous-delivery-workshop.pem
 	osFamily="unix" 
 	osName="Linux" 
 	osVersion="" 
-	username="ec2-user" 
+	username="tomcat" 
 	privateIpAddress="10.234.217.118" 	
 	privateDnsName="ip-10-234-217-118.eu-west-1.compute.internal"
 	editUrl="https://console.aws.amazon.com/ec2/home?region=eu-west-1"/>
