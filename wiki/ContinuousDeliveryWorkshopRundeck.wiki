@@ -1,4 +1,9 @@
-#summary One-sentence summary of this page.
+#summary TODO
+
+----
+
+*WARNING* use code generator (see LabWikiPageGeneratorTest.java, sample  [ContinuousDeliveryWorkshopRundeckTeam1Test] 
+----
 
 = Introduction =
 
