@@ -34,8 +34,7 @@ rm -rf  /usr/share/tomcat6/webapps/xebia-petclinic
  
 
 # download new war version
-curl "http://nexus.xebia-tech-event.info:8081/nexus/service/local/artifact/maven/content?g=fr.xebia.demo.petclinic-clc&a=xebia-petclinic&r=snapshots&v=LATEST&e=war" --silent --show-error  --output /usr/share/tomcat6/webapps/xebia-petclinic.war
-chown root:tomcat /usr/share/tomcat6/webapps/xebia-petclinic.war
+curl "http://nexus.xebia-tech-event.info:8081/nexus/service/local/artifact/maven/content?g=fr.xebia.demo.petclinic-clc&a=xebia-petclinic&r=snapshots&v=LATEST&e=war" --silent --show-error  --output "/usr/share/tomcat6/webapps/xebia-petclinic.war"
 
 # start tomcat
 /usr/sbin/tomcat6 start
