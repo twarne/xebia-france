@@ -31,9 +31,9 @@ ssh -i continuous-delivery-workshop.pem tomcat@${infrastructure.devTomcat.public
  # Activation option called *Execute shell script on remote host using SSH*
  # Select the right SSH site you’ve configured before, 
  # In *post-build script*, enter 
-  {{
+  {{{
   /usr/share/tomcat6/bin/redeploy-petclinic fr.xebia.demo.petclinic-${infrastructure.identifier}
-}}
+}}}
 
 = Automated Tomcat Deployment with Rundeck = 
  * SSH:
@@ -85,9 +85,9 @@ project.ssh-keypath=/var/rundeck/.ssh/continuous-delivery-workshop.pem
  # Create a new job with the following parameters:
   * Save this Job? {{{YES}}} and give it a name
   * Enter the shell command: 
-     {{
+     {{{
   /usr/share/tomcat6/bin/redeploy-petclinic.sh fr.xebia.demo.petclinic-${infrastructure.identifier}
-}}
+}}}
   * Select Dispatch to Node
   * Click on Name and select .*
   * Then Create and Run
