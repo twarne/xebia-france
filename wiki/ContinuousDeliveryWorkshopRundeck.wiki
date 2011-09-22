@@ -2,7 +2,7 @@
 
 ----
 
-*WARNING* use code generator (see LabWikiPageGeneratorTest.java, sample  [ContinuousDeliveryWorkshopRundeckTeam1Test] 
+*WARNING* use code generator (see {{{LabWikiPageGeneratorTest.java}}}, sample  [ContinuousDeliveryWorkshopRundeckTeam1Test] 
 ----
 
 = Introduction =
@@ -46,4 +46,3 @@ Requirement for this workshop:
  * Git client
  * Web browser
  
-
