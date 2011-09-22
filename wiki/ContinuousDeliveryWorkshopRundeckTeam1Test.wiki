@@ -1,27 +1,26 @@
-
 = Jenkins Server =
 
  * SSH:
  {{{
-ssh -i continuous-delivery-workshop.pem ec2-user@${infrastructure.jenkins.publicDnsName}
+ssh -i continuous-delivery-workshop.pem ec2-user@ec2-46-51-157-205.eu-west-1.compute.amazonaws.com
 }}}
- * HTTP: [${infrastructure.jenkinsUrl}] (no login/password required)
+ * HTTP: [http://ec2-46-51-157-205.eu-west-1.compute.amazonaws.com:8080/] (no login/password required)
 
 
 = Automated Tomcat Deployment with Jenkins SSH Plugin = 
 
 Note: the [https://wiki.jenkins-ci.org/display/JENKINS/SSH+plugin Jenkins SSH Plugin] is already installed on your jenkins server.
- # Deploy a {{{tomcat-deploy-petclinic}}} shell script on the tomcat-team-x-dev-1 server
+ # Deploy a {{{tomcat-deploy-petclinic}}} shell script on the tomcat-clc-dev-1 server
   # ssh connect as user tomcat
    {{{
-ssh -i continuous-delivery-workshop.pem tomcat@${infrastructure.devTomcat.publicDnsName}
+ssh -i continuous-delivery-workshop.pem tomcat@
 }}}
   # create a {{{/usr/share/tomcat6/bin/tomcat-deploy-petclinic}}} to download a new version of tomcat
    * See http://xebia-france.googlecode.com/svn/cloudcomputing/xebia-cloudcomputing-extras/trunk/src/main/scripts/fr/xebia/workshop/continuousdelivery/tomcat-deploy-petclinic
- # Connect to your *Jenkins* server: [${infrastructure.jenkinsUrl}]
+ # Connect to your *Jenkins* server: [http://ec2-46-51-157-205.eu-west-1.compute.amazonaws.com:8080/]
  # In the *Manage Jenkins* of Jenkins, go to the page *System Configuration*
  # In the section called : *SSH Remote hosts*, enter:
-  * Host: {{{${infrastructure.devTomcat.publicDnsName}}}}
+  * Host: {{{}}}
   * Port: #blank#
   * Username: {{{tomcat}}}
   * Password: #blank#
@@ -32,20 +31,20 @@ ssh -i continuous-delivery-workshop.pem tomcat@${infrastructure.devTomcat.public
  # Select the right SSH site you’ve configured before, 
  # In *post-build script*, enter 
   {{{
-  /usr/share/tomcat6/bin/redeploy-petclinic fr.xebia.demo.petclinic-${infrastructure.identifier}
+  /usr/share/tomcat6/bin/redeploy-petclinic fr.xebia.demo.petclinic-clc
 }}}
 
 = Automated Tomcat Deployment with Rundeck = 
  * SSH:
 
- * HTTP: [${infrastructure.rundeckUrl}] (login=admin, password=admin)
+ * HTTP: [http://ec2-46-51-157-205.eu-west-1.compute.amazonaws.com:4440/] (login=admin, password=admin)
 
 Here is the configuration of the previous task with Rundeck.
- # Connect to your Rundeck server ${infrastructure.rundeckUrl} (login=admin, password=admin)
+ # Connect to your Rundeck server http://ec2-46-51-157-205.eu-west-1.compute.amazonaws.com:4440/ (login=admin, password=admin)
  # Create a new project "{{{deploy-petclinic-on-tomcat-valid}}}"
  # Connect via SSH to the rundeck server: 
   {{{
-ssh -i continuous-delivery-workshop.pem ec2-user@${infrastructure.rundeck.publicDnsName}
+ssh -i continuous-delivery-workshop.pem ec2-user@ec2-46-51-157-205.eu-west-1.compute.amazonaws.com
 }}}
   # Update the project configuration files in "{{{/var/rundeck/projects/deploy-petclinic-on-tomcat-valid/etc/}}}":
    # Modify the *{{{project.properties}}}* to add ssh private key for the workshop
@@ -58,27 +57,27 @@ project.ssh-keypath=/var/rundeck/.ssh/continuous-delivery-workshop.pem
 	name="valid-tomcat-1" 
 	description="valid-tomcat-1" 
 	tags="tomcat,valid" 
-	hostname="${infrastructure.validTomcat1.publicDnsName}" 	
+	hostname="ec2-46-51-145-155.eu-west-1.compute.amazonaws.com" 	
 	osArch="i386" 
 	osFamily="unix" 
 	osName="Linux" 
 	osVersion="" 
 	username="tomcat" 
-	privateIpAddress="${infrastructure.validTomcat1.privateIpAddress}" 	
-	privateDnsName="${infrastructure.validTomcat1.privateDnsName}"
+	privateIpAddress="10.235.74.151" 	
+	privateDnsName="ip-10-235-74-151.eu-west-1.compute.internal"
 	editUrl="https://console.aws.amazon.com/ec2/home?region=eu-west-1"/>
 <node 
 	name="valid-tomcat-2" 
 	description="valid-tomcat-2" 
 	tags="tomcat,valid" 
-	hostname="${infrastructure.validTomcat2.publicDnsName}" 	
+	hostname="ec2-46-51-146-254.eu-west-1.compute.amazonaws.com" 	
 	osArch="i386" 
 	osFamily="unix" 
 	osName="Linux" 
 	osVersion="" 
 	username="tomcat" 
-	privateIpAddress="${infrastructure.validTomcat2.privateIpAddress}" 	
-	privateDnsName="${infrastructure.validTomcat2.privateDnsName}"
+	privateIpAddress="10.235.47.126" 	
+	privateDnsName="ip-10-235-47-126.eu-west-1.compute.internal"
 	editUrl="https://console.aws.amazon.com/ec2/home?region=eu-west-1"/>
 </code>
  # Go back to Rundeck web admin console
@@ -86,7 +85,7 @@ project.ssh-keypath=/var/rundeck/.ssh/continuous-delivery-workshop.pem
   * Save this Job? {{{YES}}} and give it a name
   * Enter the shell command: 
      {{{
-  /usr/share/tomcat6/bin/redeploy-petclinic.sh fr.xebia.demo.petclinic-${infrastructure.identifier}
+  /usr/share/tomcat6/bin/redeploy-petclinic.sh fr.xebia.demo.petclinic-clc
 }}}
   * Select Dispatch to Node
   * Click on Name and select .*
