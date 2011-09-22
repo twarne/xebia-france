@@ -1,24 +1,20 @@
-= Jenkins Server =
-
- * SSH:
- {{{
-ssh -i continuous-delivery-workshop.pem ec2-user@ec2-46-51-157-205.eu-west-1.compute.amazonaws.com
-}}}
- * HTTP: [http://ec2-46-51-157-205.eu-west-1.compute.amazonaws.com:8080/] (no login/password required)
-
-
 = Automated Tomcat Deployment with Jenkins SSH Plugin = 
 
+== Architecture ==
+
+<img width="300" src="http://xebia-france.googlecode.com/svn/wiki/cont-delivery-img/jenkins-ssh-plugin.png"/>
+
+== Lab ==
+
 Note: the [https://wiki.jenkins-ci.org/display/JENKINS/SSH+plugin Jenkins SSH Plugin] is already installed on your jenkins server.
- # Deploy a {{{tomcat-deploy-petclinic}}} shell script on the tomcat-clc-dev-1 server
+ # Deploy a {{{tomcat-deploy-petclinic}}} shell script on the tomcat-team-1-dev-1 server
   # ssh connect as user tomcat
    {{{
 ssh -i continuous-delivery-workshop.pem tomcat@ec2-46-137-33-136.eu-west-1.compute.amazonaws.com
-
 }}}
   # create a {{{/usr/share/tomcat6/bin/tomcat-deploy-petclinic}}} to download a new version of tomcat
-   * See http://xebia-france.googlecode.com/svn/cloudcomputing/xebia-cloudcomputing-extras/trunk/src/main/scripts/fr/xebia/workshop/continuousdelivery/tomcat-deploy-petclinic
- # Connect to your *Jenkins* server: [http://ec2-46-51-157-205.eu-west-1.compute.amazonaws.com:8080/]
+   * See [http://xebia-france.googlecode.com/svn/cloudcomputing/xebia-cloudcomputing-extras/trunk/src/main/scripts/fr/xebia/workshop/continuousdelivery/tomcat-deploy-petclinic tomcat-deploy-petclinic]
+ # Connect to your *Jenkins* server: [${infrastructure.jenkinsUrl}]
  # In the *Manage Jenkins* of Jenkins, go to the page *System Configuration*
  # In the section called : *SSH Remote hosts*, enter:
   * Host: {{{ec2-46-137-33-136.eu-west-1.compute.amazonaws.com}}}
@@ -32,15 +28,26 @@ ssh -i continuous-delivery-workshop.pem tomcat@ec2-46-137-33-136.eu-west-1.compu
  # Select the right SSH site you’ve configured before, 
  # In *post-build script*, enter 
   {{{
-  /usr/share/tomcat6/bin/tomcat-deploy-petclinic fr.xebia.demo.petclinic-clc
+  /usr/share/tomcat6/bin/tomcat-deploy-petclinic fr.xebia.demo.petclinic-team-1
 }}}
 
 = Automated Tomcat Deployment with Rundeck = 
- * SSH:
 
- * HTTP: [http://ec2-46-51-157-205.eu-west-1.compute.amazonaws.com:4440/] (login=admin, password=admin)
+== Architecture ==
+
+<img width="300" src="http://xebia-france.googlecode.com/svn/wiki/cont-delivery-img/jenkins-rundeck.png"/>
+
+== Lab ==
 
 Here is the configuration of the previous task with Rundeck.
+ # Deploy a {{{tomcat-deploy-petclinic}}} shell script on the {{{tomcat-team-1-valid-1}}} and {{{tomcat-team-1-valid-2}}} servers
+  # ssh connect as user tomcat to {{{tomcat-team-1-valid-1}}}
+   {{{
+ssh -i continuous-delivery-workshop.pem tomcat@ec2-46-51-145-155.eu-west-1.compute.amazonaws.com
+}}}
+  # create a {{{/usr/share/tomcat6/bin/tomcat-deploy-petclinic}}} to download a new version of tomcat
+   * See http://xebia-france.googlecode.com/svn/cloudcomputing/xebia-cloudcomputing-extras/trunk/src/main/scripts/fr/xebia/workshop/continuousdelivery/tomcat-deploy-petclinic
+
  # Connect to your Rundeck server http://ec2-46-51-157-205.eu-west-1.compute.amazonaws.com:4440/ (login=admin, password=admin)
  # Create a new project "{{{deploy-petclinic-on-tomcat-valid}}}"
  # Connect via SSH to the rundeck server: 
@@ -81,13 +88,14 @@ project.ssh-keypath=/var/rundeck/.ssh/continuous-delivery-workshop.pem
 	privateDnsName="ip-10-235-47-126.eu-west-1.compute.internal"
 	editUrl="https://console.aws.amazon.com/ec2/home?region=eu-west-1"/>
 </code>
- # Go back to Rundeck web admin console
- # Create a new job with the following parameters:
-  * Save this Job? {{{YES}}} and give it a name
-  * Enter the shell command: 
+ # Go back to [http://ec2-46-51-157-205.eu-west-1.compute.amazonaws.com:4440/ Rundeck web admin console]
+ # Create a new job:
+  * Save this Job?: {{{YES}}}
+  * Name: {{{tomcat-deploy-petclinic}}}
+  * Shell command: 
      {{{
-  /usr/share/tomcat6/bin/tomcat-deploy-petclinic fr.xebia.demo.petclinic-clc
+  /usr/share/tomcat6/bin/tomcat-deploy-petclinic fr.xebia.demo.petclinic-team-1
 }}}
-  * Select Dispatch to Node
-  * Click on Name and select .*
-  * Then Create and Run
+  * Dispatch to Node: {{{checked}}}
+  * Includes: {{{tags}}}, type "{{{tomcat}}}"
+  * Click on *Create and Run*
