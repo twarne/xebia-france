@@ -42,80 +42,8 @@ For this hands-workshop, we’ll provide for each team:
 Those Virtual Machines will be created in Xebia France account Amazon EC2 Account. Your email will be requested to get the public key and the different Public IP to get access to those EC2 instance.
 
 Requirement for this workshop:
-  * One laptop with SSH access capabilites and a WebBrowser
+ * SSH client
+ * Git client
+ * Web browser
+ 
 
-
-= Hands on =
-== Remote SSH With Jenkins (Not fully tested yet)== 
-The instance you’ve been provided has the SSH Plugin already integrated.
-  # Connect to your *Jenkins* instance and get logged in
-  # In the *administration section* of Jenkins, go to the page *System Configuration*
-  # In the section called : *SSH Remote hosts*, enter the following information:
-  * Host (public IP of the EC2 instance)
-  * Port 23
-  * Username ec2-user
-  * Keyfile /path to the file continuous-delivery-workshop.pem
-  # *Save* the settings
-  # Create a new *Free Style Project* for Jenkins with the following parameters
-  # Activation option called *Execute shell script on remote host using SSH*
-  # Select the right SSH Site you’ve configured before, then in *post-build script€, copy past the following script, by replacing with your artifact groupId
-
-<code language="sh">
-/usr/share/tomcat6/bin/shutdown.sh
-
-cd /usr/share/tomcat6/webapps/
-rm -rf  /usr/share/tomcat6/webapps/xebia-petclinic
-
-#REPLACE HERE THE RIGHT GROUP ID IN THE g=PARAMETER
-curl " http://nexus.xebia-tech-event.info:8081/nexus/service/local/artifact/maven/content?g=$2&a=$xebia-petclinic&r=snapshots&v=LATEST&e=war" --silent --show-error  --output xebia-petclinic.war
-
-/usr/share/tomcat6/bin/startup.sh
-
-sleep 10
-curl --connect-timeout 10 --retry 10 --silent --show-error --write-out "OK" -o ping http://localhost:8080/xebia-petclinic
-
-</code>
-
-
-_You can then save your job and try to run a build_
-
-
-== Rundeck with Jenkins == 
-
-Rundeck is a tool that can dispatch and monitor scripts execution within workflows over several environments using SSH.
-Here is the configuration of the previous task with Rundeck.
-  # Connect using HTTP to your Rundeck instance (default credentials : admin/admin) then create a new Project.
-  # Connect to the Host of Rundeck using SSH
-  # Go into the folder /etc/rundeck/projects/(YOUR_PROJECT)/etc*
-  # Modify the *project.properties* to add ssh key for the workshop
-project.ssh-keypath=(PATH_TO)/continuous-delivery-workshop.pem
-
-The file *resources.xml* contains the description of your infrastructure. It contains all the IP address, users and tags that will be used in Rundeck environment. Open this file and add the following information for your two EC2 Instances
-<code language="xml">
-<node 
-	name="*TomcatDev*" 
-	description="*Ec2 Tomcat Dev*" 
-	tags="*tomcat,prod*" 
-	hostname="*ec2-79-125-58-67.eu-west-1.compute.amazonaws.com*" 	
-	osArch="i386" 
-	osFamily="unix" 
-	osName="Linux" 
-	osVersion="" 
-	username="ec2-user" 
-	privateIpAddress="*10.234.33.147*" 	
-	privateDnsName="*ip-10-234-33-147.eu-west-1.compute.internal*"
-	editUrl="https://console.aws.amazon.com/ec2/home#	c=EC2&amp;s=Instances"/>
-</code>
-
-Node element are contained in the existing project element.
-
-save the file and returns to Rundeck via HTTP. 
-Create a new job with the following parameters:
-  * Save this Job? YES and give it a name
-  * Cancel the default Workflow step and add a script step
-  * Copy/Paste the same a script as before for Jenkins
-  * Select Dispatch to Node
-  * Click on Name and select .*
-  * Then Create and Run
-
-_TODO : LINK WITH RUNDECK (done tonight)_
