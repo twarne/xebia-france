@@ -39,8 +39,14 @@ On Tomcat6 RPM, {{{$TOMCAT_HOME=/usr/share/tomcat6/}}}.
 
 Note Tomcat6 RPM does not expose the typical {{{catalina.sh}}}.
 
- * Start: {{{$tomcat> /usr/sbin/tomcat6 start}}}
- * Stop:  {{{$tomcat> /usr/sbin/tomcat6 stop}}}
+ * Start: 
+  {{{
+$tomcat> /usr/sbin/tomcat6 start
+}}}
+ * Stop:
+  {{{
+$tomcat> /usr/sbin/tomcat6 stop
+}}}
  
 === Nexus download artifact URL API ===
 
