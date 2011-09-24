@@ -75,7 +75,7 @@ wget http://exemple.com/test.txt --output-document /tmp/renamed-test.txt
 }}}
 
 === How to test existence of a file, of a folder ===
-
+{{{
 if [ -f /tmp/test.txt ];
 then
    echo "File '/tmp/test.txt' exists"
@@ -84,6 +84,7 @@ if [ -d /tmp/test-folder ];
 then
    echo "Folder '/tmp/test-folder' exists"
 fi
+}}}
 
 === How to verify a http response code  ===
 
