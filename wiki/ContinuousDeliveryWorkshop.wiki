@@ -2,8 +2,10 @@
 
 = Labs =
 
+ * Workshop setup and architecture : ContinuousDeliveryWorkshopSetup
+ * Work In Progress Generated Lab subject ContinuousDeliveryWorkshopRundeckTeam1Test
+ * Work in progress to refactor ContinuousDeliveryWorkshopRundeck
  * [ContinuousDeliveryWorkshopJenkinsSshPluginToTomcat]
-
  * [ContinuousDeliveryWorkshopRundeckToTomcat]
 
 = Diagrams =
