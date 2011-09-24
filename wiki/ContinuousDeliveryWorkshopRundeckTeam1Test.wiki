@@ -13,6 +13,7 @@ This script must:
  # Go further in the lab: test the URL http://localhost:8080/xebia-petclinic
  # Be installed under{{{$TOMCAT_HOME/bin/tomcat-deploy-petclinic}}}
  
+Answer : [http://xebia-france.googlecode.com/svn/cloudcomputing/xebia-cloudcomputing-extras/trunk/src/main/scripts/fr/xebia/workshop/continuousdelivery/tomcat-deploy-petclinic tomcat-deploy-petclinic]
 == Tips and tricks ==
 
 === SSH connection parameters to Tomcat servers ===
@@ -102,13 +103,7 @@ TODO : compare http_code to 200
 == Lab ==
 
 Note: the [https://wiki.jenkins-ci.org/display/JENKINS/SSH+plugin Jenkins SSH Plugin] is already installed on your jenkins server.
- # Deploy a {{{tomcat-deploy-petclinic}}} shell script on the tomcat-3-dev-1 server
-  # ssh connect as user tomcat
-   {{{
-ssh -i continuous-delivery-workshop.pem tomcat@ec2-79-125-53-61-devtomcat.eu-west-1.compute.amazonaws.com
-}}}
-  # create a {{{/usr/share/tomcat6/bin/tomcat-deploy-petclinic}}} to download a new version of tomcat
-   * See [http://xebia-france.googlecode.com/svn/cloudcomputing/xebia-cloudcomputing-extras/trunk/src/main/scripts/fr/xebia/workshop/continuousdelivery/tomcat-deploy-petclinic tomcat-deploy-petclinic]
+ # Deploy the {{{[http://xebia-france.googlecode.com/svn/cloudcomputing/xebia-cloudcomputing-extras/trunk/src/main/scripts/fr/xebia/workshop/continuousdelivery/tomcat-deploy-petclinic tomcat-deploy-petclinic]}}} shell script on the {{{tomcat-3-dev-1}}} servers
  # Connect to your *Jenkins* server: [http://ec2-79-125-58-67-jenkins.eu-west-1.compute.amazonaws.com:8080]
  # In the *Manage Jenkins* of Jenkins, go to the page *System Configuration*
  # In the section called : *SSH Remote hosts*, enter:
@@ -135,14 +130,7 @@ ssh -i continuous-delivery-workshop.pem tomcat@ec2-79-125-53-61-devtomcat.eu-wes
 == Lab ==
 
 Here is the configuration of the previous task with Rundeck.
- # Deploy a {{{tomcat-deploy-petclinic}}} shell script on the {{{tomcat-3-valid-1}}} and {{{tomcat-3-valid-2}}} servers
-  # ssh connect as user tomcat to {{{tomcat-3-valid-1}}}
-   {{{
-ssh -i continuous-delivery-workshop.pem tomcat@ec2-79-011-33-55-validtomcat.eu-west-1.compute.amazonaws.com
-}}}
-  # create a {{{/usr/share/tomcat6/bin/tomcat-deploy-petclinic}}} to download a new version of tomcat
-   * See http://xebia-france.googlecode.com/svn/cloudcomputing/xebia-cloudcomputing-extras/trunk/src/main/scripts/fr/xebia/workshop/continuousdelivery/tomcat-deploy-petclinic
-
+ # Deploy the {{{[http://xebia-france.googlecode.com/svn/cloudcomputing/xebia-cloudcomputing-extras/trunk/src/main/scripts/fr/xebia/workshop/continuousdelivery/tomcat-deploy-petclinic tomcat-deploy-petclinic]}}} shell script on the {{{tomcat-3-valid-1}}} and {{{tomcat-3-valid-2}}} servers
  # Connect to your Rundeck server http://ec2-79-125-58-67-jenkins.eu-west-1.compute.amazonaws.com:4440 (login=admin, password=admin)
  # Create a new project "{{{deploy-petclinic-on-tomcat-valid}}}"
  # Connect via SSH to the rundeck server: 
