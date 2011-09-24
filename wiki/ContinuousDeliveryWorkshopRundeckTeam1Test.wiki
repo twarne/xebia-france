@@ -18,9 +18,17 @@ This script must:
 === SSH connection parameters to Tomcat servers ===
 
 SSH connection parameters to Tomcat servers as tomcat user:
- * tomcat-clc-dev-1: {{{ssh -i continuous-delivery-workshop.pem tomcat@ec2-79-125-53-61-devtomcat.eu-west-1.compute.amazonaws.com}}}
- * tomcat-clc-valid-1: {{{ssh -i continuous-delivery-workshop.pem tomcat@ec2-79-011-33-55-validtomcat.eu-west-1.compute.amazonaws.com}}}
- * tomcat-clc-valid-2: {{{ssh -i continuous-delivery-workshop.pem tomcat@ec2-80-022-44-66-validtomcat.eu-west-1.compute.amazonaws.com}}}
+ * tomcat-clc-dev-1: 
+  {{{
+ssh -i continuous-delivery-workshop.pem tomcat@ec2-79-125-53-61-devtomcat.eu-west-1.compute.amazonaws.com
+}}}
+ * tomcat-clc-valid-1: 
+  {{{
+ssh -i continuous-delivery-workshop.pem tomcat@ec2-79-011-33-55-validtomcat.eu-west-1.compute.amazonaws.com
+}}}
+ * tomcat-clc-valid-2: 
+  {{{ssh -i continuous-delivery-workshop.pem tomcat@ec2-80-022-44-66-validtomcat.eu-west-1.compute.amazonaws.com
+}}}
 
 === What is {{{$TOMCAT_HOME}}} for Tomcat6 RPM === 
 
