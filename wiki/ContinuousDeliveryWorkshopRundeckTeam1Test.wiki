@@ -110,12 +110,13 @@ Note: the [https://wiki.jenkins-ci.org/display/JENKINS/SSH+plugin Jenkins SSH Pl
  # Deploy the "[http://xebia-france.googlecode.com/svn/cloudcomputing/xebia-cloudcomputing-extras/trunk/src/main/scripts/fr/xebia/workshop/continuousdelivery/tomcat-deploy-petclinic tomcat-deploy-petclinic]" shell script on the {{{tomcat-3-dev-1}}} servers
  # Connect to your *Jenkins* server: [http://ec2-79-125-58-67-jenkins.eu-west-1.compute.amazonaws.com:8080]
  # In the *Manage Jenkins* / *Configure System*
-  <img height="20" src="http://xebia-france.googlecode.com/svn/wiki/cont-delivery-img/jenkins-manage-jenkins-screenshot.png" /> <img height="25" src="http://xebia-france.googlecode.com/svn/wiki/cont-delivery-img/jenkins-configure-system-screenshot.png" /> # In the section called : *SSH Remote hosts*, enter:
-  * Host: {{{ec2-79-125-53-61-devtomcat.eu-west-1.compute.amazonaws.com}}}
-  * Port: #blank#
-  * Username: {{{tomcat}}}
-  * Password: #blank#
-  * Keyfile: {{{/var/lib/jenkins/.ssh/continuous-delivery-workshop.pem}}}
+  <img height="20" src="http://xebia-france.googlecode.com/svn/wiki/cont-delivery-img/jenkins-manage-jenkins-screenshot.png" /> <img height="25" src="http://xebia-france.googlecode.com/svn/wiki/cont-delivery-img/jenkins-configure-system-screenshot.png" /> 
+ # In the section called : *SSH Remote hosts*, enter:
+  ** Host: {{{ec2-79-125-53-61-devtomcat.eu-west-1.compute.amazonaws.com}}}
+  ** Port: #blank#
+  ** Username: {{{tomcat}}}
+  ** Password: #blank#
+  ** Keyfile: {{{/var/lib/jenkins/.ssh/continuous-delivery-workshop.pem}}}
    <img height="135" src="http://xebia-france.googlecode.com/svn/wiki/cont-delivery-img/jenkins-add-ssh-remote-host-screenshot.png" />
  # *Save* the settings
  # Create a new *Free Style Project* for Jenkins with the following parameters
@@ -180,7 +181,7 @@ project.ssh-keypath=/var/rundeck/.ssh/continuous-delivery-workshop.pem
 	editUrl="https://console.aws.amazon.com/ec2/home?region=eu-west-1"/>
 </code>
  # Go back to [http://ec2-79-125-58-67-jenkins.eu-west-1.compute.amazonaws.com:4440 Rundeck web admin console]
- # Click on "Create a new job"
+ # Click on "New job ..."
   <img height="100" src="http://xebia-france.googlecode.com/svn/wiki/cont-delivery-img/rundeck-new-job-screenshot.png" />
  # Create a new job:
   * Save this Job?: {{{Yes}}}
@@ -200,9 +201,11 @@ project.ssh-keypath=/var/rundeck/.ssh/continuous-delivery-workshop.pem
   ** URL: {{{http://ec2-79-125-58-67-jenkins.eu-west-1.compute.amazonaws.com:4440/}}}
   ** Login: {{{admin}}}
   ** Password: {{{admin}}}
+  ** Click on "Test connection"
   <img height="75" src="http://xebia-france.googlecode.com/svn/wiki/cont-delivery-img/jenkins-rundeck-connection-screenshot.png" />
  * Configure a new job to invoke Rundeck job
   ** Rundeck job identifier: {{{deploy-petclinic-on-tomcat-valid:tomcat-deploy-petclinic}}}
   ** Wait for RunDeck job to finish ?: {{{checked}}}
   ** Should fail the build ?: {{{checked}}}
   <img height="140" src="http://xebia-france.googlecode.com/svn/wiki/cont-delivery-img/jenkins-job-rundeck-configuration-screenshot.png" />
+ * Trigger the build and verify it works
