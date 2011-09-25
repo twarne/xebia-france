@@ -31,7 +31,7 @@
  * Configuration: 
   ** allow ssh connection as "{{{tomcat}}}" user with "{{{continuous-delivery-workshop.pem}}}"
   ** grant access to tomcat-manager webapp to tomcat/tomcat, manager/manager and admin/admin
-  ** add "{{ec2-user}}}" to group {{{tomcat}}}"
+  ** add "{{{ec2-user}}}" to group {{{tomcat}}}"
  * CloudInit: [https://xebia-france.googlecode.com/svn/cloudcomputing/xebia-cloudcomputing-extras/trunk/src/main/resources/fr/xebia/workshop/continuousdelivery/cloud-config-amzn-linux-tomcat.txt cloud-config-amzn-linux-tomcat.txt]
 
 = Diagrams =
@@ -39,8 +39,8 @@
 
 == Per Team Infrastructure ==
 
-<img width="200" src="http://xebia-france.googlecode.com/svn/wiki/cont-delivery-img/per-team-infrastructure.png" />
+<img width="400" src="http://xebia-france.googlecode.com/svn/wiki/cont-delivery-img/per-team-infrastructure.png" />
 
 == Global Lab Infrastructure ==
 
-<img width="200" src="http://xebia-france.googlecode.com/svn/wiki/cont-delivery-img/global-infrastructure.png" />
+<img width="400" src="http://xebia-france.googlecode.com/svn/wiki/cont-delivery-img/global-infrastructure.png" />
