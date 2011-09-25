@@ -10,7 +10,7 @@
 
 The goal of this lab is to code with Amazon AWS SDK for Java the deployment of the Petclinic application.
 
-*A skeleton is provided :  [https://xebia-france.googlecode.com/svn/training/java-infra-as-code-with-amzn-aws/trunk/src/main/java/fr/xebia/demo/amazon/aws/petclinic/challenge/YourMakerChallenge.java YourMakerChallenge]*
+*A skeleton is provided :  [http://xebia-france.googlecode.com/svn/training/java-infra-as-code-with-amzn-aws/trunk/src/main/java/fr/xebia/demo/amazon/aws/petclinic/challenge/YourMakerChallenge.java YourMakerChallenge]*
  * we coded all the defensive code to prevent creation of too many instances,
  * you will code the "create" code
 
@@ -22,17 +22,17 @@ The goal of this lab is to code with Amazon AWS SDK for Java the deployment of t
 = Project Installation =
 
 
- * Checkout https://xebia-france.googlecode.com/svn/training/java-infra-as-code-with-amzn-aws/trunk/
+ * Checkout http://xebia-france.googlecode.com/svn/training/java-infra-as-code-with-amzn-aws/trunk/
 
- * the package [https://xebia-france.googlecode.com/svn/training/java-infra-as-code-with-amzn-aws/trunk/src/main/java/fr/xebia/demo/amazon/aws/petclinic/ fr.xebia.demo.amazon.aws.petclinic] contains the code used during this training.
+ * the package [http://xebia-france.googlecode.com/svn/training/java-infra-as-code-with-amzn-aws/trunk/src/main/java/fr/xebia/demo/amazon/aws/petclinic/ fr.xebia.demo.amazon.aws.petclinic] contains the code used during this training.
 
- * The goal is to create methods in the [https://xebia-france.googlecode.com/svn/training/java-infra-as-code-with-amzn-aws/trunk/src/main/java/fr/xebia/demo/amazon/aws/petclinic/challenge/YourMakerChallenge.java YourMakerChallenge] class
+ * The goal is to create methods in the [http://xebia-france.googlecode.com/svn/training/java-infra-as-code-with-amzn-aws/trunk/src/main/java/fr/xebia/demo/amazon/aws/petclinic/challenge/YourMakerChallenge.java YourMakerChallenge] class
   * <font size="2"><pre>fr.xebia.demo.amazon.aws.petclinic.challenge.!YourMakerChallenge</pre></font>
 
- * You can use the [https://xebia-france.googlecode.com/svn/training/java-infra-as-code-with-amzn-aws/trunk/src/test/java/fr/xebia/demo/amazon/aws/petclinic/PetclinicInfrastructureMakerTest.java PetclinicInfrastructureMakerTest] class to run methods
+ * You can use the [http://xebia-france.googlecode.com/svn/training/java-infra-as-code-with-amzn-aws/trunk/src/test/java/fr/xebia/demo/amazon/aws/petclinic/PetclinicInfrastructureMakerTest.java PetclinicInfrastructureMakerTest] class to run methods
   * <font size="2"><pre>fr.xebia.demo.amazon.aws.petclinic.!PetclinicInfrastructureMakerTest</pre></font>
  
- * Answers are in the [https://xebia-france.googlecode.com/svn/training/java-infra-as-code-with-amzn-aws/trunk/src/main/java/fr/xebia/demo/amazon/aws/petclinic/challenge/MakerChallengeAnswer.java MakerChallengeAnswer] class
+ * Answers are in the [http://xebia-france.googlecode.com/svn/training/java-infra-as-code-with-amzn-aws/trunk/src/main/java/fr/xebia/demo/amazon/aws/petclinic/challenge/MakerChallengeAnswer.java MakerChallengeAnswer] class
   * <font size="2"><pre>fr.xebia.demo.amazon.aws.petclinic.challenge.!MakerChallengeAnswer</pre></font>
  
 <br/>
