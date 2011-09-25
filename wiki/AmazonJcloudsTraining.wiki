@@ -25,12 +25,12 @@ We'll doing the steps two times :
 See AmazonAwsJavaSdkTraining for project installation.
 
 To test your implementation, you can use :
- * <font size="2"><pre>fr.xebia.demo.amazon.aws.petclinic.!PetclinicInfrastructureJcloudsAWSMakerTest</pre></font>
- * <font size="2"><pre>fr.xebia.demo.amazon.aws.petclinic.!PetclinicInfrastructureJcloudsMakerTest</pre></font>
+ * {{{fr.xebia.demo.amazon.aws.petclinic.PetclinicInfrastructureJcloudsAWSMakerTest}}}
+ * {{{fr.xebia.demo.amazon.aws.petclinic.!PetclinicInfrastructureJcloudsMakerTest}}}
 
-This two classes extends [https://xebia-france.googlecode.com/svn/training/java-infra-as-code-with-amzn-aws/trunk/src/main/java/fr/xebia/demo/amazon/aws/petclinic/challenge/MakerChallengeAnswer.java MakerChallengeAnswer] to create database and load balancer, you dont have to implement this features
+These two classes extend [https://xebia-france.googlecode.com/svn/training/java-infra-as-code-with-amzn-aws/trunk/src/main/java/fr/xebia/demo/amazon/aws/petclinic/challenge/MakerChallengeAnswer.java MakerChallengeAnswer] to create database and load balancer, you dont have to implement this features
 
-= Get !AwsCredentials from properties file =
+= Get Aws Credentials from properties file =
 
 This class is Amazon specific but the goal is to get access key and secret key. We are able to use this file as any java properties file. 
 
@@ -40,7 +40,7 @@ This class is Amazon specific but the goal is to get access key and secret key. 
     AWSCredentials credentials = new PropertiesCredentials(credentialsAsStream);
 }}} 
  
- !AwsCredentials.properties file looks like this :
+{{{AwsCredentials.properties}}} file looks like this :
 
 {{{
 #Insert your AWS Credentials from http://aws.amazon.com/security-credentials
@@ -52,7 +52,7 @@ secretKey=change me
 ----
 <br/>
 
-= With Amazon features =
+= JClouds with Amazon AWS specific features =
 
  * The goal is to create methods in the [https://xebia-france.googlecode.com/svn/training/java-infra-as-code-with-amzn-aws/trunk/src/main/java/fr/xebia/demo/amazon/aws/petclinic/challenge/YourJCloudsAWSMakerChallenge.java YourJCloudsAWSMakerChallenge] class
 
@@ -128,15 +128,15 @@ For the 3 last options, you must use :
 }}}
 These options are Amazon specific.
 
-= Without Amazon features = 
+= 100% portable pure JClouds (without Amazon AWS specific features) = 
 
-In the last section, we were using 
+In the previous section, we used Amazon AWS specific code: 
 {{{
   template.getOptions().as(EC2TemplateOptions.class)...
 }}}
-This is an Amazon specific API wich is not available with other cloud providers. 
+This Amazon AWS specific feature wich is not available with other cloud providers. 
 
-We'll now creating the instances with replacement for :
+We will now create the instances with portable equivalents of the following Amazon AWS specific concepts :
  * Key pair
  * Security groups
  * CloudInit
@@ -146,9 +146,9 @@ We'll now creating the instances with replacement for :
  * Answers are in the [https://xebia-france.googlecode.com/svn/training/java-infra-as-code-with-amzn-aws/trunk/src/main/java/fr/xebia/demo/amazon/aws/petclinic/challenge/MakerJCloudsAWSChallengeAnswer.java MakerJCloudsAWSChallengeAnswer] class
 
 
-== Create context == 
+== Create JClouds context == 
 
-In this method, you must create a ComputeServiceContext using ComputeServiceContextFactory().createContext(...).
+In this method, you must create a {{{ComputeServiceContext}}} using {{{ComputeServiceContextFactory().createContext(...)}}}.
 
 Params : 
 <font size="1">
@@ -163,11 +163,11 @@ Params :
 </pre>
 </font>
 
-<img src="http://www.clker.com/cliparts/w/x/4/3/m/V/blue-information-glossy-button-md.png" width="20" /> We add JschSshClientModule to the list of modules. Without it, we were not able to run ssh scripts
+<img src="http://www.clker.com/cliparts/w/x/4/3/m/V/blue-information-glossy-button-md.png" width="20" /> We add JschSshClientModule to the list of modules. Without it, we were not able to run ssh scripts.
 
-== Create template == 
+== Create JClouds template == 
 
-In this method, you must create a Template using context.getComputeService().templateBuilder()...build()
+In this method, you must create a {{{Template}}} using {{{context.getComputeService().templateBuilder()...build()}}}:
 
 Params : 
 <font size="1">
@@ -194,7 +194,7 @@ Besides, you must add some options after the creation of the template using :
 </pre>
 </font>
 
-== Write SSH Keys ==
+== Deploy authorized SSH public keys ==
 
 For SSH Keys we had many choices :
  * Use the Shell script to edit the ec2-user ~/.ssh/authorized_keys and add our public key associated with our .pem file
