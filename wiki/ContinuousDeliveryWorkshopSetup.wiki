@@ -19,7 +19,7 @@
 
  * Installed package: jdk, jenkins (with plugins batch-tasks, git, ssh and rundeck), rundeck, maven, git
  * Configuration: 
-  ** "{{{continuous-delivery-workshop.pem}}}" in both ${jenkins-user-home}/.ssh and  ${rundeck-user-home}/.ssh
+  ** "{{{continuous-delivery-workshop.pem}}}" in both {{{${jenkins-user-home}/.ssh}}} and {{{${rundeck-user-home}/.ssh}}}
   ** maven settings.xml with Nexus repos url, login &password
  * [http://xebia-france.googlecode.com/svn/cloudcomputing/xebia-cloudcomputing-extras/trunk/src/main/resources/fr/xebia/workshop/continuousdelivery/cloud-config-amzn-linux-jenkins-rundeck.txt cloud-config-amzn-linux-jenkins-rundeck.txt]
  
