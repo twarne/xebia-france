@@ -17,6 +17,10 @@
 
 = Specifications =
 
+== Nexus ==
+
+ * Logs: {{{/opt/nexus/nexus-oss-webapp-1.9.2.2/logs/}}}
+
 == Jenkins / Rundeck servers ==
 
  * Installed package: jdk, jenkins (with plugins batch-tasks, git, ssh and rundeck), rundeck, maven, git
