@@ -12,6 +12,8 @@ The goal of this lab is to code with the JClouds API the deployment of the Petcl
 JClouds is a library created to be used with a lot of cloud providers Like Amazon, Azure and Rackspace.
 Jclouds not yet support feature like RDS or ELB so we'll be using Amazon SDK for the creation of the database and the loadbalancer.
 
+<br/>
+
 We'll doing the steps two times :
  * The first one with the use of the [http://www.jclouds.org/jclouds-maven-site/1.1.0/jclouds-multi/apidocs/org/jclouds/ec2/compute/options/EC2TemplateOptions.html EC2TemplateOptions] class. This class provide Amazon EC2 only feature.
  * For the second implementation, we'll using only portable features
@@ -25,11 +27,12 @@ We'll doing the steps two times :
 See AmazonAwsJavaSdkTraining for project installation.
 
 To test your implementation, you can use :
- * {{{fr.xebia.demo.amazon.aws.petclinic.PetclinicInfrastructureJcloudsAWSMakerTest}}}
- * {{{fr.xebia.demo.amazon.aws.petclinic.!PetclinicInfrastructureJcloudsMakerTest}}}
+ * {{{fr.xebia.demo.amazon.aws.petclinic.jclouds.PetclinicInfrastructureJcloudsAWSMakerTest}}}
+ * {{{fr.xebia.demo.amazon.aws.petclinic.jclouds.!PetclinicInfrastructureJcloudsMakerTest}}}
 
 These two classes extend [http://xebia-france.googlecode.com/svn/training/java-infra-as-code-with-amzn-aws/trunk/src/main/java/fr/xebia/demo/amazon/aws/petclinic/challenge/MakerChallengeAnswer.java MakerChallengeAnswer] to create database and load balancer, you dont have to implement this features
 
+<br/>
 = Get Aws Credentials from properties file =
 
 This class is Amazon specific but the goal is to get access key and secret key. We are able to use this file as any java properties file. 
@@ -54,9 +57,9 @@ secretKey=change me
 
 = JClouds with Amazon AWS specific features =
 
- * The goal is to create methods in the [http://xebia-france.googlecode.com/svn/training/java-infra-as-code-with-amzn-aws/trunk/src/main/java/fr/xebia/demo/amazon/aws/petclinic/challenge/YourJCloudsAWSMakerChallenge.java YourJCloudsAWSMakerChallenge] class
+ * The goal is to create methods in the [http://xebia-france.googlecode.com/svn/training/java-infra-as-code-with-amzn-aws/trunk/src/main/java/fr/xebia/demo/amazon/aws/petclinic/challenge/jclouds/YourJCloudsAWSMakerChallenge.java YourJCloudsAWSMakerChallenge] class
 
- * Answers are in the [http://xebia-france.googlecode.com/svn/training/java-infra-as-code-with-amzn-aws/trunk/src/main/java/fr/xebia/demo/amazon/aws/petclinic/challenge/MakerJCloudsAWSChallengeAnswer.java MakerJCloudsAWSChallengeAnswer] class
+ * Answers are in the [http://xebia-france.googlecode.com/svn/training/java-infra-as-code-with-amzn-aws/trunk/src/main/java/fr/xebia/demo/amazon/aws/petclinic/challenge/jclouds/MakerJCloudsAWSChallengeAnswer.java MakerJCloudsAWSChallengeAnswer] class
 
 The method 
 {{{
@@ -72,10 +75,8 @@ private ComputeServiceContext createComputeServiceContext()
 {{{
 private Template createDefaultTemplate(ComputeServiceContext context, CloudInit cloudInit, DBInstance dbInstance, String warUrl)
 }}}
-<br/>
-----
-<br/>
 
+<br/>
 == Create Context ==
 
 In this method, you must create a ComputeServiceContext using ComputeServiceContextFactory().createContext(...).
@@ -93,6 +94,7 @@ Params :
 </pre>
 </font>
 
+<br/>
 == Create template ==
 
 In this method, you must create a Template using context.getComputeService().templateBuilder()...build()
@@ -128,6 +130,10 @@ For the 3 last options, you must use :
 }}}
 These options are Amazon specific.
 
+<br/>
+----
+<br/>
+
 = 100% portable pure JClouds (without Amazon AWS specific features) = 
 
 In the previous section, we used Amazon AWS specific code: 
@@ -141,11 +147,11 @@ We will now create the instances with portable equivalents of the following Amaz
  * Security groups
  * CloudInit
 
- * The goal is to create methods in the [http://xebia-france.googlecode.com/svn/training/java-infra-as-code-with-amzn-aws/trunk/src/main/java/fr/xebia/demo/amazon/aws/petclinic/challenge/YourJCloudsMakerChallenge.java YourJCloudsMakerChallenge] class
+ * The goal is to create methods in the [http://xebia-france.googlecode.com/svn/training/java-infra-as-code-with-amzn-aws/trunk/src/main/java/fr/xebia/demo/amazon/aws/petclinic/challenge/jclouds/YourJCloudsMakerChallenge.java YourJCloudsMakerChallenge] class
 
- * Answers are in the [http://xebia-france.googlecode.com/svn/training/java-infra-as-code-with-amzn-aws/trunk/src/main/java/fr/xebia/demo/amazon/aws/petclinic/challenge/MakerJCloudsAWSChallengeAnswer.java MakerJCloudsAWSChallengeAnswer] class
+ * Answers are in the [http://xebia-france.googlecode.com/svn/training/java-infra-as-code-with-amzn-aws/trunk/src/main/java/fr/xebia/demo/amazon/aws/petclinic/challenge/jclouds/MakerJCloudsAWSChallengeAnswer.java MakerJCloudsAWSChallengeAnswer] class
 
-
+<br/>
 == Create JClouds context == 
 
 In this method, you must create a {{{ComputeServiceContext}}} using {{{ComputeServiceContextFactory().createContext(...)}}}.
@@ -165,6 +171,7 @@ Params :
 
 <img src="http://www.clker.com/cliparts/w/x/4/3/m/V/blue-information-glossy-button-md.png" width="20" /> We add JschSshClientModule to the list of modules. Without it, we were not able to run ssh scripts.
 
+<br/>
 == Create JClouds template == 
 
 In this method, you must create a {{{Template}}} using {{{context.getComputeService().templateBuilder()...build()}}}:
@@ -194,6 +201,7 @@ Besides, you must add some options after the creation of the template using :
 </pre>
 </font>
 
+<br/>
 == Deploy authorized SSH public keys ==
 
 For SSH Keys we had many choices :
