@@ -8,15 +8,15 @@
 
 = Goal of the lab =
 
-The goal of this lab is to code with the JClouds API the deployment of the Petclinic application with Amazon AWS.
-JClouds is a library created to be used with a lot of cloud providers Like Amazon, Azure and Rackspace.
-Jclouds not yet support feature like RDS or ELB so we'll be using Amazon SDK for the creation of the database and the loadbalancer.
+The goal of this lab is to code with the JClouds API the deployment of the Petclinic application on Amazon AWS/EC2.
+JClouds is a library created to be used with a lot of cloud providers like Amazon, Azure and Rackspace.
+Jclouds does not yet support features like RDS or ELB so we'll be using Amazon SDK for the creation of the database and the loadbalancer.
 
 <br/>
 
-We'll doing the steps two times :
- * The first one with the use of the [http://www.jclouds.org/jclouds-maven-site/1.1.0/jclouds-multi/apidocs/org/jclouds/ec2/compute/options/EC2TemplateOptions.html EC2TemplateOptions] class. This class provide Amazon EC2 only feature.
- * For the second implementation, we'll using only portable features
+We will code the petclinic infrastructure twice :
+ * First with *JCloud's specific API for Amazon AWS* [http://www.jclouds.org/jclouds-maven-site/1.1.0/jclouds-multi/apidocs/org/jclouds/ec2/compute/options/EC2TemplateOptions.html EC2TemplateOptions]. This technic is not fully portable.
+ * Second with *JCloud's fully portable APIs*.
 
 <br/>
 ----
@@ -28,14 +28,14 @@ See AmazonAwsJavaSdkTraining for project installation.
 
 To test your implementation, you can use :
  * {{{fr.xebia.demo.amazon.aws.petclinic.jclouds.PetclinicInfrastructureJcloudsAWSMakerTest}}}
- * {{{fr.xebia.demo.amazon.aws.petclinic.jclouds.!PetclinicInfrastructureJcloudsMakerTest}}}
+ * {{{fr.xebia.demo.amazon.aws.petclinic.jclouds.PetclinicInfrastructureJcloudsMakerTest}}}
 
-These two classes extend [http://xebia-france.googlecode.com/svn/training/java-infra-as-code-with-amzn-aws/trunk/src/main/java/fr/xebia/demo/amazon/aws/petclinic/challenge/MakerChallengeAnswer.java MakerChallengeAnswer] to create database and load balancer, you dont have to implement this features
+These two classes extend [http://xebia-france.googlecode.com/svn/training/java-infra-as-code-with-amzn-aws/trunk/src/main/java/fr/xebia/demo/amazon/aws/petclinic/challenge/MakerChallengeAnswer.java MakerChallengeAnswer] to a create database and a load balancer. You dont have to implement these features
 
 <br/>
-= Get Aws Credentials from properties file =
+= Load Amazon AWS Credentials from properties file =
 
-This class is Amazon specific but the goal is to get access key and secret key. We are able to use this file as any java properties file. 
+This class is specific to Amazon AWS, its goal is to load the access key and the secret key from a properties file. 
 
 {{{
     InputStream credentialsAsStream = Thread.currentThread().getContextClassLoader()
@@ -46,7 +46,7 @@ This class is Amazon specific but the goal is to get access key and secret key. 
 {{{AwsCredentials.properties}}} file looks like this :
 
 {{{
-#Insert your AWS Credentials from http://aws.amazon.com/security-credentials
+# Insert your AWS Credentials from http://aws.amazon.com/security-credentials
 accessKey=change me
 secretKey=change me
 }}}
@@ -57,7 +57,7 @@ secretKey=change me
 
 = JClouds with Amazon AWS specific features =
 
- * The goal is to create methods in the [http://xebia-france.googlecode.com/svn/training/java-infra-as-code-with-amzn-aws/trunk/src/main/java/fr/xebia/demo/amazon/aws/petclinic/challenge/jclouds/YourMakerJCloudsAWSChallenge.java YourMakerJCloudsAWSChallenge] class
+ * The goal is to implement methods in the [http://xebia-france.googlecode.com/svn/training/java-infra-as-code-with-amzn-aws/trunk/src/main/java/fr/xebia/demo/amazon/aws/petclinic/challenge/jclouds/YourMakerJCloudsAWSChallenge.java YourMakerJCloudsAWSChallenge] class
 
  * Answers are in the [http://xebia-france.googlecode.com/svn/training/java-infra-as-code-with-amzn-aws/trunk/src/main/java/fr/xebia/demo/amazon/aws/petclinic/challenge/jclouds/MakerJCloudsAWSChallengeAnswer.java MakerJCloudsAWSChallengeAnswer] class
 
