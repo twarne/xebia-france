@@ -147,7 +147,7 @@ We will now create the instances with portable equivalents of the following Amaz
  * Security groups
  * CloudInit
 
- * The goal is to create methods in the [http://xebia-france.googlecode.com/svn/training/java-infra-as-code-with-amzn-aws/trunk/src/main/java/fr/xebia/demo/amazon/aws/petclinic/challenge/jclouds/YourJCloudsMakerChallenge.java YourJCloudsMakerChallenge] class
+ * The goal is to create methods in the [http://xebia-france.googlecode.com/svn/training/java-infra-as-code-with-amzn-aws/trunk/src/main/java/fr/xebia/demo/amazon/aws/petclinic/challenge/jclouds/YourMakerJCloudsChallenge.java YourMakerJCloudsChallenge] class
 
  * Answers are in the [http://xebia-france.googlecode.com/svn/training/java-infra-as-code-with-amzn-aws/trunk/src/main/java/fr/xebia/demo/amazon/aws/petclinic/challenge/jclouds/MakerJCloudsAWSChallengeAnswer.java MakerJCloudsAWSChallengeAnswer] class
 
@@ -169,7 +169,7 @@ Params :
 </pre>
 </font>
 
-<img src="http://www.clker.com/cliparts/w/x/4/3/m/V/blue-information-glossy-button-md.png" width="20" /> We add JschSshClientModule to the list of modules. Without it, we were not able to run ssh scripts.
+<img src="http://www.clker.com/cliparts/w/x/4/3/m/V/blue-information-glossy-button-md.png" width="20" /> We add !JschSshClientModule to the list of modules. Without it, we were not able to run ssh scripts.
 
 <br/>
 == Create JClouds template == 
