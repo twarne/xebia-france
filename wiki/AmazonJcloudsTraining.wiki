@@ -57,7 +57,7 @@ secretKey=change me
 
 = JClouds with Amazon AWS specific features =
 
- * The goal is to create methods in the [http://xebia-france.googlecode.com/svn/training/java-infra-as-code-with-amzn-aws/trunk/src/main/java/fr/xebia/demo/amazon/aws/petclinic/challenge/jclouds/YourJCloudsAWSMakerChallenge.java YourJCloudsAWSMakerChallenge] class
+ * The goal is to create methods in the [http://xebia-france.googlecode.com/svn/training/java-infra-as-code-with-amzn-aws/trunk/src/main/java/fr/xebia/demo/amazon/aws/petclinic/challenge/jclouds/YourMakerJCloudsAWSChallenge.java YourMakerJCloudsAWSChallenge] class
 
  * Answers are in the [http://xebia-france.googlecode.com/svn/training/java-infra-as-code-with-amzn-aws/trunk/src/main/java/fr/xebia/demo/amazon/aws/petclinic/challenge/jclouds/MakerJCloudsAWSChallengeAnswer.java MakerJCloudsAWSChallengeAnswer] class
 
