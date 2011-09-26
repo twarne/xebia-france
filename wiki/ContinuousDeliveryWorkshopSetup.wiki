@@ -2,6 +2,8 @@
 
  * Checkout [https://xebia-france.googlecode.com/svn/cloudcomputing/xebia-cloudcomputing-extras/trunk]
  * Run {{{fr.xebia.workshop.continuousdelivery.ContinuousDeliveryInfrastructureCreator}}}
+  ** mvn package
+  ** java -jar target/xebia-cloudcomputing-extras-VERSION-jar-with-dependencies.jar
  * This scripts creates :
   ** Nexus server 
    *** Amazon EC2 Name : "nexus"
