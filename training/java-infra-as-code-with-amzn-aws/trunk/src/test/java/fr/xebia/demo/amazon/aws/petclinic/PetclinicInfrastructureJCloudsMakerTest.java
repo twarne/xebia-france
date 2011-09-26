@@ -15,14 +15,14 @@
  */
 package fr.xebia.demo.amazon.aws.petclinic;
 
-import fr.xebia.demo.amazon.aws.petclinic.challenge.MakerJCloudsChallengeAnswer;
-import fr.xebia.demo.amazon.aws.petclinic.challenge.YourMakerJCloudsChallenge;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import fr.xebia.demo.amazon.aws.petclinic.challenge.MakerChallenge;
 import fr.xebia.demo.amazon.aws.petclinic.challenge.YourMakerChallenge;
+import fr.xebia.demo.amazon.aws.petclinic.challenge.jclouds.MakerJCloudsChallengeAnswer;
+import fr.xebia.demo.amazon.aws.petclinic.challenge.jclouds.YourMakerJCloudsChallenge;
 
 public class PetclinicInfrastructureJCloudsMakerTest {
     private MakerChallenge makerChallenge;

@@ -16,7 +16,8 @@
 package fr.xebia.demo.amazon.aws.petclinic;
 
 import fr.xebia.demo.amazon.aws.petclinic.challenge.MakerChallenge;
-import fr.xebia.demo.amazon.aws.petclinic.challenge.YourMakerJCloudsAWSChallenge;
+import fr.xebia.demo.amazon.aws.petclinic.challenge.jclouds.YourMakerJCloudsAWSChallenge;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

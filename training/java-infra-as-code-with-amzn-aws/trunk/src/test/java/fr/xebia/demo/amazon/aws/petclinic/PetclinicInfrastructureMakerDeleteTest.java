@@ -20,7 +20,7 @@ import org.junit.Test;
 
 import fr.xebia.demo.amazon.aws.petclinic.challenge.MakerChallenge;
 import fr.xebia.demo.amazon.aws.petclinic.challenge.MakerChallengeAnswer;
-import fr.xebia.demo.amazon.aws.petclinic.challenge.MakerJCloudsChallengeAnswer;
+import fr.xebia.demo.amazon.aws.petclinic.challenge.jclouds.MakerJCloudsChallengeAnswer;
 
 public class PetclinicInfrastructureMakerDeleteTest {
     private MakerChallenge makerChallenge;
