@@ -31,7 +31,7 @@ The Command Lines are a good introduction to Amazon AWS SDK and a useful tool he
 
 === Code a Multi Cloud Insfrastructure Deployment with the JClouds ===
 
-TODO
+[AmazonJcloudsTraining]
 
 === Discover Configuration Managements Systems with Chef ===
 
