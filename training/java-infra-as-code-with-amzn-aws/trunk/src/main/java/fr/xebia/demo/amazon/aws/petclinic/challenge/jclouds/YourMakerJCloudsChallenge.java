@@ -1,10 +1,12 @@
-package fr.xebia.demo.amazon.aws.petclinic.challenge;
+package fr.xebia.demo.amazon.aws.petclinic.challenge.jclouds;
 
 import com.amazonaws.services.ec2.model.Instance;
 import com.amazonaws.services.rds.model.DBInstance;
 import com.google.common.base.Throwables;
 import fr.xebia.demo.amazon.aws.petclinic.CloudInit;
 import fr.xebia.demo.amazon.aws.petclinic.JCloudUtil;
+import fr.xebia.demo.amazon.aws.petclinic.challenge.MakerChallengeAnswer;
+
 import org.apache.commons.lang.NotImplementedException;
 import org.jclouds.compute.ComputeServiceContext;
 import org.jclouds.compute.domain.NodeMetadata;
@@ -18,25 +20,22 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Use JCloud with Amazon AWS template Option class
  * see http://code.google.com/p/jclouds/wiki/ComputeGuide
  */
-public class YourMakerJCloudsAWSChallenge extends MakerChallengeAnswer {
-    private static final Logger LOGGER = LoggerFactory.getLogger(YourMakerJCloudsAWSChallenge.class);
-
+public class YourMakerJCloudsChallenge extends MakerChallengeAnswer {
+    private static final Logger LOGGER = LoggerFactory.getLogger(YourMakerJCloudsChallenge.class);
+    
     @Nonnull
     @Override
-    /**
-     * Create two EC2 instances using JClouds and AWS Template class
-     */
     public List<Instance> createTwoEC2Instances(CloudInit cloudInit, DBInstance dbInstance, String warUrl) {
         ComputeServiceContext context = null;
         try {
             context = createComputeServiceContext();
-            Template template = createDefaultTemplate(context, cloudInit, dbInstance, warUrl);
+            Template template = createDefaultTemplate(context, dbInstance, warUrl);
             LOGGER.debug("Request creation of 2 Ec2 instances for group {}",getGroup());
             Set<? extends NodeMetadata> nodes = context.getComputeService()
                     .createNodesInGroup(getGroup(), 2, template);
+
             return JCloudUtil.nodeMetadataAsEC2Instances(nodes);
         } catch (Exception e) {
             throw Throwables.propagate(e);
@@ -47,9 +46,12 @@ public class YourMakerJCloudsAWSChallenge extends MakerChallengeAnswer {
         }
     }
 
-    /**
-     * @return The name of the instances
-     */
+    @Nonnull
+    @Override
+    public String getTrigram() {
+        throw new NotImplementedException("TODO");
+    }
+
     private String getGroup() {
         return "JClouds-" + getTrigram();
     }
@@ -59,8 +61,9 @@ public class YourMakerJCloudsAWSChallenge extends MakerChallengeAnswer {
         throw new NotImplementedException("TODO");
     }
 
-    private Template createDefaultTemplate(ComputeServiceContext context, CloudInit cloudInit,
+    private Template createDefaultTemplate(ComputeServiceContext context,
             DBInstance dbInstance, String warUrl) {
-        throw new NotImplementedException("TODO");
+        throw new NotImplementedException("TODO") ;
     }
+
 }
