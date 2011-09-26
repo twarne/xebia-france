@@ -79,7 +79,7 @@ private Template createDefaultTemplate(ComputeServiceContext context, CloudInit 
 <br/>
 == Create Context ==
 
-In this method, you must create a ComputeServiceContext using ComputeServiceContextFactory().createContext(...).
+In this method, you must create a !ComputeServiceContext using !ComputeServiceContextFactory().createContext(...).
 
 Params : 
 <font size="1">
@@ -102,9 +102,9 @@ In this method, you must create a Template using context.getComputeService().tem
 Params : 
 <font size="1">
 <pre>
-  hardwareId  : InstanceType.T1_MICRO
+  hardwareId  : !InstanceType.T1_MICRO
   os64Bit     : false
-  osFamily    : OsFamily.AMZN_LINUX
+  osFamily    : !OsFamily.AMZN_LINUX
   imageId     : eu-west-1/ami-47cefa33
   locationId  : eu-west-1
 </pre>
@@ -145,7 +145,7 @@ This Amazon AWS specific feature wich is not available with other cloud provider
 We will now create the instances with portable equivalents of the following Amazon AWS specific concepts :
  * Key pair
  * Security groups
- * CloudInit
+ * !CloudInit
 
  * The goal is to create methods in the [http://xebia-france.googlecode.com/svn/training/java-infra-as-code-with-amzn-aws/trunk/src/main/java/fr/xebia/demo/amazon/aws/petclinic/challenge/jclouds/YourMakerJCloudsChallenge.java YourMakerJCloudsChallenge] class
 
@@ -159,10 +159,10 @@ In this method, you must create a {{{ComputeServiceContext}}} using {{{ComputeSe
 Params : 
 <font size="1">
 <pre>
-  provider   : aws-ec2
-  identity   : AWS Access ID from AWSCredential
-  credential : AWS secret key from AWSCredential
-  modules    : SLF4JLoggingModule and JschSshClientModule
+  provider   : aws-ec2 
+  identity   : AWS Access ID from AWSCredential 
+  credential : AWS secret key from AWSCredential 
+  modules    : SLF4JLoggingModule and !JschSshClientModule 
   overrides  : You must override :
                AWSEC2Constants.PROPERTY_EC2_AMI_QUERY ( value : "virtualization-type=paravirtual;architecture=i386;owner-id=137112412989;state=available;image-type=machine;root-device-type=ebs")
                AWSEC2Constants.PROPERTY_EC2_CC_REGIONS (value :  "eu-west-1")
@@ -179,14 +179,14 @@ In this method, you must create a {{{Template}}} using {{{context.getComputeServ
 Params : 
 <font size="1">
 <pre>
-  hardwareId  : InstanceType.T1_MICRO
+  hardwareId  : !InstanceType.T1_MICRO
   os64Bit     : false
-  osFamily    : OsFamily.AMZN_LINUX
+  osFamily    : !OsFamily.AMZN_LINUX
   imageId     : eu-west-1/ami-47cefa33
   locationId  : eu-west-1
   options     : Open ports 22 et 8080 using Builder.inboundPorts(...)
-  options     : Run script to replace CloudInit using Builder.runScript(Payloads.newStringPayload(...).
-                The script is available in method : ShellScript.bootStrapScript(...)
+  options     : Run script to replace !CloudInit using Builder.runScript(Payloads.newStringPayload(...).
+                The script is available in method : !ShellScript.bootStrapScript(...)
 </pre>
 </font>
 
