@@ -79,7 +79,7 @@ private Template createDefaultTemplate(ComputeServiceContext context, CloudInit 
 <br/>
 == Create Context ==
 
-In this method, you must create a !ComputeServiceContext using !ComputeServiceContextFactory().createContext(...).
+In this method, you must create a [http://jclouds.rimuhosting.com/apidocs/org/jclouds/compute/ComputeServiceContext.html ComputeServiceContext] using [http://jclouds.rimuhosting.com/apidocs/org/jclouds/compute/ComputeServiceContextFactory.html#createContext%28java.lang.String,%20java.lang.String,%20java.lang.String,%20java.lang.Iterable,%20java.util.Properties%29 ComputeServiceContextFactory().createContext(...)].
 
 Params : 
 <font size="1">
@@ -97,7 +97,7 @@ Params :
 <br/>
 == Create template ==
 
-In this method, you must create a Template using context.getComputeService().templateBuilder()...build()
+In this method, you must create a [http://jclouds.rimuhosting.com/apidocs/org/jclouds/compute/domain/Template.html Template] using [http://jclouds.rimuhosting.com/apidocs/org/jclouds/compute/domain/TemplateBuilder.html#build%28%29 context.getComputeService().templateBuilder()...build()]
 
 Params : 
 <font size="1">
