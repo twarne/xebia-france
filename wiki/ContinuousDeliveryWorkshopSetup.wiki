@@ -1,9 +1,10 @@
 = How to install the Workshop Installation =
 
  * Checkout [https://xebia-france.googlecode.com/svn/cloudcomputing/xebia-cloudcomputing-extras/trunk]
+ * Add src/main/resources/AwsCredentials.properties (see the sample file)
  * Run {{{fr.xebia.workshop.continuousdelivery.ContinuousDeliveryInfrastructureCreator}}}
-  ** mvn package
-  ** java -jar target/xebia-cloudcomputing-extras-VERSION-jar-with-dependencies.jar
+  ** either : {{{mvn package}}} && {{{java -jar target/xebia-cloudcomputing-extras-VERSION-jar-with-dependencies.jar}}}
+  ** or : {{{mvn exec:java -Dexec.mainClass="fr.xebia.workshop.continuousdelivery.ContinuousDeliveryInfrastructureCreator"}}}
  * This scripts creates :
   ** Nexus server 
    *** Amazon EC2 Name : "nexus"
