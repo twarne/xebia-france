@@ -72,7 +72,7 @@ public class MakerJCloudsChallengeAnswer extends MakerChallengeAnswer {
     private void writeSSHKey(Set<? extends NodeMetadata> nodes) throws IOException {
         int i = 1;
         for(NodeMetadata node : nodes){
-            BufferedWriter out = new BufferedWriter(new FileWriter("~/"+getGroup()+"-"+i+".pem"));
+            BufferedWriter out = new BufferedWriter(new FileWriter("/tmp/"+getGroup()+"-"+i+".pem"));
             out.write(node.getCredentials().credential);
             out.close();
             i++;
@@ -123,8 +123,9 @@ public class MakerJCloudsChallengeAnswer extends MakerChallengeAnswer {
                 .osFamily(OsFamily.AMZN_LINUX)//
                 .imageId("eu-west-1/ami-47cefa33") //
                 .locationId("eu-west-1")//
-                .options(Builder.inboundPorts(22, 8080)) //
-                .options(Builder.runScript(Payloads.newStringPayload(JCloudUtil.bootStrapScript(dbInstance, warUrl))))
+                .options(Builder.
+                        inboundPorts(22, 8080).
+                        runScript(Payloads.newStringPayload(JCloudUtil.bootStrapScript(dbInstance, warUrl)))) //
                 .build();
         template.getOptions().blockUntilRunning(true);
         return template;
