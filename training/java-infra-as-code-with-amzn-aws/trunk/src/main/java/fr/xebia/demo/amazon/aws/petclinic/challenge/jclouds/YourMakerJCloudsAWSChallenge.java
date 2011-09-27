@@ -49,6 +49,12 @@ public class YourMakerJCloudsAWSChallenge extends MakerChallengeAnswer {
         }
     }
 
+    @Nonnull
+    @Override
+    public String getTrigram() {
+        throw new NotImplementedException("TODO");
+    }
+
     /**
      * @return The name of the instances
      */
