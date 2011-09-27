@@ -4,7 +4,7 @@
  * Add src/main/resources/AwsCredentials.properties (see the sample file)
  * Run {{{fr.xebia.workshop.continuousdelivery.ContinuousDeliveryInfrastructureCreator}}}
   ** either : {{{mvn package}}} && {{{java -jar target/xebia-cloudcomputing-extras-VERSION-jar-with-dependencies.jar}}}
-  ** or : {{{mvn exec:java -Dexec.mainClass="fr.xebia.workshop.continuousdelivery.ContinuousDeliveryInfrastructureCreator"}}}
+  ** or : {{{mvn clean package exec:java -Dexec.mainClass="fr.xebia.workshop.continuousdelivery.ContinuousDeliveryInfrastructureCreator"}}}
  * This scripts creates :
   ** Nexus server 
    *** Amazon EC2 Name : "nexus"
