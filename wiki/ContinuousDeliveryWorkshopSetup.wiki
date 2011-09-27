@@ -13,15 +13,15 @@ cd workshop; cp /path/to/aws-credentials.txt src/main/resources/AwsCredentials.p
 mvn clean package exec:java -Dexec.mainClass="fr.xebia.workshop.continuousdelivery.ContinuousDeliveryInfrastructureCreator"
   }}}
  * This scripts creates :
-  ** Nexus server 
-   *** Amazon EC2 Name : "nexus"
-   *** URL: http://nexus.xebia-tech-event.info:8081/nexus/
-  ** Jenkins/Rundeck servers
-   *** Amazon EC2 Names : {{{jenkins-${team-identifier}}}}
-  ** Tomcat dev servers
-   *** Amazon EC2 Name: {{{tomcat-${team-identifier}-dev-1}}}
-  ** Tomcat valid servers
-   *** Amazon EC2 Name: {{{tomcat-${team-identifier}-valid-1}}} & {{{tomcat-${team-identifier}-valid-2}}}
+   * Nexus server 
+     * Amazon EC2 Name : "nexus"
+     * URL: http://nexus.xebia-tech-event.info:8081/nexus/
+   * Jenkins/Rundeck servers
+     * Amazon EC2 Names : {{{jenkins-${team-identifier}}}}
+   * Tomcat dev servers
+     * Amazon EC2 Name: {{{tomcat-${team-identifier}-dev-1}}}
+   * Tomcat valid servers
+     * Amazon EC2 Name: {{{tomcat-${team-identifier}-valid-1}}} & {{{tomcat-${team-identifier}-valid-2}}}
 
 = Specifications =
 
@@ -43,9 +43,9 @@ mvn clean package exec:java -Dexec.mainClass="fr.xebia.workshop.continuousdelive
 
  * Installed package: jdk, tomcat, tomcat-manager webapp
  * Configuration: 
-  ** allow ssh connection as "{{{tomcat}}}" user with "{{{continuous-delivery-workshop.pem}}}"
-  ** grant access to tomcat-manager webapp to tomcat/tomcat, manager/manager and admin/admin
-  ** add "{{{ec2-user}}}" to group {{{tomcat}}}"
+   * allow ssh connection as "{{{tomcat}}}" user with "{{{continuous-delivery-workshop.pem}}}"
+   * grant access to tomcat-manager webapp to tomcat/tomcat, manager/manager and admin/admin
+   * add "{{{ec2-user}}}" to group {{{tomcat}}}"
  * CloudInit: [https://xebia-france.googlecode.com/svn/cloudcomputing/xebia-cloudcomputing-extras/trunk/src/main/resources/fr/xebia/workshop/continuousdelivery/cloud-config-amzn-linux-tomcat.txt cloud-config-amzn-linux-tomcat.txt]
 
 = Diagrams =
