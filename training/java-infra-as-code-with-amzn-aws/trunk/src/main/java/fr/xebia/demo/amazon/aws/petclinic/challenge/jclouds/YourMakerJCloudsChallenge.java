@@ -27,6 +27,12 @@ public class YourMakerJCloudsChallenge extends MakerChallengeAnswer {
     
     @Nonnull
     @Override
+    /**
+     * Create two EC2 instances using JClouds and AWS Template class
+     * Create 1 context and 1 service then create two instances
+     * write SSH private keys of the instances
+     * The two JClouds instances are returned as EC2 instances
+     */
     public List<Instance> createTwoEC2Instances(CloudInit cloudInit, DBInstance dbInstance, String warUrl) {
         ComputeServiceContext context = null;
         try {
@@ -36,6 +42,7 @@ public class YourMakerJCloudsChallenge extends MakerChallengeAnswer {
             Set<? extends NodeMetadata> nodes = context.getComputeService()
                     .createNodesInGroup(getGroup(), 2, template);
 
+            writeSSHKey(nodes);
             return JCloudUtil.nodeMetadataAsEC2Instances(nodes);
         } catch (Exception e) {
             throw Throwables.propagate(e);
@@ -54,6 +61,16 @@ public class YourMakerJCloudsChallenge extends MakerChallengeAnswer {
 
     private String getGroup() {
         return "JClouds-" + getTrigram();
+    }
+
+    /**
+     * Write SSH Keys on file system
+     * @param nodes The instances created
+     * @throws IOException
+     * @see org.jclouds.compute.domain.NodeMetadata#getCredentials()
+     */
+    private void writeSSHKey(Set<? extends NodeMetadata> nodes) throws IOException {
+        throw new NotImplementedException("TODO");
     }
 
     private ComputeServiceContext createComputeServiceContext()

@@ -30,6 +30,8 @@ public class YourMakerJCloudsAWSChallenge extends MakerChallengeAnswer {
     @Override
     /**
      * Create two EC2 instances using JClouds and AWS Template class
+     * Create 1 context and 1 service then create two instances
+     * The two JClouds instances are returned as EC2 instances
      */
     public List<Instance> createTwoEC2Instances(CloudInit cloudInit, DBInstance dbInstance, String warUrl) {
         ComputeServiceContext context = null;
