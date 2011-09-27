@@ -209,7 +209,7 @@ Besides, you must add some options after the creation of the template using :
 For SSH Keys we had many choices :
  * Use the Shell script to edit the ec2-user ~/.ssh/authorized_keys and add our public key associated with our .pem file
  * Upload a RSA public key files using JClouds API (generated using ssh-keygen)
- * Let the cloud provider create SSH Keys and write it on our file system
+ * Let JClouds create SSH Keys and write it on our file system
 
 We choose the last one so we have to write the SSH keys to our file system implementing : 
 {{{
