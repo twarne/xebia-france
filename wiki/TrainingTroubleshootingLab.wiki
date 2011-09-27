@@ -5,7 +5,7 @@
  * URL: [http://ec2-46-137-17-21.eu-west-1.compute.amazonaws.com:8080/petclinic/]
  * Paramètre de connexion SSH:
 {{{
-ssh -i training-troubleshooting	tomcat@ec2-46-137-17-21.eu-west-1.compute.amazonaws.com
+ssh -i training-troubleshooting.pem tomcat@ec2-46-137-17-21.eu-west-1.compute.amazonaws.com
 }}}
  * Paramètres de connexion JMX
   ** Host: ec2-46-137-17-21.eu-west-1.compute.amazonaws.com
@@ -16,7 +16,7 @@ ssh -i training-troubleshooting	tomcat@ec2-46-137-17-21.eu-west-1.compute.amazon
  * URL: [http://ec2-46-137-54-114.eu-west-1.compute.amazonaws.com:8080/petclinic/]
  * Paramètre de connexion SSH:
 {{{
-ssh -i training-troubleshooting	tomcat@ec2-46-137-54-114.eu-west-1.compute.amazonaws.com
+ssh -i training-troubleshooting.pem tomcat@ec2-46-137-54-114.eu-west-1.compute.amazonaws.com
 }}}
  * Paramètres de connexion JMX
   ** Host: ec2-46-137-54-114.eu-west-1.compute.amazonaws.com
