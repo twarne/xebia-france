@@ -1,17 +1,15 @@
 package fr.xebia.demo.amazon.aws.petclinic.challenge;
 
-import java.util.List;
-
-import javax.annotation.Nonnull;
-
 import com.amazonaws.services.ec2.AmazonEC2Client;
 import com.amazonaws.services.ec2.model.Instance;
 import com.amazonaws.services.elasticloadbalancing.AmazonElasticLoadBalancingClient;
 import com.amazonaws.services.elasticloadbalancing.model.Listener;
 import com.amazonaws.services.rds.AmazonRDSClient;
 import com.amazonaws.services.rds.model.DBInstance;
-
 import fr.xebia.demo.amazon.aws.petclinic.CloudInit;
+
+import javax.annotation.Nonnull;
+import java.util.List;
 
 /**
  * <p>
@@ -24,7 +22,7 @@ import fr.xebia.demo.amazon.aws.petclinic.CloudInit;
  * <li>setup your personal information
  * <ol>
  * <li>{@link #getTrigram()}</li>
- * <li>{@link #getKeyPair()}</li>
+ * <li>{@link #getSshKeyPairName()}</li>
  * </ol>
  * </li>
  * 
@@ -71,9 +69,10 @@ public interface MakerChallenge {
     
     /**
      * Your EC2 key pair will allows you to connect via to your instances.
+     * eg : xebia-france
      */
     @Nonnull
-    String getKeyPair();
+    String getSshKeyPairName();
     
     /**
      * @return the amazon client for communicating with the Relational Database Service.

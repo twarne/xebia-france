@@ -15,12 +15,11 @@
  */
 package fr.xebia.demo.amazon.aws.petclinic;
 
+import fr.xebia.demo.amazon.aws.petclinic.challenge.MakerChallenge;
+import fr.xebia.demo.amazon.aws.petclinic.challenge.YourMakerChallenge;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import fr.xebia.demo.amazon.aws.petclinic.challenge.MakerChallenge;
-import fr.xebia.demo.amazon.aws.petclinic.challenge.MakerChallengeAnswer;
 
 public class PetclinicInfrastructureMakerTest {
     private MakerChallenge makerChallenge;
@@ -29,7 +28,7 @@ public class PetclinicInfrastructureMakerTest {
     @Before
     public void setup() {
         System.out.println();
-        makerChallenge = new MakerChallengeAnswer();
+        makerChallenge = new YourMakerChallenge();
         maker = new PetclinicInfrastructureMaker(makerChallenge);
     }
 

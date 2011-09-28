@@ -1,15 +1,5 @@
 package fr.xebia.demo.amazon.aws.petclinic.challenge;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.annotation.Nonnull;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.PropertiesCredentials;
 import com.amazonaws.services.ec2.AmazonEC2Client;
@@ -26,8 +16,15 @@ import com.amazonaws.services.rds.model.CreateDBInstanceRequest;
 import com.amazonaws.services.rds.model.DBInstance;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Throwables;
-
 import fr.xebia.demo.amazon.aws.petclinic.CloudInit;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.annotation.Nonnull;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MakerChallengeAnswer implements MakerChallenge {
     private static final Logger LOGGER = LoggerFactory.getLogger(MakerChallengeAnswer.class);
@@ -40,7 +37,7 @@ public class MakerChallengeAnswer implements MakerChallenge {
 
     @Nonnull
     @Override
-    public String getKeyPair() {
+    public String getSshKeyPairName() {
         return "xebia-france";
     }
 
@@ -89,7 +86,7 @@ public class MakerChallengeAnswer implements MakerChallenge {
                 .withMinCount(2) //
                 .withMaxCount(2) //
                 .withSecurityGroups("tomcat") //
-                .withKeyName(getKeyPair()) //
+                .withKeyName(getSshKeyPairName()) //
                 .withInstanceType(InstanceType.T1Micro.toString()) //
                 .withUserData(cloudInit.createUserDataBuilder(dbInstance, warUrl).buildBase64UserData());
         RunInstancesResult runInstances = createEC2Client().runInstances(runInstanceRequest);
