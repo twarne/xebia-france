@@ -114,7 +114,7 @@ Use the EU-WEST-1 endpoint.
     !MinCount : 2
     !MaxCount : 2
     !SecurityGroups : tomcat
-    !KeyName : xebia-france
+    !KeyName : getSshKeypairName()
     !InstanceType : !InstanceType.!T1Micro (String)
     !UserData : use super.buildCloudInitUserData(DBInstance dbInstance, String warUrl) Method
 </pre>
