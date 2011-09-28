@@ -115,7 +115,7 @@ Use the EU-WEST-1 endpoint.
     !MaxCount : 2
     !SecurityGroups : tomcat
     !KeyName : <YOUR_SSH_KEY_PAIR_NAME> (e.g. "cyrille_leclerc_at_gmail_dot_com")
-    !InstanceType : {{{com.amazonaws.services.ec2.model.InstanceType.T1Micro.toString}}} 
+    !InstanceType : {{{com.amazonaws.services.ec2.model.InstanceType.T1Micro.toString()}}} 
     !UserData : use cloudInit.createUserDataBuilder(DBInstance dbInstance, String warUrl).buildBase64UserData() Method
 </pre>
 </font>
