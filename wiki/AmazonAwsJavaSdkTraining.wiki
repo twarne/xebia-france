@@ -73,7 +73,7 @@ Use the EU-WEST-1 endpoint.
  Params :
 <font size="1">
 <pre>
-    DBInstanceIdentifier: petclinic-xeb
+    DBInstanceIdentifier: <method parameter>
     DBName: petclinic
     DBInstanceClass : db.m1.small
     Engine : MySQL
