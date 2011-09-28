@@ -120,7 +120,7 @@ Besides, you must add some options after the creation of the template using :
   blockUntilRunning : true
   keyPair           : getSshKeyPairName()
   securityGroups    : tomcat
-  userData          : cloudInit.createUserDataBuilder().buildUserData().getBytes()
+  userData          : cloudInit.createUserDataBuilder(...).buildUserData().getBytes()
 </pre>
 </font>
 
