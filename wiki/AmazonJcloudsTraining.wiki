@@ -188,7 +188,7 @@ Params :
   locationId  : eu-west-1
   options     : Open ports 22 et 8080 using Builder.inboundPorts(...)
   options     : Run script to replace !CloudInit using Builder.runScript(Payloads.newStringPayload(...).
-                The script is available in method : !ShellScript.bootStrapScript(...)
+                The script is available in method : !JCloudUtil.bootStrapScript(...)
 </pre>
 </font>
 
