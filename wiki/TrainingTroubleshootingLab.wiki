@@ -2,22 +2,22 @@
 
 
 == Equipe 'clc' ==
- * URL: [http://ec2-46-137-17-21.eu-west-1.compute.amazonaws.com:8080/petclinic/]
+ * URL: [http://ec2-46-137-17-26.eu-west-1.compute.amazonaws.com:8080/petclinic/]
  * Paramètre de connexion SSH:
 {{{
-ssh -i training-troubleshooting.pem tomcat@ec2-46-137-17-21.eu-west-1.compute.amazonaws.com
+ssh -i training-troubleshooting.pem tomcat@ec2-46-137-17-26.eu-west-1.compute.amazonaws.com
 }}}
  * Paramètres de connexion JMX
-  ** Host: ec2-46-137-17-21.eu-west-1.compute.amazonaws.com
+  ** Host: ec2-46-137-17-26.eu-west-1.compute.amazonaws.com
   ** Port: 6969
   
 
 == Equipe 'plo' ==
- * URL: [http://ec2-46-137-54-114.eu-west-1.compute.amazonaws.com:8080/petclinic/]
+ * URL: [http://ec2-79-125-84-48.eu-west-1.compute.amazonaws.com:8080/petclinic/]
  * Paramètre de connexion SSH:
 {{{
-ssh -i training-troubleshooting.pem tomcat@ec2-46-137-54-114.eu-west-1.compute.amazonaws.com
+ssh -i training-troubleshooting.pem tomcat@ec2-79-125-84-48.eu-west-1.compute.amazonaws.com
 }}}
  * Paramètres de connexion JMX
-  ** Host: ec2-46-137-54-114.eu-west-1.compute.amazonaws.com
+  ** Host: ec2-79-125-84-48.eu-west-1.compute.amazonaws.com
   ** Port: 6969
