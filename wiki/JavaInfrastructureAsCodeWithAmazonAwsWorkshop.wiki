@@ -10,6 +10,7 @@ The labs will use a real life use case with a clusterized deployment of the stan
 *Slides:*
  * [http://www.slideshare.net/XebiaFrance/java-infraascodewithamznaws Workshop: Discover "Java Infrastructure as Code" with Amazon AWS]
  * [http://www.slideshare.net/XebiaFrance/cloudinit-introduction CloudInit Introduction]
+ * [http://www.slideshare.net/XebiaFrance/jclouds-introduction Jclouds Introduction]
 
 *!PetClinic on Amazon AWS*
 
