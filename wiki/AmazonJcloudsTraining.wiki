@@ -118,9 +118,9 @@ Besides, you must add some options after the creation of the template using :
 <font size="1">
 <pre>
   blockUntilRunning : true
-  keyPair           : xebia-france
+  keyPair           : getSshKeyPairName()
   securityGroups    : tomcat
-  userData          : cloudInit.createUserDataBuilder()...
+  userData          : cloudInit.createUserDataBuilder().buildUserData().getBytes()
 </pre>
 </font>
 
