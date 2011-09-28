@@ -149,7 +149,7 @@ Use the EU-WEST-1 endpoint.
  Params :
 <font size="1">
 <pre>
-    !LoadBalancerName : elb + trigram
+    !LoadBalancerName : elb-<YOUR_TRIGRAM> (e.g. "elb-clc")
     Listener : "HTTP", 80 et 8080
     !AvailabilityZones : "eu-west-1a", "eu-west-1b", "eu-west-1c"
 </pre>
@@ -165,7 +165,7 @@ Use the EU-WEST-1 endpoint.
  Params :
 <font size="1">
 <pre>
-    !LoadBalancerName : elb + trigram
+    !LoadBalancerName : use method parameter "loadBalancerName"
     Instances : Add two ec2 Instances 
     (Be careful, add EC2 instances of com.amazonaws.services.elasticloadbalancing.model.Instance class 
 and not com.amazonaws.services.ec2.model.Instance class)
