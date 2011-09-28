@@ -118,7 +118,7 @@ Besides, you must add some options after the creation of the template using :
 <font size="1">
 <pre>
   blockUntilRunning : true
-  keyPair           : getSshKeyPairName()
+  keyPair           : <your key pair name>
   securityGroups    : tomcat
   userData          : cloudInit.createUserDataBuilder(...).buildUserData().getBytes()
 </pre>
