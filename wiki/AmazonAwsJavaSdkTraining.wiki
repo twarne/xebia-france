@@ -73,7 +73,7 @@ Use the EU-WEST-1 endpoint.
  Params :
 <font size="1">
 <pre>
-    DBInstanceIdentifier: <method parameter>
+    DBInstanceIdentifier: petclinic-<ADD_YOUR_TRIGRAM> (e.g. "petclinic-clc")
     DBName: petclinic
     DBInstanceClass : db.m1.small
     Engine : MySQL
@@ -114,8 +114,8 @@ Use the EU-WEST-1 endpoint.
     !MinCount : 2
     !MaxCount : 2
     !SecurityGroups : tomcat
-    !KeyName : getSshKeypairName()
-    !InstanceType : !InstanceType.!T1Micro (String)
+    !KeyName : <YOUR_SSH_KEY_PAIR_NAME> (e.g. "cyrille_leclerc_at_gmail_dot_com")
+    !InstanceType : {{{com.amazonaws.services.ec2.model.InstanceType.T1Micro.toString}}}
     !UserData : use cloudInit.createUserDataBuilder(DBInstance dbInstance, String warUrl).buildBase64UserData() Method
 </pre>
 </font>
