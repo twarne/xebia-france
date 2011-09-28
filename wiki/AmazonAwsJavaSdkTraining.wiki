@@ -116,7 +116,7 @@ Use the EU-WEST-1 endpoint.
     !SecurityGroups : tomcat
     !KeyName : getSshKeypairName()
     !InstanceType : !InstanceType.!T1Micro (String)
-    !UserData : use cloudInit.createUserDataBuilder(DBInstance dbInstance, String warUrl).buildUserData() Method
+    !UserData : use cloudInit.createUserDataBuilder(DBInstance dbInstance, String warUrl).buildBase64UserData() Method
 </pre>
 </font>
  
