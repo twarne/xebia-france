@@ -57,6 +57,21 @@ secretKey=change me
 ----
 <br/>
 
+= Set up your personal information =
+
+You will need to fill in your personal information :
+
+ * getTrigram
+Your trigram will help us to identify your instances.
+
+ * getSshKeyPairName
+The name of your amazon keyPair which has been sent to you by mail.
+You will need it to instantiate your EC2 instances.
+
+<br/>
+----
+<br/>
+
 = Create Database instance =
  Amazon AWS propose Relational Database Service (RDS) to create ready to use database
 
@@ -73,7 +88,7 @@ Use the EU-WEST-1 endpoint.
  Params :
 <font size="1">
 <pre>
-    DBInstanceIdentifier: petclinic-<ADD_YOUR_TRIGRAM> (e.g. "petclinic-clc")
+    DBInstanceIdentifier: use method parameter "dbInstanceIdentifier" 
     DBName: petclinic
     DBInstanceClass : db.m1.small
     Engine : MySQL
@@ -149,7 +164,7 @@ Use the EU-WEST-1 endpoint.
  Params :
 <font size="1">
 <pre>
-    !LoadBalancerName : elb-<YOUR_TRIGRAM> (e.g. "elb-clc")
+    !LoadBalancerName : use method parameter "loadBalancerName"
     Listener : "HTTP", 80 et 8080
     !AvailabilityZones : "eu-west-1a", "eu-west-1b", "eu-west-1c"
 </pre>
