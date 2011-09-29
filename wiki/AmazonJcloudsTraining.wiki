@@ -171,7 +171,7 @@ Params :
 </pre>
 </font>
 
-<img src="http://www.clker.com/cliparts/w/x/4/3/m/V/blue-information-glossy-button-md.png" width="20" /> We add !JschSshClientModule to the list of modules. Without it, we were not able to run ssh scripts.
+<img src="http://www.clker.com/cliparts/w/x/4/3/m/V/blue-information-glossy-button-md.png" width="20" /> We add !JschSshClientModule to the list of modules. Without it, we would not able to run ssh scripts.
 
 <br/>
 == Create JClouds template == 
