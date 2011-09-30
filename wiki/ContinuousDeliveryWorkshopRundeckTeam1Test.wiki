@@ -1,34 +1,53 @@
 = Your architecture =
 
-<img src="http://xebia-france.googlecode.com/svn/wiki/cont-delivery-img/per-team-infrastructure.png" />
+<img width="400" src="http://xebia-france.googlecode.com/svn/wiki/cont-delivery-img/per-team-infrastructure.png" />
 
-|| GitHub project repository url || [https://github.com/xebia-france-training/xebia-petclinic-3] ||
-|| Jenkins URL || [http://ec2-79-125-58-67-jenkins.eu-west-1.compute.amazonaws.com:8080/] ||
-|| Rundeck URL || [http://ec2-79-125-58-67-jenkins.eu-west-1.compute.amazonaws.com:4440/] ||
-|| Nexus URL || [http://nexus.xebia-tech-event.info:8081/nexus/] ||
-|| Tomcat Dev URL || [http://ec2-79-125-53-61-devtomcat.eu-west-1.compute.amazonaws.com:8080/] ||
-|| Tomcat Dev SSH || {{{ssh -i continuous-delivery-workshop.pem tomcat@ec2-79-125-53-61-devtomcat.eu-west-1.compute.amazonaws.com}}} ||
-|| Tomcat Valid 1 URL || [http://ec2-79-011-33-55-validtomcat.eu-west-1.compute.amazonaws.com:8080/] ||
-|| Tomcat Valid 1 SSH || {{{ssh -i continuous-delivery-workshop.pem tomcat@ec2-79-011-33-55-validtomcat.eu-west-1.compute.amazonaws.com}}} ||
-
+<table>
+<tr><td> *GitHub project repository url* </td><td> [https://github.com/xebia-france-training/xebia-petclinic-3] </td></tr>
+<tr><td> *Jenkins URL* </td><td> [http://ec2-79-125-58-67-jenkins.eu-west-1.compute.amazonaws.com:8080/] </td></tr>
+<tr><td> *Rundeck URL* </td><td> [http://ec2-79-125-58-67-jenkins.eu-west-1.compute.amazonaws.com:4440/] </td></tr>
+<tr><td> *Nexus URL* </td><td> [http://nexus.xebia-tech-event.info:8081/nexus/] </td></tr>
+<tr><td> *Tomcat Dev URL* </td><td> [http://ec2-79-125-53-61-devtomcat.eu-west-1.compute.amazonaws.com:8080/] </td></tr>
+<tr><td> *Tomcat Dev SSH* </td><td> 
+{{{
+ssh -i continuous-delivery-workshop.pem tomcat@ec2-79-125-53-61-devtomcat.eu-west-1.compute.amazonaws.com
+}}}
+</td></tr>
+<tr><td> *Tomcat Valid 1 URL* </td><td> [http://ec2-79-011-33-55-validtomcat1.eu-west-1.compute.amazonaws.com:8080/] </td></tr>
+<tr><td> *Tomcat Valid 1 SSH* </td><td> {{{ssh -i continuous-delivery-workshop.pem tomcat@ec2-79-011-33-55-validtomcat1.eu-west-1.compute.amazonaws.com}}} </td></tr>
+<tr><td> *Tomcat Valid 2 URL* </td><td> [http://ec2-80-022-44-66-validtomcat2.eu-west-1.compute.amazonaws.com:8080/] </td></tr>
+<tr><td> *Tomcat Valid 2 SSH* </td><td> {{{ssh -i continuous-delivery-workshop.pem tomcat@ec2-80-022-44-66-validtomcat2.eu-west-1.compute.amazonaws.com}}} </td></tr>
+</table>
 
 
 = 'Local' Scripted Tomcat Deployment =
 
-*Goal:* Develop a script to deploy a new version of {{{xebia-petclinic-3.war}}} on your tomcat server.
+*Goal:* Develop a script to deploy a new version of '{{{xebia-petclinic.war}}}' on your tomcat server.
 
 == Script Specifications ==
 This script must:
- # Stop running Tomcat server
+ # Be installed under{{{$TOMCAT_HOME/bin/tomcat-deploy-petclinic}}} (use a [http://en.wikipedia.org/wiki/Shebang_(Unix) Unix Shebang] instead of suffixing your script by ".sh", ".py", etc)
+ # Stop the Tomcat server if it is running
  # Delete existing {{{$TOMCAT_HOME/webapps/xebia-petclinic.war}}} file if exists,
  # Delete existing {{{$TOMCAT_HOME/webapps/xebia-petclinic}}} folder if exists,
- # Download latest version of {{{xebia-petclinic-3.war}}} and copy it to {{{$TOMCAT_HOME/webapps/}}}
+ # Download latest version of {{{xebia-petclinic.war}}} and copy it to {{{$TOMCAT_HOME/webapps/}}}
  # Start Tomcat server
- # Go further in the lab: test the URL http://localhost:8080/xebia-petclinic
- # Be installed under{{{$TOMCAT_HOME/bin/tomcat-deploy-petclinic}}}
+ # Go further in the lab: test that the URL http://localhost:8080/xebia-petclinic/ returns "200 OK"
  
 Answer : [http://xebia-france.googlecode.com/svn/cloudcomputing/xebia-cloudcomputing-extras/trunk/src/main/scripts/fr/xebia/workshop/continuousdelivery/tomcat-deploy-petclinic tomcat-deploy-petclinic]
-== Tips and tricks ==
+
+== Tomcat scripting tips and tricks ==
+
+=== Unix shebang ===
+
+ * shell shebang (equivalent to ".sh"):
+  {{{
+#!/usr/bin/env sh
+}}}
+ * python shebang (equivalent to ".py"):
+  {{{
+#!/usr/bin/env python -c
+}}}
 
 === SSH connection parameters to Tomcat servers ===
 
@@ -39,11 +58,11 @@ ssh -i continuous-delivery-workshop.pem tomcat@ec2-79-125-53-61-devtomcat.eu-wes
 }}}
  * tomcat-clc-valid-1: 
   {{{
-ssh -i continuous-delivery-workshop.pem tomcat@ec2-79-011-33-55-validtomcat.eu-west-1.compute.amazonaws.com
+ssh -i continuous-delivery-workshop.pem tomcat@ec2-79-011-33-55-validtomcat1.eu-west-1.compute.amazonaws.com
 }}}
  * tomcat-clc-valid-2: 
   {{{
-ssh -i continuous-delivery-workshop.pem tomcat@ec2-80-022-44-66-validtomcat.eu-west-1.compute.amazonaws.com
+ssh -i continuous-delivery-workshop.pem tomcat@ec2-80-022-44-66-validtomcat2.eu-west-1.compute.amazonaws.com
 }}}
 
 === What is {{{$TOMCAT_HOME}}} for Tomcat6 RPM === 
@@ -171,7 +190,7 @@ project.ssh-keypath=/var/rundeck/.ssh/continuous-delivery-workshop.pem
 	name="valid-tomcat-1" 
 	description="valid-tomcat-1" 
 	tags="tomcat,valid" 
-	hostname="ec2-79-011-33-55-validtomcat.eu-west-1.compute.amazonaws.com" 	
+	hostname="ec2-79-011-33-55-validtomcat1.eu-west-1.compute.amazonaws.com" 	
 	osArch="i386" 
 	osFamily="unix" 
 	osName="Linux" 
@@ -184,7 +203,7 @@ project.ssh-keypath=/var/rundeck/.ssh/continuous-delivery-workshop.pem
 	name="valid-tomcat-2" 
 	description="valid-tomcat-2" 
 	tags="tomcat,valid" 
-	hostname="ec2-80-022-44-66-validtomcat.eu-west-1.compute.amazonaws.com" 	
+	hostname="ec2-80-022-44-66-validtomcat2.eu-west-1.compute.amazonaws.com" 	
 	osArch="i386" 
 	osFamily="unix" 
 	osName="Linux" 
