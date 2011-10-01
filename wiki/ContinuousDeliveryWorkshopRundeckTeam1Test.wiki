@@ -12,13 +12,22 @@
 {{{
 ssh -i continuous-delivery-workshop.pem tomcat@ec2-79-125-53-61-devtomcat.eu-west-1.compute.amazonaws.com
 }}}
-</td></tr>
+ </td></tr>
 <tr><td> *Tomcat Valid 1 URL* </td><td> [http://ec2-79-011-33-55-validtomcat1.eu-west-1.compute.amazonaws.com:8080/] </td></tr>
-<tr><td> *Tomcat Valid 1 SSH* </td><td> {{{ssh -i continuous-delivery-workshop.pem tomcat@ec2-79-011-33-55-validtomcat1.eu-west-1.compute.amazonaws.com}}} </td></tr>
+<tr><td> *Tomcat Valid 1 SSH* </td><td> 
+{{{
+ssh -i continuous-delivery-workshop.pem tomcat@ec2-79-011-33-55-validtomcat1.eu-west-1.compute.amazonaws.com
+}}}
+ </td></tr>
 <tr><td> *Tomcat Valid 2 URL* </td><td> [http://ec2-80-022-44-66-validtomcat2.eu-west-1.compute.amazonaws.com:8080/] </td></tr>
-<tr><td> *Tomcat Valid 2 SSH* </td><td> {{{ssh -i continuous-delivery-workshop.pem tomcat@ec2-80-022-44-66-validtomcat2.eu-west-1.compute.amazonaws.com}}} </td></tr>
+<tr><td> *Tomcat Valid 2 SSH* </td><td> 
+{{{
+ssh -i continuous-delivery-workshop.pem tomcat@ec2-80-022-44-66-validtomcat2.eu-west-1.compute.amazonaws.com
+}}}
+ </td></tr>
 </table>
 
+----
 
 = 'Local' Scripted Tomcat Deployment =
 
@@ -49,22 +58,6 @@ Answer : [http://xebia-france.googlecode.com/svn/cloudcomputing/xebia-cloudcompu
 #!/usr/bin/env python -c
 }}}
 
-=== SSH connection parameters to Tomcat servers ===
-
-SSH connection parameters to Tomcat servers as tomcat user:
- * tomcat-clc-dev-1: 
-  {{{
-ssh -i continuous-delivery-workshop.pem tomcat@ec2-79-125-53-61-devtomcat.eu-west-1.compute.amazonaws.com
-}}}
- * tomcat-clc-valid-1: 
-  {{{
-ssh -i continuous-delivery-workshop.pem tomcat@ec2-79-011-33-55-validtomcat1.eu-west-1.compute.amazonaws.com
-}}}
- * tomcat-clc-valid-2: 
-  {{{
-ssh -i continuous-delivery-workshop.pem tomcat@ec2-80-022-44-66-validtomcat2.eu-west-1.compute.amazonaws.com
-}}}
-
 === What is {{{$TOMCAT_HOME}}} for Tomcat6 RPM === 
 
 On Tomcat6 RPM, {{{$TOMCAT_HOME=/usr/share/tomcat6/}}}.
@@ -73,21 +66,25 @@ On Tomcat6 RPM, {{{$TOMCAT_HOME=/usr/share/tomcat6/}}}.
 
 Note Tomcat6 RPM does not expose the typical {{{catalina.sh}}}.
 
- * Start: 
-  {{{
+<table>
+<tr><td> *Start* </td><td>
+{{{
 $tomcat> /usr/sbin/tomcat6 start
 }}}
- * Stop:
-  {{{
+</td></tr>
+<tr><td> *Stop* </td><td>
+{{{
 $tomcat> /usr/sbin/tomcat6 stop
 }}}
- 
+</td></tr>
+</table>
+
 === Nexus REST API ===
 
  * Nexus REST API [https://repository.sonatype.org/nexus-core-documentation-plugin/core/docs/rest.artifact.maven.content.html /artifact/maven/content]:
   ** Pseudo code:
    {{{
-http://nexus.xebia-tech-event.info:8081/nexus/service/local/artifact/maven/content? \
+http://nexus.xebia-tech-event.info:8081/nexus/service/local/artifact/maven/content?
    g=$GROUP_ID&
    a=$ARTIFACT_ID&
    r=$REPOSITORY&
@@ -106,8 +103,8 @@ http://nexus.xebia-tech-event.info:8081/nexus/service/local/artifact/maven/conte
 === How to specify the name of the downloaded artifact with curl and wget ===
 
 {{{
-curl http://exemple.com/test.txt --output /tmp/renamed-test.txt
-wget http://exemple.com/test.txt --output-document /tmp/renamed-test.txt
+curl http://example.com/test.txt --output /tmp/renamed-test.txt
+wget http://example.com/test.txt --output-document /tmp/renamed-test.txt
 }}}
 
 === How to test existence of a file, of a folder ===
@@ -125,11 +122,38 @@ fi
 === How to verify a http response code  ===
 
 {{{
-curl --connect-timeout 10 --retry 10 --silent --show-error -w "%{http_code}" -o /dev/null http://example.com/
-
+HEALT_CHECK_URL="http://www.iana.org/domains/example/"
+HEALTH_CHECK_HTTP_CODE=$(curl --connect-timeout 10 --retry 10 --silent --show-error -w "%{http_code}" -o /dev/null http://www.iana.org/domains/example/) 
+if [ $HEALTH_CHECK_HTTP_CODE -eq 200 ];
+then
+   echo "Health check url $HEALT_CHECK_URL returned expected http code '$HEALTH_CHECK_HTTP_CODE'"
+else
+   echo "FAILURE: '$HEALT_CHECK_URL' is KO (returned '$HEALTH_CHECK_HTTP_CODE')"
+fi
 }}}
 
-TODO : compare http_code to 200
+=== SCP connection parameters to Tomcat servers ===
+
+SCP command lines to copy a local "{{{tomcat-deploy-petclinic}}} to the remote tomcat servers.
+<table>
+<tr><td> *Tomcat Dev SSH* </td><td> 
+{{{
+scp -i ~/.aws/continuous-delivery-workshop.pem tomcat-deploy-petclinic tomcat@ec2-79-125-53-61-devtomcat.eu-west-1.compute.amazonaws.com:/usr/share/tomcat6/bin/
+}}}
+ </td></tr>
+<tr><td> *Tomcat Valid 1 SSH* </td><td> 
+{{{
+scp -i ~/.aws/continuous-delivery-workshop.pem tomcat-deploy-petclinic tomcat@ec2-79-011-33-55-validtomcat1.eu-west-1.compute.amazonaws.com:/usr/share/tomcat6/bin/
+}}}
+ </td></tr>
+<tr><td> *Tomcat Valid 2 SSH* </td><td> 
+{{{
+scp -i ~/.aws/continuous-delivery-workshop.pem tomcat-deploy-petclinic tomcat@ec2-80-022-44-66-validtomcat2.eu-west-1.compute.amazonaws.com:/usr/share/tomcat6/bin/
+}}}
+</td></tr>
+<table>
+
+----
 
 = Automated Tomcat Deployment with Jenkins SSH Plugin = 
 
@@ -140,11 +164,11 @@ TODO : compare http_code to 200
 == Lab ==
 
 Note: the [https://wiki.jenkins-ci.org/display/JENKINS/SSH+plugin Jenkins SSH Plugin] is already installed on your jenkins server.
- # Deploy the "[http://xebia-france.googlecode.com/svn/cloudcomputing/xebia-cloudcomputing-extras/trunk/src/main/scripts/fr/xebia/workshop/continuousdelivery/tomcat-deploy-petclinic tomcat-deploy-petclinic]" shell script on the {{{tomcat-3-dev-1}}} servers
+ # Deploy the "[http://xebia-france.googlecode.com/svn/cloudcomputing/xebia-cloudcomputing-extras/trunk/src/main/scripts/fr/xebia/workshop/continuousdelivery/tomcat-deploy-petclinic tomcat-deploy-petclinic]" shell script on the Tomcat Dev server.
  # Connect to your *Jenkins* server: [http://ec2-79-125-58-67-jenkins.eu-west-1.compute.amazonaws.com:8080/]
  # In the *Manage Jenkins* / *Configure System*
   <img height="20" src="http://xebia-france.googlecode.com/svn/wiki/cont-delivery-img/jenkins-manage-jenkins-screenshot.png" /> <img height="25" src="http://xebia-france.googlecode.com/svn/wiki/cont-delivery-img/jenkins-configure-system-screenshot.png" /> 
- # In the section called : *SSH Remote hosts*, enter:
+ # In the section called : *SSH Remote hosts*, declare your "Tomcat Dev" server:
   ** Host: {{{ec2-79-125-53-61-devtomcat.eu-west-1.compute.amazonaws.com}}}
   ** Port: #blank#
   ** Username: {{{tomcat}}}
@@ -152,14 +176,18 @@ Note: the [https://wiki.jenkins-ci.org/display/JENKINS/SSH+plugin Jenkins SSH Pl
   ** Keyfile: {{{/var/lib/jenkins/.ssh/continuous-delivery-workshop.pem}}}
    <img height="135" src="http://xebia-france.googlecode.com/svn/wiki/cont-delivery-img/jenkins-add-ssh-remote-host-screenshot.png" />
  # *Save* the settings
- # Create a new *Free Style Project* for Jenkins with the following parameters
+ # Create a new Jenkins *Free Style Project* named "{{{deploy-petclinic-on-tomcat-dev}}}" with the following parameters:
+   <img height="75" src="http://xebia-france.googlecode.com/svn/wiki/cont-delivery-img/jenkins-create-free-style-project.png" />
  # Activation option called *Execute shell script on remote host using SSH*
  # Select the right SSH site you’ve configured before, 
  # In *post-build script*, enter 
   {{{
   /usr/share/tomcat6/bin/tomcat-deploy-petclinic fr.xebia.demo.petclinic-3
 }}}
+   Note: the _answer_ needs the maven group id as input parameter ; you may have hardcoded the project maven group id "fr.xebia.demo.petclinic-3" in the script you developped.
    <img height="80" src="http://xebia-france.googlecode.com/svn/wiki/cont-delivery-img/jenkins-configure-job-ssh-post-build-script-screenshot.png" />
+
+----
 
 = Automated Tomcat Deployment with Rundeck = 
 
@@ -171,9 +199,9 @@ Note: the [https://wiki.jenkins-ci.org/display/JENKINS/SSH+plugin Jenkins SSH Pl
 
 === Deploy Petclinic from Rundeck ===
 Here is the configuration of the previous task with Rundeck.
- # Deploy the "[http://xebia-france.googlecode.com/svn/cloudcomputing/xebia-cloudcomputing-extras/trunk/src/main/scripts/fr/xebia/workshop/continuousdelivery/tomcat-deploy-petclinic tomcat-deploy-petclinic]" shell script on the {{{tomcat-3-valid-1}}} and {{{tomcat-3-valid-2}}} servers
+ # Deploy the "[http://xebia-france.googlecode.com/svn/cloudcomputing/xebia-cloudcomputing-extras/trunk/src/main/scripts/fr/xebia/workshop/continuousdelivery/tomcat-deploy-petclinic tomcat-deploy-petclinic]" shell script on your "Tomcat Valid 1" and "Tomcat Valid 2" servers
  # Connect to your Rundeck server http://ec2-79-125-58-67-jenkins.eu-west-1.compute.amazonaws.com:4440/ (login=admin, password=admin)
- # Create a new project "{{{deploy-petclinic-on-tomcat-valid}}}"
+ # Create a new Rundeck project "{{{deploy-petclinic-on-tomcat-valid}}}"
   <img height=90" src="http://xebia-france.googlecode.com/svn/wiki/cont-delivery-img/rundeck-create-project-screenshot.png" />
  # Connect via SSH to the rundeck server: 
   {{{
@@ -237,14 +265,14 @@ project.ssh-keypath=/var/rundeck/.ssh/continuous-delivery-workshop.pem
    <img height="350" src="http://xebia-france.googlecode.com/svn/wiki/cont-delivery-img/rundeck-new-job-details-screenshot.png" />
   * Run the creation script
   
-=== Trigger Rundeck job call from Jenkins ===
+=== Invoke Rundeck job from Jenkins ===
  * Configure Jenkins Rundeck connection parameters
   ** URL: {{{http://ec2-79-125-58-67-jenkins.eu-west-1.compute.amazonaws.com:4440/}}}
   ** Login: {{{admin}}}
   ** Password: {{{admin}}}
   ** Click on "Test connection"
   <img height="75" src="http://xebia-france.googlecode.com/svn/wiki/cont-delivery-img/jenkins-rundeck-connection-screenshot.png" />
- * Configure a new job to invoke Rundeck job
+ * Create a new Jenkins *Free Style Project* named "{{{deploy-petclinic-on-tomcat-valid}}}" to invoke Rundeck job with the following parameters:
   ** Rundeck job identifier: {{{deploy-petclinic-on-tomcat-valid:tomcat-deploy-petclinic}}}
   ** Job options (optional): {{{version = LATEST}}}
   ** Wait for RunDeck job to finish ?: {{{checked}}}
