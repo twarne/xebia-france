@@ -178,14 +178,14 @@ Note: the [https://wiki.jenkins-ci.org/display/JENKINS/SSH+plugin Jenkins SSH Pl
  # *Save* the settings
  # Create a new Jenkins *Free Style Project* named "{{{deploy-petclinic-on-tomcat-dev}}}" with the following parameters:
    <img height="75" src="http://xebia-france.googlecode.com/svn/wiki/cont-delivery-img/jenkins-create-free-style-project.png" />
- # Activation option called *Execute shell script on remote host using SSH*
+ # Activate option called *Execute shell script on remote host using SSH*
  # Select the right SSH site you’ve configured before, 
  # In *post-build script*, enter 
   {{{
   /usr/share/tomcat6/bin/tomcat-deploy-petclinic fr.xebia.demo.petclinic-3
 }}}
-   Note: the _answer_ needs the maven group id as input parameter ; you may have hardcoded the project maven group id "fr.xebia.demo.petclinic-3" in the script you developped.
    <img height="80" src="http://xebia-france.googlecode.com/svn/wiki/cont-delivery-img/jenkins-configure-job-ssh-post-build-script-screenshot.png" />
+   Note: the _answer_ needs the maven group id as input parameter ; you may have hardcoded the project maven group id "fr.xebia.demo.petclinic-3" in the script you developped.
 
 ----
 
@@ -207,14 +207,13 @@ Here is the configuration of the previous task with Rundeck.
   {{{
 ssh -i continuous-delivery-workshop.pem ec2-user@ec2-79-125-58-67-jenkins.eu-west-1.compute.amazonaws.com
 }}}
-  # Update the project configuration files in "{{{/var/rundeck/projects/deploy-petclinic-on-tomcat-valid/etc/}}}":
-   # Modify the *{{{project.properties}}}* to add ssh private key for the workshop
+  # Update the project configuration files in folder "{{{/var/rundeck/projects/deploy-petclinic-on-tomcat-valid/etc/}}}":
+  # Modify the *{{{project.properties}}}* to declare the ssh private key of the workshop
    {{{
 project.ssh-keypath=/var/rundeck/.ssh/continuous-delivery-workshop.pem
 }}}
   # Add your Valid Tomcat servers in *{{{resources.xml}}}*:
-  <code language="xml">
-<node 
+    <code language="xml"><node 
 	name="valid-tomcat-1" 
 	description="valid-tomcat-1" 
 	tags="tomcat,valid" 
@@ -250,7 +249,7 @@ project.ssh-keypath=/var/rundeck/.ssh/continuous-delivery-workshop.pem
   * Options:
    ** Name: {{{version}}}
    ** Default value: {{{LATEST}}}
-   ** Remote URL: 
+   ** Remote URL: TODO: check that the nexus url is not missing the "g"/groupId parameter
      {{{
   http://nexus.xebia-tech-event.info:8081/nexus/service/local/rundeck/options/version?a=xebia-petclinic&includeLatest=true
 }}}
