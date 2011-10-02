@@ -1,8 +1,12 @@
+
+<wiki:toc max_depth="1" />
+
 = Your architecture =
 
 <img width="400" src="http://xebia-france.googlecode.com/svn/wiki/cont-delivery-img/per-team-infrastructure.png" />
 
 <table>
+<tr><td> *SSH Private key* </td><td> [https://s3-eu-west-1.amazonaws.com/continuous-delivery/continuous-delivery-workshop.pem continuous-delivery-workshop.pem] to store under {{{~/.aws/}}}</td></tr>
 <tr><td> *GitHub project repository url* </td><td> [https://github.com/xebia-france-training/xebia-petclinic-3] </td></tr>
 <tr><td> *Jenkins URL* </td><td> [http://ec2-79-125-58-67-jenkins.eu-west-1.compute.amazonaws.com:8080/] </td></tr>
 <tr><td> *Rundeck URL* </td><td> [http://ec2-79-125-58-67-jenkins.eu-west-1.compute.amazonaws.com:4440/] </td></tr>
@@ -10,28 +14,61 @@
 <tr><td> *Tomcat Dev URL* </td><td> [http://ec2-79-125-53-61-devtomcat.eu-west-1.compute.amazonaws.com:8080/] </td></tr>
 <tr><td> *Tomcat Dev SSH* </td><td> 
 {{{
-ssh -i continuous-delivery-workshop.pem tomcat@ec2-79-125-53-61-devtomcat.eu-west-1.compute.amazonaws.com
+ssh -i ~/.aws/continuous-delivery-workshop.pem tomcat@ec2-79-125-53-61-devtomcat.eu-west-1.compute.amazonaws.com
 }}}
  </td></tr>
 <tr><td> *Tomcat Valid 1 URL* </td><td> [http://ec2-79-011-33-55-validtomcat1.eu-west-1.compute.amazonaws.com:8080/] </td></tr>
 <tr><td> *Tomcat Valid 1 SSH* </td><td> 
 {{{
-ssh -i continuous-delivery-workshop.pem tomcat@ec2-79-011-33-55-validtomcat1.eu-west-1.compute.amazonaws.com
+ssh -i ~/.aws/continuous-delivery-workshop.pem tomcat@ec2-79-011-33-55-validtomcat1.eu-west-1.compute.amazonaws.com
 }}}
  </td></tr>
 <tr><td> *Tomcat Valid 2 URL* </td><td> [http://ec2-80-022-44-66-validtomcat2.eu-west-1.compute.amazonaws.com:8080/] </td></tr>
 <tr><td> *Tomcat Valid 2 SSH* </td><td> 
 {{{
-ssh -i continuous-delivery-workshop.pem tomcat@ec2-80-022-44-66-validtomcat2.eu-west-1.compute.amazonaws.com
+ssh -i ~/.aws/continuous-delivery-workshop.pem tomcat@ec2-80-022-44-66-validtomcat2.eu-west-1.compute.amazonaws.com
 }}}
  </td></tr>
 </table>
 
 ----
 
-= 'Local' Scripted Tomcat Deployment =
+= Environment setup =
 
-*Goal:* Develop a script to deploy a new version of '{{{xebia-petclinic.war}}}' on your tomcat server.
+ # Get the SSH private key [https://s3-eu-west-1.amazonaws.com/continuous-delivery/continuous-delivery-workshop.pem continuous-delivery-workshop.pem] to connect to the servers
+ {{{
+mkdir ~/.aws/
+curl https://s3-eu-west-1.amazonaws.com/continuous-delivery/continuous-delivery-workshop.pem --output ~/.aws/continuous-delivery-workshop.pem
+chmod 400 ~/.aws/continuous-delivery-workshop.pem
+}}}
+ # Clone Github repository xebia-petclinic-3
+  {{{
+mkdir ~/continuous-delivery-workshop
+cd ~/continuous-delivery-workshop
+git clone https://xebia-continuous-delivery-tech-event@github.com/xebia-france-training/xebia-petclinic-3.git
+}}}
+  Note: password of the "xebia-continuous-delivery-tech-event" user will be sent before the workshop.
+ # build project
+ {{{
+cd ~/continuous-delivery-workshop/xebia-petclinic-3
+mvn package
+}}}
+
+----
+
+= Lab : Tomcat Maven Plugin =
+
+TODO : on their laptop
+
+{{{
+mvn tomcat6:deploy -Dtomcat.password=admin -Dtomcat.username=admin -Dmaven.tomcat.url=http://ec2-79-125-53-61-devtomcat.eu-west-1.compute.amazonaws.com:8080/manager
+}}}
+
+----
+
+= Lab: 'Local' Scripted Tomcat Deployment =
+
+*Goal:* Develop a script to deploy a new version of '{{{xebia-petclinic.war}}}' on a tomcat server.
 
 == Script Specifications ==
 This script must:
@@ -44,6 +81,11 @@ This script must:
  # Go further in the lab: test that the URL http://localhost:8080/xebia-petclinic/ returns "200 OK"
  
 Answer : [http://xebia-france.googlecode.com/svn/cloudcomputing/xebia-cloudcomputing-extras/trunk/src/main/scripts/fr/xebia/workshop/continuousdelivery/tomcat-deploy-petclinic tomcat-deploy-petclinic]
+
+== Lab ==
+
+ Elaborate 
+ * Connect t
 
 == Tomcat scripting tips and tricks ==
 
@@ -155,7 +197,9 @@ scp -i ~/.aws/continuous-delivery-workshop.pem tomcat-deploy-petclinic tomcat@ec
 
 ----
 
-= Automated Tomcat Deployment with Jenkins SSH Plugin = 
+= Lab. Automated Tomcat Deployment with Jenkins SSH Plugin = 
+
+*Goal:* Deploy a new version of '{{{xebia-petclinic.war}}}' on the "Tomcat Dev server" at the end of your build with the "Jenkins SSH Plugin".
 
 == Architecture ==
 
@@ -179,7 +223,7 @@ Note: the [https://wiki.jenkins-ci.org/display/JENKINS/SSH+plugin Jenkins SSH Pl
  # Create a new Jenkins *Free Style Project* named "{{{deploy-petclinic-on-tomcat-dev}}}" with the following parameters:
    <img height="75" src="http://xebia-france.googlecode.com/svn/wiki/cont-delivery-img/jenkins-create-free-style-project.png" />
  # Activate option called *Execute shell script on remote host using SSH*
- # Select the right SSH site you’ve configured before, 
+ # Select the right SSH site "{{{ec2-79-125-53-61-devtomcat.eu-west-1.compute.amazonaws.com}}}"
  # In *post-build script*, enter 
   {{{
   /usr/share/tomcat6/bin/tomcat-deploy-petclinic fr.xebia.demo.petclinic-3
@@ -189,7 +233,7 @@ Note: the [https://wiki.jenkins-ci.org/display/JENKINS/SSH+plugin Jenkins SSH Pl
 
 ----
 
-= Automated Tomcat Deployment with Rundeck = 
+= Lab. Automated Tomcat Deployment with Rundeck = 
 
 == Architecture ==
 
