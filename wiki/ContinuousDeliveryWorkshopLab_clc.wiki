@@ -1,3 +1,4 @@
+
 #summary Continuous Delivery with Jenkins and rundeck Lab for team 'clc'
 
 *<font size="5">Continuous Delivery with Jenkins and rundeck Lab for Team 'clc'</font>*
@@ -68,17 +69,17 @@ xebia-petclinic-clc > git push
 
 = Lab : Tomcat Maven Plugin =
 
-*Goal:* Deploy the application to the development instance of Tomcat from the developer laptop with *Tomcat6 Maven Plugin*
-# Go to your application folder : 
-{{{cd ~/continuous-delivery-workshop/xebia-petclinic-clc }}}
-
-# Deploy the application to Tomcat Dev server. The Maven goal is *tomcat6:deploy*, the parameters needed for this Maven plugin are:
-* *tomcat.password*: a Tomcat user granted to use Tomcat Manager
-* *tomcat.username*: password of the user
-* *maven.tomcat.url*: URL to the Tomcat Manager where the application will be deployed
-
-#Note: as you can see in the {{{~/continuous-delivery-workshop/xebia-petclinic-clc/pom.xml}}}, the Tomcat6 Maven Plugin is configured with the parameter *update* that allows the application to be update if it's already deployed on the server.  
-For further information, please go to [http://tomcat.apache.org/maven-plugin-2.0-SNAPSHOT/tomcat6-maven-plugin/deploy-mojo.html]
+*Goal:* Deploy the "xebia-petclinic" application to the Dev Tomcat Server from your laptop with *[http://tomcat.apache.org/maven-plugin.html Tomcat6 Maven Plugin]*
+ # Go to your application folder : 
+  {{{
+cd ~/continuous-delivery-workshop/xebia-petclinic-clc
+}}}
+ # Deploy the application to Tomcat Dev server. The Maven goal is *{{{tomcat6:deploy}}}*, the parameters needed for this Maven plugin are:
+  ** *maven.tomcat.url*: URL to the Tomcat Manager where the application will be deployed
+  ** *tomcat.username*: password of the user ("admin" on our servers)
+  ** *tomcat.password*: a Tomcat user granted to use Tomcat Manager ("admin" on our servers)
+ # Note: as you can see in the {{{~/continuous-delivery-workshop/xebia-petclinic-clc/pom.xml}}}, the Tomcat6 Maven Plugin is configured with the parameter *update* that allows the application to be update if it's already deployed on the server.  
+  For further information, please go to [http://tomcat.apache.org/maven-plugin-2.0-SNAPSHOT/tomcat6-maven-plugin/deploy-mojo.html]
 
 Answer : 
 {{{
@@ -103,11 +104,6 @@ This script must:
  # Go further in the lab: test that the URL http://localhost:8080/xebia-petclinic/ returns "200 OK"
  
 Answer : [http://xebia-france.googlecode.com/svn/cloudcomputing/xebia-cloudcomputing-extras/trunk/src/main/scripts/fr/xebia/workshop/continuousdelivery/tomcat-deploy-petclinic tomcat-deploy-petclinic]
-
-== Lab ==
-
- Elaborate 
- * Connect t
 
 == Tomcat scripting tips and tricks ==
 
@@ -349,4 +345,4 @@ project.ssh-keypath=/var/rundeck/.ssh/continuous-delivery-workshop.pem
 
 ----
 
-_This page has been generaterd by '{{{class fr.xebia.workshop.continuousdelivery.ContinuousDeliveryInfrastructureCreator}}}' with template '{{{/fr/xebia/workshop/continuousdelivery/continuous-delivery-lab.fmt}}}' on the 2011-10-04T01:04:57.106+02:00_
+_This page has been generaterd by '{{{class fr.xebia.workshop.continuousdelivery.ContinuousDeliveryInfrastructureCreator}}}' with template '{{{/fr/xebia/workshop/continuousdelivery/continuous-delivery-lab.fmt}}}' on the 2011-10-04T01:11:22.714+02:00_
