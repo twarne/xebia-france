@@ -1,0 +1,2 @@
+= Labs Per Team =
+ * [ContinuousDeliveryWorkshopLab_clc]
