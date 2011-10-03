@@ -8,9 +8,13 @@ svn checkout https://xebia-france.googlecode.com/svn/cloudcomputing/xebia-cloudc
   {{{
 cd workshop; cp /path/to/aws-credentials.txt src/main/resources/AwsCredentials.properties
   }}}
- * Run {{{fr.xebia.workshop.continuousdelivery.ContinuousDeliveryInfrastructureCreator}}}
+ * To create the infrastructure, run {{{fr.xebia.workshop.continuousdelivery.ContinuousDeliveryInfrastructureCreator}}}
   {{{
 mvn clean package exec:java -Dexec.mainClass="fr.xebia.workshop.continuousdelivery.ContinuousDeliveryInfrastructureCreator"
+  }}}
+ * To generate the documentation of the infrastructure (labs wiki pages), run {{{fr.xebia.workshop.continuousdelivery.ContinuousDeliveryInfrastructureDocsGenerator}}}
+  {{{
+mvn clean package exec:java -Dexec.mainClass="fr.xebia.workshop.continuousdelivery.ContinuousDeliveryInfrastructureDocsGenerator"
   }}}
  * This scripts creates :
    * 1 Nexus server 
