@@ -338,4 +338,4 @@ project.ssh-keypath=/var/rundeck/.ssh/continuous-delivery-workshop.pem
  * Trigger the build and verify it works
 
 ----
-_This page has been generaterd by class fr.xebia.workshop.continuousdelivery.ContinuousDeliveryInfrastructureCreator with template '/fr/xebia/workshop/continuousdelivery/continuous-delivery-lab.fmt' on the 2011-10-03T23:55:13.046+02:00_
+_This page has been generaterd by class <code>fr.xebia.workshop.continuousdelivery.ContinuousDeliveryInfrastructureCreator</code> with template '<code>/fr/xebia/workshop/continuousdelivery/continuous-delivery-lab.fmt</code>' on the 2011-10-03T23:55:13.046+02:00_
