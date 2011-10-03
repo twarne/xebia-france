@@ -1,0 +1,11 @@
+#summary Discover Java PaaS Cloud with CloudBees
+
+= Labs =
+
+ * Generated Lab subject JavaPaasCloudBeesWorkshop
+ * Workshop setup and architecture : JavaPaasCloudBeesWorkshopSetup
+
+= Workshop requirements =
+ * Git client
+ * Apache Maven
+ * SSH Client
