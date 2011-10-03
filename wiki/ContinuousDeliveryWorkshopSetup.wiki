@@ -51,7 +51,9 @@ mvn clean package exec:java -Dexec.mainClass="fr.xebia.workshop.continuousdelive
 
 == Tomcat servers ==
 
- * Installed package: jdk, tomcat, tomcat-manager webapp
+ * Installed package: jdk
+ * Additional anstalled software:
+ ** Tomcat 6, not installed by RPM because the Tomcat 6 RPM start/stop script ({{{/usr/sbin/tomcat6}}}) can not be invoked directly by tomcat user. {{{/usr/sbin/tomcat6}}} script must be invoked by linux tomcat6 service ({{{service tomcat6 start|stop}}}.
  * Configuration: 
    * allow ssh connection as "{{{tomcat}}}" user with "{{{continuous-delivery-workshop.pem}}}"
    * grant access to tomcat-manager webapp to tomcat/tomcat, manager/manager and admin/admin
