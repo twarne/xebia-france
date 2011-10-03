@@ -2,10 +2,14 @@
 
 = Labs =
 
- * Workshop setup and architecture : ContinuousDeliveryWorkshopSetup
  * Generated Lab subject ContinuousDeliveryWorkshopLab
- * [ContinuousDeliveryWorkshopJenkinsSshPluginToTomcat]
- * [ContinuousDeliveryWorkshopRundeckToTomcat]
+ * Workshop setup and architecture : ContinuousDeliveryWorkshopSetup
+
+= Workshop requirements =
+ * Git client
+ * Apache Maven
+ * SSH Client
+
 
 = Diagrams =
 
