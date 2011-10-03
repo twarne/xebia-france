@@ -16,16 +16,16 @@
 ssh -i ~/.aws/continuous-delivery-workshop.pem tomcat@ec2-46-137-2-125.eu-west-1.compute.amazonaws.com
 }}}
  </td></tr>
-<tr><td> *Tomcat Valid 1 URL* </td><td> [http://ec2-46-137-63-143.eu-west-1.compute.amazonaws.com:8080/] </td></tr>
+<tr><td> *Tomcat Valid 1 URL* </td><td> [http://ec2-79-125-77-98.eu-west-1.compute.amazonaws.com:8080/] </td></tr>
 <tr><td> *Tomcat Valid 1 SSH* </td><td> 
 {{{
-ssh -i ~/.aws/continuous-delivery-workshop.pem tomcat@ec2-46-137-63-143.eu-west-1.compute.amazonaws.com
+ssh -i ~/.aws/continuous-delivery-workshop.pem tomcat@ec2-79-125-77-98.eu-west-1.compute.amazonaws.com
 }}}
  </td></tr>
-<tr><td> *Tomcat Valid 2 URL* </td><td> [http://ec2-79-125-77-98.eu-west-1.compute.amazonaws.com:8080/] </td></tr>
+<tr><td> *Tomcat Valid 2 URL* </td><td> [http://ec2-46-137-63-143.eu-west-1.compute.amazonaws.com:8080/] </td></tr>
 <tr><td> *Tomcat Valid 2 SSH* </td><td> 
 {{{
-ssh -i ~/.aws/continuous-delivery-workshop.pem tomcat@ec2-79-125-77-98.eu-west-1.compute.amazonaws.com
+ssh -i ~/.aws/continuous-delivery-workshop.pem tomcat@ec2-46-137-63-143.eu-west-1.compute.amazonaws.com
 }}}
  </td></tr>
 </table>
@@ -90,7 +90,8 @@ This script must:
  # Stop the Tomcat server if it is running
  # Delete existing {{{$TOMCAT_HOME/webapps/xebia-petclinic.war}}} file if exists,
  # Delete existing {{{$TOMCAT_HOME/webapps/xebia-petclinic}}} folder if exists,
- # Download latest version of {{{xebia-petclinic.war}}} and copy it to {{{$TOMCAT_HOME/webapps/}}}
+ # Download latest version of {{{xebia-petclinic.war}}} (fr.xebia.demo.petclinic-clc:xebia-petclinic) and copy it to {{{$TOMCAT_HOME/webapps/}}}
+  ** {{{xebia-petclinic.war}}} is deployed on [http://nexus.xebia-tech-event.info:8081/nexus//content/groups/public/] but it is more elegant to use Nexus REST API (see below)
  # Start Tomcat server
  # Go further in the lab: test that the URL http://localhost:8080/xebia-petclinic/ returns "200 OK"
  
@@ -199,12 +200,12 @@ scp -i ~/.aws/continuous-delivery-workshop.pem tomcat-deploy-petclinic tomcat@ec
  </td></tr>
 <tr><td> *Tomcat Valid 1 SSH* </td><td> 
 {{{
-scp -i ~/.aws/continuous-delivery-workshop.pem tomcat-deploy-petclinic tomcat@ec2-46-137-63-143.eu-west-1.compute.amazonaws.com:/opt/tomcat/apache-tomcat-6/bin/
+scp -i ~/.aws/continuous-delivery-workshop.pem tomcat-deploy-petclinic tomcat@ec2-79-125-77-98.eu-west-1.compute.amazonaws.com:/opt/tomcat/apache-tomcat-6/bin/
 }}}
  </td></tr>
 <tr><td> *Tomcat Valid 2 SSH* </td><td> 
 {{{
-scp -i ~/.aws/continuous-delivery-workshop.pem tomcat-deploy-petclinic tomcat@ec2-79-125-77-98.eu-west-1.compute.amazonaws.com:/opt/tomcat/apache-tomcat-6/bin/
+scp -i ~/.aws/continuous-delivery-workshop.pem tomcat-deploy-petclinic tomcat@ec2-46-137-63-143.eu-west-1.compute.amazonaws.com:/opt/tomcat/apache-tomcat-6/bin/
 }}}
 </td></tr>
 <table>
@@ -275,19 +276,6 @@ project.ssh-keypath=/var/rundeck/.ssh/continuous-delivery-workshop.pem
 	name="valid-tomcat-1" 
 	description="valid-tomcat-1" 
 	tags="tomcat,valid" 
-	hostname="ec2-46-137-63-143.eu-west-1.compute.amazonaws.com" 	
-	osArch="i386" 
-	osFamily="unix" 
-	osName="Linux" 
-	osVersion="" 
-	username="tomcat" 
-	privateIpAddress="10.228.22.205" 	
-	privateDnsName="ip-10-228-22-205.eu-west-1.compute.internal"
-	editUrl="https://console.aws.amazon.com/ec2/home?region=eu-west-1"/>
-<node 
-	name="valid-tomcat-2" 
-	description="valid-tomcat-2" 
-	tags="tomcat,valid" 
 	hostname="ec2-79-125-77-98.eu-west-1.compute.amazonaws.com" 	
 	osArch="i386" 
 	osFamily="unix" 
@@ -296,6 +284,19 @@ project.ssh-keypath=/var/rundeck/.ssh/continuous-delivery-workshop.pem
 	username="tomcat" 
 	privateIpAddress="10.224.114.168" 	
 	privateDnsName="ip-10-224-114-168.eu-west-1.compute.internal"
+	editUrl="https://console.aws.amazon.com/ec2/home?region=eu-west-1"/>
+<node 
+	name="valid-tomcat-2" 
+	description="valid-tomcat-2" 
+	tags="tomcat,valid" 
+	hostname="ec2-46-137-63-143.eu-west-1.compute.amazonaws.com" 	
+	osArch="i386" 
+	osFamily="unix" 
+	osName="Linux" 
+	osVersion="" 
+	username="tomcat" 
+	privateIpAddress="10.228.22.205" 	
+	privateDnsName="ip-10-228-22-205.eu-west-1.compute.internal"
 	editUrl="https://console.aws.amazon.com/ec2/home?region=eu-west-1"/>
 </code>
  # Go back to [http://ec2-46-137-40-253.eu-west-1.compute.amazonaws.com:4440/ Rundeck web admin console]
@@ -339,4 +340,4 @@ project.ssh-keypath=/var/rundeck/.ssh/continuous-delivery-workshop.pem
 
 ----
 
-_This page has been generaterd by '{{{class fr.xebia.workshop.continuousdelivery.ContinuousDeliveryInfrastructureCreator}}}' with template '{{{/fr/xebia/workshop/continuousdelivery/continuous-delivery-lab.fmt}}}' on the 2011-10-04T00:13:51.320+02:00_
+_This page has been generaterd by '{{{class fr.xebia.workshop.continuousdelivery.ContinuousDeliveryInfrastructureCreator}}}' with template '{{{/fr/xebia/workshop/continuousdelivery/continuous-delivery-lab.fmt}}}' on the 2011-10-04T00:26:19.271+02:00_
