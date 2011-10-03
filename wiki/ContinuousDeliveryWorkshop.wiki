@@ -1,4 +1,4 @@
-#summary One-sentence summary of this page.
+#summary Discover Continuous deployment for Java with jenkins, rundeck, nexus and tomcat
 
 = Labs =
 
