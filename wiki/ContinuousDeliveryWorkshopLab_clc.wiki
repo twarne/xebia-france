@@ -1,6 +1,6 @@
 #summary Continuous Delivery with Jenkins and rundeck Lab for team 'clc'
 
-= Continuous Delivery with Jenkins and rundeck Lab for Team 'clc' =
+*<font size="5">Continuous Delivery with Jenkins and rundeck Lab for Team 'clc'</font>*
 
 <wiki:toc max_depth="1" />
 
@@ -346,4 +346,4 @@ project.ssh-keypath=/var/rundeck/.ssh/continuous-delivery-workshop.pem
 
 ----
 
-_This page has been generaterd by '{{{class fr.xebia.workshop.continuousdelivery.ContinuousDeliveryInfrastructureCreator}}}' with template '{{{/fr/xebia/workshop/continuousdelivery/continuous-delivery-lab.fmt}}}' on the 2011-10-04T00:59:10.386+02:00_
+_This page has been generaterd by '{{{class fr.xebia.workshop.continuousdelivery.ContinuousDeliveryInfrastructureCreator}}}' with template '{{{/fr/xebia/workshop/continuousdelivery/continuous-delivery-lab.fmt}}}' on the 2011-10-04T01:03:21.722+02:00_
