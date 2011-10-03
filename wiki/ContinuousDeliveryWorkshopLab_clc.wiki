@@ -80,7 +80,10 @@ xebia-petclinic-clc > git push
 #Note: as you can see in the {{{~/continuous-delivery-workshop/xebia-petclinic-clc/pom.xml}}}, the Tomcat6 Maven Plugin is configured with the parameter *update* that allows the application to be update if it's already deployed on the server.  
 For further information, please go to [http://tomcat.apache.org/maven-plugin-2.0-SNAPSHOT/tomcat6-maven-plugin/deploy-mojo.html]
 
-Answer : {{{mvn tomcat6:deploy -Dtomcat.password=admin -Dtomcat.username=admin -Dmaven.tomcat.url=http://ec2-46-137-2-125.eu-west-1.compute.amazonaws.com:8080/manager}}}
+Answer : 
+{{{
+mvn tomcat6:deploy -Dtomcat.password=admin -Dtomcat.username=admin -Dmaven.tomcat.url=http://ec2-46-137-2-125.eu-west-1.compute.amazonaws.com:8080/manager
+}}}
 
 ----
 
@@ -346,4 +349,4 @@ project.ssh-keypath=/var/rundeck/.ssh/continuous-delivery-workshop.pem
 
 ----
 
-_This page has been generaterd by '{{{class fr.xebia.workshop.continuousdelivery.ContinuousDeliveryInfrastructureCreator}}}' with template '{{{/fr/xebia/workshop/continuousdelivery/continuous-delivery-lab.fmt}}}' on the 2011-10-04T01:03:21.722+02:00_
+_This page has been generaterd by '{{{class fr.xebia.workshop.continuousdelivery.ContinuousDeliveryInfrastructureCreator}}}' with template '{{{/fr/xebia/workshop/continuousdelivery/continuous-delivery-lab.fmt}}}' on the 2011-10-04T01:04:57.106+02:00_
