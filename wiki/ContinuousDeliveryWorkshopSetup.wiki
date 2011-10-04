@@ -34,7 +34,10 @@ mvn clean package exec:java -Dexec.mainClass="fr.xebia.workshop.continuousdelive
 
 == Nexus ==
 
+ * Installed packages: JDK
+ * Nexus 1.9.2.2 (with Rundeck plugin)
  * Logs: {{{/opt/nexus/nexus-oss-webapp-1.9.2.2/logs/}}}
+ * [http://xebia-france.googlecode.com/svn/cloudcomputing/xebia-cloudcomputing-extras/trunk/src/main/resources/fr/xebia/workshop/continuousdelivery/cloud-config-amzn-linux-nexus.txt cloud-config-amzn-linux-nexus.txt]
 
 == Jenkins / Rundeck servers ==
 
