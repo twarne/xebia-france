@@ -1,4 +1,3 @@
-
 #summary Continuous Delivery with Jenkins and rundeck Lab for team 'clc'
 
 *<font size="5">Continuous Delivery with Jenkins and rundeck Lab for Team 'clc'</font>*
@@ -68,6 +67,12 @@ xebia-petclinic-clc > git push
 ----
 
 = Lab : Tomcat Maven Plugin =
+
+== Architecture ==
+
+<img width="400" src="http://xebia-france.googlecode.com/svn/wiki/cont-delivery-img/tomcat-maven-plugin.png"/>
+
+== Lab ==
 
 *Goal:* Deploy the "xebia-petclinic" application to the Dev Tomcat Server from your laptop with *[http://tomcat.apache.org/maven-plugin.html Tomcat6 Maven Plugin]*
  # Go to your application folder : 
