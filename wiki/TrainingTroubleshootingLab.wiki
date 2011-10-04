@@ -1,5 +1,7 @@
 = Formation Troubleshooting =
 
+Plan de test JMeter [http://xebia-france.googlecode.com/svn/wiki/training-troubleshooting-files/]
+
 
 == Equipe 'pls' ==
  * URL: [http://ec2-79-125-79-209.eu-west-1.compute.amazonaws.com:8080/petclinic/]
