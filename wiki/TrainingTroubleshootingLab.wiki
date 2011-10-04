@@ -1,23 +1,123 @@
 = Formation Troubleshooting =
 
 
-== Equipe 'clc' ==
- * URL: [http://ec2-46-137-17-26.eu-west-1.compute.amazonaws.com:8080/petclinic/]
+== Equipe 'pls' ==
+ * URL: [http://ec2-79-125-79-209.eu-west-1.compute.amazonaws.com:8080/petclinic/]
  * Paramètre de connexion SSH:
 {{{
-ssh -i training-troubleshooting.pem tomcat@ec2-46-137-17-26.eu-west-1.compute.amazonaws.com
+ssh -i training-troubleshooting.pem tomcat@ec2-79-125-79-209.eu-west-1.compute.amazonaws.com
 }}}
  * Paramètres de connexion JMX
-  ** Host: ec2-46-137-17-26.eu-west-1.compute.amazonaws.com
+  ** Host: ec2-79-125-79-209.eu-west-1.compute.amazonaws.com
+  ** Port: 6969
+  
+
+== Equipe 'sli' ==
+ * URL: [http://ec2-46-51-132-69.eu-west-1.compute.amazonaws.com:8080/petclinic/]
+ * Paramètre de connexion SSH:
+{{{
+ssh -i training-troubleshooting.pem tomcat@ec2-46-51-132-69.eu-west-1.compute.amazonaws.com
+}}}
+ * Paramètres de connexion JMX
+  ** Host: ec2-46-51-132-69.eu-west-1.compute.amazonaws.com
+  ** Port: 6969
+  
+
+== Equipe 'och' ==
+ * URL: [http://ec2-46-137-24-196.eu-west-1.compute.amazonaws.com:8080/petclinic/]
+ * Paramètre de connexion SSH:
+{{{
+ssh -i training-troubleshooting.pem tomcat@ec2-46-137-24-196.eu-west-1.compute.amazonaws.com
+}}}
+ * Paramètres de connexion JMX
+  ** Host: ec2-46-137-24-196.eu-west-1.compute.amazonaws.com
+  ** Port: 6969
+  
+
+== Equipe 'bco' ==
+ * URL: [http://ec2-79-125-42-196.eu-west-1.compute.amazonaws.com:8080/petclinic/]
+ * Paramètre de connexion SSH:
+{{{
+ssh -i training-troubleshooting.pem tomcat@ec2-79-125-42-196.eu-west-1.compute.amazonaws.com
+}}}
+ * Paramètres de connexion JMX
+  ** Host: ec2-79-125-42-196.eu-west-1.compute.amazonaws.com
   ** Port: 6969
   
 
 == Equipe 'plo' ==
- * URL: [http://ec2-79-125-84-48.eu-west-1.compute.amazonaws.com:8080/petclinic/]
+ * URL: [http://ec2-46-51-160-81.eu-west-1.compute.amazonaws.com:8080/petclinic/]
  * Paramètre de connexion SSH:
 {{{
-ssh -i training-troubleshooting.pem tomcat@ec2-79-125-84-48.eu-west-1.compute.amazonaws.com
+ssh -i training-troubleshooting.pem tomcat@ec2-46-51-160-81.eu-west-1.compute.amazonaws.com
 }}}
  * Paramètres de connexion JMX
-  ** Host: ec2-79-125-84-48.eu-west-1.compute.amazonaws.com
+  ** Host: ec2-46-51-160-81.eu-west-1.compute.amazonaws.com
   ** Port: 6969
+  
+
+== Equipe 'ita' ==
+ * URL: [http://ec2-46-51-139-195.eu-west-1.compute.amazonaws.com:8080/petclinic/]
+ * Paramètre de connexion SSH:
+{{{
+ssh -i training-troubleshooting.pem tomcat@ec2-46-51-139-195.eu-west-1.compute.amazonaws.com
+}}}
+ * Paramètres de connexion JMX
+  ** Host: ec2-46-51-139-195.eu-west-1.compute.amazonaws.com
+  ** Port: 6969
+  
+
+== Equipe 'jma' ==
+ * URL: [http://ec2-46-137-135-64.eu-west-1.compute.amazonaws.com:8080/petclinic/]
+ * Paramètre de connexion SSH:
+{{{
+ssh -i training-troubleshooting.pem tomcat@ec2-46-137-135-64.eu-west-1.compute.amazonaws.com
+}}}
+ * Paramètres de connexion JMX
+  ** Host: ec2-46-137-135-64.eu-west-1.compute.amazonaws.com
+  ** Port: 6969
+  
+
+== Equipe 'bjo' ==
+ * URL: [http://ec2-46-137-46-14.eu-west-1.compute.amazonaws.com:8080/petclinic/]
+ * Paramètre de connexion SSH:
+{{{
+ssh -i training-troubleshooting.pem tomcat@ec2-46-137-46-14.eu-west-1.compute.amazonaws.com
+}}}
+ * Paramètres de connexion JMX
+  ** Host: ec2-46-137-46-14.eu-west-1.compute.amazonaws.com
+  ** Port: 6969
+  
+
+== Equipe 'mma' ==
+ * URL: [http://ec2-46-137-13-176.eu-west-1.compute.amazonaws.com:8080/petclinic/]
+ * Paramètre de connexion SSH:
+{{{
+ssh -i training-troubleshooting.pem tomcat@ec2-46-137-13-176.eu-west-1.compute.amazonaws.com
+}}}
+ * Paramètres de connexion JMX
+  ** Host: ec2-46-137-13-176.eu-west-1.compute.amazonaws.com
+  ** Port: 6969
+  
+
+== Equipe 'ccu' ==
+ * URL: [http://ec2-46-137-136-252.eu-west-1.compute.amazonaws.com:8080/petclinic/]
+ * Paramètre de connexion SSH:
+{{{
+ssh -i training-troubleshooting.pem tomcat@ec2-46-137-136-252.eu-west-1.compute.amazonaws.com
+}}}
+ * Paramètres de connexion JMX
+  ** Host: ec2-46-137-136-252.eu-west-1.compute.amazonaws.com
+  ** Port: 6969
+  
+
+== Equipe 'blo' ==
+ * URL: [http://ec2-46-137-19-151.eu-west-1.compute.amazonaws.com:8080/petclinic/]
+ * Paramètre de connexion SSH:
+{{{
+ssh -i training-troubleshooting.pem tomcat@ec2-46-137-19-151.eu-west-1.compute.amazonaws.com
+}}}
+ * Paramètres de connexion JMX
+  ** Host: ec2-46-137-19-151.eu-west-1.compute.amazonaws.com
+  ** Port: 6969
+  
