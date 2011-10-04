@@ -17,15 +17,15 @@ mvn clean package exec:java -Dexec.mainClass="fr.xebia.workshop.continuousdelive
 mvn clean package exec:java -Dexec.mainClass="fr.xebia.workshop.continuousdelivery.ContinuousDeliveryInfrastructureDocsGenerator"
   }}}
  * This scripts creates :
-   * 1 Nexus server 
+   * 1 Nexus server (common for all teams) 
      * Amazon EC2 Name : "nexus"
      * URL: http://nexus.xebia-tech-event.info:8081/nexus/
-   * Jenkins/Rundeck server per team
+   * 1 Jenkins/Rundeck server per team
      * Amazon EC2 Names : {{{jenkins-${team-identifier}}}}
    * 1 Tomcat dev server per team
      * Amazon EC2 Name: {{{tomcat-${team-identifier}-dev-1}}}
-   * 1 Tomcat valid server per team
-     * Amazon EC2 Name: {{{tomcat-${team-identifier}-valid-1}}} & {{{tomcat-${team-identifier}-valid-2}}}
+   * 2 Tomcat valid servers per team
+     * Amazon EC2 Names: {{{tomcat-${team-identifier}-valid-1}}} & {{{tomcat-${team-identifier}-valid-2}}}
    * 1 Petclinic project per team under Xebia Training's Github account ([https://github.com/xebia-france-training/]{{{xebia-petclinic-${team-identifier}}}})
    * A job under each team's Jenkins server to build the team's Petclinic project
 
