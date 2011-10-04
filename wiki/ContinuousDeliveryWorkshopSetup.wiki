@@ -64,6 +64,11 @@ mvn clean package exec:java -Dexec.mainClass="fr.xebia.workshop.continuousdelive
    * add "{{{ec2-user}}}" to group {{{tomcat}}}"
  * CloudInit: [https://xebia-france.googlecode.com/svn/cloudcomputing/xebia-cloudcomputing-extras/trunk/src/main/resources/fr/xebia/workshop/continuousdelivery/cloud-config-amzn-linux-tomcat.txt cloud-config-amzn-linux-tomcat.txt]
 
+= Documentation =
+
+ * Keynote presentation : {{{workshop-continuous-delivery.key}}} in https://www.dropbox.com/home/java-infra-as-code-with-amazon-aws#/
+ * Omnigraffle diagrams:  {{{automated-deployment-workshop.graffle}}} in https://www.dropbox.com/home/java-infra-as-code-with-amazon-aws#/
+
 = Diagrams =
 
 
