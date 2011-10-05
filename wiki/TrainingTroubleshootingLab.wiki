@@ -2,6 +2,11 @@
 
 Plan de test JMeter [http://xebia-france.googlecode.com/svn/wiki/training-troubleshooting-files/]
 
+Lancer Jmeter en remote
+{{{
+./bin/jmeter -n -t trainingToubleShooting/Petclinic.jmx 
+}}}
+
 == Equipe 'pls' ==
  * URL: [http://ec2-46-137-59-7.eu-west-1.compute.amazonaws.com:8080/petclinic/]
  * Paramètre de connexion SSH:
