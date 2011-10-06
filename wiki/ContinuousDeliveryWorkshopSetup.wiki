@@ -39,7 +39,7 @@ mvn clean package exec:java -Dexec.mainClass="fr.xebia.workshop.continuousdelive
  * Logs: {{{/opt/nexus/nexus-oss-webapp-1.9.2.2/logs/}}}
  * [http://xebia-france.googlecode.com/svn/cloudcomputing/xebia-cloudcomputing-extras/trunk/src/main/resources/fr/xebia/workshop/continuousdelivery/cloud-config-amzn-linux-nexus.txt cloud-config-amzn-linux-nexus.txt]
 
-== Jenkins / Rundeck servers ==
+== Jenkins / Rundeck / Deployit servers ==
 
  * Installed package: JDK, Jenkins (with plugins Batch Task, Git, SSH and Rundeck), Rundeck, Maven, Git
   ** [https://wiki.jenkins-ci.org/display/JENKINS/Batch+Task+Plugin Batch Task Plugin for Jenkins]
