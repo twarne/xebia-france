@@ -20,7 +20,7 @@ mvn clean package exec:java -Dexec.mainClass="fr.xebia.workshop.continuousdelive
    * 1 Nexus server (common for all teams) 
      * Amazon EC2 Name : "nexus"
      * URL: http://nexus.xebia-tech-event.info:8081/nexus/
-   * 1 Jenkins/Rundeck server per team
+   * 1 Jenkins/Rundeck/Deployit server per team
      * Amazon EC2 Names : {{{jenkins-${team-identifier}}}}
    * 1 Tomcat dev server per team
      * Amazon EC2 Name: {{{tomcat-${team-identifier}-dev-1}}}
