@@ -101,8 +101,8 @@ http://localhost:8080
 }}}   
 
   ## Deploy the application to Tomcat Dev server. The Maven goal is *tomcat6:deploy*, the parameters needed for this Maven plugin are:
- * *tomcat.password*: a Tomcat user granted to use Tomcat Manager
- * *tomcat.username*: password of the user
+ * *tomcat.username*: a Tomcat user granted to use Tomcat Manager
+ * *tomcat.password*: password of the user
  * *maven.tomcat.url*: URL to the Tomcat Manager where the application will be deployed
 
 *Note*: as you can see in the {{{~/continuous-delivery-workshop/xebia-petclinic-clc/pom.xml}}}, the Tomcat6 Maven Plugin is configured with the parameter *update* that allows the application to be update if it's already deployed on the server.  
