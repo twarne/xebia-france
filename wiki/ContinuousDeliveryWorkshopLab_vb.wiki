@@ -10,7 +10,7 @@
 
 <table>
 <tr><td> *SSH Private key* </td><td> [https://s3-eu-west-1.amazonaws.com/continuous-delivery/continuous-delivery-workshop.pem continuous-delivery-workshop.pem]</td></tr>
-<tr><td> *GitHub project repository url* </td><td> [https://github.com/xebia-guest/xebia-petclinic-vb] </td></tr>
+<tr><td> *!GitHub project repository url* </td><td> [https://github.com/xebia-guest/xebia-petclinic-vb] </td></tr>
 <tr><td> *Jenkins URL* </td><td> [http://ec2-46-51-131-37.eu-west-1.compute.amazonaws.com:8080/] </td></tr>
 <tr><td> *Rundeck URL* </td><td> [http://ec2-46-51-131-37.eu-west-1.compute.amazonaws.com:4440/] </td></tr>
 <tr><td> *Deployit URL* </td><td> [http://ec2-46-51-131-37.eu-west-1.compute.amazonaws.com:4516/] </td></tr>
@@ -49,7 +49,7 @@ chmod 400 ~/.aws/continuous-delivery-workshop.pem
   {{{
 mkdir ~/continuous-delivery-workshop
 cd ~/continuous-delivery-workshop
-git clone https://xebia-guest@github.com/xebia-guestxebia-petclinic-vb.git
+git clone https://xebia-guest@github.com/xebia-guest/xebia-petclinic-vb.git
 }}}
   Note: password of the "xebia-guest" user will be sent before the workshop.
  # build project
@@ -368,7 +368,7 @@ project.ssh-keypath=/var/rundeck/.ssh/continuous-delivery-workshop.pem
  * Create a new Jenkins *Free Style Project* named "{{{deploy-petclinic-on-tomcat-valid}}}" to invoke Rundeck job with the following parameters:
   ** Rundeck job identifier: {{{deploy-petclinic-on-tomcat-valid:tomcat-deploy-petclinic}}}
   ** Job options (optional): {{{version = LATEST}}}
-  ** Wait for RunDeck job to finish ?: {{{checked}}}
+  ** Wait for Rundeck job to finish ?: {{{checked}}}
   ** Should fail the build ?: {{{checked}}}
   <img height="140" src="http://xebia-france.googlecode.com/svn/wiki/cont-delivery-img/jenkins-job-rundeck-configuration-screenshot.png" />
  * Trigger the build and verify it works
@@ -421,4 +421,4 @@ git push
 <img height=90" src="http://xebia-france.googlecode.com/svn/wiki/cont-delivery-img/deployit-check-deployment-ok.png" />
 *END OF THE LAB THANK YOU!*
 
-_This page has been generaterd by '{{{class fr.xebia.workshop.continuousdelivery.ContinuousDeliveryInfrastructureCreator}}}' with template '{{{/fr/xebia/workshop/continuousdelivery/continuous-delivery-lab.fmt}}}' on the 2011-10-10T22:30:29.107+02:00_
+_This page has been generaterd by '{{{class fr.xebia.workshop.continuousdelivery.ContinuousDeliveryInfrastructureCreator}}}' with template '{{{/fr/xebia/workshop/continuousdelivery/continuous-delivery-lab.fmt}}}' on the 2011-10-10T23:44:11.879+02:00_
