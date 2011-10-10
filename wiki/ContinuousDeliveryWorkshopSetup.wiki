@@ -16,10 +16,6 @@ cp /path/to/continuous-delivery-workshop.pem src/main/resources/continuous-deliv
   {{{
 mvn clean package exec:java -Dexec.mainClass="fr.xebia.workshop.continuousdelivery.ContinuousDeliveryInfrastructureCreator"
   }}}
- * Your infrastructure documentation (labs wiki pages) has been created in "/tmp/continuous-delivery/". If you want to regenerate it, run {{{fr.xebia.workshop.continuousdelivery.ContinuousDeliveryInfrastructureDocsGenerator}}}
-  {{{
-mvn clean package exec:java -Dexec.mainClass="fr.xebia.workshop.continuousdelivery.ContinuousDeliveryInfrastructureDocsGenerator"
-  }}}
  * This scripts creates :
    * 1 Nexus server (common for all teams) 
      * Amazon EC2 Name : "nexus"
@@ -32,6 +28,10 @@ mvn clean package exec:java -Dexec.mainClass="fr.xebia.workshop.continuousdelive
      * Amazon EC2 Names: {{{tomcat-${team-identifier}-valid-1}}} & {{{tomcat-${team-identifier}-valid-2}}}
    * 1 Petclinic project per team under Xebia Training's Github account ([https://github.com/xebia-france-training/]{{{xebia-petclinic-${team-identifier}}}})
    * A job under each team's Jenkins server to build the team's Petclinic project
+ * Your infrastructure documentation (labs wiki pages) has been created in "/tmp/continuous-delivery/". If you want to regenerate it, run {{{fr.xebia.workshop.continuousdelivery.ContinuousDeliveryInfrastructureDocsGenerator}}}
+  {{{
+mvn clean package exec:java -Dexec.mainClass="fr.xebia.workshop.continuousdelivery.ContinuousDeliveryInfrastructureDocsGenerator"
+  }}}
 
 
 = Specifications =
