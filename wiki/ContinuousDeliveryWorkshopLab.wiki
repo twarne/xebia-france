@@ -1,3 +1,4 @@
 = Labs Per Team =
  * [ContinuousDeliveryWorkshopLab_bmo]
  * [ContinuousDeliveryWorkshopLab_clc]
+ * [ContinuousDeliveryWorkshopLab_vb]
