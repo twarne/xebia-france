@@ -8,6 +8,10 @@ svn checkout https://xebia-france.googlecode.com/svn/cloudcomputing/xebia-cloudc
   {{{
 cd workshop; cp /path/to/aws-credentials.txt src/main/resources/AwsCredentials.properties
   }}}
+ * Put the "continuous-delivery-workshop.pem" file in your classpath
+  {{{
+cp /path/to/continuous-delivery-workshop.pem src/main/resources/continuous-delivery-workshop.pem
+  }}}
  * To create the infrastructure, run {{{fr.xebia.workshop.continuousdelivery.ContinuousDeliveryInfrastructureCreator}}}
   {{{
 mvn clean package exec:java -Dexec.mainClass="fr.xebia.workshop.continuousdelivery.ContinuousDeliveryInfrastructureCreator"
