@@ -16,7 +16,7 @@ cp /path/to/continuous-delivery-workshop.pem src/main/resources/continuous-deliv
   {{{
 mvn clean package exec:java -Dexec.mainClass="fr.xebia.workshop.continuousdelivery.ContinuousDeliveryInfrastructureCreator"
   }}}
- * To generate the documentation of the infrastructure (labs wiki pages), run {{{fr.xebia.workshop.continuousdelivery.ContinuousDeliveryInfrastructureDocsGenerator}}}
+ * Your infrastructure documentation (labs wiki pages) has been created in "/tmp/continuous-delivery/". If you want to regenerate it, run {{{fr.xebia.workshop.continuousdelivery.ContinuousDeliveryInfrastructureDocsGenerator}}}
   {{{
 mvn clean package exec:java -Dexec.mainClass="fr.xebia.workshop.continuousdelivery.ContinuousDeliveryInfrastructureDocsGenerator"
   }}}
