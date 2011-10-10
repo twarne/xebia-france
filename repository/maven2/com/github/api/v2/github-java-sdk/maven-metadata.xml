@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>com.github.api.v2</groupId>
+  <artifactId>github-java-sdk</artifactId>
+  <version>0.1</version>
+  <versioning>
+    <versions>
+      <version>0.1</version>
+    </versions>
+    <lastUpdated>20111010212108</lastUpdated>
+  </versioning>
+</metadata>
