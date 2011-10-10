@@ -82,7 +82,8 @@ xebia-petclinic-vb > git push
       <password>deployment123</password>
     </server>
   </servers>
-<//settings>
+</settings>
+}}}
   ## Execute {{{mvn release:prepare release:perform}}}
  # Verify that the new release is available in Nexus : [http://nexus.xebia-tech-event.info:8081/nexus/content/groups/public/fr/xebia/demo/petclinic-vb/xebia-petclinic/]
 ----
