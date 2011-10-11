@@ -11,9 +11,9 @@
 <table>
 <tr><td> *SSH Private key* </td><td> [https://s3-eu-west-1.amazonaws.com/continuous-delivery/continuous-delivery-workshop.pem continuous-delivery-workshop.pem]</td></tr>
 <tr><td> *!GitHub project repository url* </td><td> [https://github.com/xebia-guest/xebia-petclinic-vb] </td></tr>
-<tr><td> *Jenkins URL* </td><td> [http://ec2-46-137-71-186.eu-west-1.compute.amazonaws.com:8080/] </td></tr>
-<tr><td> *Rundeck URL* </td><td> [http://ec2-46-137-71-186.eu-west-1.compute.amazonaws.com:4440/] </td></tr>
-<tr><td> *Deployit URL* </td><td> [http://ec2-46-137-71-186.eu-west-1.compute.amazonaws.com:4516/] </td></tr>
+<tr><td> *Jenkins URL* </td><td> [http://ec2-46-137-140-197.eu-west-1.compute.amazonaws.com:8080/] </td></tr>
+<tr><td> *Rundeck URL* </td><td> [http://ec2-46-137-140-197.eu-west-1.compute.amazonaws.com:4440/] </td></tr>
+<tr><td> *Deployit URL* </td><td> [http://ec2-46-137-140-197.eu-west-1.compute.amazonaws.com:4516/] </td></tr>
 <tr><td> *Nexus URL* </td><td> [http://nexus.xebia-tech-event.info:8081/nexus/] </td></tr>
 <tr><td> *Tomcat Dev URL* </td><td> [http://ec2-46-137-130-72.eu-west-1.compute.amazonaws.com:8080/] </td></tr>
 <tr><td> *Tomcat Dev SSH* </td><td> 
@@ -64,7 +64,7 @@ mvn package
 xebia-petclinic-vb > git commit -m "test" src/main/webapp/WEB-INF/jsp/welcome.jsp
 xebia-petclinic-vb > git push
 }}}
- # Verify that Jenkins detects the Git change and triggers a build : [http://ec2-46-137-71-186.eu-west-1.compute.amazonaws.com:8080//job/xebia-petclinic-vb/]
+ # Verify that Jenkins detects the Git change and triggers a build : [http://ec2-46-137-140-197.eu-west-1.compute.amazonaws.com:8080//job/xebia-petclinic-vb/]
  # Do a release of the application
   ## Add the Nexus credentials to your Maven settings.xml file :
    {{{
@@ -280,7 +280,7 @@ scp -i ~/.aws/continuous-delivery-workshop.pem tomcat-deploy-petclinic tomcat@ec
 
 Note: the [https://wiki.jenkins-ci.org/display/JENKINS/SSH+plugin Jenkins SSH Plugin] is already installed on your jenkins server.
  # Deploy the "[http://xebia-france.googlecode.com/svn/cloudcomputing/xebia-cloudcomputing-extras/trunk/src/main/scripts/fr/xebia/workshop/continuousdelivery/tomcat-deploy-petclinic tomcat-deploy-petclinic]" shell script on the Tomcat Dev server.
- # Connect to your *Jenkins* server: [http://ec2-46-137-71-186.eu-west-1.compute.amazonaws.com:8080/]
+ # Connect to your *Jenkins* server: [http://ec2-46-137-140-197.eu-west-1.compute.amazonaws.com:8080/]
  # In the *Manage Jenkins* / *Configure System*
   <img height="20" src="http://xebia-france.googlecode.com/svn/wiki/cont-delivery-img/jenkins-manage-jenkins-screenshot.png" /> <img height="25" src="http://xebia-france.googlecode.com/svn/wiki/cont-delivery-img/jenkins-configure-system-screenshot.png" /> 
  # In the section called : *SSH Remote hosts*, declare your "Tomcat Dev" server:
@@ -315,12 +315,12 @@ Note: the [https://wiki.jenkins-ci.org/display/JENKINS/SSH+plugin Jenkins SSH Pl
 === Deploy Petclinic from Rundeck ===
 Here is the configuration of the previous task with Rundeck.
  # Deploy the "[http://xebia-france.googlecode.com/svn/cloudcomputing/xebia-cloudcomputing-extras/trunk/src/main/scripts/fr/xebia/workshop/continuousdelivery/tomcat-deploy-petclinic tomcat-deploy-petclinic]" shell script on your "Tomcat Valid 1" and "Tomcat Valid 2" servers
- # Connect to your Rundeck server http://ec2-46-137-71-186.eu-west-1.compute.amazonaws.com:4440/ (login=admin, password=admin)
+ # Connect to your Rundeck server http://ec2-46-137-140-197.eu-west-1.compute.amazonaws.com:4440/ (login=admin, password=admin)
  # Create a new Rundeck project "{{{deploy-petclinic-on-tomcat-valid}}}"
   <img height=90" src="http://xebia-france.googlecode.com/svn/wiki/cont-delivery-img/rundeck-create-project-screenshot.png" />
  # Connect via SSH to the rundeck server: 
   {{{
-ssh -i ~/.aws/continuous-delivery-workshop.pem ec2-user@ec2-46-137-71-186.eu-west-1.compute.amazonaws.com
+ssh -i ~/.aws/continuous-delivery-workshop.pem ec2-user@ec2-46-137-140-197.eu-west-1.compute.amazonaws.com
 }}}
   # Update the project configuration files in folder "{{{/var/rundeck/projects/deploy-petclinic-on-tomcat-valid/etc/}}}":
   # Modify the *{{{project.properties}}}* to declare the ssh private key of the workshop
@@ -355,7 +355,7 @@ project.ssh-keypath=/var/rundeck/.ssh/continuous-delivery-workshop.pem
 	privateDnsName="ip-10-226-221-192.eu-west-1.compute.internal"
 	editUrl="https://console.aws.amazon.com/ec2/home?region=eu-west-1"/>
 </code>
- # Go back to [http://ec2-46-137-71-186.eu-west-1.compute.amazonaws.com:4440/ Rundeck web admin console], and let's have a look at all your nodes (servers) :
+ # Go back to [http://ec2-46-137-140-197.eu-west-1.compute.amazonaws.com:4440/ Rundeck web admin console], and let's have a look at all your nodes (servers) :
  # Click on the filter ("Name: localhost   Project: deploy-petclinic-on-tomcat-valid") and in the "name" filter, replace "localhost" with "{{{.*}}}" and click on "Filter". You should now see all 3 servers : the 2 tomcat servers, and the local rundeck server.
  # You can test that everything works by executing a command on all 3 servers : type "whoami" in the command field, and click "Run"...
  # Now, we will create our first job : click on the "Jobs" tab on the top of the page, and then on "New job ..." (on the right)
@@ -393,15 +393,15 @@ If you have only 1 version in the list, it is the moment to do a release of the 
 
 We will now link Jenkins and Rundeck, so that each successfull build is followed by a deployment on the valid servers :
 
- * Go to the Jenkins configuration page [http://ec2-46-137-71-186.eu-west-1.compute.amazonaws.com:8080//configure], and configure the Rundeck connection parameters (in the bottom of the page) :
-  ** URL: {{{http://ec2-46-137-71-186.eu-west-1.compute.amazonaws.com:4440/}}}
+ * Go to the Jenkins configuration page [http://ec2-46-137-140-197.eu-west-1.compute.amazonaws.com:8080//configure], and configure the Rundeck connection parameters (in the bottom of the page) :
+  ** URL: {{{http://ec2-46-137-140-197.eu-west-1.compute.amazonaws.com:4440/}}}
   ** Login: {{{admin}}}
   ** Password: {{{admin}}}
   ** Click on "Test connection", you should get a success message
   ** Save
   <img height="75" src="http://xebia-france.googlecode.com/svn/wiki/cont-delivery-img/jenkins-rundeck-connection-screenshot.png" />
 
- * Edit your Jenkins job at [http://ec2-46-137-71-186.eu-west-1.compute.amazonaws.com:8080//job/xebia-petclinic-vb/configuration], and configure the Rundeck plugin (in the bottom of the page) with the following parameters :
+ * Edit your Jenkins job at [http://ec2-46-137-140-197.eu-west-1.compute.amazonaws.com:8080//job/xebia-petclinic-vb/configuration], and configure the Rundeck plugin (in the bottom of the page) with the following parameters :
   ** Rundeck job identifier: {{{deploy-petclinic-on-tomcat-valid:tomcat-deploy-petclinic}}}
   ** Job options (optional): {{{version = LATEST}}}
   ** Wait for Rundeck job to finish ?: {{{checked}}}
@@ -411,7 +411,7 @@ We will now link Jenkins and Rundeck, so that each successfull build is followed
 
 You can now test your deployment chain by editing a file in the petclinic project, and committing/pushing it to github : Jenkins will pick up the change, build the WAR, deploy it to Nexus, and ask Rundeck to deploy the project on the tomcat valid servers.
 
-You can also do "on-demand" deploys : in the Jenkins job configuration page at [http://ec2-46-137-71-186.eu-west-1.compute.amazonaws.com:8080//job/xebia-petclinic-vb/configuration], in the Rundeck plugin parameters, type "#deploy" in the "tag" field. Save and trigger a build : it won't be deploy on rundeck. But if you commit a file with a commit message containing "#deploy", it will be deployed. 
+You can also do "on-demand" deploys : in the Jenkins job configuration page at [http://ec2-46-137-140-197.eu-west-1.compute.amazonaws.com:8080//job/xebia-petclinic-vb/configuration], in the Rundeck plugin parameters, type "#deploy" in the "tag" field. Save and trigger a build : it won't be deploy on rundeck. But if you commit a file with a commit message containing "#deploy", it will be deployed. 
 
 ----
 
@@ -424,7 +424,7 @@ You can also do "on-demand" deploys : in the Jenkins job configuration page at [
 ==== Create the target environment Valid ====
  # Connect via SSH to the rundeck server:
   {{{
-ssh -i continuous-delivery-workshop.pem ec2-user@ec2-46-137-71-186.eu-west-1.compute.amazonaws.com
+ssh -i continuous-delivery-workshop.pem ec2-user@ec2-46-137-140-197.eu-west-1.compute.amazonaws.com
 sudo su - deployit
 }}}
  # Create a file (*setup.py*) to define your target environment
@@ -442,7 +442,7 @@ deployit.print(repository.read(env.id))
   {{{
 deployit-cli/bin/cli.sh -username admin -password admin -f ~/setup.py
   }}}
- # Connect to your Deployit server http://ec2-46-137-71-186.eu-west-1.compute.amazonaws.com:4516/ (login=admin, password=admin)
+ # Connect to your Deployit server http://ec2-46-137-140-197.eu-west-1.compute.amazonaws.com:4516/ (login=admin, password=admin)
  # Verify your environment has been created.
  <img height=90" src="http://xebia-france.googlecode.com/svn/wiki/cont-delivery-img/deployit-check-env-screenshot.png" />
 
@@ -456,11 +456,11 @@ git ci -a -m "set the right password"
 git push
  }}}
  The last line will trigger a new build by Jenking and at then will deploy the application.
- # Connect to your Deployit server http://ec2-46-137-71-186.eu-west-1.compute.amazonaws.com:4516/ (login=admin, password=admin)
+ # Connect to your Deployit server http://ec2-46-137-140-197.eu-west-1.compute.amazonaws.com:4516/ (login=admin, password=admin)
  # Verify the application has been deployed
 <img height=90" src="http://xebia-france.googlecode.com/svn/wiki/cont-delivery-img/deployit-check-deployment-ok.png" />
 
 ----
 *END OF THE LAB THANK YOU!*
 
-_This page has been generaterd by '{{{class fr.xebia.workshop.continuousdelivery.ContinuousDeliveryInfrastructureCreator}}}' with template '{{{/fr/xebia/workshop/continuousdelivery/continuous-delivery-lab.fmt}}}' on the 2011-10-11T21:47:11.269+02:00_
+_This page has been generaterd by '{{{class fr.xebia.workshop.continuousdelivery.ContinuousDeliveryInfrastructureCreator}}}' with template '{{{/fr/xebia/workshop/continuousdelivery/continuous-delivery-lab.fmt}}}' on the 2011-10-11T22:38:47.878+02:00_
