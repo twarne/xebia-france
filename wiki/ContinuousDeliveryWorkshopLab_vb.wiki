@@ -411,7 +411,7 @@ We will now link Jenkins and Rundeck, so that each successfull build is followed
 
 You can now test your deployment chain by editing a file in the petclinic project, and committing/pushing it to github : Jenkins will pick up the change, build the WAR, deploy it to Nexus, and ask Rundeck to deploy the project on the tomcat valid servers.
 
-You can also do "on-demand" deploys : in the Jenkins job configuration page at [http://ec2-46-51-164-83.eu-west-1.compute.amazonaws.com:8080//job/xebia-petclinic-vb/configuration], in the Rundeck plugin parameters, type "#deploy" in the "tag" field. Save and trigger a build : it won't be deploy on rundeck. But if you commit a file with a commit message containing "#deploy", it will be deployed. 
+You can also do "on-demand" deploys : in the Jenkins job configuration page at [http://ec2-46-51-164-83.eu-west-1.compute.amazonaws.com:8080//job/xebia-petclinic-vb/configure], in the Rundeck plugin parameters, type "#deploy" in the "tag" field. Save and trigger a build : it won't be deploy on rundeck. But if you commit a file with a commit message containing "#deploy", it will be deployed. 
 
 ----
 
@@ -463,4 +463,4 @@ git push
 ----
 *END OF THE LAB THANK YOU!*
 
-_This page has been generaterd by '{{{class fr.xebia.workshop.continuousdelivery.ContinuousDeliveryInfrastructureCreator}}}' with template '{{{/fr/xebia/workshop/continuousdelivery/continuous-delivery-lab.fmt}}}' on the 2011-10-12T01:11:35.568+02:00_
+_This page has been generaterd by '{{{class fr.xebia.workshop.continuousdelivery.ContinuousDeliveryInfrastructureCreator}}}' with template '{{{/fr/xebia/workshop/continuousdelivery/continuous-delivery-lab.fmt}}}' on the 2011-10-12T01:15:37.782+02:00_
