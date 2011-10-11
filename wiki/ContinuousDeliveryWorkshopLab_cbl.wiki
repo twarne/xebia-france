@@ -463,4 +463,4 @@ git push
 ----
 *END OF THE LAB THANK YOU!*
 
-_This page has been generaterd by '{{{class fr.xebia.workshop.continuousdelivery.ContinuousDeliveryInfrastructureCreator}}}' with template '{{{/fr/xebia/workshop/continuousdelivery/continuous-delivery-lab.fmt}}}' on the 2011-10-11T23:39:43.611+02:00_
+_This page has been generaterd by '{{{class fr.xebia.workshop.continuousdelivery.ContinuousDeliveryInfrastructureCreator}}}' with template '{{{/fr/xebia/workshop/continuousdelivery/continuous-delivery-lab.fmt}}}' on the 2011-10-12T00:37:14.502+02:00_
