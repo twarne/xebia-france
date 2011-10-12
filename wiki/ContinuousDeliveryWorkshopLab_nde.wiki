@@ -61,10 +61,10 @@ mvn package
   ## Modify {{{~/continuous-delivery-workshop/xebia-petclinic-nde/src/main/webapp/WEB-INF/jsp/welcome.jsp}}}
   ## Push the change
    {{{
-xebia-petclinic-nde > git commit -m "test" src/main/webapp/WEB-INF/jsp/welcome.jsp
+xebia-petclinic-nde > git commit -a -m "test" src/main/webapp/WEB-INF/jsp/welcome.jsp
 xebia-petclinic-nde > git push
 }}}
- # Verify that Jenkins detects the Git change and triggers a build : [http://ec2-46-137-64-146.eu-west-1.compute.amazonaws.com:8080//job/xebia-petclinic-nde/]
+ # Verify that Jenkins detects the Git change and triggers a build : [http://ec2-46-137-64-146.eu-west-1.compute.amazonaws.com:8080//job/xebia-petclinic-nde/] (it may take up to 1 minute).
  # Do a release of the application
   ## Add the Nexus credentials to your Maven settings.xml file :
    {{{
