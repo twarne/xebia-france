@@ -6,6 +6,12 @@
  * Workshop setup and architecture : JavaPaasCloudBeesWorkshopSetup
 
 = Workshop requirements =
+
  * Git client
  * Apache Maven
  * SSH Client
+
+= Workshop Steps =
+
+ * Developer profile:
+ * * feiz
