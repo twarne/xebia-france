@@ -2,7 +2,7 @@
 || Infra || Host Maven and Tomcat binaries on Amazon || Charles Blonde || to do || ||
 || Infra || Check that launching/stopping/restarting VMs does not break anything || Charles Blonde \\ || to do || ||
 || Infra || Improve logging in cloud-init logs (use "*set \-x*") || Charles Blonde \\ || to do || ||
-|| Sample App || Create a "light" Petclinic: keep welcome.jsp, a class an a test || Nicolas Demengel || <font color="#ff6600">in progress</font> || ||
+|| Sample App || Create a "light" Petclinic: keep welcome.jsp, a class and a test || Nicolas Demengel || <font color="#ff6600">in progress</font> || App is now 98KB. Yet to be pushed to Github. ||
 || Lab || Prepare an opening speech: aim of the workshop, link to hot subjects such as continuous delivery, description of the main steps || Julia Mateo || to do || ||
 || Preparation || Write an email to the participants specifying what to install on their environment (especially explain how to use a key with SSH under Windows) || Charles/... || <font color="#ff6600">in progress</font> || ||
 || Infra || (Lower priority) Refactor code in charge to launch the infra (irk...) || Nicolas Demengel || to do || ||
