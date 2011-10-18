@@ -39,9 +39,10 @@
 
 == @PERF ==
 
+ * Configure redundancy and scale
  * Stress test with JMeter
- * Monitoring
- * Elasticity
+ * Monitoring with New Relic
+ * Verify elasticity
 
 == @ADMIN ==
 
