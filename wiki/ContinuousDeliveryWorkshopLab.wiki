@@ -1,12 +1,2 @@
 = Labs Per Team =
  * [ContinuousDeliveryWorkshopLab_1]
- * [ContinuousDeliveryWorkshopLab_7]
- * [ContinuousDeliveryWorkshopLab_8]
- * [ContinuousDeliveryWorkshopLab_11]
- * [ContinuousDeliveryWorkshopLab_5]
- * [ContinuousDeliveryWorkshopLab_6]
- * [ContinuousDeliveryWorkshopLab_3]
- * [ContinuousDeliveryWorkshopLab_10]
- * [ContinuousDeliveryWorkshopLab_9]
- * [ContinuousDeliveryWorkshopLab_4]
- * [ContinuousDeliveryWorkshopLab_2]
