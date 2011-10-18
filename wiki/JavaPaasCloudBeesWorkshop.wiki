@@ -15,23 +15,30 @@
 
 == @DEV ==
 
- * Continuous integration
  * Configure GIT repository
- * Create a new Job on Jenkins
+ * Create a new job on Jenkins for Continuous integration
  * Configure Sonar on Jenkins and use it
- * 
+ * Use Artifactory for managing Maven repository
+ * Release of a new version of the application
 
 == @TEST ==
 
- *
+ * Use of Selenium
 
 == @OPS ==
 
- *
+ * Create and configure a new application on RUN@Cloud
+ * Create a new job for deploying on integration environment (HSQLDB)
+ * Create and configure a new MySQL database
+ * Create a new job for deploying on production environment (MySQL, Elasticity)
+ * Monitoring with New Relic
+ * Logs with Papertrail
 
 == @PERF ==
 
- *
+ * Stress test with JMeter
+ * Moitoring
+ * Elasticity
 
 = Questions =
 
