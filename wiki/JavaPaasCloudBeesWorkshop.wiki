@@ -23,7 +23,10 @@
 
 == @TEST ==
 
- * Use of Selenium
+ * Create a new Selenium test
+ * Add a new job on Jenkins for executing Selenium tests
+ * Use of Sauce OnDemand Plugin on Jenkins
+ * Verify test on Sauce Labs
 
 == @OPS ==
 
@@ -37,8 +40,14 @@
 == @PERF ==
 
  * Stress test with JMeter
- * Moitoring
+ * Monitoring
  * Elasticity
+
+== @ADMIN ==
+
+ * Manage user, group
+ * Using of CloudBees SDK
+ * Configure SSH Key
 
 = Questions =
 
