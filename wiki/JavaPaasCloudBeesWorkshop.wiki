@@ -13,5 +13,28 @@
 
 = Workshop Steps =
 
- * Developer profile:
- * * feiz
+== @DEV ==
+
+ * Continuous integration
+ * Configure GIT repository
+ * Create a new Job on Jenkins
+ * Configure Sonar on Jenkins and use it
+ * 
+
+== @TEST ==
+
+ *
+
+== @OPS ==
+
+ *
+
+== @PERF ==
+
+ *
+
+= Questions =
+
+ * Can we use CloudBees SDK for managing my account (User, subscription administration)?
+ * Can we launch a Selenium test on SauceLabs directly from a job configured inside Jenkins?
+ * Can we create a stress test by using JMeter for showing the elasticity of an application which is running on CloudBees?
