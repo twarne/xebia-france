@@ -112,7 +112,7 @@ cd ~/continuous-delivery-workshop/xebia-petclinic-lite-1
 }}}
   ## Connect to the application and check your modification
 {{{
-http://localhost:8080/xebia-petclinic
+http://localhost:8080/xebia-petclinic-lite
 }}}
 
 === Deploy the application to the remote Dev Instance of Tomcat ===
@@ -137,7 +137,7 @@ For further information, please go to [http://tomcat.apache.org/maven-plugin-2.0
 
   ## Connect to the application and check your modification
 {{{
-http://ec2-46-137-47-42.eu-west-1.compute.amazonaws.com:8080/xebia-petclinic
+http://ec2-46-137-47-42.eu-west-1.compute.amazonaws.com:8080/xebia-petclinic-lite
 }}}
 ----
 
