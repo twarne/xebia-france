@@ -84,7 +84,7 @@ xebia-petclinic-lite-1 > git push
   </servers>
 </settings>
 }}}
-  ## Execute {{{mvn release:prepare release:perform}}}
+  ## Execute {{{mvn release:prepare -B release:perform}}}
  # Verify that the new release is available in Nexus : [http://nexus.xebia-tech-event.info:8081/nexus/content/groups/public/fr/xebia/demo/petclinic-1/xebia-petclinic/]
 ----
 
