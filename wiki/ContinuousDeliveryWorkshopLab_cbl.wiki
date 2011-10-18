@@ -10,7 +10,7 @@
 
 <table>
 <tr><td> *SSH Private key* </td><td> [https://s3-eu-west-1.amazonaws.com/continuous-delivery/continuous-delivery-workshop.pem continuous-delivery-workshop.pem]</td></tr>
-<tr><td> *!GitHub project repository url* </td><td> [https://github.com/xebia-guest/xebia-petclinic-lite-cbl] </td></tr>
+<tr><td> *!GitHub project repository url* </td><td> [https://github.com/xebia-guest/xebia-petclinic-cbl] </td></tr>
 <tr><td> *Jenkins URL* </td><td> [http://ec2-46-137-140-8.eu-west-1.compute.amazonaws.com:8080/] </td></tr>
 <tr><td> *Rundeck URL* </td><td> [http://ec2-46-137-140-8.eu-west-1.compute.amazonaws.com:4440/] </td></tr>
 <tr><td> *Deployit URL* </td><td> [http://ec2-46-137-140-8.eu-west-1.compute.amazonaws.com:4516/] </td></tr>
@@ -45,26 +45,26 @@ mkdir ~/.aws/
 curl https://s3-eu-west-1.amazonaws.com/continuous-delivery/continuous-delivery-workshop.pem --output ~/.aws/continuous-delivery-workshop.pem
 chmod 400 ~/.aws/continuous-delivery-workshop.pem
 }}}
- # Clone Github repository xebia-petclinic-lite-cbl
+ # Clone Github repository xebia-petclinic-cbl
   {{{
 mkdir ~/continuous-delivery-workshop
 cd ~/continuous-delivery-workshop
-git clone https://xebia-guest@github.com/xebia-guest/xebia-petclinic-lite-cbl.git
+git clone https://xebia-guest@github.com/xebia-guest/xebia-petclinic-cbl.git
 }}}
   Note: password of the "xebia-guest" user will be sent before the workshop.
  # build project
  {{{
-cd ~/continuous-delivery-workshop/xebia-petclinic-lite-cbl
+cd ~/continuous-delivery-workshop/xebia-petclinic-cbl
 mvn package
 }}}
  # Modify the welcome page and push the change
-  ## Modify {{{~/continuous-delivery-workshop/xebia-petclinic-lite-cbl/src/main/webapp/WEB-INF/jsp/welcome.jsp}}}
+  ## Modify {{{~/continuous-delivery-workshop/xebia-petclinic-cbl/src/main/webapp/welcome.jsp}}}
   ## Push the change
    {{{
-xebia-petclinic-lite-cbl > git commit -m "test" src/main/webapp/WEB-INF/jsp/welcome.jsp
-xebia-petclinic-lite-cbl > git push
+xebia-petclinic-cbl > git commit -m "test" src/main/webapp/welcome.jsp
+xebia-petclinic-cbl > git push
 }}}
- # Verify that Jenkins detects the Git change and triggers a build : [http://ec2-46-137-140-8.eu-west-1.compute.amazonaws.com:8080//job/xebia-petclinic-lite-cbl/]
+ # Verify that Jenkins detects the Git change and triggers a build : [http://ec2-46-137-140-8.eu-west-1.compute.amazonaws.com:8080//job/xebia-petclinic-cbl/] (it may take up to 1 minute).
  # Do a release of the application
   ## Add the Nexus credentials to your Maven settings.xml file :
    {{{
@@ -84,8 +84,8 @@ xebia-petclinic-lite-cbl > git push
   </servers>
 </settings>
 }}}
-  ## Execute {{{mvn release:prepare release:perform}}}
- # Verify that the new release is available in Nexus : [http://nexus.xebia-tech-event.info:8081/nexus/content/groups/public/fr/xebia/demo/petclinic-cbl/xebia-petclinic/]
+  ## Execute {{{mvn release:prepare -B release:perform}}}
+ # Verify that the new release is available in Nexus : [http://nexus.xebia-tech-event.info:8081/nexus/content/groups/public/fr/xebia/demo/petclinic-cbl/xebia-petclinic-lite/]
 ----
 
 = Lab : Tomcat Maven Plugin =
@@ -100,11 +100,11 @@ xebia-petclinic-lite-cbl > git push
  * Run Tomcat on the application
   ## Go to your application folder : 
 {{{
-cd ~/continuous-delivery-workshop/xebia-petclinic-lite-cbl 
+cd ~/continuous-delivery-workshop/xebia-petclinic-cbl 
 }}}
   ## Modify one more time the welcome.jsp. It's not needed to commit or push the modification on git.
 {{{
-~/continuous-delivery-workshop/xebia-petclinic-lite-cbl/src/main/webapp/WEB-INF/jsp/welcome.jsp
+~/continuous-delivery-workshop/xebia-petclinic-cbl/src/main/webapp/welcome.jsp
 }}}
   ## Launch the application thanks to the Tomcat6 Maven Plugin. 
 {{{
@@ -112,14 +112,14 @@ cd ~/continuous-delivery-workshop/xebia-petclinic-lite-cbl
 }}}
   ## Connect to the application and check your modification
 {{{
-http://localhost:8080/xebia-petclinic
+http://localhost:8080/xebia-petclinic-lite
 }}}
 
 === Deploy the application to the remote Dev Instance of Tomcat ===
  * Deploy the application on the dev instance of Tomcat
   ## As previously, go to the root directory of the project
 {{{
-~/continuous-delivery-workshop/xebia-petclinic-lite-cbl/src/main/webapp/WEB-INF/jsp/welcome.jsp
+cd ~/continuous-delivery-workshop/xebia-petclinic-cbl 
 }}}   
 
   ## Deploy the application to Tomcat Dev server. The Maven goal is *tomcat6:deploy*, the parameters needed for this Maven plugin are:
@@ -127,7 +127,7 @@ http://localhost:8080/xebia-petclinic
  * *tomcat.username*: password of the user
  * *maven.tomcat.url*: URL to the Tomcat Manager where the application will be deployed
 
-*Note*: as you can see in the {{{~/continuous-delivery-workshop/xebia-petclinic-lite-cbl/pom.xml}}}, the Tomcat6 Maven Plugin is configured with the parameter *update* that allows the application to be update if it's already deployed on the server.  
+*Note*: as you can see in the {{{~/continuous-delivery-workshop/xebia-petclinic-cbl/pom.xml}}}, the Tomcat6 Maven Plugin is configured with the parameter *update* that allows the application to be update if it's already deployed on the server.  
 For further information, please go to [http://tomcat.apache.org/maven-plugin-2.0-SNAPSHOT/tomcat6-maven-plugin/deploy-mojo.html] 
   
  * Answer : 
@@ -137,24 +137,24 @@ For further information, please go to [http://tomcat.apache.org/maven-plugin-2.0
 
   ## Connect to the application and check your modification
 {{{
-http://ec2-46-137-139-180.eu-west-1.compute.amazonaws.com:8080/xebia-petclinic
+http://ec2-46-137-139-180.eu-west-1.compute.amazonaws.com:8080/xebia-petclinic-lite
 }}}
 ----
 
 = Lab: 'Local' Scripted Tomcat Deployment =
 
-*Goal:* Develop a script to deploy a new version of '{{{xebia-petclinic.war}}}' on a tomcat server.
+*Goal:* Develop a script to deploy a new version of '{{{xebia-petclinic-lite.war}}}' on a tomcat server.
 
 == Script Specifications ==
 This script must:
  # Be installed under {{{$TOMCAT_HOME/bin/tomcat-deploy-petclinic}}} (use a [http://en.wikipedia.org/wiki/Shebang_(Unix) Unix Shebang] instead of suffixing your script by ".sh", ".py", etc)
  # Stop the Tomcat server if it is running
- # Delete existing {{{$TOMCAT_HOME/webapps/xebia-petclinic.war}}} file if exists,
- # Delete existing {{{$TOMCAT_HOME/webapps/xebia-petclinic}}} folder if exists,
- # Download latest version of {{{xebia-petclinic.war}}} (groupId=fr.xebia.demo.petclinic-cbl, artifactId=xebia-petclinic) and copy it to {{{$TOMCAT_HOME/webapps/}}}
-  ** {{{xebia-petclinic.war}}} is deployed on [http://nexus.xebia-tech-event.info:8081/nexus/content/groups/public/] but it is more elegant to use Nexus REST API (see below)
+ # Delete existing {{{$TOMCAT_HOME/webapps/xebia-petclinic-lite.war}}} file if exists,
+ # Delete existing {{{$TOMCAT_HOME/webapps/xebia-petclinic-lite}}} folder if exists,
+ # Download latest version of {{{xebia-petclinic-lite.war}}} (groupId=fr.xebia.demo.petclinic-cbl, artifactId=xebia-petclinic) and copy it to {{{$TOMCAT_HOME/webapps/}}}
+  ** {{{xebia-petclinic-lite.war}}} is deployed on [http://nexus.xebia-tech-event.info:8081/nexus/content/groups/public/] but it is more elegant to use Nexus REST API (see below)
  # Start Tomcat server
- # Go further in the lab: test that the URL http://localhost:8080/xebia-petclinic/ returns "200 OK"
+ # Go further in the lab: test that the URL http://localhost:8080/xebia-petclinic-lite/ returns "200 OK"
  
 Answer : [http://xebia-france.googlecode.com/svn/cloudcomputing/xebia-cloudcomputing-extras/trunk/src/main/scripts/fr/xebia/workshop/continuousdelivery/tomcat-deploy-petclinic tomcat-deploy-petclinic]
 
@@ -273,7 +273,7 @@ ssh -i ~/.aws/continuous-delivery-workshop.pem tomcat@ec2-46-137-47-42.eu-west-1
 
 = Lab. Automated Tomcat Deployment with Jenkins SSH Plugin = 
 
-*Goal:* Deploy a new version of '{{{xebia-petclinic.war}}}' on the "Tomcat Dev server" at the end of your build with the "Jenkins SSH Plugin".
+*Goal:* Deploy a new version of '{{{xebia-petclinic-lite.war}}}' on the "Tomcat Dev server" at the end of your build with the "Jenkins SSH Plugin".
 
 == Architecture ==
 
@@ -368,7 +368,7 @@ ssh -i ~/.aws/continuous-delivery-workshop.pem ec2-user@ec2-46-137-140-8.eu-west
    ** Default value: {{{LATEST}}}
    ** Remote URL:
      {{{
-  http://nexus.xebia-tech-event.info:8081/nexus/service/local/rundeck/options/version?g=fr.xebia.demo.petclinic-cbl&a=xebia-petclinic&includeLatest=true
+  http://nexus.xebia-tech-event.info:8081/nexus/service/local/rundeck/options/version?g=fr.xebia.demo.petclinic-cbl&a=xebia-petclinic-lite&includeLatest=true
 }}}
    ** Restrictions: {{{Enforced from Allowed Values}}}
    ** Click on the "save" button to save this option
@@ -383,7 +383,7 @@ ssh -i ~/.aws/continuous-delivery-workshop.pem ec2-user@ec2-46-137-140-8.eu-west
   * Click on *Create and Run*
    <img height="350" src="http://xebia-france.googlecode.com/svn/wiki/cont-delivery-img/rundeck-new-job-details-screenshot.png" />
   * While the script is running, follow the output...
-  * At the end, check your apps on both tomcat servers : [http://ec2-46-51-152-221.eu-west-1.compute.amazonaws.com:8080/xebia-petclinic/] and [http://ec2-46-137-47-42.eu-west-1.compute.amazonaws.com:8080/xebia-petclinic/]
+  * At the end, check your apps on both tomcat servers : [http://ec2-46-51-152-221.eu-west-1.compute.amazonaws.com:8080/xebia-petclinic-lite/] and [http://ec2-46-137-47-42.eu-west-1.compute.amazonaws.com:8080/xebia-petclinic-lite/]
 
 === Nexus integration (multiple versions) ===
 
@@ -402,7 +402,7 @@ We will now link Jenkins and Rundeck, so that each successfull build is followed
   ** Save
   <img height="75" src="http://xebia-france.googlecode.com/svn/wiki/cont-delivery-img/jenkins-rundeck-connection-screenshot.png" />
 
- * Edit your Jenkins job at [http://ec2-46-137-140-8.eu-west-1.compute.amazonaws.com:8080//job/xebia-petclinic-lite-cbl/configure], and configure the Rundeck plugin (in the bottom of the page) with the following parameters :
+ * Edit your Jenkins job at [http://ec2-46-137-140-8.eu-west-1.compute.amazonaws.com:8080//job/xebia-petclinic-cbl/configure], and configure the Rundeck plugin (in the bottom of the page) with the following parameters :
   ** Rundeck job identifier: {{{deploy-petclinic-on-tomcat-valid:tomcat-deploy-petclinic}}}
   ** Job options (optional): {{{version = LATEST}}}
   ** Should fail the build ?: {{{checked}}}
@@ -411,7 +411,7 @@ We will now link Jenkins and Rundeck, so that each successfull build is followed
 
 You can now test your deployment chain by editing a file in the petclinic project, and committing/pushing it to github : Jenkins will pick up the change, build the WAR, deploy it to Nexus, and ask Rundeck to deploy the project on the tomcat valid servers.
 
-You can also do "on-demand" deploys : in the Jenkins job configuration page at [http://ec2-46-137-140-8.eu-west-1.compute.amazonaws.com:8080//job/xebia-petclinic-lite-cbl/configure], in the Rundeck plugin parameters, type "#deploy" in the "tag" field. Save and trigger a build : it won't be deploy on rundeck. But if you commit a file with a commit message containing "#deploy", it will be deployed. 
+You can also do "on-demand" deploys : in the Jenkins job configuration page at [http://ec2-46-137-140-8.eu-west-1.compute.amazonaws.com:8080//job/xebia-petclinic-cbl/configure], in the Rundeck plugin parameters, type "#deploy" in the "tag" field. Save and trigger a build : it won't be deploy on rundeck. But if you commit a file with a commit message containing "#deploy", it will be deployed. 
 
 ----
 
@@ -428,7 +428,7 @@ ssh -i continuous-delivery-workshop.pem ec2-user@ec2-46-137-140-8.eu-west-1.comp
 sudo su - deployit
 }}}
  # Create a file (*setup.py*) to define your target environment
-    <code language="python">
+{{{
 host_valid_1 = repository.create("Infrastructure/host-valid-1",factory.configurationItem("Host", {'operatingSystemFamily':'UNIX', 'accessMethod':'SSH_SFTP', 'address':'ip-10-57-5-135.eu-west-1.compute.internal', 'username':'tomcat'}))
 tomcat_valid_1 = repository.create(host_valid_1.id+"/tomcat6",factory.configurationItem("TomcatUnmanagedServer",{'host':host_valid_1, 'tomcatHome':'/opt/tomcat/apache-tomcat-6', 'baseUrl':'http://'+host_valid_1.values['address']+':8080', 'startCommand':'/opt/tomcat/apache-tomcat-6/bin/catalina.sh start', 'stopCommand':'/opt/tomcat/apache-tomcat-6/bin/catalina.sh stop'}))
 deployit.print(repository.read(tomcat_valid_1.id))
@@ -437,7 +437,7 @@ tomcat_valid_2 = repository.create(host_valid_2.id+"/tomcat6",factory.configurat
 deployit.print(repository.read(tomcat_valid_2.id))
 env = repository.create("Environments/Continuous-Valid", factory.configurationItem("Environment", {"members":[host_valid_1.id,tomcat_valid_1.id,host_valid_2.id,tomcat_valid_2.id]}))
 deployit.print(repository.read(env.id))
-    </code>
+}}}
  # Execute the CLI script
   {{{
 deployit-cli/bin/cli.sh -username admin -password admin -f ~/setup.py
@@ -463,4 +463,4 @@ git push
 ----
 *END OF THE LAB THANK YOU!*
 
-_This page has been generaterd by '{{{class fr.xebia.workshop.continuousdelivery.ContinuousDeliveryInfrastructureCreator}}}' with template '{{{/fr/xebia/workshop/continuousdelivery/continuous-delivery-lab.fmt}}}' on the 2011-10-19T00:01:48.253+02:00_
+_This page has been generaterd by '{{{class fr.xebia.workshop.continuousdelivery.ContinuousDeliveryInfrastructureCreator}}}' with template '{{{/fr/xebia/workshop/continuousdelivery/continuous-delivery-lab.fmt}}}' on the 2011-10-19T00:26:12.429+02:00_
