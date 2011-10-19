@@ -1,6 +1,0 @@
-= Labs Per Team =
- * [ContinuousDeliveryWorkshopLab_cbl2_setup]
- * [ContinuousDeliveryWorkshopLab_cbl2_apache_tomcat_maven_plugin]
- * [ContinuousDeliveryWorkshopLab_cbl2_jenkins_remote_ssh]
- * [ContinuousDeliveryWorkshopLab_cbl2_rundeck]
- * [ContinuousDeliveryWorkshopLab_cbl2_deployit]
