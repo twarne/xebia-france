@@ -1,11 +1,13 @@
 = Labs Per Team =
- * [ContinuousDeliveryWorkshopLab_cbl1_setup]
- * [ContinuousDeliveryWorkshopLab_cbl1_apache_tomcat_maven_plugin]
- * [ContinuousDeliveryWorkshopLab_cbl1_jenkins_remote_ssh]
- * [ContinuousDeliveryWorkshopLab_cbl1_rundeck]
- * [ContinuousDeliveryWorkshopLab_cbl1_deployit]
- * [ContinuousDeliveryWorkshopLab_cbl2_setup]
- * [ContinuousDeliveryWorkshopLab_cbl2_apache_tomcat_maven_plugin]
- * [ContinuousDeliveryWorkshopLab_cbl2_jenkins_remote_ssh]
- * [ContinuousDeliveryWorkshopLab_cbl2_rundeck]
- * [ContinuousDeliveryWorkshopLab_cbl2_deployit]
+ # Team 1
+  * [ContinuousDeliveryWorkshopLab_cbl1_setup]
+  * [ContinuousDeliveryWorkshopLab_cbl1_apache_tomcat_maven_plugin]
+  * [ContinuousDeliveryWorkshopLab_cbl1_jenkins_remote_ssh]
+  * [ContinuousDeliveryWorkshopLab_cbl1_rundeck]
+  * [ContinuousDeliveryWorkshopLab_cbl1_deployit]
+ # Team 2
+  * [ContinuousDeliveryWorkshopLab_cbl2_setup]
+  * [ContinuousDeliveryWorkshopLab_cbl2_apache_tomcat_maven_plugin]
+  * [ContinuousDeliveryWorkshopLab_cbl2_jenkins_remote_ssh]
+  * [ContinuousDeliveryWorkshopLab_cbl2_rundeck]
+  * [ContinuousDeliveryWorkshopLab_cbl2_deployit]
