@@ -87,4 +87,4 @@ xebia-petclinic-lite-cbl1 > git push
   ## Execute {{{mvn release:prepare -B release:perform}}}
  # Verify that the new release is available in Nexus : [http://nexus.xebia-tech-event.info:8081/nexus/content/groups/public/fr/xebia/demo/petclinic-cbl1/xebia-petclinic-lite/]
 ----
-_This page has been generaterd by '{{{class fr.xebia.workshop.continuousdelivery.ContinuousDeliveryInfrastructureCreator}}}' with template '{{{/fr/xebia/workshop/continuousdelivery/lab/setup.fmt}}}' on the 2011-10-19T21:49:59.742+02:00_
+_This page has been generaterd by '{{{class fr.xebia.workshop.continuousdelivery.ContinuousDeliveryInfrastructureCreator}}}' with template '{{{/fr/xebia/workshop/continuousdelivery/lab/setup.fmt}}}' on the 2011-10-20T00:16:09.968+02:00_

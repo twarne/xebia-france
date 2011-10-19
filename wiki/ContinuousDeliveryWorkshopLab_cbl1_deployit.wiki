@@ -83,4 +83,4 @@ git push
 ----
 *END OF THE LAB THANK YOU!*
 
-_This page has been generaterd by '{{{class fr.xebia.workshop.continuousdelivery.ContinuousDeliveryInfrastructureCreator}}}' with template '{{{/fr/xebia/workshop/continuousdelivery/lab/deployit.fmt}}}' on the 2011-10-19T21:49:59.968+02:00_
+_This page has been generaterd by '{{{class fr.xebia.workshop.continuousdelivery.ContinuousDeliveryInfrastructureCreator}}}' with template '{{{/fr/xebia/workshop/continuousdelivery/lab/deployit.fmt}}}' on the 2011-10-20T00:16:09.961+02:00_
