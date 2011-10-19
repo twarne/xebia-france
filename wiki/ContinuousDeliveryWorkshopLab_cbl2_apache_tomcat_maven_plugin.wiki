@@ -19,16 +19,16 @@
 ssh -i ~/.aws/continuous-delivery-workshop.pem tomcat@ec2-46-137-2-207.eu-west-1.compute.amazonaws.com
 }}}
  </td></tr>
-<tr><td> *Tomcat Valid 1 URL* </td><td> [http://ec2-46-137-155-196.eu-west-1.compute.amazonaws.com:8080/] </td></tr>
+<tr><td> *Tomcat Valid 1 URL* </td><td> [http://ec2-176-34-193-211.eu-west-1.compute.amazonaws.com:8080/] </td></tr>
 <tr><td> *Tomcat Valid 1 SSH* </td><td> 
 {{{
-ssh -i ~/.aws/continuous-delivery-workshop.pem tomcat@ec2-46-137-155-196.eu-west-1.compute.amazonaws.com
+ssh -i ~/.aws/continuous-delivery-workshop.pem tomcat@ec2-176-34-193-211.eu-west-1.compute.amazonaws.com
 }}}
  </td></tr>
-<tr><td> *Tomcat Valid 2 URL* </td><td> [http://ec2-176-34-193-211.eu-west-1.compute.amazonaws.com:8080/] </td></tr>
+<tr><td> *Tomcat Valid 2 URL* </td><td> [http://ec2-46-137-155-196.eu-west-1.compute.amazonaws.com:8080/] </td></tr>
 <tr><td> *Tomcat Valid 2 SSH* </td><td> 
 {{{
-ssh -i ~/.aws/continuous-delivery-workshop.pem tomcat@ec2-176-34-193-211.eu-west-1.compute.amazonaws.com
+ssh -i ~/.aws/continuous-delivery-workshop.pem tomcat@ec2-46-137-155-196.eu-west-1.compute.amazonaws.com
 }}}
  </td></tr>
 </table>
@@ -87,4 +87,4 @@ For further information, please go to [http://tomcat.apache.org/maven-plugin-2.0
 http://ec2-46-137-2-207.eu-west-1.compute.amazonaws.com:8080/xebia-petclinic-lite
 }}}
 ----
-_This page has been generaterd by '{{{class fr.xebia.workshop.continuousdelivery.ContinuousDeliveryInfrastructureCreator}}}' with template '{{{/fr/xebia/workshop/continuousdelivery/lab/apache-tomcat-maven-plugin.fmt}}}' on the 2011-10-20T00:19:11.320+02:00_
+_This page has been generaterd by '{{{class fr.xebia.workshop.continuousdelivery.ContinuousDeliveryInfrastructureCreator}}}' with template '{{{/fr/xebia/workshop/continuousdelivery/lab/apache-tomcat-maven-plugin.fmt}}}' on the 2011-10-20T01:10:16.101+02:00_

@@ -1,6 +1,6 @@
-#summary Continuous Delivery with Jenkins and rundeck Lab for team 'cbl2'
+#summary Continuous Delivery with Jenkins and rundeck Lab for team '9'
 
-*<font size="5">Continuous Delivery with DeployIt for Team 'cbl2'</font>*
+*<font size="5">Continuous Delivery with DeployIt for Team '9'</font>*
 
 = Your architecture =
 
@@ -8,27 +8,27 @@
 
 <table>
 <tr><td> *SSH Private key* </td><td> [https://s3-eu-west-1.amazonaws.com/continuous-delivery/continuous-delivery-workshop.pem continuous-delivery-workshop.pem]</td></tr>
-<tr><td> *!GitHub project repository url* </td><td> [https://github.com/xebia-guest/xebia-petclinic-lite-cbl2] </td></tr>
-<tr><td> *Jenkins URL* </td><td> [http://ec2-176-34-195-205.eu-west-1.compute.amazonaws.com:8080/] </td></tr>
-<tr><td> *Rundeck URL* </td><td> [http://ec2-176-34-195-205.eu-west-1.compute.amazonaws.com:4440/] </td></tr>
-<tr><td> *Deployit URL* </td><td> [http://ec2-176-34-195-205.eu-west-1.compute.amazonaws.com:4516/] </td></tr>
+<tr><td> *!GitHub project repository url* </td><td> [https://github.com/xebia-guest/xebia-petclinic-lite-9] </td></tr>
+<tr><td> *Jenkins URL* </td><td> [http://ec2-176-34-193-167.eu-west-1.compute.amazonaws.com:8080/] </td></tr>
+<tr><td> *Rundeck URL* </td><td> [http://ec2-176-34-193-167.eu-west-1.compute.amazonaws.com:4440/] </td></tr>
+<tr><td> *Deployit URL* </td><td> [http://ec2-176-34-193-167.eu-west-1.compute.amazonaws.com:4516/] </td></tr>
 <tr><td> *Nexus URL* </td><td> [http://nexus.xebia-tech-event.info:8081/nexus/] </td></tr>
-<tr><td> *Tomcat Dev URL* </td><td> [http://ec2-46-137-2-207.eu-west-1.compute.amazonaws.com:8080/] </td></tr>
+<tr><td> *Tomcat Dev URL* </td><td> [http://ec2-46-137-43-214.eu-west-1.compute.amazonaws.com:8080/] </td></tr>
 <tr><td> *Tomcat Dev SSH* </td><td> 
 {{{
-ssh -i ~/.aws/continuous-delivery-workshop.pem tomcat@ec2-46-137-2-207.eu-west-1.compute.amazonaws.com
+ssh -i ~/.aws/continuous-delivery-workshop.pem tomcat@ec2-46-137-43-214.eu-west-1.compute.amazonaws.com
 }}}
  </td></tr>
-<tr><td> *Tomcat Valid 1 URL* </td><td> [http://ec2-176-34-193-211.eu-west-1.compute.amazonaws.com:8080/] </td></tr>
+<tr><td> *Tomcat Valid 1 URL* </td><td> [http://ec2-46-137-53-245.eu-west-1.compute.amazonaws.com:8080/] </td></tr>
 <tr><td> *Tomcat Valid 1 SSH* </td><td> 
 {{{
-ssh -i ~/.aws/continuous-delivery-workshop.pem tomcat@ec2-176-34-193-211.eu-west-1.compute.amazonaws.com
+ssh -i ~/.aws/continuous-delivery-workshop.pem tomcat@ec2-46-137-53-245.eu-west-1.compute.amazonaws.com
 }}}
  </td></tr>
-<tr><td> *Tomcat Valid 2 URL* </td><td> [http://ec2-46-137-155-196.eu-west-1.compute.amazonaws.com:8080/] </td></tr>
+<tr><td> *Tomcat Valid 2 URL* </td><td> [http://ec2-46-137-38-196.eu-west-1.compute.amazonaws.com:8080/] </td></tr>
 <tr><td> *Tomcat Valid 2 SSH* </td><td> 
 {{{
-ssh -i ~/.aws/continuous-delivery-workshop.pem tomcat@ec2-46-137-155-196.eu-west-1.compute.amazonaws.com
+ssh -i ~/.aws/continuous-delivery-workshop.pem tomcat@ec2-46-137-38-196.eu-west-1.compute.amazonaws.com
 }}}
  </td></tr>
 </table>
@@ -44,15 +44,15 @@ ssh -i ~/.aws/continuous-delivery-workshop.pem tomcat@ec2-46-137-155-196.eu-west
 ==== Create the target environment Valid ====
  # Connect via SSH to the rundeck server:
   {{{
-ssh -i continuous-delivery-workshop.pem ec2-user@ec2-176-34-195-205.eu-west-1.compute.amazonaws.com
+ssh -i continuous-delivery-workshop.pem ec2-user@ec2-176-34-193-167.eu-west-1.compute.amazonaws.com
 sudo su - deployit
 }}}
  # Create a file (*setup.py*) to define your target environment
 {{{
-host_valid_1 = repository.create("Infrastructure/host-valid-1",factory.configurationItem("Host", {'operatingSystemFamily':'UNIX', 'accessMethod':'SSH_SFTP', 'address':'ip-10-59-63-39.eu-west-1.compute.internal', 'username':'tomcat'}))
+host_valid_1 = repository.create("Infrastructure/host-valid-1",factory.configurationItem("Host", {'operatingSystemFamily':'UNIX', 'accessMethod':'SSH_SFTP', 'address':'ip-10-224-73-73.eu-west-1.compute.internal', 'username':'tomcat'}))
 tomcat_valid_1 = repository.create(host_valid_1.id+"/tomcat6",factory.configurationItem("TomcatUnmanagedServer",{'host':host_valid_1, 'tomcatHome':'/opt/tomcat/apache-tomcat-6', 'baseUrl':'http://'+host_valid_1.values['address']+':8080', 'startCommand':'/opt/tomcat/apache-tomcat-6/bin/catalina.sh start', 'stopCommand':'/opt/tomcat/apache-tomcat-6/bin/catalina.sh stop'}))
 deployit.print(repository.read(tomcat_valid_1.id))
-host_valid_2 = repository.create("Infrastructure/host-valid-2",factory.configurationItem("Host", {'operatingSystemFamily':'UNIX', 'accessMethod':'SSH_SFTP', 'address':'ip-10-59-147-222.eu-west-1.compute.internal', 'username':'tomcat'}))
+host_valid_2 = repository.create("Infrastructure/host-valid-2",factory.configurationItem("Host", {'operatingSystemFamily':'UNIX', 'accessMethod':'SSH_SFTP', 'address':'ip-10-235-42-82.eu-west-1.compute.internal', 'username':'tomcat'}))
 tomcat_valid_2 = repository.create(host_valid_2.id+"/tomcat6",factory.configurationItem("TomcatUnmanagedServer",{'host':host_valid_2, 'tomcatHome':'/opt/tomcat/apache-tomcat-6', 'baseUrl':'http://'+host_valid_2.values['address']+':8080', 'startCommand':'/opt/tomcat/apache-tomcat-6/bin/catalina.sh start', 'stopCommand':'/opt/tomcat/apache-tomcat-6/bin/catalina.sh stop'}))
 deployit.print(repository.read(tomcat_valid_2.id))
 env = repository.create("Environments/Continuous-Valid", factory.configurationItem("Environment", {"members":[host_valid_1.id,tomcat_valid_1.id,host_valid_2.id,tomcat_valid_2.id]}))
@@ -62,7 +62,7 @@ deployit.print(repository.read(env.id))
   {{{
 deployit-cli/bin/cli.sh -username admin -password admin -f ~/setup.py
   }}}
- # Connect to your Deployit server http://ec2-176-34-195-205.eu-west-1.compute.amazonaws.com:4516/ (login=admin, password=admin)
+ # Connect to your Deployit server http://ec2-176-34-193-167.eu-west-1.compute.amazonaws.com:4516/ (login=admin, password=admin)
  # Verify your environment has been created.
  <img height=90" src="http://xebia-france.googlecode.com/svn/wiki/cont-delivery-img/deployit-check-env-screenshot.png" />
 
@@ -76,11 +76,11 @@ git ci -a -m "set the right password"
 git push
  }}}
  The last line will trigger a new build by Jenking and at then will deploy the application.
- # Connect to your Deployit server http://ec2-176-34-195-205.eu-west-1.compute.amazonaws.com:4516/ (login=admin, password=admin)
+ # Connect to your Deployit server http://ec2-176-34-193-167.eu-west-1.compute.amazonaws.com:4516/ (login=admin, password=admin)
  # Verify the application has been deployed
 <img height=90" src="http://xebia-france.googlecode.com/svn/wiki/cont-delivery-img/deployit-check-deployment-ok.png" />
 
 ----
 *END OF THE LAB THANK YOU!*
 
-_This page has been generaterd by '{{{class fr.xebia.workshop.continuousdelivery.ContinuousDeliveryInfrastructureCreator}}}' with template '{{{/fr/xebia/workshop/continuousdelivery/lab/deployit.fmt}}}' on the 2011-10-20T01:10:16.117+02:00_
+_This page has been generaterd by '{{{class fr.xebia.workshop.continuousdelivery.ContinuousDeliveryInfrastructureCreator}}}' with template '{{{/fr/xebia/workshop/continuousdelivery/lab/deployit.fmt}}}' on the 2011-10-20T01:10:16.094+02:00_

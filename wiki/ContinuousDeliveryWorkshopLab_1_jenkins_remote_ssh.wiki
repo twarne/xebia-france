@@ -1,6 +1,6 @@
-#summary Continuous Delivery with Jenkins and rundeck Lab for team 'cbl2'
+#summary Continuous Delivery with Jenkins and rundeck Lab for team '1'
 
-*<font size="5">Continuous Delivery with Jenkins SSH Remote Plugin for Team 'cbl2'</font>*
+*<font size="5">Continuous Delivery with Jenkins SSH Remote Plugin for Team '1'</font>*
 
 = Your architecture =
 
@@ -8,27 +8,27 @@
 
 <table>
 <tr><td> *SSH Private key* </td><td> [https://s3-eu-west-1.amazonaws.com/continuous-delivery/continuous-delivery-workshop.pem continuous-delivery-workshop.pem]</td></tr>
-<tr><td> *!GitHub project repository url* </td><td> [https://github.com/xebia-guest/xebia-petclinic-lite-cbl2] </td></tr>
-<tr><td> *Jenkins URL* </td><td> [http://ec2-176-34-195-205.eu-west-1.compute.amazonaws.com:8080/] </td></tr>
-<tr><td> *Rundeck URL* </td><td> [http://ec2-176-34-195-205.eu-west-1.compute.amazonaws.com:4440/] </td></tr>
-<tr><td> *Deployit URL* </td><td> [http://ec2-176-34-195-205.eu-west-1.compute.amazonaws.com:4516/] </td></tr>
+<tr><td> *!GitHub project repository url* </td><td> [https://github.com/xebia-guest/xebia-petclinic-lite-1] </td></tr>
+<tr><td> *Jenkins URL* </td><td> [http://ec2-176-34-195-12.eu-west-1.compute.amazonaws.com:8080/] </td></tr>
+<tr><td> *Rundeck URL* </td><td> [http://ec2-176-34-195-12.eu-west-1.compute.amazonaws.com:4440/] </td></tr>
+<tr><td> *Deployit URL* </td><td> [http://ec2-176-34-195-12.eu-west-1.compute.amazonaws.com:4516/] </td></tr>
 <tr><td> *Nexus URL* </td><td> [http://nexus.xebia-tech-event.info:8081/nexus/] </td></tr>
-<tr><td> *Tomcat Dev URL* </td><td> [http://ec2-46-137-2-207.eu-west-1.compute.amazonaws.com:8080/] </td></tr>
+<tr><td> *Tomcat Dev URL* </td><td> [http://ec2-46-137-50-62.eu-west-1.compute.amazonaws.com:8080/] </td></tr>
 <tr><td> *Tomcat Dev SSH* </td><td> 
 {{{
-ssh -i ~/.aws/continuous-delivery-workshop.pem tomcat@ec2-46-137-2-207.eu-west-1.compute.amazonaws.com
+ssh -i ~/.aws/continuous-delivery-workshop.pem tomcat@ec2-46-137-50-62.eu-west-1.compute.amazonaws.com
 }}}
  </td></tr>
-<tr><td> *Tomcat Valid 1 URL* </td><td> [http://ec2-176-34-193-211.eu-west-1.compute.amazonaws.com:8080/] </td></tr>
+<tr><td> *Tomcat Valid 1 URL* </td><td> [http://ec2-46-137-51-223.eu-west-1.compute.amazonaws.com:8080/] </td></tr>
 <tr><td> *Tomcat Valid 1 SSH* </td><td> 
 {{{
-ssh -i ~/.aws/continuous-delivery-workshop.pem tomcat@ec2-176-34-193-211.eu-west-1.compute.amazonaws.com
+ssh -i ~/.aws/continuous-delivery-workshop.pem tomcat@ec2-46-137-51-223.eu-west-1.compute.amazonaws.com
 }}}
  </td></tr>
-<tr><td> *Tomcat Valid 2 URL* </td><td> [http://ec2-46-137-155-196.eu-west-1.compute.amazonaws.com:8080/] </td></tr>
+<tr><td> *Tomcat Valid 2 URL* </td><td> [http://ec2-46-51-162-13.eu-west-1.compute.amazonaws.com:8080/] </td></tr>
 <tr><td> *Tomcat Valid 2 SSH* </td><td> 
 {{{
-ssh -i ~/.aws/continuous-delivery-workshop.pem tomcat@ec2-46-137-155-196.eu-west-1.compute.amazonaws.com
+ssh -i ~/.aws/continuous-delivery-workshop.pem tomcat@ec2-46-51-162-13.eu-west-1.compute.amazonaws.com
 }}}
  </td></tr>
 </table>
@@ -45,7 +45,7 @@ This script must:
  # Stop the Tomcat server if it is running
  # Delete existing {{{$TOMCAT_HOME/webapps/xebia-petclinic-lite.war}}} file if exists,
  # Delete existing {{{$TOMCAT_HOME/webapps/xebia-petclinic-lite}}} folder if exists,
- # Download latest version of {{{xebia-petclinic-lite.war}}} (groupId=fr.xebia.demo.petclinic-cbl2, artifactId=xebia-petclinic) and copy it to {{{$TOMCAT_HOME/webapps/}}}
+ # Download latest version of {{{xebia-petclinic-lite.war}}} (groupId=fr.xebia.demo.petclinic-1, artifactId=xebia-petclinic) and copy it to {{{$TOMCAT_HOME/webapps/}}}
   ** {{{xebia-petclinic-lite.war}}} is deployed on [http://nexus.xebia-tech-event.info:8081/nexus/content/groups/public/] but it is more elegant to use Nexus REST API (see below)
  # Start Tomcat server
  # Go further in the lab: test that the URL http://localhost:8080/xebia-petclinic-lite/ returns "200 OK"
@@ -145,20 +145,20 @@ SCP command lines to copy a local "{{{tomcat-deploy-petclinic}}}" to the remote 
 <table>
 <tr><td> *Tomcat Dev SSH* </td><td> 
 {{{
-scp -i ~/.aws/continuous-delivery-workshop.pem tomcat-deploy-petclinic tomcat@ec2-46-137-2-207.eu-west-1.compute.amazonaws.com:/opt/tomcat/apache-tomcat-6/bin/
-ssh -i ~/.aws/continuous-delivery-workshop.pem tomcat@ec2-46-137-2-207.eu-west-1.compute.amazonaws.com chmod a+x /opt/tomcat/apache-tomcat-6/bin/tomcat-deploy-petclinic
+scp -i ~/.aws/continuous-delivery-workshop.pem tomcat-deploy-petclinic tomcat@ec2-46-137-50-62.eu-west-1.compute.amazonaws.com:/opt/tomcat/apache-tomcat-6/bin/
+ssh -i ~/.aws/continuous-delivery-workshop.pem tomcat@ec2-46-137-50-62.eu-west-1.compute.amazonaws.com chmod a+x /opt/tomcat/apache-tomcat-6/bin/tomcat-deploy-petclinic
 }}}
  </td></tr>
 <tr><td> *Tomcat Valid 1 SSH* </td><td> 
 {{{
-scp -i ~/.aws/continuous-delivery-workshop.pem tomcat-deploy-petclinic tomcat@ec2-176-34-193-211.eu-west-1.compute.amazonaws.com:/opt/tomcat/apache-tomcat-6/bin/
-ssh -i ~/.aws/continuous-delivery-workshop.pem tomcat@ec2-176-34-193-211.eu-west-1.compute.amazonaws.com chmod a+x /opt/tomcat/apache-tomcat-6/bin/tomcat-deploy-petclinic
+scp -i ~/.aws/continuous-delivery-workshop.pem tomcat-deploy-petclinic tomcat@ec2-46-137-51-223.eu-west-1.compute.amazonaws.com:/opt/tomcat/apache-tomcat-6/bin/
+ssh -i ~/.aws/continuous-delivery-workshop.pem tomcat@ec2-46-137-51-223.eu-west-1.compute.amazonaws.com chmod a+x /opt/tomcat/apache-tomcat-6/bin/tomcat-deploy-petclinic
 }}}
  </td></tr>
 <tr><td> *Tomcat Valid 2 SSH* </td><td> 
 {{{
-scp -i ~/.aws/continuous-delivery-workshop.pem tomcat-deploy-petclinic tomcat@ec2-46-137-155-196.eu-west-1.compute.amazonaws.com:/opt/tomcat/apache-tomcat-6/bin/
-ssh -i ~/.aws/continuous-delivery-workshop.pem tomcat@ec2-46-137-155-196.eu-west-1.compute.amazonaws.com chmod a+x /opt/tomcat/apache-tomcat-6/bin/tomcat-deploy-petclinic
+scp -i ~/.aws/continuous-delivery-workshop.pem tomcat-deploy-petclinic tomcat@ec2-46-51-162-13.eu-west-1.compute.amazonaws.com:/opt/tomcat/apache-tomcat-6/bin/
+ssh -i ~/.aws/continuous-delivery-workshop.pem tomcat@ec2-46-51-162-13.eu-west-1.compute.amazonaws.com chmod a+x /opt/tomcat/apache-tomcat-6/bin/tomcat-deploy-petclinic
 }}}
 </td></tr>
 <table>
@@ -177,11 +177,11 @@ ssh -i ~/.aws/continuous-delivery-workshop.pem tomcat@ec2-46-137-155-196.eu-west
 
 Note: the [https://wiki.jenkins-ci.org/display/JENKINS/SSH+plugin Jenkins SSH Plugin] is already installed on your jenkins server.
  # Deploy the "[http://xebia-france.googlecode.com/svn/cloudcomputing/xebia-cloudcomputing-extras/trunk/src/main/scripts/fr/xebia/workshop/continuousdelivery/tomcat-deploy-petclinic tomcat-deploy-petclinic]" shell script on the Tomcat Dev server.
- # Connect to your *Jenkins* server: [http://ec2-176-34-195-205.eu-west-1.compute.amazonaws.com:8080/]
+ # Connect to your *Jenkins* server: [http://ec2-176-34-195-12.eu-west-1.compute.amazonaws.com:8080/]
  # In the *Manage Jenkins* / *Configure System*
   <img height="20" src="http://xebia-france.googlecode.com/svn/wiki/cont-delivery-img/jenkins-manage-jenkins-screenshot.png" /> <img height="25" src="http://xebia-france.googlecode.com/svn/wiki/cont-delivery-img/jenkins-configure-system-screenshot.png" /> 
  # In the section called : *SSH Remote hosts*, declare your "Tomcat Dev" server:
-  ** Host: {{{ec2-46-137-2-207.eu-west-1.compute.amazonaws.com}}}
+  ** Host: {{{ec2-46-137-50-62.eu-west-1.compute.amazonaws.com}}}
   ** Port: #blank#
   ** Username: {{{tomcat}}}
   ** Password: #blank#
@@ -191,13 +191,13 @@ Note: the [https://wiki.jenkins-ci.org/display/JENKINS/SSH+plugin Jenkins SSH Pl
  # Create a new Jenkins *Free Style Project* named "{{{deploy-petclinic-on-tomcat-dev}}}" with the following parameters:
    <img height="75" src="http://xebia-france.googlecode.com/svn/wiki/cont-delivery-img/jenkins-create-free-style-project.png" />
  # Activate option called *Execute shell script on remote host using SSH*
- # Select the right SSH site "{{{ec2-46-137-2-207.eu-west-1.compute.amazonaws.com}}}"
+ # Select the right SSH site "{{{ec2-46-137-50-62.eu-west-1.compute.amazonaws.com}}}"
  # In *post-build script*, enter 
   {{{
-  /opt/tomcat/apache-tomcat-6/bin/tomcat-deploy-petclinic fr.xebia.demo.petclinic-cbl2
+  /opt/tomcat/apache-tomcat-6/bin/tomcat-deploy-petclinic fr.xebia.demo.petclinic-1
 }}}
    <img height="80" src="http://xebia-france.googlecode.com/svn/wiki/cont-delivery-img/jenkins-configure-job-ssh-post-build-script-screenshot.png" />
-   Note: the provided _answer_ [http://xebia-france.googlecode.com/svn/cloudcomputing/xebia-cloudcomputing-extras/trunk/src/main/scripts/fr/xebia/workshop/continuousdelivery/tomcat-deploy-petclinic tomcat-deploy-petclinic] needs the maven group id as input parameter ; you may have hardcoded the project maven group id "fr.xebia.demo.petclinic-cbl2" in the script you developped.
+   Note: the provided _answer_ [http://xebia-france.googlecode.com/svn/cloudcomputing/xebia-cloudcomputing-extras/trunk/src/main/scripts/fr/xebia/workshop/continuousdelivery/tomcat-deploy-petclinic tomcat-deploy-petclinic] needs the maven group id as input parameter ; you may have hardcoded the project maven group id "fr.xebia.demo.petclinic-1" in the script you developped.
 
 ----
-_This page has been generaterd by '{{{class fr.xebia.workshop.continuousdelivery.ContinuousDeliveryInfrastructureCreator}}}' with template '{{{/fr/xebia/workshop/continuousdelivery/lab/jenkins-remote-ssh.fmt}}}' on the 2011-10-20T01:10:16.105+02:00_
+_This page has been generaterd by '{{{class fr.xebia.workshop.continuousdelivery.ContinuousDeliveryInfrastructureCreator}}}' with template '{{{/fr/xebia/workshop/continuousdelivery/lab/jenkins-remote-ssh.fmt}}}' on the 2011-10-20T01:10:15.875+02:00_
