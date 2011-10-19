@@ -143,4 +143,4 @@ You can now test your deployment chain by editing a file in the petclinic projec
 You can also do "on-demand" deploys : in the Jenkins job configuration page at [http://ec2-46-137-144-219.eu-west-1.compute.amazonaws.com:8080//job/xebia-petclinic-lite-cbl1/configure], in the Rundeck plugin parameters, type "#deploy" in the "tag" field. Save and trigger a build : it won't be deploy on rundeck. But if you commit a file with a commit message containing "#deploy", it will be deployed. 
 
 ----
-_This page has been generaterd by '{{{class fr.xebia.workshop.continuousdelivery.ContinuousDeliveryInfrastructureCreator}}}' with template '{{{/fr/xebia/workshop/continuousdelivery/lab/rundeck.fmt}}}' on the 2011-10-20T00:16:09.945+02:00_
+_This page has been generaterd by '{{{class fr.xebia.workshop.continuousdelivery.ContinuousDeliveryInfrastructureCreator}}}' with template '{{{/fr/xebia/workshop/continuousdelivery/lab/rundeck.fmt}}}' on the 2011-10-20T00:19:11.290+02:00_

@@ -200,4 +200,4 @@ Note: the [https://wiki.jenkins-ci.org/display/JENKINS/SSH+plugin Jenkins SSH Pl
    Note: the provided _answer_ [http://xebia-france.googlecode.com/svn/cloudcomputing/xebia-cloudcomputing-extras/trunk/src/main/scripts/fr/xebia/workshop/continuousdelivery/tomcat-deploy-petclinic tomcat-deploy-petclinic] needs the maven group id as input parameter ; you may have hardcoded the project maven group id "fr.xebia.demo.petclinic-cbl2" in the script you developped.
 
 ----
-_This page has been generaterd by '{{{class fr.xebia.workshop.continuousdelivery.ContinuousDeliveryInfrastructureCreator}}}' with template '{{{/fr/xebia/workshop/continuousdelivery/lab/jenkins-remote-ssh.fmt}}}' on the 2011-10-20T00:16:09.981+02:00_
+_This page has been generaterd by '{{{class fr.xebia.workshop.continuousdelivery.ContinuousDeliveryInfrastructureCreator}}}' with template '{{{/fr/xebia/workshop/continuousdelivery/lab/jenkins-remote-ssh.fmt}}}' on the 2011-10-20T00:19:11.327+02:00_
