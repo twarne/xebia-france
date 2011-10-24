@@ -37,3 +37,4 @@ chmod 400 ~/.aws/oss-monitoring.pem
   # [MonitoringOpenSourceJMXTrans JMX Querying with JMXTrans]
   # [MonitoringOpenSourceGraphite Installing Graphite]
   # [MonitoringOpenSourceGraphiteURL Graph with Graphite]
+  # [MonitoringOpenSourceGraphiteNagios Create Nagios Alert with graphite]
