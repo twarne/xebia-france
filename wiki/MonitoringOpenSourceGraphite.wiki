@@ -4,36 +4,27 @@
 
 Graphite is a simple tool with two essential features : 
 
-* Store numeric time-series data
-* Render graphs of this data on demand
+  * Store numeric time-series data
+  * Render graphs of this data on demand
 
 Graphite is comprised of three components:
-* a webapp frontend which can be deployed on Django or by http server with python module
-* Whisper: a file system storage
-* Carbon: an agent that listens for time-series data, maintains these data in a cache, persists them to Whisper and answers to the webapp queries. 
+  * a webapp frontend which can be deployed on Django or by http server with python module
+  * Whisper: a file system storage
+  * Carbon: an agent that listens for time-series data, maintains these data in a cache, persists them to Whisper and answers to the webapp queries. 
 
-Data collection agents connect to carbon and send their data, and carbon's job is to make that data available for real-time graphing immediately and try to get it stored on disk as fast as possible.
+Data collection agents like JMXTrans connect to carbon and send their data, and carbon's job is to make that data available for real-time graphing immediately and try to get it stored on disk as fast as possible.
 
-== Carbon and whisper ==
+== Carbon ==
 
 === Installation and Configuration ===
 
-  # /etc/carbon/carbon.conf
-General carbon configuration
+  # /etc/carbon/carbon.conf: General carbon configuration
+  # /etc/carbon/storage-schemas.conf: Storage configuration
+  # /etc/init.d/carbon [stop|start]: start the carbon instance
 
-  # /etc/carbon/storage-schemas.conf
-Storage configuration
+=== Consult Carbon log ===
 
-=== Tips ===
-
-==== Start and stop carbon ====
-
-/etc/init.d/carbon [stop|start]
-
-==== Consult Carbon log ====
-
-Log directory: 
-/var/log/carbon
+  * Log directory: /var/log/carbon
 
 ==== Configure time-series frequency and retention ====
 
@@ -49,6 +40,10 @@ See [http://readthedocs.org/docs/graphite/en/latest/config-carbon.html#storage-s
 
 == Graphite webapp ==
 
+The only thing to do is to start the http daemon: 
+  * /etc/init.d/httpd start
+
+Graphite offers to deploying the webapp into Django, a python webserver. In this workshop, the webapp will be deployed directly in apache httpd thanks to additionnal python modules. The webapp will be accessible on port 80 by default.
 
 = Lab = 
 
