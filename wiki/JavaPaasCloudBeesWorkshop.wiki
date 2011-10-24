@@ -28,8 +28,12 @@ $ chmod -R 700 .ssh
  # Get the zip file containing the petclinic application from the wiki and unzip it in your local workspace
  # Initialize a new Git local repository by using the command: 
 {{{
-$ cd petclinic
+$ cd petclinic #or your existing project directory
 $ git init
+$ git remote add origin ssh://git@git.cloudbees.com/atelier-xebia/cloudbeesXX.git
+$ git add -A  # if you want to check everything in
+$ git commit -m 'Initial checkin'
+$ git push origin master
 }}}
 
  * Create a new job on Jenkins for Continuous integration
