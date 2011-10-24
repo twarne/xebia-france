@@ -1,0 +1,100 @@
+= Using JMXTrans = 
+
+== JMXTrans ==
+
+[http://code.google.com/p/jmxtrans/ JMXTrans Home page]
+
+JMX Transformer is very powerful tool which uses easily generated JSON based configuration files and then outputs the data in whatever format you desire.
+It does this with a very efficient engine design that will scale to communicating with thousands of machines from a single jmxtrans instance.  
+
+== Installation ==
+
+Your JMXtrans instance use RPM packaging.
+Configuration file are in  : 
+
+  # /var/lib/jmxtrans/*.json 
+
+for queries configuration
+
+  # /etc/sysconfig/jmxtrans
+
+for JMXtrans configuration instance
+
+You can start or stop instance with 
+/etc/init.d/jmxtrans [start|stop]
+
+{{{
+# configuration file for package jmxtrans
+export JAR_FILE="/usr/share/jmxtrans/jmxtrans-all.jar"
+export LOG_DIR="/var/log/jmxtrans"
+export SECONDS_BETWEEN_RUNS=60
+export JSON_DIR="/var/lib/jmxtrans"
+export HEAP_SIZE=512
+export NEW_SIZE=64
+export CPU_CORES=2
+export NEW_RATIO=8
+}}}
+
+== Configuration ==
+
+=== Query a mBean and send to file ===
+{{{
+{
+  "servers" : [ {
+    "port" : "1099",
+    "host" : "jmxhost",
+    "queries" : [ {
+      "obj" : "java.lang:type=Memory",
+      "attr" : [ "HeapMemoryUsage", "NonHeapMemoryUsage" ],
+      "outputWriters" : [ {
+        "@class" : "com.googlecode.jmxtrans.model.output.KeyOutWriter",
+        "settings" : {
+          "outputFile" : "/tmp/server1.txt",
+          "maxLogFileSize" : "10MB",
+          "maxLogBackupFiles" : 200,
+          "debug" : true,
+          "typeNames" : ["name"]
+        }
+      } ]
+    } ]
+  } ]
+}
+}}}
+
+=== Query a mBean and send to graphite ===
+{{{
+{
+  "servers" : [ {
+    "port" : "1099",
+    "host" : "jmxhost",
+    "queries" : [ {
+      "obj" : "java.lang:type=Memory",
+      "attr" : [ "HeapMemoryUsage", "NonHeapMemoryUsage" ],
+      "outputWriters" : [ {
+        "@class" : "com.googlecode.jmxtrans.model.output.GraphiteWriter",
+        "settings" : {
+          "port" : 2003,
+          "host" : "192.168.192.133"
+        }
+      } ]
+    } ]
+  } ]
+}
+}}}
+
+=== Change sampling frequency ===
+
+Edit SECONDS_BETWEEN_RUNS attribute on /etc/sysconfig/jmxtrans
+
+= Lab = 
+
+  * Create a new JMXTrans config file for prod1 server
+  * Create a query for all attribute of CreditCardService  
+  * Output result on a file (KeyOutWriter) 
+  * Create a query for GC monitoring
+  * Create a query for Memory monitoring
+  * Create a query for CPU monitoring
+  * Verify result on /tmp/server1.txt
+  * Report configuration for all server (1 file by server)
+  * Verify result on /tmp/serverN.txt
+  * Change sampling frequency to 10 seconds
