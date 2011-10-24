@@ -28,14 +28,25 @@ Data collection agents like JMXTrans connect to carbon and send their data, and 
 
 ==== Configure time-series frequency and retention ====
 
+(you can see official documentation [http://graphite.wikidot.com/getting-your-data-into-graphite here])
+
+The frequency of time-series and their retention duration are setted in the file *storage-schemas.conf*.  The main parameters are:
+
+{{{
 [storage_name]
 pattern = REGEXP PATTERN
 retentions = Frequency:RetentionTime,...
+}}}
 
+The pattern will define the set of metrics whose the retentions are applied. The *retentions* parameter define a list of frequency/retention time. 
+
+For instance the list below defines a first sample frequency of 5 seconds during 1 day. After 1 day frequency becomes all 30s during the 6 next days and so on.
+
+{{{
 [xebia_spring_travel]
 pattern = .*
 retentions = 5s:1d,30s:6d,1m:21d,15m:1y
-
+}}}
 See [http://readthedocs.org/docs/graphite/en/latest/config-carbon.html#storage-schemas-conf Full storage configuration]
 
 == Graphite webapp ==
