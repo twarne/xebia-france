@@ -33,7 +33,7 @@ chmod 400 ~/.aws/oss-monitoring.pem
 
 = Labs =
 
-  # MonitoringOpenSourceVisualVM
-  # MonitoringOpenSourceJMXTrans
-  # MonitoringOpenSourceGraphite
-  # MonitoringOpenSourceGraphiteURL
+  # [MonitoringOpenSourceVisualVM Discover bean with VisualVm]
+  # [MonitoringOpenSourceJMXTrans JMX Querying with JMXTrans]
+  # [MonitoringOpenSourceGraphite Installing Graphite]
+  # [MonitoringOpenSourceGraphiteURL Graph with Graphite]
