@@ -53,6 +53,7 @@ Branch Specifier (blank for default)=** # For avoiding issue
 {{{
 clean package
 }}}
+ # On the "Post build action" part tick "Deploy artifacts to my Private CloudBees Repository" option and verify that SNAPSHOT repository is correctly selected.
 
  * Configure Sonar on Jenkins and use it
  * Use Artifactory for managing Maven repository
