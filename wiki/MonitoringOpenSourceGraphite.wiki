@@ -38,9 +38,9 @@ pattern = REGEXP PATTERN
 retentions = Frequency:RetentionTime,...
 }}}
 
-The pattern will define the set of metrics whose the retentions are applied. The *retentions* parameter define a list of frequency/retention time. 
+The pattern will define the set of metrics whose the retentions are applied. The *retentions* parameter defines a list of frequency/retention time's. 
 
-For instance the list below defines a first sample frequency of 5 seconds during 1 day. After 1 day frequency becomes all 30s during the 6 next days and so on.
+For instance the list below defines a first sample frequency of 5 seconds during 1 day. After 1 day frequency becomes 30 seconds during the 6 next days and so on.
 
 {{{
 [xebia_spring_travel]
