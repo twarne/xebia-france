@@ -85,7 +85,7 @@ clean package
 }}}
  # On the "Post build action" part tick "Deploy to CloudBees" option and fill parameters:
 {{{
-Application Id.=cloudbeesXX-integ
+Application Id.=atelier-xebia/cloudbees00-integ
 }}}
  # Save the configuration and run the job.
  
