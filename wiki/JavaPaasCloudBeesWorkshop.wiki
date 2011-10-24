@@ -46,7 +46,7 @@ $ git push origin master
 URL of repository=ssh://git@git.cloudbees.com/atelier-xebia/cloudbeesXX.git
 Branch Specifier (blank for default)=** # For avoiding issue
 }}}
- # On the "Build triggers" part tick poll SCM by filling the CRON expression
+ # On the "Build triggers" part tick "poll SCM" by filling the CRON expression
 {{{
 * * * * * # every minute
 }}}
@@ -73,6 +73,22 @@ clean package
 
  * Create and configure a new application on RUN@Cloud
  * Create a new job for deploying on integration environment (HSQLDB)
+ # Create a new Job from the left menu with the job name "cloudbeesXX-integ" and tick "Build a Maven2/3 project"
+ # On the "Code source management" part choose "Git" and fill these parameters:
+{{{
+URL of repository=ssh://git@git.cloudbees.com/atelier-xebia/cloudbeesXX.git
+Branch Specifier (blank for default)=** # For avoiding issue
+}}}
+ # On the "Build" part indicate the Maven goal
+{{{
+clean package
+}}}
+ # On the "Post build action" part tick "Deploy to CloudBees" option and fill parameters:
+{{{
+Application Id.=cloudbeesXX-integ
+}}}
+ # Save the configuration and run the job.
+ 
  * Create and configure a new MySQL database
  * Create a new job for deploying on production environment (MySQL, Elasticity)
  * Monitoring with New Relic
@@ -98,3 +114,4 @@ clean package
  * Can we create a stress test by using JMeter for showing the elasticity of an application which is running on CloudBees?
  * Can we browse Git repository directly from CloudBees?
  * Why when I create a new Jenkins job for an existing project, Jenkins downloads all the dependencies even if I have already all of them into my Maven repository?
+ * What is the mean of the option "Build when a change is pushed to CloudBees Forge" in Jenkins job configuration?
