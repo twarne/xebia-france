@@ -1,0 +1,32 @@
+= Open source java monitoring =
+
+= Your Architecture = 
+
+=== Shared env ===
+
+|| *Travel prod HTTP* ||   ||
+|| *Travel pre-prod HTTP* ||   ||
+|| *Travel prod frontal 1* ||   ||
+|| *Travel prod frontal 2* ||   ||
+|| *Travel prod antifraude* ||   ||
+|| *Travel pre-prod frontal 1* ||   ||
+|| *Travel pre-prod frontal 2* ||   ||
+|| *Travel pre-prod antifraude* ||   ||
+
+=== Your env ===
+
+|| *SSH Private Key* ||   ||
+|| *Monitoring server IP* ||   ||
+|| *Monitoring SSH command* ||   ||
+|| *Nagios IP* ||   ||
+|| *Nagios SSH command* ||   ||
+
+= Environnement Setup =
+
+# Get the SSH private key oss-monitoring.pem to connect to the servers
+
+{{{
+mkdir ~/.aws/
+curl https://s3-eu-west-1.amazonaws.com/oss-monitoring/oss-monitoring.pem --output ~/.aws/oss-monitoring.pem
+chmod 400 ~/.aws/oss-monitoring.pem
+}}}
