@@ -4,14 +4,14 @@
 
 === Shared env ===
 
-|| *Travel prod HTTP* ||   ||
-|| *Travel pre-prod HTTP* ||   ||
-|| *Travel prod frontal 1* ||   ||
-|| *Travel prod frontal 2* ||   ||
-|| *Travel prod antifraude* ||   ||
-|| *Travel pre-prod frontal 1* ||   ||
-|| *Travel pre-prod frontal 2* ||   ||
-|| *Travel pre-prod antifraude* ||   ||
+|| *Travel prod HTTP* ||   || ||
+|| *Travel pre-prod HTTP* ||   || ||
+|| *Travel prod frontal 1* || 46.137.97.78 || prod1.travel.xebia-tech-event.info ||
+|| *Travel prod frontal 2* || 46.137.98.212 || prod2.travel.xebia-tech-event.info ||
+|| *Travel prod antifraude* || 46.137.168.248 || || 
+|| *Travel pre-prod frontal 1* ||  46.137.98.234 || test.travel.xebia-tech-event.info ||
+|| *Travel pre-prod frontal 2* || PAS DE 2eme... Pas assez d'IP fixe (5 max)  ||
+|| *Travel pre-prod antifraude* || 46.137.99.111  || ||
 
 === Your env ===
 
