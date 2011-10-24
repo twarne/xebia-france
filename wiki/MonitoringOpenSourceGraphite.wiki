@@ -28,8 +28,6 @@ Data collection agents like JMXTrans connect to carbon and send their data, and 
 
 ==== Configure time-series frequency and retention ====
 
-(you can see official documentation [http://graphite.wikidot.com/getting-your-data-into-graphite here])
-
 The frequency of time-series and their retention duration are setted in the file *storage-schemas.conf*.  The main parameters are:
 
 {{{
