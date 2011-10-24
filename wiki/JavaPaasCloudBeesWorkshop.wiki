@@ -54,6 +54,7 @@ Branch Specifier (blank for default)=** # For avoiding issue
 clean package
 }}}
  # On the "Post build action" part tick "Deploy artifacts to my Private CloudBees Repository" option and verify that SNAPSHOT repository is correctly selected.
+ # Save the configuration and run the job.
 
  * Configure Sonar on Jenkins and use it
  * Use Artifactory for managing Maven repository
@@ -62,7 +63,7 @@ clean package
 == @TEST ==
 
  * Create a new Selenium test in your IDE following the instructions [https://saucelabs.com/docs/ondemand/getting-started here]
- * Create a new Selenium test
+ * Create a new Selenium test and add it to petclinic
  * Add a new job on Jenkins for executing Selenium tests
  * Use of Sauce OnDemand Plugin on Jenkins
  * Verify test on Sauce Labs
@@ -95,3 +96,4 @@ clean package
  * Can we launch a Selenium test on SauceLabs directly from a job configured inside Jenkins?
  * Can we create a stress test by using JMeter for showing the elasticity of an application which is running on CloudBees?
  * Can we browse Git repository directly from CloudBees?
+ * Why when I create a new Jenkins job for an existing project, Jenkins downloads all the dependencies even if I have already all of them into my Maven repository?
