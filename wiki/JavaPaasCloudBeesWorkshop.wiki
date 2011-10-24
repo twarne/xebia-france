@@ -21,9 +21,16 @@
  # Go to the Account tab
  # Access to your User Settings and paste the SSH public key you have received by e-mail
  # Backup your own .ssh folder if necessary and copy/past both keys into a new .ssh folder
- # Update permissions by using this command: chmod -R 700 .ssh
+ # Update permissions by using this command:
+{{{
+$ chmod -R 700 .ssh
+}}}
  # Get the zip file containing the petclinic application from the wiki and unzip it in your local workspace
- # Create
+ # Initialize a new Git local repository by using the command: 
+{{{
+$ cd petclinic
+$ git init
+}}}
 
  * Create a new job on Jenkins for Continuous integration
  * Configure Sonar on Jenkins and use it
