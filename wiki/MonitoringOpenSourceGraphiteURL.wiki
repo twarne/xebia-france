@@ -1,0 +1,58 @@
+= Using Graphite URL API =
+
+[http://readthedocs.org/docs/graphite/en/latest/url-api.html The reference documentation]
+
+
+= Tips =
+
+
+== Transform a counter to req/time ==
+
+Ex: 
+summarize(derivative(requestInError),"1min")
+
+== Transform a counter to percentile ==
+
+Ex: With sample frequency at 5 seconds
+
+&target=asPercent(derivative(gc.CollectionTime),5000)
+
+== Configuring time windows ==
+
+# Last 5 minutes
+&from=-5minutes
+
+# Today
+&from=today
+
+== Configure Graphic size ===
+
+&width=550&height=310
+
+== Background color ==
+
+&bgcolor=FFFFFF
+
+== Give an alias to a metric ==
+
+&target=alias(non_human_readable_metric_name,My readable name) 
+
+== Fix color list
+
+&colorList=green,yellow,orange,red,purple, 
+
+= Lab = 
+
+# Building a dashboard
+
+For each server
+
+|| Memory usage || ||
+|| Cpu usage || ||
+|| GC Time in % || ||
+
+Aggregated by plateform (prod & preprod)
+
+|| Credit card service current invocation (Aggregated by plateform) ||  ||
+|| Credit card service request in error / minutes. (Aggregated and by type) ||   ||
+|| Antifraud web service call performance (average request/time in last minute) || ||
