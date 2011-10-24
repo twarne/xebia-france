@@ -52,7 +52,7 @@ See [http://readthedocs.org/docs/graphite/en/latest/config-carbon.html#storage-s
 The only thing to do is to start the http daemon: 
   * /etc/init.d/httpd start
 
-Graphite offers to deploying the webapp into Django, a python webserver. In this workshop, the webapp will be deployed directly in apache httpd thanks to additionnal python modules. The webapp will be accessible on port 80 by default.
+Graphite offers to deploying the webapp into Django, a python webserver. In this workshop, the webapp will be deployed directly in *Apache httpd* thanks to additionnal python modules. The webapp will be accessible on *port 80* by default.
 
 == Whisper ==
 
