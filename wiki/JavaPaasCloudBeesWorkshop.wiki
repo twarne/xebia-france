@@ -37,13 +37,23 @@ $ git push origin master
 }}}
 
  * Create a new job on Jenkins for Continuous integration
+
+# Go back to the Home page in CloudBees and click on Jenkins build
+# Create a new Job from the left menu with the job name "cloudbeesXX-ci" and tick "Build a Maven2/3 project"
+# On the "Code source management" part choose "Git" and fill these parameters:
+{{{
+URL of repository=ssh://git@git.cloudbees.com/atelier-xebia/cloudbeesXX.git
+Branch Specifier (blank for default)=** # For avoiding issue
+}}}
+
  * Configure Sonar on Jenkins and use it
  * Use Artifactory for managing Maven repository
  * Release of a new version of the application
 
 == @TEST ==
 
- * Create a new Selenium test in your IDE following the instructions [https://saucelabs.com/docs/ondemand/getting-started here] 
+ * Create a new Selenium test in your IDE following the instructions [https://saucelabs.com/docs/ondemand/getting-started here]
+ * Create a new Selenium test
  * Add a new job on Jenkins for executing Selenium tests
  * Use of Sauce OnDemand Plugin on Jenkins
  * Verify test on Sauce Labs
@@ -75,3 +85,4 @@ $ git push origin master
  * Can we use CloudBees SDK for managing my account (User, subscription administration)?
  * Can we launch a Selenium test on SauceLabs directly from a job configured inside Jenkins?
  * Can we create a stress test by using JMeter for showing the elasticity of an application which is running on CloudBees?
+ * Can we browse Git repository directly from CloudBees?
