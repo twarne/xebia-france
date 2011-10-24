@@ -1,0 +1,55 @@
+= Using Graphite = 
+
+[http://graphite.wikidot.com/start Graphite Home page]
+
+Graphite is a simple tools for make 2 things : 
+* Store numeric time-series data
+* Render graphs of this data on demand
+Graphite is comprised of three components, a webapp frontend, a backend (Whisper) storage and a daemon that listens for time-series data. 
+Data collection agents connect to carbon and send their data, and carbon's job is to make that data available for real-time graphing immediately and try to get it stored on disk as fast as possible.
+
+== Carbon and whisper ==
+
+=== Installation and Configuration ===
+
+  # /etc/carbon/carbon.conf
+General carbon configuration
+
+  # /etc/carbon/storage-schemas.conf
+Storage configuration
+
+=== Tips ===
+
+==== Start and stop carbon ====
+
+/etc/init.d/carbon [stop|start]
+
+==== Consult Carbon log ====
+
+Log directory 
+/var/log/carbon
+
+==== Configure time-series frequency and retention ====
+
+[storage_name]
+pattern = REGEXP PATTERN
+retentions = Frequency:RetentionTime,...
+
+[xebia_spring_travel]
+pattern = .*
+retentions = 5s:1d,30s:6d,1m:21d,15m:1y
+
+See [http://readthedocs.org/docs/graphite/en/latest/config-carbon.html#storage-schemas-conf Full storage configuration]
+
+== Graphite webapp ==
+
+
+= Lab = 
+
+  * Configure storage for xebia-travel-prod with a frequency 10s
+  * Configure storage for xebia-travel-preprod with a frequency 1 min
+  * Start carbon
+  * Start httpd
+  * Verify graphite and carbon is up
+  * Stop JMXTrans and configure it for sending data to Graphite
+  * Connect to Graphite dashboard and verify all metrics are presents
