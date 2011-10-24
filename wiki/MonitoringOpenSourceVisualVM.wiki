@@ -1,0 +1,49 @@
+= Using VisualVM =
+
+== Tips ==
+
+=== Navigate on MBean ===
+
+Install VisualVM-MBeans plugins. Open the plugin manager in Tools menu bar. 
+
+=== JMX Remote connection ===
+
+Jmx use 2 port for remote connection. One for JNDI and one for JMX.
+JNDI is fixed (1099 by default), JMX is dynamic. 
+
+  * Simple URL by JNDI and RMI (Sun standard)
+
+{{{<hostname>:<jndiPort>}}}
+
+Ex: travel-prod-1.xebia-tech-event.info:1099
+
+  * URL with protocol
+
+{{{service:jmx:<protocol>://[host[:port]][url-path]}}}
+
+Example Simple : 
+
+{{{service:jmx:rmi:///jndi/rmi://travel-prod-1.xebia-tech-event.info:1099/jmxrmi}}}
+
+Example with static JMX port :
+
+{{{service:jmx:rmi://travel-prod-1.xebia-tech-event.info/jndi/rmi://travel-prod-1.xebia-tech-event.info:1099/travel-prod-1.xebia-tech-event.info/7676/jmxrmi}}}
+
+=== Get ObjectName from VisualVM ===
+
+You can get ObjectName and attribute in metadata tab.
+
+## TODO Screen shot ##
+
+= Lab =
+
+== Get server prod 1 counter via Visualvm ==
+
+  * Add travel-prod-1.xebia-tech-event.info as Remote Host
+  * Add JMX Connection on port 1099
+  * Locate ObjectName and attribute name : 
+    # CreditCardService and all exposed metrics
+    # Java Memory Pool (Eden, Tenenured and Survivor Space) usage
+    # GarbageCollector  (Copy and MarkSweepCompact) collection count and time
+    # CPU usage on OperatingSystem MBean
+  * Graph TimeoutExceptionCount for CreditCardService
