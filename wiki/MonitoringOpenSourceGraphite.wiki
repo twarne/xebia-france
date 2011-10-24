@@ -56,6 +56,10 @@ The only thing to do is to start the http daemon:
 
 Graphite offers to deploying the webapp into Django, a python webserver. In this workshop, the webapp will be deployed directly in apache httpd thanks to additionnal python modules. The webapp will be accessible on port 80 by default.
 
+== Whisper ==
+
+*Whisper* doesn't need to be configured because *carbon* directly pilot it.
+
 = Lab = 
 
   * Configure storage for xebia-travel-prod with a frequency 10s
