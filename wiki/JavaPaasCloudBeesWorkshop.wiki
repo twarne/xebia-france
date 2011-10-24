@@ -45,6 +45,14 @@ $ git push origin master
 URL of repository=ssh://git@git.cloudbees.com/atelier-xebia/cloudbeesXX.git
 Branch Specifier (blank for default)=** # For avoiding issue
 }}}
+ # On the "Build triggers" part tick poll SCM by filling the CRON expression
+{{{
+* * * * * # every minute
+}}}
+ # On the "Build" part indicate the Maven goal
+{{{
+clean package
+}}}
 
  * Configure Sonar on Jenkins and use it
  * Use Artifactory for managing Maven repository
