@@ -43,7 +43,7 @@ $ git push origin master
 
 == @TEST ==
 
- * Create a new Selenium test in your IDE following instruction at [https://saucelabs.com/docs/ondemand/getting-started]
+ * Create a new Selenium test in your IDE following instruction at [https://saucelabs.com/docs/ondemand/getting-started here]
  * Add a new job on Jenkins for executing Selenium tests
  * Use of Sauce OnDemand Plugin on Jenkins
  * Verify test on Sauce Labs
