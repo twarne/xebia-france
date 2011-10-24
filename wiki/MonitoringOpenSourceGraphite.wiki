@@ -10,17 +10,17 @@ Graphite is a simple tool with two essential features :
 Graphite is comprised of three components:
   * a webapp frontend which can be deployed on Django or by http server with python module
   * Whisper: a file system storage
-  * Carbon: an agent that listens for time-series data, maintains these data in a cache, persists them to Whisper and answers to the webapp queries. 
+  * Carbon: an agent that listens to time-series data, maintains these data in a cache, persists them to Whisper and answers to the webapp queries. 
 
-Data collection agents like JMXTrans connect to carbon and send their data, and carbon's job is to make that data available for real-time graphing immediately and try to get it stored on disk as fast as possible.
+Data collection agents like JMXTrans connect to carbon and send their data, and Carbon's job is to make that data available for real-time graphing immediately and try to get it stored on disk as fast as possible.
 
 == Carbon ==
 
 === Installation and Configuration ===
 
-  # /etc/carbon/carbon.conf: General carbon configuration
+  # /etc/carbon/carbon.conf: General Carbon configuration
   # /etc/carbon/storage-schemas.conf: Storage configuration
-  # /etc/init.d/carbon [stop|start]: start the carbon instance
+  # /etc/init.d/carbon [stop|start]: start the Carbon instance
 
 === Consult Carbon log ===
 
@@ -58,14 +58,14 @@ Graphite offers to deploying the webapp into Django, a python webserver. In this
 
 == Whisper ==
 
-*Whisper* doesn't need to be configured because *carbon* directly pilot it.
+*Whisper* doesn't need to be configured because *Carbon* directly pilot it.
 
 = Lab = 
 
   * Configure storage for xebia-travel-prod with a frequency 10s
   * Configure storage for xebia-travel-preprod with a frequency 1 min
-  * Start carbon
+  * Start Carbon
   * Start httpd
-  * Verify graphite and carbon is up
+  * Verify graphite and Carbon is up
   * Stop JMXTrans and configure it for sending data to Graphite
   * Connect to Graphite dashboard and verify all metrics are presents
