@@ -2,10 +2,16 @@
 
 [http://graphite.wikidot.com/start Graphite Home page]
 
-Graphite is a simple tools for make 2 things : 
+Graphite is a simple tool with two essential features : 
+
 * Store numeric time-series data
 * Render graphs of this data on demand
-Graphite is comprised of three components, a webapp frontend, a backend (Whisper) storage and a daemon that listens for time-series data. 
+
+Graphite is comprised of three components:
+* a webapp frontend which can be deployed on Django or by http server with python module
+* Whisper: a file system storage
+* Carbon: an agent that listens for time-series data, maintains these data in a cache, persists them to Whisper and answers to the webapp queries. 
+
 Data collection agents connect to carbon and send their data, and carbon's job is to make that data available for real-time graphing immediately and try to get it stored on disk as fast as possible.
 
 == Carbon and whisper ==
@@ -26,7 +32,7 @@ Storage configuration
 
 ==== Consult Carbon log ====
 
-Log directory 
+Log directory: 
 /var/log/carbon
 
 ==== Configure time-series frequency and retention ====
