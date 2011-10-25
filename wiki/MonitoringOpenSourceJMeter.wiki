@@ -1,5 +1,7 @@
-#summary One-sentence summary of this page.
+#summary Creating an AMI with JMeter
 #labels java,monitoring,jmeter
+
+<wiki:toc max_depth="2" />
 
 = Introduction =
 
@@ -19,7 +21,7 @@ The IAM User sign-in URL is : https://xebia-france.signin.aws.amazon.com/console
  # On "EC2" tab, select your region (e.g. "EU West (Ireland)")
  	http://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-select-eu-west-region.png
  # On "EC2 Dashboard", click on "Launch new instance" 	
- # Select your AMI (e.g. "Basic 32-bit Amazon Linux AMI 2011.02.1 Beta")
+ # Select your AMI (e.g. "Basic 32-bit Amazon Linux AMI 2011.09")
  	http://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-launch-linux-instance-1.png
  # Select the instance size (e.g. "Micro")
  	http://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-launch-linux-instance-2-instance-details.png
@@ -54,5 +56,3 @@ runcmd:
  	http://xebia-france.googlecode.com/svn/wiki/aws-img/ec2-security-group.png
  # Review the configuration and click on "Launch"
  	http://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-launch-linux-instance-7-review.png
-
-
