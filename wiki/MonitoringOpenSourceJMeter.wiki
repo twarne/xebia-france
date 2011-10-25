@@ -17,6 +17,8 @@ The IAM User sign-in URL is : https://xebia-france.signin.aws.amazon.com/console
 
 == Create an EC2 Instance ==
 
+_*Observation:* images below may not be synchronized with the steps. In this case follow the step, not the image._
+
  # Connect to AWS console 	
  # On "EC2" tab, select your region (e.g. "EU West (Ireland)")
  	http://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-select-eu-west-region.png
