@@ -6,6 +6,8 @@
 
 The goal of this artticle is to deploy the xebia-spring-travel application on three AMIs with an Amazon RDS MySQL database and a load balancer.
 
+*Observation:* images below may not be synchronized with the steps. In this case follow the step, not the image.
+
 = Access the AWS Management Console = 
  
 Connect to Amazon AWS Management Console with your credentials (sent in the email "Xebia France Amazon EC2 Credentials"). 
@@ -17,9 +19,9 @@ The IAM User sign-in URL is : https://xebia-france.signin.aws.amazon.com/console
  Create an MySQL database using AWS Relational Database Service (RDS)
  
  # Select the RDS tab
-	http://xebia-france.googlecode.com/svn/wiki/aws-img/rds-1.png
+ 	http://xebia-france.googlecode.com/svn/wiki/aws-img/rds-1.png
  # Select the region
-	http://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-select-eu-west-region.png
+ 	http://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-select-eu-west-region.png
  # Click on "Launch DB Instance" and select MYSQL
  	http://xebia-france.googlecode.com/svn/wiki/aws-img/rds-2.png
  # Configure the database using the values below:
@@ -44,6 +46,11 @@ The IAM User sign-in URL is : https://xebia-france.signin.aws.amazon.com/console
  
 
 = Create Tomcat instances = 
+
+== Deploy xebia-spring-travel-antifraud Instance  ==
+
+TODO
+
 == Deploy xebia-spring-travel-ecommerce Instances  ==
 
  # Connect to AWS console 	
@@ -84,7 +91,6 @@ runcmd:
  	http://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-launch-linux-instance-7-review.png
  # Repeat these steps to create a second instance called xebiaspringtravel-prod-2
 
-
  == Connect to the Amazon Linux Server  ==
 
  # Go to AWS EC2 tab
@@ -97,7 +103,7 @@ runcmd:
  # Copy paste the command line
  	http://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-connect-instance-2.png
  # SSH connect to the server as "ec2-user"
- 	<pre>ssh -i xebia-france.pem ec2-user@ec2-46-137-58-156.eu-west-1.compute.amazonaws.com</pre> 
+ 	<pre>ssh -i oss-monitoring.pem ec2-user@ec2-46-137-58-156.eu-west-1.compute.amazonaws.com</pre> 
  
  == Configure the Datasource Connection ==
  # Stop Tomcat
@@ -125,6 +131,10 @@ jpa.hbm2ddlAuto=update
  	<pre>sudo /etc/init.d/tomcat6 start</pre>
  # Repeat these steps for the xebiaspringtravel-prod-2 instance
 
+ == Configure JMX ==
+
+TODO
+
 = Create a Load Balancer =
 
  # In the EC2 tab, click on the "Load Balancers" menu under "NETWORK & SECURITY"
@@ -143,3 +153,7 @@ jpa.hbm2ddlAuto=update
  	http://xebia-france.googlecode.com/svn/wiki/aws-img/elb-6.png
  # Open your browser on the load balancer "A Record"
  	http://xebia-france.googlecode.com/svn/wiki/aws-img/result.png
+
+= Create a Load Balancer =
+
+URL de test : http://<AMI Public DNS>:8080/xebia-spring-travel-ecommerce-1.0.0/
