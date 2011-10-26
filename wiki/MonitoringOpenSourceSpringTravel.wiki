@@ -99,7 +99,7 @@ runcmd:
  # SSH connect to the server as "ec2-user"
  	<pre>ssh -i xebia-france.pem ec2-user@ec2-46-137-58-156.eu-west-1.compute.amazonaws.com</pre> 
  
- == Configure the connection to the data source ==
+ == Configure the Datasource Connection ==
  # Stop Tomcat
  	<pre>sudo /etc/init.d/tomcat6 stop</pre>
  # Modify catalina.properties to add MySQL support to xebiaspringtravel
