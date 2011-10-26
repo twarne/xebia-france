@@ -58,12 +58,13 @@ Branch Specifier (blank for default)=** # For avoiding issue
 {{{
 clean package
 }}}
- # On the "Post build action" part tick "Deploy artifacts to my Private CloudBees Repository" option and verify that SNAPSHOT repository is correctly selected.
- # Save the configuration and run the job.
+ # On the "Build Environment" part, tick "Maven release build" option. The parameters are correctly pre-filled, let them as default.
 
- * Configure Sonar on Jenkins and use it
- * Use Artifactory for managing Maven repository
- * Release of a new version of the application
+ # On the "Post build action" part tick "Deploy artifacts to my Private CloudBees Repository" option and verify that SNAPSHOT repository is correctly selected. Also tick sonar option to active sonar analyze of your project.
+ # Save the configuration and run the job (it can take some minutes before the build begins).
+
+ * Use Artifactory for managing Maven repository (jenkins artifactory plugin is buggy? problem with artifactory host configuration) 
+ * Release of a new version of the application by clicking on the "Perform maven release". Let the parameter as pre-filled and click on "Schedule a maven release". As the build, the release can start after a few minutes. (WARING ! Add scm url to petclinic !)
 
 == @TEST ==
 
@@ -93,17 +94,27 @@ Application Id.=atelier-xebia/cloudbees00-integ
 }}}
  # Save the configuration and run the job.
  
- * Create and configure a new MySQL database
+ * Create and configure a new MySQL database by clicking on the databases icon in the home page of the Cloudbees account. Then click on the add new database link. Fill with the following parameters :
+ {{{
+ database name: cloudbeesXX
+ username: cloudbeesXX
+ password: cloudbeesXX
+ }}}
  * Create a new job for deploying on production environment (MySQL, Elasticity)
- * Monitoring with New Relic
- * Logs with Papertrail
+ * Active Elasticity, monitoring with New Relic and logs with Papertrail:
+ # Click on the applications icon on the home of the Cloudbees account.
+ # Click on the "configure" link under your application.
+ # On the "Redundancy and Scale", choose "Multiple Instances" option.
+ # Tick "Enable New Relic RPM application monitoring" and "Enable Papertrail application logging"
 
 == @PERF ==
 
- * Configure redundancy and scale
+ * Configure redundancy and scale (already done in @OPS part?)
  * Stress test with JMeter
  * Monitoring with New Relic
- * Verify elasticity
+ # Click on the services link.
+ # Click on the "New Relic" icon.
+ * Verify elasticity (to check with Nicolas?)
 
 == @ADMIN ==
 
