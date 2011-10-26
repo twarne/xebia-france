@@ -1,4 +1,5 @@
 #summary Spring-Travel deployment on AWS
+#labels aws,spring-travel
 
 <wiki:toc max_depth="2" />
 
@@ -151,9 +152,3 @@ TODO
  	http://xebia-france.googlecode.com/svn/wiki/aws-img/elb-5.png
  # Choose "Enable Load Balancer Generated Cookie Stickiness" and let the duration field blank
  	http://xebia-france.googlecode.com/svn/wiki/aws-img/elb-6.png
- # Open your browser on the load balancer "A Record"
- 	http://xebia-france.googlecode.com/svn/wiki/aws-img/result.png
-
-= Create a Load Balancer =
-
-URL de test : http://<AMI Public DNS>:8080/xebia-spring-travel-ecommerce-1.0.0/
