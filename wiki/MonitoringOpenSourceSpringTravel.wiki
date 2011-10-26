@@ -98,22 +98,8 @@ runcmd:
  	http://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-connect-instance-2.png
  # SSH connect to the server as "ec2-user"
  	<pre>ssh -i xebia-france.pem ec2-user@ec2-46-137-58-156.eu-west-1.compute.amazonaws.com</pre> 
- 	
- == Install JVM and Tomcat ==
  
- The Amazon AMI are RPM based Linux distribution so we're using YUM to install JVM and Tomcat
-  
- # Connect to an EC2 instance
- 	<pre>ssh -i xebia-france.pem ec2-user@<hostname>.compute.amazonaws.com</pre>
- # Install Java 6
- 	<pre>sudo yum install java-1.6.0-openjdk</pre>
- # Install Tomcat 6. Tomcat will be installed in /usr/share/tomcat6
- 	<pre>sudo yum install tomcat6 tomcat6-admin-webapps tomcat6-webapps</pre>
- # Run tomcat
- 	<pre>sudo /etc/init.d/tomcat6 start</pre>
- # Repeat this steps on the second instance
- 
- == Install Petclinic web app ==
+ == Configure the connection to the data source ==
  # Stop Tomcat
  	<pre>sudo /etc/init.d/tomcat6 stop</pre>
  # Modify catalina.properties to add MySQL support to xebiaspringtravel
@@ -133,7 +119,7 @@ jpa.database=MYSQL
 jpa.hbm2ddlAuto=update
   	}}}
 
-   Note: replace `xebiaspringtravel.cccb4ickfoh9.eu-west-1.rds.amazonaws.com` by your RDS endpoint.
+   Note: replace `xebiaspringtravel.cccb4ickfoh9.eu-west-1.rds.amazonaws.com` with your RDS endpoint.
 
  # Start Tomcat
  	<pre>sudo /etc/init.d/tomcat6 start</pre>
