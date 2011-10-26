@@ -1,0 +1,159 @@
+#summary Spring-Travel deployment on AWS
+
+<wiki:toc max_depth="2" />
+
+= Introduction =
+
+The goal of this artticle is to deploy the xebia-spring-travel application on three AMIs with an Amazon RDS MySQL database and a load balancer.
+
+= Access the AWS Management Console = 
+ 
+Connect to Amazon AWS Management Console with your credentials (sent in the email "Xebia France Amazon EC2 Credentials"). 
+
+The IAM User sign-in URL is : https://xebia-france.signin.aws.amazon.com/console
+ 
+= Create Database instance =
+ 
+ Create an MySQL database using AWS Relational Database Service (RDS)
+ 
+ # Select the RDS tab
+	http://xebia-france.googlecode.com/svn/wiki/aws-img/rds-1.png
+ # Select the region
+	http://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-select-eu-west-region.png
+ # Click on "Launch DB Instance" and select MYSQL
+ 	http://xebia-france.googlecode.com/svn/wiki/aws-img/rds-2.png
+ # Configure the database using the values below:
+ {{{
+ Database Name: xebiaspringtravel
+ DB Instance Identifier: admin
+ Master User Password: admin
+ }}}
+ 	http://xebia-france.googlecode.com/svn/wiki/aws-img/rds-3.png
+ # Configure the instance using the values below:
+ {{{
+ Database Name: xebiaspringtravel
+ }}}
+ 	http://xebia-france.googlecode.com/svn/wiki/aws-img/rds-4.png
+ # Configure the backup
+ 	http://xebia-france.googlecode.com/svn/wiki/aws-img/rds-5.png
+ # Launch DB Instance
+ 	http://xebia-france.googlecode.com/svn/wiki/aws-img/rds-6.png
+ # Note the DB instance hostname (endpoint)
+ 	<img src="http://www.clker.com/cliparts/d/b/d/3/1194998844557242824messagebox_warning.svg.med.png" width="20" /> The database will be available in a few minutes.
+ 	http://xebia-france.googlecode.com/svn/wiki/aws-img/rds-8.png
+ 
+
+= Create Tomcat instances = 
+== Deploy xebia-spring-travel-ecommerce Instances  ==
+
+ # Connect to AWS console 	
+ # On "EC2" tab, select your region (e.g. "EU West (Ireland)")
+ 	http://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-select-eu-west-region.png
+ # On "EC2 Dashboard", click on "Launch new instance" 	
+ # Select your AMI (e.g. "Basic 32-bit Amazon Linux AMI 2011.02.1 Beta")
+ 	http://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-launch-linux-instance-1.png
+ # Select the instance size (e.g. "Micro")
+ 	http://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-launch-linux-instance-2-instance-details.png
+ # Copy and paste the script YAML below into the User Date field:
+{{{
+#cloud-config
+ 
+# Install Java 6 and Tomcat 6
+packages:
+- java-1.6.0-openjdk
+- tomcat6
+- tomcat6-admin-webapps
+- tomcat6-webapps
+ 
+# Deploying spring-travel
+runcmd:
+- [ sh, -xc, "echo $(date) ': cloudinit runcmd begin'" ]
+- [ wget, "http://xebia-france.googlecode.com/svn/repository/maven2/fr/xebia/demo/travel/xebia-spring-travel-ecommerce/1.0.0/xebia-spring-travel-ecommerce-1.0.0.war" ]
+- [ cp, xebia-spring-travel-ecommerce-1.0.0.war, /usr/share/tomcat6/webapps ]
+- [ service, tomcat6, start ]
+- [ sh, -xc, "echo $(date) ': cloudinit runcmd end'" ]
+}}}
+ 	http://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-launch-linux-instance-3-instance-details.png
+ # Type the name of your server (e.g. "xebiaspringtravel-prod-1")
+ 	http://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-launch-linux-instance-4-instance-details.png 	
+ # Select a key-pair that will be used for SSH connection (e.g. "oss-monitoring.pem")
+ 	http://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-launch-linux-instance-5-key-pair.png
+ # Select the "accept-all" security group
+ 	http://xebia-france.googlecode.com/svn/wiki/aws-img/ec2-security-group.png
+ # Review the configuration and click on "Launch"
+ 	http://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-launch-linux-instance-7-review.png
+ # Repeat these steps to create a second instance called xebiaspringtravel-prod-2
+
+
+ == Connect to the Amazon Linux Server  ==
+
+ # Go to AWS EC2 tab
+ # Click on your server
+ # Drop down the "Instance Action" list
+ # Select "Connect"
+ 	http://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-connect-instance.png
+ # Get the oss-monitoring.pem
+ # Change rights on oss-monitoring.pem: chmod 400 xebia-france.pem
+ # Copy paste the command line
+ 	http://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-connect-instance-2.png
+ # SSH connect to the server as "ec2-user"
+ 	<pre>ssh -i xebia-france.pem ec2-user@ec2-46-137-58-156.eu-west-1.compute.amazonaws.com</pre> 
+ 	
+ == Install JVM and Tomcat ==
+ 
+ The Amazon AMI are RPM based Linux distribution so we're using YUM to install JVM and Tomcat
+  
+ # Connect to an EC2 instance
+ 	<pre>ssh -i xebia-france.pem ec2-user@<hostname>.compute.amazonaws.com</pre>
+ # Install Java 6
+ 	<pre>sudo yum install java-1.6.0-openjdk</pre>
+ # Install Tomcat 6. Tomcat will be installed in /usr/share/tomcat6
+ 	<pre>sudo yum install tomcat6 tomcat6-admin-webapps tomcat6-webapps</pre>
+ # Run tomcat
+ 	<pre>sudo /etc/init.d/tomcat6 start</pre>
+ # Repeat this steps on the second instance
+ 
+ == Install Petclinic web app ==
+ # Stop Tomcat
+ 	<pre>sudo /etc/init.d/tomcat6 stop</pre>
+ # Modify catalina.properties to add MySQL support to xebiaspringtravel
+  	<pre>sudo vi /usr/share/tomcat6/conf/catalina.properties</pre>
+  	Add the following lines :
+  	{{{
+# spring-travel properties
+antifraudservice.baseurl=http://46.137.168.248:8080/xebia-spring-travel-antifraud-1.0.0/
+
+jdbc.url=jdbc:mysql://xebiaspringtravel.cccb4ickfoh9.eu-west-1.rds.amazonaws.com:3306/xebiaspringtravel
+jdbc.username=admin
+jdbc.password=admin
+jdbc.driver=com.mysql.jdbc.Driver
+
+jpa.database=MYSQL
+# jpa.hbm2ddlAuto = create-drop | create | update | validate 
+jpa.hbm2ddlAuto=update
+  	}}}
+
+   Note: replace `xebiaspringtravel.cccb4ickfoh9.eu-west-1.rds.amazonaws.com` by your RDS endpoint.
+
+ # Start Tomcat
+ 	<pre>sudo /etc/init.d/tomcat6 start</pre>
+ # Repeat these steps for the xebiaspringtravel-prod-2 instance
+
+= Create a Load Balancer =
+
+ # In the EC2 tab, click on the "Load Balancers" menu under "NETWORK & SECURITY"
+ # Click on "Create Load Balancer"
+ # Remove the default rule and create a new one with 8080 as the "EC2 Instance Port"
+ 	http://xebia-france.googlecode.com/svn/wiki/aws-img/elb-1.png
+ # Let the default options
+ 	http://xebia-france.googlecode.com/svn/wiki/aws-img/elb-2.png
+ # Choose your instances (e. g. xebiaspringtravel-prod-1 and xebiaspringtravel-prod-2)
+ 	http://xebia-france.googlecode.com/svn/wiki/aws-img/elb-3.png
+ # Create the load balancer
+ 	http://xebia-france.googlecode.com/svn/wiki/aws-img/elb-4.png
+ # Select your load balancer in the list and change the stickiness configuration on clicking on the edit button under "Port Configuration".
+ 	http://xebia-france.googlecode.com/svn/wiki/aws-img/elb-5.png
+ # Choose "Enable Load Balancer Generated Cookie Stickiness" and let the duration field blank
+ 	http://xebia-france.googlecode.com/svn/wiki/aws-img/elb-6.png
+ # Open your browser on the load balancer "A Record"
+ 	http://xebia-france.googlecode.com/svn/wiki/aws-img/result.png
