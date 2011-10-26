@@ -26,6 +26,10 @@
 $ chmod -R 700 .ssh
 }}}
  # Get the zip file containing the petclinic application from the wiki and unzip it in your local workspace
+ # Modify the group id in the Maven POM file
+{{{
+<groupId>fr.xebia.techevent.cloudbeesXX</groupId>
+}}}
  # Initialize a new Git local repository by using the command: 
 {{{
 $ cd petclinic #or your existing project directory
