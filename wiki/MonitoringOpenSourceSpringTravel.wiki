@@ -50,7 +50,43 @@ The IAM User sign-in URL is : https://xebia-france.signin.aws.amazon.com/console
 
 == Deploy xebia-spring-travel-antifraud Instance  ==
 
-TODO
+ # Connect to AWS console 	
+ # On "EC2" tab, select your region (e.g. "EU West (Ireland)")
+ 	http://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-select-eu-west-region.png
+ # On "EC2 Dashboard", click on "Launch new instance" 	
+ # Select your AMI (e.g. "Basic 32-bit Amazon Linux AMI 2011.02.1 Beta")
+ 	http://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-launch-linux-instance-1.png
+ # Select the instance size (e.g. "Micro")
+ 	http://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-launch-linux-instance-2-instance-details.png
+ # Copy and paste the script YAML below into the User Date field:
+{{{
+#cloud-config
+ 
+# Install Java 6 and Tomcat 6
+packages:
+- java-1.6.0-openjdk
+- tomcat6
+- tomcat6-admin-webapps
+- tomcat6-webapps
+ 
+# Deploying spring-travel
+runcmd:
+- [ sh, -xc, "echo $(date) ': cloudinit runcmd begin'" ]
+- [ wget, "http://xebia-france.googlecode.com/svn/repository/maven2/fr/xebia/demo/travel/xebia-spring-travel-antifraud/1.0.1/xebia-spring-travel-antifraud-1.0.1.war" ]
+- [ cp, xebia-spring-travel-antifraud-1.0.0.war, /usr/share/tomcat6/webapps ]
+- [ service, tomcat6, start ]
+- [ sh, -xc, "echo $(date) ': cloudinit runcmd end'" ]
+}}}
+ 	http://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-launch-linux-instance-3-instance-details.png
+ # Type the name of your server (e.g. "antifraude-prod")
+ 	http://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-launch-linux-instance-4-instance-details.png 	
+ # Select a key-pair that will be used for SSH connection (e.g. "oss-monitoring.pem")
+ 	http://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-launch-linux-instance-5-key-pair.png
+ # Select the "accept-all" security group
+ 	http://xebia-france.googlecode.com/svn/wiki/aws-img/ec2-security-group.png
+ # Review the configuration and click on "Launch"
+ 	http://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-launch-linux-instance-7-review.png
+
 
 == Deploy xebia-spring-travel-ecommerce Instances  ==
 
@@ -76,13 +112,13 @@ packages:
 # Deploying spring-travel
 runcmd:
 - [ sh, -xc, "echo $(date) ': cloudinit runcmd begin'" ]
-- [ wget, "http://xebia-france.googlecode.com/svn/repository/maven2/fr/xebia/demo/travel/xebia-spring-travel-ecommerce/1.0.0/xebia-spring-travel-ecommerce-1.0.0.war" ]
+- [ wget, "http://xebia-france.googlecode.com/svn/repository/maven2/fr/xebia/demo/travel/xebia-spring-travel-ecommerce/1.0.1/xebia-spring-travel-ecommerce-1.0.1.war" ]
 - [ cp, xebia-spring-travel-ecommerce-1.0.0.war, /usr/share/tomcat6/webapps ]
 - [ service, tomcat6, start ]
 - [ sh, -xc, "echo $(date) ': cloudinit runcmd end'" ]
 }}}
  	http://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-launch-linux-instance-3-instance-details.png
- # Type the name of your server (e.g. "xebiaspringtravel-prod-1")
+ # Type the name of your server (e.g. "ecommerce-prod-1")
  	http://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-launch-linux-instance-4-instance-details.png 	
  # Select a key-pair that will be used for SSH connection (e.g. "oss-monitoring.pem")
  	http://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-launch-linux-instance-5-key-pair.png
@@ -90,23 +126,32 @@ runcmd:
  	http://xebia-france.googlecode.com/svn/wiki/aws-img/ec2-security-group.png
  # Review the configuration and click on "Launch"
  	http://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-launch-linux-instance-7-review.png
- # Repeat these steps to create a second instance called xebiaspringtravel-prod-2
+ # Repeat these steps to create a second instance called ecommerce-prod-2
 
  == Connect to the Amazon Linux Server  ==
 
+ # Get the SSH private key oss-monitoring.pem to connect to the servers
+ {{{
+mkdir ~/.aws/
+curl https://s3-eu-west-1.amazonaws.com/oss-monitoring/oss-monitoring.pem --output ~/.aws/oss-monitoring.pem
+chmod 400 ~/.aws/oss-monitoring.pem
+ }}}
  # Go to AWS EC2 tab
  # Click on your server
  # Drop down the "Instance Action" list
  # Select "Connect"
  	http://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-connect-instance.png
  # Get the oss-monitoring.pem
- # Change rights on oss-monitoring.pem: chmod 400 xebia-france.pem
+ # Change rights on oss-monitoring.pem: chmod 400 oss-monitoring.pem
  # Copy paste the command line
  	http://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-connect-instance-2.png
  # SSH connect to the server as "ec2-user"
  	<pre>ssh -i oss-monitoring.pem ec2-user@ec2-46-137-58-156.eu-west-1.compute.amazonaws.com</pre> 
  
  == Configure the Datasource Connection ==
+
+This section needs to be executed for _ecommerce_ instances
+
  # Stop Tomcat
  	<pre>sudo /etc/init.d/tomcat6 stop</pre>
  # Modify catalina.properties to add MySQL support to xebiaspringtravel
@@ -114,7 +159,7 @@ runcmd:
   	Add the following lines :
   	{{{
 # spring-travel properties
-antifraudservice.baseurl=http://46.137.168.248:8080/xebia-spring-travel-antifraud-1.0.0/
+antifraudservice.baseurl=http://46.137.168.248:8080/xebia-spring-travel-antifraud-1.0.1/
 
 jdbc.url=jdbc:mysql://xebiaspringtravel.cccb4ickfoh9.eu-west-1.rds.amazonaws.com:3306/xebiaspringtravel
 jdbc.username=admin
@@ -130,7 +175,7 @@ jpa.hbm2ddlAuto=update
 
  # Start Tomcat
  	<pre>sudo /etc/init.d/tomcat6 start</pre>
- # Repeat these steps for the xebiaspringtravel-prod-2 instance
+ # Repeat these steps for the ecommerce-prod-2 instance
 
  == Configure JMX ==
 
