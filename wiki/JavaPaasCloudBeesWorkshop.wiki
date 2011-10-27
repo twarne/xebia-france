@@ -146,7 +146,7 @@ Application Id.=atelier-xebia/labXX-prod
 }}}
  * Save the configuration and run the job.
  
- ===Configure production application with Elasticity, monitoring with New Relic and logs with Papertrail
+ ===Configure production application with Elasticity, monitoring with New Relic and logs with Papertrail===
  * Click on the applications icon on the home of the !Cloudbees account.
  * Click on the "configure" link under your application.
  * On the "Redundancy and Scale", choose "Multiple Instances" option.
