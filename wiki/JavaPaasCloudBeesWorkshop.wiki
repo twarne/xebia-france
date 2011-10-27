@@ -57,7 +57,7 @@ $ git push origin master
  * Click on the *Jenkins build* icon.
  * Create a new folder with your group name "labXX" 
  * Create a new item from the left menu with the job name "labXX-ci" and tick "Build a Maven2/3 project"
- http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/add-jenkins-job.png
+ <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/add-jenkins-job.png" height="200" />
  * On the "Code source management" part choose "Git" and fill these parameters:
 {{{
 URL of repository=ssh://git@git.cloudbees.com/atelier-xebia/labXX.git
