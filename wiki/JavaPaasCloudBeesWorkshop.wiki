@@ -50,11 +50,12 @@ $ git commit -m 'Initial checkin'
 $ git push origin master
 }}}
 
- * Create a new job on Jenkins for Continuous integration
+ ===Build your project for Continuous Integration===
 
- # Go back to the Home page in CloudBees and click on Jenkins build
+ # Go back to the Home page in CloudBees and click on *Jenkins Builds*
  # Create a new folder with your group name "labXX" 
- # Create a new Job from the left menu with the job name "labXX-ci" and tick "Build a Maven2/3 project"
+ # Create a new item from the left menu with the job name "labXX-ci" and tick "Build a Maven2/3 project"
+ http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/add-jenkins-job.png
  # On the "Code source management" part choose "Git" and fill these parameters:
 {{{
 URL of repository=ssh://git@git.cloudbees.com/atelier-xebia/labXX.git
@@ -73,7 +74,7 @@ clean package
  # Save the configuration and run the job (it can take some minutes before the build begins).
 
  * Use Artifactory for managing Maven repository (jenkins artifactory plugin is buggy? problem with artifactory host configuration) 
- * Release of a new version of the application by clicking on the "Perform maven release". Let the parameter as pre-filled and click on "Schedule a maven release". As the build, the release can start after a few minutes. (WARING ! Add scm url to petclinic !)
+ * Release of a new version of the application by clicking on the "Perform maven release". Let the parameter as pre-filled and click on "Schedule a maven release". As the build, the release can start after a few minutes. (WARNING ! Add scm url to petclinic pom.xml !)
 
 <br/>
 ----
@@ -81,6 +82,8 @@ clean package
 
 == @TEST ==
 
+ ===Create Integration Tests with Selenium===
+  
  * Create a new Selenium test in your IDE following the instructions [https://saucelabs.com/docs/ondemand/getting-started here]
  * Create a new Selenium test and add it to petclinic
  * Add a new job on Jenkins for executing Selenium tests
