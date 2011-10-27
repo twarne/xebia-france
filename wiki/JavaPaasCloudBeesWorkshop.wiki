@@ -31,7 +31,7 @@
 $ mv $HOME/.ssh $HOME/.ssh.bak
 $ mkdir $HOME/.ssh
 }}}
- # Move your SSH private key to the folder and update the permissions:
+ * Move your SSH private key to the folder and update the permissions:
 {{{
 $ mv id_rsa $HOME/.ssh
 $ chmod -R 700 $HOME/.ssh
@@ -41,7 +41,7 @@ $ chmod -R 700 $HOME/.ssh
 {{{
 <groupId>fr.xebia.techevent.labXX</groupId>
 }}}
- # Initialize a new Git local repository:
+ * Initialize a new Git local repository:
 {{{
 $ cd petclinic # or your existing project directory
 $ git init
