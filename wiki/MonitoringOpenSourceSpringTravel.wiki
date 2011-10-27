@@ -86,6 +86,7 @@ runcmd:
  	http://xebia-france.googlecode.com/svn/wiki/aws-img/ec2-security-group.png
  # Review the configuration and click on "Launch"
  	http://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-launch-linux-instance-7-review.png
+# Repeat these steps to create a pre-prod instance (e.g. antifraud-preprod)
 
 
 == Deploy xebia-spring-travel-ecommerce Instances  ==
@@ -126,7 +127,7 @@ runcmd:
  	http://xebia-france.googlecode.com/svn/wiki/aws-img/ec2-security-group.png
  # Review the configuration and click on "Launch"
  	http://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-launch-linux-instance-7-review.png
- # Repeat these steps to create a second instance called ecommerce-prod-2
+ # Repeat these steps to create a second instance called ecommerce-prod-2 and one pre-prod instance (e.g. ecommerce-preprod)
 
  == Connect to the Amazon Linux Server  ==
 
