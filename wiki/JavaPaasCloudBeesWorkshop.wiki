@@ -8,14 +8,14 @@
 
  * The purpose of this workshop is to use Cloudbees platform. Cloudbees is both a development platform and a production platform.
  * Our goal is to make some changes to the famous petclinic application then deploy it on cloudbees production cluster.
- 
+
 = Workshop requirements =
 
- * Git client
- * Apache Maven
- * SSH Client
- * Keypair ssh
- 
+ * Git client: !GitHub has [http://help.github.com/set-up-git-redirect setup tutorials] for all platforms (just perform the "Download and Install Git" step, we'll set up the SSH key at the beginning of the lab).
+ * [http://maven.apache.org Apache Maven] (version 2.2.1 or above).
+ * SSH client (should already be installed on any *nix platform, will come with Git for Windows).
+ * SSH private key (will be sent by email before the lab).
+
 <br/>
 ----
 <br/>
@@ -26,23 +26,24 @@
 
  ===Configure GIT repository===
 
- # Get your credentials and log in !CloudBees
- # Go to the Account tab
- # Access to your User Settings and paste the SSH public key you have received by e-mail
- http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/add-ssh-public-key.png
- # Backup your own .ssh folder if necessary and copy/past both keys into a new .ssh folder
- # Update permissions by using this command:
+ # Create an SSH folder. If you already have one, the easiest solution is to back it up and restore it after the lab:
 {{{
-$ chmod -R 700 .ssh
+$ mv $HOME/.ssh $HOME/.ssh.bak
+$ mkdir $HOME/.ssh
+}}}
+ # Move your SSH private key to the folder and update the permissions:
+{{{
+$ mv id_rsa $HOME/.ssh
+$ chmod -R 700 $HOME/.ssh
 }}}
  # Get [http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/petclinic-cloudbees.zip the zip] file containing the petclinic application from the wiki and unzip it in your local workspace
- # Modify the group id in the Maven POM file (replace XX by your team number)
+ # Modify the group id in the Maven POM file (replace 'XX' by your team number, e.g. '01')
 {{{
 <groupId>fr.xebia.techevent.labXX</groupId>
 }}}
- # Initialize a new Git local repository by using the command: 
+ # Initialize a new Git local repository:
 {{{
-$ cd petclinic #or your existing project directory
+$ cd petclinic # or your existing project directory
 $ git init
 $ git remote add origin ssh://git@git.cloudbees.com/atelier-xebia/labXX.git
 $ git add -A  # if you want to check everything in
@@ -52,7 +53,8 @@ $ git push origin master
 
  ===Build your project for Continuous Integration===
 
- # Go back to the Home page in CloudBees and click on *Jenkins Builds*
+ # Log in to !CloudBees (_your credentials will be provided at the beginning of the lab_).
+ # Click on the *Jenkins build* icon.
  # Create a new folder with your group name "labXX" 
  # Create a new item from the left menu with the job name "labXX-ci" and tick "Build a Maven2/3 project"
  http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/add-jenkins-job.png
