@@ -59,7 +59,6 @@ Branch Specifier (blank for default)=** # For avoiding issue
 clean package
 }}}
  # On the "Build Environment" part, tick "Maven release build" option. The parameters are correctly pre-filled, let them as default.
-
  # On the "Post build action" part tick "Deploy artifacts to my Private CloudBees Repository" option and verify that SNAPSHOT repository is correctly selected. Also tick sonar option to active sonar analyze of your project.
  # Save the configuration and run the job (it can take some minutes before the build begins).
 
