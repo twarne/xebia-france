@@ -84,6 +84,16 @@ clean package
 
 == @TEST ==
 
+ ===Run a selenium test from your IDE===
+ * Open your IDE 
+ * Create a new Java project
+ * Download http://selenium.googlecode.com/files/selenium-java-2.9.0.zip
+ * Add selenium-java-x.x.x.jar and everything in lib/ from your extracted zip to your project's classpath/build path
+ * Copy code from this gist https://gist.github.com/1299474
+ * Replace the URL line 34 with your own ID
+ * Save and run the unit test
+ * The test should now appear in your http://saucelabs.com/jobs	
+
  ===Run petclinic application on Integration platform===
  * Go back to the Home page in !CloudBees and click on *Applications*
  * Create and configure a new application on *RUN@cloud* called "xebia-atelier/labXX-integ"
