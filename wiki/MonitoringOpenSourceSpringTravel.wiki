@@ -5,7 +5,7 @@
 
 = Introduction =
 
-The goal of this artticle is to deploy the xebia-spring-travel application on three AMIs with an Amazon RDS MySQL database and a load balancer.
+The goal of this artticle is to deploy xebia-spring-travel application Amazon environment.
 
 *Observation:* images below may not be synchronized with the steps. In this case follow the step, not the image.
 
