@@ -73,7 +73,7 @@ packages:
 runcmd:
 - [ sh, -xc, "echo $(date) ': cloudinit runcmd begin'" ]
 - [ wget, "http://xebia-france.googlecode.com/svn/repository/maven2/fr/xebia/demo/travel/xebia-spring-travel-antifraud/1.0.1/xebia-spring-travel-antifraud-1.0.1.war" ]
-- [ cp, xebia-spring-travel-antifraud-1.0.0.war, /usr/share/tomcat6/webapps ]
+- [ cp, xebia-spring-travel-antifraud-1.0.1.war, /usr/share/tomcat6/webapps ]
 - [ service, tomcat6, start ]
 - [ sh, -xc, "echo $(date) ': cloudinit runcmd end'" ]
 }}}
@@ -113,7 +113,7 @@ packages:
 runcmd:
 - [ sh, -xc, "echo $(date) ': cloudinit runcmd begin'" ]
 - [ wget, "http://xebia-france.googlecode.com/svn/repository/maven2/fr/xebia/demo/travel/xebia-spring-travel-ecommerce/1.0.1/xebia-spring-travel-ecommerce-1.0.1.war" ]
-- [ cp, xebia-spring-travel-ecommerce-1.0.0.war, /usr/share/tomcat6/webapps ]
+- [ cp, xebia-spring-travel-ecommerce-1.0.1.war, /usr/share/tomcat6/webapps ]
 - [ service, tomcat6, start ]
 - [ sh, -xc, "echo $(date) ': cloudinit runcmd end'" ]
 }}}
