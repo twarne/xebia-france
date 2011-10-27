@@ -2,8 +2,9 @@
 
 = Labs =
 
- * Generated Lab subject JavaPaasCloudBeesWorkshop
- * Workshop setup and architecture : JavaPaasCloudBeesWorkshopSetup
+ * The purpose of this workshop is to use Cloudbees platform. Cloudbees is both a development platform and a production platform.
+ * Our goal is to make some changes to the famous petclinic application then deploy it on cloudbees production cluster.
+ 
 
 = Workshop requirements =
 
@@ -17,15 +18,16 @@
 
  * Configure GIT repository
 
- # Get your credentials and log in CloudBees
+ # Get your credentials and log in !CloudBees
  # Go to the Account tab
  # Access to your User Settings and paste the SSH public key you have received by e-mail
+ http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/add-ssh-public-key.png
  # Backup your own .ssh folder if necessary and copy/past both keys into a new .ssh folder
  # Update permissions by using this command:
 {{{
 $ chmod -R 700 .ssh
 }}}
- # Get the zip file containing the petclinic application from the wiki and unzip it in your local workspace
+ # //TODO Get the zip file containing the petclinic application from the wiki and unzip it in your local workspace
  # Modify the group id in the Maven POM file
 {{{
 <groupId>fr.xebia.techevent.cloudbeesXX</groupId>
