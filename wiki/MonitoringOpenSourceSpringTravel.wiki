@@ -198,3 +198,7 @@ TODO
  	http://xebia-france.googlecode.com/svn/wiki/aws-img/elb-5.png
  # Choose "Enable Load Balancer Generated Cookie Stickiness" and let the duration field blank
  	http://xebia-france.googlecode.com/svn/wiki/aws-img/elb-6.png
+
+= Set up Elastic IPs =
+
+TODO
