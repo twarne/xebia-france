@@ -201,4 +201,15 @@ TODO
 
 = Set up Elastic IPs =
 
-TODO
+ # On the Navigation bar click on NETWORK & SECURITY > Elastic IPs
+ 	http://xebia-france.googlecode.com/svn/wiki/oss-monitoring/AWS%20Navigation.png
+ # Using the button Associate Address associate existing IPs to the instances. Follow the table below
+|| *Travel prod HTTP* ||   || ||
+|| *Travel pre-prod HTTP* ||   || ||
+|| *Travel prod frontal 1* || 46.137.97.78 || prod1.travel.xebia-tech-event.info ||
+|| *Travel prod frontal 2* || 46.137.98.212 || prod2.travel.xebia-tech-event.info ||
+|| *Travel prod antifraude* || 46.137.168.248 || || 
+|| *Travel pre-prod frontal 1* ||  46.137.98.234 || test.travel.xebia-tech-event.info ||
+|| *Travel pre-prod frontal 2* || PAS DE 2eme... Pas assez d'IP fixe (5 max)  ||
+|| *Travel pre-prod antifraude* || 46.137.99.111  || ||
+ 	http://xebia-france.googlecode.com/svn/wiki/oss-monitoring/AWS%20Elastic%20IPs.png
