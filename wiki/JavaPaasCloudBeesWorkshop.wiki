@@ -24,7 +24,7 @@
 
 == @DEV ==
 
- *<font size="5">Configure GIT repository</font>*
+ ===Configure GIT repository===
 
  # Get your credentials and log in !CloudBees
  # Go to the Account tab
