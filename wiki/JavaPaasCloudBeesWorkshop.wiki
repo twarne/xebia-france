@@ -1,6 +1,12 @@
 #summary Discover Java PaaS Cloud with CloudBees
 
-= Labs =
+<wiki:toc max_depth="2" />
+
+<br/>
+----
+<br/>
+
+= Goal of the lab =
 
  * The purpose of this workshop is to use Cloudbees platform. Cloudbees is both a development platform and a production platform.
  * Our goal is to make some changes to the famous petclinic application then deploy it on cloudbees production cluster.
@@ -11,6 +17,11 @@
  * Git client
  * Apache Maven
  * SSH Client
+
+
+<br/>
+----
+<br/>
 
 = Workshop Steps =
 
@@ -27,7 +38,7 @@
 {{{
 $ chmod -R 700 .ssh
 }}}
- # //TODO Get the zip file containing the petclinic application from the wiki and unzip it in your local workspace
+ # Get [http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/petclinic-cloudbees.zip the zip] file containing the petclinic application from the wiki and unzip it in your local workspace
  # Modify the group id in the Maven POM file
 {{{
 <groupId>fr.xebia.techevent.cloudbeesXX</groupId>
