@@ -58,22 +58,22 @@ $ git push origin master
  * Create a new folder with your group name "labXX" 
  * Create a new item from the left menu with the job name "labXX-ci" and tick "Build a Maven2/3 project"
  <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/add-jenkins-job.png" height="400" />
- * On the "Code source management" part choose "Git" and fill these parameters:
+ ** On the "Code source management" part choose "Git" and fill these parameters:
 {{{
 URL of repository=ssh://git@git.cloudbees.com/atelier-xebia/labXX.git
 Branch Specifier (blank for default)=** # For avoiding issue
 }}}
- * On the "Build triggers" part tick "poll SCM" by filling the CRON expression
+ ** On the "Build triggers" part tick "poll SCM" by filling the CRON expression
 {{{
 * * * * * # every minute
 }}}
- * On the "Build" part indicate the Maven goal
+ ** On the "Build" part indicate the Maven goal
 {{{
 clean package
 }}}
- * On the "Build Environment" part, tick "Maven release build" option. The parameters are correctly pre-filled, let them as default.
- * On the "Post build action" part tick "Deploy artifacts to my Private !CloudBees Repository" option and verify that SNAPSHOT repository is correctly selected. Also tick sonar option to active sonar analyze of your project.
- * Save the configuration and run the job (it can take some minutes before the build begins).
+ ** On the "Build Environment" part, tick "Maven release build" option. The parameters are correctly pre-filled, let them as default.
+ ** On the "Post build action" part tick "Deploy artifacts to my Private !CloudBees Repository" option and verify that SNAPSHOT repository is correctly selected. Also tick sonar option to active sonar analyze of your project.
+ ** Save the configuration and run the job (it can take some minutes before the build begins).
 
  * Use Artifactory for managing Maven repository (jenkins artifactory plugin is buggy? problem with artifactory host configuration) 
  * Release of a new version of the application by clicking on the "Perform maven release". Let the parameter as pre-filled and click on "Schedule a maven release". As the build, the release can start after a few minutes. (WARNING ! Add scm url to petclinic pom.xml !)
@@ -97,26 +97,28 @@ clean package
 <br/>
 
 == @OPS ==
- ===Run petclinic application===
+ ===Run petclinic application on Integration platform===
  
- # Go back to the Home page in CloudBees and click on *Applications*
- * Create and configure a new application on RUN@cloud
+ * Go back to the Home page in CloudBees and click on *Applications*
+ * Create and configure a new application on *RUN@cloud*
+ <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/create-app-integ.png" height="300" />
+ 
  * Create a new job for deploying on integration environment (HSQLDB)
- # Create a new Job from the left menu with the job name "labXX-integ" and tick "Build a Maven2/3 project"
- # On the "Code source management" part choose "Git" and fill these parameters:
+ ** Create a new Job from the left menu with the job name "labXX-integ" and tick "Build a Maven2/3 project"
+ ** On the "Code source management" part choose "Git" and fill these parameters:
 {{{
 URL of repository=ssh://git@git.cloudbees.com/atelier-xebia/labXX.git
 Branch Specifier (blank for default)=** # For avoiding issue
 }}}
- # On the "Build" part indicate the Maven goal
+ ** On the "Build" part indicate the Maven goal
 {{{
 clean package
 }}}
- # On the "Post build action" part tick "Deploy to CloudBees" option and fill parameters:
+ ** On the "Post build action" part tick "Deploy to CloudBees" option and fill parameters:
 {{{
 Application Id.=atelier-xebia/cloudbees00-integ
 }}}
- # Save the configuration and run the job.
+ ** Save the configuration and run the job.
  
  * Create and configure a new MySQL database by clicking on the databases icon in the home page of the Cloudbees account. Then click on the add new database link. Fill with the following parameters :
  {{{
@@ -126,10 +128,10 @@ Application Id.=atelier-xebia/cloudbees00-integ
  }}}
  * Create a new job for deploying on production environment (MySQL, Elasticity)
  * Active Elasticity, monitoring with New Relic and logs with Papertrail:
- # Click on the applications icon on the home of the Cloudbees account.
- # Click on the "configure" link under your application.
- # On the "Redundancy and Scale", choose "Multiple Instances" option.
- # Tick "Enable New Relic RPM application monitoring" and "Enable Papertrail application logging"
+ ** Click on the applications icon on the home of the Cloudbees account.
+ ** Click on the "configure" link under your application.
+ ** On the "Redundancy and Scale", choose "Multiple Instances" option.
+ ** Tick "Enable New Relic RPM application monitoring" and "Enable Papertrail application logging"
 
 <br/>
 ----
@@ -140,8 +142,8 @@ Application Id.=atelier-xebia/cloudbees00-integ
  * Configure redundancy and scale (already done in @OPS part?)
  * Stress test with JMeter
  * Monitoring with New Relic
- # Click on the services link.
- # Click on the "New Relic" icon.
+ ** Click on the services link.
+ ** Click on the "New Relic" icon.
  * Verify elasticity (to check with Nicolas?)
 
 <br/>
@@ -151,9 +153,9 @@ Application Id.=atelier-xebia/cloudbees00-integ
 == @ADMIN ==
 
  * Manage user, group
- # Go to the Account tab
- # Access to your User Settings and paste the SSH public key you have received by e-mail
- http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/add-ssh-public-key.png
+ ** Go to the Account tab
+ ** Access to your User Settings and paste the SSH public key you have received by e-mail
+ <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/add-ssh-public-key.png" height="400" />
  
  * Using of CloudBees SDK
  * Configure SSH Key
