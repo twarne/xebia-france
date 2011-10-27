@@ -112,7 +112,7 @@ clean package
 }}}
  * On the "Post build action" part tick *"Deploy to !CloudBees"* option and fill parameters:
 {{{
-Application Id.=atelier-xebia/labXX-integ
+Application Id=atelier-xebia/labXX-integ
 }}}
  * Save the configuration and run the job.
  
@@ -130,7 +130,6 @@ Application Id.=atelier-xebia/labXX-integ
 == @OPS ==
  ===Run production application===
  * Go back to the Home page in !CloudBees and click on *Applications*
- * Create and configure a new application on *RUN@cloud* called "atelier-xebia/labXX-prod"
  * Create and configure a new MySQL database by clicking on the databases icon in the home page of the Cloudbees account. Then click on the add new database link. Fill with the following parameters :
  {{{
  database name: labXX
@@ -150,9 +149,9 @@ Branch Specifier (blank for default)=** # For avoiding issue
 {{{
 clean package
 }}}
- * On the "Post build action" part tick *"Deploy to !CloudBees"* option and fill parameters:
+ * On the "Post build action" part tick *"Deploy to !CloudBees"* option and fill parameters. If the application Id doesn't exist, it will be created.
 {{{
-Application Id.=atelier-xebia/labXX-prod
+Application Id=atelier-xebia/labXX-prod
 }}}
  * Save the configuration and run the job.
  
