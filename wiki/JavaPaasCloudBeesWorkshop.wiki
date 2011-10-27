@@ -72,7 +72,7 @@ Branch Specifier (blank for default)=** # For avoiding issue
 clean package
 }}}
  # On the "Build Environment" part, tick "Maven release build" option. The parameters are correctly pre-filled, let them as default.
- # On the "Post build action" part tick "Deploy artifacts to my Private CloudBees Repository" option and verify that SNAPSHOT repository is correctly selected. Also tick sonar option to active sonar analyze of your project.
+ # On the "Post build action" part tick "Deploy artifacts to my Private !CloudBees Repository" option and verify that SNAPSHOT repository is correctly selected. Also tick sonar option to active sonar analyze of your project.
  # Save the configuration and run the job (it can take some minutes before the build begins).
 
  * Use Artifactory for managing Maven repository (jenkins artifactory plugin is buggy? problem with artifactory host configuration) 
@@ -97,8 +97,10 @@ clean package
 <br/>
 
 == @OPS ==
-
- * Create and configure a new application on RUN@Cloud
+ ===Run petclinic application===
+ 
+ # Go back to the Home page in CloudBees and click on *Applications*
+ * Create and configure a new application on RUN@cloud
  * Create a new job for deploying on integration environment (HSQLDB)
  # Create a new Job from the left menu with the job name "labXX-integ" and tick "Build a Maven2/3 project"
  # On the "Code source management" part choose "Git" and fill these parameters:
@@ -149,6 +151,10 @@ Application Id.=atelier-xebia/cloudbees00-integ
 == @ADMIN ==
 
  * Manage user, group
+ # Go to the Account tab
+ # Access to your User Settings and paste the SSH public key you have received by e-mail
+ http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/add-ssh-public-key.png
+ 
  * Using of CloudBees SDK
  * Configure SSH Key
 
