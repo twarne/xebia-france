@@ -114,6 +114,8 @@ clean package
 {{{
 Application Id=atelier-xebia/labXX-integ
 }}}
+ <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/configure-deploy-jenkins-job.png" height="300" />
+
  * Save the configuration and run the job.
  
  ===Create Integration Tests with Selenium===
