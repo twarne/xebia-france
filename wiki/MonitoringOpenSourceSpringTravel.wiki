@@ -86,7 +86,7 @@ runcmd:
  	http://xebia-france.googlecode.com/svn/wiki/aws-img/ec2-security-group.png
  # Review the configuration and click on "Launch"
  	http://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-launch-linux-instance-7-review.png
-# Repeat these steps to create a pre-prod instance (e.g. antifraud-preprod)
+ # Repeat these steps to create a pre-prod instance (e.g. antifraud-preprod)
 
 
 == Deploy xebia-spring-travel-ecommerce Instances  ==
@@ -171,9 +171,7 @@ jpa.database=MYSQL
 # jpa.hbm2ddlAuto = create-drop | create | update | validate 
 jpa.hbm2ddlAuto=update
   	}}}
-
    Note: replace `xebiaspringtravel.cccb4ickfoh9.eu-west-1.rds.amazonaws.com` with your RDS endpoint.
-
  # Start Tomcat
  	<pre>sudo /etc/init.d/tomcat6 start</pre>
  # Repeat these steps for the ecommerce-prod-2 instance
