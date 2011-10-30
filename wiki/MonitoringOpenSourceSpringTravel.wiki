@@ -114,7 +114,13 @@ packages:
 runcmd:
 - [ sh, -xc, "echo $(date) ': cloudinit runcmd begin'" ]
 - [ wget, "http://xebia-france.googlecode.com/svn/repository/maven2/fr/xebia/demo/travel/xebia-spring-travel-ecommerce/1.0.1/xebia-spring-travel-ecommerce-1.0.1.war" ]
-- [ cp, xebia-spring-travel-ecommerce-1.0.1.war, /usr/share/tomcat6/webapps ]
+- [ mv, xebia-spring-travel-ecommerce-1.0.1.war, /usr/share/tomcat6/webapps ]
+- [ wget, "http://archive.apache.org/dist/tomcat/tomcat-6/v6.0.29/bin/extras/catalina-jmx-remote.jar" ]
+- [ mv, catalina-jmx-remote.jar, /usr/share/tomcat6/lib ]
+- [ wget, "http://code.google.com/p/xebia-france/source/browse/training/xebia-spring-travel/trunk/xebia-spring-travel-ecommerce/src/main/tomcat/conf/server.xml" ]
+- [ mv, server.xml, /usr/share/tomcat6/conf ]
+- [ wget, "http://code.google.com/p/xebia-france/source/browse/training/xebia-spring-travel/trunk/xebia-spring-travel-ecommerce/src/main/tomcat/conf/tomcat6.conf" ]
+- [ mv, tomcat6.conf, /usr/share/tomcat6/conf ]
 - [ service, tomcat6, start ]
 - [ sh, -xc, "echo $(date) ': cloudinit runcmd end'" ]
 }}}
