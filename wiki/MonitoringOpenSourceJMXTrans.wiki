@@ -12,7 +12,7 @@ It does this with a very efficient engine design that will scale to communicatin
 Your JMXtrans instance use RPM packaging.
 Configuration file are in  : 
 
-  # /var/lib/jmxtrans/*.json 
+  # /var/lib/jmxtrans/ 
 
 for queries configuration
 
