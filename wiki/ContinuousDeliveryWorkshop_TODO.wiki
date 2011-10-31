@@ -6,5 +6,5 @@
 || Lab || Prepare an opening speech: aim of the workshop, link to hot subjects such as continuous delivery, description of the main steps || Julia Mateo || <font color="green">done</font> || ||
 || Preparation || Write an email with the workshop URLs || || to do || || ||
 || Preparation/Infra || Split the generated wiki pages per exercise  || || <font color="green">done</font> || || ||
-|| Infra || (Lower priority) Refactor code in charge to launch the infra (irk...) || Nicolas Demengel || in progress || ||
+|| Infra || (Lower priority) Refactor code in charge of launching the infra (irk...) || Nicolas Demengel || in progress || ||
 || Preparation || Write an email to the participants specifying what to install on their environment (especially explain how to use a key with SSH under Windows) || Charles Blonde || <font color="green">done</font> || ||
