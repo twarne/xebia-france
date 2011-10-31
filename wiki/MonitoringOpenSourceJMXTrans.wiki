@@ -10,18 +10,13 @@ It does this with a very efficient engine design that will scale to communicatin
 == Installation ==
 
 Your JMXtrans instance use RPM packaging.
-Configuration file are in  : 
+Configuration files are in  : 
 
-  # /var/lib/jmxtrans/ 
+  # /var/lib/jmxtrans/ :for queries configuration
+  # /etc/sysconfig/jmxtrans: for JMXtrans configuration instance
+  # /etc/init.d/jmxtrans [start|stop] :You can start or stop instance
 
-for queries configuration
-
-  # /etc/sysconfig/jmxtrans
-
-for JMXtrans configuration instance
-
-You can start or stop instance with 
-/etc/init.d/jmxtrans [start|stop]
+The file /etc/sysconfig/jmxtrans:
 
 {{{
 # configuration file for package jmxtrans
@@ -36,6 +31,8 @@ export NEW_RATIO=8
 }}}
 
 == Configuration ==
+
+For adding JMX configurations (servers, objects and attributes) and output writer, JMXTrans uses json files in /var/lib/jmxtrans/. Examples of json configuration files. The first one writes JMX metrics to a fle, the second one to Graphite:
 
 === Query a mBean and send to file ===
 {{{
@@ -61,7 +58,7 @@ export NEW_RATIO=8
 }
 }}}
 
-=== Query a mBean and send to graphite ===
+=== Query a mBean and send to Graphite ===
 {{{
 {
   "servers" : [ {
@@ -89,7 +86,7 @@ Edit SECONDS_BETWEEN_RUNS attribute on /etc/sysconfig/jmxtrans
 = Lab = 
 
   * Create a new JMXTrans config file for prod1 server
-  * Create a query for all attribute of CreditCardService  
+  * Create a query for all attributes of CreditCardService  
   * Output result on a file (KeyOutWriter) 
   * Create a query for GC monitoring
   * Create a query for Memory monitoring
