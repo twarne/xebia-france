@@ -14,7 +14,7 @@ ec2-run-instances --instance-count <NUMBER OF INSTANCES> -t t1.micro --key garna
 
 }}}
 
- === retrieve the url ===
+ === retrieve the connection commands ===
 
 Retrieve the commands for a connection on each instances:
 
