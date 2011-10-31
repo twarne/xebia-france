@@ -1,4 +1,3 @@
-
 = aws-tool =
 
  === start _n_ instances ===
@@ -17,7 +16,7 @@ Retrieve the commands for a connection on each instances:
 
 {{{
 
-ec2-describe-instances --filter image-id="ami-e51d2091" --filter instance-state-name="running" | grep INSTANCE | sed "s/^.*\(ec2-.*amazonaws.com\).*/ssh -i <PEM FILE> <USER>@\1/" 
+ec2-describe-instances --filter image-id="ami-e51d2091" --filter instance-state-name="running" | grep INSTANCE | sed "s/^.*\(ec2-.*amazonaws.com\).*/ssh -i <PEM FILE> root@\1/" 
 
 }}}
 
