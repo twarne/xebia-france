@@ -201,6 +201,12 @@ Edit the file /usr/share/tomcat6/conf/server.xml and add the lines below under t
   <Listener className="org.apache.catalina.mbeans.JmxRemoteLifecycleListener" rmiRegistryPortPlatform="10001" rmiServerPortPlatform="10002"/>
 }}}
 
+Finally, restart tomcat.
+
+{{{
+sudo /etc/init.d/tomcat6 restart
+}}}
+
 = Create a Load Balancer =
 
  # In the EC2 tab, click on the "Load Balancers" menu under "NETWORK & SECURITY"
