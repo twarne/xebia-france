@@ -65,5 +65,6 @@ Graphite offers to deploying the webapp into Django, a python webserver. In this
   * Start Carbon
   * Start httpd
   * Verify graphite and Carbon is up
-  * Stop JMXTrans and configure it for sending data to Graphite
-  * Connect to Graphite dashboard and verify all metrics are presents
+  * Add json file for connecting JMXTrans to Graphite
+  * Start Graphite
+  * Connect to Graphite dashboard (http://your_url:80) and verify all metrics are presents
