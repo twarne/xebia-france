@@ -1,10 +1,10 @@
 || *Topic* || *Task* || *Person in charge* || *Status* || *Comments* ||
 || Infra || Host Maven and Tomcat binaries on Amazon || Charles Blonde || <font color="green">done</font> || ||
-|| Infra || Check that launching/stopping/restarting VMs does not break anything || Charles Blonde || in progress || ||
+|| Infra || Check that launching/stopping/restarting VMs does not break anything || Charles Blonde || <font color="green">done</font> || ||
 || Infra || Improve logging in cloud-init logs (use {{{set -x}}}) || || to do || ||
 || Sample App || Create a "light" Petclinic: keep welcome.jsp, a class and a test || Nicolas Demengel || <font color="green">done</font> || App is now 98KB. ||
-|| Lab || Prepare an opening speech: aim of the workshop, link to hot subjects such as continuous delivery, description of the main steps || Julia Mateo || to do || ||
+|| Lab || Prepare an opening speech: aim of the workshop, link to hot subjects such as continuous delivery, description of the main steps || Julia Mateo || <font color="green">done</font> || ||
 || Preparation || Write an email with the workshop URLs || || to do || || ||
-|| Preparation/Infra || Split the generated wiki pages per exercise  || || to do || || ||
-|| Infra || (Lower priority) Refactor code in charge to launch the infra (irk...) || Nicolas Demengel || to do || ||
+|| Preparation/Infra || Split the generated wiki pages per exercise  || || <font color="green">done</font> || || ||
+|| Infra || (Lower priority) Refactor code in charge to launch the infra (irk...) || Nicolas Demengel || in progress || ||
 || Preparation || Write an email to the participants specifying what to install on their environment (especially explain how to use a key with SSH under Windows) || Charles Blonde || <font color="green">done</font> || ||
