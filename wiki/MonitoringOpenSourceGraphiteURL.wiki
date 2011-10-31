@@ -2,6 +2,24 @@
 
 [http://readthedocs.org/docs/graphite/en/latest/url-api.html The reference documentation]
 
+Graphite allows using an http API for configuring the graph display. This URL is :
+
+{{{
+http://GRAPHITE_HOST:GRAPHITE_PORT/render?target=...&name=value&...
+}}}
+
+*NOTE* In this lab, the GRAPHITE_HOST will be the public address of your amazon image and GRAPHITE_PORT will be 80.
+
+The *target* attribute defines the url of your(s) JMX server(s). You can define several server by adding a wildcard (an asterisk):
+
+{{{
+&target=company.server*.applicationInstance*.requestsHandled
+}}}
+
+You can wrap each target by one or more functions, like _derivatives, averages... All functions are defined [http://readthedocs.org/docs/graphite/en/latest/functions.html here].
+
+A lot of other parameters exist for customizing the graph as the background color, the start date...
+
 
 = Tips =
 
