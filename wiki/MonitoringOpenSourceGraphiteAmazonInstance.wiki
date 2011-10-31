@@ -1,5 +1,3 @@
-#Comment
-Run Amazon instances for Monitoring workshop
 
 = aws-tool =
 
