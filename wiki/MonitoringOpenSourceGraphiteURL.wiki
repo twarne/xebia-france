@@ -55,7 +55,7 @@ Ex: With sample frequency at 5 seconds
 
 &target=alias(non_human_readable_metric_name,My readable name) 
 
-== Fix color list
+== Fix color list ==
 
 &colorList=green,yellow,orange,red,purple, 
 
