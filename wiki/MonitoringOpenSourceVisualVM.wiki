@@ -8,7 +8,7 @@ Install VisualVM-MBeans plugins. Open the plugin manager in Tools menu bar.
 
 === JMX Remote connection ===
 
-Jmx use 2 port for remote connection. One for JNDI and one for JMX.
+JMX uses 2 ports for remote connection. One for JNDI and one for JMX.
 JNDI is fixed (1099 by default), JMX is dynamic. 
 
   * Simple URL by JNDI and RMI (Sun standard)
@@ -21,7 +21,7 @@ Ex: travel-prod-1.xebia-tech-event.info:1099
 
 {{{service:jmx:<protocol>://[host[:port]][url-path]}}}
 
-Example Simple : 
+Simple example : 
 
 {{{service:jmx:rmi:///jndi/rmi://travel-prod-1.xebia-tech-event.info:1099/jmxrmi}}}
 
