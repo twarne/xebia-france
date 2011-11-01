@@ -47,6 +47,8 @@ runcmd:
 - [ sh, -xc, "echo 'export JMETER_HOME=/usr/local/jakarta-jmeter-2.5.1' >> /etc/profile.d/jmeter.sh" ]
 - [ sh, -xc, "echo 'export PATH=$PATH:$JMETER_HOME/bin' >> /etc/profile.d/jmeter.sh" ]
 - [ chmod, 755, /etc/profile.d/jmeter.sh ]
+- [ wget, "http://xebia-france.googlecode.com/svn/repository/maven2/fr/xebia/demo/travel/xebia-spring-travel-ecommerce/1.0.1/jmeter.zip" ]
+- [ unzip, jmeter.zip ]
 - [ sh, -xc, "echo $(date) ': cloudinit runcmd end'" ]
 }}}
  	http://xebia-france.googlecode.com/svn/wiki/aws-img/aws-ec2-launch-linux-instance-3-instance-details.png
