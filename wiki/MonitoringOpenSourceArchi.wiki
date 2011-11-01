@@ -17,7 +17,7 @@
 
 || *SSH Private Key* ||   ||
 || *Monitoring server IP* ||   ||
-|| *Monitoring SSH command* ||   ||
+|| *Monitoring SSH command* ||  ssh -i graphite-workshop.pem root@ec2-46-137-67-245.eu-west-1.compute.amazonaws.com  ||
 || *Nagios IP* ||   ||
 || *Nagios SSH command* ||   ||
 
