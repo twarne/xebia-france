@@ -45,7 +45,7 @@ You can get `ObjectName` and attribute in metadata tab.
   * Add JMX Connection on port 1099
   * Locate `ObjectName` and attribute name : 
     # `CreditCardService` and all exposed metrics
-    # Java Memory Pool (Eden, Tenenured and Survivor Space) usage
+    # Java Memory Pool (Eden, Tenured and Survivor Space) usage
     # `GarbageCollector`  (Copy and `MarkSweepCompact`) collection count and time
     # CPU usage on `OperatingSystem` MBean
   * Graph `TimeoutExceptionCount` for `CreditCardService`
