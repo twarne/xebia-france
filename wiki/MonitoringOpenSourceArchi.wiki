@@ -1,5 +1,7 @@
 = Open source java monitoring =
 
+[http://xebia-france.googlecode.com/svn/wiki/oss-monitoring/Archi-OSS-monitoring.png]
+
 = Your Architecture = 
 
 === Shared env ===
