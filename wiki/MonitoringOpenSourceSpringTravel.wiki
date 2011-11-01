@@ -74,6 +74,12 @@ runcmd:
 - [ sh, -xc, "echo $(date) ': cloudinit runcmd begin'" ]
 - [ wget, "http://xebia-france.googlecode.com/svn/repository/maven2/fr/xebia/demo/travel/xebia-spring-travel-antifraud/1.0.1/xebia-spring-travel-antifraud-1.0.1.war" ]
 - [ cp, xebia-spring-travel-antifraud-1.0.1.war, /usr/share/tomcat6/webapps ]
+- [ wget, "http://archive.apache.org/dist/tomcat/tomcat-6/v6.0.29/bin/extras/catalina-jmx-remote.jar" ]
+- [ mv, catalina-jmx-remote.jar, /usr/share/tomcat6/lib ]
+- [ wget, "http://xebia-france.googlecode.com/svn/repository/maven2/fr/xebia/demo/travel/xebia-spring-travel-ecommerce/1.0.1/tomcat6-conf.zip" ]
+- [ unzip, tomcat6-conf.zip ]
+- [ mv, server.xml, /usr/share/tomcat6/conf ]
+- [ mv, tomcat6.conf, /usr/share/tomcat6/conf ]
 - [ service, tomcat6, start ]
 - [ sh, -xc, "echo $(date) ': cloudinit runcmd end'" ]
 }}}
@@ -181,35 +187,6 @@ jpa.hbm2ddlAuto=update
  # Start Tomcat
  	<pre>sudo /etc/init.d/tomcat6 start</pre>
  # Repeat these steps for the ecommerce-prod-2 instance
-
- == Configure JMX ==
-
-To be done for all tomcat instances.
-
-Edit the file /usr/share/tomcat6/conf/tomcat6.conf ading the following lines at the end.
-
-{{{
-# Conf OSS spring-travel
-PUBLIC_IP_ADDRESS=`curl http://169.254.169.254/latest/meta-data/public-ipv4`
-
-CATALINA_OPTS_JMX="-Djava.rmi.server.hostname=$PUBLIC_IP_ADDRESS -Dcom.sun.management.jmxremote.ssl=false  -Dcom.sun.management.jmxremote.authenticate=false"
-
-CATALINA_OPTS_JVM=" -server -XX:MaxPermSize=128m -Xmx350m -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=$CATALINA_BASE/logs/ -Djava.awt.headless=true"
-
-CATALINA_OPTS=" -server $CATALINA_OPTS $CATALINA_OPTS_JMX $CATALINA_OPTS_JVM"
-}}}
-
-Edit the file /usr/share/tomcat6/conf/server.xml and add the lines below under the _Server_ tag.
-
-{{{
-  <Listener className="org.apache.catalina.mbeans.JmxRemoteLifecycleListener" rmiRegistryPortPlatform="10001" rmiServerPortPlatform="10002"/>
-}}}
-
-Finally, restart tomcat.
-
-{{{
-sudo /etc/init.d/tomcat6 restart
-}}}
 
 = Create a Load Balancer =
 
