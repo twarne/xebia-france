@@ -64,7 +64,7 @@ The IAM User sign-in URL is : https://xebia-france.signin.aws.amazon.com/console
  
 # Install Java 6 and Tomcat 6
 packages:
-- java-1.6.0-openjdk
+- java-1.6.0-openjdk-devel
 - tomcat6
 - tomcat6-admin-webapps
 - tomcat6-webapps
@@ -111,7 +111,7 @@ runcmd:
 
 # Install Java 6 and Tomcat 6
 packages:
-- java-1.6.0-openjdk
+- java-1.6.0-openjdk-devel
 - tomcat6
 - tomcat6-admin-webapps
 - tomcat6-webapps
@@ -173,6 +173,7 @@ This section needs to be executed for _ecommerce_ instances
   	{{{
 # spring-travel properties
 antifraudservice.baseurl=http://46.137.168.248:8080/xebia-spring-travel-antifraud-1.0.1/
+#antifraudservice.baseurl=http://46.137.99.111:8080/xebia-spring-travel-antifraud-1.0.1/
 
 jdbc.url=jdbc:mysql://xebiaspringtravel.cccb4ickfoh9.eu-west-1.rds.amazonaws.com:3306/xebiaspringtravel
 jdbc.username=admin
@@ -183,20 +184,28 @@ jpa.database=MYSQL
 # jpa.hbm2ddlAuto = create-drop | create | update | validate 
 jpa.hbm2ddlAuto=update
   	}}}
-   Note: replace `xebiaspringtravel.cccb4ickfoh9.eu-west-1.rds.amazonaws.com` with your RDS endpoint.
+   Note:
+  # Replace `xebiaspringtravel.cccb4ickfoh9.eu-west-1.rds.amazonaws.com` with your RDS endpoint.
+  # For preprod instance change the antifraudservice.baseurl property value to (to use antifraud-preprod) :
+ {{{
+antifraudservice.baseurl=http://46.137.99.111:8080/xebia-spring-travel-antifraud-1.0.1/
+ }}}
  # Start Tomcat
  	<pre>sudo /etc/init.d/tomcat6 start</pre>
- # Repeat these steps for the ecommerce-prod-2 instance
+ # Repeat these steps for the ecommerce-prod-2 and ecommerce-preprod instances
 
 = Create a Load Balancer =
 
  # In the EC2 tab, click on the "Load Balancers" menu under "NETWORK & SECURITY"
  # Click on "Create Load Balancer"
  # Remove the default rule and create a new one with 8080 as the "EC2 Instance Port"
+ {{{
+Load Balancer Name: elb-ecommerce-prod
+ }}}
  	http://xebia-france.googlecode.com/svn/wiki/aws-img/elb-1.png
  # Let the default options
  	http://xebia-france.googlecode.com/svn/wiki/aws-img/elb-2.png
- # Choose your instances (e. g. xebiaspringtravel-prod-1 and xebiaspringtravel-prod-2)
+ # Choose your instances (e. g. ecommerce-prod-1 and ecommerce-prod-2)
  	http://xebia-france.googlecode.com/svn/wiki/aws-img/elb-3.png
  # Create the load balancer
  	http://xebia-france.googlecode.com/svn/wiki/aws-img/elb-4.png
