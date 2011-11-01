@@ -7,7 +7,7 @@
 
 This article aims to deploy xebia-spring-travel application on Amazon environment.
 
-*Observation:* images below may not be synchronized with the steps. In this case follow the step, not the image.
+*Observation:* images below may be not synchronized with the steps. In this case follow the step, not the image.
 
 = Access the AWS Management Console = 
  
