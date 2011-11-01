@@ -102,14 +102,14 @@ runcmd:
  # Copy and paste the script YAML below into the User Date field:
 {{{
 #cloud-config
- 
+
 # Install Java 6 and Tomcat 6
 packages:
 - java-1.6.0-openjdk
 - tomcat6
 - tomcat6-admin-webapps
 - tomcat6-webapps
- 
+
 # Deploying spring-travel
 runcmd:
 - [ sh, -xc, "echo $(date) ': cloudinit runcmd begin'" ]
@@ -117,8 +117,8 @@ runcmd:
 - [ mv, xebia-spring-travel-ecommerce-1.0.1.war, /usr/share/tomcat6/webapps ]
 - [ wget, "http://archive.apache.org/dist/tomcat/tomcat-6/v6.0.29/bin/extras/catalina-jmx-remote.jar" ]
 - [ mv, catalina-jmx-remote.jar, /usr/share/tomcat6/lib ]
-- [ wget, "http://xebia-france.googlecode.com/svn/repository/maven2/fr/xebia/demo/travel/xebia-spring-travel-ecommerce/1.0.1/tomcat-conf.zip" ]
-- [ unzip, tomcat-conf.zip ]
+- [ wget, "http://xebia-france.googlecode.com/svn/repository/maven2/fr/xebia/demo/travel/xebia-spring-travel-ecommerce/1.0.1/tomcat6-conf.zip" ]
+- [ unzip, tomcat6-conf.zip ]
 - [ mv, server.xml, /usr/share/tomcat6/conf ]
 - [ mv, tomcat6.conf, /usr/share/tomcat6/conf ]
 - [ service, tomcat6, start ]
