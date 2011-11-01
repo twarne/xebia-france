@@ -4,6 +4,8 @@
 
 === Navigate on MBean ===
 
+Download [VisualVM|http://visualvm.java.net/download.html] and install it.
+
 Install VisualVM-MBeans plugins. Open the plugin manager in Tools menu bar. 
 
 === JMX Remote connection ===
