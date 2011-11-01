@@ -33,7 +33,7 @@ summarize(derivative(requestInError),"1min")
 
 Ex: With sample frequency at 5 seconds
 
-&target=asPercent(derivative(gc.CollectionTime),5000)
+&target=asPercent(derivative(gc.`CollectionTime`),5000)
 
 == Configuring time windows ==
 
