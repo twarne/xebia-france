@@ -2,7 +2,8 @@
 
 = Lab = 
 
-# Building a dashboard
+  # Create a page dashboard.html in your favorite editor
+  # Add these graph
 
 For each server
 
