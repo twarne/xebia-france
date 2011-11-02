@@ -137,8 +137,7 @@ database name: labXX
 username: labXX
 password: labXX
 }}}
-
-<img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/create-database-mysql.png" height="350" />
+ <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/create-database-mysql.png" height="350" />
  
 === Configure application for using MySQL ===
  
@@ -171,7 +170,7 @@ password: labXX
  * Open and modify *applicationContext-dataSource.xml* file inside *src/main/prod/WEB-INF/spring* directory
 {{{
 <!-- JNDI DataSource for JEE environments -->
-<jee:jndi-lookup id="dataSource" jndi-name="java:comp/env/jdbc/cloudbees00"/>
+<jee:jndi-lookup id="dataSource" jndi-name="java:comp/env/jdbc/lab00"/>
 }}}
 
 === Deploy application on production environment ===
