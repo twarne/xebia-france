@@ -1,5 +1,20 @@
 = Using JMXTrans = 
 
+= Lab = 
+
+  * Create a new JMXTrans config file for prod1 server
+  * Create a query for all attributes of !CreditCardService  
+  * Output result on a file (!KeyOutWriter) 
+  * Create a query for GC monitoring
+  * Create a query for Memory monitoring
+  * Create a query for CPU monitoring
+  * Verify result on /tmp/server1.txt
+  * Report configuration for all server (1 file by server)
+  * Verify result on /tmp/serverN.txt
+  * Change sampling frequency to 10 seconds
+
+----
+
 == JMXTrans ==
 
 [http://code.google.com/p/jmxtrans/ JMXTrans Home page]
@@ -82,16 +97,3 @@ For adding JMX configurations (servers, objects and attributes) and output write
 === Change sampling frequency ===
 
 Edit SECONDS_BETWEEN_RUNS attribute on /etc/sysconfig/jmxtrans
-
-= Lab = 
-
-  * Create a new JMXTrans config file for prod1 server
-  * Create a query for all attributes of !CreditCardService  
-  * Output result on a file (!KeyOutWriter) 
-  * Create a query for GC monitoring
-  * Create a query for Memory monitoring
-  * Create a query for CPU monitoring
-  * Verify result on /tmp/server1.txt
-  * Report configuration for all server (1 file by server)
-  * Verify result on /tmp/serverN.txt
-  * Change sampling frequency to 10 seconds
