@@ -45,6 +45,14 @@ $ chmod -R 700 $HOME/.ssh
 <groupId>fr.xebia.techevent.labXX</groupId>
 }}}
 
+ * Also modify the SCM configuration according to your team number
+{{{
+<scm>
+	<connection>scm:git:ssh://git@git.cloudbees.com/atelier-xebia/labXX.git</connection>
+	<developerConnection>scm:git:ssh://git@git.cloudbees.com/atelier-xebia/labXX.git</developerConnection>
+</scm>
+}}}
+
  * Initialize a new Git local repository:
 {{{
 $ cd petclinic # or your existing project directory
