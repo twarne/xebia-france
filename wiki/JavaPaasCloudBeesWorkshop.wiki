@@ -137,8 +137,7 @@ database name: labXX
 username: labXX
 password: labXX
 }}}
-
-<img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/create-database-mysql.png" height="350" align="center" />
+ <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/create-database-mysql.png" height="350" />
  
 === Configure application for using MySQL ===
  
