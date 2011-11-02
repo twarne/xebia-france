@@ -66,25 +66,25 @@ $ git push origin master
  * Create a new item from the left menu with the job name *"labXX-ci"* and tick "Build a Maven2/3 project"
  <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/add-jenkins-job.png" height="400" />
  
- ** On the "Code source management" part choose "Git" and fill these parameters:
+ ** On the *"Code source management"* part choose *"Git"* and fill these parameters:
 {{{
 URL of repository=ssh://git@git.cloudbees.com/atelier-xebia/labXX.git
 Branch Specifier (blank for default)=** # For avoiding issue
 }}}
  
- ** On the "Build triggers" part tick "poll SCM" by filling the CRON expression
+ ** On the *"Build triggers"* part tick *"poll SCM"* by filling the CRON expression
 {{{
 * * * * * # every minute
 }}}
  
- ** On the "Build" part indicate the Maven goal
+ ** On the *"Build"* part indicate the Maven goal
 {{{
 clean package
 }}}
  
- ** On the "Build Environment" part, tick "Maven release build" option. The parameters are correctly pre-filled, let them as default.
+ ** On the *"Build Environment"* part, tick *"Maven release build"* option. The parameters are correctly pre-filled, let them as default.
  
- ** On the "Post build action" part tick "Deploy artifacts to my Private !CloudBees Repository" option and verify that SNAPSHOT repository is correctly selected. Also tick sonar option to active sonar analyze of your project.
+ ** On the *"Post build action"* part tick *"Deploy artifacts to my Private !CloudBees Repository"* option and verify that SNAPSHOT repository is correctly selected. Also tick *Sonar* option to active sonar analyze of your project.
  
  ** Save the configuration and run the job (it can take some minutes before the build begins).
 
