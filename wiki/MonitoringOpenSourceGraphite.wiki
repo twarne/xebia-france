@@ -2,14 +2,14 @@
 
 = Lab = 
 
-  * Configure storage for xebia-travel-prod with a frequency 10s
-  * Configure storage for xebia-travel-preprod with a frequency 1 min
-  * Start Carbon
-  * Start httpd
-  * Verify graphite and Carbon is up
-  * Add json file for connecting JMXTrans to Graphite
-  * Start Graphite
-  * Connect to Graphite dashboard (http://your_url:80) and verify all metrics are presents
+  # Configure storage for xebia-travel-prod with a frequency 10s
+  # Configure storage for xebia-travel-preprod with a frequency 1 min
+  # Start Carbon
+  # Start httpd
+  # Verify graphite and Carbon is up
+  # Add json file for connecting JMXTrans to Graphite
+  # Start Graphite
+  # Connect to Graphite dashboard (http://your-monitoring-server/) and verify all metrics are presents
 
 ----
 
