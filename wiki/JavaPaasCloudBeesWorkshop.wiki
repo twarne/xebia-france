@@ -26,7 +26,7 @@
 
 === Configure GIT repository ===
 
- * Create an ".ssh" folder. If you already have one, the easiest solution is to back it up and restore it after the lab:
+ * Create an *".ssh"* folder. If you already have one, the easiest solution is to back it up and restore it after the lab:
 {{{
 $ mv $HOME/.ssh $HOME/.ssh.bak
 $ mkdir $HOME/.ssh
@@ -40,7 +40,7 @@ $ chmod -R 700 $HOME/.ssh
 
  * Get [http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/petclinic-cloudbees.zip the zip] file containing the petclinic application from the wiki and unzip it in your local workspace
 
- * Modify the group id in the Maven POM file (replace 'XX' by your team number, e.g. '01')
+ * Modify the *Group ID* in the Maven POM file (replace 'XX' by your team number, e.g. '01')
 {{{
 <groupId>fr.xebia.techevent.labXX</groupId>
 }}}
@@ -61,9 +61,9 @@ $ git push origin master
  
  * Click on the *Jenkins build* icon.
  
- * Create a new folder with your group name "labXX" 
+ * Create a new folder with your group name *"labXX"* 
  
- * Create a new item from the left menu with the job name "labXX-ci" and tick "Build a Maven2/3 project"
+ * Create a new item from the left menu with the job name *"labXX-ci"* and tick "Build a Maven2/3 project"
  <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/add-jenkins-job.png" height="400" />
  
  ** On the "Code source management" part choose "Git" and fill these parameters:
