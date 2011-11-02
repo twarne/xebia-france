@@ -14,3 +14,25 @@
   * [OSMonitoringLabs_7_architecture]
   * [OSMonitoringLabs_8_architecture]
   * [OSMonitoringLabs_9_architecture]
+
+
+
+travel-ecommerce:name=CreditCardServiceMonitoringImpl,type=CreditCardService,host=localhost,path=/xebia-spring-travel-ecommerce
+
+Attribute : 
+ActiveInvocationCount
+InvalidCardExceptionCount
+LostOrStolenCardExceptionCount
+MissingOrInvalidDataExceptionCount
+PaymentProcessingExceptionCount
+PurchaseInvocationCount
+PurchaseInvocationDurationInMillis
+PurchaseInvocationDurationInNanos
+PurchaseTotalRevenueInUsd
+PurchaseTotalRevenueInUsd
+SlowRequestCount
+SlowRequestThresholdInMillis
+SlowRequestThresholdInNanos
+ThreeDSecureVerificationExceptionCount
+TimeoutExceptionCount
+TransactionAmountExceptionCount
