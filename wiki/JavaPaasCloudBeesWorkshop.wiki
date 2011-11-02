@@ -24,23 +24,27 @@
 
 == @DEV ==
 
- ===Configure GIT repository===
+=== Configure GIT repository ===
 
  * Create an ".ssh" folder. If you already have one, the easiest solution is to back it up and restore it after the lab:
 {{{
 $ mv $HOME/.ssh $HOME/.ssh.bak
 $ mkdir $HOME/.ssh
 }}}
+
  * Move your SSH private key to the folder and update the permissions:
 {{{
 $ mv id_rsa $HOME/.ssh
 $ chmod -R 700 $HOME/.ssh
 }}}
+
  * Get [http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/petclinic-cloudbees.zip the zip] file containing the petclinic application from the wiki and unzip it in your local workspace
+
  * Modify the group id in the Maven POM file (replace 'XX' by your team number, e.g. '01')
 {{{
 <groupId>fr.xebia.techevent.labXX</groupId>
 }}}
+
  * Initialize a new Git local repository:
 {{{
 $ cd petclinic # or your existing project directory
@@ -51,32 +55,44 @@ $ git commit -m 'Initial checkin'
 $ git push origin master
 }}}
 
- ===Build your project for Continuous Integration===
+=== Build your project for Continuous Integration ===
 
  * Log in to !CloudBees (_your credentials will be provided at the beginning of the lab_).
+ 
  * Click on the *Jenkins build* icon.
+ 
  * Create a new folder with your group name "labXX" 
+ 
  * Create a new item from the left menu with the job name "labXX-ci" and tick "Build a Maven2/3 project"
  <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/add-jenkins-job.png" height="400" />
+ 
  ** On the "Code source management" part choose "Git" and fill these parameters:
 {{{
 URL of repository=ssh://git@git.cloudbees.com/atelier-xebia/labXX.git
 Branch Specifier (blank for default)=** # For avoiding issue
 }}}
+ 
  ** On the "Build triggers" part tick "poll SCM" by filling the CRON expression
 {{{
 * * * * * # every minute
 }}}
+ 
  ** On the "Build" part indicate the Maven goal
 {{{
 clean package
 }}}
+ 
  ** On the "Build Environment" part, tick "Maven release build" option. The parameters are correctly pre-filled, let them as default.
+ 
  ** On the "Post build action" part tick "Deploy artifacts to my Private !CloudBees Repository" option and verify that SNAPSHOT repository is correctly selected. Also tick sonar option to active sonar analyze of your project.
+ 
  ** Save the configuration and run the job (it can take some minutes before the build begins).
 
- * Use Artifactory for managing Maven repository (jenkins artifactory plugin is buggy? problem with artifactory host configuration) 
+=== Release of a new version ===
+
  * Release of a new version of the application by clicking on the "Perform maven release". Let the parameter as pre-filled and click on "Schedule a maven release". As the build, the release can start after a few minutes. (WARNING ! Add scm url to petclinic pom.xml !)
+
+ * Use Artifactory for managing Maven repository (jenkins artifactory plugin is buggy? problem with artifactory host configuration) 
 
 <br/>
 ----
@@ -127,7 +143,7 @@ Application Id=atelier-xebia/labXX-integ
 
 == @OPS ==
 
-=== Run production application (MySQL) ===
+=== Run production application on MySQL ===
 
  * Go back to the Home page in !CloudBees and click on *Applications*
  
