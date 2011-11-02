@@ -1,13 +1,28 @@
 = Nagios = 
 
-== What Is This? ==
+== Lab ==
+
+Graphite plugin is installed in your nagios installation
+
+* See graphite command definition in /etc/nagios/objects/command.cfg
+* Add host for all server of xebia spring travel
+* Define alert on metrics stored in graphite
+
+|| Metric || Warning || Critical ||
+|| On each server GC usage > N% || 10 || 25 ||
+|| Exception on credit card service (req/min) || 10 || 50 ||
+|| Average !CreditCardService response time in last n minutes > (ms) || 1000 || 5000 ||
+
+== Tips ==
+
+=== What Is This? ===
 
 Nagios is a system and network monitoring application. 
 It watches hosts and services that you specify, alerting you when things go bad and when they get better. 
 
 You can easily define new plugin. We add a new command for queries stored metrics in graphite and define thresold for alert.
 
-== Tips ==
+
 
 === Start and stop ===
 
@@ -69,16 +84,3 @@ You can use rawData=true for query timeseries
 {{{
 http://server/render?target=monitored-indicator&from=-1minutes&rawData=true
 }}}
-
-== Lab ==
-
-Graphite plugin is installed in your nagios installation
-
-* See graphite command definition in /etc/nagios/objects/command.cfg
-* Add host for all server of xebia spring travel
-* Define alert on metrics stored in graphite
-
-|| Metric || Warning || Critical ||
-|| On each server GC usage > N% || 10 || 25 ||
-|| Exception on credit card service (req/min) || 10 || 50 ||
-|| Average !CreditCardService response time in last n minutes > (ms) || 1000 || 5000 ||
