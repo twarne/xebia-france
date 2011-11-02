@@ -4,14 +4,14 @@
 
 == Get server prod 1 counter via Visualvm ==
 
-  * Add travel-prod-1.xebia-tech-event.info as Remote Host
-  * Add JMX Connection on port 1099
-  * Locate `ObjectName` and attribute name : 
+  # Add travel-prod-1.xebia-tech-event.info as Remote Host
+  # Add JMX Connection on port 1099
+  # Locate `ObjectName` and attribute name : 
     # `CreditCardService` and all exposed metrics
     # Java Memory Pool (Eden, Tenured and Survivor Space) usage
     # `GarbageCollector`  (Copy and `MarkSweepCompact`) collection count and time
     # CPU usage on `OperatingSystem` MBean
-  * Graph `TimeoutExceptionCount` for `CreditCardService`
+  # Graph `TimeoutExceptionCount` for `CreditCardService`
 
 ----
 
