@@ -279,7 +279,7 @@ Application Id=atelier-xebia/labXX-prod
 </build>
 }}}
 
- * Create folder src/test/jmeter and put [http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/petclinic-cloudbees.jmx|petclinic-cloudbees.jmx]
+ * Create folder src/test/jmeter and put [http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/petclinic-cloudbees.jmx petclinic-cloudbees.jmx]
  * Create a job jenkins and add maven goals and replace "XX" by your group number
 {{{
 clean integration-test -DhostAddress=labXX.atelier-xebia.cloudbees.net -DhostPort=80 -DnbVirtualUsers=600 -DnbLoopsCount=2 -DnbRampUp=60
