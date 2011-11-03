@@ -232,13 +232,59 @@ Application Id=atelier-xebia/labXX-prod
 
 == @PERF ==
 
- * Configure redundancy and scale (already done in @OPS part?)
- * Stress test with JMeter
- * Monitoring with New Relic
+ ===Stress test with JMeter===
+ 
+ * Edit pom.xml to add jmeter plugin maven
+ ** Add [https://github.com/Ronnie76er/jmeter-maven-plugin/wiki|jmeter-maven-plugin repository]
+{{{
+<pluginRepositories>
+  <pluginRepository>
+    <id>jmeter-maven-plugin</id>
+    <name>Maven JMeter Plugin</name>
+    <url>http://yciabaud.github.com/jmeter-maven-plugin/repository</url>
+  </pluginRepository>
+</pluginRepositories>
+}}}
+ ** Add jmeter-maven-plugin build plugin
+{{{
+<plugins>
+  ...
+	<plugin>
+	  <groupId>org.apache.jmeter</groupId>
+	  <artifactId>maven-jmeter-plugin</artifactId>
+	  <version>1.2</version>
+	  <executions>
+	    <execution>
+		  <id>jmeter-tests</id>
+		  <phase>integration-test</phase>
+		  <goals>
+		    <goal>jmeter</goal>
+	      </goals>
+	    </execution>
+	  </executions>
+	  <configuration>
+	    <reportDir>
+		  ${project.build.directory}/jmeter-reports
+	    </reportDir>
+		<jmeterUserProperties>
+		  <hostAddress>${hostAddress}</hostAddress>
+		  <hostPort>${hostPort}</hostPort>
+		  <nbVirtualUsers>${nbVirtualUsers}</nbVirtualUsers>
+		  <nbLoopsCount>${nbLoopsCount}</nbLoopsCount>
+		  <nbRampUp>${nbRampUp}</nbRampUp>
+		</jmeterUserProperties>
+	  </configuration>
+	</plugin>
+</plugins>
+}}}
+
+ * Run jenkins
+  
+  
+ ===Monitoring with New Relic===
  ** Click on the services link.
  ** Click on the "New Relic" icon.
  * Verify elasticity (to check with Nicolas?)
-
 <br/>
 ----
 <br/>
