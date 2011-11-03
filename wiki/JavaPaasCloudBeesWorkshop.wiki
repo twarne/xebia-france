@@ -149,7 +149,7 @@ Application Id=atelier-xebia/labXX-integ
 ----
 <br/>
 
-== @OPS ==
+== @RUN ==
 
 === Run production application on MySQL ===
 
