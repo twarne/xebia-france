@@ -231,9 +231,7 @@ Application Id=atelier-xebia/labXX-prod
 <br/>
 
 == @PERF ==
-
- ===Stress test with JMeter===
- 
+===Stress test with JMeter=== 
  * Edit pom.xml
  * Add [https://github.com/Ronnie76er/jmeter-maven-plugin/wiki|jmeter-maven-plugin repository]
 {{{
@@ -282,18 +280,20 @@ Application Id=atelier-xebia/labXX-prod
 }}}
 
  * Create folder src/test/jmeter and put [http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/petclinic-cloudbees.jmx|petclinic-cloudbees.jmx]
- * Create a job jenkins and add maven goals
+ * Create a job jenkins and add maven goals and replace "***" by your application name
 {{{
 clean integration-test -DhostAddress=***.atelier-xebia.cloudbees.net -DhostPort=80 -DnbVirtualUsers=600 -DnbLoopsCount=2 -DnbRampUp=60
 }}}
  * Configure Post-build Actions and check Publish Performance test result report
  <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/configure-performance-test-job-jenkins.png" height="200" />
+ 
+===Monitoring with New Relic===
+ * Click on the services link in the top bar.
+ * Click on the "New Relic" icon.
+ * Verify elasticity by checking how many servers are running
+ <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/newrelic-performance.png" height="200" />
 
-  
- ===Monitoring with New Relic===
- ** Click on the services link.
- ** Click on the "New Relic" icon.
- * Verify elasticity (to check with Nicolas?)
+ 
 <br/>
 ----
 <br/>
