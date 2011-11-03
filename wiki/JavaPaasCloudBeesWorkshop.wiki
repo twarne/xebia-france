@@ -291,7 +291,7 @@ clean integration-test -DhostAddress=***.atelier-xebia.cloudbees.net -DhostPort=
  * Click on the services link in the top bar.
  * Click on the "New Relic" icon.
  * Verify elasticity by checking how many servers are running
- <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/newrelic-performance.png" height="200" />
+ <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/newrelic-performance.png" height="400" />
 
  
 <br/>
