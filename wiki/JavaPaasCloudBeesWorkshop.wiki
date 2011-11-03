@@ -289,7 +289,7 @@ clean integration-test -DhostAddress=***.atelier-xebia.cloudbees.net -DhostPort=
  
  * Report page on jenkins can be view by clicking on Performance Trend 
  <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/performance-jenkins-jmeter.png" height="200" />
- <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/performance-jenkins-jmeter-test.png" height="200" />
+ <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/performance-jenkins-jmeter-trend.png" height="200" />
  
 ===Monitoring with New Relic===
  * Click on the services link in the top bar.
