@@ -11,26 +11,26 @@
 <table>
 <tr><td> *SSH Private key* </td><td> [https://s3-eu-west-1.amazonaws.com/continuous-delivery/continuous-delivery-workshop.pem continuous-delivery-workshop.pem]</td></tr>
 <tr><td> *!GitHub project repository url* </td><td> [https://github.com/xebia-guest/xebia-petclinic-lite-6] </td></tr>
-<tr><td> *Jenkins URL* </td><td> [http://ec2-46-51-141-78.eu-west-1.compute.amazonaws.com:8080/] </td></tr>
-<tr><td> *Rundeck URL* </td><td> [http://ec2-46-51-141-78.eu-west-1.compute.amazonaws.com:4440/] </td></tr>
-<tr><td> *Deployit URL* </td><td> [http://ec2-46-51-141-78.eu-west-1.compute.amazonaws.com:4516/] </td></tr>
+<tr><td> *Jenkins URL* </td><td> [http://ec2-79-125-31-226.eu-west-1.compute.amazonaws.com:8080/] </td></tr>
+<tr><td> *Rundeck URL* </td><td> [http://ec2-79-125-31-226.eu-west-1.compute.amazonaws.com:4440/] </td></tr>
+<tr><td> *Deployit URL* </td><td> [http://ec2-79-125-31-226.eu-west-1.compute.amazonaws.com:4516/] </td></tr>
 <tr><td> *Nexus URL* </td><td> [http://nexus.xebia-tech-event.info:8081/nexus/] </td></tr>
-<tr><td> *Tomcat Dev URL* </td><td> [http://ec2-46-137-14-202.eu-west-1.compute.amazonaws.com:8080/] </td></tr>
+<tr><td> *Tomcat Dev URL* </td><td> [http://ec2-79-125-48-38.eu-west-1.compute.amazonaws.com:8080/] </td></tr>
 <tr><td> *Tomcat Dev SSH* </td><td> 
 {{{
-ssh -i ~/.aws/continuous-delivery-workshop.pem tomcat@ec2-46-137-14-202.eu-west-1.compute.amazonaws.com
+ssh -i ~/.aws/continuous-delivery-workshop.pem tomcat@ec2-79-125-48-38.eu-west-1.compute.amazonaws.com
 }}}
  </td></tr>
-<tr><td> *Tomcat Valid 1 URL* </td><td> [http://ec2-46-137-6-5.eu-west-1.compute.amazonaws.com:8080/] </td></tr>
+<tr><td> *Tomcat Valid 1 URL* </td><td> [http://ec2-46-137-6-193.eu-west-1.compute.amazonaws.com:8080/] </td></tr>
 <tr><td> *Tomcat Valid 1 SSH* </td><td> 
 {{{
-ssh -i ~/.aws/continuous-delivery-workshop.pem tomcat@ec2-46-137-6-5.eu-west-1.compute.amazonaws.com
+ssh -i ~/.aws/continuous-delivery-workshop.pem tomcat@ec2-46-137-6-193.eu-west-1.compute.amazonaws.com
 }}}
  </td></tr>
-<tr><td> *Tomcat Valid 2 URL* </td><td> [http://ec2-46-51-150-145.eu-west-1.compute.amazonaws.com:8080/] </td></tr>
+<tr><td> *Tomcat Valid 2 URL* </td><td> [http://ec2-46-51-166-134.eu-west-1.compute.amazonaws.com:8080/] </td></tr>
 <tr><td> *Tomcat Valid 2 SSH* </td><td> 
 {{{
-ssh -i ~/.aws/continuous-delivery-workshop.pem tomcat@ec2-46-51-150-145.eu-west-1.compute.amazonaws.com
+ssh -i ~/.aws/continuous-delivery-workshop.pem tomcat@ec2-46-51-166-134.eu-west-1.compute.amazonaws.com
 }}}
  </td></tr>
 </table>
@@ -64,7 +64,7 @@ mvn package
 xebia-petclinic-lite-6 > git commit -m "test" src/main/webapp/welcome.jsp
 xebia-petclinic-lite-6 > git push
 }}}
- # Verify that Jenkins detects the Git change and triggers a build : [http://ec2-46-51-141-78.eu-west-1.compute.amazonaws.com:8080//job/xebia-petclinic-lite-6/] (it may take up to 1 minute).
+ # Verify that Jenkins detects the Git change and triggers a build : [http://ec2-79-125-31-226.eu-west-1.compute.amazonaws.com:8080//job/xebia-petclinic-lite-6/] (it may take up to 1 minute).
  # Do a release of the application
   ## Add the Nexus credentials to your Maven settings.xml file :
    {{{
@@ -94,4 +94,4 @@ Links to the different labs :
  * [ContinuousDeliveryWorkshopLab_6_rundeck]
  * [ContinuousDeliveryWorkshopLab_6_deployit]
 
-_This page has been generaterd by '{{{class fr.xebia.workshop.continuousdelivery.ContinuousDeliveryInfrastructureCreator}}}' with template '{{{/fr/xebia/workshop/continuousdelivery/lab/setup.fmt}}}' on the 2011-10-27T13:05:41.529+02:00_
+_This page has been generaterd by '{{{class fr.xebia.workshop.continuousdelivery.DocumentationGenerator}}}' with template '{{{/fr/xebia/workshop/continuousdelivery/lab/setup.fmt}}}' on the 2011-11-03T13:45:22.791+01:00_
