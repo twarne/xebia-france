@@ -1,4 +1,4 @@
-#summary Discover Java PaaS Cloud with CloudBees
+﻿#summary Discover Java PaaS Cloud with CloudBees
 
 <wiki:toc max_depth="2" />
 <br/>
@@ -76,7 +76,7 @@ $ git push origin master
  
  * Click on the *Jenkins build* icon.
  
- * Create a new folder with your group name *"labXX"* 
+ * Go to the folder with your group name *"labXX"* 
  
  * Create a new item from the left menu with the job name *"labXX-ci"* and tick "Build a Maven2/3 project"
  <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/add-jenkins-job.png" height="400" />
@@ -87,9 +87,9 @@ URL of repository=ssh://git@git.cloudbees.com/atelier-xebia/labXX.git
 Branch Specifier (blank for default)=** # For avoiding issue
 }}}
  
- ** On the *"Build triggers"* part tick *"poll SCM"* by filling the CRON expression
+ ** On the *"Build triggers"* part, tick *"poll SCM"* and provide this CRON expression (which means "every minute"):
 {{{
-* * * * * # every minute
+* * * * *
 }}}
  
  ** On the *"Build"* part indicate the Maven goal
@@ -102,6 +102,8 @@ clean package
  ** On the *"Post build action"* part tick *"Deploy artifacts to my Private !CloudBees Repository"* option and verify that SNAPSHOT repository is correctly selected. Also tick *Sonar* option to active sonar analyze of your project.
  
  ** Save the configuration and run the job (it can take some minutes before the build begins).
+
+ ** Once the build is complete, the Sonar site is accessible from the job's page.
 
 === Release of a new version ===
 
