@@ -26,7 +26,7 @@
 
 === Configure GIT repository ===
 
- * Create an *".ssh"* folder. If you already have one, the easiest solution is to back it up and restore it after the lab:
+ * Create an *".ssh"* folder in your home directory. If you already have one, it's probably easiest to back it up and restore it after the lab:
 {{{
 $ mv $HOME/.ssh $HOME/.ssh.bak
 $ mkdir $HOME/.ssh
