@@ -103,7 +103,7 @@ clean package
  
  ** Save the configuration and run the job (it can take some minutes before the build begins).
 
- ** Once the build is complete, the Sonar site is accessible from the job's page.
+ ** Once the build is complete, go back to the job page. Click on the *Sonar* link to have a look at your quality metrics.
 
 === Release of a new version ===
 
@@ -160,7 +160,7 @@ Application Id=atelier-xebia/labXX-integ
 
 == @RUN ==
 
-=== Run production application on MySQL ===
+=== Create a MySQL database ===
 
  * Go back to the Home page in !CloudBees and click on *Applications*
  
@@ -173,37 +173,21 @@ password: labXX
  <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/create-database-mysql.png" height="350" />
  
 === Configure application for using MySQL ===
- 
- * Open and modify *web.xml* file inside *src/main/prod/WEB-INF* directory
-{{{
-<!--
-	- Reference to PetClinic database.
-	- Only needed if not using a local DataSource but a JNDI one instead.
--->
-<resource-ref>
-	<res-ref-name>jdbc/labXX</res-ref-name>
-	<res-type>javax.sql.DataSource</res-type>
- 	<res-auth>Container</res-auth>
-</resource-ref>
-}}}
- 
- * Open and modify *cloudbees-web.xml* file inside *src/main/prod/WEB-INF* directory
-{{{
-<!-- Application ID (formatted CB_ACCOUNT/APPNAME) -->
-<appid>atelier-xebia/labXX-prod</appid>
 
-<!-- DataSources (use names refererenced via <resource-ref> in WEB-INF/web.xml) -->
-<resource name="jdbc/labXX" auth="Container" type="javax.sql.DataSource">
-	<param name="username" value="labXX" />
-	<param name="password" value="labXX" />
-	<param name="url" value="jdbc:cloudbees://labXX" />
-</resource>
+The sources provided for the lab are already configured for MySQL. The only thing you need to do is adapt your database info:
+
+ * Edit *src/main/resources/environment/prod/cloudbees-web.properties* (this file is used to filter *src/main/webapp/WEB-INF/cloudbees-web.xml* during the build):
+{{{
+cloudbees.datasource.username=labXX
+cloudbees.datasource.password=labXX
+cloudbees.datasource.url=jdbc:cloudbees://labXX
 }}}
 
- * Open and modify *applicationContext-dataSource.xml* file inside *src/main/prod/WEB-INF/spring* directory
+ * Commit and push your changes:
 {{{
-<!-- JNDI DataSource for JEE environments -->
-<jee:jndi-lookup id="dataSource" jndi-name="java:comp/env/jdbc/lab00"/>
+$ git add .
+$ git commit -m"Configure production database"
+$ git push
 }}}
 
 === Deploy application on production environment ===
@@ -227,7 +211,9 @@ Application Id=atelier-xebia/labXX-prod
 }}}
 
  * Save the configuration and run the job.
- 
+
+ * Once the job has completed, go back to the !CloudBees home page and click on the *Applications* icon. Locate your instance in the list and click on it. The management page provides useful information like usage statistics, access to the production logs, and incidentally the URL of your application :-) Click on it to check that it functions properly.
+
 === Configure production application with Elasticity, monitoring with New Relic and logs with Papertrail ===
 
  * Click on the applications icon on the home of the !Cloudbees account.
