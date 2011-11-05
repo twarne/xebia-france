@@ -9,7 +9,7 @@
  * The purpose of this workshop is to use Cloudbees platform. Cloudbees is both a development platform and a production platform.
  * Our goal is to make some changes to the famous petclinic application then deploy it on cloudbees production cluster.
 
- <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/workshop_overview.png" width="300" height="225" />
+<img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/workshop_overview.png" align="center" width="600" height="450" />
 
 = Workshop requirements =
 
