@@ -9,6 +9,8 @@
  * The purpose of this workshop is to use Cloudbees platform. Cloudbees is both a development platform and a production platform.
  * Our goal is to make some changes to the famous petclinic application then deploy it on cloudbees production cluster.
 
+ <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/workshop_overview.png" width="300" height="225" />
+
 = Workshop requirements =
 
  * Git client: !GitHub has [http://help.github.com/set-up-git-redirect setup tutorials] for all platforms (just perform the "Download and Install Git" step, we'll set up the SSH key at the beginning of the lab).
