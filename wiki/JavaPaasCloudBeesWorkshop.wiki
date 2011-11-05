@@ -63,6 +63,12 @@ $ git commit -m 'Initial checkin'
 $ git push origin master
 }}}
 
+ * To avoid having to specify the 'master' branch for future pushes, you can add the following at the end of your *.git/config* file:
+{{{
+[branch "master"]
+  remote = origin
+  merge = refs/head/master
+
 === Build your project for Continuous Integration ===
 
  * Log in to !CloudBees (_your credentials will be provided at the beginning of the lab_).
