@@ -10,7 +10,7 @@
  * Our goal is to make some changes to the famous petclinic application then deploy it on cloudbees production cluster.
 
 <p align="center">
-<img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/workshop_overview.png" width="600" height="450" />
+<img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/workshop_overview.png" height="450" />
 </p>
 
 = Workshop requirements =
@@ -83,7 +83,10 @@ $ git push origin master
  * Go to the folder with your group name *"labXX"* 
  
  * Create a new item from the left menu with the job name *"labXX-ci"* and tick "Build a Maven2/3 project"
- <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/add-jenkins-job.png" height="400" />
+
+<p align="center">
+<img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/add-jenkins-job.png" height="400" />
+</p>
  
  ** On the *"Code source management"* part choose *"Git"* and fill these parameters:
 {{{
@@ -137,7 +140,10 @@ clean package
  ===Run petclinic application on Integration platform===
  * Go back to the Home page in !CloudBees and click on *Applications*
  * Create and configure a new application on *RUN@cloud* called "xebia-atelier/labXX-integ"
- <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/create-app-integ.png" height="300" />
+
+<p align="center">
+<img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/create-app-integ.png" height="300" />
+</p>
  
  ===Deploy application on integration environment (HSQLDB)===
  * Create a new Job from the left menu with the job name *"labXX-integ"* and tick "Build a Maven2/3 project"
@@ -154,7 +160,10 @@ clean package
 {{{
 Application Id=atelier-xebia/labXX-integ
 }}}
- <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/configure-deploy-jenkins-job.png" height="300" />
+
+<p align="center">
+<img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/configure-deploy-jenkins-job.png" height="300" />
+</p>
 
  * Save the configuration and run the job.
  
@@ -174,7 +183,10 @@ database name: labXX
 username: labXX
 password: labXX
 }}}
- <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/create-database-mysql.png" height="350" />
+
+<p align="center">
+<img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/create-database-mysql.png" height="350" />
+</p>
  
 === Configure application for using MySQL ===
 
@@ -284,18 +296,29 @@ Application Id=atelier-xebia/labXX-prod
 clean integration-test -DhostAddress=labXX.atelier-xebia.cloudbees.net -DhostPort=80 -DnbVirtualUsers=600 -DnbLoopsCount=2 -DnbRampUp=60
 }}}
  * Configure Post-build Actions and check Publish Performance test result report
- <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/configure-performance-test-job-jenkins.png" height="200" />
+
+<p align="center">
+<img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/configure-performance-test-job-jenkins.png" height="200" />
+</p>
  
  * Report page on jenkins can be view by clicking on Performance Trend 
- <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/performance-jenkins-jmeter.png" height="250" />
- <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/performance-jenkins-jmeter-trend.png" height="300" />
+
+<p align="center">
+<img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/performance-jenkins-jmeter.png" height="250" />
+</p>
+
+<p align="center">
+<img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/performance-jenkins-jmeter-trend.png" height="300" />
+</p>
  
 ===Monitoring with New Relic===
  * Click on the services link in the top bar.
  * Click on the "New Relic" icon.
  * Verify elasticity by checking how many servers are running
- <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/newrelic-performance.png" height="600" />
 
+<p align="center">
+<img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/newrelic-performance.png" height="600" />
+</p>
  
 <br/>
 ----
@@ -306,7 +329,10 @@ clean integration-test -DhostAddress=labXX.atelier-xebia.cloudbees.net -DhostPor
  * Manage user, group
  ** Go to the Account tab
  ** Access to your User Settings and paste the SSH public key you have received by e-mail
- <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/add-ssh-public-key.png" height="400" />
+
+<p align="center">
+<img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/add-ssh-public-key.png" height="400" />
+</p>
  
  * Using of CloudBees SDK
  * Configure SSH Key
