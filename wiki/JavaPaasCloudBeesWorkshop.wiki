@@ -118,7 +118,7 @@ clean package
  
  ** Save the configuration and run the job (it can take some minutes before the build begins).
  
- ** The build must be unstable due to a test failure
+ ** The build must be unstable due to a test failure:
 
 <p align="center">
 <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/ci-job-failed.png" height="350" />
@@ -138,6 +138,10 @@ $ git push
 }}}
 
  ** The Continuous Integration job should be run automatically.
+
+<p align="center">
+<img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/ci-job-fixed.png" height="350" />
+</p>
 
  ** Once the build is fixed, go back to the job page. Click on the *Sonar* link to have a look at your quality metrics.
 
