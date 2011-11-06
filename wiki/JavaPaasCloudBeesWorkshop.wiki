@@ -9,6 +9,7 @@
 = Goal of the lab =
 
  * The purpose of this workshop is to use Cloudbees platform. Cloudbees is both a development platform and a production platform.
+ 
  * Our goal is to make some changes to the famous petclinic application then deploy it on cloudbees production cluster.
 
 <p align="center">
@@ -18,8 +19,11 @@
 = Workshop requirements =
 
  * Git client: !GitHub has [http://help.github.com/set-up-git-redirect setup tutorials] for all platforms (just perform the "Download and Install Git" step, we'll set up the SSH key at the beginning of the lab).
+ 
  * [http://maven.apache.org Apache Maven] (version 2.2.1 or above).
+ 
  * SSH client (should already be installed on any Unix platform, will come with Git for Windows).
+ 
  * SSH private key (will be sent by email before the lab).
 
 <br/>
@@ -33,12 +37,14 @@
 === Configure GIT repository ===
 
  * Create an *".ssh"* folder in your home directory. If you already have one, it's probably easiest to back it up and restore it after the lab:
+
 {{{
 $ mv $HOME/.ssh $HOME/.ssh.bak
 $ mkdir $HOME/.ssh
 }}}
 
  * Move your SSH private key to the folder and update the permissions:
+
 {{{
 $ mv id_rsa $HOME/.ssh
 $ chmod -R 700 $HOME/.ssh
@@ -47,11 +53,13 @@ $ chmod -R 700 $HOME/.ssh
  * Get [http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/petclinic-cloudbees.zip the zip] file containing the petclinic application from the wiki and unzip it in your local workspace.
 
  * Modify the *Group ID* in the Maven POM file (replace 'XX' by your team number, e.g. '01'):
+
 {{{
 <groupId>fr.xebia.techevent.labXX</groupId>
 }}}
 
  * Initialize a new Git local repository:
+
 {{{
 $ cd petclinic # or your existing project directory
 $ git init
@@ -62,6 +70,7 @@ $ git push origin master
 }}}
 
  * Create an integration branch named "develop":
+
 {{{
 $ git branch develop
 $ git checkout develop
@@ -69,6 +78,7 @@ $ git push origin develop
 }}}
 
  * Verify your branch organization by using the command "git-branch", and check if everything is correct:
+
 {{{
 $ git branch -a
   * develop
@@ -78,6 +88,7 @@ $ git branch -a
 }}}
 
  * To avoid having to specify the 'master' branch for future pushes, you can add the following at the end of your *.git/config* file:
+
 {{{
 [branch "master"]
   remote = origin
@@ -99,17 +110,20 @@ $ git branch -a
 </p>
  
  ** On the *"Code source management"* part choose *"Git"* and fill these parameters:
+
 {{{
 URL of repository=ssh://git@git.cloudbees.com/atelier-xebia/labXX.git
 Branch Specifier (blank for default)=develop
 }}}
  
  ** On the *"Build triggers"* part, tick *"poll SCM"* and provide this CRON expression (which means "every minute"):
+
 {{{
 * * * * *
 }}}
  
  ** On the *"Build"* part indicate the Maven goal:
+
 {{{
 clean package
 }}}
@@ -127,11 +141,13 @@ clean package
 === Fix the build and check the Continuous Integration ===
 
  ** Open the *!OwnerTests* class and fix the test failure.
+
 {{{
 fido.setName("Rex"); // should be "Fido"!
 }}}
 
  ** Push your modification on the remote repository:
+
 {{{
 $ git commit -am "Fix the test failure ;-)"
 $ git push
@@ -151,11 +167,12 @@ $ git push
 
 == @INTEG ==
 
-=== Create a MySQL database ===
+=== Configure a new MySQL database ===
 
  * Go back to the Home page in !CloudBees and click on *Applications*
  
  * Create and configure a new MySQL database by clicking on the databases icon in the home page of the Cloudbees account. Then click on the add new database link. Fill with the following parameters :
+
 {{{
 database name: labXX-dev
 username: labXX-dev
@@ -166,7 +183,7 @@ password: labXX
 <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/create-database-mysql.png" height="350" />
 </p>
 
-=== Run petclinic application on Integration platform ===
+=== Configure a new application ===
 
  * Go back to the Home page in !CloudBees and click on *Applications*
 
@@ -176,22 +193,25 @@ password: labXX
 <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/create-app-integ.png" height="300" />
 </p>
  
-=== Deploy application on integration environment ===
+=== Create a Jenkins job for deploying application on Integration environment ===
 
- * Create a new Job from the left menu with the job name *"labXX-integ"* and tick "Build a Maven2/3 project"
+ * Create a new Job from the left menu with the job name *"2-labXX-INTEG"* and tick "Build a Maven2/3 project"
  
  * On the "Code source management" part choose "Git" and fill these parameters:
+
 {{{
 URL of repository=ssh://git@git.cloudbees.com/atelier-xebia/labXX.git
-Branch Specifier (blank for default)=** # For avoiding issue
+Branch Specifier (blank for default)=develop
 }}}
 
  * On the "Build" part indicate the Maven goal
+
 {{{
 clean package
 }}}
 
  * On the "Post build action" part tick *"Deploy to !CloudBees"* option and fill parameters:
+
 {{{
 Application Id=atelier-xebia/labXX-integ
 }}}
@@ -202,9 +222,8 @@ Application Id=atelier-xebia/labXX-integ
 
 === Configure application for using MySQL ===
 
-The sources provided for the lab are already configured for MySQL. The only thing you need to do is adapt your database info:
+ * The sources provided for the lab are already configured for MySQL. The only thing you need to do is adapt your database info. Go to the *src/main/resources/environment/dev/* directory and edit the *cloudbees.properties* file according to your team number (this file is used to filter *src/main/webapp/WEB-INF/cloudbees-web.xml* during the build):
 
- * Go to the *src/main/resources/environment/dev/* directory and edit the *cloudbees.properties* file according to your team number (this file is used to filter *src/main/webapp/WEB-INF/cloudbees-web.xml* during the build):
 {{{
 cloudbees.datasource.username=labXX-dev
 cloudbees.datasource.password=labXX
@@ -212,13 +231,17 @@ cloudbees.datasource.url=jdbc:cloudbees://labXX-dev
 }}}
 
  * Commit and push your changes:
+
 {{{
-$ git add .
-$ git commit -m"Configure production database"
+$ git commit -am "Configure integration database"
 $ git push
 }}}
 
- * The Continuous Integration job should be run automatically and the new Integration job executed once the first job finished successfully.
+ * The Continuous Integration job should be run automatically and the new Integration job executed once the first job finished successfully. You can now access to your application through this URL:
+
+{{{
+http://labXX-integ.atelier-xebia.cloudbees.net
+}}}
 
 <br/>
 ----
@@ -226,9 +249,11 @@ $ git push
 
 == @TEST ==
 
- ===Run Selenium tests from the cloud===
+=== Run Selenium tests from the cloud ===
+
  * Update your pom.xml with this selenium profile. Replace the property _selenium.target.host_ with the home page of the you want to launch Selenium tests against. (ex: your integration environment for instance)
- {{{
+
+{{{
 <profile>
 	<id>selenium</id>
 	<build>
@@ -260,19 +285,21 @@ $ git push
 	</plugins>
 	</build>
 </profile>
- }}}
+}}}
  
  * Update your pom.xml with this dependency
- {{{
+
+{{{
 <dependency>
 	<groupId>org.seleniumhq.selenium</groupId>
 	<artifactId>selenium-java</artifactId>
 	<version>2.0rc3</version>
 </dependency>
- }}}
+}}}
  
  * Create a new package _selenium_ in _src/test/java/org/springframework/samples/petclinic/_ and add the 2 following java classes.
- {{{
+
+{{{
 package org.springframework.samples.petclinic.selenium;
 
 import java.net.URL;
@@ -307,11 +334,11 @@ public class SeleniumSauceLabSetUp extends TestCase {
         this.driver.quit();
     }
 }
- }}}
+}}}
  
  * The actual test class
  
- {{{
+{{{
 package org.springframework.samples.petclinic.selenium;
 
 public class HomePageSelenium extends SeleniumSauceLabSetUp {
@@ -321,17 +348,19 @@ public class HomePageSelenium extends SeleniumSauceLabSetUp {
 	    assertEquals("PetClinic :: a Spring Framework demonstration", driver.getTitle());
 	}
 }
- }}}
+}}}
  
  * Run locally the following command to launch your Selenium tests against the target url
- {{{
+
+{{{
 mvn clean verify -Pselenium
- }}}
+}}}
  
  * Or if you want to override the target url for Selenium
- {{{
+
+{{{
 mvn clean verify -Pselenium -Dselenium.target.host={HOME_PAGE_OF_YOUR_CHOICE}
- }}}
+}}}
 
  * You can see your test was logged at https://saucelabs.com/jobs
  
@@ -348,6 +377,7 @@ mvn clean verify -Pselenium -Dselenium.target.host={HOME_PAGE_OF_YOUR_CHOICE}
  * Go back to the Home page in !CloudBees and click on *Applications*
  
  * Create and configure a new MySQL database by clicking on the databases icon in the home page of the Cloudbees account. Then click on the add new database link. Fill with the following parameters :
+
 {{{
 database name: labXX
 username: labXX
@@ -360,9 +390,8 @@ password: labXX
  
 === Configure application for using MySQL ===
 
-The sources provided for the lab are already configured for MySQL. The only thing you need to do is adapt your database info:
+ * The sources provided for the lab are already configured for MySQL. The only thing you need to do is adapt your database info. Edit *src/main/resources/environment/prod/cloudbees-web.properties* (this file is used to filter *src/main/webapp/WEB-INF/cloudbees-web.xml* during the build):
 
- * Edit *src/main/resources/environment/prod/cloudbees-web.properties* (this file is used to filter *src/main/webapp/WEB-INF/cloudbees-web.xml* during the build):
 {{{
 cloudbees.datasource.username=labXX
 cloudbees.datasource.password=labXX
@@ -370,6 +399,7 @@ cloudbees.datasource.url=jdbc:cloudbees://labXX
 }}}
 
  * Commit and push your changes:
+
 {{{
 $ git add .
 $ git commit -m"Configure production database"
@@ -381,17 +411,20 @@ $ git push
  * Create a new Job from the left menu with the job name *"labXX-prod"* and tick "Build a Maven2/3 project"
 
  * On the "Code source management" part choose "Git" and fill these parameters:
+
 {{{
 URL of repository=ssh://git@git.cloudbees.com/atelier-xebia/labXX.git
 Branch Specifier (blank for default)=** # For avoiding issue
 }}}
 
  * On the "Build" part indicate the Maven goal
+
 {{{
 clean package -P prod
 }}}
 
  * On the "Post build action" part tick *"Deploy to !CloudBees"* option and fill parameters. If the application Id doesn't exist, it will be created.
+
 {{{
 Application Id=atelier-xebia/labXX-prod
 }}}
@@ -403,8 +436,11 @@ Application Id=atelier-xebia/labXX-prod
 === Configure production application with Elasticity, monitoring with New Relic and logs with Papertrail ===
 
  * Click on the applications icon on the home of the !Cloudbees account.
+
  * Click on the "configure" link under your application.
+
  * On the "Redundancy and Scale", choose "Multiple Instances" option.
+
  * Tick "Enable New Relic RPM application monitoring" and "Enable Papertrail application logging"
 
 <br/>
@@ -412,9 +448,13 @@ Application Id=atelier-xebia/labXX-prod
 <br/>
 
 == @PERF ==
-===Stress test with JMeter=== 
+
+=== Stress test with JMeter === 
+
  * Edit pom.xml
+
  * Add [https://github.com/Ronnie76er/jmeter-maven-plugin/wiki|jmeter-maven-plugin repository]
+
 {{{
 <pluginRepositories>
   <pluginRepository>
@@ -424,7 +464,9 @@ Application Id=atelier-xebia/labXX-prod
   </pluginRepository>
 </pluginRepositories>
 }}}
+
  * Add jmeter-maven-plugin in the build plugin section
+
 {{{
 <build>
   ...
@@ -461,10 +503,13 @@ Application Id=atelier-xebia/labXX-prod
 }}}
 
  * Create folder src/test/jmeter and put [http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/petclinic-cloudbees.jmx petclinic-cloudbees.jmx]
+
  * Create a job jenkins and add maven goals and replace "XX" by your group number
+
 {{{
 clean integration-test -DhostAddress=labXX.atelier-xebia.cloudbees.net -DhostPort=80 -DnbVirtualUsers=600 -DnbLoopsCount=2 -DnbRampUp=60
 }}}
+
  * Configure Post-build Actions and check Publish Performance test result report
 
 <p align="center">
@@ -481,9 +526,12 @@ clean integration-test -DhostAddress=labXX.atelier-xebia.cloudbees.net -DhostPor
 <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/performance-jenkins-jmeter-trend.png" height="300" />
 </p>
  
-===Monitoring with New Relic===
+=== Monitoring with New Relic ===
+
  * Click on the services link in the top bar.
+
  * Click on the "New Relic" icon.
+
  * Verify elasticity by checking how many servers are running
 
 <p align="center">
@@ -496,13 +544,14 @@ clean integration-test -DhostAddress=labXX.atelier-xebia.cloudbees.net -DhostPor
 
 == @ADMIN ==
 
- * Manage user, group
- ** Go to the Account tab
- ** Access to your User Settings and paste the SSH public key you have received by e-mail
+ * For managing user and group, go to the Account tab.
+
+ * Access to your User Settings and paste the SSH public key you have received by e-mail
 
 <p align="center">
 <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/add-ssh-public-key.png" height="400" />
 </p>
  
  * Using of CloudBees SDK
+
  * Configure SSH Key
