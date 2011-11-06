@@ -24,7 +24,7 @@
  
  * SSH client (should already be installed on any Unix platform, will come with Git for Windows).
  
- * SSH private key (will be sent by email before the lab).
+ * SSH private key (sent by email before the lab).
 
 <br/>
 ----
@@ -39,20 +39,21 @@
  * Create an *".ssh"* folder in your home directory. If you already have one, it's probably easiest to back it up and restore it after the lab:
 
 {{{
+#If you have already a .ssh, backup it
 $ mv $HOME/.ssh $HOME/.ssh.bak
 $ mkdir $HOME/.ssh
 }}}
 
- * Move your SSH private key to the folder and update the permissions:
+ * Move the SSH private key provided by email to the .ssh folder and update the permissions:
 
 {{{
 $ mv id_rsa $HOME/.ssh
-$ chmod -R 700 $HOME/.ssh
+$ chmod -R 600 $HOME/.ssh
 }}}
 
  * Get [http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/petclinic-cloudbees.zip the zip] file containing the petclinic application from the wiki and unzip it in your local workspace.
 
- * Modify the *Group ID* in the Maven POM file (replace 'XX' by your team number, e.g. '01'):
+ * Modify the *groupId* in the Maven POM file (replace 'XX' by your team number, e.g. '01'):
 
 {{{
 <groupId>fr.xebia.techevent.labXX</groupId>
@@ -204,7 +205,7 @@ URL of repository=ssh://git@git.cloudbees.com/atelier-xebia/labXX.git
 Branch Specifier (blank for default)=develop
 }}}
 
- * On the *"Build triggers"* part, tick *"Construire ? la suite d'autres projets (projets en amont)"* and indicate your Continuous Integration job
+ * On the *"Build triggers"* part, tick *"Build after other projects are built"* and indicate your Continuous Integration job
 
 {{{
 Noms des projets: 1-labXX-DEV
@@ -216,7 +217,7 @@ Noms des projets: 1-labXX-DEV
 clean package
 }}}
 
- * On the "Post build action" part tick *"Deploy to !CloudBees"* option and fill parameters:
+ * On the "Post build action" part tick *"Deploy to CloudBees"* option and fill parameters:
 
 {{{
 Application Id=atelier-xebia/labXX-integ
