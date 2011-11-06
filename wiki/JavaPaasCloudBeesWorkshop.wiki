@@ -1,9 +1,11 @@
-﻿#summary Discover Java PaaS Cloud with CloudBees
+#summary Discover Java PaaS Cloud with CloudBees
 
 <wiki:toc max_depth="2" />
+
 <br/>
 ----
 <br/>
+
 = Goal of the lab =
 
  * The purpose of this workshop is to use Cloudbees platform. Cloudbees is both a development platform and a production platform.
@@ -122,6 +124,49 @@ clean package
 ----
 <br/>
 
+== @INTEG ==
+
+=== Run petclinic application on Integration platform ===
+
+ * Go back to the Home page in !CloudBees and click on *Applications*
+
+ * Create and configure a new application on *RUN@cloud* called "xebia-atelier/labXX-integ"
+
+<p align="center">
+<img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/create-app-integ.png" height="300" />
+</p>
+ 
+=== Deploy application on integration environment (HSQLDB) ===
+
+ * Create a new Job from the left menu with the job name *"labXX-integ"* and tick "Build a Maven2/3 project"
+ 
+ * On the "Code source management" part choose "Git" and fill these parameters:
+{{{
+URL of repository=ssh://git@git.cloudbees.com/atelier-xebia/labXX.git
+Branch Specifier (blank for default)=** # For avoiding issue
+}}}
+
+ * On the "Build" part indicate the Maven goal
+{{{
+clean package
+}}}
+
+ * On the "Post build action" part tick *"Deploy to !CloudBees"* option and fill parameters:
+{{{
+Application Id=atelier-xebia/labXX-integ
+}}}
+
+<p align="center">
+<img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/configure-deploy-jenkins-job.png" height="300" />
+</p>
+
+ * Save the configuration and run the job.
+
+
+<br/>
+----
+<br/>
+
 == @TEST ==
 
  ===Run a selenium test from your IDE===
@@ -135,37 +180,7 @@ clean package
  capabillities.setCapability("name", "Bob and John selenium test");
  }}}
  * Save and run the unit test
- * The test should now appear in your http://saucelabs.com/jobs	
-
- ===Run petclinic application on Integration platform===
- * Go back to the Home page in !CloudBees and click on *Applications*
- * Create and configure a new application on *RUN@cloud* called "xebia-atelier/labXX-integ"
-
-<p align="center">
-<img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/create-app-integ.png" height="300" />
-</p>
- 
- ===Deploy application on integration environment (HSQLDB)===
- * Create a new Job from the left menu with the job name *"labXX-integ"* and tick "Build a Maven2/3 project"
- * On the "Code source management" part choose "Git" and fill these parameters:
-{{{
-URL of repository=ssh://git@git.cloudbees.com/atelier-xebia/labXX.git
-Branch Specifier (blank for default)=** # For avoiding issue
-}}}
- * On the "Build" part indicate the Maven goal
-{{{
-clean package
-}}}
- * On the "Post build action" part tick *"Deploy to !CloudBees"* option and fill parameters:
-{{{
-Application Id=atelier-xebia/labXX-integ
-}}}
-
-<p align="center">
-<img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/configure-deploy-jenkins-job.png" height="300" />
-</p>
-
- * Save the configuration and run the job.
+ * The test should now appear in your http://saucelabs.com/jobs
  
 <br/>
 ----
