@@ -237,7 +237,9 @@ $ git commit -am "Configure integration database"
 $ git push
 }}}
 
- * The Continuous Integration job should be run automatically and the new Integration job executed once the first job finished successfully. You can now access to your application through this URL:
+ * The Continuous Integration job should be run automatically. Then, the new Integration job should be executed.
+ 
+ * One the job finished, you can access to your application through this URL:
 
 {{{
 http://labXX-integ.atelier-xebia.cloudbees.net
