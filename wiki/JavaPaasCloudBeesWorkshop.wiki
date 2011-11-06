@@ -173,51 +173,51 @@ Application Id=atelier-xebia/labXX-integ
  * Add this profile to your pom.xml and replace the property selenium.target.host with the site home page you
  you want to laucnh your Selenium tests against. (Your integration environment for instance.)
  {{{
- 	<profile>
-			<id>selenium</id>
-			<build>
-			<plugins>
-		      <plugin>
-		        <groupId>org.apache.maven.plugins</groupId>
-		        <artifactId>maven-failsafe-plugin</artifactId>
-		        <version>2.10</version>
-		        <executions>
-					<execution>
-						<id>selenium-verify</id>
-						<phase>verify</phase>
-						<goals>
-							<goal>integration-test</goal>
-              				<goal>verify</goal>
-						</goals>
-					</execution>
-				</executions>
-		        <configuration>
-		          <includes>
-					<include>**/*Selenium.java</include>
-		          </includes>
-				  <systemProperties>
-					  <selenium.target.host>(REPLACE WITH YOUR INTEGRATION HOME PAGE URL)</selenium.target.host>
-					  <saucelabs.account.url>http://atelier-xebia:ab03b6f6-14b8-4458-b7c7-cc306ba0b8c0@ondemand.saucelabs.com:80/wd/hub</saucelabs.account.url>
-				  </systemProperties>
-		        </configuration>
-		      </plugin>
-			</plugins>
-			</build>
-		</profile>
+<profile>
+	<id>selenium</id>
+	<build>
+	<plugins>
+	  <plugin>
+		<groupId>org.apache.maven.plugins</groupId>
+		<artifactId>maven-failsafe-plugin</artifactId>
+		<version>2.10</version>
+		<executions>
+			<execution>
+				<id>selenium-verify</id>
+				<phase>verify</phase>
+				<goals>
+					<goal>integration-test</goal>
+					<goal>verify</goal>
+				</goals>
+			</execution>
+		</executions>
+		<configuration>
+		  <includes>
+			<include>**/*Selenium.java</include>
+		  </includes>
+		  <systemProperties>
+			  <selenium.target.host>(REPLACE WITH YOUR INTEGRATION HOME PAGE URL)</selenium.target.host>
+			  <saucelabs.account.url>http://atelier-xebia:ab03b6f6-14b8-4458-b7c7-cc306ba0b8c0@ondemand.saucelabs.com:80/wd/hub</saucelabs.account.url>
+		  </systemProperties>
+		</configuration>
+	  </plugin>
+	</plugins>
+	</build>
+</profile>
  }}}
  
  * Add this dependency to your pom.xml as well
  {{{
- 		<dependency>
-			<groupId>org.seleniumhq.selenium</groupId>
-			<artifactId>selenium-java</artifactId>
-			<version>2.0rc3</version>
-		</dependency>
+<dependency>
+	<groupId>org.seleniumhq.selenium</groupId>
+	<artifactId>selenium-java</artifactId>
+	<version>2.0rc3</version>
+</dependency>
  }}}
  
  * Add those 2 java classes in src/test/java in your package of choice.
  {{{
- package org.springframework.samples.petclinic.selenium;
+package org.springframework.samples.petclinic.selenium;
 
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
@@ -254,7 +254,7 @@ public class SeleniumSauceLabSetUp extends TestCase {
  }}}
  
  {{{
- package org.springframework.samples.petclinic.selenium;
+package org.springframework.samples.petclinic.selenium;
 
 public class HomePageSelenium extends SeleniumSauceLabSetUp {
 
