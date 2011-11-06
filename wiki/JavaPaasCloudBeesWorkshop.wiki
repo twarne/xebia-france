@@ -252,6 +252,7 @@ public class SeleniumSauceLabSetUp extends TestCase {
 }
  }}}
  
+ * The actual test class
  
  {{{
 package org.springframework.samples.petclinic.selenium;
@@ -265,20 +266,19 @@ public class HomePageSelenium extends SeleniumSauceLabSetUp {
 }
  }}}
  
- * Run locally the following command to launch your selenium tests
+ * Run locally the following command to launch your selenium tests against the target url
  {{{
 mvn clean verify -Pselenium
  }}}
  
- or if you want to override the target url for Selenium
- 
-  {{{
+ * Or if you want to override the target url for Selenium
+ {{{
 mvn clean verify -Pselenium -Dselenium.target.host={HOME_PAGE_OF_YOUR_CHOICE}
  }}}
 
  * You can see your test was logged at https://saucelabs.com/jobs
  
- * You can now add this profile if you want your selenium testing part of the build.
+ * You can now add this profile if you want your selenium testing to be part of the build.
  
 <br/>
 ----
