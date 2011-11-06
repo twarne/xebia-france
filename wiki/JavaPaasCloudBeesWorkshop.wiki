@@ -169,8 +169,6 @@ $ git push
 == @INTEG ==
 
 === Configure a new MySQL database ===
-
- * Go back to the Home page in !CloudBees and click on *Applications*
  
  * Create and configure a new MySQL database by clicking on the databases icon in the home page of the Cloudbees account. Then click on the add new database link. Fill with the following parameters :
 
