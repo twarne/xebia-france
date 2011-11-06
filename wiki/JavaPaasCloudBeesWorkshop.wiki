@@ -636,36 +636,37 @@ Go back to the application in your browser and navigate through a few pages; the
 
 
 === Creating and deploying a new application ===
-In this section, we'll create a trivial application from a !CloudBees-provided template, and deploy it to the cloud from the command-line.
-* Navigate to the directory where you want to create your application root directory and run the *create* command:
+In this section, we'll bootstrap an application from a !CloudBees-provided template, and deploy it to the cloud from the command-line.
+
+ * Navigate to the directory where you want to create your application root directory and run the *create* command:
 {{{
 $ cd ~/my_projects
 $ bees create -a atelier-xebia/helloworldXX -p fr.xebia helloworldXX
 }}}
 
-* Navigate to the newly created directory and examine the application structure. Edit *webapp/index.jsp* and locate for this text:
+ * Navigate to the newly created directory and examine the application structure. Edit *webapp/index.jsp* and locate for this text:
 {{{
 <h2 class="color text-xl">This application under development</h2>
 }}}
 
-* Replace it with something more personal:
+ * Replace it with something more personal:
 {{{
 <h2 class="color text-xl">Team XX says: hello, world!</h2>
 }}}
 
-* Launch your application locally by running this command from your root directory (NB: if port 8080 is already used on your machine, specify another with the *-p* option):
+ * Launch your application locally by running this command from your root directory (NB: if port 8080 is already used on your machine, specify another with the *-p* option):
 {{{
 $ bees run
 }}}
 
-* Navigate to http://localhost:8080 to view the home page with your personal message.
+ * Navigate to http://localhost:8080 to view the home page with your personal message.
 
-* Now let's deploy the application to the cloud! Kill your local server and run the following command (again from the application's root directory):
+ * Now let's deploy the application to the cloud! Kill your local server and run the following command (again from the application's root directory):
 {{{
 $ bees deploy -a atelier-xebia/helloworldXX
 }}}
 
-* In the !CloudBees web administration console, go to the applications management page. Your new app should be available.
+ * In the !CloudBees web administration console, go to the applications management page. Your new app should be available.
 
 <br/>
 ----
