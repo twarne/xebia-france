@@ -174,9 +174,9 @@ $ git push
  * Create and configure a new MySQL database by clicking on the databases icon in the home page of the Cloudbees account. Then click on the add new database link. Fill with the following parameters :
 
 {{{
-database name: labXX-dev
-username: labXX-dev
-password: labXX
+Database name: labXX-dev
+Username: labXX-dev
+Password: labXX
 }}}
 
 <p align="center">
@@ -379,9 +379,9 @@ mvn clean verify -Pselenium -Dselenium.target.host={HOME_PAGE_OF_YOUR_CHOICE}
  * Create and configure a new MySQL database by clicking on the databases icon in the home page of the Cloudbees account. Then click on the add new database link. Fill with the following parameters :
 
 {{{
-database name: labXX
-username: labXX
-password: labXX
+Database name: labXX
+Username: labXX
+Password: labXX
 }}}
 
 <p align="center">
