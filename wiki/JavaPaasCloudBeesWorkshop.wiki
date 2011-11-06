@@ -638,7 +638,7 @@ Go back to the application in your browser and navigate through a few pages; the
 === Creating and deploying a new application ===
 In this section, we'll bootstrap an application from a !CloudBees-provided template, and deploy it to the cloud from the command-line.
 
- * Navigate to the directory where you want to create your application root directory and run the *create* command:
+ * Run the following command (the new application's root directory will be created in the current directory):
 {{{
 $ cd ~/my_projects
 $ bees create -a atelier-xebia/helloworldXX -p fr.xebia helloworldXX
