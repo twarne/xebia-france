@@ -51,14 +51,6 @@ $ chmod -R 700 $HOME/.ssh
 <groupId>fr.xebia.techevent.labXX</groupId>
 }}}
 
- * Also modify the SCM configuration according to your team number
-{{{
-<scm>
-	<connection>scm:git:ssh://git@git.cloudbees.com/atelier-xebia/labXX.git</connection>
-	<developerConnection>scm:git:ssh://git@git.cloudbees.com/atelier-xebia/labXX.git</developerConnection>
-</scm>
-}}}
-
  * Initialize a new Git local repository:
 {{{
 $ cd petclinic # or your existing project directory
@@ -67,6 +59,23 @@ $ git remote add origin ssh://git@git.cloudbees.com/atelier-xebia/labXX.git
 $ git add -A  # if you want to check everything in
 $ git commit -m 'Initial checkin'
 $ git push origin master
+}}}
+
+ * Create an integration branch named "develop":
+{{{
+$ git branch develop
+$ git checkout develop
+$ git push origin develop
+}}}
+
+ * Verify your branch organization by using the command "git-branch", and check if everything is correct:
+{{{
+$ git branch -a
+
+  * develop
+  master
+  remotes/origin/develop
+  remotes/origin/master
 }}}
 
  * To avoid having to specify the 'master' branch for future pushes, you can add the following at the end of your *.git/config* file:
