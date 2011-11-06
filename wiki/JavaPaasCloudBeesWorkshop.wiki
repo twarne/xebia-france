@@ -180,7 +180,7 @@ password: labXX
 }}}
 
 <p align="center">
-<img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/create-database-mysql.png" height="350" />
+<img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/create-database-mysql-dev.png" height="350" />
 </p>
 
 === Configure a new application ===
