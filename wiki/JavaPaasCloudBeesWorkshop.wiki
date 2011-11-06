@@ -44,9 +44,9 @@ $ mv id_rsa $HOME/.ssh
 $ chmod -R 700 $HOME/.ssh
 }}}
 
- * Get [http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/petclinic-cloudbees.zip the zip] file containing the petclinic application from the wiki and unzip it in your local workspace
+ * Get [http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/petclinic-cloudbees.zip the zip] file containing the petclinic application from the wiki and unzip it in your local workspace.
 
- * Modify the *Group ID* in the Maven POM file (replace 'XX' by your team number, e.g. '01')
+ * Modify the *Group ID* in the Maven POM file (replace 'XX' by your team number, e.g. '01'):
 {{{
 <groupId>fr.xebia.techevent.labXX</groupId>
 }}}
