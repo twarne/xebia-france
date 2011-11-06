@@ -84,7 +84,7 @@ $ git branch -a
   merge = refs/head/master
 }}}
 
-=== Build your project for Continuous Integration ===
+=== Create a Jenkins job for Continuous Integration ===
 
  * Log in to !CloudBees (_your credentials will be provided at the beginning of the lab_).
  
@@ -116,11 +116,13 @@ clean package
  
  ** On the *"Post build action"* part, tick *"Deploy artifacts to my Private !CloudBees Repository"* option and verify that SNAPSHOT repository is correctly selected. Also tick *Sonar* option to active sonar analyze of your project.
  
- ** Save the configuration.
-
-=== Build your project for Continuous Integration ===
-
  ** Save the configuration and run the job (it can take some minutes before the build begins).
+ 
+ ** The build must be failed!
+
+=== Fix the build and check the Continuous Integration ===
+
+ 
 
  ** Once the build is complete, go back to the job page. Click on the *Sonar* link to have a look at your quality metrics.
 
