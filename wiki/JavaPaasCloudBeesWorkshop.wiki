@@ -71,7 +71,6 @@ $ git push origin develop
  * Verify your branch organization by using the command "git-branch", and check if everything is correct:
 {{{
 $ git branch -a
-
   * develop
   master
   remotes/origin/develop
