@@ -204,6 +204,12 @@ URL of repository=ssh://git@git.cloudbees.com/atelier-xebia/labXX.git
 Branch Specifier (blank for default)=develop
 }}}
 
+ * On the *"Build triggers"* part, tick *"Construire ˆ la suite d'autres projets (projets en amont)"* and indicate your Continuous Integration job
+
+{{{
+Noms des projets: 1-labXX-DEV
+}}}
+
  * On the "Build" part indicate the Maven goal
 
 {{{
@@ -369,6 +375,12 @@ mvn clean verify -Pselenium -Dselenium.target.host={HOME_PAGE_OF_YOUR_CHOICE}
 === Configure a new job for Selenium tests ===
 
  * Create a new Job from the left menu with the job name *"3-labXX-TEST"* and tick "Build a Maven2/3 project"
+
+ * On the *"Build triggers"* part, tick *"Construire ˆ la suite d'autres projets (projets en amont)"* and indicate your Integration deploiement job
+
+{{{
+Noms des projets: 2-labXX-INTEG
+}}}
 
 *TODO*
  
