@@ -377,7 +377,7 @@ mvn clean verify -Pselenium -Dselenium.target.host={HOME_PAGE_OF_YOUR_CHOICE}
 
  * Create a new Job from the left menu with the job name *"3-labXX-TEST"* and tick "Build a Maven2/3 project"
 
- * On the *"Build triggers"* part, tick *"Build after other projects are built"* and indicate your Integration deploiement job
+ * On the *"Build triggers"* part, tick *"Build after other projects are built"* and indicate your Integration deployment job
 
 {{{
 Project names: 2-labXX-INTEG
@@ -471,7 +471,7 @@ $ git merge develop --no-ff
 $ git push
 }}}
 
- * The Production deploiement job should be run automatically.
+ * The Production deployment job should be run automatically.
  
  * One the job finished, you can access to your application through this URL:
 
@@ -544,7 +544,7 @@ http://labXX.atelier-xebia.cloudbees.net
 
  * Create a new Job from the left menu with the job name *"5-labXX-PERF"* and tick "Build a Maven2/3 project"
 
- * On the *"Build triggers"* part, tick *"Build after other projects are built"* and indicate your Production deploiement job
+ * On the *"Build triggers"* part, tick *"Build after other projects are built"* and indicate your Production deployment job
 
 {{{
 Project names: 4-labXX-RUN
