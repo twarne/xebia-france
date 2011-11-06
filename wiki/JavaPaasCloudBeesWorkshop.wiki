@@ -204,7 +204,7 @@ URL of repository=ssh://git@git.cloudbees.com/atelier-xebia/labXX.git
 Branch Specifier (blank for default)=develop
 }}}
 
- * On the *"Build triggers"* part, tick *"Construire ˆ la suite d'autres projets (projets en amont)"* and indicate your Continuous Integration job
+ * On the *"Build triggers"* part, tick *"Construire ? la suite d'autres projets (projets en amont)"* and indicate your Continuous Integration job
 
 {{{
 Noms des projets: 1-labXX-DEV
@@ -376,7 +376,7 @@ mvn clean verify -Pselenium -Dselenium.target.host={HOME_PAGE_OF_YOUR_CHOICE}
 
  * Create a new Job from the left menu with the job name *"3-labXX-TEST"* and tick "Build a Maven2/3 project"
 
- * On the *"Build triggers"* part, tick *"Construire ˆ la suite d'autres projets (projets en amont)"* and indicate your Integration deploiement job
+ * On the *"Build triggers"* part, tick *"Construire ? la suite d'autres projets (projets en amont)"* and indicate your Integration deploiement job
 
 {{{
 Noms des projets: 2-labXX-INTEG
@@ -543,7 +543,7 @@ http://labXX.atelier-xebia.cloudbees.net
 
  * Create a new Job from the left menu with the job name *"5-labXX-PERF"* and tick "Build a Maven2/3 project"
 
- * On the *"Build triggers"* part, tick *"Construire ˆ la suite d'autres projets (projets en amont)"* and indicate your Production deploiement job
+ * On the *"Build triggers"* part, tick *"Construire ? la suite d'autres projets (projets en amont)"* and indicate your Production deploiement job
 
 {{{
 Noms des projets: 4-labXX-RUN
@@ -596,7 +596,87 @@ clean integration-test -DhostAddress=labXX.atelier-xebia.cloudbees.net -DhostPor
 <p align="center">
 <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/add-ssh-public-key.png" height="400" />
 </p>
- 
- * Using of CloudBees SDK
 
- * Configure SSH Key
+<br/>
+----
+<br/>
+
+== @SDK ==
+The SDK provides command-line tools to manage applications and databases.
+
+=== Installing the SDK ===
+On your !CloudBees home page, click on the *!CloudBees SDK* link in the *Downloads* section. Follow the installation instructions for your platform.
+
+=== Getting information ==
+List the applications available to the workshop's account:
+{{{
+$ bees app:list
+}}}
+
+You should see your production application (as well as those of the other teams):
+{{{
+Application                Status    URL                                    Instance(s)
+...
+atelier-xebia/labXX-prod   active    labXX-prod.atelier-xebia.cloudbees.net 1
+}}}
+
+To get more information, try the following command:
+{{{
+$ bees app:info -a atelier-xebia/labXX-prod
+}}}
+
+
+=== Tailing the logs ===
+Should you get nostalgic of the good old Unix *tail* command, the SDK provides a way to follow your logs in real-time from the command line:
+{{{
+$ bees app:tail -a atelier-xebia/labXX-prod
+}}}
+
+Go back to the application in your browser and navigate through a few pages; the console logs should get updated.
+
+
+=== Creating and deploying a new application ===
+In this section, we'll create a trivial application from a !CloudBees-provided template, and deploy it to the cloud from the command-line.
+* Navigate to the directory where you want to create your application root directory and run the *create* command:
+{{{
+$ cd ~/my_projects
+$ bees create -a atelier-xebia/helloworldXX -p fr.xebia helloworldXX
+}}}
+
+* Navigate to the newly created directory and examine the application structure. Edit *webapp/index.jsp* and locate for this text:
+{{{
+<h2 class="color text-xl">This application under development</h2>
+}}}
+
+* Replace it with something more personal:
+{{{
+<h2 class="color text-xl">Team XX says: hello, world!</h2>
+}}}
+
+* Launch your application locally by running this command from your root directory (NB: if port 8080 is already used on your machine, specify another with the *-p* option):
+{{{
+$ bees run
+}}}
+
+* Navigate to http://localhost:8080 to view the home page with your personal message.
+
+* Now let's deploy the application to the cloud! Kill your local server and run the following command (again from the application's root directory):
+{{{
+$ bees deploy -a atelier-xebia/helloworldXX
+}}}
+
+* In the !CloudBees web administration console, go to the applications management page. Your new app should be available.
+
+<br/>
+----
+<br/>
+
+= Questions =
+
+ * Can we use CloudBees SDK for managing my account (User, subscription administration)?
+ * Can we launch a Selenium test on SauceLabs directly from a job configured inside Jenkins?
+ * Can we create a stress test by using JMeter for showing the elasticity of an application which is running on CloudBees?
+ * Can we browse Git repository directly from CloudBees?
+ * Why when I create a new Jenkins job for an existing project, Jenkins downloads all the dependencies even if I have already all of them into my Maven repository?
+ * What is the meaning of the option "Build when a change is pushed to CloudBees Forge" in Jenkins job configuration?
+ * How can I remove artifact from my Maven repository?
