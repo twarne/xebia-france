@@ -90,9 +90,9 @@ $ git branch -a
  
  * Click on the *Jenkins build* icon.
  
- * Go to the folder with your group name *"labXX"* 
+ * Go to the folder with your group name *"labXX"*.
  
- * Create a new item from the left menu with the job name *"1-labXX-DEV"* and tick "Build a Maven2/3 project"
+ * Create a new item from the left menu with the job name *"1-labXX-DEV"* and tick "Build a Maven2/3 project".
 
 <p align="center">
 <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/add-jenkins-job.png" height="400" />
@@ -109,22 +109,20 @@ Branch Specifier (blank for default)=develop
 * * * * *
 }}}
  
- ** On the *"Build"* part indicate the Maven goal
+ ** On the *"Build"* part indicate the Maven goal:
 {{{
 clean package
 }}}
  
  ** On the *"Post build action"* part, tick *"Deploy artifacts to my Private !CloudBees Repository"* option and verify that SNAPSHOT repository is correctly selected. Also tick *Sonar* option to active sonar analyze of your project.
  
+ ** Save the configuration.
+
+=== Build your project for Continuous Integration ===
+
  ** Save the configuration and run the job (it can take some minutes before the build begins).
 
  ** Once the build is complete, go back to the job page. Click on the *Sonar* link to have a look at your quality metrics.
-
-=== Release of a new version ===
-
- * Release of a new version of the application by clicking on the "Perform maven release". Let the parameter as pre-filled and click on "Schedule a maven release". As the build, the release can start after a few minutes. (WARNING ! Add scm url to petclinic pom.xml !)
-
- * Use Artifactory for managing Maven repository (jenkins artifactory plugin is buggy? problem with artifactory host configuration) 
 
 <br/>
 ----
