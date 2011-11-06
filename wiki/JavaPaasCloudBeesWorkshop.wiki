@@ -118,13 +118,28 @@ clean package
  
  ** Save the configuration and run the job (it can take some minutes before the build begins).
  
- ** The build must fail!
+ ** The build must be unstable due to a test failure
+
+<p align="center">
+<img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/ci-job-failed.png" height="350" />
+</p>
 
 === Fix the build and check the Continuous Integration ===
 
- 
+ ** Open the OwnerTests class and fix the test.
+{{{
+fido.setName("Rex"); // should be "Fido"!
+}}}
 
- ** Once the build is complete, go back to the job page. Click on the *Sonar* link to have a look at your quality metrics.
+ ** Push your modification on the remote repository:
+{{{
+$ git commit -am "Fix the test failure ;-)"
+$ git push
+}}}
+
+ ** The Continuous Integration job should be run automatically.
+
+ ** Once the build is fixed, go back to the job page. Click on the *Sonar* link to have a look at your quality metrics.
 
 <br/>
 ----
