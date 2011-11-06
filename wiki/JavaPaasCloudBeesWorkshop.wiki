@@ -529,7 +529,13 @@ Application Id=atelier-xebia/labXX
 
  * Create a new Job from the left menu with the job name *"5-labXX-PERF"* and tick "Build a Maven2/3 project"
 
- * Add teh following Maven goals and replace "XX" by your group number:
+ * On the *"Build triggers"* part, tick *"Construire ˆ la suite d'autres projets (projets en amont)"* and indicate your Production deploiement job
+
+{{{
+Noms des projets: 4-labXX-RUN
+}}}
+
+ * Add the following Maven goals and replace "XX" by your group number:
 
 {{{
 clean integration-test -DhostAddress=labXX.atelier-xebia.cloudbees.net -DhostPort=80 -DnbVirtualUsers=600 -DnbLoopsCount=2 -DnbRampUp=60
