@@ -208,7 +208,7 @@ Branch Specifier (blank for default)=develop
  * On the *"Build triggers"* part, tick *"Build after other projects are built"* and indicate your Continuous Integration job
 
 {{{
-Noms des projets: 1-labXX-DEV
+Project names: 1-labXX-DEV
 }}}
 
  * On the "Build" part indicate the Maven goal
@@ -380,7 +380,7 @@ mvn clean verify -Pselenium -Dselenium.target.host={HOME_PAGE_OF_YOUR_CHOICE}
  * On the *"Build triggers"* part, tick *"Build after other projects are built"* and indicate your Integration deploiement job
 
 {{{
-Noms des projets: 2-labXX-INTEG
+Project names: 2-labXX-INTEG
 }}}
 
 *TODO*
@@ -547,7 +547,7 @@ http://labXX.atelier-xebia.cloudbees.net
  * On the *"Build triggers"* part, tick *"Build after other projects are built"* and indicate your Production deploiement job
 
 {{{
-Noms des projets: 4-labXX-RUN
+Project names: 4-labXX-RUN
 }}}
 
  * Add the following Maven goals and replace "XX" by your group number:
