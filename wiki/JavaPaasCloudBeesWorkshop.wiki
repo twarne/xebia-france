@@ -170,8 +170,8 @@ Application Id=atelier-xebia/labXX-integ
 == @TEST ==
 
  ===Run Selenium tests from the cloud===
- * Add this profile to your pom.xml and replace the property selenium.target.host with the site home page you
- you want to laucnh your Selenium tests against. (Your integration environment for instance.)
+ * Update your pom.xml with a selenium profile. Replace the property _selenium.target.host_ with the home page of the
+ you want to launch Selenium tests against. (ex: your integration environment for instance)
  {{{
 <profile>
 	<id>selenium</id>
@@ -206,7 +206,7 @@ Application Id=atelier-xebia/labXX-integ
 </profile>
  }}}
  
- * Add this dependency to your pom.xml as well
+ * Update your pom.xml with this dependency
  {{{
 <dependency>
 	<groupId>org.seleniumhq.selenium</groupId>
@@ -215,7 +215,7 @@ Application Id=atelier-xebia/labXX-integ
 </dependency>
  }}}
  
- * Add those 2 java classes in src/test/java in your package of choice.
+ * Create a new package selenium in _src/test/java/org/springframework/samples/petclinic/_ and add those 2 java classes.
  {{{
 package org.springframework.samples.petclinic.selenium;
 
@@ -264,6 +264,13 @@ public class HomePageSelenium extends SeleniumSauceLabSetUp {
 	}
 }
  }}}
+ 
+ * Run the foolowing command to launch your selenium tests
+ {{{
+mvn clean verify -Pselenium
+ }}}
+ 
+ * You can see your test was logged at https://saucelabs.com/jobs
  
 <br/>
 ----
