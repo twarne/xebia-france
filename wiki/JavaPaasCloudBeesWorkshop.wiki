@@ -151,6 +151,21 @@ $ git push
 
 == @INTEG ==
 
+=== Create a MySQL database ===
+
+ * Go back to the Home page in !CloudBees and click on *Applications*
+ 
+ * Create and configure a new MySQL database by clicking on the databases icon in the home page of the Cloudbees account. Then click on the add new database link. Fill with the following parameters :
+{{{
+database name: labXX-dev
+username: labXX-dev
+password: labXX
+}}}
+
+<p align="center">
+<img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/create-database-mysql.png" height="350" />
+</p>
+
 === Run petclinic application on Integration platform ===
 
  * Go back to the Home page in !CloudBees and click on *Applications*
@@ -161,7 +176,7 @@ $ git push
 <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/create-app-integ.png" height="300" />
 </p>
  
-=== Deploy application on integration environment (HSQLDB) ===
+=== Deploy application on integration environment ===
 
  * Create a new Job from the left menu with the job name *"labXX-integ"* and tick "Build a Maven2/3 project"
  
@@ -185,8 +200,25 @@ Application Id=atelier-xebia/labXX-integ
 <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/configure-deploy-jenkins-job.png" height="300" />
 </p>
 
- * Save the configuration and run the job.
+=== Configure application for using MySQL ===
 
+The sources provided for the lab are already configured for MySQL. The only thing you need to do is adapt your database info:
+
+ * Go to the *src/main/resources/environment/dev/* directory and edit the *cloudbees.properties* file according to your team number (this file is used to filter *src/main/webapp/WEB-INF/cloudbees-web.xml* during the build):
+{{{
+cloudbees.datasource.username=labXX-dev
+cloudbees.datasource.password=labXX
+cloudbees.datasource.url=jdbc:cloudbees://labXX-dev
+}}}
+
+ * Commit and push your changes:
+{{{
+$ git add .
+$ git commit -m"Configure production database"
+$ git push
+}}}
+
+ * The Continuous Integration job should be run automatically and the new Integration job executed once the first job finished successfully.
 
 <br/>
 ----
