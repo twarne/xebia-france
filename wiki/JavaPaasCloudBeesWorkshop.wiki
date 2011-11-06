@@ -101,7 +101,7 @@ $ git branch -a
  ** On the *"Code source management"* part choose *"Git"* and fill these parameters:
 {{{
 URL of repository=ssh://git@git.cloudbees.com/atelier-xebia/labXX.git
-Branch Specifier (blank for default)=** # For avoiding issue
+Branch Specifier (blank for default)=develop
 }}}
  
  ** On the *"Build triggers"* part, tick *"poll SCM"* and provide this CRON expression (which means "every minute"):
@@ -114,9 +114,7 @@ Branch Specifier (blank for default)=** # For avoiding issue
 clean package
 }}}
  
- ** On the *"Build Environment"* part, tick *"Maven release build"* option. The parameters are correctly pre-filled, let them as default.
- 
- ** On the *"Post build action"* part tick *"Deploy artifacts to my Private !CloudBees Repository"* option and verify that SNAPSHOT repository is correctly selected. Also tick *Sonar* option to active sonar analyze of your project.
+ ** On the *"Post build action"* part, tick *"Deploy artifacts to my Private !CloudBees Repository"* option and verify that SNAPSHOT repository is correctly selected. Also tick *Sonar* option to active sonar analyze of your project.
  
  ** Save the configuration and run the job (it can take some minutes before the build begins).
 
