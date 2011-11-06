@@ -226,7 +226,7 @@ Application Id=atelier-xebia/labXX-integ
 <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/configure-deploy-jenkins-job.png" height="300" />
 </p>
 
-=== Configure application for using MySQL ===
+=== Configure your application for Integration environment ===
 
  * The sources provided for the lab are already configured for MySQL. The only thing you need to do is adapt your database info. Go to the *src/main/resources/environment/dev/* directory and edit the *cloudbees.properties* file according to your team number (this file is used to filter *src/main/webapp/WEB-INF/cloudbees-web.xml* during the build):
 
@@ -406,7 +406,19 @@ Password: labXX
 <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/create-database-mysql.png" height="350" />
 </p>
 
-=== Configure a new application ===
+=== Configure a new application with Elasticity, monitoring with New Relic and logs with Papertrail ===
+
+ * Go back to the Home page in !CloudBees and click on *Applications*
+
+ * Create and configure a new application on *RUN@cloud* called "xebia-atelier/labXX"
+
+ * Click on the "configure" link under your application.
+
+ * On the "Redundancy and Scale", choose "Multiple Instances" option.
+
+ * Tick "Enable New Relic RPM application monitoring" and "Enable Papertrail application logging"
+
+=== Configure your application for Production environment ===
 
  * The sources provided for the lab are already configured for MySQL. The only thing you need to do is adapt your database info. Edit *src/main/resources/environment/prod/cloudbees-web.properties* (this file is used to filter *src/main/webapp/WEB-INF/cloudbees-web.xml* during the build):
 
@@ -423,7 +435,7 @@ $ git commit -am "Configure production database"
 $ git push
 }}}
 
-=== Deploy application on production environment ===
+=== Create a Jenkins job for deploying application on Production environment ===
 
  * Create a new Job from the left menu with the job name *"4-labXX-RUN"* and tick "Build a Maven2/3 project"
 
@@ -448,7 +460,9 @@ Application Id=atelier-xebia/labXX
 
  * Save the configuration.
  
- * Promote the "develop" branch to the "master" branch with Git:
+=== Branch promotion with Git ===
+ 
+ * Merge your *"develop"* branch to your *"master"* branch:
  
 {{{
 $ git checkout master
@@ -456,17 +470,15 @@ $ git merge develop --no-ff
 $ git push
 }}}
 
- * Once the job has completed, go back to the !CloudBees home page and click on the *Applications* icon. Locate your instance in the list and click on it. The management page provides useful information like usage statistics, access to the production logs, and incidentally the URL of your application :-) Click on it to check that it functions properly.
+ * The Production deploiement job should be run automatically.
+ 
+ * One the job finished, you can access to your application through this URL:
 
-=== Configure production application with Elasticity, monitoring with New Relic and logs with Papertrail ===
+{{{
+http://labXX.atelier-xebia.cloudbees.net
+}}}
 
- * Click on the applications icon on the home of the !Cloudbees account.
-
- * Click on the "configure" link under your application.
-
- * On the "Redundancy and Scale", choose "Multiple Instances" option.
-
- * Tick "Enable New Relic RPM application monitoring" and "Enable Papertrail application logging"
+ * Go back to the !CloudBees home page and click on the *Applications* icon. Locate your instance in the list and click on it. The management page provides useful information like usage statistics, access to the production logs, and incidentally the URL of your application :-) Click on it to check that it functions properly.
 
 <br/>
 ----
