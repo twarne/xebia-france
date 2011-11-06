@@ -160,7 +160,7 @@ $ git push
 <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/ci-job-fixed.png" height="350" />
 </p>
 
- ** Once the build is fixed, go back to the job page. Click on the *Sonar* link to have a look at your quality metrics. (not working ?)
+ ** Once the build is fixed, go back to the job page. Click on the *Sonar* link to have a look at your quality metrics.
 
 <br/>
 ----
