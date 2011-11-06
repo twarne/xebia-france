@@ -451,7 +451,9 @@ Application Id=atelier-xebia/labXX
  * Promote the "develop" branch to the "master" branch with Git:
  
 {{{
-*TODO*
+$ git checkout master
+$ git merge develop --no-ff
+$ git push
 }}}
 
  * Once the job has completed, go back to the !CloudBees home page and click on the *Applications* icon. Locate your instance in the list and click on it. The management page provides useful information like usage statistics, access to the production logs, and incidentally the URL of your application :-) Click on it to check that it functions properly.
