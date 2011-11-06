@@ -118,7 +118,7 @@ clean package
  
  ** Save the configuration and run the job (it can take some minutes before the build begins).
  
- ** The build must be failed!
+ ** The build must fail!
 
 === Fix the build and check the Continuous Integration ===
 
