@@ -666,17 +666,3 @@ $ bees deploy -a atelier-xebia/helloworldXX
 }}}
 
  * In the !CloudBees web administration console, go to the applications management page. Your new app should be available.
-
-<br/>
-----
-<br/>
-
-= Questions =
-
- * Can we use CloudBees SDK for managing my account (User, subscription administration)?
- * Can we launch a Selenium test on SauceLabs directly from a job configured inside Jenkins?
- * Can we create a stress test by using JMeter for showing the elasticity of an application which is running on CloudBees?
- * Can we browse Git repository directly from CloudBees?
- * Why when I create a new Jenkins job for an existing project, Jenkins downloads all the dependencies even if I have already all of them into my Maven repository?
- * What is the meaning of the option "Build when a change is pushed to CloudBees Forge" in Jenkins job configuration?
- * How can I remove artifact from my Maven repository?
