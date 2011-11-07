@@ -48,7 +48,8 @@
 $ mv ~/.ssh ~/.ssh.bak
 $ mkdir ~/.ssh
 $ curl https://s3-eu-west-1.amazonaws.com/xebia-cloudbees-workshop/id_rsa --output ~/.ssh/id_rsa
-$ chmod -R 600 ~/.ssh
+$ chmod 700 ~/.ssh
+$ chmod -R 600 ~/.ssh/*
 }}}
 
  * Get [http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/petclinic-cloudbees.zip the zip] file containing the petclinic application from the wiki and unzip it in your local workspace.
