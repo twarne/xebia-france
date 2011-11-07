@@ -40,15 +40,15 @@
 
 {{{
 #If you have already a .ssh, backup it
-$ mv $HOME/.ssh $HOME/.ssh.bak
-$ mkdir $HOME/.ssh
 }}}
 
- * Move the SSH private key provided by email to the .ssh folder and update the permissions:
+ * Backup your existing {{{/.ssh}}} folder and install your following [id_rsa https://s3-eu-west-1.amazonaws.com/xebia-cloudbees-workshop/id_rsa] SSH private key:
 
 {{{
-$ mv id_rsa $HOME/.ssh
-$ chmod -R 600 $HOME/.ssh
+$ mv ~/.ssh $HOME/.ssh.bak
+$ mkdir ~/.ssh
+$ curl https://s3-eu-west-1.amazonaws.com/xebia-cloudbees-workshop/id_rsa --output ~/.ssh/id_rsa
+$ chmod -R 600 ~/.ssh
 }}}
 
  * Get [http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/petclinic-cloudbees.zip the zip] file containing the petclinic application from the wiki and unzip it in your local workspace.
