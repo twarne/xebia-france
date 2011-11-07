@@ -254,119 +254,30 @@ http://labXX-integ.atelier-xebia.cloudbees.net
 
 === Run Selenium tests from the cloud ===
 
- * Update your pom.xml with this selenium profile. Replace the property _selenium.target.host_ with the home page of the you want to launch Selenium tests against. (ex: your integration environment for instance)
-
-{{{
+ * Your pom.xml contained a preconfigure _selenium_ profile.
+ 
+ * You can choose on which site to run your Selenium tests against. For that update the in the profile.
+ {{{
 <profile>
 	<id>selenium</id>
-	<build>
-	<plugins>
-	  <plugin>
-		<groupId>org.apache.maven.plugins</groupId>
-		<artifactId>maven-failsafe-plugin</artifactId>
-		<version>2.10</version>
-		<executions>
-			<execution>
-				<id>selenium-verify</id>
-				<phase>verify</phase>
-				<goals>
-					<goal>integration-test</goal>
-					<goal>verify</goal>
-				</goals>
-			</execution>
-		</executions>
-		<configuration>
-		  <includes>
-			<include>**/*Selenium.java</include>
-		  </includes>
-		  <systemProperties>
-			  <selenium.target.host>(REPLACE WITH YOUR INTEGRATION HOME PAGE URL)</selenium.target.host>
-			  <saucelabs.account.url>http://atelier-xebia:ab03b6f6-14b8-4458-b7c7-cc306ba0b8c0@ondemand.saucelabs.com:80/wd/hub</saucelabs.account.url>
-		  </systemProperties>
-		</configuration>
-	  </plugin>
-	</plugins>
-	</build>
-</profile>
-}}}
+	<properties>
+		<myselenium.target.host>http://labXX-integ.atelier-xebia.cloudbees.net</myselenium.target.host>
+	</properties>
+	...
+ }}}
  
- * Update your pom.xml with this dependency
-
-{{{
-<dependency>
-	<groupId>org.seleniumhq.selenium</groupId>
-	<artifactId>selenium-java</artifactId>
-	<version>2.0rc3</version>
-</dependency>
-}}}
+ * The actual Selenium test classes are in the src/test/java/org/.../selenium package
  
- * Create a new package _selenium_ in _src/test/java/org/springframework/samples/petclinic/_ and add the 2 following java classes.
-
-{{{
-package org.springframework.samples.petclinic.selenium;
-
-import java.net.URL;
-import java.util.concurrent.TimeUnit;
-
-import junit.framework.TestCase;
-
-import org.openqa.selenium.Platform;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.RemoteWebDriver;
-
-public class SeleniumSauceLabSetUp extends TestCase {
-    
-	protected WebDriver driver;
-	protected String targetUrl;
-	
-	public void setUp() throws Exception {
-        DesiredCapabilities capabillities = DesiredCapabilities.firefox();
-        capabillities.setCapability("version", "5");
-        capabillities.setCapability("platform", Platform.XP);
-        capabillities.setCapability("name", "Simple selenium test [" + System.currentTimeMillis() + "].");
-
-        this.driver = new RemoteWebDriver(new URL(System.getProperty("saucelabs.account.url")), capabillities);
-        this.targetUrl = System.getProperty("selenium.target.host");
-        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-        
-        System.out.println("Running selenium tests against: " + targetUrl);
-    }
-
-    public void tearDown() throws Exception {
-        this.driver.quit();
-    }
-}
-}}}
- 
- * The actual test class
- 
-{{{
-package org.springframework.samples.petclinic.selenium;
-
-public class HomePageSelenium extends SeleniumSauceLabSetUp {
-
-    public void test_home_page_should_have_correct_title() throws Exception {
-	    driver.get(targetUrl);
-	    assertEquals("PetClinic :: a Spring Framework demonstration", driver.getTitle());
-	}
-}
-}}}
- 
- * Run locally the following command to launch your Selenium tests against the target url
+ * To run the Selenium tests
 
 {{{
 mvn clean verify -Pselenium
 }}}
  
- * Or if you want to override the target url for Selenium
+ * You can see that your test was logged at https://saucelabs.com/jobs (please be logged in in Cloudbees to access this URL)
 
-{{{
-mvn clean verify -Pselenium -Dselenium.target.host={HOME_PAGE_OF_YOUR_CHOICE}
-}}}
 
- * You can see your test was logged at https://saucelabs.com/jobs
-
+ 
 === Configure a new job for Selenium tests ===
 
  * Create a new Job from the left menu with the job name *"3-labXX-TEST"* and tick "Build a Maven2/3 project"
