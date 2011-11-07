@@ -45,7 +45,7 @@
  * Backup your existing {{{/.ssh}}} folder and install your following [id_rsa https://s3-eu-west-1.amazonaws.com/xebia-cloudbees-workshop/id_rsa] SSH private key:
 
 {{{
-$ mv ~/.ssh $HOME/.ssh.bak
+$ mv ~/.ssh ~/.ssh.bak
 $ mkdir ~/.ssh
 $ curl https://s3-eu-west-1.amazonaws.com/xebia-cloudbees-workshop/id_rsa --output ~/.ssh/id_rsa
 $ chmod -R 600 ~/.ssh
