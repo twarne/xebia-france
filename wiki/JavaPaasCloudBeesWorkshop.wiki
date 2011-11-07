@@ -596,20 +596,6 @@ clean integration-test -Pperformance -DhostAddress=labXX.atelier-xebia.cloudbees
 ----
 <br/>
 
-== @ADMIN ==
-
- * For managing user and group, go to the Account tab.
-
- * Access to your User Settings and paste the SSH public key you have received by e-mail
-
-<p align="center">
-<img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/add-ssh-public-key.png" height="400" />
-</p>
-
-<br/>
-----
-<br/>
-
 == @SDK ==
 The SDK provides command-line tools to manage applications and databases.
 
