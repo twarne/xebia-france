@@ -191,26 +191,22 @@ Password: labXX-integ
  * Create a new Job from the left menu with the job name *"2-labXX-INTEG"* and tick "Build a Maven2/3 project"
  
  * On the "Code source management" part choose "Git" and fill these parameters:
-
 {{{
 URL of repository=ssh://git@git.cloudbees.com/atelier-xebia/labXX.git
 Branch Specifier (blank for default)=develop
 }}}
 
  * On the *"Build triggers"* part, tick *"Build after other projects are built"* and indicate your Continuous Integration job
-
 {{{
 Project names: 1-labXX-DEV
 }}}
 
  * On the "Build" part indicate the Maven goal
-
 {{{
 clean package
 }}}
 
  * On the "Post build action" part tick *"Deploy to !CloudBees"* option and fill parameters:
-
 {{{
 Application Id=atelier-xebia/labXX-integ
 }}}
@@ -222,7 +218,6 @@ Application Id=atelier-xebia/labXX-integ
 === Configure your application for Integration environment ===
 
  * The sources provided for the lab are already configured for MySQL. The only thing you need to do is adapt your database info. Go to the *src/main/resources/environment/dev/* directory and edit the *cloudbees.properties* file according to your team number (this file is used to filter *src/main/webapp/WEB-INF/cloudbees-web.xml* during the build):
-
 {{{
 cloudbees.datasource.username=labXX-dev
 cloudbees.datasource.password=labXX
@@ -230,7 +225,6 @@ cloudbees.datasource.url=jdbc:cloudbees://labXX-dev
 }}}
 
  * Commit and push your changes:
-
 {{{
 $ git commit -am "Configure integration database"
 $ git push
@@ -239,7 +233,6 @@ $ git push
  * The Continuous Integration job should be run automatically. Then, the new Integration job should be executed.
  
  * One the job finished, you can access to your application through this URL:
-
 {{{
 http://labXX-integ.atelier-xebia.cloudbees.net
 }}}
@@ -255,7 +248,7 @@ http://labXX-integ.atelier-xebia.cloudbees.net
  * Your pom.xml contained a preconfigure _selenium_ profile
  
  * You can choose on which site to run your Selenium tests against. For that update the property _myselenium.target.host_ in the profile
- {{{
+{{{
 <profile>
  <id>selenium</id>
  <properties>
@@ -267,7 +260,6 @@ http://labXX-integ.atelier-xebia.cloudbees.net
  * The actual Selenium test classes are in the _src/test/java/org/.../selenium_ package
  
  * To run the Selenium tests against your defined target
-
 {{{
 mvn clean verify -Pselenium
 }}}
@@ -280,7 +272,6 @@ mvn clean verify -Pselenium
  * Create a new Job from the left menu with the job name *"3-labXX-TEST"* and tick "Build a Maven2/3 project"
 
  * On the *"Build triggers"* part, tick *"Build after other projects are built"* and indicate your Integration deployment job
-
 {{{
 Project names: 2-labXX-INTEG
 }}}
@@ -304,7 +295,6 @@ mvn clean verify -Pselenium
  * Go back to the Home page in !CloudBees and click on *Applications*
  
  * Create and configure a new MySQL database by clicking on the databases icon in the home page of the Cloudbees account. Then click on the add new database link. Fill with the following parameters :
-
 {{{
 Database name: labXX
 Username: labXX
@@ -330,7 +320,6 @@ Password: labXX
 === Configure your application for Production environment ===
 
  * The sources provided for the lab are already configured for MySQL. The only thing you need to do is adapt your database info. Edit *src/main/resources/environment/prod/cloudbees-web.properties* (this file is used to filter *src/main/webapp/WEB-INF/cloudbees-web.xml* during the build):
-
 {{{
 cloudbees.datasource.username=labXX
 cloudbees.datasource.password=labXX
@@ -338,7 +327,6 @@ cloudbees.datasource.url=jdbc:cloudbees://labXX
 }}}
 
  * Commit and push your changes:
-
 {{{
 $ git commit -am "Configure production database"
 $ git push
@@ -349,20 +337,17 @@ $ git push
  * Create a new Job from the left menu with the job name *"4-labXX-RUN"* and tick "Build a Maven2/3 project"
 
  * On the "Code source management" part choose "Git" and fill these parameters:
-
 {{{
 URL of repository=ssh://git@git.cloudbees.com/atelier-xebia/labXX.git
 Branch Specifier (blank for default)=master
 }}}
 
  * On the "Build" part indicate the Maven goal
-
 {{{
 clean package -Denvironment=prod
 }}}
 
  * On the "Post build action" part tick *"Deploy to !CloudBees"* option and fill parameters. If the application Id doesn't exist, it will be created.
-
 {{{
 Application Id=atelier-xebia/labXX
 }}}
@@ -372,7 +357,6 @@ Application Id=atelier-xebia/labXX
 === Branch promotion with Git ===
  
  * Merge your *"develop"* branch to your *"master"* branch:
- 
 {{{
 $ git checkout master
 $ git merge develop --no-ff
@@ -382,7 +366,6 @@ $ git push
  * The Production deployment job should be run automatically.
  
  * One the job finished, you can access to your application through this URL:
-
 {{{
 http://labXX.atelier-xebia.cloudbees.net
 }}}
@@ -400,7 +383,6 @@ http://labXX.atelier-xebia.cloudbees.net
  * Edit pom.xml
 
  * Add performance profile to run [https://github.com/Ronnie76er/jmeter-maven-plugin/wiki jmeter-maven-plugin]
-
 {{{
 <profile>
   <id>performance</id>
@@ -468,7 +450,6 @@ http://labXX.atelier-xebia.cloudbees.net
  * Create a new Job from the left menu with the job name *"5-labXX-PERF"* and tick "Build a Maven2/3 project"
 
  * Add the following Maven goals and replace "XX" by your group number:
-
 {{{
 clean integration-test -Pperformance -DhostAddress=labXX.atelier-xebia.cloudbees.net -DhostPort=80 -DnbVirtualUsers=600 -DnbLoopsCount=2 -DnbRampUp=60
 }}}
