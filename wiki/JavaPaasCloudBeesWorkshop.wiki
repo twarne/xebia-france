@@ -84,9 +84,12 @@ $ git branch -a
 
 === Create a Jenkins job for Continuous Integration ===
 
- * Log in to !CloudBees through this URL: https://grandcentral.cloudbees.com (_your credentials will be provided at the beginning of the lab_).
+ * Log in to [https://grandcentral.cloudbees.com/ CloudBees] (_your credentials will be provided at the beginning of the lab_).
+
  
  * Click on the *Jenkins build* icon.
+  <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/jenkins-build-icon.png" />
+
  
  * Go to the folder with your group name *"labXX"*.
  
@@ -97,11 +100,9 @@ $ git branch -a
 </p>
  
  ** On the *"Code source management"* part choose *"Git"* and fill these parameters:
-
-{{{
-URL of repository=ssh://git@git.cloudbees.com/atelier-xebia/labXX.git
-Branch Specifier (blank for default)=develop
-}}}
+ *** URL of repository= {{{ssh://git@git.cloudbees.com/atelier-xebia/labXX.git}}}
+ *** Branch Specifier (blank for default): {{{develop}}}
+   <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/jenkins-git-configuration.png" />
  
  ** On the *"Build triggers"* part, tick *"poll SCM"* and provide this CRON expression (which means "every minute"):
 
