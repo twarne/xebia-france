@@ -119,7 +119,9 @@ clean package
 <p align="center">
    <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/jenkins-job-configuration-build.png" />
 </p>
- ** On the *"Post build action"* part, tick *"Deploy artifacts to my Private !CloudBees Repository"* option and verify that SNAPSHOT repository is correctly selected. Also tick *Sonar* option to active sonar analyze of your project.
+ ** On the *"Post build action"* part, 
+  *** tick *"Deploy artifacts to my Private !CloudBees Repository"* option and verify that SNAPSHOT repository is correctly selected,
+  *** tick *Sonar* option to active sonar analysis of your project and set Branch to "labXX" to differentiate petclinic projetcs in sonar.
 <p align="center">
    <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/jenkins-job-configuration-post-build-actions.png" />
 </p>
@@ -153,6 +155,8 @@ $ git push
 </p>
 
  ** Once the build is fixed, go back to the job page. Click on the *Sonar* link to have a look at your quality metrics.
+   <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/jenkins-job-sonar-icon.png" />
+ 
 
 <br/>
 ----
