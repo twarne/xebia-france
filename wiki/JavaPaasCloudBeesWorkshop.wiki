@@ -489,7 +489,7 @@ http://labXX.atelier-xebia.cloudbees.net
 
  * Edit pom.xml
 
- * Add performance profile to run [https://github.com/Ronnie76er/jmeter-maven-plugin/wiki|jmeter-maven-plugin]
+ * Add performance profile to run [https://github.com/Ronnie76er/jmeter-maven-plugin/wiki jmeter-maven-plugin]
 
 {{{
 <profile>
@@ -583,7 +583,7 @@ clean integration-test -Pperformance -DhostAddress=labXX.atelier-xebia.cloudbees
 
  * Click on the services link in the top bar.
 
- * Click on the "New Relic" icon. You can read a brief [presentation|http://wiki.cloudbees.com/bin/view/RUN/NewRelic] in the wiki. 
+ * Click on the "New Relic" icon. You can read a brief [http://wiki.cloudbees.com/bin/view/RUN/NewRelic presentation] in the wiki. 
 
  * Verify elasticity by checking how many servers are running
 
