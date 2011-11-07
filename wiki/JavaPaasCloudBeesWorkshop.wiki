@@ -162,9 +162,9 @@ $ git push
 
 == @INTEG ==
 
-=== Configure a new MySQL database ===
- 
- * Create and configure a new MySQL database by clicking on the databases icon in the home page of the Cloudbees account. Then click on the add new database link. Fill with the following parameters :
+=== Create and configure a new MySQL database ===
+ * Go to the [https://run.cloudbees.com/a/atelier-xebia#db-manage services/database screen] from your CloudBees account home screen
+ * Click on the "add new database" link. Fill with the following parameters :
 
 {{{
 Database name: labXX-dev
