@@ -259,11 +259,11 @@ http://labXX-integ.atelier-xebia.cloudbees.net
  * You can choose on which site to run your Selenium tests against. For that update the property _myselenium.target.host_ in the profile
  {{{
 <profile>
-	<id>selenium</id>
-	<properties>
-		<myselenium.target.host>http://labXX-integ.atelier-xebia.cloudbees.net</myselenium.target.host>
-	</properties>
-	...
+ <id>selenium</id>
+ <properties>
+	<myselenium.target.host>http://labXX-integ.atelier-xebia.cloudbees.net</myselenium.target.host>
+ </properties>
+ ...
  }}}
  
  * The actual Selenium test classes are in the _src/test/java/org/.../selenium_ package
