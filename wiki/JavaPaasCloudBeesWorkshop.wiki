@@ -47,10 +47,8 @@ $ chmod -R 600 ~/.ssh/*
 
  * Unzip the [https://s3-eu-west-1.amazonaws.com/xebia-cloudbees-workshop/petclinic.zip petclinic.zip] application under {{{~/petclinic}}}.
 {{{
-$ mkdir ~/petclinic/
-$ curl https://s3-eu-west-1.amazonaws.com/xebia-cloudbees-workshop/petclinic.zip --output ~/petclinic/petclinic.zip
-$ cd ~/petclinic/
-$ unzip petclinic.zip
+$ curl https://s3-eu-west-1.amazonaws.com/xebia-cloudbees-workshop/petclinic.zip --output /tmp/petclinic.zip
+$ unzip /tmp/petclinic.zip -d ~/
 }}}
  * Modify the *groupId* in the Maven POM file (replace 'XX' by your team number, e.g. '01'):
 {{{
@@ -62,11 +60,10 @@ $ unzip petclinic.zip
 $ cd ~/petclinic
 $ git init
 $ git remote add origin ssh://git@git.cloudbees.com/atelier-xebia/labXX.git
-$ git add -A  # if you want to check everything in
-$ git commit -m 'Initial checkin'
+$ git add -A
+$ git commit -am 'Initial checkin - all files'
 $ git push origin master
 }}}
-
  * Create an integration branch named "develop":
 
 {{{
