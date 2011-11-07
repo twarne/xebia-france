@@ -583,7 +583,7 @@ clean integration-test -Pperformance -DhostAddress=labXX.atelier-xebia.cloudbees
 
  * Click on the services link in the top bar.
 
- * Click on the "New Relic" icon.
+ * Click on the "New Relic" icon. You can read a brief [presentation|http://wiki.cloudbees.com/bin/view/RUN/NewRelic] in the wiki. 
 
  * Verify elasticity by checking how many servers are running
 
