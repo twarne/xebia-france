@@ -23,8 +23,6 @@
  * [http://maven.apache.org Apache Maven] (version 2.2.1 or above).
  
  * SSH client (should already be installed on any Unix platform, will come with Git for Windows).
- 
- * SSH private key (sent by email before the lab).
 
 <br/>
 ----
@@ -36,7 +34,7 @@
 
 === Configure GIT repository ===
 
- * Backup your existing {{{/.ssh}}} folder and install your following [id_rsa https://s3-eu-west-1.amazonaws.com/xebia-cloudbees-workshop/id_rsa] SSH private key:
+ * Backup your existing {{{/.ssh}}} folder and install your following [https://s3-eu-west-1.amazonaws.com/xebia-cloudbees-workshop/id_rsa id_rsa] SSH private key:
 {{{
 $ mv ~/.ssh ~/.ssh.bak
 $ mkdir ~/.ssh
