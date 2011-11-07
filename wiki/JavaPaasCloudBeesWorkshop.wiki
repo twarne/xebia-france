@@ -65,7 +65,6 @@ $ git commit -am 'Initial checkin - all files'
 $ git push origin master
 }}}
  * Create an integration branch named "develop":
-
 {{{
 $ git branch develop
 $ git checkout develop
@@ -73,7 +72,6 @@ $ git push origin develop
 }}}
 
  * Verify your branch organization by using the command "git-branch", and check if everything is correct:
-
 {{{
 $ git branch -a
   * develop
@@ -100,24 +98,31 @@ $ git branch -a
 </p>
  
  ** On the *"Code source management"* part choose *"Git"* and fill these parameters:
- *** URL of repository= {{{ssh://git@git.cloudbees.com/atelier-xebia/labXX.git}}}
- *** Branch Specifier (blank for default): {{{develop}}}
-   <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/jenkins-git-configuration.png" />
+  *** URL of repository: {{{ssh://git@git.cloudbees.com/atelier-xebia/labXX.git}}}
+  *** Branch Specifier (blank for default): {{{develop}}}
+<p align="center">
+   <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/jenkins-job-configuration-git.png" />
+</p>
  
  ** On the *"Build triggers"* part, tick *"poll SCM"* and provide this CRON expression (which means "every minute"):
-
 {{{
 * * * * *
 }}}
+<p align="center">
+   <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/jenkins-job-configuration-build-trigger.png" />
+</p>
  
  ** On the *"Build"* part indicate the Maven goal:
-
 {{{
 clean package
 }}}
- 
+<p align="center">
+   <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/jenkins-job-configuration-build.png" />
+</p>
  ** On the *"Post build action"* part, tick *"Deploy artifacts to my Private !CloudBees Repository"* option and verify that SNAPSHOT repository is correctly selected. Also tick *Sonar* option to active sonar analyze of your project.
- 
+<p align="center">
+   <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/job-configuration-post-build-actions.png" />
+</p>
  ** Save the configuration and run the job (it can take some minutes before the build begins).
  
  ** The build will be unstable due to a test failure:
