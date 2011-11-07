@@ -167,13 +167,13 @@ $ git push
  * Click on the "add new database" link. Fill with the following parameters :
 
 {{{
-Database name: labXX-dev
-Username: labXX-dev
-Password: labXX
+Database name: labXX-integ
+Username: labXX-integ
+Password: labXX-integ
 }}}
 
 <p align="center">
-<img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/create-database-mysql-dev.png" height="350" />
+<img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/create-database-mysql-integ.png" height="350" />
 </p>
 
 === Configure a new application ===
