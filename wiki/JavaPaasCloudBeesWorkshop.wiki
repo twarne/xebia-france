@@ -378,7 +378,7 @@ mvn clean verify -Pselenium -Dselenium.target.host={HOME_PAGE_OF_YOUR_CHOICE}
  * On the *"Build triggers"* part, tick *"Build after other projects are built"* and indicate your Integration deployment job
 
 {{{
-Project names: 2-labXX-INTEG
+Project names: 3-labXX-TEST
 }}}
 
 *TODO*
