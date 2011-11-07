@@ -489,53 +489,68 @@ http://labXX.atelier-xebia.cloudbees.net
 
  * Edit pom.xml
 
- * Add [https://github.com/Ronnie76er/jmeter-maven-plugin/wiki|jmeter-maven-plugin repository]
+ * Add performance profile to run [https://github.com/Ronnie76er/jmeter-maven-plugin/wiki|jmeter-maven-plugin]
 
 {{{
-<pluginRepositories>
-  <pluginRepository>
-    <id>jmeter-maven-plugin</id>
-    <name>Maven JMeter Plugin</name>
-    <url>http://yciabaud.github.com/jmeter-maven-plugin/repository</url>
-  </pluginRepository>
-</pluginRepositories>
-}}}
+<profile>
+  <id>performance</id>
+  <activation>
+    <activeByDefault>false</activeByDefault>
+  </activation>
+  <properties>
+    <hostAddress>test-eb.atelier-xebia.cloudbees.net</hostAddress>
+    <hostPort>80</hostPort>
+    <nbVirtualUsers>5</nbVirtualUsers>
+    <nbLoopsCount>2</nbLoopsCount>
+    <nbRampUp>5</nbRampUp>
+  </properties>
+  <repositories>
+    <repository>
+      <id>jmeter-maven-plugin</id>
+      <name>Maven JMeter Plugin</name>
+      <url>http://yciabaud.github.com/jmeter-maven-plugin/repository</url>
+    </repository>
+  </repositories>
 
- * Add jmeter-maven-plugin in the build plugin section
+  <pluginRepositories>
+    <pluginRepository>
+      <id>jmeter-maven-plugin</id>
+      <name>Maven JMeter Plugin</name>
+      <url>http://yciabaud.github.com/jmeter-maven-plugin/repository</url>
+    </pluginRepository>
+  </pluginRepositories>
 
-{{{
-<build>
-  ...
-  <plugins>
-    ...
-  	<plugin>
-  	  <groupId>org.apache.jmeter</groupId>
-  	  <artifactId>maven-jmeter-plugin</artifactId>
-  	  <version>1.2</version>
-  	  <executions>
-  	    <execution>
-  		  <id>jmeter-tests</id>
-  		  <phase>integration-test</phase>
-  		  <goals>
-  		    <goal>jmeter</goal>
-  	      </goals>
-  	    </execution>
-  	  </executions>
-  	  <configuration>
-  	    <reportDir>
-  		  ${project.build.directory}/jmeter-reports
-  	    </reportDir>
-  		<jmeterUserProperties>
-  		  <hostAddress>${hostAddress}</hostAddress>
-  		  <hostPort>${hostPort}</hostPort>
-  		  <nbVirtualUsers>${nbVirtualUsers}</nbVirtualUsers>
-  		  <nbLoopsCount>${nbLoopsCount}</nbLoopsCount>
-  		  <nbRampUp>${nbRampUp}</nbRampUp>
-  		</jmeterUserProperties>
-  	  </configuration>
-  	</plugin>
-  </plugins>
-</build>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.jmeter</groupId>
+        <artifactId>maven-jmeter-plugin</artifactId>
+        <version>1.2</version>
+        <executions>
+          <execution>
+            <id>jmeter-tests</id>
+            <phase>integration-test</phase>
+            <goals>
+              <goal>jmeter</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <reportDir>
+            ${project.build.directory}/jmeter-reports
+          </reportDir>
+          <jmeterUserProperties>
+            <hostAddress>${hostAddress}</hostAddress>
+            <hostPort>${hostPort}</hostPort>
+            <nbVirtualUsers>${nbVirtualUsers}</nbVirtualUsers>
+            <nbLoopsCount>${nbLoopsCount}</nbLoopsCount>
+            <nbRampUp>${nbRampUp}</nbRampUp>
+          </jmeterUserProperties>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</profile>
 }}}
 
  * Create folder src/test/jmeter and put [http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/petclinic-cloudbees.jmx petclinic-cloudbees.jmx]
@@ -545,13 +560,13 @@ http://labXX.atelier-xebia.cloudbees.net
  * On the *"Build triggers"* part, tick *"Build after other projects are built"* and indicate your Production deployment job
 
 {{{
-Project names: 4-labXX-RUN
+Project names: 5-labXX-PERF
 }}}
 
  * Add the following Maven goals and replace "XX" by your group number:
 
 {{{
-clean integration-test -DhostAddress=labXX.atelier-xebia.cloudbees.net -DhostPort=80 -DnbVirtualUsers=600 -DnbLoopsCount=2 -DnbRampUp=60
+clean integration-test -Pperformance -DhostAddress=labXX.atelier-xebia.cloudbees.net -DhostPort=80 -DnbVirtualUsers=600 -DnbLoopsCount=2 -DnbRampUp=60
 }}}
 
  * Configure Post-build Actions and check Publish Performance test result report
