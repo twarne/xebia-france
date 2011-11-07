@@ -378,7 +378,7 @@ mvn clean verify -Pselenium -Dselenium.target.host={HOME_PAGE_OF_YOUR_CHOICE}
  * On the *"Build triggers"* part, tick *"Build after other projects are built"* and indicate your Integration deployment job
 
 {{{
-Project names: 3-labXX-TEST
+Project names: 2-labXX-INTEG
 }}}
 
 *TODO*
@@ -556,12 +556,6 @@ http://labXX.atelier-xebia.cloudbees.net
  * Create folder src/test/jmeter and put [http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/petclinic-cloudbees.jmx petclinic-cloudbees.jmx]
 
  * Create a new Job from the left menu with the job name *"5-labXX-PERF"* and tick "Build a Maven2/3 project"
-
- * On the *"Build triggers"* part, tick *"Build after other projects are built"* and indicate your Production deployment job
-
-{{{
-Project names: 5-labXX-PERF
-}}}
 
  * Add the following Maven goals and replace "XX" by your group number:
 
