@@ -285,7 +285,13 @@ mvn clean verify -Pselenium
 Project names: 2-labXX-INTEG
 }}}
 
-*TODO*
+* On the "Build" part indicate the Maven goal
+
+{{{
+mvn clean verify -Pselenium
+}}}
+
+* You can do a lot more with Sauce Labs with Scout, OnDemand and Connect. More info at https://saucelabs.com/account
  
 <br/>
 ----
