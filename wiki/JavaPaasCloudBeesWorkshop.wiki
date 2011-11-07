@@ -254,9 +254,9 @@ http://labXX-integ.atelier-xebia.cloudbees.net
 
 === Run Selenium tests from the cloud ===
 
- * Your pom.xml contained a preconfigure _selenium_ profile.
+ * Your pom.xml contained a preconfigure _selenium_ profile
  
- * You can choose on which site to run your Selenium tests against. For that update the in the profile.
+ * You can choose on which site to run your Selenium tests against. For that update the property _myselenium.target.host_ in the profile
  {{{
 <profile>
 	<id>selenium</id>
@@ -266,9 +266,9 @@ http://labXX-integ.atelier-xebia.cloudbees.net
 	...
  }}}
  
- * The actual Selenium test classes are in the src/test/java/org/.../selenium package
+ * The actual Selenium test classes are in the _src/test/java/org/.../selenium_ package
  
- * To run the Selenium tests
+ * To run the Selenium tests against your defined target
 
 {{{
 mvn clean verify -Pselenium
@@ -277,7 +277,6 @@ mvn clean verify -Pselenium
  * You can see that your test was logged at https://saucelabs.com/jobs (please be logged in in Cloudbees to access this URL)
 
 
- 
 === Configure a new job for Selenium tests ===
 
  * Create a new Job from the left menu with the job name *"3-labXX-TEST"* and tick "Build a Maven2/3 project"
