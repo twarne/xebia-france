@@ -121,7 +121,7 @@ clean package
 </p>
  ** On the *"Post build action"* part, tick *"Deploy artifacts to my Private !CloudBees Repository"* option and verify that SNAPSHOT repository is correctly selected. Also tick *Sonar* option to active sonar analyze of your project.
 <p align="center">
-   <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/job-configuration-post-build-actions.png" />
+   <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/jenkins-job-configuration-post-build-actions.png" />
 </p>
  ** Save the configuration and run the job (it can take some minutes before the build begins).
  
