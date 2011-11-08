@@ -459,41 +459,44 @@ clean integration-test -Pperformance
 <br/>
 
 == @SDK ==
-The SDK provides command-line tools to manage applications and databases.
+
+ * The SDK provides command-line tools to manage applications and databases.
 
 === Installing the SDK ===
-On your !CloudBees home page, click on the *!CloudBees SDK* link in the *Downloads* section. Follow the installation instructions for your platform.
+
+ * On your !CloudBees home page, click on the *!CloudBees SDK* link in the *Downloads* section. Follow the installation instructions for your platform.
 
 === Getting information ==
-List the applications available to the workshop's account:
+
+ * List the applications available to the workshop's account:
 {{{
 $ bees app:list
 }}}
 
-You should see your production application (as well as those of the other teams):
+ * You should see your production application (as well as those of the other teams):
 {{{
 Application                Status    URL                                    Instance(s)
 ...
 atelier-xebia/labXX        active    labXX.atelier-xebia.cloudbees.net      1
 }}}
 
-To get more information, try the following command:
+ * To get more information, try the following command:
 {{{
 $ bees app:info -a atelier-xebia/labXX
 }}}
 
-
 === Tailing the logs ===
-Should you get nostalgic of the good old Unix *tail* command, the SDK provides a way to follow your logs in real-time from the command line:
+
+ * Should you get nostalgic of the good old Unix *tail* command, the SDK provides a way to follow your logs in real-time from the command line:
 {{{
 $ bees app:tail -a atelier-xebia/labXX
 }}}
 
-Go back to the application in your browser and navigate through a few pages; the console logs should get updated.
-
+ * Go back to the application in your browser and navigate through a few pages; the console logs should get updated.
 
 === Creating and deploying a new application ===
-In this section, we'll bootstrap an application from a !CloudBees-provided template, and deploy it to the cloud from the command-line.
+
+ * In this section, we'll bootstrap an application from a !CloudBees-provided template, and deploy it to the cloud from the command-line.
 
  * Run the following command (the new application's root directory will be created in the current directory):
 {{{
