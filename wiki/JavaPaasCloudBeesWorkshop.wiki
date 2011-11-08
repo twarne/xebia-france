@@ -136,13 +136,11 @@ clean package
 === Fix the build and check the Continuous Integration ===
 
  ** Open the *!OwnerTests* class and fix the test failure.
-
 {{{
 fido.setName("Rex"); // should be "Fido"!
 }}}
 
  ** Push your modification on the remote repository:
-
 {{{
 $ git commit -am "Fix the test failure ;-)"
 $ git push origin develop
