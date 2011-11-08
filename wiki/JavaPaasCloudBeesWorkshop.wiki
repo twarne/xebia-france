@@ -286,7 +286,7 @@ Project names: 2-labXX-INTEG
 clean verify -Pselenium
 }}}
 
-* You can do a lot more with Sauce Labs with Scout, !OnDemand and Connect. More info at https://saucelabs.com/account
+ * You can do a lot more with Sauce Labs with Scout, !OnDemand and Connect. More info at https://saucelabs.com/account
 
 <br/>
 ----
