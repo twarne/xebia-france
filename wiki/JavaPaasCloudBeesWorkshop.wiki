@@ -34,7 +34,7 @@
 
 === Configure GIT repository ===
 
- * Backup your existing {{{/.ssh}}} folder and install the workshop's SSH private key ([https://s3-eu-west-1.amazonaws.com/xebia-cloudbees-workshop/id_rsa id_rsa]):
+ * Backup your existing {{{~/.ssh}}} folder and install the workshop's SSH private key ([https://s3-eu-west-1.amazonaws.com/xebia-cloudbees-workshop/id_rsa id_rsa]):
 {{{
 $ mv ~/.ssh ~/.ssh.bak
 $ mkdir ~/.ssh
@@ -47,6 +47,7 @@ $ chmod -R 600 ~/.ssh/*
 {{{
 $ curl https://s3-eu-west-1.amazonaws.com/xebia-cloudbees-workshop/petclinic.zip --output /tmp/petclinic.zip
 $ unzip /tmp/petclinic.zip -d ~/
+$ cd ~/petclinic
 }}}
 
  * Modify the *groupId* in the Maven POM file (replace 'XX' by your team number, e.g. '01'):
@@ -56,7 +57,6 @@ $ unzip /tmp/petclinic.zip -d ~/
 
  * Initialize a new Git local repository:
 {{{
-$ cd ~/petclinic
 $ git init
 $ git remote add origin ssh://git@git.cloudbees.com/atelier-xebia/labXX.git
 $ git add -A
@@ -91,7 +91,7 @@ $ git branch -a
 
  * Go to the view corresponding to your group name *"labXX"*.
 
- * Create a new item from the left menu with the job name *"1-labXX-DEV"* and tick "Build a Maven2/3 project".
+ * Create a new job from the left menu with the job name *"1-labXX-DEV"* and tick "Build a Maven2/3 project".
 
 <p align="center">
 <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/add-jenkins-job.png" height="400" />
@@ -263,7 +263,11 @@ http://labXX-integ.atelier-xebia.cloudbees.net
 mvn clean verify -Pselenium
 }}}
  
- * You can see that your test was logged at https://saucelabs.com/jobs (access this URL while logged in to !CloudBees).
+ * Go to Sauce Labs by clicking [https://grandcentral.cloudbees.com/services/goto/sauce_labs Service/Saucelabs] 
+<p align="center">
+<img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/saucelab-accueil.png" height="350" />
+</p>
+ * You can see that your tests was logged by clicking on [https://saucelabs.com/jobs OnDemand/My Jobs] 
 
 
 === Configure a new job for Selenium tests ===
