@@ -430,7 +430,9 @@ clean integration-test -Pperformance
 <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/configure-performance-test-job-jenkins.png" height="200" />
 </p>
  
- * Run the job manually. Once complete, the reports can be accessed through the "Performance Trend" link on the job page:
+ * Run the job manually.
+ 
+ * Once complete, the reports can be accessed through the "Performance Trend" link on the job page:
 
 <p align="center">
 <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/performance-jenkins-jmeter.png" height="250" />
