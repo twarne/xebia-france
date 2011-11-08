@@ -390,7 +390,7 @@ http://labXX.atelier-xebia.cloudbees.net
 
 === Stress test with JMeter === 
 
- * Open the *pom.xml* file and edit performance profile to run [https://github.com/Ronnie76er/jmeter-maven-plugin/wiki jmeter-maven-plugin]
+ * Open the *pom.xml* file and edit *performance* profile to run [https://github.com/Ronnie76er/jmeter-maven-plugin/wiki jmeter-maven-plugin]
 {{{
 <profile>
   <id>performance</id>
@@ -411,9 +411,9 @@ $ git commit -am "Configure stress tests"
 $ git push origin master
 }}}
 
- * Create a new Job from the left menu with the job name *"5-labXX-PERF"* and tick "Build a Maven2/3 project".
+ * Create a new Job from the left menu with the job name *"5-labXX-PERF"* and tick *"Build a Maven2/3 project"*.
 
- * On the "Code source management" part, choose "Git" and fill these parameters:
+ * On the *"Code source management"* part, choose *"Git"* and fill these parameters:
 {{{
 URL of repository=ssh://git@git.cloudbees.com/atelier-xebia/labXX.git
 Branch Specifier (blank for default)=master
@@ -424,7 +424,7 @@ Branch Specifier (blank for default)=master
 clean integration-test -Pperformance
 }}}
 
- * In Post-build Actions, check "Publish Performance test result report":
+ * In Post-build Actions, check *"Publish Performance test result report"*:
 
 <p align="center">
 <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/configure-performance-test-job-jenkins.png" height="200" />
@@ -432,7 +432,7 @@ clean integration-test -Pperformance
  
  * Run the job manually.
  
- * Once complete, the reports can be accessed through the "Performance Trend" link on the job page:
+ * Once complete, the reports can be accessed through the *"Performance Trend"* link on the job page:
 
 <p align="center">
 <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/performance-jenkins-jmeter.png" height="250" />
@@ -446,7 +446,7 @@ clean integration-test -Pperformance
 
  * Click on the services link in the top bar.
 
- * Click on the "New Relic" icon. You can read a brief [http://wiki.cloudbees.com/bin/view/RUN/NewRelic presentation] in the wiki.
+ * Click on the *"New Relic"* icon. You can read a brief [http://wiki.cloudbees.com/bin/view/RUN/NewRelic presentation] in the wiki.
 
  * Verify elasticity by checking how many servers are running
 
