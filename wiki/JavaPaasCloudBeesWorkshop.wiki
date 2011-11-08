@@ -460,9 +460,9 @@ clean integration-test -Pperformance
 
 == @SDK ==
 
- * The SDK provides command-line tools to manage applications and databases.
-
 === Installing the SDK ===
+
+ * The SDK provides command-line tools to manage applications and databases.
 
  * On your !CloudBees home page, click on the *!CloudBees SDK* link in the *Downloads* section. Follow the installation instructions for your platform.
 
