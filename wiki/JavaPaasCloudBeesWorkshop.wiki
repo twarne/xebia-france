@@ -165,7 +165,6 @@ $ git push origin develop
 === Create and configure a new MySQL database ===
  * Go to the [https://run.cloudbees.com/a/atelier-xebia#db-manage services/database screen] from your !CloudBees account home screen
  * Click on the "add new database" link. Fill with the following parameters :
-
 {{{
 Database name: labXX-integ
 Username: labXX-integ
@@ -283,7 +282,6 @@ Project names: 2-labXX-INTEG
 }}}
 
 * On the "Build" part, indicate the Maven goal:
-
 {{{
 clean verify -Pselenium
 }}}
