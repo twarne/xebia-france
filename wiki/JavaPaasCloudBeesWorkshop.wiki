@@ -269,7 +269,7 @@ mvn clean verify -Pselenium
 </p>
  * You can see that your tests was logged by clicking on [https://saucelabs.com/jobs OnDemand/My Jobs] 
 <p align="center">
-<img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/saucelab-tests.png" height="350" />
+<img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/saucelab-tests.png" height="200" />
 </p>
 
 === Configure a new job for Selenium tests ===
