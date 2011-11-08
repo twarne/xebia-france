@@ -390,9 +390,7 @@ http://labXX.atelier-xebia.cloudbees.net
 
 === Stress test with JMeter === 
 
- * Edit *pom.xml*.
-
- * Edit performance profile to run [https://github.com/Ronnie76er/jmeter-maven-plugin/wiki jmeter-maven-plugin]
+ * Open the *pom.xml* file and edit performance profile to run [https://github.com/Ronnie76er/jmeter-maven-plugin/wiki jmeter-maven-plugin]
 {{{
 <profile>
   <id>performance</id>
