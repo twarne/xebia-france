@@ -257,6 +257,8 @@ http://labXX-integ.atelier-xebia.cloudbees.net
  }}}
 
  * The actual Selenium test classes are in the _src/test/java/org/.../selenium_ package.
+ 
+ * Modify Selenium test src/test/java/org/springframework/samples/petclinic/selenium/SeleniumSauceLabSetUp.java and change LabXX by your Lab's number
 
  * To run the Selenium tests against your defined target
 {{{
@@ -287,9 +289,15 @@ Branch Specifier (blank for default)=develop
 Project names: 2-labXX-INTEG
 }}}
 
- * On the "Build" part, indicate the Maven goal:
+ * On the "Build" part, indicate the Maven goal, then save :
 {{{
 clean verify -Pselenium
+}}}
+
+ * Commit and push your changes (SeleniumSauceLabSetUp.java) and wait for your selenium's tests running :
+{{{
+$ git commit -am "Selenium test"
+$ git push origin develop
 }}}
 
  * You can do a lot more with Sauce Labs with Scout, !OnDemand and Connect. More info at https://saucelabs.com/account
@@ -304,7 +312,7 @@ clean verify -Pselenium
 
  * Go back to the Home page in !CloudBees and click on *Applications*.
 
- * Create and configure a new MySQL database by clicking on the databases icon in the home page of the Cloudbees account. Then click on the add new database link. Fill with the following parameters :
+ * *Create* a new MySQL database by clicking on the databases icon in the home page of the Cloudbees account. Then click on the add new database link. Fill with the following parameters :
 {{{
 Database name: labXX
 Username: labXX
@@ -319,16 +327,18 @@ Password: labXX
 
  * On the left-hand side menu, click on *Applications / Add New application*.
 
- * Create and configure a new application on *RUN@cloud* called "xebia-atelier/labXX".
+ * *Create* a new application on *RUN@cloud* called "xebia-atelier/labXX".
 
- * Click on the "configure" link under your application, and then on the "Configuration" tab.
+ * Click on the "Configure" link under your application, and then on the "Configuration" tab.
 
  * Under "Redundancy and Scale", select "Multiple Instances".
 
  * Tick "Enable New Relic RPM application monitoring" and "Enable Papertrail application logging".
 
  * Click on the "Save Changes" button at the top of the page.
-
+<p align="center">
+<img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/app-configuration.png" height="550" />
+</p>
 
 === Configure your application for Production environment ===
 
