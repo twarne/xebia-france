@@ -443,10 +443,10 @@ clean integration-test -Pperformance
 }}}
  * If you want to play with Virtual Users, Ramp up and Loops add : 
 {{{
--DnbVirtualUsers=500 -DnbLoopsCount=20 -DnbRampUp=50
+-DnbVirtualUsers=500 -DnbLoopsCount=10 -DnbRampUp=50
 }}}
 
- * In Post-build Actions, check *"Publish Performance test result report"*:
+ * In Post-build Actions, check *"Publish Performance test result report"* and add Jmeter reports:
 
 <p align="center">
 <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/configure-performance-test-job-jenkins.png" height="200" />
