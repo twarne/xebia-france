@@ -94,7 +94,7 @@ $ git branch -a
  * Create a new job from the left menu with the job name *"1-labXX-DEV"* and tick "Build a Maven2/3 project".
 
 <p align="center">
-<img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/add-jenkins-job.png" height="150" />
+<img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/add-jenkins-job.png" height="400" />
 </p>
 
  ** On the *"Code source management"* part choose *"Git"* and fill these parameters:
@@ -117,7 +117,7 @@ $ git branch -a
 clean package
 }}}
 <p align="center">
-   <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/jenkins-job-configuration-build.png" />
+   <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/jenkins-job-configuration-build.png" height="150" />
 </p>
  ** On the *"Post build action"* part, 
   *** tick *"Deploy artifacts to my Private !CloudBees Repository"* option and verify that SNAPSHOT repository is correctly selected,
