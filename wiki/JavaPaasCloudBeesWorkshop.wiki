@@ -446,7 +446,10 @@ clean integration-test -Pperformance
 -DnbVirtualUsers=500 -DnbLoopsCount=10 -DnbRampUp=50
 }}}
 
- * In Post-build Actions, check *"Publish Performance test result report"* and add Jmeter reports:
+ * In Post-build Actions, check *"Publish Performance test result report"* and add Jmeter reports :
+{{{
+target/jmeter-reports/*.xml
+}}}
 
 <p align="center">
 <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/configure-performance-test-job-jenkins.png" height="200" />
@@ -470,7 +473,7 @@ clean integration-test -Pperformance
 
  * Click on the *"New Relic"* icon. You can read a brief [http://wiki.cloudbees.com/bin/view/RUN/NewRelic presentation] in the wiki.
 
- * Select AppServer view (click on right button to see menu bar)
+ * Select !AppServer view (maybe you must click on right button to see menu bar)
 <p align="center">
 <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/newrelic-appserver-access.png" height="300" />
 </p>
