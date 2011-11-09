@@ -494,7 +494,7 @@ target/jmeter-reports/*.xml
 
  * The SDK provides command-line tools to manage applications and databases.
 
- * On your !CloudBees home page, click on the *[http://wiki.cloudbees.com/bin/view/RUN/BeesSDK !CloudBees SDK]* link in the *Downloads* section. Follow the installation instructions for your platform.
+ * On your !CloudBees home page, click on the *[http://wiki.cloudbees.com/bin/view/RUN/BeesSDK CloudBees SDK]* link in the *Downloads* section. Follow the installation instructions for your platform.
 
 === Getting information ==
 
@@ -507,13 +507,31 @@ $ bees app:list
 {{{
 Application                Status    URL                                    Instance(s)
 ...
-atelier-xebia/labXX        active    labXX.atelier-xebia.cloudbees.net      1
+atelier-xebia/labXX        active    labXX.atelier-xebia.cloudbees.net      2
 }}}
 
  * To get more information, try the following command:
 {{{
 $ bees app:info -a atelier-xebia/labXX
 }}}
+
+{{{
+Emmanuel-MacBook:svnSources eservent$ bees app:info atelier-xebia/lab17
+# CloudBees SDK version: 0.7.3
+Application     : atelier-xebia/labXX
+Title           : labXX
+Created         : Wed Nov 09 02:08:03 CET 2011
+Status          : active
+URL             : labXX.atelier-xebia.cloudbees.net
+clusterSize     : 2
+container       : java_free
+idleTimeout     : 21600
+maxMemory       : 256
+securityMode    : PUBLIC
+serverPool      : stax-global
+serverType      : tomcat
+}}}
+
 
 === Tailing the logs ===
 
