@@ -484,6 +484,10 @@ target/jmeter-reports/*.xml
 <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/newrelic-performance.png" height="600" />
 </p>
 
+<p align="center">
+<img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/newrelic-appserver-map.png" height="300" />
+</p>
+
 <br/>
 ----
 <br/>
