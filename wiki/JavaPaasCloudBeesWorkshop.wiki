@@ -486,7 +486,7 @@ target/jmeter-reports/*.xml
 
  * Vue Map
 <p align="center">
-<img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/newrelic-appserver-map.png" height="250" />
+<img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/newrelic-appserver-map.png" height="220" />
 </p>
 
 <br/>
