@@ -94,7 +94,7 @@ $ git branch -a
  * Create a new job from the left menu with the job name *"1-labXX-DEV"* and tick "Build a Maven2/3 project".
 
 <p align="center">
-<img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/add-jenkins-job.png" height="200" />
+<img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/add-jenkins-job.png" height="100" />
 </p>
 
  ** On the *"Code source management"* part choose *"Git"* and fill these parameters:
