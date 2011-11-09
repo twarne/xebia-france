@@ -179,7 +179,7 @@ Password: labXX-integ
 
  * On the left-hand side menu, click on *Applications / Add New application*.
 
- * Create and configure a new application on *RUN@cloud* called "xebia-atelier/labXX-integ"
+ * Create and configure a new application on *RUN@cloud* called "atelier-xebia/labXX-integ"
 
 <p align="center">
 <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/create-app-integ.png" height="300" />
@@ -327,7 +327,7 @@ Password: labXX
 
  * On the left-hand side menu, click on *Applications / Add New application*.
 
- * *Create* a new application on *RUN@cloud* called "xebia-atelier/labXX".
+ * *Create* a new application on *RUN@cloud* called "atelier-xebia/labXX".
 
  * Click on the "Configure" link under your application, and then on the "Configuration" tab.
 
