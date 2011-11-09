@@ -112,7 +112,7 @@ $ git branch -a
    <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/jenkins-job-configuration-build-trigger.png" />
 </p>
 
- ** On the *"Build"* part indicate the Maven goal:
+ ** On the *"Build"* part, choose Maven Version 3.0.3 and indicate the Maven goal:
 {{{
 clean package
 }}}
@@ -200,7 +200,7 @@ Branch Specifier (blank for default)=develop
 Project names: 1-labXX-DEV
 }}}
 
- * On the "Build" part, indicate the Maven goal
+ * On the "Build" part, choose Maven Version 3.0.3 and indicate the Maven goal
 {{{
 clean package
 }}}
@@ -258,7 +258,7 @@ http://labXX-integ.atelier-xebia.cloudbees.net
 
  * The actual Selenium test classes are in the _src/test/java/org/.../selenium_ package.
  
- * Modify Selenium test src/test/java/org/springframework/samples/petclinic/selenium/SeleniumSauceLabSetUp.java and change LabXX by your Lab's number
+ * Modify Selenium test src/test/java/org/springframework/samples/petclinic/selenium/!SeleniumSauceLabSetUp.java and change LabXX by your Lab's number
 
  * To run the Selenium tests against your defined target
 {{{
@@ -289,12 +289,12 @@ Branch Specifier (blank for default)=develop
 Project names: 2-labXX-INTEG
 }}}
 
- * On the "Build" part, indicate the Maven goal, then save :
+ * On the "Build" part, choose Maven Version 3.0.3 and indicate the Maven goal, then save :
 {{{
 clean verify -Pselenium
 }}}
 
- * Commit and push your changes (SeleniumSauceLabSetUp.java) and wait for your selenium's tests running :
+ * Commit and push your changes (!SeleniumSauceLabSetUp.java) and wait for your selenium's test running :
 {{{
 $ git commit -am "Selenium test"
 $ git push origin develop
