@@ -175,15 +175,6 @@ Password: labXX-integ
 <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/create-database-mysql-integ.png" height="350" />
 </p>
 
-=== Configure a new application ===
-
- * On the left-hand side menu, click on *Applications / Add New application*.
-
- * Create and configure a new application on *RUN@cloud* called "atelier-xebia/labXX-integ"
-
-<p align="center">
-<img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/create-app-integ.png" height="300" />
-</p>
  
 === Create a Jenkins job for deploying application on Integration environment ===
 
@@ -327,7 +318,10 @@ Password: labXX
 
  * On the left-hand side menu, click on *Applications / Add New application*.
 
- * *Create* a new application on *RUN@cloud* called "atelier-xebia/labXX".
+ * *Create* a new application on *RUN@cloud* called "labXX".
+<p align="center">
+<img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/create-app-prod.png" height="300" />
+</p>
 
  * Click on the "Configure" link under your application, and then on the "Configuration" tab.
 
@@ -435,9 +429,13 @@ URL of repository=ssh://git@git.cloudbees.com/atelier-xebia/labXX.git
 Branch Specifier (blank for default)=master
 }}}
 
- * Add the following Maven goals:
+ *  On the "Build" part, choose Maven Version 3.0.3 and indicate the Maven goal
 {{{
 clean integration-test -Pperformance
+}}}
+ * If you want to play with Virtual Users, Ramp up and Loops add : 
+{{{
+-DnbVirtualUsers=500 -DnbLoopsCount=20 -DnbRampUp=50
 }}}
 
  * In Post-build Actions, check *"Publish Performance test result report"*:
