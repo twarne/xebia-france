@@ -370,7 +370,7 @@ Branch Specifier (blank for default)=master
 * * * * *
 }}}
 
- * On the "Build" part indicate the Maven goal
+ * On the "Build" part, choose Maven Version 3.0.3 and indicate the Maven goal
 {{{
 clean package -Denvironment=prod
 }}}
