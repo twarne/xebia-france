@@ -494,7 +494,7 @@ target/jmeter-reports/*.xml
 
  * The SDK provides command-line tools to manage applications and databases.
 
- * On your !CloudBees home page, click on the *!CloudBees SDK* link in the *Downloads* section. Follow the installation instructions for your platform.
+ * On your !CloudBees home page, click on the [http://wiki.cloudbees.com/bin/view/RUN/BeesSDK *!CloudBees SDK*] link in the *Downloads* section. Follow the installation instructions for your platform.
 
 === Getting information ==
 
