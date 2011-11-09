@@ -175,6 +175,14 @@ Password: labXX-integ
 <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/create-database-mysql-integ.png" height="350" />
 </p>
 
+=== Configure a new application ===
+
+ * On the left-hand side menu, click on *Applications / Add New application*.
+
+ * *Create* a new application on *RUN@cloud* called "labXX-integ".
+<p align="center">
+<img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/create-app-integ.png" height="300" />
+</p>
  
 === Create a Jenkins job for deploying application on Integration environment ===
 
