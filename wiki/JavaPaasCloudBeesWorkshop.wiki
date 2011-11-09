@@ -516,7 +516,7 @@ $ bees app:info -a atelier-xebia/labXX
 }}}
 
 {{{
-Emmanuel-MacBook:svnSources eservent$ bees app:info atelier-xebia/lab17
+$ bees app:info atelier-xebia/labXX
 # CloudBees SDK version: 0.7.3
 Application     : atelier-xebia/labXX
 Title           : labXX
