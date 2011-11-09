@@ -470,6 +470,11 @@ clean integration-test -Pperformance
 
  * Click on the *"New Relic"* icon. You can read a brief [http://wiki.cloudbees.com/bin/view/RUN/NewRelic presentation] in the wiki.
 
+ * Select AppServer view (click on right button to see menu bar)
+<p align="center">
+<img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/newrelic-appserver-access.png" height="300" />
+</p>
+ 
  * Verify elasticity by checking how many servers are running
 
 <p align="center">
