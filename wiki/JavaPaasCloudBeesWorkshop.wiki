@@ -258,13 +258,13 @@ http://labXX-integ.atelier-xebia.cloudbees.net
  * The actual Selenium test classes are in the _src/test/java/org/.../selenium_ package.
  
  * Modify Selenium test src/test/java/org/springframework/samples/petclinic/selenium/!SeleniumSauceLabSetUp.java:
-** You can change the desired capability to the client you want.
-** Add the desired capabilities properties to choose which browser version and OS you want to emulate:
+ * You can change the desired capability to the client you want.
+ * Add the desired capabilities properties to choose which browser version and OS you want to emulate:
 {{{
  capabillities.setCapability("version", "5");
  capabillities.setCapability("platform", Platform.XP);
 }}}
-** Add a name to your test:
+ * Add a name to your test:
 {{{
  capabillities.setCapability("name", "Simple selenium test for labXX [" + System.currentTimeMillis() + "].");
 }}}
