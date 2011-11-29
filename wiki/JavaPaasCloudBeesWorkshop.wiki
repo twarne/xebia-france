@@ -80,6 +80,8 @@ $ git branch -a
   remotes/origin/master
 }}}
 
+ * We will use a simple Git branching model based on the popular [http://nvie.com/posts/a-successful-git-branching-model/ Gitflow] model 
+
 === Create a Jenkins job for Continuous Integration ===
 
  * Log in to [https://grandcentral.cloudbees.com/ CloudBees] (_your credentials will be provided at the beginning of the lab_).
