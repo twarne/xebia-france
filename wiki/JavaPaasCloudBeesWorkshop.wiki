@@ -34,7 +34,7 @@
 
 === Configure GIT repository ===
 
- * Backup your existing {{{~/.ssh}}} folder and install the workshop's SSH private key (id_rsa):
+ * Backup your existing {{{~/.ssh}}} folder and install the workshop's SSH private key ([https://s3-eu-west-1.amazonaws.com/xebia-cloudbees-workshop/id_rsa id_rsa]):
 {{{
 $ mv ~/.ssh ~/.ssh.bak
 $ mkdir ~/.ssh
