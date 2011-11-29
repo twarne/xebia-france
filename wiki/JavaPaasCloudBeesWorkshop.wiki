@@ -55,7 +55,7 @@ $ cd ~/petclinic
 <groupId>fr.xebia.techevent.labXX</groupId>
 }}}
 
- * Initialize a new Git local repository ([http://schacon.github.com/git/everyday.html Everyday Git in 20 commands is good for a useful minimum set of commands]):
+ * Initialize a new Git local repository ([http://schacon.github.com/git/everyday.html Everyday Git] in 20 commands is good for a useful minimum set of commands):
 {{{
 $ git init
 $ git remote add origin ssh://git@git.cloudbees.com/atelier-xebia/labXX.git
