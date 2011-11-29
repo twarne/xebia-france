@@ -337,7 +337,7 @@ Password: labXX
 
  * Click on the "Configure" link under your application, and then on the "Configuration" tab.
 
- * Under "Redundancy and Scale", select "Multiple Instances".
+ * Choose "Starter" plan and under "Redundancy and Scale", select "Multiple Instances".
 
  * Tick "Enable New Relic RPM application monitoring" and "Enable Papertrail application logging".
 
