@@ -343,7 +343,7 @@ Password: labXX
 
  * Click on the "Save Changes" button at the top of the page.
 <p align="center">
-<img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/app-configuration.png" height="650" />
+<img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/app-configuration.png" height="800" />
 </p>
 
 === Configure your application for Production environment ===
