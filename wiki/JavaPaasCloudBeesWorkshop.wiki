@@ -532,9 +532,9 @@ Created         : Wed Nov 09 02:08:03 CET 2011
 Status          : active
 URL             : labXX.atelier-xebia.cloudbees.net
 clusterSize     : 2
-container       : java_free
-idleTimeout     : 21600
-maxMemory       : 256
+container       : java_tiny
+idleTimeout     : -1
+maxMemory       : 128
 securityMode    : PUBLIC
 serverPool      : stax-global
 serverType      : tomcat
