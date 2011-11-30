@@ -1,0 +1,42 @@
+.scrollComponent {
+	padding: 0px !important;
+	width:46px;
+	background-image: url("../images/scrollup.png"), url("../images/scrolldown.png"), url("../images/contenu.png");
+	background-repeat: no-repeat, no-repeat, repeat-y;
+	background-position: center top, center bottom, center top ;
+}
+
+.scrollContainer {
+	cursor: pointer;
+	width:46px;
+}
+
+.scrollBar {
+	position:absolute;
+	width:39px;
+	margin-left:4px;		
+	-webkit-border-radius:150px;
+	-moz-border-radius:150px;
+	-o-border-radius:150px;
+	border-radius:150px;
+	background-image:url("../images/texture.png");
+}
+
+.scrollUpButton {
+	cursor: pointer;
+}
+
+.scrollBottomButton {	
+	cursor: pointer;
+}
+
+.pageNumberLabel {
+	position:absolute; 
+	top:40%;	
+	width:37px;
+	font-family:Trebuchet MS,Arial,Helvetica,Jamrul,sans-serif;
+	font-size:9px;
+	color: #FFFFFF;
+	font-weight: bold;
+	text-align: center;
+}

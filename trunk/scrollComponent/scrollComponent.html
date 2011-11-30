@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<link rel="stylesheet" type="text/css" href="css/scrollComponent.css">
+	<script type="text/javascript" src="js/jquery-1.3.2.min.js"></script>
+	<script type="text/javascript" src="js/jquery.mousewheel.js"></script>
+	<script type="text/javascript" src="js/jquery-ui-1.7.2.custom.min.js"></script>	
+    <script type="text/javascript" src="js/scrollComponent.js"></script>
+	
+	 <script>
+		jQuery(document).ready(initialiseScroll);
+		function initialiseScroll() {
+		      var scrollComponent1 = scrollComponentFunction({
+                                       componentId: 'Test1',
+                                       currentPage : 1,
+                                       totalPages: 3,
+                                       maxRows: 10
+		                             });
+		      var scrollComponent = scrollComponentFunction({
+					                  componentId: 'Test2',
+					                  currentPage : 3,
+					                  totalPages: 40,
+					                  maxRows: 12
+					                });
+		      var scrollComponent = scrollComponentFunction({
+					                  componentId: 'Test3',
+					                  currentPage : 560,
+					                  totalPages: 800,
+					                  maxRows: 10
+					                });
+		      var scrollComponent = scrollComponentFunction({
+					                  componentId: 'Test4',
+					                  currentPage : 2,
+					                  totalPages: 2,
+					                  maxRows: 6
+					                });
+		      var scrollComponent = scrollComponentFunction({
+					                  componentId: 'Test5',
+					                  currentPage : 1,
+					                  totalPages: 5,
+					                  maxRows: 8
+					                });
+		}
+	</script>
+</head>
+		<div style="display:table-cell;vertical-align:top;padding:5px;">
+			<div id="scrollComponentTest1" class="scrollComponent">
+		       <div id="scrollUpButtonTest1" class="scrollUpButton"></div>
+		       <div id="scrollBarContainerTest1" class="scrollBarContainer">
+		            <!--Barre de scroll-->
+		            <div id="scrollBarTest1" class="scrollBar">
+		                 <label id="pageNumberLabelTest1" class="pageNumberLabel"></label>
+		            </div>
+		       </div>
+		       <div id="scrollBottomButtonTest1" class="scrollBottomButton"></div>
+			</div>
+		</div>
+		<div style="display:table-cell;vertical-align:top;padding:5px;">
+			<div id="scrollComponentTest2" class="scrollComponent">
+		       <div id="scrollUpButtonTest2" class="scrollUpButton"></div>
+		       <div id="scrollBarContainerTest2" class="scrollBarContainer">
+		            <div id="scrollBarTest2" class="scrollBar">
+		                 <label id="pageNumberLabelTest2" class="pageNumberLabel"></label>
+		            </div>
+		       </div>
+		       <div id="scrollBottomButtonTest2" class="scrollBottomButton"></div>
+			</div>
+		</div>
+		<div style="display:table-cell;vertical-align:top;padding:5px;">
+			<div id="scrollComponentTest3" class="scrollComponent">
+		       <div id="scrollUpButtonTest3" class="scrollUpButton"></div>
+		       <div id="scrollBarContainerTest3" class="scrollBarContainer">
+		            <div id="scrollBarTest3" class="scrollBar">
+		                 <label id="pageNumberLabelTest3" class="pageNumberLabel"></label>
+		            </div>
+		       </div>
+		       <div id="scrollBottomButtonTest3" class="scrollBottomButton"></div>
+			</div>
+		</div>
+		<div style="display:table-cell;vertical-align:top;padding:5px;">
+			<div id="scrollComponentTest4" class="scrollComponent">
+		       <div id="scrollUpButtonTest4" class="scrollUpButton"></div>
+		       <div id="scrollBarContainerTest4" class="scrollBarContainer">
+		            <div id="scrollBarTest4" class="scrollBar">
+		                 <label id="pageNumberLabelTest4" class="pageNumberLabel"></label>
+		            </div>
+		       </div>
+		       <div id="scrollBottomButtonTest4" class="scrollBottomButton"></div>
+			</div>
+		</div>
+		<div style="display:table-cell;vertical-align:top;padding:5px;">
+			<div id="scrollComponentTest5" class="scrollComponent">
+		       <div id="scrollUpButtonTest5" class="scrollUpButton"></div>
+		       <div id="scrollBarContainerTest5" class="scrollBarContainer">
+		            <div id="scrollBarTest5" class="scrollBar">
+		                 <label id="pageNumberLabelTest5" class="pageNumberLabel"></label>
+		            </div>
+		       </div>
+		       <div id="scrollBottomButtonTest5" class="scrollBottomButton"></div>
+			</div>
+		</div>
+</body>
+</html>
