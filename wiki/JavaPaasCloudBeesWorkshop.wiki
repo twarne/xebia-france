@@ -491,7 +491,7 @@ target/jmeter-reports/*.xml
 <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/newrelic-performance.png" height="600" />
 </p>
 
- * The view map is also very interesting for analysing application typology:
+ * The view map is also very interesting for analysing application topology:
 <p align="center">
 <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/newrelic-appserver-map.png" height="220" />
 </p>
