@@ -440,6 +440,8 @@ URL of repository=ssh://git@git.cloudbees.com/atelier-xebia/labXX.git
 Branch Specifier (blank for default)=master
 }}}
 
+ * On the *"Build triggers"* part, uncheck all selected options.
+
  *  On the "Build" part, choose Maven Version 3.0.3 and indicate the Maven goal
 {{{
 clean integration-test -Pperformance
