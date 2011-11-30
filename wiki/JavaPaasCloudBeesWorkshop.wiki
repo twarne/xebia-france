@@ -393,7 +393,7 @@ $ git merge develop --no-ff
 $ git push origin master
 }}}
 <p align="center">
-<img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/gitflow-promote-branch.png" height="150" />
+<img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/gitflow-promote-branch.png" height="116" />
 </p>
 
  * The Production deployment job should be run automatically.
