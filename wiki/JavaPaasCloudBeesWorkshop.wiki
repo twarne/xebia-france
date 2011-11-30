@@ -277,7 +277,7 @@ URL of repository=ssh://git@git.cloudbees.com/atelier-xebia/labXX.git
 Branch Specifier (blank for default)=develop
 }}}
 
- * On the *"Build triggers"* part, uncheck all selected options tick *"Build after other projects are built"* and indicate your Integration deployment job:
+ * On the *"Build triggers"* part, uncheck all selected options and tick *"Build after other projects are built"* and indicate your Integration deployment job:
 {{{
 Project names: 2-labXX-INTEG
 }}}
