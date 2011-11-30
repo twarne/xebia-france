@@ -477,7 +477,7 @@ target/jmeter-reports/*.xml
  * Scale servers in relation to Active Sessions by configuring "Redundancy and Scale" in Application Configuration
  
 <p align="center">
-<img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/redundancy.png" height="300" />
+<img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/redundancy.png" height="600" />
 </p>
  
  
