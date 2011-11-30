@@ -334,9 +334,9 @@ Password: labXX
 <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/create-app-prod.png" height="300" />
 </p>
 
- * Click on the "Configure" link under your application, and then on the "Configuration" tab.
+ * Click on the *"Configure"* link under your application, and then on the *"Configuration"* tab.
 
- * Choose "Starter" plan and under "Redundancy and Scale", select "Multiple Instances".
+ * Choose *"Starter"* plan and under *"Redundancy and Scale"*, select *"2 Instances"*.
 
  * Tick "Enable New Relic RPM application monitoring" and "Enable Papertrail application logging".
 
