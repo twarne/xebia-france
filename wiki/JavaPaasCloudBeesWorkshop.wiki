@@ -386,7 +386,7 @@ Application Id=atelier-xebia/labXX
 
 === Branch promotion with Git ===
 
- * Merge your *"develop"* branch to your *"master"* branch:
+ * Merge your *"develop"* branch to your *"master"* branch (for further information, take a look at the [http://nvie.com/posts/a-successful-git-branching-model/ Gitflow] model):
 {{{
 $ git checkout master
 $ git merge develop --no-ff
