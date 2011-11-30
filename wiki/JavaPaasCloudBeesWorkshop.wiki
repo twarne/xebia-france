@@ -436,6 +436,12 @@ $ git push origin master
 
  * Create a new Job from the left menu with the job name *"5-labXX-PERF"* and tick *"Build a Maven2/3 project"*.
 
+ * On the "Cloubees DEV@Cloud Authorization", check "Restrict where this project can be run" and fill Label Expression with "m1.large"
+
+<p align="center">
+<img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/cheatcode.png" height="400" />
+</p>
+
  * On the *"Code source management"* part, choose *"Git"* and fill these parameters:
 {{{
 URL of repository=ssh://git@git.cloudbees.com/atelier-xebia/labXX.git
