@@ -450,7 +450,7 @@ clean integration-test -Pperformance
 }}}
  * If you want to play with Virtual Users, Ramp up and Loops add : 
 {{{
--DnbVirtualUsers=500 -DnbLoopsCount=10 -DnbRampUp=50
+-DnbVirtualUsers=500 -DnbLoopsCount=5 -DnbRampUp=50
 }}}
 
  * In Post-build Actions, check *"Publish Performance test result report"* and add Jmeter reports :
@@ -462,7 +462,7 @@ target/jmeter-reports/*.xml
 <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/configure-performance-test-job-jenkins.png" height="200" />
 </p>
  
- * Run the job manually.
+ * Save and Run the job manually.
  
  * Once complete, the reports can be accessed through the *"Performance Trend"* link on the job page:
 
@@ -473,6 +473,14 @@ target/jmeter-reports/*.xml
 <p align="center">
 <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/performance-jenkins-jmeter-trend.png" height="300" />
 </p>
+
+ * Scale servers in relation to Active Sessions by configuring "Redundancy and Scale" in Application Configuration
+ 
+<p align="center">
+<img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/redundancy.png" height="300" />
+</p>
+ 
+ 
  
 === Monitoring with New Relic ===
 
