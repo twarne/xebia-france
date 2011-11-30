@@ -106,7 +106,7 @@ $ git branch -a
    <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/jenkins-job-configuration-git.png" />
 </p>
 
- ** On the *"Build triggers"* part, tick only *"Build when a change is pushed to CloudBees Forge"*, which replaces the traditional Poll SCM option by a Push from the repository itself:
+ ** On the *"Build triggers"* part, tick only *"Build when a change is pushed to !CloudBees Forge"*, which replaces the traditional Poll SCM option by a Push from the repository itself:
 <p align="center">
    <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/jenkins-job-configuration-build-trigger.png" />
 </p>
