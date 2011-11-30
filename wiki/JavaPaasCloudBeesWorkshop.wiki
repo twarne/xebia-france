@@ -439,7 +439,7 @@ $ git push origin master
  * On the "Cloubees DEV@Cloud Authorization", check "Restrict where this project can be run" and fill Label Expression with "m1.large"
 
 <p align="center">
-<img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/cheatcode.png" height="400" />
+<img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/cheatcode.png" height="300" />
 </p>
 
  * On the *"Code source management"* part, choose *"Git"* and fill these parameters:
