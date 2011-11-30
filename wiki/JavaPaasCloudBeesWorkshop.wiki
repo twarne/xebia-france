@@ -193,7 +193,7 @@ URL of repository=ssh://git@git.cloudbees.com/atelier-xebia/labXX.git
 Branch Specifier (blank for default)=develop
 }}}
 
- * On the *"Build triggers"* part, tick *"Build after other projects are built"* and indicate your Continuous Integration job
+ * On the *"Build triggers"* part, uncheck all selected options and tick *"Build after other projects are built"* and indicate your Continuous Integration job
 {{{
 Project names: 1-labXX-DEV
 }}}
@@ -277,7 +277,7 @@ URL of repository=ssh://git@git.cloudbees.com/atelier-xebia/labXX.git
 Branch Specifier (blank for default)=develop
 }}}
 
- * On the *"Build triggers"* part, tick *"Build after other projects are built"* and indicate your Integration deployment job:
+ * On the *"Build triggers"* part, uncheck all selected options tick *"Build after other projects are built"* and indicate your Integration deployment job:
 {{{
 Project names: 2-labXX-INTEG
 }}}
@@ -370,10 +370,7 @@ URL of repository=ssh://git@git.cloudbees.com/atelier-xebia/labXX.git
 Branch Specifier (blank for default)=master
 }}}
 
- ** On the *"Build triggers"* part, tick *"poll SCM"* and provide this CRON expression:
-{{{
-* * * * *
-}}}
+ ** On the *"Build triggers"* part, tick only *"Build when a change is pushed to !CloudBees Forge"*, which replaces the traditional Poll SCM option by a Push from the repository itself.
 
  * On the "Build" part, choose Maven Version 3.0.3 and indicate the Maven goal
 {{{
