@@ -20,9 +20,11 @@
 
  * Git client: !GitHub has [http://help.github.com/set-up-git-redirect setup tutorials] for all platforms (just perform the "Download and Install Git" step, we'll set up the SSH key at the beginning of the lab).
 
- * [http://maven.apache.org Apache Maven] (version 2.2.1 or above).
+ * [http://maven.apache.org Apache Maven] (version 3.0.3).
 
  * SSH client (should already be installed on any Unix platform, will come with Git for Windows).
+ 
+ * [http://curl.haxx.se/ cURL] command line tool for transferring data with URL syntax.
 
 <br/>
 ----
