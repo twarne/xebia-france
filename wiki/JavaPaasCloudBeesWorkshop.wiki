@@ -219,7 +219,7 @@ Application Id=atelier-xebia/labXX-integ
  * The sources provided for the lab are already configured for MySQL. The only thing you need to do is adapt your database info. Go to the *src/main/resources/environment/integ/* directory and edit the *cloudbees.properties* file according to your team number (this file is used to filter *src/main/webapp/WEB-INF/cloudbees-web.xml* during the build):
 {{{
 cloudbees.datasource.username=labXX-integ
-cloudbees.datasource.password=labXX-labXX-integ
+cloudbees.datasource.password=labXX-integ
 cloudbees.datasource.url=jdbc:cloudbees://labXX-integ
 }}}
 
@@ -436,12 +436,6 @@ $ git push origin master
 
  * Create a new Job from the left menu with the job name *"5-labXX-PERF"* and tick *"Build a Maven2/3 project"*.
 
- * On the "Cloubees DEV@Cloud Authorization", check "Restrict where this project can be run" and fill Label Expression with "m1.large"
-
-<p align="center">
-<img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/cheatcode.png" height="300" />
-</p>
-
  * On the *"Code source management"* part, choose *"Git"* and fill these parameters:
 {{{
 URL of repository=ssh://git@git.cloudbees.com/atelier-xebia/labXX.git
@@ -456,7 +450,7 @@ clean integration-test -Pperformance
 }}}
  * If you want to play with Virtual Users, Ramp up and Loops add : 
 {{{
--DnbVirtualUsers=500 -DnbLoopsCount=5 -DnbRampUp=50
+-DnbVirtualUsers=500 -DnbLoopsCount=10 -DnbRampUp=50
 }}}
 
  * In Post-build Actions, check *"Publish Performance test result report"* and add Jmeter reports :
@@ -468,7 +462,7 @@ target/jmeter-reports/*.xml
 <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/configure-performance-test-job-jenkins.png" height="200" />
 </p>
  
- * Save and Run the job manually.
+ * Run the job manually.
  
  * Once complete, the reports can be accessed through the *"Performance Trend"* link on the job page:
 
@@ -479,14 +473,6 @@ target/jmeter-reports/*.xml
 <p align="center">
 <img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/performance-jenkins-jmeter-trend.png" height="300" />
 </p>
-
- * Scale servers in relation to Active Sessions by configuring "Redundancy and Scale" in Application Configuration
- 
-<p align="center">
-<img src="http://xebia-france.googlecode.com/svn/wiki/cloudbees-img/redundancy.png" height="600" />
-</p>
- 
- 
  
 === Monitoring with New Relic ===
 
