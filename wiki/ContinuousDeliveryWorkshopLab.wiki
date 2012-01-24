@@ -1,10 +1,10 @@
 = Labs Per Team =
- # [ContinuousDeliveryWorkshopLab_nde-1_setup]
+ # [ContinuousDeliveryWorkshopLab_nde_1_setup]
   * [ContinuousDeliveryWorkshopLab_nde_1_apache_tomcat_maven_plugin]
   * [ContinuousDeliveryWorkshopLab_nde_1_jenkins_remote_ssh]
   * [ContinuousDeliveryWorkshopLab_nde_1_rundeck]
   * [ContinuousDeliveryWorkshopLab_nde_1_deployit]
- # [ContinuousDeliveryWorkshopLab_nde-2_setup]
+ # [ContinuousDeliveryWorkshopLab_nde_2_setup]
   * [ContinuousDeliveryWorkshopLab_nde_2_apache_tomcat_maven_plugin]
   * [ContinuousDeliveryWorkshopLab_nde_2_jenkins_remote_ssh]
   * [ContinuousDeliveryWorkshopLab_nde_2_rundeck]
