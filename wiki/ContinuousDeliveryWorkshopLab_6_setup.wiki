@@ -94,4 +94,4 @@ Links to the different labs :
  * [ContinuousDeliveryWorkshopLab_6_rundeck]
  * [ContinuousDeliveryWorkshopLab_6_deployit]
 
-_This page has been generaterd by '{{{class fr.xebia.workshop.continuousdelivery.DocumentationGenerator}}}' with template '{{{/fr/xebia/workshop/continuousdelivery/lab/setup.fmt}}}' on the 2012-01-31T19:40:55.190+01:00_
+_This page has been generaterd by '{{{class fr.xebia.workshop.continuousdelivery.DocumentationGenerator}}}' with template '{{{/fr/xebia/workshop/continuousdelivery/lab/setup.fmt}}}' on the 2012-01-31T19:42:54.583+01:00_

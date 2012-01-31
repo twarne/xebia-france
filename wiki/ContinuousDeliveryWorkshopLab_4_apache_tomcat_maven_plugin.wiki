@@ -87,4 +87,4 @@ For further information, please go to [http://tomcat.apache.org/maven-plugin-2.0
 http://ec2-46-137-147-82.eu-west-1.compute.amazonaws.com:8080/xebia-petclinic-lite
 }}}
 ----
-_This page has been generaterd by '{{{class fr.xebia.workshop.continuousdelivery.DocumentationGenerator}}}' with template '{{{/fr/xebia/workshop/continuousdelivery/lab/apache-tomcat-maven-plugin.fmt}}}' on the 2012-01-31T19:40:55.105+01:00_
+_This page has been generaterd by '{{{class fr.xebia.workshop.continuousdelivery.DocumentationGenerator}}}' with template '{{{/fr/xebia/workshop/continuousdelivery/lab/apache-tomcat-maven-plugin.fmt}}}' on the 2012-01-31T19:42:54.482+01:00_
