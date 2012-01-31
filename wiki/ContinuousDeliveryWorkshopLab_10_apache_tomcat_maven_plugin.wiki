@@ -1,6 +1,6 @@
-#summary Continuous Delivery with Jenkins and rundeck Lab for team '1'
+#summary Continuous Delivery with Jenkins and rundeck Lab for team '10'
 
-*<font size="5">Continuous Delivery Apache Tomcat Maven Plugin for Team '1'</font>*
+*<font size="5">Continuous Delivery Apache Tomcat Maven Plugin for Team '10'</font>*
 
 = Your architecture =
 
@@ -8,10 +8,10 @@
 
 <table>
 <tr><td> *SSH Private key* </td><td> [https://s3-eu-west-1.amazonaws.com/continuous-delivery/continuous-delivery-workshop.pem continuous-delivery-workshop.pem]</td></tr>
-<tr><td> *!GitHub project repository url* </td><td> [https://github.com/xebia-guest/xebia-petclinic-lite-1] </td></tr>
-<tr><td> *Jenkins URL* </td><td> [http://ec2-79-125-101-28.eu-west-1.compute.amazonaws.com:8080/] </td></tr>
-<tr><td> *Rundeck URL* </td><td> [http://ec2-79-125-101-28.eu-west-1.compute.amazonaws.com:4440/] </td></tr>
-<tr><td> *Deployit URL* </td><td> [http://ec2-79-125-101-28.eu-west-1.compute.amazonaws.com:4516/] </td></tr>
+<tr><td> *!GitHub project repository url* </td><td> [https://github.com/xebia-guest/xebia-petclinic-lite-10] </td></tr>
+<tr><td> *Jenkins URL* </td><td> [http://ec2-176-34-164-205.eu-west-1.compute.amazonaws.com:8080/] </td></tr>
+<tr><td> *Rundeck URL* </td><td> [http://ec2-176-34-164-205.eu-west-1.compute.amazonaws.com:4440/] </td></tr>
+<tr><td> *Deployit URL* </td><td> [http://ec2-176-34-164-205.eu-west-1.compute.amazonaws.com:4516/] </td></tr>
 <tr><td> *Nexus URL* </td><td> [http://nexus.aws.xebia-tech-event.info:8081/nexus/] </td></tr>
 <tr><td> *Tomcat Dev URL* </td><td> [] </td></tr>
 <tr><td> *Tomcat Dev SSH* </td><td> 
@@ -47,11 +47,11 @@ ssh -i ~/.aws/continuous-delivery-workshop.pem tomcat@
  * Run Tomcat on the application
   ## Go to your application folder : 
 {{{
-cd ~/continuous-delivery-workshop/xebia-petclinic-lite-1 
+cd ~/continuous-delivery-workshop/xebia-petclinic-lite-10 
 }}}
   ## Modify one more time the welcome.jsp. It's not needed to commit or push the modification on git.
 {{{
-~/continuous-delivery-workshop/xebia-petclinic-lite-1/src/main/webapp/welcome.jsp
+~/continuous-delivery-workshop/xebia-petclinic-lite-10/src/main/webapp/welcome.jsp
 }}}
   ## Launch the application thanks to the Tomcat6 Maven Plugin. 
 {{{
@@ -66,7 +66,7 @@ http://localhost:8080/xebia-petclinic-lite
  * Deploy the application on the dev instance of Tomcat
   ## As previously, go to the root directory of the project
 {{{
-cd ~/continuous-delivery-workshop/xebia-petclinic-lite-1 
+cd ~/continuous-delivery-workshop/xebia-petclinic-lite-10 
 }}}   
 
   ## Deploy the application to Tomcat Dev server. The Maven goal is *tomcat6:deploy*, the parameters needed for this Maven plugin are:
@@ -74,7 +74,7 @@ cd ~/continuous-delivery-workshop/xebia-petclinic-lite-1
  * *tomcat.username*: password of the user
  * *maven.tomcat.url*: URL to the Tomcat Manager where the application will be deployed
 
-*Note*: as you can see in the {{{~/continuous-delivery-workshop/xebia-petclinic-lite-1/pom.xml}}}, the Tomcat6 Maven Plugin is configured with the parameter *update* that allows the application to be update if it's already deployed on the server.  
+*Note*: as you can see in the {{{~/continuous-delivery-workshop/xebia-petclinic-lite-10/pom.xml}}}, the Tomcat6 Maven Plugin is configured with the parameter *update* that allows the application to be update if it's already deployed on the server.  
 For further information, please go to [http://tomcat.apache.org/maven-plugin-2.0-SNAPSHOT/tomcat6-maven-plugin/deploy-mojo.html] 
   
  * Answer : 
@@ -87,4 +87,4 @@ For further information, please go to [http://tomcat.apache.org/maven-plugin-2.0
 xebia-petclinic-lite
 }}}
 ----
-_This page has been generaterd by '{{{class fr.xebia.workshop.continuousdelivery.DocumentationGenerator}}}' with template '{{{/fr/xebia/workshop/continuousdelivery/lab/apache-tomcat-maven-plugin.fmt}}}' on the 2012-01-31T18:35:48.296+01:00_
+_This page has been generaterd by '{{{class fr.xebia.workshop.continuousdelivery.DocumentationGenerator}}}' with template '{{{/fr/xebia/workshop/continuousdelivery/lab/apache-tomcat-maven-plugin.fmt}}}' on the 2012-01-31T18:35:48.922+01:00_

@@ -1,6 +1,6 @@
-#summary Continuous Delivery with Jenkins and rundeck Lab for team '1'
+#summary Continuous Delivery with Jenkins and rundeck Lab for team '8'
 
-*<font size="5">Continuous Delivery with DeployIt for Team '1'</font>*
+*<font size="5">Continuous Delivery with DeployIt for Team '8'</font>*
 
 = Your architecture =
 
@@ -8,10 +8,10 @@
 
 <table>
 <tr><td> *SSH Private key* </td><td> [https://s3-eu-west-1.amazonaws.com/continuous-delivery/continuous-delivery-workshop.pem continuous-delivery-workshop.pem]</td></tr>
-<tr><td> *!GitHub project repository url* </td><td> [https://github.com/xebia-guest/xebia-petclinic-lite-1] </td></tr>
-<tr><td> *Jenkins URL* </td><td> [http://ec2-79-125-101-28.eu-west-1.compute.amazonaws.com:8080/] </td></tr>
-<tr><td> *Rundeck URL* </td><td> [http://ec2-79-125-101-28.eu-west-1.compute.amazonaws.com:4440/] </td></tr>
-<tr><td> *Deployit URL* </td><td> [http://ec2-79-125-101-28.eu-west-1.compute.amazonaws.com:4516/] </td></tr>
+<tr><td> *!GitHub project repository url* </td><td> [https://github.com/xebia-guest/xebia-petclinic-lite-8] </td></tr>
+<tr><td> *Jenkins URL* </td><td> [http://ec2-176-34-168-199.eu-west-1.compute.amazonaws.com:8080/] </td></tr>
+<tr><td> *Rundeck URL* </td><td> [http://ec2-176-34-168-199.eu-west-1.compute.amazonaws.com:4440/] </td></tr>
+<tr><td> *Deployit URL* </td><td> [http://ec2-176-34-168-199.eu-west-1.compute.amazonaws.com:4516/] </td></tr>
 <tr><td> *Nexus URL* </td><td> [http://nexus.aws.xebia-tech-event.info:8081/nexus/] </td></tr>
 <tr><td> *Tomcat Dev URL* </td><td> [] </td></tr>
 <tr><td> *Tomcat Dev SSH* </td><td> 
@@ -44,7 +44,7 @@ ssh -i ~/.aws/continuous-delivery-workshop.pem tomcat@
 ==== Create the target environment Valid ====
  # Connect via SSH to the rundeck server:
   {{{
-ssh -i continuous-delivery-workshop.pem ec2-user@ec2-79-125-101-28.eu-west-1.compute.amazonaws.com
+ssh -i continuous-delivery-workshop.pem ec2-user@ec2-176-34-168-199.eu-west-1.compute.amazonaws.com
 sudo su - deployit
 }}}
  # Create a file (*setup.py*) to define your target environment
@@ -62,7 +62,7 @@ deployit.print(repository.read(env.id))
   {{{
 deployit-cli/bin/cli.sh -username admin -password admin -f ~/setup.py
   }}}
- # Connect to your Deployit server http://ec2-79-125-101-28.eu-west-1.compute.amazonaws.com:4516/ (login=admin, password=admin)
+ # Connect to your Deployit server http://ec2-176-34-168-199.eu-west-1.compute.amazonaws.com:4516/ (login=admin, password=admin)
  # Verify your environment has been created.
  <img height=90" src="http://xebia-france.googlecode.com/svn/wiki/cont-delivery-img/deployit-check-env-screenshot.png" />
 
@@ -76,11 +76,11 @@ git ci -a -m "set the right password"
 git push
  }}}
  The last line will trigger a new build by Jenking and at then will deploy the application.
- # Connect to your Deployit server http://ec2-79-125-101-28.eu-west-1.compute.amazonaws.com:4516/ (login=admin, password=admin)
+ # Connect to your Deployit server http://ec2-176-34-168-199.eu-west-1.compute.amazonaws.com:4516/ (login=admin, password=admin)
  # Verify the application has been deployed
 <img height=90" src="http://xebia-france.googlecode.com/svn/wiki/cont-delivery-img/deployit-check-deployment-ok.png" />
 
 ----
 *END OF THE LAB THANK YOU!*
 
-_This page has been generaterd by '{{{class fr.xebia.workshop.continuousdelivery.DocumentationGenerator}}}' with template '{{{/fr/xebia/workshop/continuousdelivery/lab/deployit.fmt}}}' on the 2012-01-31T18:35:48.574+01:00_
+_This page has been generaterd by '{{{class fr.xebia.workshop.continuousdelivery.DocumentationGenerator}}}' with template '{{{/fr/xebia/workshop/continuousdelivery/lab/deployit.fmt}}}' on the 2012-01-31T18:35:48.752+01:00_

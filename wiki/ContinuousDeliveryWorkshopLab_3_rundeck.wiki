@@ -1,6 +1,6 @@
-#summary Continuous Delivery with Jenkins and rundeck Lab for team '1'
+#summary Continuous Delivery with Jenkins and rundeck Lab for team '3'
 
-*<font size="5">Continuous Delivery with Rundeck Lab for Team '1'</font>*
+*<font size="5">Continuous Delivery with Rundeck Lab for Team '3'</font>*
 
 
 = Your architecture =
@@ -9,10 +9,10 @@
 
 <table>
 <tr><td> *SSH Private key* </td><td> [https://s3-eu-west-1.amazonaws.com/continuous-delivery/continuous-delivery-workshop.pem continuous-delivery-workshop.pem]</td></tr>
-<tr><td> *!GitHub project repository url* </td><td> [https://github.com/xebia-guest/xebia-petclinic-lite-1] </td></tr>
-<tr><td> *Jenkins URL* </td><td> [http://ec2-79-125-101-28.eu-west-1.compute.amazonaws.com:8080/] </td></tr>
-<tr><td> *Rundeck URL* </td><td> [http://ec2-79-125-101-28.eu-west-1.compute.amazonaws.com:4440/] </td></tr>
-<tr><td> *Deployit URL* </td><td> [http://ec2-79-125-101-28.eu-west-1.compute.amazonaws.com:4516/] </td></tr>
+<tr><td> *!GitHub project repository url* </td><td> [https://github.com/xebia-guest/xebia-petclinic-lite-3] </td></tr>
+<tr><td> *Jenkins URL* </td><td> [http://ec2-79-125-72-246.eu-west-1.compute.amazonaws.com:8080/] </td></tr>
+<tr><td> *Rundeck URL* </td><td> [http://ec2-79-125-72-246.eu-west-1.compute.amazonaws.com:4440/] </td></tr>
+<tr><td> *Deployit URL* </td><td> [http://ec2-79-125-72-246.eu-west-1.compute.amazonaws.com:4516/] </td></tr>
 <tr><td> *Nexus URL* </td><td> [http://nexus.aws.xebia-tech-event.info:8081/nexus/] </td></tr>
 <tr><td> *Tomcat Dev URL* </td><td> [] </td></tr>
 <tr><td> *Tomcat Dev SSH* </td><td> 
@@ -50,11 +50,11 @@ We will also use the "Jenkins Rundeck Plugin" to automatically deploy the applic
 === Deploy Petclinic from Rundeck ===
 Here is the configuration of the previous task with Rundeck.
  # Make sure the "[http://xebia-france.googlecode.com/svn/cloudcomputing/xebia-cloudcomputing-extras/trunk/src/main/scripts/fr/xebia/workshop/continuousdelivery/tomcat-deploy-petclinic tomcat-deploy-petclinic]" shell script has been uploaded on your "Tomcat Valid 1" and "Tomcat Valid 2" servers (see the 'Scripted Tomcat Deployment' section)
- # Connect to your Rundeck server http://ec2-79-125-101-28.eu-west-1.compute.amazonaws.com:4440/ (login=admin, password=admin)
+ # Connect to your Rundeck server http://ec2-79-125-72-246.eu-west-1.compute.amazonaws.com:4440/ (login=admin, password=admin)
  # A project has already been created : "{{{deploy-petclinic-on-tomcat-valid}}}", but it has no knowledge of your Tomcat-valid servers...
  # We will configure the rundeck project : connect via SSH to the rundeck server: 
   {{{
-ssh -i ~/.aws/continuous-delivery-workshop.pem ec2-user@ec2-79-125-101-28.eu-west-1.compute.amazonaws.com
+ssh -i ~/.aws/continuous-delivery-workshop.pem ec2-user@ec2-79-125-72-246.eu-west-1.compute.amazonaws.com
 }}}
   # Edit the file *{{{/var/rundeck/projects/deploy-petclinic-on-tomcat-valid/etc/resources.xml}}}* in order to add your valid tomcat servers :
     <code language="xml"><node 
@@ -84,7 +84,7 @@ ssh -i ~/.aws/continuous-delivery-workshop.pem ec2-user@ec2-79-125-101-28.eu-wes
 	privateDnsName=""
 	editUrl="https://console.aws.amazon.com/ec2/home?region=eu-west-1"/>
 </code>
- # Go back to [http://ec2-79-125-101-28.eu-west-1.compute.amazonaws.com:4440/ Rundeck web admin console], and let's have a look at all your nodes (servers) :
+ # Go back to [http://ec2-79-125-72-246.eu-west-1.compute.amazonaws.com:4440/ Rundeck web admin console], and let's have a look at all your nodes (servers) :
  # Click on the filter ("Name: localhost   Project: deploy-petclinic-on-tomcat-valid") and in the "name" filter, replace "localhost" with "{{{.*}}}" and click on "Filter". You should now see all 3 servers : the 2 tomcat servers, and the local rundeck server.
  # You can test that everything works by executing a command on all 3 servers : type "whoami" in the command field, and click "Run"...
  # Now, we will create our first job : click on the "Jobs" tab on the top of the page, and then on "New job ..." (on the right)
@@ -97,13 +97,13 @@ ssh -i ~/.aws/continuous-delivery-workshop.pem ec2-user@ec2-79-125-101-28.eu-wes
    ** Default value: {{{LATEST}}}
    ** Remote URL:
      {{{
-  http://nexus.aws.xebia-tech-event.info:8081/nexus/service/local/rundeck/options/version?g=fr.xebia.demo.petclinic-1&a=xebia-petclinic-lite&includeLatest=true
+  http://nexus.aws.xebia-tech-event.info:8081/nexus/service/local/rundeck/options/version?g=fr.xebia.demo.petclinic-3&a=xebia-petclinic-lite&includeLatest=true
 }}}
    ** Restrictions: {{{Enforced from Allowed Values}}}
    ** Click on the "save" button to save this option
   * Shell command: 
      {{{
-  /opt/tomcat/apache-tomcat-6/bin/tomcat-deploy-petclinic fr.xebia.demo.petclinic-1 ${option.version}
+  /opt/tomcat/apache-tomcat-6/bin/tomcat-deploy-petclinic fr.xebia.demo.petclinic-3 ${option.version}
 }}}
    ** Click on the "save" button to save this command
   * Dispatch to Node: {{{checked}}}
@@ -123,15 +123,15 @@ If you have only 1 version in the list, it is the moment to do a release of the 
 
 We will now link Jenkins and Rundeck, so that each successfull build is followed by a deployment on the valid servers :
 
- * Go to the Jenkins configuration page [http://ec2-79-125-101-28.eu-west-1.compute.amazonaws.com:8080//configure], and verify the pre-configured Rundeck connection parameters (in the bottom of the page) :
-  ** URL: {{{http://ec2-79-125-101-28.eu-west-1.compute.amazonaws.com:4440/}}}
+ * Go to the Jenkins configuration page [http://ec2-79-125-72-246.eu-west-1.compute.amazonaws.com:8080//configure], and verify the pre-configured Rundeck connection parameters (in the bottom of the page) :
+  ** URL: {{{http://ec2-79-125-72-246.eu-west-1.compute.amazonaws.com:4440/}}}
   ** Login: {{{admin}}}
   ** Password: {{{admin}}}
   ** Click on "Test connection", you should get a success message
   ** Save
   <img height="75" src="http://xebia-france.googlecode.com/svn/wiki/cont-delivery-img/jenkins-rundeck-connection-screenshot.png" />
 
- * Edit your Jenkins job at [http://ec2-79-125-101-28.eu-west-1.compute.amazonaws.com:8080//job/xebia-petclinic-lite-1/configure], and configure the Rundeck plugin (in the bottom of the page) with the following parameters :
+ * Edit your Jenkins job at [http://ec2-79-125-72-246.eu-west-1.compute.amazonaws.com:8080//job/xebia-petclinic-lite-3/configure], and configure the Rundeck plugin (in the bottom of the page) with the following parameters :
   ** Rundeck job identifier: {{{deploy-petclinic-on-tomcat-valid:tomcat-deploy-petclinic}}}
   ** Job options (optional): {{{version = LATEST}}}
   ** Should fail the build ?: {{{checked}}}
@@ -140,7 +140,7 @@ We will now link Jenkins and Rundeck, so that each successfull build is followed
 
 You can now test your deployment chain by editing a file in the petclinic project, and committing/pushing it to github : Jenkins will pick up the change, build the WAR, deploy it to Nexus, and ask Rundeck to deploy the project on the tomcat valid servers.
 
-You can also do "on-demand" deploys : in the Jenkins job configuration page at [http://ec2-79-125-101-28.eu-west-1.compute.amazonaws.com:8080//job/xebia-petclinic-lite-1/configure], in the Rundeck plugin parameters, type "#deploy" in the "tag" field. Save and trigger a build : it won't be deploy on rundeck. But if you commit a file with a commit message containing "#deploy", it will be deployed. 
+You can also do "on-demand" deploys : in the Jenkins job configuration page at [http://ec2-79-125-72-246.eu-west-1.compute.amazonaws.com:8080//job/xebia-petclinic-lite-3/configure], in the Rundeck plugin parameters, type "#deploy" in the "tag" field. Save and trigger a build : it won't be deploy on rundeck. But if you commit a file with a commit message containing "#deploy", it will be deployed. 
 
 ----
-_This page has been generaterd by '{{{class fr.xebia.workshop.continuousdelivery.DocumentationGenerator}}}' with template '{{{/fr/xebia/workshop/continuousdelivery/lab/rundeck.fmt}}}' on the 2012-01-31T18:35:48.556+01:00_
+_This page has been generaterd by '{{{class fr.xebia.workshop.continuousdelivery.DocumentationGenerator}}}' with template '{{{/fr/xebia/workshop/continuousdelivery/lab/rundeck.fmt}}}' on the 2012-01-31T18:35:48.982+01:00_
