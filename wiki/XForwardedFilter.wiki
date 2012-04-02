@@ -253,7 +253,7 @@ verified by {{{proxy1}}}.
    ...
 </project>
 }}}
- * Jar : Drop the jar [http://repo1.maven.org/maven2/fr/xebia/web/extras/xebia-servlet-extras/1.0.6/xebia-servlet-extras-1.0.6.jar xebia-servlet-extras-1.0.6.jar] ([http://repo1.maven.org/maven2/fr/xebia/web/extras/xebia-servlet-extras/1.0.6/xebia-servlet-extras-1.0.6-sources.jar sources]) in your web application classpath.
+ * Jar : Drop the jar [http://repo1.maven.org/maven2/fr/xebia/web/xebia-servlet-extras/1.0.6/xebia-servlet-extras-1.0.6.jar xebia-servlet-extras-1.0.6.jar] ([http://repo1.maven.org/maven2/fr/xebia/web/xebia-servlet-extras/1.0.6/xebia-servlet-extras-1.0.6-sources.jar sources]) in your web application classpath.
  * Java class : [http://xebia-france.googlecode.com/svn/web/xebia-servlet-extras/tags/xebia-servlet-extras-1.0.6/src/main/java/fr/xebia/servlet/filter/XForwardedFilter.java XForwardedFilter.java]
  * Java project : {{{svn checkout http://xebia-france.googlecode.com/svn/web/xebia-servlet-extras/tags/xebia-servlet-extras-1.0.6/}}}
 
