@@ -244,7 +244,7 @@ verified by {{{proxy1}}}.
    <dependencies>
       ...
       <dependency>
-         <groupId>fr.xebia.web.extras</groupId>
+         <groupId>fr.xebia.web</groupId>
          <artifactId>xebia-servlet-extras</artifactId>
          <version>1.0.6</version>
       </dependency>
