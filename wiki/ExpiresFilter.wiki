@@ -130,13 +130,13 @@ where {{{<base>}}} is one of:
   * {{{modification}}}
 
 The {{{plus}}} keyword is optional. {{{<num>}}} should be an integer value (acceptable to {{{Integer.parseInt()}}}), and {{{<type>}}} is one of:
-  * {{{years}}}
-  * {{{months}}}
-  * {{{weeks}}}
-  * {{{days}}}
-  * {{{hours}}}
-  * {{{minutes}}}
-  * {{{seconds}}}
+  * {{{years}}}, {{{year}}}
+  * {{{months}}}, {{{month}}}
+  * {{{weeks}}}, {{{week}}}
+  * {{{days}}}, {{{day}}}
+  * {{{hours}}}, {{{hour}}}
+  * {{{minutes}}}, {{minute}}}
+  * {{{seconds}}}, {{{second}}}
   
 For example, any of the following directives can be used to make documents expire 1 month after being accessed, by default:
 {{{
@@ -193,9 +193,9 @@ The expiration configuration if elected according to the following algorithm:
 <project ...>
    <dependencies>
       <dependency>
-         <groupId>fr.xebia.web</groupId>
+         <groupId>fr.xebia.web.extras</groupId>
          <artifactId>xebia-servlet-extras</artifactId>
-         <version>1.0.6</version>
+         <version>1.0.7</version>
          <scope>runtime</scope>
       </dependency>
       ...
@@ -203,9 +203,9 @@ The expiration configuration if elected according to the following algorithm:
    ...
 </project>
 }}}
- * Jar : Drop the jar [http://repo1.maven.org/maven2/fr/xebia/web/xebia-servlet-extras/1.0.6/xebia-servlet-extras-1.0.6.jar xebia-servlet-extras-1.0.6.jar] ([http://repo1.maven.org/maven2/fr/xebia/web/xebia-servlet-extras/1.0.6/xebia-servlet-extras-1.0.6-sources.jar sources]) in your web application classpath.
- * Java class : [http://xebia-france.googlecode.com/svn/web/xebia-servlet-extras/tags/xebia-servlet-extras-1.0.6/src/main/java/fr/xebia/servlet/filter/ExpiresFilter.java ExpiresFilter.java]
- * Java project : {{{svn checkout http://xebia-france.googlecode.com/svn/web/xebia-servlet-extras/tags/xebia-servlet-extras-1.0.6/}}}
+ * Jar : Drop the jar [http://repo1.maven.org/maven2/fr/xebia/web/xebia-servlet-extras/1.0.7/xebia-servlet-extras-1.0.7.jar xebia-servlet-extras-1.0.7.jar] ([http://repo1.maven.org/maven2/fr/xebia/web/xebia-servlet-extras/1.0.7/xebia-servlet-extras-1.0.7-sources.jar sources]) in your web application classpath.
+ * Java class : [https://github.com/xebia-france/xebia-servlet-extras/blob/xebia-servlet-extras-1.0.7/src/main/java/fr/xebia/servlet/filter/ExpiresFilter.java ExpiresFilter.java]
+ * Java project : [https://github.com/xebia-france/xebia-servlet-extras/]
 
 
 = Implementation Details =
@@ -274,3 +274,10 @@ Sample of per-request log message where `ExpiresFilter` does not add an expirati
 2010/03/24 18:43:34,564 DEBUG [http-8080-2] fr.xebia.servlet.filter.ExpiresFilter - 
    Request '/services/helloWorldService' with response status '200' content-type 'text/xml;charset=UTF-8‘ status , no expiration configured  
 }}}
+
+= Change log =
+
+*1.0.7 : 2012/05/29*
+
+* Migrate to github [https://github.com/xebia-france/xebia-servlet-extras/]
+* support {{{year}}} keyword
