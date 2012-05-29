@@ -34,8 +34,6 @@ import fr.xebia.cloud.cloudinit.CloudInitUserDataBuilder;
 
 public class CreateNexusInstance extends InfrastructureCreationStep {
 
-    private static final String KEY_PAIR_NAME = "continuous-delivery-workshop";
-
     @Override
     public void execute(AmazonEC2 ec2, WorkshopInfrastructure workshopInfrastructure) throws Exception {
         logger.info("STARTING CREATE NEXUS SERVER");
@@ -53,7 +51,7 @@ public class CreateNexusInstance extends InfrastructureCreationStep {
                 .withMinCount(1) //
                 .withMaxCount(1) //
                 .withSecurityGroupIds("accept-all") //
-                .withKeyName(KEY_PAIR_NAME) //
+                .withKeyName(workshopInfrastructure.getKeyPairName()) //
                 .withUserData(userData);
         
         // START NEXUS INSTANCE
