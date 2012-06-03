@@ -8,18 +8,17 @@
 
 Logback have a standard Syslog appender. [http://logback.qos.ch/manual/appenders.html#SyslogAppender Syslog doc]
 
-`<configuration>`
-  `<appender name="SYSLOG" class="ch.qos.logback.classic.net.SyslogAppender">`
-    `<syslogHost>`remote_home`</syslogHost>`
-    `<facility>`AUTH`</facility>`
-    `<suffixPattern>`[%thread] %logger %msg`</suffixPattern>`
-  `</appender>`
+{{{configuration}}}
+  {{{appender name="SYSLOG" class="ch.qos.logback.classic.net.SyslogAppender"}}}
+    {{{syslogHost}}}remote_home{{{/syslogHost}}}
+    {{{facility}}}AUTH{{{/facility}}}
+    {{{suffixPattern}}}[%thread] %logger %msg{{{/suffixPattern}}}
+  {{{/appender}}}
 
-  `<root level="DEBUG">`
-    `<appender-ref ref="SYSLOG" />`
-  `</root>`
-`</configuration>`
-
+  {{{root level="DEBUG"}}}
+    {{{appender-ref ref="SYSLOG" /}}}
+  {{{/root}}}
+{{{/configuration}}}
 Here are the properties you can pass to a SyslogAppender.
 
 || Property Name || Type || Description ||
