@@ -6,9 +6,6 @@
 
 == From logback == 
 
-== From Apache ==
-
 = Exo 1 = 
 
 Change application configuration for logging from local file to local syslog-ng
-Change apache configuration for logging from local file to local syslog-ng 
