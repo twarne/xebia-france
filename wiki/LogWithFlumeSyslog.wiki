@@ -1,13 +1,14 @@
-#summary One-sentence summary of this page.
+# In this part you will see how log from classic java application to Syslog-ng
 
-= Introduction =
+= Log to syslog-ng from your application = 
 
-Add your content here.
+== From Log4j == 
 
+== From logback == 
 
-= Details =
+== From Apache ==
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+= Exo 1 = 
+
+Change application configuration for logging from local file to local syslog-ng
+Change apache configuration for logging from local file to local syslog-ng 
