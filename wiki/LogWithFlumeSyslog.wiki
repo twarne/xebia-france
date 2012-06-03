@@ -4,6 +4,15 @@
 
 == From Log4j == 
 
+Log4j have a syslog appender. [http://wiki.apache.org/logging-log4j/syslog Log4j syslog]
+
+log4j.rootLogger=INFO, A1
+log4j.appender.A1=org.apache.log4j.net.SyslogAppender
+log4j.appender.A1.SyslogHost=127.0.0.1
+log4j.appender.A1.facility=USER
+log4j.appender.A1.layout=org.apache.log4j.PatternLayout
+log4j.appender.A1.layout.ConversionPattern=%-4r %-5p %c{2} %M.%L %x - %m\n
+
 == From logback == 
 
 Logback have a standard Syslog appender. [http://logback.qos.ch/manual/appenders.html#SyslogAppender Syslog doc]
