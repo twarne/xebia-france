@@ -193,7 +193,7 @@ The expiration configuration if elected according to the following algorithm:
 <project ...>
    <dependencies>
       <dependency>
-         <groupId>fr.xebia.web.extras</groupId>
+         <groupId>fr.xebia.web</groupId>
          <artifactId>xebia-servlet-extras</artifactId>
          <version>1.0.7</version>
          <scope>runtime</scope>
