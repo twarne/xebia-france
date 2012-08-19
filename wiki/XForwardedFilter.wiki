@@ -276,6 +276,7 @@ If the incoming {{{request.getRemoteAddr()}}} matches the filter's list of inter
 = Change Log =
 
 * 1.0.6 - 2012/03/30 : response.sendRedirect(location) ignores the overwritten scheme. Fix provided by Marc van Andel.
+
 * 1.0.8 - 2012/08/19 : [http://code.google.com/p/xebia-france/issues/detail?id=17 (issue 17)] XForwardedFilter does not support '{{{protocolHeaderHttpsValue}}}' as stated in the doc but '{{{protocolHeaderSslValue}}}'.
 
 = Resources =
