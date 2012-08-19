@@ -246,16 +246,16 @@ verified by {{{proxy1}}}.
       <dependency>
          <groupId>fr.xebia.web</groupId>
          <artifactId>xebia-servlet-extras</artifactId>
-         <version>1.0.6</version>
+         <version>1.0.8</version>
       </dependency>
       ...
    </dependencies>
    ...
 </project>
 }}}
- * Jar : Drop the jar [http://repo1.maven.org/maven2/fr/xebia/web/xebia-servlet-extras/1.0.6/xebia-servlet-extras-1.0.6.jar xebia-servlet-extras-1.0.6.jar] ([http://repo1.maven.org/maven2/fr/xebia/web/xebia-servlet-extras/1.0.6/xebia-servlet-extras-1.0.6-sources.jar sources]) in your web application classpath.
- * Java class : [http://xebia-france.googlecode.com/svn/web/xebia-servlet-extras/tags/xebia-servlet-extras-1.0.6/src/main/java/fr/xebia/servlet/filter/XForwardedFilter.java XForwardedFilter.java]
- * Java project : {{{svn checkout http://xebia-france.googlecode.com/svn/web/xebia-servlet-extras/tags/xebia-servlet-extras-1.0.6/}}}
+ * Jar : Drop the jar [http://repo1.maven.org/maven2/fr/xebia/web/xebia-servlet-extras/1.0.8/xebia-servlet-extras-1.0.8.jar xebia-servlet-extras-1.0.8.jar] ([http://repo1.maven.org/maven2/fr/xebia/web/xebia-servlet-extras/1.0.8/xebia-servlet-extras-1.0.8-sources.jar sources]) in your web application classpath.
+ * Java class : [https://github.com/xebia-france/xebia-servlet-extras/blob/xebia-servlet-extras-1.0.8/src/main/java/fr/xebia/servlet/filter/XForwardedFilter.java XForwardedFilter.java]
+ * Java project on GitHub: [https://github.com/xebia-france/xebia-servlet-extras]
 
 
 = Implementation Details =
@@ -275,7 +275,7 @@ If the incoming {{{request.getRemoteAddr()}}} matches the filter's list of inter
 
 = Change Log =
 
-* 1.0.6 - 2012/03/30 : response.sendRedirect(location) ignores the overwritten scheme. Fix provided by Marc van Andel.
+* 1.0.8 - 2012/03/30 : response.sendRedirect(location) ignores the overwritten scheme. Fix provided by Marc van Andel.
 
 = Resources =
  * [RemoteIpValve] : the equivalent of XForwardedFilterintegrated in Tomcat. It has been proposed to the Tomcat project as [https://issues.apache.org/bugzilla/show_bug.cgi?id=47330 Bug 47330 - proposal : port of mod_remoteip in Tomcat as RemoteIpValve].
