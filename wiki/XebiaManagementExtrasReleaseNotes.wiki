@@ -1,5 +1,9 @@
 #summary Release notes of xebia-management-extras
 
+= Version 1.2.3 and more recent =
+
+Recent release notes are available at https://github.com/xebia-france/xebia-management-extras/releases
+
 = Version 1.2.2 (2012/12/04) =
 
  * fix Issue 18 "ManagedDefaultMessageListenerContainer does not pass bean name to superclass."
