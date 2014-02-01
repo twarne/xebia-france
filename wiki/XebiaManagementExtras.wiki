@@ -151,7 +151,7 @@ Integration / download details are described on [XebiaManagementExtrasInstallati
       <dependency>
          <groupId>fr.xebia.management</groupId>
          <artifactId>xebia-management-extras</artifactId>
-         <version>1.2.2</version>
+         <version>1.2.3</version>
       </dependency>
       ...
    </dependencies>
@@ -160,7 +160,7 @@ Integration / download details are described on [XebiaManagementExtrasInstallati
 }}}
   The artifact is available on [http://repo1.maven.org/maven2/ Maven Central Repository], no special {{{<repository />}}} declaration is needed.
 
-Manual download is available at [http://repo1.maven.org/maven2/fr/xebia/management/xebia-management-extras/1.2.2/xebia-management-extras-1.2.2.jar xebia-management-extras-1.2.2.jar] / [http://repo1.maven.org/maven2/fr/xebia/management/xebia-management-extras/1.2.2/xebia-management-extras-1.2.2-sources.jar xebia-management-extras-1.2.2-sources.jar]. 
+Manual download is available at [http://repo1.maven.org/maven2/fr/xebia/management/xebia-management-extras/1.2.3/xebia-management-extras-1.2.3.jar xebia-management-extras-1.2.3.jar] / [http://repo1.maven.org/maven2/fr/xebia/management/xebia-management-extras/1.2.3/xebia-management-extras-1.2.3-sources.jar xebia-management-extras-1.2.3-sources.jar]. 
 
 = Developers =
 
